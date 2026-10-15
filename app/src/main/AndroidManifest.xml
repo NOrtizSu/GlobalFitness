@@ -24,6 +24,12 @@
         tools:targetApi="s" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 
+    <!-- Direct band mode: find the installed Mi Fitness variant to open its settings page. -->
+    <queries>
+        <package android:name="com.xiaomi.wearable" />
+        <package android:name="com.mi.health" />
+    </queries>
+
     <application
         android:name=".GlobalFitnessApp"
         android:allowBackup="true"

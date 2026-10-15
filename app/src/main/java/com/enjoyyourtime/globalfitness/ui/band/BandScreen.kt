@@ -4,8 +4,6 @@ package com.enjoyyourtime.globalfitness.ui.band
 
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
-import android.net.Uri
-import android.provider.Settings
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -61,6 +59,7 @@ import com.enjoyyourtime.globalfitness.band.BandLogLine
 import com.enjoyyourtime.globalfitness.band.BandPermissions
 import com.enjoyyourtime.globalfitness.band.BandState
 import com.enjoyyourtime.globalfitness.band.HeartRateSample
+import com.enjoyyourtime.globalfitness.band.MiFitness
 import com.enjoyyourtime.globalfitness.band.SelectedBand
 import com.enjoyyourtime.globalfitness.band.xiaomi.AlarmSpec
 import com.enjoyyourtime.globalfitness.band.xiaomi.BandAlarm
@@ -69,8 +68,6 @@ import com.enjoyyourtime.globalfitness.ui.Fmt
 import com.enjoyyourtime.globalfitness.ui.components.SectionTitle
 import com.enjoyyourtime.globalfitness.ui.theme.TabularNumbers
 
-/** Mi Fitness (Play Store package), opened only so the user can force-stop it themselves. */
-private const val MI_FITNESS_PACKAGE = "com.mi.health"
 
 @Composable
 fun BandScreen(viewModel: BandViewModel, onBack: () -> Unit) {
@@ -93,6 +90,7 @@ fun BandScreen(viewModel: BandViewModel, onBack: () -> Unit) {
     var showHelp by rememberSaveable { mutableStateOf(false) }
     var editor by remember { mutableStateOf<AlarmEditorTarget?>(null) }
     var permissionsGranted by remember { mutableStateOf(BandPermissions.hasConnect(context) && BandPermissions.hasScan(context)) }
+    var miFitnessPackage by remember { mutableStateOf(MiFitness.installedPackage(context)) }
 
     val permissionLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
         permissionsGranted = BandPermissions.hasConnect(context) && BandPermissions.hasScan(context)
@@ -105,6 +103,7 @@ fun BandScreen(viewModel: BandViewModel, onBack: () -> Unit) {
     }
     LifecycleResumeEffect(Unit) {
         permissionsGranted = BandPermissions.hasConnect(context) && BandPermissions.hasScan(context)
+        miFitnessPackage = MiFitness.installedPackage(context)
         if (BandPermissions.hasConnect(context)) viewModel.refreshBonded()
         onPauseOrDispose { }
     }
@@ -181,11 +180,9 @@ fun BandScreen(viewModel: BandViewModel, onBack: () -> Unit) {
                     onEnableBluetooth = {
                         runCatching { enableBluetooth.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)) }
                     },
-                    onOpenMiFitnessSettings = {
-                        runCatching {
-                            context.startActivity(
-                                Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package", MI_FITNESS_PACKAGE, null)),
-                            )
+                    onOpenMiFitnessSettings = miFitnessPackage?.let { pkg ->
+                        fun() {
+                            runCatching { context.startActivity(MiFitness.settingsIntent(pkg)) }
                         }
                     },
                 )
@@ -306,7 +303,8 @@ private fun StatusCard(
     onDisconnect: () -> Unit,
     onRefresh: () -> Unit,
     onEnableBluetooth: () -> Unit,
-    onOpenMiFitnessSettings: () -> Unit,
+    /** Null when no Mi Fitness variant is installed. */
+    onOpenMiFitnessSettings: (() -> Unit)?,
 ) {
     OutlinedCard(Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -354,7 +352,7 @@ private fun StatusCard(
                         OutlinedButton(onClick = onRefresh) { Text("Actualizar batería") }
                     }
                 }
-                if (state.connection == BandConnectionState.DISCONNECTED) {
+                if (state.connection == BandConnectionState.DISCONNECTED && onOpenMiFitnessSettings != null) {
                     TextButton(onClick = onOpenMiFitnessSettings) { Text("Ajustes de Mi Fitness") }
                 }
             }

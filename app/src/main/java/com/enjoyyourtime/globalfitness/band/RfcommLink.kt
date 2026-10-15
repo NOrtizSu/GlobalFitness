@@ -12,7 +12,9 @@ import java.io.IOException
 import java.util.concurrent.atomic.AtomicInteger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -91,9 +93,12 @@ class RfcommLink private constructor(private val socket: BluetoothSocket) : Band
                 }
             } catch (e: IOException) {
                 closeQuietly(socket)
+                // Closing the socket because the caller was cancelled is not a connection failure.
+                currentCoroutineContext().ensureActive()
                 throw BandException(BandFailure.CONNECT_FAILED, cause = e)
             } catch (e: SecurityException) {
                 closeQuietly(socket)
+                currentCoroutineContext().ensureActive()
                 throw BandException(BandFailure.MISSING_PERMISSION, cause = e)
             } catch (e: Throwable) {
                 closeQuietly(socket)

@@ -12,12 +12,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
@@ -123,13 +121,17 @@ class XiaomiSession(
 
     private val closedSignal = CompletableDeferred<BandException>()
 
-    private val _commands = MutableSharedFlow<XiaomiProto.Command>(
-        extraBufferCapacity = 256,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST,
-    )
+    private val unsolicited = Channel<XiaomiProto.Command>(Channel.UNLIMITED)
 
-    /** Commands from the band that did not answer a pending [request] (pushes, events...). */
-    val commands: SharedFlow<XiaomiProto.Command> = _commands.asSharedFlow()
+    /** Set right before auth step 2 is written: only then does a 1/27 from the band mean "authenticated". */
+    private var confirmSent = false
+
+    /**
+     * Commands from the band that did not answer a pending [request] (pushes, events...). Buffered from
+     * the moment the session starts, so nothing sent during or right after the handshake is lost; meant
+     * for a single collector.
+     */
+    val commands: Flow<XiaomiProto.Command> = unsolicited.receiveAsFlow()
 
     /** "SPP v1" or "SPP v2" once the version is known. */
     val protocolLabel: String get() = protocol.label
@@ -167,12 +169,13 @@ class XiaomiSession(
                 XiaomiAuth.WatchNonceResult.WrongKey -> throw fail(BandException(BandFailure.WRONG_KEY))
                 is XiaomiAuth.WatchNonceResult.Confirm -> {
                     log("Autenticando (paso 2/2)")
+                    confirmSent = true
                     writeCommand(result.command)
                 }
             }
+            // The reader already switched to encrypted mode when the 1/27 arrived (see onCommandBytes).
             val confirm = awaitAuthReply()
             if (confirm.subtype != XiaomiCommands.AUTH_CONFIRM) throw fail(BandException(BandFailure.AUTH_REJECTED))
-            auth.onAuthenticated(encrypted = true)
             log("Autenticada: comunicación cifrada (${protocol.label})")
         } else if (nonceReply.subtype == XiaomiCommands.AUTH_SEND_USERID && nonceReply.auth.status == 1) {
             auth.onAuthenticated(encrypted = false)
@@ -316,6 +319,9 @@ class XiaomiSession(
             log("← ${command.type}/${command.subtype}")
         }
         if (command.type == XiaomiCommands.TYPE_AUTH) {
+            // As Gadgetbridge's XiaomiAuthService.handleCommand: encryption is on as soon as 1/27 is parsed,
+            // before the next frame of the same read is decrypted (on V1 it would otherwise be dropped).
+            if (command.subtype == XiaomiCommands.AUTH_CONFIRM && confirmSent) auth.onAuthenticated(encrypted = true)
             authReplies.trySend(command)
             return
         }
@@ -325,7 +331,7 @@ class XiaomiSession(
             if (pending[key].isNullOrEmpty()) pending.remove(key)
             waiter.complete(command)
         } else {
-            _commands.tryEmit(command)
+            unsolicited.trySend(command)
         }
     }
 
@@ -432,6 +438,7 @@ class XiaomiSession(
         versionReply.completeExceptionally(reason)
         sessionStarted.completeExceptionally(reason)
         authReplies.close(reason)
+        unsolicited.close()
         pending.values.flatten().forEach { it.completeExceptionally(reason) }
         pending.clear()
         (protocol as? SppProtocolV2)?.window?.clear()
