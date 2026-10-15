@@ -107,6 +107,9 @@ class YunmaiLib(private val sex: Int, private val height: Float, activityLevel: 
     }
 }
 
+/** Impedance the Trisa formulas expect from a raw resistance (Trisa, ES-CS20M and most QN scales). */
+fun trisaImpedanceFromResistance(resistance: Float): Float = if (resistance < 410f) 3.0f else 0.3f * (resistance - 400f)
+
 /** Trisa Body Analyze formulas (also used by QN and ES-CS20M scales). */
 class TrisaBodyAnalyzeLib(sex: Int, private val ageYears: Int, private val heightCm: Float) {
     private val isMale = sex == 1

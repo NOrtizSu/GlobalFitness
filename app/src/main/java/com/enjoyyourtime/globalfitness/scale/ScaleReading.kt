@@ -53,6 +53,8 @@ enum class FormulaLib(val id: String, val label: String) {
     STANDARD_IMPEDANCE("STANDARD_IMPEDANCE", "Impedancia estándar (Sun 2003)"),
     YUNMAI("YUNMAI", "Yunmai"),
     TRISA("TRISA", "Trisa"),
+    /** Trisa formulas fed with the impedance derived from the stored raw resistance. */
+    TRISA_RESISTANCE("TRISA_R", "Trisa (resistencia)"),
     SOEHNLE("SOEHNLE", "Soehnle"),
     OKOK_V2("OKOK_V2", "OKOK"),
     WLA25("WLA25", "Fitdays WLA25 (10 impedancias)"),

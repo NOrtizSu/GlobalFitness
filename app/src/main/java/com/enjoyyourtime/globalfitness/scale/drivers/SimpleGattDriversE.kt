@@ -18,9 +18,6 @@ import java.util.Locale
 import java.util.UUID
 import kotlin.math.ceil
 
-/** Trisa-family impedance from a raw resistance (QN, ES-CS20M, Trisa). */
-internal fun trisaImpedance(resistance: Float): Float = if (resistance < 410f) 3.0f else 0.3f * (resistance - 400f)
-
 /**
  * Active Era BF-06 ("AE BS-06", FFB0, `AC 27` 20-byte packets): configuration with profile and
  * reference weights, stable weight (D5), balance (D0), impedance (D6, WLA07 algorithm) and heart
@@ -117,7 +114,7 @@ class ESCS20MDriver : GattScaleDriver() {
     override val displayName = "ES-CS20M / ES-32MD"
     override val brand = "Lefu / QN"
     override val capabilities = ScaleCapabilities(impedance = true)
-    override val formulaLib = FormulaLib.TRISA
+    override val formulaLib = FormulaLib.TRISA_RESISTANCE
     override val keywords = listOf("ES-32MD", "113360_")
 
     override fun match(adv: AdvertisementInfo): MatchConfidence? {
@@ -214,7 +211,7 @@ class ESCS20MDriver : GattScaleDriver() {
             val r = resistance
             publish(ScaleSample().apply {
                 weightKg = kg
-                if (r > 0) impedance = trisaImpedance(r.toFloat())
+                if (r > 0) impedance = r.toFloat()
             })
             reset()
             published = true
@@ -509,7 +506,11 @@ class QnDriver : GattScaleDriver() {
             val ohm = if (universal) r1 / 10f else r1
             publish(ScaleSample().apply {
                 weightKg = kg
-                if (ohm > 0f) impedance = if (universal) ohm else trisaImpedance(ohm)
+                if (ohm > 0f) {
+                    // The resistance is stored; only the older QN families need the Trisa calibration.
+                    impedance = ohm
+                    impedanceLib = if (universal) FormulaLib.TRISA else FormulaLib.TRISA_RESISTANCE
+                }
             })
         }
 

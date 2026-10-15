@@ -11,6 +11,7 @@ import com.enjoyyourtime.globalfitness.scale.ScaleCapabilities
 import com.enjoyyourtime.globalfitness.scale.ScaleSample
 import com.enjoyyourtime.globalfitness.scale.libs.SoehnleLib
 import com.enjoyyourtime.globalfitness.scale.libs.TrisaBodyAnalyzeLib
+import com.enjoyyourtime.globalfitness.scale.libs.trisaImpedanceFromResistance
 import com.enjoyyourtime.globalfitness.scale.uuid16
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -154,7 +155,7 @@ class TrisaBodyAnalyzeDriver : GattScaleDriver() {
     override val displayName = "Trisa Body Analyze 4.0"
     override val brand = "Trisa"
     override val capabilities = ScaleCapabilities(impedance = true)
-    override val formulaLib = FormulaLib.TRISA
+    override val formulaLib = FormulaLib.TRISA_RESISTANCE
 
     override fun match(adv: AdvertisementInfo): MatchConfidence? {
         val n = adv.nameOrEmpty
@@ -240,14 +241,15 @@ class TrisaBodyAnalyzeDriver : GattScaleDriver() {
             val r2Offset = 9 + if (info and 0x02 != 0) 4 else 0
             if (info and 0x04 != 0 && r2Offset + 4 <= data.size && age > 0 && heightCm > 0f) {
                 val r2 = base10Float(data, r2Offset)
-                val impedance = if (r2 < 410f) 3.0f else 0.3f * (r2 - 400f)
+                val impedance = trisaImpedanceFromResistance(r2)
                 val lib = TrisaBodyAnalyzeLib(if (isMale) 1 else 0, age, heightCm)
                 sample.fatPercent = lib.getFat(weight, impedance)
                 sample.waterPercent = lib.getWater(weight, impedance)
                 sample.musclePercent = lib.getMuscle(weight, impedance)
                 sample.boneKg = lib.getBone(weight, impedance)
-                sample.impedance = impedance
-                sample.computedWith = FormulaLib.TRISA
+                // The raw resistance is stored (as openScale does); composition derives from it.
+                sample.impedance = r2
+                sample.computedWith = FormulaLib.TRISA_RESISTANCE
             }
             return sample
         }

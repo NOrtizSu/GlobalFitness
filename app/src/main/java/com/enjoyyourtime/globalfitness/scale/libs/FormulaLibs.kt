@@ -57,9 +57,10 @@ object FormulaLibs {
                     )
                 }
             }
-            FormulaLib.TRISA -> {
+            FormulaLib.TRISA, FormulaLib.TRISA_RESISTANCE -> {
                 val l = TrisaBodyAnalyzeLib(if (isMale) 1 else 0, age, h)
-                composition(fat = l.getFat(w, imp), water = l.getWater(w, imp), musclePct = l.getMuscle(w, imp), bone = l.getBone(w, imp))
+                val z = if (lib == FormulaLib.TRISA_RESISTANCE) trisaImpedanceFromResistance(imp) else imp
+                composition(fat = l.getFat(w, z), water = l.getWater(w, z), musclePct = l.getMuscle(w, z), bone = l.getBone(w, z))
             }
             FormulaLib.OKOK_V2 -> {
                 if (age <= 5) {
