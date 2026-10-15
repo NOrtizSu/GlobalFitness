@@ -61,6 +61,8 @@ enum class FormulaLib(val id: String, val label: String) {
     ONE_BYONE("ONE_BYONE", "1byone / Eufy"),
     ONE_BYONE_NEW("ONE_BYONE_NEW", "1byone (nuevo)"),
     AFU_B1("AFU_B1", "AFU-BH-TZ-B1"),
+    ETEKCITY("ETEKCITY", "Chipsea / Etekcity"),
+    KEEP_S3("KEEP_S3", "Keep S3 (doble frecuencia)"),
     ;
 
     companion object {

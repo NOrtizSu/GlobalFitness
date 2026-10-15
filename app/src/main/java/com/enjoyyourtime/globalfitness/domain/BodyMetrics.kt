@@ -95,9 +95,13 @@ object BodyMetrics {
      * Composition of a stored measurement: values provided by the scale win; missing ones come
      * from the measurement's formula library applied to its impedance (legacy rows without a
      * library are Mi Scale 2 rows: Mi Fit formulas); without impedance only weight-based metrics.
+     * The impedance of another scale that declared no library is kept but not interpreted.
      */
-    fun forMeasurement(sex: Sex, heightCm: Double, age: Int, m: Measurement): BodyComposition =
-        compute(sex, heightCm, age, m.weightKg, m.impedance, m.formulaLib, m.composition)
+    fun forMeasurement(sex: Sex, heightCm: Double, age: Int, m: Measurement): BodyComposition {
+        val interpretable = m.formulaLib != null || m.deviceDriver == null
+        return compute(sex, heightCm, age, m.weightKg, m.impedance.takeIf { interpretable }, m.formulaLib, m.composition)
+            .copy(impedance = m.impedance)
+    }
 
     fun compute(
         sex: Sex,

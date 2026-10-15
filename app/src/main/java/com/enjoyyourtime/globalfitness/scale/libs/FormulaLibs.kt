@@ -117,6 +117,28 @@ object FormulaLibs {
                     )
                 }
             }
+            FormulaLib.ETEKCITY -> {
+                if (impedance !in 1..3999) {
+                    null
+                } else {
+                    val l = EtekcityLib(isMale, age, weightKg, heightCm / 100.0, impedance.toDouble())
+                    composition(
+                        fat = l.bodyFatPercentage.toFloat(), water = l.water.toFloat(), musclePct = l.skeletalMusclePercentage.toFloat(),
+                        bone = l.boneMass.toFloat(), bmr = l.basalMetabolicRate.toFloat(), visceral = l.visceralFat.toFloat(),
+                        metabolicAge = l.metabolicAge.takeIf { it in 10..99 }?.toFloat(),
+                    )
+                }
+            }
+            FormulaLib.KEEP_S3 -> {
+                // Stored rows keep only the 100 kHz impedance: single-band fallback.
+                KeepS3BodyComposition.calculate(isMale, age, heightCm.toInt(), w, impedance, impedance)?.let { c ->
+                    composition(
+                        fat = c.bodyFatPercent, water = c.waterPercent, musclePct = c.skeletalMusclePercent, bone = c.boneKg,
+                        visceral = c.visceralFatLevel.toFloat(), bmr = c.basalMetabolicRateKcal.toFloat(), lbm = c.fatFreeMassKg,
+                        protein = c.proteinPercent, metabolicAge = c.bodyAge.takeIf { it in 10..99 }?.toFloat(),
+                    )
+                }
+            }
             FormulaLib.SOEHNLE -> {
                 val l = SoehnleLib(isMale, age, h, SoehnleLib.activity(ActivityLevel.SEDENTARY))
                 composition(fat = l.getFat(w, imp), water = l.getWater(w, imp))
