@@ -120,6 +120,27 @@ class XiaomiS400Test {
 
     private fun assertNotNullComposition(r: ScaleReading) = r.composition.also { assertNotNull(it) }!!
 
+    /** Older firmware sends packet A only: the session's tick finalizes it after the timeout. */
+    @Test
+    fun driverFinalizesPacketAAloneOnTick() {
+        val bindKey = "00112233445566778899aabbccddeeff"
+        val driver = XiaomiS400Driver()
+        val clock = ScaleTestSupport.Clock()
+        val env = ScaleTestSupport.env(driver.id, clock, store = MapDriverStore(mapOf(ConfigField.KEY_BINDKEY to bindKey)))
+        val session = driver.newSession(env)
+        val packetA = encryptAdvert(ScaleTestSupport.ADDRESS, bindKey, weightRaw = 755, hrRaw = 22, impedanceRaw = 5100, counter = 9)
+        assertTrue(session.parseAdvertisement(ScaleTestSupport.adv(serviceData = mapOf(Bytes.uuid16(0xFE95) to packetA)), env).isEmpty())
+        assertTrue(session.needsTick)
+        clock.advance(5_000)
+        assertTrue(session.tick(env).isEmpty())
+        clock.advance(5_000)
+        val r = session.tick(env).single()
+        assertEquals(75.5, r.weightKg, 1e-4)
+        assertEquals(510, r.impedance)
+        assertNull(r.impedanceLow)
+        assertTrue(!session.needsTick)
+    }
+
     @Test
     fun aggregatorFinalizesWithPacketAOnlyAfterTimeout() {
         val agg = S400Aggregator()

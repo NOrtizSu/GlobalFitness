@@ -68,6 +68,30 @@ class CsvMultiScaleTest {
     }
 
     @Test
+    fun skeletalMuscleAndLowImpedanceRoundTrip() {
+        val m = Measurement(
+            3, 1, 1_760_510_445_000, 76.5, 365, "keep|AA|1760510445|76500", MeasurementSource.SCALE,
+            composition = DeviceComposition(fatPercent = 14.1, musclePercent = 78.0, skeletalMusclePercent = 47.8),
+            compositionSource = CompositionSource.Device,
+            deviceDriver = "keep_s3",
+            impedanceLow = 402,
+        )
+        val row = CsvCodec.decode(CsvCodec.encode(listOf(CsvExportRow(profile, m, null)), zone), zone).rows.single()
+        assertEquals(402, row.impedanceLow)
+        assertEquals(365, row.impedance)
+        assertEquals(47.8, row.composition!!.skeletalMusclePercent!!, 1e-9)
+        assertEquals(78.0, row.composition!!.musclePercent!!, 1e-9)
+    }
+
+    @Test
+    fun nonFiniteNumbersAreRejected() {
+        assertNull(CsvCodec.parseNumber("NaN"))
+        assertNull(CsvCodec.parseNumber("Infinity"))
+        assertNull(CsvCodec.parseNumber("-Infinity"))
+        assertEquals(72.5, CsvCodec.parseNumber("72,5")!!, 1e-9)
+    }
+
+    @Test
     fun legacyRowsUseMiFitFormulasAndDeviceValuesWin() {
         val legacy = Measurement(1, 1, 0, 61.35, 512, null, MeasurementSource.SCALE)
         val viaMeasurement = BodyMetrics.forMeasurement(Sex.FEMALE, 165.5, 36, legacy)
