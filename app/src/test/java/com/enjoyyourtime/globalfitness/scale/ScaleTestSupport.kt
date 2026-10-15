@@ -153,8 +153,9 @@ class ProtocolHarness(
     val clock: ScaleTestSupport.Clock = ScaleTestSupport.Clock(),
     ctx: ScaleContext = ScaleTestSupport.ctx(),
     val store: MapDriverStore = MapDriverStore(),
+    address: String? = ScaleTestSupport.ADDRESS,
 ) {
-    val env: DriverEnv = ScaleTestSupport.env(driver.id, clock, ctx, store)
+    val env: DriverEnv = ScaleTestSupport.env(driver.id, clock, ctx, store, address)
     val protocol: GattProtocol = driver.createProtocol(adv).also { it.attach(io, env) }
 
     fun connect(): ProtocolHarness = apply { protocol.onConnected() }
