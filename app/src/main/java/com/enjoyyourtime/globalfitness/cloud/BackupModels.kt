@@ -5,6 +5,8 @@ import kotlinx.coroutines.flow.Flow
 /**
  * Written to every cloud document so future versions can migrate old data.
  * v2: `meta/profile.datasetId`, profile tombstones, measurement composition and provenance fields.
+ * Later v2 documents may also carry the optional `impedanceLow` field and the composition key
+ * `skeletalMusclePercent` (additive: readers ignore unknown keys and treat missing ones as null).
  * v1 documents are still read (the new fields are simply missing).
  */
 const val CLOUD_SCHEMA_VERSION = 2
@@ -47,11 +49,13 @@ data class MeasurementRecord(
     val formulaLib: String? = null,
     /** Driver id of the scale that produced it. */
     val deviceDriver: String? = null,
+    /** Low-frequency impedance of dual-frequency scales (S400, Keep S3). */
+    val impedanceLow: Int? = null,
 ) {
     val id: String get() = MeasurementIds.idOf(timestamp, weightGrams)
 
     /** Impedance or any composition value: the scale data a later reading can add to a weighing. */
-    val hasScaleData: Boolean get() = impedance != null || composition.isNotEmpty()
+    val hasScaleData: Boolean get() = impedance != null || impedanceLow != null || composition.isNotEmpty()
 }
 
 /** Field names of the device-provided composition inside measurement documents. */
@@ -66,10 +70,11 @@ object CompositionKeys {
     const val LBM_KG = "lbmKg"
     const val PROTEIN_PERCENT = "proteinPercent"
     const val METABOLIC_AGE = "metabolicAge"
+    const val SKELETAL_MUSCLE_PERCENT = "skeletalMusclePercent"
 
     val ALL = setOf(
         FAT_PERCENT, WATER_PERCENT, MUSCLE_PERCENT, MUSCLE_KG, BONE_KG,
-        VISCERAL_FAT, BMR_KCAL, LBM_KG, PROTEIN_PERCENT, METABOLIC_AGE,
+        VISCERAL_FAT, BMR_KCAL, LBM_KG, PROTEIN_PERCENT, METABOLIC_AGE, SKELETAL_MUSCLE_PERCENT,
     )
 }
 

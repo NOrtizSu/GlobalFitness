@@ -108,6 +108,7 @@ object FirestoreCodec {
         "weightGrams" to m.weightGrams,
         "weightKg" to m.weightGrams / 1000.0,
         "impedance" to m.impedance,
+        "impedanceLow" to m.impedanceLow,
         "source" to m.source,
         "scaleKey" to m.scaleKey,
         F_COMPOSITION to m.composition.filterKeys { it in CompositionKeys.ALL },
@@ -146,6 +147,7 @@ object FirestoreCodec {
                 compositionSource = data["compositionSource"] as? String,
                 formulaLib = data["formulaLib"] as? String,
                 deviceDriver = data["deviceDriver"] as? String,
+                impedanceLow = (data["impedanceLow"] as? Number)?.toInt(),
             ),
         )
     }

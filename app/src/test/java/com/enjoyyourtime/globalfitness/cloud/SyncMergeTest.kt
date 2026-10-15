@@ -105,6 +105,32 @@ class SyncMergeTest {
         assertEquals("500|scale", SyncMerge.hashOf(m(1, impedance = 500)))
     }
 
+    @Test
+    fun skeletalMuscleAndLowImpedanceReachTheCloudAfterAnUpdate() {
+        // Synced before they were backed up: same hash as then, so nothing is re-uploaded.
+        val synced = m(1_000, impedance = 365).copy(
+            composition = mapOf(CompositionKeys.FAT_PERCENT to 14.1),
+            compositionSource = "FORMULA_S400",
+            formulaLib = "S400",
+            deviceDriver = "xiaomi_s400",
+        )
+        assertEquals("365|scale|fatPercent=14.1|FORMULA_S400|S400|xiaomi_s400", SyncMerge.hashOf(synced))
+        val unchanged = SyncMerge.plan(local(listOf(synced)), remote(p = profile, complete = false), base(live(synced)), now)
+        assertTrue(unchanged.isNoOp)
+
+        // The phone now backs up the values it already had: uploaded once, then agreed.
+        val complete = synced.copy(composition = synced.composition + (CompositionKeys.SKELETAL_MUSCLE_PERCENT to 41.2), impedanceLow = 402)
+        val upload = SyncMerge.plan(local(listOf(complete)), remote(p = profile, complete = false), base(live(synced)), now)
+        val put = upload.uploads.filterIsInstance<CloudWrite.PutMeasurement>().single().record
+        assertEquals(402, put.impedanceLow)
+        assertEquals(41.2, put.composition.getValue(CompositionKeys.SKELETAL_MUSCLE_PERCENT), 0.0)
+
+        // Another phone receives them.
+        val restore = SyncMerge.plan(local(listOf(synced)), remote(listOf(complete), p = profile, complete = false), base(live(synced)), now)
+        assertEquals(402, restore.localChanges.upsertMeasurements.single().impedanceLow)
+        assertTrue(restore.putIds().isEmpty())
+    }
+
     // ---- Profile -------------------------------------------------------------------------------
 
     @Test

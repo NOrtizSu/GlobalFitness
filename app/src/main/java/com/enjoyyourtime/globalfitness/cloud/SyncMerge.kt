@@ -41,12 +41,19 @@ object SyncMerge {
 
     // ---- Content hashes (what counts as "changed") ---------------------------------------------
 
-    /** Only the mutable fields (scale data and origin): the id already encodes timestamp and weight. */
+    /**
+     * Only the mutable fields (scale data and origin): the id already encodes timestamp and weight.
+     * Fields added later only count when present, so the hash of older records never changes and
+     * records that gain them (e.g. skeletal muscle, low impedance) are uploaded again.
+     */
     fun hashOf(m: MeasurementRecord): String {
         val base = "${m.impedance ?: "-"}|${m.source}"
-        if (m.composition.isEmpty() && m.compositionSource == null && m.formulaLib == null && m.deviceDriver == null) return base
+        if (m.composition.isEmpty() && m.compositionSource == null && m.formulaLib == null && m.deviceDriver == null && m.impedanceLow == null) {
+            return base
+        }
         val composition = m.composition.toSortedMap().entries.joinToString(",") { (k, v) -> "$k=${num(v)}" }
-        return "$base|$composition|${m.compositionSource ?: "-"}|${m.formulaLib ?: "-"}|${m.deviceDriver ?: "-"}"
+        val low = m.impedanceLow?.let { "|low=$it" }.orEmpty()
+        return "$base|$composition|${m.compositionSource ?: "-"}|${m.formulaLib ?: "-"}|${m.deviceDriver ?: "-"}$low"
     }
 
     fun hashOf(d: DeviceRecord): String =

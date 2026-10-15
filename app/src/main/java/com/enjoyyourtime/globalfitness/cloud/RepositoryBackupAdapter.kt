@@ -163,10 +163,11 @@ class RepositoryBackupAdapter(
         source = source.code,
         scaleKey = scaleKey,
         updatedAt = timestamp,
-        composition = composition?.toMap().orEmpty(),
+        composition = composition?.toCompositionMap().orEmpty(),
         compositionSource = compositionSource?.code,
         formulaLib = formulaLib?.id,
         deviceDriver = deviceDriver,
+        impedanceLow = impedanceLow,
     )
 
     private fun ConfiguredScale.toRecord() = DeviceRecord(
@@ -179,6 +180,7 @@ class RepositoryBackupAdapter(
 
     private fun Measurement.withScaleDataOf(record: MeasurementRecord) = copy(
         impedance = record.impedance,
+        impedanceLow = record.impedanceLow,
         composition = record.composition.toDeviceComposition(),
         compositionSource = CompositionSource.fromCode(record.compositionSource),
         formulaLib = FormulaLib.fromId(record.formulaLib),
@@ -200,40 +202,45 @@ class RepositoryBackupAdapter(
         compositionSource = CompositionSource.fromCode(compositionSource),
         formulaLib = FormulaLib.fromId(formulaLib),
         deviceDriver = deviceDriver,
+        impedanceLow = impedanceLow,
     )
-
-    private fun DeviceComposition.toMap(): Map<String, Double> = buildMap {
-        fatPercent?.let { put(CompositionKeys.FAT_PERCENT, it) }
-        waterPercent?.let { put(CompositionKeys.WATER_PERCENT, it) }
-        musclePercent?.let { put(CompositionKeys.MUSCLE_PERCENT, it) }
-        muscleKg?.let { put(CompositionKeys.MUSCLE_KG, it) }
-        boneKg?.let { put(CompositionKeys.BONE_KG, it) }
-        visceralFat?.let { put(CompositionKeys.VISCERAL_FAT, it) }
-        bmrKcal?.let { put(CompositionKeys.BMR_KCAL, it) }
-        lbmKg?.let { put(CompositionKeys.LBM_KG, it) }
-        proteinPercent?.let { put(CompositionKeys.PROTEIN_PERCENT, it) }
-        metabolicAge?.let { put(CompositionKeys.METABOLIC_AGE, it) }
-    }
-
-    private fun Map<String, Double>.toDeviceComposition(): DeviceComposition? =
-        if (isEmpty()) {
-            null
-        } else {
-            DeviceComposition(
-                fatPercent = this[CompositionKeys.FAT_PERCENT],
-                waterPercent = this[CompositionKeys.WATER_PERCENT],
-                musclePercent = this[CompositionKeys.MUSCLE_PERCENT],
-                muscleKg = this[CompositionKeys.MUSCLE_KG],
-                boneKg = this[CompositionKeys.BONE_KG],
-                visceralFat = this[CompositionKeys.VISCERAL_FAT],
-                bmrKcal = this[CompositionKeys.BMR_KCAL],
-                lbmKg = this[CompositionKeys.LBM_KG],
-                proteinPercent = this[CompositionKeys.PROTEIN_PERCENT],
-                metabolicAge = this[CompositionKeys.METABOLIC_AGE],
-            )
-        }
 
     private companion object {
         const val LOAD_TIMEOUT_MS = 30_000L
     }
 }
+
+/** Device composition as the cloud document's `composition` map ([CompositionKeys] names). */
+internal fun DeviceComposition.toCompositionMap(): Map<String, Double> = buildMap {
+    fatPercent?.let { put(CompositionKeys.FAT_PERCENT, it) }
+    waterPercent?.let { put(CompositionKeys.WATER_PERCENT, it) }
+    musclePercent?.let { put(CompositionKeys.MUSCLE_PERCENT, it) }
+    muscleKg?.let { put(CompositionKeys.MUSCLE_KG, it) }
+    boneKg?.let { put(CompositionKeys.BONE_KG, it) }
+    visceralFat?.let { put(CompositionKeys.VISCERAL_FAT, it) }
+    bmrKcal?.let { put(CompositionKeys.BMR_KCAL, it) }
+    lbmKg?.let { put(CompositionKeys.LBM_KG, it) }
+    proteinPercent?.let { put(CompositionKeys.PROTEIN_PERCENT, it) }
+    metabolicAge?.let { put(CompositionKeys.METABOLIC_AGE, it) }
+    skeletalMusclePercent?.let { put(CompositionKeys.SKELETAL_MUSCLE_PERCENT, it) }
+}
+
+/** Inverse of [toCompositionMap]; null for an empty map. */
+internal fun Map<String, Double>.toDeviceComposition(): DeviceComposition? =
+    if (isEmpty()) {
+        null
+    } else {
+        DeviceComposition(
+            fatPercent = this[CompositionKeys.FAT_PERCENT],
+            waterPercent = this[CompositionKeys.WATER_PERCENT],
+            musclePercent = this[CompositionKeys.MUSCLE_PERCENT],
+            muscleKg = this[CompositionKeys.MUSCLE_KG],
+            boneKg = this[CompositionKeys.BONE_KG],
+            visceralFat = this[CompositionKeys.VISCERAL_FAT],
+            bmrKcal = this[CompositionKeys.BMR_KCAL],
+            lbmKg = this[CompositionKeys.LBM_KG],
+            proteinPercent = this[CompositionKeys.PROTEIN_PERCENT],
+            metabolicAge = this[CompositionKeys.METABOLIC_AGE],
+            skeletalMusclePercent = this[CompositionKeys.SKELETAL_MUSCLE_PERCENT],
+        )
+    }

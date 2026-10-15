@@ -1,6 +1,7 @@
 package com.enjoyyourtime.globalfitness.cloud
 
 import com.enjoyyourtime.globalfitness.cloud.FirestoreCodec.Decoded
+import com.enjoyyourtime.globalfitness.scale.DeviceComposition
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -17,10 +18,15 @@ class FirestoreCodecTest {
             source = "scale",
             scaleKey = "a1b2",
             updatedAt = 0L,
-            composition = mapOf(CompositionKeys.FAT_PERCENT to 18.4, CompositionKeys.MUSCLE_KG to 55.1),
+            composition = mapOf(
+                CompositionKeys.FAT_PERCENT to 18.4,
+                CompositionKeys.MUSCLE_KG to 55.1,
+                CompositionKeys.SKELETAL_MUSCLE_PERCENT to 41.2,
+            ),
             compositionSource = "FORMULA_S400",
             formulaLib = "S400",
             deviceDriver = "xiaomi_s400",
+            impedanceLow = 540,
         )
         val map = FirestoreCodec.measurementToMap(record)
         assertEquals(false, map[FirestoreCodec.F_DELETED])
@@ -43,6 +49,37 @@ class FirestoreCodecTest {
         assertEquals("manual", decoded.record.source)
         assertTrue(decoded.record.composition.isEmpty())
         assertNull(decoded.record.deviceDriver)
+    }
+
+    @Test
+    fun v2DocsWithoutSkeletalMuscleOrLowImpedanceAreStillRead() {
+        // Written before the low impedance and skeletal muscle were backed up.
+        val data = mapOf<String, Any?>(
+            FirestoreCodec.F_SCHEMA to 2L, "timestamp" to 1_000L, "weightGrams" to 80_000L, "impedance" to 365L, "source" to "scale",
+            FirestoreCodec.F_COMPOSITION to mapOf("fatPercent" to 14.1), "compositionSource" to "FORMULA_S400", "formulaLib" to "S400",
+        )
+        val record = (FirestoreCodec.measurementFromMap("m_1000_80000", data, null) as Decoded.Live).record
+        assertNull(record.impedanceLow)
+        assertEquals(mapOf(CompositionKeys.FAT_PERCENT to 14.1), record.composition)
+        assertNull(record.composition.toDeviceComposition()!!.skeletalMusclePercent)
+    }
+
+    @Test
+    fun everyDeviceCompositionValueHasACloudKey() {
+        val values = DeviceComposition::class.java.declaredFields
+            .filter { !java.lang.reflect.Modifier.isStatic(it.modifiers) && it.type == Double::class.javaObjectType }
+        assertEquals(values.map { it.name }.toSet(), CompositionKeys.ALL)
+
+        val full = DeviceComposition(
+            fatPercent = 20.1, waterPercent = 55.2, musclePercent = 75.3, muscleKg = 52.4, boneKg = 2.9, visceralFat = 7.0,
+            bmrKcal = 1650.0, lbmKg = 58.6, proteinPercent = 17.7, metabolicAge = 33.0, skeletalMusclePercent = 38.8,
+        )
+        val map = full.toCompositionMap()
+        assertEquals(CompositionKeys.ALL, map.keys)
+        val record = MeasurementRecord(1_000L, 80_000L, 480, "scale", null, 0L, composition = map)
+        val decoded = (FirestoreCodec.measurementFromMap(record.id, FirestoreCodec.measurementToMap(record), null) as Decoded.Live).record
+        assertEquals(full, decoded.composition.toDeviceComposition())
+        assertNull(emptyMap<String, Double>().toDeviceComposition())
     }
 
     @Test
