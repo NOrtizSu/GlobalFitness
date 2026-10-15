@@ -3,6 +3,8 @@ package com.enjoyyourtime.globalfitness.ui.components
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.addPathNodes
 import androidx.compose.ui.unit.dp
@@ -26,16 +28,24 @@ object AppIcons {
             }
         }.build()
 
-    val ShowChart: ImageVector by lazy {
-        icon("ShowChart", "M3.5,18.49l6,-6.01 4,4L22,6.92l-1.41,-1.41 -7.09,7.97 -4,-4L2,16.99z")
-    }
-
-    val History: ImageVector by lazy {
-        icon(
-            "History",
-            "M13,3c-4.97,0 -9,4.03 -9,9L1,12l3.89,3.89 0.07,0.14L9,12L6,12c0,-3.87 3.13,-7 7,-7s7,3.13 7,7 -3.13,7 -7,7c-1.93,0 -3.68,-0.79 -4.94,-2.06l-1.42,1.42C8.27,19.99 10.51,21 13,21c4.97,0 9,-4.03 9,-9s-4.03,-9 -9,-9z",
-            "M12,8v5l4.28,2.54 0.72,-1.21 -3.5,-2.08L13.5,8z",
-        )
+    /** App glyph (matches the launcher icon): scale platform with a heartbeat line. */
+    val Logo: ImageVector by lazy {
+        ImageVector.Builder("Logo", 24.dp, 24.dp, 24f, 24f).apply {
+            val ink = SolidColor(Color.Black)
+            addPath(
+                pathData = addPathNodes("M7,3.5h10a3.5,3.5 0 0 1 3.5,3.5v10a3.5,3.5 0 0 1 -3.5,3.5H7a3.5,3.5 0 0 1 -3.5,-3.5V7a3.5,3.5 0 0 1 3.5,-3.5z"),
+                stroke = ink,
+                strokeLineWidth = 1.8f,
+            )
+            addPath(addPathNodes("M10,6.9h4"), stroke = ink, strokeLineWidth = 1.8f, strokeLineCap = StrokeCap.Round)
+            addPath(
+                pathData = addPathNodes("M6.2,13.5H9l1.5,-3 2.2,6 1.8,-4.5 0.9,1.5H17.8"),
+                stroke = ink,
+                strokeLineWidth = 1.8f,
+                strokeLineCap = StrokeCap.Round,
+                strokeLineJoin = StrokeJoin.Round,
+            )
+        }.build()
     }
 
     val Bluetooth: ImageVector by lazy {
@@ -49,7 +59,7 @@ object AppIcons {
         icon("Bolt", "M11,21h-1l1,-7H7.5c-0.88,0 -0.33,-0.75 -0.31,-0.78C8.48,10.94 10.42,7.54 13.01,3h1l-1,7h3.51c0.4,0 0.62,0.19 0.4,0.66C12.97,17.55 11,21 11,21z")
     }
 
-    /** Bathroom scale glyph (matches the launcher icon). */
+    /** Bathroom scale glyph. */
     val Scale: ImageVector by lazy {
         icon(
             "Scale",
@@ -61,10 +71,17 @@ object AppIcons {
         )
     }
 
-    val Tune: ImageVector by lazy {
+    val Watch: ImageVector by lazy {
         icon(
-            "Tune",
-            "M3,17v2h6v-2L3,17zM3,5v2h10L13,5L3,5zM13,21v-2h8v-2h-8v-2h-2v6h2zM7,9v2L3,11v2h4v2h2L9,9L7,9zM21,13v-2L11,11v2h10zM15,9h2L17,7h4L21,5h-4L17,3h-2v6z",
+            "Watch",
+            "M20,12c0,-2.54 -1.19,-4.81 -3.04,-6.27L16,0H8l-0.95,5.73C5.19,7.19 4,9.45 4,12s1.19,4.81 3.05,6.27L8,24h8l0.96,-5.73C18.81,16.81 20,14.54 20,12zM6,12c0,-3.31 2.69,-6 6,-6s6,2.69 6,6 -2.69,6 -6,6 -6,-2.69 -6,-6z",
+        )
+    }
+
+    val Cloud: ImageVector by lazy {
+        icon(
+            "Cloud",
+            "M19.35,10.04C18.67,6.59 15.64,4 12,4 9.11,4 6.6,5.64 5.35,8.04 2.34,8.36 0,10.91 0,14c0,3.31 2.69,6 6,6h13c2.76,0 5,-2.24 5,-5 0,-2.64 -2.05,-4.78 -4.65,-4.96z",
         )
     }
 
@@ -82,6 +99,10 @@ object AppIcons {
 
     val ExpandLess: ImageVector by lazy {
         icon("ExpandLess", "M12,8l-6,6 1.41,1.41L12,10.83l4.59,4.58L18,14z")
+    }
+
+    val ChevronRight: ImageVector by lazy {
+        icon("ChevronRight", "M10,6L8.59,7.41 13.17,12l-4.58,4.59L10,18l6,-6z")
     }
 
     val TrendUp: ImageVector by lazy {

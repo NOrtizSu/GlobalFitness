@@ -1,5 +1,6 @@
 package com.enjoyyourtime.globalfitness.ui
 
+import android.app.Activity
 import android.content.ContentResolver
 import android.net.Uri
 import androidx.lifecycle.ViewModel
@@ -9,9 +10,13 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.enjoyyourtime.globalfitness.AppContainer
 import com.enjoyyourtime.globalfitness.GlobalFitnessApp
+import com.enjoyyourtime.globalfitness.account.AccountUser
+import com.enjoyyourtime.globalfitness.band.BandState
+import com.enjoyyourtime.globalfitness.ble.GattSessionInfo
 import com.enjoyyourtime.globalfitness.ble.LiveScale
 import com.enjoyyourtime.globalfitness.ble.ScanDebugInfo
 import com.enjoyyourtime.globalfitness.ble.ScanStatus
+import com.enjoyyourtime.globalfitness.cloud.CloudSyncStatus
 import com.enjoyyourtime.globalfitness.data.CsvCodec
 import com.enjoyyourtime.globalfitness.data.CsvExportRow
 import com.enjoyyourtime.globalfitness.data.Measurement
@@ -25,7 +30,6 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -35,17 +39,18 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-/** A measurement with its composition computed from the owning profile. */
+/** A measurement with its body composition (scale-reported values win over the formulas). */
 data class Entry(val measurement: Measurement, val composition: BodyComposition)
 
 data class MainUiState(
     val loaded: Boolean = false,
-    val profiles: List<Profile> = emptyList(),
-    val selectedProfile: Profile? = null,
+    val profile: Profile? = null,
     /** The profile's measurements, oldest first. */
     val entries: List<Entry> = emptyList(),
-    val measurementCounts: Map<Long, Int> = emptyMap(),
 )
+
+/** The experimental direct band mode, once a band has been chosen. */
+data class BandSummary(val name: String, val hasKey: Boolean, val state: BandState)
 
 sealed interface UiEvent {
     data class Message(val text: String, val haptic: Boolean = false) : UiEvent
@@ -54,6 +59,7 @@ sealed interface UiEvent {
 fun Profile.compositionOf(m: Measurement): BodyComposition =
     BodyMetrics.forMeasurement(sex, heightCm, ageAt(m.timestamp), m)
 
+/** App-wide state shared by the five sections (activity scoped). */
 class MainViewModel(private val container: AppContainer) : ViewModel() {
     private val repository = container.repository
     private val settings = container.settings
@@ -63,22 +69,30 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
         repository.profile,
         repository.measurements,
     ) { loaded, profile, measurements ->
-        // Single-profile app: every measurement belongs to the profile.
-        val entries = if (profile == null) emptyList() else measurements.map { Entry(it, profile.compositionOf(it)) }
         MainUiState(
             loaded = loaded,
-            profiles = listOfNotNull(profile),
-            selectedProfile = profile,
-            entries = entries,
-            measurementCounts = if (profile == null) emptyMap() else mapOf(profile.id to measurements.size),
+            profile = profile,
+            entries = if (profile == null) emptyList() else measurements.map { Entry(it, profile.compositionOf(it)) },
         )
     }.flowOn(Dispatchers.Default).stateIn(viewModelScope, SharingStarted.Eagerly, MainUiState())
 
     val loadError: StateFlow<String?> = repository.loadError
     val scanStatus: StateFlow<ScanStatus> = container.scanner.status
     val live: StateFlow<LiveScale> = container.scaleMonitor.live
+    val sessions: StateFlow<Map<String, GattSessionInfo>> = container.scaleMonitor.sessions
     val debug: StateFlow<ScanDebugInfo?> = container.scanner.debug
     val permissionRationaleSeen: StateFlow<Boolean> = settings.permissionRationaleSeen
+
+    val accountUser: StateFlow<AccountUser?> = container.account.user
+    val cloudStatus: StateFlow<CloudSyncStatus> = container.cloudSync.status
+    val premium: StateFlow<Boolean> = container.billing.isPremium
+    val adPrivacyOptionsRequired: StateFlow<Boolean> = container.ads.privacyOptionsRequired
+
+    val band: StateFlow<BandSummary?> = container.band.let { band ->
+        combine(band.store.selected, band.store.hasAuthKey, band.state) { selected, hasKey, state ->
+            selected?.let { BandSummary(it.name, hasKey, state) }
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
+    }
 
     private val _events = Channel<UiEvent>(Channel.BUFFERED)
     val events: Flow<UiEvent> = _events.receiveAsFlow()
@@ -125,10 +139,9 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
     fun createProfile(draft: ProfileDraft) = launchDb("No se pudo crear el perfil") {
         val created = repository.saveProfile(draft)
         settings.setSelectedProfileId(created.id)
-        send("Perfil «${created.name}» creado")
     }
 
-    fun updateProfile(@Suppress("UNUSED_PARAMETER") id: Long, draft: ProfileDraft) = launchDb("No se pudo guardar el perfil") {
+    fun updateProfile(draft: ProfileDraft) = launchDb("No se pudo guardar el perfil") {
         repository.saveProfile(draft)
         send("Perfil actualizado")
     }
@@ -141,7 +154,7 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
     }
 
     fun addManual(weightKg: Double, timestamp: Long) {
-        val profile = uiState.value.selectedProfile ?: return
+        val profile = uiState.value.profile ?: return
         launchDb("No se pudo guardar la medición") {
             repository.insertMeasurement(
                 Measurement(
@@ -154,28 +167,34 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
                     source = MeasurementSource.MANUAL,
                 ),
             )
-            send("Medición manual añadida a ${profile.name}")
+            send("Peso añadido")
         }
     }
 
-    // ---- Settings -------------------------------------------------------------------------
+    // ---- Scanner and ads -------------------------------------------------------------------
 
     fun markPermissionRationaleSeen() = settings.markPermissionRationaleSeen()
 
     fun refreshScanner() = container.scanner.refresh()
 
+    /** A top-level section was opened: the interstitial policy decides whether to show one. */
+    fun onSectionChanged(activity: Activity) {
+        container.ads.interstitials.onSectionChanged(activity)
+    }
+
+    fun showAdPrivacyOptions(activity: Activity) {
+        container.ads.showPrivacyOptions(activity) { error -> if (error != null) send(error) }
+    }
+
     // ---- CSV ------------------------------------------------------------------------------
 
     fun exportCsv(resolver: ContentResolver, uri: Uri) {
         viewModelScope.launch {
-            val profiles = repository.profiles.value.associateBy { it.id }
+            val profile = repository.profile.value
             val measurements = repository.measurements.value
             val result = withContext(Dispatchers.IO) {
                 runCatching {
-                    val rows = measurements.map { m ->
-                        val p = m.profileId?.let { profiles[it] }
-                        CsvExportRow(p, m, p?.compositionOf(m))
-                    }
+                    val rows = measurements.map { m -> CsvExportRow(profile, m, profile?.compositionOf(m)) }
                     val text = CsvCodec.encode(rows)
                     resolver.openOutputStream(uri, "wt")?.use { out ->
                         out.write(byteArrayOf(0xEF.toByte(), 0xBB.toByte(), 0xBF.toByte())) // UTF-8 BOM for Excel
@@ -207,7 +226,7 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
             add("Importadas ${r.imported}")
             if (r.duplicates > 0) add("${r.duplicates} duplicadas omitidas")
             if (r.invalid > 0) add("${r.invalid} filas no válidas")
-            if (r.skippedOtherProfiles > 0) add("${r.skippedOtherProfiles} de otros perfiles omitidas")
+            if (r.skippedOtherProfiles > 0) add("${r.skippedOtherProfiles} de otras personas omitidas")
             if (r.createdProfile) add("perfil creado")
         }
         send(parts.joinToString(" · "))

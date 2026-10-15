@@ -65,7 +65,7 @@ import kotlin.math.abs
 
 /** Stage colors, derived from the chart tokens. */
 fun ChartColors.stage(stage: SleepStage): Color = when (stage) {
-    SleepStage.DEEP -> profile(6)
+    SleepStage.DEEP -> series4
     SleepStage.LIGHT -> series1
     SleepStage.REM -> series3
     SleepStage.AWAKE -> series2
@@ -78,7 +78,7 @@ data class LegendItem(val label: String, val color: Color, val kind: LegendKind)
 
 @Composable
 fun ChartLegend(items: List<LegendItem>, modifier: Modifier = Modifier) {
-    val surface = MaterialTheme.colorScheme.surface
+    val surface = ChartTheme.surface
     FlowRow(
         modifier = modifier.padding(bottom = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -249,7 +249,7 @@ private fun dayTickIndices(count: Int): List<Int> =
 @Composable
 fun StepsBarChart(days: List<Pair<LocalDate, Long?>>, goal: Long, modifier: Modifier = Modifier, height: Dp = 200.dp) {
     val colors = ChartTheme.colors
-    val surface = MaterialTheme.colorScheme.surface
+    val surface = ChartTheme.surface
     val text = rememberChartText()
     val tooltipBg = MaterialTheme.colorScheme.surfaceContainerHigh
     val tooltipBorder = MaterialTheme.colorScheme.outlineVariant
@@ -330,7 +330,7 @@ fun HeartRateDayChart(
 ) {
     val colors = ChartTheme.colors
     val text = rememberChartText()
-    val surface = MaterialTheme.colorScheme.surface
+    val surface = ChartTheme.surface
     val tooltipBg = MaterialTheme.colorScheme.surfaceContainerHigh
     val tooltipBorder = MaterialTheme.colorScheme.outlineVariant
     var selected by remember(samples) { mutableStateOf<Int?>(null) }
@@ -427,7 +427,7 @@ private fun nearestByTime(size: Int, timeAt: (Int) -> Long, t: Long): Int? {
 fun HeartRateRangeChart(days: List<LocalDate>, ranges: List<DailyHrRange>, modifier: Modifier = Modifier, height: Dp = 200.dp) {
     val colors = ChartTheme.colors
     val text = rememberChartText()
-    val surface = MaterialTheme.colorScheme.surface
+    val surface = ChartTheme.surface
     val tooltipBg = MaterialTheme.colorScheme.surfaceContainerHigh
     val tooltipBorder = MaterialTheme.colorScheme.outlineVariant
     var selected by remember(days, ranges) { mutableStateOf<Int?>(null) }
@@ -590,7 +590,7 @@ private val STACK_ORDER = listOf(SleepStage.DEEP, SleepStage.LIGHT, SleepStage.R
 @Composable
 fun SleepStackedChart(nights: List<Pair<LocalDate, NightSleep?>>, modifier: Modifier = Modifier, height: Dp = 200.dp) {
     val colors = ChartTheme.colors
-    val surface = MaterialTheme.colorScheme.surface
+    val surface = ChartTheme.surface
     val text = rememberChartText()
     val tooltipBg = MaterialTheme.colorScheme.surfaceContainerHigh
     val tooltipBorder = MaterialTheme.colorScheme.outlineVariant
@@ -679,7 +679,7 @@ fun SleepStackedChart(nights: List<Pair<LocalDate, NightSleep?>>, modifier: Modi
 fun Spo2Chart(points: List<TimedValue>, xStart: Long, xEnd: Long, modifier: Modifier = Modifier, height: Dp = 180.dp) {
     val colors = ChartTheme.colors
     val text = rememberChartText()
-    val surface = MaterialTheme.colorScheme.surface
+    val surface = ChartTheme.surface
     val tooltipBg = MaterialTheme.colorScheme.surfaceContainerHigh
     val tooltipBorder = MaterialTheme.colorScheme.outlineVariant
     var selected by remember(points) { mutableStateOf<Int?>(null) }

@@ -99,10 +99,6 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
-        <activity
-            android:name=".ui.health.HealthActivity"
-            android:exported="false"
-            android:label="@string/health_title" />
 
         <!-- Health Connect privacy policy / permissions rationale (Android 13 and lower) -->
         <activity

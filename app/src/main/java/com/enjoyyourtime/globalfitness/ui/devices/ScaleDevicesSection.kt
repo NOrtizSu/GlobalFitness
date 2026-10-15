@@ -1,23 +1,20 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.enjoyyourtime.globalfitness.ui.devices
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
@@ -25,24 +22,17 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -51,8 +41,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.enjoyyourtime.globalfitness.scale.ConfigField
 import com.enjoyyourtime.globalfitness.scale.ConfigKind
 import com.enjoyyourtime.globalfitness.scale.LinkKind
@@ -60,151 +48,128 @@ import com.enjoyyourtime.globalfitness.scale.MatchConfidence
 import com.enjoyyourtime.globalfitness.scale.ScaleDriver
 import com.enjoyyourtime.globalfitness.scale.SessionStatus
 import com.enjoyyourtime.globalfitness.ui.Fmt
+import com.enjoyyourtime.globalfitness.ui.components.AppCard
 import com.enjoyyourtime.globalfitness.ui.components.AppIcons
-import com.enjoyyourtime.globalfitness.ui.components.SectionTitle
+import com.enjoyyourtime.globalfitness.ui.components.ExperimentalBadge
 
-/** Scales screen: configured scales, nearby detected scales and the manual catalog. */
-@Composable
-fun ScaleDevicesScreen(
-    onBack: () -> Unit,
-    vm: ScaleDevicesViewModel = viewModel(factory = ScaleDevicesViewModel.Factory),
+/** Open dialogs of the scales section. */
+@Stable
+class ScaleDialogs {
+    var catalogOpen by mutableStateOf(false)
+    var binding by mutableStateOf<ScaleDriver?>(null)
+    var renaming by mutableStateOf<ConfiguredScaleItem?>(null)
+    var removing by mutableStateOf<ConfiguredScaleItem?>(null)
+}
+
+/** Scales: configured scales, the manual catalog and nearby detected scales. */
+fun LazyListScope.scaleDevicesSection(
+    state: ScaleDevicesUiState,
+    dialogs: ScaleDialogs,
+    onUse: (DetectedScaleItem, ScaleDriver) -> Unit,
+    onSaveConfig: (scaleId: String, key: String, value: String) -> String?,
 ) {
-    val state by vm.state.collectAsStateWithLifecycle()
-    val snackbar = remember { SnackbarHostState() }
-    var catalogOpen by remember { mutableStateOf(false) }
-    var binding by remember { mutableStateOf<ScaleDriver?>(null) }
-    var renaming by remember { mutableStateOf<ConfiguredScaleItem?>(null) }
-    var removing by remember { mutableStateOf<ConfiguredScaleItem?>(null) }
-
-    LaunchedEffect(Unit) {
-        vm.events.collect {
-            snackbar.currentSnackbarData?.dismiss()
-            snackbar.showSnackbar(it, withDismissAction = true)
+    if (state.configured.isEmpty()) {
+        item(key = "scales-empty") {
+            Text(
+                "Ninguna todavía. Súbete a tu báscula con la app abierta: si se reconoce sin dudas se " +
+                    "configura sola. También puedes elegirla en el catálogo.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(horizontal = 4.dp),
+            )
         }
     }
-
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Básculas") },
-                navigationIcon = {
-                    IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver") }
-                },
-            )
-        },
-        snackbarHost = { SnackbarHost(snackbar) },
-    ) { padding ->
-        LazyColumn(
-            modifier = Modifier.padding(padding).fillMaxSize(),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            item { SectionTitle("Configuradas") }
-            if (state.configured.isEmpty()) {
-                item {
-                    Text(
-                        "Ninguna todavía. Súbete a tu báscula con la app abierta: si se reconoce sin dudas se " +
-                            "configura sola. También puedes elegirla en el catálogo.",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-            }
-            items(state.configured, key = { it.scale.id }) { item ->
-                ConfiguredScaleCard(
-                    item = item,
-                    onRename = { renaming = item },
-                    onRemove = { removing = item },
-                    onSaveConfig = { key, value -> vm.setConfig(item.scale.id, key, value) },
+    items(state.configured, key = { "c-" + it.scale.id }) { item ->
+        ConfiguredScaleCard(
+            item = item,
+            onRename = { dialogs.renaming = item },
+            onRemove = { dialogs.removing = item },
+            onSaveConfig = { key, value -> onSaveConfig(item.scale.id, key, value) },
+        )
+    }
+    item(key = "scales-catalog") {
+        FilledTonalButton(onClick = { dialogs.catalogOpen = true }, modifier = Modifier.heightIn(min = 48.dp)) {
+            Icon(Icons.Filled.Add, contentDescription = null)
+            Spacer(Modifier.width(8.dp))
+            Text("Añadir desde el catálogo")
+        }
+    }
+    item(key = "scales-detected-title") {
+        Text(
+            "Detectadas cerca",
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(start = 4.dp, top = 8.dp),
+        )
+    }
+    if (state.detected.isEmpty()) {
+        item(key = "scales-searching") {
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 4.dp)) {
+                CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp)
+                Spacer(Modifier.width(12.dp))
+                Text(
+                    "Buscando básculas… súbete a la báscula para despertarla.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
-            item {
-                FilledTonalButton(onClick = { catalogOpen = true }) {
-                    Icon(Icons.Filled.Add, contentDescription = null)
-                    Spacer(Modifier.width(8.dp))
-                    Text("Añadir desde el catálogo")
-                }
-            }
-
-            item { SectionTitle("Detectadas cerca", Modifier.padding(top = 16.dp)) }
-            if (state.detected.isEmpty()) {
-                item {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp)
-                        Spacer(Modifier.width(12.dp))
-                        Text(
-                            "Buscando básculas… súbete a la báscula para despertarla.",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                    }
-                }
-            }
-            items(state.detected, key = { "d-" + it.address }) { item ->
-                DetectedScaleCard(item = item, onUse = { driver -> vm.useDetected(item, driver) })
-            }
         }
     }
+    items(state.detected, key = { "d-" + it.address }) { item ->
+        DetectedScaleCard(item = item, onUse = { driver -> onUse(item, driver) })
+    }
+}
 
-    if (catalogOpen) {
+/** Catalog, binding, rename and remove dialogs of [scaleDevicesSection]. */
+@Composable
+fun ScaleDialogsHost(state: ScaleDevicesUiState, dialogs: ScaleDialogs, vm: ScaleDevicesViewModel) {
+    if (dialogs.catalogOpen) {
         CatalogDialog(
             query = state.catalogQuery,
             drivers = state.catalog,
             onQuery = vm::setQuery,
             onPick = { driver ->
-                catalogOpen = false
-                binding = driver
+                dialogs.catalogOpen = false
+                dialogs.binding = driver
             },
-            onDismiss = { catalogOpen = false },
+            onDismiss = { dialogs.catalogOpen = false },
         )
     }
-    binding?.let { driver ->
+    dialogs.binding?.let { driver ->
         val candidates = state.detected.filter { d -> d.driver.id == driver.id || d.alternatives.any { it.id == driver.id } }
         BindDialog(
             driver = driver,
             candidates = candidates,
             onBind = { address ->
                 vm.add(driver, address)
-                binding = null
+                dialogs.binding = null
             },
-            onDismiss = { binding = null },
+            onDismiss = { dialogs.binding = null },
         )
     }
-    renaming?.let { item ->
+    dialogs.renaming?.let { item ->
         RenameDialog(
             initial = item.scale.name,
             onSave = {
                 vm.rename(item.scale.id, it)
-                renaming = null
+                dialogs.renaming = null
             },
-            onDismiss = { renaming = null },
+            onDismiss = { dialogs.renaming = null },
         )
     }
-    removing?.let { item ->
+    dialogs.removing?.let { item ->
         AlertDialog(
-            onDismissRequest = { removing = null },
+            onDismissRequest = { dialogs.removing = null },
             title = { Text("¿Quitar ${item.scale.name}?") },
             text = { Text("Las mediciones guardadas se conservan. No se volverá a configurar sola.") },
             confirmButton = {
                 TextButton(onClick = {
                     vm.remove(item.scale.id)
-                    removing = null
+                    dialogs.removing = null
                 }) { Text("Quitar", color = MaterialTheme.colorScheme.error) }
             },
-            dismissButton = { TextButton(onClick = { removing = null }) { Text("Cancelar") } },
+            dismissButton = { TextButton(onClick = { dialogs.removing = null }) { Text("Cancelar") } },
         )
-    }
-}
-
-@Composable
-private fun ExperimentalBadge(verified: Boolean) {
-    if (verified) return
-    Surface(
-        color = MaterialTheme.colorScheme.tertiaryContainer,
-        contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-        shape = MaterialTheme.shapes.small,
-    ) {
-        Text("Experimental", style = MaterialTheme.typography.labelSmall, modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp))
     }
 }
 
@@ -216,7 +181,7 @@ private fun ConfiguredScaleCard(
     onSaveConfig: (String, String) -> String?,
 ) {
     val driver = item.driver
-    OutlinedCard(Modifier.fillMaxWidth()) {
+    AppCard {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(AppIcons.Scale, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
@@ -229,18 +194,18 @@ private fun ConfiguredScaleCard(
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
-                IconButton(onClick = onRename) { Icon(Icons.Filled.Edit, contentDescription = "Renombrar") }
-                IconButton(onClick = onRemove) { Icon(Icons.Filled.Delete, contentDescription = "Quitar") }
+                IconButton(onClick = onRename) { Icon(Icons.Filled.Edit, contentDescription = "Renombrar ${item.scale.name}") }
+                IconButton(onClick = onRemove) { Icon(Icons.Filled.Delete, contentDescription = "Quitar ${item.scale.name}") }
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                ExperimentalBadge(driver?.verified ?: false)
+                if (driver?.verified != true) ExperimentalBadge()
                 Text(
                     when (driver?.link) {
                         LinkKind.GATT -> "Conexión Bluetooth"
                         LinkKind.PASSIVE -> "Lectura de anuncios"
                         null -> ""
                     },
-                    style = MaterialTheme.typography.labelSmall,
+                    style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
@@ -328,7 +293,7 @@ private fun ConfigFieldEditor(field: ConfigField, current: String, onSave: (Stri
 
 @Composable
 private fun DetectedScaleCard(item: DetectedScaleItem, onUse: (ScaleDriver) -> Unit) {
-    OutlinedCard(Modifier.fillMaxWidth()) {
+    AppCard {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(AppIcons.Bluetooth, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -344,10 +309,10 @@ private fun DetectedScaleCard(item: DetectedScaleItem, onUse: (ScaleDriver) -> U
                 }
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                ExperimentalBadge(item.driver.verified)
+                if (!item.driver.verified) ExperimentalBadge()
                 Text(
                     "Coincidencia " + confidenceLabel(item.confidence),
-                    style = MaterialTheme.typography.labelSmall,
+                    style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
@@ -361,7 +326,7 @@ private fun DetectedScaleCard(item: DetectedScaleItem, onUse: (ScaleDriver) -> U
             if (item.alreadyConfigured) {
                 Text("Ya configurada", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.primary)
             } else {
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     FilledTonalButton(onClick = { onUse(item.driver) }) { Text("Usar esta") }
                     item.alternatives.take(2).forEach { alt ->
                         AssistChip(onClick = { onUse(alt) }, label = { Text(alt.displayName) })
@@ -399,18 +364,19 @@ private fun CatalogDialog(
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                 )
-                Text("${drivers.size} modelos", style = MaterialTheme.typography.labelSmall)
+                Text("${drivers.size} modelos", style = MaterialTheme.typography.labelMedium)
                 LazyColumn(Modifier.heightIn(max = 420.dp)) {
                     items(drivers, key = { it.id }) { d ->
                         Column(
                             Modifier
                                 .fillMaxWidth()
-                                .clickable { onPick(d) }
+                                .heightIn(min = 48.dp)
+                                .clickable(onClickLabel = "Elegir") { onPick(d) }
                                 .padding(vertical = 8.dp),
                         ) {
                             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                 Text(d.displayName, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
-                                ExperimentalBadge(d.verified)
+                                if (!d.verified) ExperimentalBadge()
                             }
                             Text(
                                 d.brand + " · " + if (d.link == LinkKind.GATT) "conexión Bluetooth" else "lectura de anuncios",

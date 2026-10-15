@@ -105,6 +105,34 @@ protobuf {
     }
 }
 
+/** Ships docs/privacy-policy.md as an app asset, shown in Perfil → Política de privacidad. */
+abstract class PrivacyPolicyAssetTask : DefaultTask() {
+    @get:InputFile
+    abstract val policy: RegularFileProperty
+
+    @get:OutputDirectory
+    abstract val outputDir: DirectoryProperty
+
+    @TaskAction
+    fun copy() {
+        val out = outputDir.get().asFile
+        out.deleteRecursively()
+        out.mkdirs()
+        policy.get().asFile.copyTo(out.resolve("privacy-policy.md"))
+    }
+}
+
+val privacyPolicyAssets = tasks.register<PrivacyPolicyAssetTask>("privacyPolicyAssets") {
+    policy.set(rootProject.layout.projectDirectory.file("docs/privacy-policy.md"))
+    outputDir.set(layout.buildDirectory.dir("generated/privacyPolicyAssets"))
+}
+
+androidComponents {
+    onVariants { variant ->
+        variant.sources.assets?.addGeneratedSourceDirectory(privacyPolicyAssets, PrivacyPolicyAssetTask::outputDir)
+    }
+}
+
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
@@ -118,6 +146,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material.icons.core)
     implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.navigation.compose)
     debugImplementation(libs.androidx.compose.ui.tooling)
 
     implementation(libs.protobuf.javalite)

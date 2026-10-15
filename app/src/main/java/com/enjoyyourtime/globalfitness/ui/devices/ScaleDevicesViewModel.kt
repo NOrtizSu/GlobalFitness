@@ -22,12 +22,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
 import java.util.Locale
 import java.util.UUID
 
-/** A configured scale with everything the screen shows about it. */
+/** A configured scale with everything the section shows about it. */
 data class ConfiguredScaleItem(
     val scale: ConfiguredScale,
     /** Null when the driver no longer exists (shown as unknown). */
@@ -57,7 +57,7 @@ data class ScaleDevicesUiState(
     val catalog: List<ScaleDriver> = emptyList(),
 )
 
-/** State and actions of the scales screen (configured, detected, manual catalog). */
+/** State and actions of the scales section (configured, detected, manual catalog). */
 class ScaleDevicesViewModel(private val container: AppContainer) : ViewModel() {
     private val settings = container.settings
     private val registry = container.scaleRegistry
@@ -99,13 +99,11 @@ class ScaleDevicesViewModel(private val container: AppContainer) : ViewModel() {
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), ScaleDevicesUiState(catalog = registry.search("")))
 
-    init {
-        // Keep the detected list fresh (stale devices drop out) while the screen is open.
-        viewModelScope.launch {
-            while (isActive) {
-                monitor.refreshDetected()
-                delay(2_000)
-            }
+    /** Keeps the detected list fresh (stale devices drop out); run it while the section is visible. */
+    suspend fun keepDetectedFresh() {
+        while (currentCoroutineContext().isActive) {
+            monitor.refreshDetected()
+            delay(2_000)
         }
     }
 

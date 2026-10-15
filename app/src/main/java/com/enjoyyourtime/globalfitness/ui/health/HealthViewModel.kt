@@ -72,6 +72,8 @@ data class HealthDashboard(
     val daily: Map<LocalDate, DailyActivity>,
     val hrDay: LocalDate,
     val hrDaySamples: List<HrSample>,
+    /** Live heart rate recorded that day by the direct band mode (band.db), shown apart. */
+    val hrDayBand: List<HrSample>,
     val hrDayResting: Int?,
     val hrDays: List<LocalDate>,
     val hrRanges: List<DailyHrRange>,
@@ -109,11 +111,19 @@ data class HealthUiState(
     val allDataGranted: Boolean get() = HealthPermissions.allGranted(granted, historyAvailable = false)
 }
 
-class HealthViewModel(private val health: HealthModule, private val repository: Repository) : ViewModel() {
+class HealthViewModel(
+    private val health: HealthModule,
+    private val repository: Repository,
+    /** Direct-mode band heart rate in [from, to] (blocking). */
+    private val bandHeartRate: (Long, Long) -> List<HrSample>,
+) : ViewModel() {
 
     private val zone: ZoneId get() = ZoneId.systemDefault()
     private val selectedHrDay = MutableStateFlow<LocalDate?>(null)
     private val today = MutableStateFlow(LocalDate.now(zone))
+
+    /** Bumped on resume: band.db may have new samples (it is not observable). */
+    private val resumes = MutableStateFlow(0)
 
     private val _detail = MutableStateFlow<ExerciseItem?>(null)
 
@@ -150,7 +160,8 @@ class HealthViewModel(private val health: HealthModule, private val repository: 
         selectedHrDay,
         today,
         repository.profiles,
-    ) { _, hrDay, day, profiles -> Triple(hrDay, day, profiles.firstOrNull()) }
+        resumes,
+    ) { _, hrDay, day, profiles, _ -> Triple(hrDay, day, profiles.firstOrNull()) }
         .map { (hrDay, day, profile) -> load(day, hrDay ?: day, profile) }
         .flowOn(Dispatchers.IO)
         .stateIn(viewModelScope, SharingStarted.Eagerly, null)
@@ -160,11 +171,12 @@ class HealthViewModel(private val health: HealthModule, private val repository: 
     fun requestedPermissions(): Set<String> = health.gateway.requestedPermissions()
 
     /**
-     * Screen resumed: the date may have changed. (Permissions and the throttled sync are
-     * refreshed by [HealthModule] on every activity resume.)
+     * Screen resumed: the date may have changed and the band may have recorded heart rate.
+     * (Permissions and the throttled sync are refreshed by [HealthModule] on every activity resume.)
      */
     fun onResume() {
         today.value = LocalDate.now(zone)
+        resumes.value++
     }
 
     fun onPermissionsResult() {
@@ -253,6 +265,7 @@ class HealthViewModel(private val health: HealthModule, private val repository: 
             daily = daily,
             hrDay = hrDay,
             hrDaySamples = hrDaySamples,
+            hrDayBand = runCatching { bandHeartRate(hrDayStart, hrDayEnd - 1) }.getOrDefault(emptyList()),
             hrDayResting = restingByDay[hrDay]?.let { Math.round(it).toInt() },
             hrDays = (HR_RANGE_DAYS - 1 downTo 0).map { today.minusDays(it.toLong()) },
             hrRanges = HealthStats.dailyHrRanges(hr30, zone),
@@ -281,7 +294,10 @@ class HealthViewModel(private val health: HealthModule, private val repository: 
         val Factory = viewModelFactory {
             initializer {
                 val app = this[APPLICATION_KEY] as GlobalFitnessApp
-                HealthViewModel(app.container.health, app.container.repository)
+                val container = app.container
+                HealthViewModel(container.health, container.repository) { from, to ->
+                    container.band.recordedHeartRate(from, to).map { HrSample(it.timestampMs, it.bpm) }
+                }
             }
         }
     }

@@ -67,6 +67,9 @@ class BandManager(private val context: Context, private val scope: CoroutineScop
         log.add("Pulsera elegida: ${candidate.name} (${candidate.address})")
     }
 
+    /** Heart rate recorded in direct mode (band.db) between [fromMs] and [toMs]. Blocking: call on IO. */
+    fun recordedHeartRate(fromMs: Long, toMs: Long): List<HeartRateSample> = database.heartRateSamples(fromMs, toMs)
+
     // ---- screen lifecycle and actions ----
 
     fun onUiVisible() = controller.onUiVisible()

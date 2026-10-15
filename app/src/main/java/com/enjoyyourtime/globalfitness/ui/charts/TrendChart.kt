@@ -76,7 +76,7 @@ fun TrendChart(
     height: Dp = 240.dp,
 ) {
     val colors = ChartTheme.colors
-    val surface = MaterialTheme.colorScheme.surface
+    val surface = ChartTheme.surface
     val tooltipBackground = MaterialTheme.colorScheme.surfaceContainerHigh
     val tooltipBorder = MaterialTheme.colorScheme.outlineVariant
     val textMeasurer = rememberTextMeasurer(cacheSize = 48)
@@ -273,7 +273,7 @@ fun TrendChart(
 
 @Composable
 private fun ChartLegend(colors: ChartColors) {
-    val surface = MaterialTheme.colorScheme.surface
+    val surface = ChartTheme.surface
     Row(
         modifier = Modifier.padding(bottom = 8.dp),
         verticalAlignment = Alignment.CenterVertically,

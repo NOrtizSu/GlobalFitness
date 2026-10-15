@@ -1,20 +1,23 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.enjoyyourtime.globalfitness.ui
 
-import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -25,20 +28,16 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -46,63 +45,63 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.enjoyyourtime.globalfitness.ble.ScaleScanner
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.enjoyyourtime.globalfitness.domain.Metric
-import com.enjoyyourtime.globalfitness.ui.components.AppIcons
-import com.enjoyyourtime.globalfitness.ui.components.ProfileDot
-import com.enjoyyourtime.globalfitness.ui.screens.ChartRange
-import com.enjoyyourtime.globalfitness.ui.screens.ChartsScreen
-import com.enjoyyourtime.globalfitness.ui.screens.HistoryScreen
-import com.enjoyyourtime.globalfitness.ui.screens.HomeScreen
-import com.enjoyyourtime.globalfitness.ui.screens.ManualEntryDialog
-import com.enjoyyourtime.globalfitness.ui.screens.MeasurementDetailSheet
-import com.enjoyyourtime.globalfitness.ui.devices.ScaleDevicesScreen
-import com.enjoyyourtime.globalfitness.ui.screens.OnboardingScreen
-import com.enjoyyourtime.globalfitness.ui.screens.ProfilesScreen
-import kotlinx.coroutines.launch
+import com.enjoyyourtime.globalfitness.ui.account.AccountScreen
+import com.enjoyyourtime.globalfitness.ui.account.AccountViewModel
+import com.enjoyyourtime.globalfitness.ui.ads.AdBanner
+import com.enjoyyourtime.globalfitness.ui.band.BandActivity
+import com.enjoyyourtime.globalfitness.ui.body.BodyScreen
+import com.enjoyyourtime.globalfitness.ui.body.ChartRange
+import com.enjoyyourtime.globalfitness.ui.body.ManualEntryDialog
+import com.enjoyyourtime.globalfitness.ui.components.LocalAppSnackbar
+import com.enjoyyourtime.globalfitness.ui.devices.DevicesScreen
+import com.enjoyyourtime.globalfitness.ui.health.ActivityScreen
+import com.enjoyyourtime.globalfitness.ui.health.HealthViewModel
+import com.enjoyyourtime.globalfitness.ui.navigation.Routes
+import com.enjoyyourtime.globalfitness.ui.navigation.TopLevel
+import com.enjoyyourtime.globalfitness.ui.onboarding.OnboardingFlow
+import com.enjoyyourtime.globalfitness.ui.premium.RemoveAdsScreen
+import com.enjoyyourtime.globalfitness.ui.profile.OpenSourceScreen
+import com.enjoyyourtime.globalfitness.ui.profile.PrivacyPolicyScreen
+import com.enjoyyourtime.globalfitness.ui.profile.ProfileScreen
+import com.enjoyyourtime.globalfitness.ui.theme.AppMotion
+import com.enjoyyourtime.globalfitness.ui.today.TodayScreen
+import com.enjoyyourtime.globalfitness.ui.today.TodayStatus
 
-enum class Tab(val label: String) {
-    HOME("Inicio"),
-    CHARTS("Gráficos"),
-    HISTORY("Historial"),
-    PROFILES("Perfiles"),
-}
-
-private fun Tab.icon(): ImageVector = when (this) {
-    Tab.HOME -> Icons.Filled.Home
-    Tab.CHARTS -> AppIcons.ShowChart
-    Tab.HISTORY -> AppIcons.History
-    Tab.PROFILES -> Icons.Filled.Person
-}
-
+/** Single-activity root: loading → onboarding (first launch) → the five sections. */
 @Composable
-fun AppRoot(vm: MainViewModel = viewModel(factory = MainViewModel.Factory)) {
+fun AppRoot() {
+    // Activity-scoped: shared by every section.
+    val vm: MainViewModel = viewModel(factory = MainViewModel.Factory)
+    val healthVm: HealthViewModel = viewModel(factory = HealthViewModel.Factory)
     val state by vm.uiState.collectAsStateWithLifecycle()
-    val scanStatus by vm.scanStatus.collectAsStateWithLifecycle()
-    val live by vm.live.collectAsStateWithLifecycle()
-    val debug by vm.debug.collectAsStateWithLifecycle()
     val loadError by vm.loadError.collectAsStateWithLifecycle()
     val rationaleSeen by vm.permissionRationaleSeen.collectAsStateWithLifecycle()
 
-    val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
     val snackbar = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
     val access = rememberBleAccess(
         rationaleSeen = rationaleSeen,
         onRationaleSeen = vm::markPermissionRationaleSeen,
         onChanged = vm::refreshScanner,
     )
+    val healthPermissions = rememberLauncherForActivityResult(healthVm.permissionContract) { healthVm.onPermissionsResult() }
+    val connectHealth = { healthPermissions.launch(healthVm.requestedPermissions()) }
 
     LaunchedEffect(Unit) {
         vm.events.collect { event ->
             when (event) {
                 is UiEvent.Message -> {
                     if (event.haptic) haptic.performHapticFeedback(HapticFeedbackType.Confirm)
-                    scope.launch {
-                        snackbar.currentSnackbarData?.dismiss()
-                        snackbar.showSnackbar(event.text, withDismissAction = true, duration = SnackbarDuration.Short)
-                    }
+                    snackbar.currentSnackbarData?.dismiss()
+                    snackbar.showSnackbar(event.text, withDismissAction = true, duration = SnackbarDuration.Short)
                 }
             }
         }
@@ -123,134 +122,187 @@ fun AppRoot(vm: MainViewModel = viewModel(factory = MainViewModel.Factory)) {
         }
         return
     }
-    if (state.profiles.isEmpty()) {
-        OnboardingScreen(onCreate = vm::createProfile)
+
+    // Decided once the data is loaded: a first launch walks through the onboarding to the end.
+    var onboarding by rememberSaveable { mutableStateOf<Boolean?>(null) }
+    if (onboarding == null) onboarding = state.profile == null
+    if (onboarding == true || state.profile == null) {
+        val accountVm: AccountViewModel = viewModel(factory = AccountViewModel.Factory)
+        OnboardingFlow(
+            vm = vm,
+            accountVm = accountVm,
+            healthVm = healthVm,
+            access = access,
+            snackbar = snackbar,
+            onConnectHealth = connectHealth,
+            onFinished = { onboarding = false },
+        )
         return
     }
 
-    // Ask for Bluetooth permissions once, right after onboarding / on first launch.
-    var permissionAsked by rememberSaveable { mutableStateOf(false) }
-    LaunchedEffect(Unit) {
-        if (!permissionAsked && !ScaleScanner.hasScanPermission(context)) {
-            permissionAsked = true
-            access.requestPermissions()
-        }
+    CompositionLocalProvider(LocalAppSnackbar provides snackbar) {
+        MainScaffold(vm, healthVm, access, snackbar, connectHealth)
     }
+}
 
-    var tab by rememberSaveable { mutableStateOf(Tab.HOME) }
-    var chartMetric by rememberSaveable { mutableStateOf(Metric.WEIGHT) }
-    var chartRange by rememberSaveable { mutableStateOf(ChartRange.M3) }
+@Composable
+private fun MainScaffold(
+    vm: MainViewModel,
+    healthVm: HealthViewModel,
+    access: BleAccess,
+    snackbar: SnackbarHostState,
+    connectHealth: () -> Unit,
+) {
+    val navController = rememberNavController()
+    val backStack by navController.currentBackStackEntryAsState()
+    val route = backStack?.destination?.route
+    val section = TopLevel.of(route)
+    val context = LocalContext.current
+    val activity = LocalActivity.current
+
+    var bodyMetric by rememberSaveable { mutableStateOf(Metric.WEIGHT) }
+    var bodyRange by rememberSaveable { mutableStateOf(ChartRange.M3) }
     var showManual by rememberSaveable { mutableStateOf(false) }
-    var detailId by rememberSaveable { mutableLongStateOf(-1L) }
-    var showScales by rememberSaveable { mutableStateOf(false) }
 
-    // Temporary entry point to the scales screen (navigation is integrated by the UI redesign).
-    if (showScales) {
-        BackHandler { showScales = false }
-        ScaleDevicesScreen(onBack = { showScales = false })
-        return
+    // Interstitial opportunity on every section change (not on the first one, not on sub-pages).
+    var lastSection by rememberSaveable { mutableStateOf<String?>(null) }
+    LaunchedEffect(section) {
+        val current = section?.route ?: return@LaunchedEffect
+        val previous = lastSection
+        lastSection = current
+        if (previous != null && previous != current) activity?.let(vm::onSectionChanged)
     }
+
+    val openBand = { context.startActivity(BandActivity.intent(context)) }
 
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    val selected = state.selectedProfile
-                    if (selected != null) {
-                        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 8.dp)) {
-                            ProfileDot(selected.colorIndex)
-                            Spacer(Modifier.width(10.dp))
-                            Text(selected.name, style = MaterialTheme.typography.titleLarge, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        contentWindowInsets = WindowInsets(0),
+        bottomBar = {
+            AnimatedVisibility(visible = section != null, enter = expandVertically() + fadeIn(), exit = shrinkVertically() + fadeOut()) {
+                Column {
+                    AdBanner()
+                    NavigationBar {
+                        TopLevel.entries.forEach { item ->
+                            val selected = item == section
+                            NavigationBarItem(
+                                selected = selected,
+                                onClick = { navController.navigateToSection(item) },
+                                icon = { Icon(if (selected) item.selectedIcon else item.icon, contentDescription = null) },
+                                label = { Text(item.label, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                            )
                         }
                     }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface),
-            )
-        },
-        bottomBar = {
-            NavigationBar {
-                Tab.entries.forEach { t ->
-                    NavigationBarItem(
-                        selected = tab == t,
-                        onClick = { tab = t },
-                        icon = { Icon(t.icon(), contentDescription = null) },
-                        label = { Text(t.label) },
-                    )
                 }
             }
         },
         floatingActionButton = {
-            if (tab == Tab.HISTORY && state.selectedProfile != null) {
+            if (section == TopLevel.BODY) {
                 ExtendedFloatingActionButton(
                     onClick = { showManual = true },
                     icon = { Icon(Icons.Filled.Add, contentDescription = null) },
-                    text = { Text("Añadir manual") },
+                    text = { Text("Añadir peso manual") },
                 )
             }
         },
         snackbarHost = { SnackbarHost(snackbar) },
     ) { padding ->
-        Box(Modifier.padding(padding).fillMaxSize()) {
-            when (tab) {
-                Tab.HOME -> HomeScreen(
+        NavHost(
+            navController = navController,
+            startDestination = TopLevel.TODAY.route,
+            modifier = Modifier.padding(padding).consumeWindowInsets(padding),
+            enterTransition = { fadeIn(AppMotion.effects()) },
+            exitTransition = { fadeOut(AppMotion.effects()) },
+        ) {
+            composable(TopLevel.TODAY.route) {
+                val live by vm.live.collectAsStateWithLifecycle()
+                val sessions by vm.sessions.collectAsStateWithLifecycle()
+                val scanStatus by vm.scanStatus.collectAsStateWithLifecycle()
+                val health by healthVm.uiState.collectAsStateWithLifecycle()
+                val dashboard by healthVm.dashboard.collectAsStateWithLifecycle()
+                val user by vm.accountUser.collectAsStateWithLifecycle()
+                val cloud by vm.cloudStatus.collectAsStateWithLifecycle()
+                val band by vm.band.collectAsStateWithLifecycle()
+                val state by vm.uiState.collectAsStateWithLifecycle()
+                TodayScreen(
                     state = state,
-                    scanStatus = scanStatus,
-                    live = live,
+                    status = TodayStatus(scanStatus, live, sessions, health, dashboard, user, cloud, band),
                     access = access,
                     onRetryScan = vm::refreshScanner,
+                    onConnectHealth = connectHealth,
+                    onInstallHealth = { healthVm.openPlayStore() },
                     onOpenMetric = { metric ->
-                        chartMetric = metric
-                        tab = Tab.CHARTS
+                        bodyMetric = metric
+                        navController.navigateToSection(TopLevel.BODY)
                     },
-                )
-                Tab.CHARTS -> ChartsScreen(
-                    state = state,
-                    metric = chartMetric,
-                    onMetric = { chartMetric = it },
-                    range = chartRange,
-                    onRange = { chartRange = it },
-                )
-                Tab.HISTORY -> HistoryScreen(
-                    state = state,
-                    onOpen = { detailId = it.id },
-                )
-                Tab.PROFILES -> ProfilesScreen(
-                    state = state,
-                    scanStatus = scanStatus,
-                    live = live,
-                    debug = debug,
-                    onUpdate = vm::updateProfile,
-                    onOpenScales = { showScales = true },
-                    onExport = { vm.exportCsv(context.contentResolver, it) },
-                    onImport = { vm.importCsv(context.contentResolver, it) },
+                    onAddWeight = { showManual = true },
+                    onOpenAccount = { navController.navigate(Routes.ACCOUNT) },
+                    onOpenDevices = { navController.navigateToSection(TopLevel.DEVICES) },
+                    onOpenActivity = { navController.navigateToSection(TopLevel.ACTIVITY) },
+                    onOpenBand = openBand,
                 )
             }
+            composable(TopLevel.BODY.route) {
+                val state by vm.uiState.collectAsStateWithLifecycle()
+                BodyScreen(
+                    state = state,
+                    metric = bodyMetric,
+                    onMetric = { bodyMetric = it },
+                    range = bodyRange,
+                    onRange = { bodyRange = it },
+                    onDelete = vm::deleteMeasurement,
+                )
+            }
+            composable(TopLevel.ACTIVITY.route) {
+                ActivityScreen(healthVm, onConnect = connectHealth)
+            }
+            composable(TopLevel.DEVICES.route) {
+                DevicesScreen(vm, healthVm, onConnectHealth = connectHealth, onOpenBand = openBand)
+            }
+            composable(TopLevel.PROFILE.route) {
+                ProfileScreen(
+                    vm = vm,
+                    healthVm = healthVm,
+                    onConnectHealth = connectHealth,
+                    onOpenAccount = { navController.navigate(Routes.ACCOUNT) },
+                    onOpenRemoveAds = { navController.navigate(Routes.REMOVE_ADS) },
+                    onOpenPrivacyPolicy = { navController.navigate(Routes.PRIVACY_POLICY) },
+                    onOpenLicenses = { navController.navigate(Routes.LICENSES) },
+                )
+            }
+            subPage(Routes.ACCOUNT) { AccountScreen(onBack = { navController.popBackStack() }) }
+            subPage(Routes.REMOVE_ADS) { RemoveAdsScreen(onBack = { navController.popBackStack() }) }
+            subPage(Routes.PRIVACY_POLICY) { PrivacyPolicyScreen(onBack = { navController.popBackStack() }) }
+            subPage(Routes.LICENSES) { OpenSourceScreen(onBack = { navController.popBackStack() }) }
         }
-    }
-
-    val detail = state.entries.firstOrNull { it.measurement.id == detailId }?.measurement
-    if (detail != null) {
-        MeasurementDetailSheet(
-            measurement = detail,
-            profile = state.selectedProfile,
-            onDelete = {
-                vm.deleteMeasurement(detail.id)
-                detailId = -1L
-            },
-            onDismiss = { detailId = -1L },
-        )
     }
 
     if (showManual) {
-        state.selectedProfile?.let { profile ->
-            ManualEntryDialog(
-                profileName = profile.name,
-                onSave = { weight, timestamp ->
-                    vm.addManual(weight, timestamp)
-                    showManual = false
-                },
-                onDismiss = { showManual = false },
-            )
-        }
+        ManualEntryDialog(
+            onSave = { weight, timestamp ->
+                vm.addManual(weight, timestamp)
+                showManual = false
+            },
+            onDismiss = { showManual = false },
+        )
+    }
+}
+
+/** Sub-pages slide in from the end and back out (also with the predictive back gesture). */
+private fun NavGraphBuilder.subPage(route: String, content: @Composable () -> Unit) {
+    composable(
+        route,
+        enterTransition = { slideInHorizontally(AppMotion.spatial()) { it / 3 } + fadeIn(AppMotion.effects()) },
+        exitTransition = { fadeOut(AppMotion.effects()) },
+        popEnterTransition = { fadeIn(AppMotion.effects()) },
+        popExitTransition = { slideOutHorizontally(AppMotion.spatial()) { it / 3 } + fadeOut(AppMotion.effects()) },
+    ) { content() }
+}
+
+/** Bottom-bar navigation: one copy of each section, state saved and restored when switching. */
+private fun NavHostController.navigateToSection(section: TopLevel) {
+    navigate(section.route) {
+        popUpTo(graph.findStartDestination().id) { saveState = true }
+        launchSingleTop = true
+        restoreState = true
     }
 }

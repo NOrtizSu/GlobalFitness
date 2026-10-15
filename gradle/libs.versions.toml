@@ -5,6 +5,8 @@ coreKtx = "1.17.0"
 activityCompose = "1.12.2"
 lifecycle = "2.10.0"
 composeBom = "2025.12.01"
+# 2.9.x: the latest line built for Compose 1.10 / activity 1.12 (2.10 pulls newer Compose and activity).
+navigationCompose = "2.9.8"
 junit = "4.13.2"
 # 3.25.x: the protobuf-javalite runtime Firebase Firestore 26.x is built against (4.x breaks its gencode).
 protobuf = "3.25.5"
@@ -34,6 +36,7 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 androidx-compose-material-icons-core = { group = "androidx.compose.material", name = "material-icons-core" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 protobuf-javalite = { group = "com.google.protobuf", name = "protobuf-javalite", version.ref = "protobuf" }
 protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }

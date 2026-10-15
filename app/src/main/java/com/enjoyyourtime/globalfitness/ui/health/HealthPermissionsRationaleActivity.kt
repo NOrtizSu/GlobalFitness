@@ -71,8 +71,9 @@ private fun RationaleScreen(onClose: () -> Unit) {
                     "basal y agua corporal. Si borras una medición en la app, también se borra de Health Connect.",
             )
             Paragraph(
-                "Los datos se guardan solo en este teléfono. La app no tiene servidores ni cuentas y no envía ni " +
-                    "comparte tus datos con nadie. Los usa únicamente para mostrarte resúmenes y gráficos.",
+                "Los datos leídos de Health Connect se guardan solo en este teléfono: no se suben a la copia en la " +
+                    "nube opcional, no se usan para publicidad y no se comparten con nadie. La app los usa " +
+                    "únicamente para mostrarte resúmenes y gráficos.",
             )
             Paragraph(
                 "Puedes retirar cualquier permiso cuando quieras desde Health Connect; la app deja de leer ese tipo " +

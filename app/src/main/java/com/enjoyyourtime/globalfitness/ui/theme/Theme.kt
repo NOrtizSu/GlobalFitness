@@ -1,112 +1,168 @@
 package com.enjoyyourtime.globalfitness.ui.theme
 
+import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.animation.core.FiniteAnimationSpec
+import androidx.compose.animation.core.spring
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.takeOrElse
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.enjoyyourtime.globalfitness.domain.Status
 
+// Fallback scheme for Android 11 and lower: Material "tonal spot" generated from the brand blue
+// #2A78D6 (the same algorithm Android 12+ uses for wallpaper colors).
 private val LightColors = lightColorScheme(
-    primary = Color(0xFF2368C4),
+    primary = Color(0xFF3F5F90),
     onPrimary = Color(0xFFFFFFFF),
-    primaryContainer = Color(0xFFD6E3FF),
-    onPrimaryContainer = Color(0xFF001B3E),
+    primaryContainer = Color(0xFFD5E3FF),
+    onPrimaryContainer = Color(0xFF254777),
     inversePrimary = Color(0xFFA8C8FF),
     secondary = Color(0xFF555F71),
     onSecondary = Color(0xFFFFFFFF),
     secondaryContainer = Color(0xFFD9E3F8),
-    onSecondaryContainer = Color(0xFF121C2B),
-    tertiary = Color(0xFF6E5676),
+    onSecondaryContainer = Color(0xFF3E4758),
+    tertiary = Color(0xFF6F5675),
     onTertiary = Color(0xFFFFFFFF),
-    tertiaryContainer = Color(0xFFF7D8FF),
-    onTertiaryContainer = Color(0xFF27132F),
-    background = Color(0xFFFCFCFB),
-    onBackground = Color(0xFF1B1B1A),
-    surface = Color(0xFFFCFCFB),
-    onSurface = Color(0xFF1B1B1A),
-    surfaceVariant = Color(0xFFE6E5DF),
-    onSurfaceVariant = Color(0xFF4A4945),
-    surfaceTint = Color(0xFF2368C4),
-    inverseSurface = Color(0xFF30302E),
-    inverseOnSurface = Color(0xFFF3F2EE),
+    tertiaryContainer = Color(0xFFF8D8FE),
+    onTertiaryContainer = Color(0xFF563E5D),
+    background = Color(0xFFF9F9FF),
+    onBackground = Color(0xFF191C20),
+    surface = Color(0xFFF9F9FF),
+    onSurface = Color(0xFF191C20),
+    surfaceVariant = Color(0xFFE0E2EC),
+    onSurfaceVariant = Color(0xFF43474E),
+    surfaceTint = Color(0xFF3F5F90),
+    inverseSurface = Color(0xFF2E3035),
+    inverseOnSurface = Color(0xFFF0F0F7),
     error = Color(0xFFBA1A1A),
     onError = Color(0xFFFFFFFF),
     errorContainer = Color(0xFFFFDAD6),
-    onErrorContainer = Color(0xFF410002),
-    outline = Color(0xFF7A7973),
-    outlineVariant = Color(0xFFCBCAC3),
+    onErrorContainer = Color(0xFF93000A),
+    outline = Color(0xFF74777F),
+    outlineVariant = Color(0xFFC4C6CF),
     scrim = Color(0xFF000000),
-    surfaceBright = Color(0xFFFCFCFB),
-    surfaceDim = Color(0xFFDCDCD8),
+    surfaceBright = Color(0xFFF9F9FF),
+    surfaceDim = Color(0xFFD9D9E0),
     surfaceContainerLowest = Color(0xFFFFFFFF),
-    surfaceContainerLow = Color(0xFFF6F6F3),
-    surfaceContainer = Color(0xFFF0F0ED),
-    surfaceContainerHigh = Color(0xFFEAEAE6),
-    surfaceContainerHighest = Color(0xFFE4E4E0),
+    surfaceContainerLow = Color(0xFFF3F3FA),
+    surfaceContainer = Color(0xFFEDEDF4),
+    surfaceContainerHigh = Color(0xFFE7E8EE),
+    surfaceContainerHighest = Color(0xFFE1E2E9),
 )
 
 private val DarkColors = darkColorScheme(
     primary = Color(0xFFA8C8FF),
-    onPrimary = Color(0xFF003062),
-    primaryContainer = Color(0xFF1F4F95),
-    onPrimaryContainer = Color(0xFFD6E3FF),
-    inversePrimary = Color(0xFF2368C4),
+    onPrimary = Color(0xFF06305F),
+    primaryContainer = Color(0xFF254777),
+    onPrimaryContainer = Color(0xFFD5E3FF),
+    inversePrimary = Color(0xFF3F5F90),
     secondary = Color(0xFFBDC7DC),
     onSecondary = Color(0xFF273141),
-    secondaryContainer = Color(0xFF3E4759),
+    secondaryContainer = Color(0xFF3E4758),
     onSecondaryContainer = Color(0xFFD9E3F8),
-    tertiary = Color(0xFFDABDE2),
-    onTertiary = Color(0xFF3D2946),
-    tertiaryContainer = Color(0xFF553F5D),
-    onTertiaryContainer = Color(0xFFF7D8FF),
-    background = Color(0xFF1A1A19),
-    onBackground = Color(0xFFE6E5E1),
-    surface = Color(0xFF1A1A19),
-    onSurface = Color(0xFFE6E5E1),
-    surfaceVariant = Color(0xFF3A3A37),
-    onSurfaceVariant = Color(0xFFC9C8C0),
+    tertiary = Color(0xFFDBBCE1),
+    onTertiary = Color(0xFF3E2845),
+    tertiaryContainer = Color(0xFF563E5D),
+    onTertiaryContainer = Color(0xFFF8D8FE),
+    background = Color(0xFF111318),
+    onBackground = Color(0xFFE1E2E9),
+    surface = Color(0xFF111318),
+    onSurface = Color(0xFFE1E2E9),
+    surfaceVariant = Color(0xFF43474E),
+    onSurfaceVariant = Color(0xFFC4C6CF),
     surfaceTint = Color(0xFFA8C8FF),
-    inverseSurface = Color(0xFFE6E5E1),
-    inverseOnSurface = Color(0xFF30302E),
+    inverseSurface = Color(0xFFE1E2E9),
+    inverseOnSurface = Color(0xFF2E3035),
     error = Color(0xFFFFB4AB),
     onError = Color(0xFF690005),
     errorContainer = Color(0xFF93000A),
     onErrorContainer = Color(0xFFFFDAD6),
-    outline = Color(0xFF93928B),
-    outlineVariant = Color(0xFF45453F),
+    outline = Color(0xFF8E9099),
+    outlineVariant = Color(0xFF43474E),
     scrim = Color(0xFF000000),
-    surfaceBright = Color(0xFF3A3A38),
-    surfaceDim = Color(0xFF1A1A19),
-    surfaceContainerLowest = Color(0xFF141413),
-    surfaceContainerLow = Color(0xFF1F1F1E),
-    surfaceContainer = Color(0xFF242423),
-    surfaceContainerHigh = Color(0xFF2C2C2A),
-    surfaceContainerHighest = Color(0xFF363634),
+    surfaceBright = Color(0xFF37393E),
+    surfaceDim = Color(0xFF111318),
+    surfaceContainerLowest = Color(0xFF0C0E13),
+    surfaceContainerLow = Color(0xFF191C20),
+    surfaceContainer = Color(0xFF1D2024),
+    surfaceContainerHigh = Color(0xFF282A2F),
+    surfaceContainerHighest = Color(0xFF33353A),
 )
 
-/** Data-visualisation tokens (separate from the M3 scheme). */
+/**
+ * Material 3 Expressive motion tokens, emulated: material3 1.4.0 keeps MotionScheme and
+ * MaterialExpressiveTheme internal, so the app's own animations use these springs (slightly bouncy
+ * for movement and size, critically damped for color and alpha).
+ */
+object AppMotion {
+    fun <T> spatial(): FiniteAnimationSpec<T> = spring(dampingRatio = 0.8f, stiffness = 380f)
+
+    fun <T> slowSpatial(): FiniteAnimationSpec<T> = spring(dampingRatio = 0.8f, stiffness = 200f)
+
+    fun <T> effects(): FiniteAnimationSpec<T> = spring(dampingRatio = 1f, stiffness = 1600f)
+}
+
+/** Expressive look on stable APIs: generously rounded containers. */
+private val AppShapes = Shapes(
+    extraSmall = RoundedCornerShape(8.dp),
+    small = RoundedCornerShape(12.dp),
+    medium = RoundedCornerShape(16.dp),
+    large = RoundedCornerShape(24.dp),
+    extraLarge = RoundedCornerShape(32.dp),
+)
+
+/** Emphasized display / headline / title weights over the default type scale. */
+private val AppTypography = Typography().let { base ->
+    base.copy(
+        displayLarge = base.displayLarge.copy(fontWeight = FontWeight.SemiBold, letterSpacing = (-0.5).sp),
+        displayMedium = base.displayMedium.copy(fontWeight = FontWeight.SemiBold, letterSpacing = (-0.25).sp),
+        displaySmall = base.displaySmall.copy(fontWeight = FontWeight.SemiBold),
+        headlineLarge = base.headlineLarge.copy(fontWeight = FontWeight.SemiBold),
+        headlineMedium = base.headlineMedium.copy(fontWeight = FontWeight.SemiBold),
+        headlineSmall = base.headlineSmall.copy(fontWeight = FontWeight.SemiBold),
+        titleLarge = base.titleLarge.copy(fontWeight = FontWeight.SemiBold),
+        titleMedium = base.titleMedium.copy(fontWeight = FontWeight.SemiBold),
+        titleSmall = base.titleSmall.copy(fontWeight = FontWeight.SemiBold),
+        labelLarge = base.labelLarge.copy(fontWeight = FontWeight.SemiBold),
+    )
+}
+
+/**
+ * Data-visualisation tokens: a fixed palette, independent of the (dynamic) Material scheme so
+ * series and status colors mean the same on every phone. Chart text uses [ink] / [mutedInk].
+ */
 @Immutable
 data class ChartColors(
     val series1: Color,
     val series2: Color,
     val series3: Color,
+    /** Fourth categorical color (deep sleep). */
+    val series4: Color,
     val gridline: Color,
     val axis: Color,
     val mutedInk: Color,
     val ink: Color,
-    val surface: Color,
     val good: Color,
     val warning: Color,
     val serious: Color,
     val critical: Color,
-    val profileColors: List<Color>,
 ) {
     fun status(status: Status): Color = when (status) {
         Status.GOOD -> good
@@ -114,8 +170,6 @@ data class ChartColors(
         Status.SERIOUS -> serious
         Status.CRITICAL -> critical
     }
-
-    fun profile(colorIndex: Int): Color = profileColors[Math.floorMod(colorIndex, profileColors.size)]
 }
 
 private val StatusGood = Color(0xFF0CA30C)
@@ -128,67 +182,67 @@ private val LightChartColors = ChartColors(
     series1 = Color(0xFF2A78D6),
     series2 = Color(0xFFEB6834),
     series3 = Color(0xFF1BAF7A),
+    series4 = Color(0xFF4A3AA7),
     gridline = Color(0xFFE1E0D9),
     axis = Color(0xFFC3C2B7),
     mutedInk = MutedInk,
     ink = Color(0xFF1B1B1A),
-    surface = Color(0xFFFCFCFB),
     good = StatusGood,
     warning = StatusWarning,
     serious = StatusSerious,
     critical = StatusCritical,
-    profileColors = listOf(
-        Color(0xFF2A78D6), // blue
-        Color(0xFFEB6834), // orange
-        Color(0xFF1BAF7A), // aqua
-        Color(0xFFEDA100), // yellow
-        Color(0xFFE87BA4), // magenta
-        Color(0xFF008300), // green
-        Color(0xFF4A3AA7), // violet
-        Color(0xFFE34948), // red
-    ),
 )
 
 private val DarkChartColors = ChartColors(
     series1 = Color(0xFF3987E5),
     series2 = Color(0xFFD95926),
     series3 = Color(0xFF199E70),
+    series4 = Color(0xFF9085E9),
     gridline = Color(0xFF2C2C2A),
     axis = Color(0xFF383835),
     mutedInk = MutedInk,
     ink = Color(0xFFE6E5E1),
-    surface = Color(0xFF1A1A19),
     good = StatusGood,
     warning = StatusWarning,
     serious = StatusSerious,
     critical = StatusCritical,
-    profileColors = listOf(
-        Color(0xFF3987E5),
-        Color(0xFFD95926),
-        Color(0xFF199E70),
-        Color(0xFFC98500),
-        Color(0xFFD55181),
-        Color(0xFF008300),
-        Color(0xFF9085E9),
-        Color(0xFFE66767),
-    ),
 )
 
 val LocalChartColors = staticCompositionLocalOf { LightChartColors }
 
+/** Container color behind a chart (point halos and label chips match it); unspecified = surface. */
+val LocalChartSurface = compositionLocalOf { Color.Unspecified }
+
 /** Tabular figures so numbers do not jitter while updating. */
 val TabularNumbers = TextStyle(fontFeatureSettings = "tnum")
 
+/**
+ * Material You: wallpaper-based dynamic color on Android 12+, the blue fallback scheme before;
+ * light / dark follow the system. Charts keep [ChartColors] regardless of the scheme.
+ */
 @Composable
-fun GlobalFitnessTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
-    val colors = if (darkTheme) DarkColors else LightColors
+fun GlobalFitnessTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    dynamicColor: Boolean = true,
+    content: @Composable () -> Unit,
+) {
+    val context = LocalContext.current
+    val colors = when {
+        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ->
+            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+        darkTheme -> DarkColors
+        else -> LightColors
+    }
     val chartColors = if (darkTheme) DarkChartColors else LightChartColors
     CompositionLocalProvider(LocalChartColors provides chartColors) {
-        MaterialTheme(colorScheme = colors, typography = Typography(), content = content)
+        MaterialTheme(colorScheme = colors, shapes = AppShapes, typography = AppTypography, content = content)
     }
 }
 
 object ChartTheme {
     val colors: ChartColors
         @Composable get() = LocalChartColors.current
+
+    val surface: Color
+        @Composable get() = LocalChartSurface.current.takeOrElse { MaterialTheme.colorScheme.surface }
 }

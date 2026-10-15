@@ -2,24 +2,19 @@
 
 package com.enjoyyourtime.globalfitness.ui.health
 
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Refresh
@@ -32,16 +27,12 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -53,7 +44,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.enjoyyourtime.globalfitness.domain.Classification
 import com.enjoyyourtime.globalfitness.health.HcAvailability
 import com.enjoyyourtime.globalfitness.health.HealthDataType
@@ -63,9 +53,11 @@ import com.enjoyyourtime.globalfitness.health.SleepStage
 import com.enjoyyourtime.globalfitness.health.domain.HealthStats
 import com.enjoyyourtime.globalfitness.health.domain.HeartRateZones
 import com.enjoyyourtime.globalfitness.ui.Fmt
+import com.enjoyyourtime.globalfitness.ui.components.AppCard
 import com.enjoyyourtime.globalfitness.ui.components.Dot
 import com.enjoyyourtime.globalfitness.ui.components.SectionTitle
 import com.enjoyyourtime.globalfitness.ui.components.StatusChip
+import com.enjoyyourtime.globalfitness.ui.components.TabPage
 import com.enjoyyourtime.globalfitness.ui.theme.ChartTheme
 import com.enjoyyourtime.globalfitness.ui.theme.TabularNumbers
 import java.time.LocalDate
@@ -74,8 +66,13 @@ import kotlin.math.roundToInt
 
 private const val SLEEP_CHART_NIGHTS = 14
 
+/**
+ * "Actividad": what the band or watch wrote to Health Connect (today, steps, heart rate, sleep,
+ * SpO2, workouts) plus the sync status. Connection and permissions live in Dispositivos and the
+ * scale export switch in Perfil.
+ */
 @Composable
-fun HealthScreen(onBack: () -> Unit, vm: HealthViewModel = viewModel(factory = HealthViewModel.Factory)) {
+fun ActivityScreen(vm: HealthViewModel, onConnect: () -> Unit) {
     val state by vm.uiState.collectAsStateWithLifecycle()
     val dashboard by vm.dashboard.collectAsStateWithLifecycle()
     val detail by vm.detail.collectAsStateWithLifecycle()
@@ -85,70 +82,42 @@ fun HealthScreen(onBack: () -> Unit, vm: HealthViewModel = viewModel(factory = H
         vm.onResume()
         onPauseOrDispose { }
     }
-    val permissionLauncher = rememberLauncherForActivityResult(vm.permissionContract) { vm.onPermissionsResult() }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Salud · Health Connect") },
-                navigationIcon = {
-                    IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver") }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface),
-            )
-        },
-    ) { padding ->
-        LazyColumn(
-            modifier = Modifier.padding(padding).fillMaxSize(),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
+    TabPage(title = "Actividad") {
+        val available = state.availability == HcAvailability.AVAILABLE
+        if (!available || !state.canRead) {
             item {
-                ConnectionCard(
+                HealthConnectionCard(
                     state = state,
-                    onConnect = { permissionLauncher.launch(vm.requestedPermissions()) },
+                    onConnect = onConnect,
                     onOpenSettings = { vm.openHealthConnectSettings() },
                     onOpenPlayStore = { vm.openPlayStore() },
                 )
             }
-            val available = state.availability == HcAvailability.AVAILABLE
-            if (available && state.canRead) {
-                item { SyncCard(state, onSync = vm::syncNow) }
-                val d = dashboard
-                if (d != null) {
-                    if (!d.hasData && !state.sync.running) item { NoDataCard() }
-                    // Partial grants: each section is shown only when its data type is readable.
-                    val readable = HealthPermissions.readableTypes(state.granted)
-                    item { SectionTitle("Hoy") }
-                    item { TodayGrid(d) }
-                    if (HealthDataType.STEPS in readable) item { StepsCard(d, stepsRange) { stepsRange = it } }
-                    if (HealthDataType.HEART_RATE in readable) item { HeartRateCard(d, onDay = vm::selectHrDay) }
-                    if (HealthDataType.SLEEP in readable) item { SleepCard(d) }
-                    if (HealthDataType.OXYGEN_SATURATION in readable) item { Spo2Card(d) }
-                    if (HealthDataType.EXERCISE in readable) {
-                        item { SectionTitle("Entrenamientos (90 días)") }
-                        if (d.exercises.isEmpty()) {
-                            item { EmptyText("Sin entrenamientos registrados.") }
-                        } else {
-                            items(d.exercises, key = { it.session.id }) { ExerciseRow(it, onClick = { vm.openExercise(it) }) }
-                        }
-                    }
-                    item { SourcesCard(d) }
-                }
-            }
-            if (available && state.profile != null) {
-                item { SectionTitle("Báscula") }
-                item {
-                    ExportCard(
-                        state = state,
-                        onToggle = vm::setExportEnabled,
-                        onExportHistory = vm::exportHistory,
-                        onRequestPermissions = { permissionLauncher.launch(vm.requestedPermissions()) },
-                    )
-                }
-            }
             item { MiFitnessHelpCard() }
+            return@TabPage
         }
+        item { SyncCard(state, onSync = vm::syncNow) }
+        val d = dashboard ?: return@TabPage
+        if (!d.hasData && !state.sync.running) item { NoDataCard() }
+        // Partial grants: each section is shown only when its data type is readable.
+        val readable = HealthPermissions.readableTypes(state.granted)
+        item { SectionTitle("Hoy") }
+        item { TodayGrid(d) }
+        if (HealthDataType.STEPS in readable) item { StepsCard(d, stepsRange) { stepsRange = it } }
+        if (HealthDataType.HEART_RATE in readable || d.hrDayBand.isNotEmpty()) item { HeartRateCard(d, onDay = vm::selectHrDay) }
+        if (HealthDataType.SLEEP in readable) item { SleepCard(d) }
+        if (HealthDataType.OXYGEN_SATURATION in readable) item { Spo2Card(d) }
+        if (HealthDataType.EXERCISE in readable) {
+            item { SectionTitle("Entrenamientos (90 días)") }
+            if (d.exercises.isEmpty()) {
+                item { EmptyText("Sin entrenamientos registrados.") }
+            } else {
+                items(d.exercises, key = { it.session.id }) { ExerciseRow(it, onClick = { vm.openExercise(it) }) }
+            }
+        }
+        item { SourcesCard(d) }
+        item { MiFitnessHelpCard() }
     }
 
     detail?.let { item ->
@@ -159,16 +128,18 @@ fun HealthScreen(onBack: () -> Unit, vm: HealthViewModel = viewModel(factory = H
 
 // ---- Connection / onboarding --------------------------------------------------------------
 
+/** Health Connect status: install / connect / permissions, and a shortcut to its settings. */
 @Composable
-private fun ConnectionCard(
+fun HealthConnectionCard(
     state: HealthUiState,
     onConnect: () -> Unit,
     onOpenSettings: () -> Unit,
     onOpenPlayStore: () -> Unit,
+    showTitle: Boolean = true,
 ) {
-    OutlinedCard(Modifier.fillMaxWidth()) {
+    AppCard {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text("Health Connect", style = MaterialTheme.typography.titleMedium)
+            if (showTitle) Text("Health Connect", style = MaterialTheme.typography.titleMedium)
             when (state.availability) {
                 HcAvailability.NOT_SUPPORTED -> BodyText(
                     "Health Connect no está disponible en este dispositivo (necesita Android 9 o superior).",
@@ -203,7 +174,7 @@ private fun ConnectionCard(
                         if (state.historyAvailable && !HealthPermissions.historyGranted(state.granted)) {
                             BodyText("Permite «Acceder a datos anteriores» para importar hasta 1 año (ahora: últimos 30 días).")
                         }
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             if (!state.allGranted) FilledTonalButton(onClick = onConnect) { Text("Revisar permisos") }
                             OutlinedButton(onClick = onOpenSettings) { Text("Abrir Health Connect") }
                         }
@@ -226,7 +197,7 @@ private fun StatusLine(text: String, good: Boolean) {
 @Composable
 private fun SyncCard(state: HealthUiState, onSync: () -> Unit) {
     val sync = state.sync
-    OutlinedCard(Modifier.fillMaxWidth()) {
+    AppCard {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(Modifier.weight(1f)) {
@@ -255,7 +226,7 @@ private fun SyncCard(state: HealthUiState, onSync: () -> Unit) {
 
 @Composable
 private fun NoDataCard() {
-    OutlinedCard(Modifier.fillMaxWidth()) {
+    AppCard {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             Text("Aún no hay datos de la pulsera", style = MaterialTheme.typography.titleSmall)
             BodyText(
@@ -268,7 +239,7 @@ private fun NoDataCard() {
 
 @Composable
 private fun MiFitnessHelpCard() {
-    OutlinedCard(Modifier.fillMaxWidth()) {
+    AppCard {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             Text("Conectar la Xiaomi Smart Band con Mi Fitness", style = MaterialTheme.typography.titleSmall)
             BodyText("1. En Mi Fitness: Perfil → Datos de terceros (o «Aplicaciones de terceros») → Health Connect, y activa la sincronización.")
@@ -345,7 +316,7 @@ private fun TodayGrid(d: HealthDashboard) {
 
 @Composable
 private fun Tile(label: String, value: String, sub: String?, modifier: Modifier, chip: Classification? = null) {
-    OutlinedCard(modifier) {
+    AppCard(modifier) {
         Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
             Text(label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Text(value, style = MaterialTheme.typography.titleLarge.merge(TabularNumbers), fontWeight = FontWeight.SemiBold)
@@ -408,7 +379,7 @@ private fun HeartRateCard(d: HealthDashboard, onDay: (LocalDate) -> Unit) {
         }
         val (start, end) = HealthStats.dayBounds(d.hrDay, ZoneId.systemDefault())
         if (d.hrDaySamples.isEmpty()) {
-            EmptyText("Sin datos de pulso este día.")
+            EmptyText("Sin datos de pulso en Health Connect este día.")
         } else {
             HeartRateDayChart(d.hrDaySamples, d.hrDayResting, start, end)
             val stats = HeartRateZones.stats(d.hrDaySamples, start, end - 1)
@@ -418,6 +389,13 @@ private fun HeartRateCard(d: HealthDashboard, onDay: (LocalDate) -> Unit) {
                         (d.hrDayResting?.let { " · en reposo $it lpm" } ?: ""),
                 )
             }
+        }
+        if (d.hrDayBand.isNotEmpty()) {
+            Spacer(Modifier.height(16.dp))
+            Text("Pulsera · modo directo", style = MaterialTheme.typography.titleSmall)
+            SmallText("Pulso en directo registrado por la app con la pulsera conectada (no está en Health Connect).")
+            Spacer(Modifier.height(8.dp))
+            HeartRateDayChart(d.hrDayBand, null, start, end)
         }
         Spacer(Modifier.height(16.dp))
         Text("Últimos 30 días", style = MaterialTheme.typography.titleSmall)
@@ -493,7 +471,7 @@ private fun Spo2Card(d: HealthDashboard) {
 @Composable
 private fun ExerciseRow(item: ExerciseItem, onClick: () -> Unit) {
     val e = item.session
-    OutlinedCard(Modifier.fillMaxWidth().clickable(onClickLabel = "Ver detalles", onClick = onClick)) {
+    AppCard(onClick = onClick, onClickLabel = "Ver detalles") {
         Column(Modifier.padding(horizontal = 16.dp, vertical = 12.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(item.name, style = MaterialTheme.typography.titleSmall, modifier = Modifier.weight(1f))
@@ -569,7 +547,7 @@ private fun DetailRow(label: String, value: String) {
 @Composable
 private fun SourcesCard(d: HealthDashboard) {
     if (d.sources.isEmpty() && d.externalWeight == null) return
-    OutlinedCard(Modifier.fillMaxWidth()) {
+    AppCard {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Text("Fuentes", style = MaterialTheme.typography.titleSmall)
             if (d.sources.isNotEmpty()) BodyText(d.sources.joinToString(", "))
@@ -581,10 +559,11 @@ private fun SourcesCard(d: HealthDashboard) {
     }
 }
 
+/** "Enviar mediciones de la báscula a Health Connect" switch and the history export. */
 @Composable
-private fun ExportCard(state: HealthUiState, onToggle: (Boolean) -> Unit, onExportHistory: () -> Unit, onRequestPermissions: () -> Unit) {
+fun HealthExportCard(state: HealthUiState, onToggle: (Boolean) -> Unit, onExportHistory: () -> Unit, onRequestPermissions: () -> Unit) {
     val export = state.export
-    OutlinedCard(Modifier.fillMaxWidth()) {
+    AppCard {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
@@ -595,9 +574,8 @@ private fun ExportCard(state: HealthUiState, onToggle: (Boolean) -> Unit, onExpo
                 Switch(checked = state.exportEnabled, onCheckedChange = onToggle, enabled = state.canExport)
             }
             BodyText(
-                "Cada medición nueva de ${state.profile?.name ?: "tu perfil"} se guarda como peso, grasa corporal, masa ósea, " +
-                    "masa magra, metabolismo basal y agua corporal (los valores que tenga). Si borras o desasignas una " +
-                    "medición, también se borra de Health Connect.",
+                "Cada medición nueva se guarda como peso, grasa corporal, masa ósea, masa magra, metabolismo basal y " +
+                    "agua corporal (los valores que tenga). Si borras una medición, también se borra de Health Connect.",
             )
             if (!state.canExport) {
                 BodyText("Falta el permiso para escribir el peso en Health Connect.")
@@ -623,7 +601,7 @@ private fun ExportCard(state: HealthUiState, onToggle: (Boolean) -> Unit, onExpo
 
 @Composable
 private fun ChartCard(title: String, content: @Composable () -> Unit) {
-    OutlinedCard(Modifier.fillMaxWidth()) {
+    AppCard {
         Column(Modifier.padding(16.dp)) {
             Text(title, style = MaterialTheme.typography.titleMedium)
             Spacer(Modifier.height(8.dp))
