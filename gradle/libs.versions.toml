@@ -6,7 +6,8 @@ activityCompose = "1.12.2"
 lifecycle = "2.10.0"
 composeBom = "2025.12.01"
 junit = "4.13.2"
-protobuf = "4.36.2"
+# 3.25.x: the protobuf-javalite runtime Firebase Firestore 26.x is built against (4.x breaks its gencode).
+protobuf = "3.25.5"
 protobufPlugin = "0.10.0"
 healthConnect = "1.1.0"
 # Cloud account / ads / billing. Newer majors (Firebase BoM 35 -> firebase-auth 25, googleid 1.2.1)
