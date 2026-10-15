@@ -2,15 +2,17 @@ package com.enjoyyourtime.globalfitness.cloud
 
 import com.enjoyyourtime.globalfitness.cloud.FirestoreCodec.DEVICES
 import com.enjoyyourtime.globalfitness.cloud.FirestoreCodec.Decoded
+import com.enjoyyourtime.globalfitness.cloud.FirestoreCodec.F_DELETED
 import com.enjoyyourtime.globalfitness.cloud.FirestoreCodec.F_DELETED_AT
 import com.enjoyyourtime.globalfitness.cloud.FirestoreCodec.F_PREMIUM
-import com.enjoyyourtime.globalfitness.cloud.FirestoreCodec.F_SCHEMA
 import com.enjoyyourtime.globalfitness.cloud.FirestoreCodec.F_UPDATED_AT
 import com.enjoyyourtime.globalfitness.cloud.FirestoreCodec.MEASUREMENTS
 import com.enjoyyourtime.globalfitness.cloud.FirestoreCodec.META
 import com.enjoyyourtime.globalfitness.cloud.FirestoreCodec.PROFILE_DOC
+import com.enjoyyourtime.globalfitness.cloud.FirestoreCodec.PROFILE_FIELDS
 import com.enjoyyourtime.globalfitness.cloud.FirestoreCodec.SETTINGS_DOC
 import com.enjoyyourtime.globalfitness.cloud.FirestoreCodec.USERS
+import com.google.android.gms.tasks.Task
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
@@ -27,14 +29,14 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withTimeoutOrNull
 import java.util.Date
 
-/** Thrown when the server did not confirm a destructive operation in time. */
+/** Thrown when the server did not confirm an operation in time. */
 class CloudTimeoutException : Exception("timeout")
 
 /**
  * Firestore access for the backup tree `users/{uid}/...` (see [FirestoreCodec]). Reads always go to
- * the server, so a sync never merges against a stale offline cache. Writes use the persistent
- * offline cache: if the confirmation does not arrive in time they stay queued and Firestore sends
- * them when the connection comes back.
+ * the server, so a sync never merges against a stale offline cache. Measurement uploads run in
+ * transactions that never overwrite a newer tombstone; the other writes are batched and, if the
+ * confirmation does not arrive in time, stay queued in the persistent offline cache.
  */
 class FirestoreBackupRemote {
     private val db: FirebaseFirestore by lazy {
@@ -48,8 +50,13 @@ class FirestoreBackupRemote {
     private fun user(uid: String) = db.collection(USERS).document(uid)
     private fun profileRef(uid: String) = user(uid).collection(META).document(PROFILE_DOC)
     private fun settingsRef(uid: String) = user(uid).collection(META).document(SETTINGS_DOC)
+    private fun measurementRef(uid: String, id: String): DocumentReference = user(uid).collection(MEASUREMENTS).document(id)
+    private fun deviceRef(uid: String, id: String): DocumentReference = user(uid).collection(DEVICES).document(id)
 
-    /** Reads the profile, settings, all devices and the measurements changed since [since] (all if null). */
+    /**
+     * Reads the profile, settings, all devices and the measurements changed since [since] (all if
+     * null). When the profile document is missing it also probes whether any measurement exists.
+     */
     suspend fun fetch(uid: String, since: Long?): RemoteSnapshot = coroutineScope {
         val profile = async { profileRef(uid).get(Source.SERVER).await() }
         val settings = async { settingsRef(uid).get(Source.SERVER).await() }
@@ -64,7 +71,8 @@ class FirestoreBackupRemote {
         val liveMeasurements = ArrayList<MeasurementRecord>()
         val deadMeasurements = ArrayList<Tombstone>()
         var maxUpdatedAt: Long? = null
-        for (doc in measurements.await().documents) {
+        val measurementDocs = measurements.await().documents
+        for (doc in measurementDocs) {
             val updatedAt = doc.updatedAtMillis()
             if (updatedAt != null) maxUpdatedAt = maxOf(maxUpdatedAt ?: updatedAt, updatedAt)
             when (val decoded = FirestoreCodec.measurementFromMap(doc.id, doc.data.orEmpty(), updatedAt)) {
@@ -82,10 +90,19 @@ class FirestoreBackupRemote {
                 null -> Unit
             }
         }
-        val profileDoc = profile.await()
+        val profileSnapshot = profile.await()
+        val profileDoc = FirestoreCodec.profileDocFromMap(
+            profileSnapshot.data.takeIf { profileSnapshot.exists() },
+            profileSnapshot.updatedAtMillis(),
+        )
+        val anyMeasurementDoc = when {
+            measurementDocs.isNotEmpty() -> true
+            profileDoc != RemoteProfileDoc.Absent -> null
+            else -> !user(uid).collection(MEASUREMENTS).limit(1).get(Source.SERVER).await().isEmpty
+        }
         val settingsDoc = settings.await()
         RemoteSnapshot(
-            profile = profileDoc.data?.let { FirestoreCodec.profileFromMap(it, profileDoc.updatedAtMillis()) },
+            profileDoc = profileDoc,
             settings = settingsDoc.data?.let { FirestoreCodec.settingsFromMap(it, settingsDoc.updatedAtMillis()) },
             measurements = liveMeasurements,
             measurementTombstones = deadMeasurements,
@@ -93,31 +110,44 @@ class FirestoreBackupRemote {
             deviceTombstones = deadDevices,
             complete = since == null,
             maxUpdatedAt = maxUpdatedAt,
+            anyMeasurementDoc = anyMeasurementDoc,
         )
     }
 
     /**
-     * Writes in batches of at most [MAX_BATCH_WRITES]. Returns true when the server confirmed every
-     * batch, false when some are still queued in the offline cache.
+     * Uploads [writes]. Measurement puts go through transactions (never over a newer tombstone,
+     * unless forced); everything else in batches of at most [MAX_BATCH_WRITES]. Returns true when
+     * the server confirmed everything, false when some batch is still queued offline.
      */
     suspend fun write(uid: String, writes: List<CloudWrite>): Boolean {
+        val (guardedPuts, batched) = writes.partition { it is CloudWrite.PutMeasurement && !it.force }
+        for (chunk in guardedPuts.filterIsInstance<CloudWrite.PutMeasurement>().chunked(TRANSACTION_PUTS)) {
+            putMeasurementsGuarded(uid, chunk)
+        }
+
         var allConfirmed = true
-        for (chunk in writes.chunked(MAX_BATCH_WRITES)) {
+        for (chunk in batched.chunked(MAX_BATCH_WRITES)) {
             val batch = db.batch()
             for (w in chunk) {
                 when (w) {
-                    is CloudWrite.PutProfile ->
-                        batch.set(profileRef(uid), FirestoreCodec.profileToMap(w.record).stamped(), SetOptions.merge())
+                    is CloudWrite.PutProfile -> {
+                        val data = FirestoreCodec.profileToMap(w.record, w.datasetId).stamped() + (F_DELETED_AT to FieldValue.delete())
+                        batch.set(profileRef(uid), data, SetOptions.mergeFields(PROFILE_FIELDS + F_UPDATED_AT))
+                    }
+                    is CloudWrite.DeleteProfile -> {
+                        val cleared = PROFILE_FIELDS.associateWith { FieldValue.delete() }
+                        val data = cleared + FirestoreCodec.profileTombstoneToMap(w.deletedAt, w.datasetId).stamped()
+                        batch.set(profileRef(uid), data, SetOptions.mergeFields(PROFILE_FIELDS + F_UPDATED_AT))
+                    }
                     is CloudWrite.PutSettings -> {
                         // mergeFields replaces the whole "values" map, so removed keys disappear too.
                         val data = FirestoreCodec.settingsToMap(w.record).stamped()
                         batch.set(settingsRef(uid), data, SetOptions.mergeFields(data.keys.toList()))
                     }
-                    is CloudWrite.PutMeasurement -> batch.set(
-                        measurementRef(uid, w.record.id),
-                        FirestoreCodec.measurementToMap(w.record).stamped() + (F_DELETED_AT to FieldValue.delete()),
-                        SetOptions.merge(),
-                    )
+                    is CloudWrite.PutMeasurement -> {
+                        val data = FirestoreCodec.measurementToMap(w.record).stamped() + (F_DELETED_AT to FieldValue.delete())
+                        batch.set(measurementRef(uid, w.record.id), data, SetOptions.merge())
+                    }
                     is CloudWrite.DeleteMeasurement ->
                         batch.set(measurementRef(uid, w.tombstone.id), FirestoreCodec.tombstoneToMap(w.tombstone).stamped())
                     is CloudWrite.PutDevice -> {
@@ -128,22 +158,35 @@ class FirestoreBackupRemote {
                         batch.set(deviceRef(uid, w.tombstone.id), FirestoreCodec.tombstoneToMap(w.tombstone).stamped())
                 }
             }
-            val confirmed = withTimeoutOrNull(COMMIT_TIMEOUT_MS) {
-                batch.commit().await()
-                true
-            }
-            if (confirmed == null) allConfirmed = false
+            if (!confirmedInTime(batch.commit())) allConfirmed = false
         }
         return allConfirmed
     }
 
-    /** Informational only: Google Play stays the source of truth for the purchase. */
-    suspend fun markPremium(uid: String) {
-        profileRef(uid).set(
-            mapOf(F_PREMIUM to true, "premiumUpdatedAt" to FieldValue.serverTimestamp(), F_SCHEMA to CLOUD_SCHEMA_VERSION),
-            SetOptions.merge(),
-        ).await()
+    /** One transaction per chunk: a live put never replaces a tombstone newer than the record. */
+    private suspend fun putMeasurementsGuarded(uid: String, puts: List<CloudWrite.PutMeasurement>) {
+        val task = db.runTransaction { tx ->
+            val existing = puts.map { tx.get(measurementRef(uid, it.record.id)) }
+            puts.forEachIndexed { i, put ->
+                val doc = existing[i]
+                val deletedAt = if (doc.exists() && doc.getBoolean(F_DELETED) == true) doc.getLong(F_DELETED_AT) ?: 0L else null
+                if (deletedAt == null || put.record.updatedAt > deletedAt) {
+                    val data = FirestoreCodec.measurementToMap(put.record).stamped() + (F_DELETED_AT to FieldValue.delete())
+                    tx.set(measurementRef(uid, put.record.id), data, SetOptions.merge())
+                }
+            }
+            null
+        }
+        if (!confirmedInTime(task)) throw CloudTimeoutException()
     }
+
+    /** Informational only: Google Play stays the source of truth for the purchase. */
+    suspend fun markPremium(uid: String): Boolean = confirmedInTime(
+        profileRef(uid).set(
+            mapOf(F_PREMIUM to true, "premiumUpdatedAt" to FieldValue.serverTimestamp()),
+            SetOptions.mergeFields(F_PREMIUM, "premiumUpdatedAt"),
+        ),
+    )
 
     /** Deletes the whole backup tree of [uid]. Needs a connection; throws if the server does not confirm. */
     suspend fun deleteAll(uid: String) {
@@ -153,26 +196,20 @@ class FirestoreBackupRemote {
                 if (page.isEmpty) break
                 val batch = db.batch()
                 for (doc in page.documents) batch.delete(doc.reference)
-                commitConfirmed(batch.commit())
+                if (!confirmedInTime(batch.commit())) throw CloudTimeoutException()
             }
         }
+        // The profile goes last: while it exists, other phones do not mistake a half-deleted copy for a wipe.
         val batch = db.batch()
-        batch.delete(profileRef(uid))
         batch.delete(settingsRef(uid))
-        commitConfirmed(batch.commit())
+        batch.delete(profileRef(uid))
+        if (!confirmedInTime(batch.commit())) throw CloudTimeoutException()
     }
 
-    private suspend fun commitConfirmed(task: com.google.android.gms.tasks.Task<Void>) {
-        withTimeoutOrNull(COMMIT_TIMEOUT_MS) {
-            task.await()
-            true
-        } ?: throw CloudTimeoutException()
-    }
-
-    private fun measurementRef(uid: String, id: String): DocumentReference = user(uid).collection(MEASUREMENTS).document(id)
-
-    private fun deviceRef(uid: String, id: String): DocumentReference =
-        user(uid).collection(DEVICES).document(FirestoreCodec.safeDocId(id))
+    private suspend fun <T> confirmedInTime(task: Task<T>): Boolean = withTimeoutOrNull(COMMIT_TIMEOUT_MS) {
+        task.await()
+        true
+    } ?: false
 
     private fun Map<String, Any?>.stamped(): Map<String, Any?> = this + (F_UPDATED_AT to FieldValue.serverTimestamp())
 
@@ -181,6 +218,9 @@ class FirestoreBackupRemote {
     companion object {
         /** Firestore allows 500 writes per batch; stay below it. */
         const val MAX_BATCH_WRITES = 400
+
+        /** Measurement puts per transaction (each one also reads its document). */
+        const val TRANSACTION_PUTS = 100
 
         /** Incremental pulls re-read this window before the cursor, to absorb clock and commit-order skew. */
         const val PULL_OVERLAP_MS = 10 * 60_000L

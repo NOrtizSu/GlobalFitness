@@ -5,7 +5,8 @@ package com.enjoyyourtime.globalfitness.cloud
  * server `updatedAt` timestamp on write and passes it back as epoch millis on read.
  *
  * Layout under `users/{uid}/`:
- * - `meta/profile`, `meta/settings`
+ * - `meta/profile` (live: profile fields + `datasetId`; deleted: `{deleted: true, deletedAt, datasetId}`)
+ * - `meta/settings`
  * - `measurements/{m_<epochMillis>_<weightGrams>}` (tombstone: `{deleted: true, deletedAt}`)
  * - `devices/{id}` (tombstone: `{deleted: true, deletedAt}`)
  */
@@ -23,6 +24,11 @@ object FirestoreCodec {
     const val F_DELETED = "deleted"
     const val F_DELETED_AT = "deletedAt"
     const val F_PREMIUM = "premium"
+    const val F_DATASET = "datasetId"
+    const val F_COMPOSITION = "composition"
+
+    /** Live profile fields; written with mergeFields so other fields (premium) survive. */
+    val PROFILE_FIELDS = listOf(F_SCHEMA, "name", "sex", "birthDate", "heightCm", "targetWeightKg", F_EDITED_AT, F_DATASET, F_DELETED, F_DELETED_AT)
 
     sealed interface Decoded<out T> {
         data class Live<T>(val record: T) : Decoded<T>
@@ -31,7 +37,7 @@ object FirestoreCodec {
 
     // ---- Profile -------------------------------------------------------------------------------
 
-    fun profileToMap(p: ProfileRecord): Map<String, Any?> = mapOf(
+    fun profileToMap(p: ProfileRecord, datasetId: String): Map<String, Any?> = mapOf(
         F_SCHEMA to CLOUD_SCHEMA_VERSION,
         "name" to p.name,
         "sex" to p.sex,
@@ -39,7 +45,26 @@ object FirestoreCodec {
         "heightCm" to p.heightCm,
         "targetWeightKg" to p.targetWeightKg,
         F_EDITED_AT to p.editedAt,
+        F_DATASET to datasetId,
+        F_DELETED to false,
     )
+
+    fun profileTombstoneToMap(deletedAt: Long, datasetId: String): Map<String, Any?> = mapOf(
+        F_SCHEMA to CLOUD_SCHEMA_VERSION,
+        F_DELETED to true,
+        F_DELETED_AT to deletedAt,
+        F_DATASET to datasetId,
+    )
+
+    /** State of the profile document; null [data] means the document does not exist. */
+    fun profileDocFromMap(data: Map<String, Any?>?, updatedAtMillis: Long?): RemoteProfileDoc {
+        if (data == null) return RemoteProfileDoc.Absent
+        val datasetId = data[F_DATASET] as? String
+        if (data[F_DELETED] == true) {
+            return RemoteProfileDoc.Deleted((data[F_DELETED_AT] as? Number)?.toLong() ?: updatedAtMillis ?: 0L, datasetId)
+        }
+        return RemoteProfileDoc.Live(profileFromMap(data, updatedAtMillis), datasetId)
+    }
 
     fun profileFromMap(data: Map<String, Any?>, updatedAtMillis: Long?): ProfileRecord? {
         val name = data["name"] as? String ?: return null
@@ -85,6 +110,10 @@ object FirestoreCodec {
         "impedance" to m.impedance,
         "source" to m.source,
         "scaleKey" to m.scaleKey,
+        F_COMPOSITION to m.composition.filterKeys { it in CompositionKeys.ALL },
+        "compositionSource" to m.compositionSource,
+        "formulaLib" to m.formulaLib,
+        "deviceDriver" to m.deviceDriver,
     )
 
     fun tombstoneToMap(t: Tombstone): Map<String, Any?> = mapOf(
@@ -100,6 +129,11 @@ object FirestoreCodec {
         val grams = (data["weightGrams"] as? Number)?.toLong() ?: idGrams
         // The id is the identity: a doc whose fields disagree with its id is ignored.
         if (timestamp != idTimestamp || grams != idGrams) return null
+        val composition = (data[F_COMPOSITION] as? Map<*, *>)
+            ?.entries
+            ?.mapNotNull { (k, v) -> if (k is String && k in CompositionKeys.ALL && v is Number) k to v.toDouble() else null }
+            ?.toMap()
+            .orEmpty()
         return Decoded.Live(
             MeasurementRecord(
                 timestamp = timestamp,
@@ -108,13 +142,17 @@ object FirestoreCodec {
                 source = data["source"] as? String ?: "scale",
                 scaleKey = data["scaleKey"] as? String,
                 updatedAt = updatedAtMillis ?: timestamp,
+                composition = composition,
+                compositionSource = data["compositionSource"] as? String,
+                formulaLib = data["formulaLib"] as? String,
+                deviceDriver = data["deviceDriver"] as? String,
             ),
         )
     }
 
     // ---- Devices -------------------------------------------------------------------------------
 
-    /** Per-driver options are filtered: no secrets or addresses are uploaded. */
+    /** Per-scale options are filtered: no secrets or addresses are uploaded. */
     fun deviceToMap(d: DeviceRecord): Map<String, Any?> = mapOf(
         F_SCHEMA to CLOUD_SCHEMA_VERSION,
         F_DELETED to false,
@@ -142,7 +180,7 @@ object FirestoreCodec {
         )
     }
 
-    /** Device document ids: letters, digits, '_' and '-' only. */
+    /** Document ids for devices: letters, digits, '_' and '-' only (same id on write and read). */
     fun safeDocId(raw: String): String = raw.replace(Regex("[^A-Za-z0-9_-]"), "_").take(120).ifEmpty { "_" }
 
     private fun tombstoneOf(id: String, data: Map<String, Any?>, updatedAtMillis: Long?): Decoded.Dead? {

@@ -61,10 +61,12 @@ Si inicias sesión con Google (mediante Firebase Authentication):
 
 - **Datos de la cuenta**: identificador de usuario de Firebase, correo electrónico, nombre y foto
   de perfil de tu cuenta de Google. Se usan para identificarte y mostrar la cuenta en la app.
-- **Copia de seguridad** (Google Cloud Firestore): tu perfil, tus ajustes portables (por ejemplo
-  la tolerancia de asignación de mediciones), tus mediciones (fecha, peso, impedancia y origen) y
-  tus básculas configuradas (modelo, nombre y opciones). **No** se suben la clave de la pulsera,
-  las direcciones Bluetooth, los datos de Health Connect ni ajustes propios del teléfono.
+- **Copia de seguridad** (Google Cloud Firestore): tu perfil (con un identificador aleatorio del
+  conjunto de datos, para no mezclar nunca datos de personas distintas), tus mediciones (fecha,
+  peso, impedancia, composición corporal que dé la báscula, origen y modelo de báscula) y tus
+  básculas configuradas (modelo, nombre y número de usuario en la báscula). **No** se suben la
+  clave de la pulsera, las claves de cifrado, PIN o claves de emparejamiento de las básculas, las
+  direcciones Bluetooth, los datos de Health Connect ni ajustes propios del teléfono.
   Si has comprado «Quitar anuncios», se guarda además un indicador informativo `premium`.
 - **Dónde**: en servidores de Google Cloud en la **Unión Europea (región europe-southwest1,
   Madrid)**. Los datos viajan cifrados (TLS) y Google los guarda cifrados en reposo.
@@ -159,10 +161,11 @@ and not shared**. Use of information received from Health Connect follows the He
 Permissions policy, including the Limited Use requirements.
 
 **Optional Google account and cloud backup:** Firebase Authentication (user id, email, name, profile
-photo) and Google Cloud Firestore in the **EU (europe-southwest1, Madrid)** store your profile,
-portable settings, measurements and configured scales (plus an informational `premium` flag if you
-bought "remove ads"). Never uploaded: band key, Bluetooth addresses, Health Connect data,
-device-specific settings. Legal basis: your explicit consent (GDPR art. 6(1)(a) and 9(2)(a)).
+photo) and Google Cloud Firestore in the **EU (europe-southwest1, Madrid)** store your profile (with a
+random dataset id), measurements (incl. scale-reported body composition and scale model) and
+configured scales (model, name, user slot), plus an informational `premium` flag if you bought
+"remove ads". Never uploaded: band key, scale bind keys / PINs / pairing keys, Bluetooth addresses,
+Health Connect data, device-specific settings. Legal basis: your explicit consent (GDPR art. 6(1)(a) and 9(2)(a)).
 Kept until you delete it: **Account & cloud backup → "Borrar mis datos de la nube y la cuenta"**
 permanently deletes the cloud copy and the Firebase account (phone data is kept), or email us.
 
