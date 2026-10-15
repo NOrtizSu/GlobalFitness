@@ -46,7 +46,7 @@ sealed interface ScanStatus {
 
     /** [locationOff] is only relevant on Android 11 and lower, where scans need location on. */
     data class Scanning(val locationOff: Boolean) : ScanStatus
-    data class Failed(val code: Int, val message: String) : ScanStatus
+    data class Failed(val code: Int) : ScanStatus
 }
 
 /** Last Mi Scale (0x181B) frame seen, for the diagnostics panel. */
@@ -287,7 +287,7 @@ class ScaleScanner(
             scheduleRetry(RESTART_GAP_MS)
             return
         }
-        _status.value = ScanStatus.Failed(errorCode, scanErrorMessage(errorCode))
+        _status.value = ScanStatus.Failed(errorCode)
         if (errorCode in RETRYABLE_ERRORS) scheduleRetry(RETRY_DELAY_MS, showStarting = false)
     }
 
@@ -409,18 +409,5 @@ class ScaleScanner(
             Build.VERSION.SDK_INT < Build.VERSION_CODES.S ||
                 ContextCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) ==
                 PackageManager.PERMISSION_GRANTED
-
-        fun scanErrorMessage(code: Int): String = when (code) {
-            SCAN_FAILED_ALREADY_STARTED -> "El escaneo ya estaba en marcha."
-            SCAN_FAILED_APPLICATION_REGISTRATION_FAILED ->
-                "Android no pudo registrar el escaneo. Reintentando en 30 s; si persiste, apaga y enciende el Bluetooth."
-            SCAN_FAILED_INTERNAL_ERROR -> "Error interno del Bluetooth. Reintentando en 30 s."
-            SCAN_FAILED_FEATURE_UNSUPPORTED -> "Este teléfono no admite el escaneo Bluetooth LE necesario."
-            SCAN_FAILED_OUT_OF_HARDWARE_RESOURCES ->
-                "El Bluetooth no tiene recursos libres (demasiadas apps escaneando). Reintentando en 30 s."
-            SCAN_FAILED_SCANNING_TOO_FREQUENTLY ->
-                "Android limitó el escaneo por iniciarlo demasiadas veces. Reintentando en 30 s."
-            else -> "Error de escaneo Bluetooth (código $code)."
-        }
     }
 }

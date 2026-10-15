@@ -7,6 +7,7 @@ import com.enjoyyourtime.globalfitness.scale.GattProtocol
 import com.enjoyyourtime.globalfitness.scale.GattScaleDriver
 import com.enjoyyourtime.globalfitness.scale.MatchConfidence
 import com.enjoyyourtime.globalfitness.scale.ScaleCapabilities
+import com.enjoyyourtime.globalfitness.scale.ScaleNotice
 import com.enjoyyourtime.globalfitness.scale.ScaleSample
 import com.enjoyyourtime.globalfitness.scale.ScaleUnit
 import com.enjoyyourtime.globalfitness.scale.uuid16
@@ -144,7 +145,7 @@ class BeurerSanitasDriver : GattScaleDriver() {
                     when {
                         !dataReceived && currentRemoteUser != null && currentRemoteUser?.isNew == false -> {
                             waitForDataInStep = 8
-                            userInfo("Súbete a la báscula")
+                            userInfo(ScaleNotice.Kind.STEP_ON)
                             sendCommand(CMD_DO_MEASUREMENT, *encodeUserId(currentRemoteUser))
                         }
                         dataReceived -> requestDisconnect()
@@ -228,7 +229,7 @@ class BeurerSanitasDriver : GattScaleDriver() {
             when (data[2]) {
                 CMD_SCALE_STATUS -> {
                     if (data.size < 12) return
-                    if (Bytes.u8(data, 4) <= 10) userInfo("Batería de la báscula baja")
+                    if (Bytes.u8(data, 4) <= 10) userInfo(ScaleNotice.Kind.LOW_BATTERY)
                     val currentUnit = Bytes.u8(data, 7)
                     val desired = when (user.unit) {
                         ScaleUnit.KG -> 1
@@ -270,14 +271,14 @@ class BeurerSanitasDriver : GattScaleDriver() {
                             ru.isNew = true
                             publishStoredIfOurs(ru)
                             readyForData = true
-                            userInfo("Usuario creado en la báscula: súbete para la medición de referencia")
+                            userInfo(ScaleNotice.Kind.USER_CREATED_STEP_ON)
                             sendCommand(CMD_DO_MEASUREMENT, *encodeUserId(ru))
                             waitForDataInStep = 6
                         } else {
                             proceedTo(7)
                         }
                     } else {
-                        userInfo("La báscula no admite más usuarios")
+                        userInfo(ScaleNotice.Kind.SCALE_FULL)
                     }
                 }
                 CMD_DO_MEASUREMENT -> {
@@ -285,7 +286,7 @@ class BeurerSanitasDriver : GattScaleDriver() {
                         waitForDataInStep = -1
                         proceedTo(7)
                     } else {
-                        userInfo("Súbete a la báscula")
+                        userInfo(ScaleNotice.Kind.STEP_ON)
                     }
                 }
                 CMD_USER_DETAILS -> {

@@ -59,7 +59,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.domain.Classification
+import com.enjoyyourtime.globalfitness.domain.Status
+import com.enjoyyourtime.globalfitness.ui.labelRes
 import com.enjoyyourtime.globalfitness.ui.theme.AppMotion
 import com.enjoyyourtime.globalfitness.ui.theme.ChartTheme
 import com.enjoyyourtime.globalfitness.ui.theme.LocalChartSurface
@@ -77,6 +81,11 @@ fun Dot(color: Color, modifier: Modifier = Modifier, size: Dp = 10.dp) {
 /** Status chip: colored dot + text label (status is never conveyed by color alone). */
 @Composable
 fun StatusChip(classification: Classification, modifier: Modifier = Modifier) {
+    StatusChip(stringResource(classification.level.labelRes), classification.status, modifier)
+}
+
+@Composable
+fun StatusChip(label: String, status: Status, modifier: Modifier = Modifier) {
     val colors = ChartTheme.colors
     Row(
         modifier = modifier
@@ -85,9 +94,9 @@ fun StatusChip(classification: Classification, modifier: Modifier = Modifier) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(5.dp),
     ) {
-        Dot(colors.status(classification.status), size = 8.dp)
+        Dot(colors.status(status), size = 8.dp)
         Text(
-            classification.label,
+            label,
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurface,
             maxLines = 1,
@@ -105,7 +114,7 @@ fun ExperimentalBadge(modifier: Modifier = Modifier) {
         shape = MaterialTheme.shapes.small,
         modifier = modifier,
     ) {
-        Text("Experimental", style = MaterialTheme.typography.labelSmall, modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp))
+        Text(stringResource(R.string.common_experimental), style = MaterialTheme.typography.labelSmall, modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp))
     }
 }
 

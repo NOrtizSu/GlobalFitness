@@ -11,13 +11,15 @@ import androidx.compose.ui.unit.dp
 
 /** A few Material Symbols paths, so the large icons-extended artifact is not needed. */
 object AppIcons {
-    private fun icon(name: String, vararg paths: String, evenOdd: Boolean = false): ImageVector =
+    /** [autoMirror]: directional glyphs are flipped in right-to-left layouts. */
+    private fun icon(name: String, vararg paths: String, evenOdd: Boolean = false, autoMirror: Boolean = false): ImageVector =
         ImageVector.Builder(
             name = name,
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
             viewportWidth = 24f,
             viewportHeight = 24f,
+            autoMirror = autoMirror,
         ).apply {
             for (p in paths) {
                 addPath(
@@ -102,7 +104,7 @@ object AppIcons {
     }
 
     val ChevronRight: ImageVector by lazy {
-        icon("ChevronRight", "M10,6L8.59,7.41 13.17,12l-4.58,4.59L10,18l6,-6z")
+        icon("ChevronRight", "M10,6L8.59,7.41 13.17,12l-4.58,4.59L10,18l6,-6z", autoMirror = true)
     }
 
     /** Source code ("< >"). */
@@ -111,14 +113,14 @@ object AppIcons {
     }
 
     val TrendUp: ImageVector by lazy {
-        icon("TrendUp", "M16,6l2.29,2.29 -4.88,4.88 -4,-4L2,16.59 3.41,18l6,-6 4,4 6.3,-6.29L22,12V6z")
+        icon("TrendUp", "M16,6l2.29,2.29 -4.88,4.88 -4,-4L2,16.59 3.41,18l6,-6 4,4 6.3,-6.29L22,12V6z", autoMirror = true)
     }
 
     val TrendDown: ImageVector by lazy {
-        icon("TrendDown", "M16,18l2.29,-2.29 -4.88,-4.88 -4,4L2,7.41 3.41,6l6,6 4,-4 6.3,6.29L22,12v6z")
+        icon("TrendDown", "M16,18l2.29,-2.29 -4.88,-4.88 -4,4L2,7.41 3.41,6l6,6 4,-4 6.3,6.29L22,12v6z", autoMirror = true)
     }
 
     val TrendFlat: ImageVector by lazy {
-        icon("TrendFlat", "M22,12l-4,-4v3H3v2h15v3z")
+        icon("TrendFlat", "M22,12l-4,-4v3H3v2h15v3z", autoMirror = true)
     }
 }

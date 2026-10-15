@@ -5,12 +5,14 @@ import com.enjoyyourtime.globalfitness.scale.ActivityLevel
 import com.enjoyyourtime.globalfitness.scale.AdvertisementInfo
 import com.enjoyyourtime.globalfitness.scale.Bytes
 import com.enjoyyourtime.globalfitness.scale.Cancellable
+import com.enjoyyourtime.globalfitness.scale.DriverNameNote
 import com.enjoyyourtime.globalfitness.scale.FormulaLib
 import com.enjoyyourtime.globalfitness.scale.GattPacing
 import com.enjoyyourtime.globalfitness.scale.GattProtocol
 import com.enjoyyourtime.globalfitness.scale.GattScaleDriver
 import com.enjoyyourtime.globalfitness.scale.MatchConfidence
 import com.enjoyyourtime.globalfitness.scale.ScaleCapabilities
+import com.enjoyyourtime.globalfitness.scale.ScaleNotice
 import com.enjoyyourtime.globalfitness.scale.ScaleSample
 import com.enjoyyourtime.globalfitness.scale.ScaleUnit
 import com.enjoyyourtime.globalfitness.scale.libs.AfuB1Lib
@@ -66,7 +68,7 @@ class OneByoneDriver : GattScaleDriver() {
         private fun prompt() {
             if (prompted) return
             prompted = true
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onConnected() {
@@ -85,7 +87,7 @@ class OneByoneDriver : GattScaleDriver() {
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {
             if (characteristic == chrBattery) {
-                if (data.isNotEmpty() && Bytes.u8(data, 0) <= 10) userInfo("Batería de la báscula baja")
+                if (data.isNotEmpty() && Bytes.u8(data, 0) <= 10) userInfo(ScaleNotice.Kind.LOW_BATTERY)
                 return
             }
             if (characteristic != chrNotify) return
@@ -180,7 +182,8 @@ class OneByoneDriver : GattScaleDriver() {
  */
 class OneByoneNewDriver : GattScaleDriver() {
     override val id = "onebyone_new"
-    override val displayName = "1byone (nuevo)"
+    override val displayName = "1byone"
+    override val nameNote = DriverNameNote.NEW_MODEL
     override val brand = "1byone"
     override val capabilities = ScaleCapabilities(impedance = true, history = true)
     override val formulaLib = FormulaLib.ONE_BYONE_NEW
@@ -198,7 +201,7 @@ class OneByoneNewDriver : GattScaleDriver() {
             setNotifyOn(svc, chrNotify)
             writeTo(svc, chrWrite, measurementRequest())
             writeTo(svc, chrWrite, usersHistory())
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {
@@ -317,7 +320,7 @@ class YunmaiDriver(private val isMini: Boolean) : GattScaleDriver() {
             writeTo(svcCmd, chrCmd, timePacket)
             setNotifyOn(svcMeas, chrMeas)
             writeTo(svcCmd, chrCmd, byteArrayOf(0x0D, 0x05, 0x13, 0x00, 0x16))
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {
@@ -403,7 +406,7 @@ class EufyP2Driver : GattScaleDriver() {
             val handler = runCatching { EufyAuthHandler(mac) }.getOrNull() ?: return
             auth = handler
             handler.buildC0().forEach { writeTo(svc, chrWrite, it) }
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {
@@ -416,7 +419,7 @@ class EufyP2Driver : GattScaleDriver() {
                         0xC3 -> if (!c3Seen) {
                             c3Seen = true
                             handler.handleC3(data)
-                            if (!handler.isAuthenticated) userInfo("La báscula Eufy rechazó la autenticación")
+                            if (!handler.isAuthenticated) userInfo(ScaleNotice.Kind.EUFY_AUTH_REJECTED)
                         }
                     }
                 }
@@ -486,7 +489,7 @@ class AfuB1Driver : GattScaleDriver() {
             write(AfuB1Lib.buildSyncRequest(AfuB1Lib.SyncRequestVariant.SECOND))
             handshakeComplete = true
             write(AfuB1Lib.buildHistoryDumpRequest(nowSeconds, SCALE_USER_SLOT, age, sex, targetKg))
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onDisconnected() {

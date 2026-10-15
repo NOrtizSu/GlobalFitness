@@ -6,11 +6,13 @@ import com.enjoyyourtime.globalfitness.scale.Bytes
 import com.enjoyyourtime.globalfitness.scale.ConfigField
 import com.enjoyyourtime.globalfitness.scale.ConfigKind
 import com.enjoyyourtime.globalfitness.scale.DriverEnv
+import com.enjoyyourtime.globalfitness.scale.DriverNameNote
 import com.enjoyyourtime.globalfitness.scale.FormulaLib
 import com.enjoyyourtime.globalfitness.scale.MatchConfidence
 import com.enjoyyourtime.globalfitness.scale.PassiveScaleDriver
 import com.enjoyyourtime.globalfitness.scale.PassiveSession
 import com.enjoyyourtime.globalfitness.scale.ScaleCapabilities
+import com.enjoyyourtime.globalfitness.scale.ScaleNotice
 import com.enjoyyourtime.globalfitness.scale.ScaleReading
 import com.enjoyyourtime.globalfitness.scale.ScaleSample
 import com.enjoyyourtime.globalfitness.scale.SimplePassiveSession
@@ -23,7 +25,8 @@ import com.enjoyyourtime.globalfitness.scale.libs.AesCcm
  */
 class QnBroadcastDriver : PassiveScaleDriver() {
     override val id = "qn_broadcast"
-    override val displayName = "QN / Renpho / FITINDEX (anuncios AABB)"
+    override val displayName = "QN / Renpho / FITINDEX"
+    override val nameNote = DriverNameNote.AABB_BROADCAST
     override val brand = "QN / Renpho / FITINDEX"
     override val capabilities = ScaleCapabilities()
     override val keywords = listOf("Yolanda", "FT-26R", "ES-CS20M", "AABB")
@@ -146,15 +149,7 @@ class XiaomiS800Driver : PassiveScaleDriver() {
     override val displayName = "Xiaomi Body Composition Scale S800"
     override val brand = "Xiaomi"
     override val capabilities = ScaleCapabilities(
-        config = listOf(
-            ConfigField(
-                key = ConfigField.KEY_BINDKEY,
-                label = "Bind key (clave BLE)",
-                help = "Clave de 32 caracteres hexadecimales de la nube de Xiaomi.",
-                kind = ConfigKind.HEX_KEY_32,
-                required = true,
-            ),
-        ),
+        config = listOf(ConfigField.bindKey()),
     )
     override val keywords = listOf("MS116", "MIJIA SCALE S800", "S800")
 
@@ -189,7 +184,7 @@ class XiaomiS800Driver : PassiveScaleDriver() {
             if (key == null || key.length != 32 || !Bytes.isHex(key)) {
                 if (!warned) {
                     warned = true
-                    env.messages("Báscula S800 detectada: configura su bind key en Básculas para leerla.")
+                    env.messages(ScaleNotice(ScaleNotice.Kind.BIND_KEY_NEEDED, listOf("S800")))
                 }
                 return null
             }
@@ -201,7 +196,7 @@ class XiaomiS800Driver : PassiveScaleDriver() {
             if (plain == null) {
                 if (frame.size >= 12 && Bytes.fromUnsignedInt16Le(frame, 0) and FC_ENCRYPTED != 0 && ++keyFailures >= 10 && !keyWarned) {
                     keyWarned = true
-                    env.messages("La bind key de la S800 no descifra sus datos: revísala en Básculas.")
+                    env.messages(ScaleNotice(ScaleNotice.Kind.BIND_KEY_WRONG, listOf("S800")))
                 }
                 return null
             }

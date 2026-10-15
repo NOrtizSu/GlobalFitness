@@ -1,7 +1,5 @@
 package com.enjoyyourtime.globalfitness
 
-import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,10 +12,10 @@ import com.enjoyyourtime.globalfitness.ui.theme.GlobalFitnessTheme
 
 class MainActivity : ComponentActivity() {
 
-    /** The UI is Spanish-only: force es-ES so Material components (date picker...) match. */
-    override fun attachBaseContext(newBase: Context) {
-        val config = Configuration(newBase.resources.configuration).apply { setLocale(Fmt.LOCALE) }
-        super.attachBaseContext(newBase.createConfigurationContext(config))
+    override fun onStart() {
+        super.onStart()
+        // The 24-hour clock setting may have changed while the app was in the background.
+        Fmt.init(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

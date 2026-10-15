@@ -22,13 +22,35 @@ enum class LinkKind {
     GATT,
 }
 
+/** Brand of drivers not tied to one manufacturer (shown translated as "Generic"). */
+const val GENERIC_BRAND = "Generic"
+
+/** Generic words that complete a driver's model name; the UI words them in the user's language. */
+enum class DriverNameNote {
+    /** "Standard Bluetooth scale (Weight Scale profile)". */
+    STANDARD_PROFILE,
+
+    /** "AAA002 / AAA007 scale". */
+    SCALE,
+    BODY_FAT_BROADCAST,
+    BROADCAST,
+    AABB_BROADCAST,
+    D0_E0_BROADCAST,
+    EIGHT_ELECTRODES,
+    MGB_PROTOCOL,
+    CONNECTION,
+    NEW_MODEL,
+    FIRST_GENERATION,
+}
+
 enum class ConfigKind { HEX_KEY_32, USER_SLOT, PIN, TEXT }
 
-/** One per-driver setting the user can (or must) fill in. */
+/** Why a [ConfigField] value is not acceptable (the UI words it). */
+enum class ConfigError { REQUIRED, HEX_KEY_32, USER_SLOT_RANGE, PIN_DIGITS }
+
+/** One per-driver setting the user can (or must) fill in; the UI labels it by [key]. */
 data class ConfigField(
     val key: String,
-    val label: String,
-    val help: String,
     val kind: ConfigKind,
     val required: Boolean = false,
     /** For [ConfigKind.USER_SLOT]: highest slot number. */
@@ -36,17 +58,17 @@ data class ConfigField(
     /** Lowest valid user slot (0 for SIG user-data indexes). */
     val minSlot: Int = 1,
 ) {
-    /** Spanish error message, or null when [value] is acceptable. */
-    fun validate(value: String?): String? {
+    /** What is wrong with [value], or null when it is acceptable. */
+    fun validate(value: String?): ConfigError? {
         val v = value?.trim().orEmpty()
-        if (v.isEmpty()) return if (required) "Obligatorio" else null
+        if (v.isEmpty()) return if (required) ConfigError.REQUIRED else null
         return when (kind) {
             ConfigKind.HEX_KEY_32 ->
-                if (v.length == 32 && Bytes.isHex(v)) null else "Deben ser 32 caracteres hexadecimales"
+                if (v.length == 32 && Bytes.isHex(v)) null else ConfigError.HEX_KEY_32
             ConfigKind.USER_SLOT ->
-                if (v.toIntOrNull() in minSlot..maxSlot) null else "Usuario entre $minSlot y $maxSlot"
+                if (v.toIntOrNull() in minSlot..maxSlot) null else ConfigError.USER_SLOT_RANGE
             ConfigKind.PIN ->
-                if (v.length <= 4 && v.toIntOrNull() in 0..9999) null else "PIN de hasta 4 cifras"
+                if (v.length <= 4 && v.toIntOrNull() in 0..9999) null else ConfigError.PIN_DIGITS
             ConfigKind.TEXT -> null
         }
     }
@@ -56,17 +78,15 @@ data class ConfigField(
         const val KEY_USER_SLOT = "user_slot"
         const val KEY_PIN = "pin"
 
-        fun pin() = ConfigField(
-            key = KEY_PIN,
-            label = "PIN del usuario",
-            help = "Código de consentimiento (0-9999) del usuario en la báscula. Déjalo vacío para que la app registre un usuario nuevo.",
-            kind = ConfigKind.PIN,
-        )
+        /** Xiaomi S400: which of the scale's profiles is the user's (several people share it). */
+        const val KEY_SCALE_PROFILE = "s400_profile"
+
+        fun pin() = ConfigField(key = KEY_PIN, kind = ConfigKind.PIN)
+
+        fun bindKey() = ConfigField(key = KEY_BINDKEY, kind = ConfigKind.HEX_KEY_32, required = true)
 
         fun userSlot(maxSlot: Int = 8, minSlot: Int = 1) = ConfigField(
             key = KEY_USER_SLOT,
-            label = "Usuario en la báscula",
-            help = "Posición de usuario que la app registra/usa en la báscula ($minSlot = primera).",
             kind = ConfigKind.USER_SLOT,
             maxSlot = maxSlot,
             minSlot = minSlot,
@@ -97,8 +117,15 @@ data class ScaleCapabilities(
 sealed interface ScaleDriver {
     /** Stable id persisted with configured scales and measurements. Never change it. */
     val id: String
+
+    /** Brand and model names only (not translated); generic words go in [nameNote]. */
     val displayName: String
+
+    /** Manufacturer, or [GENERIC_BRAND] for drivers not tied to one. */
     val brand: String
+
+    /** Generic words shown with [displayName] in the user's language, e.g. "(broadcast)". */
+    val nameNote: DriverNameNote? get() = null
 
     /** True only for drivers tested on real hardware (UI shows "Experimental" otherwise). */
     val verified: Boolean get() = false
@@ -249,17 +276,17 @@ interface GattIo {
     fun schedule(delayMs: Long, action: () -> Unit): Cancellable
     fun publish(reading: ScaleReading)
     fun live(weightKg: Double)
-    fun message(text: String)
+    fun message(notice: ScaleNotice)
 }
 
 /** Status of a GATT session, for the devices screen. */
 enum class SessionStatus { CONNECTING, CONNECTED, MEASURING, SAVED, DONE, FAILED }
 
 sealed interface ScaleEvent {
-    data class Status(val status: SessionStatus, val detail: String? = null) : ScaleEvent
+    data class Status(val status: SessionStatus, val detail: ScaleNotice? = null) : ScaleEvent
     data class Live(val weightKg: Double) : ScaleEvent
     data class Reading(val reading: ScaleReading) : ScaleEvent
-    data class Message(val text: String) : ScaleEvent
+    data class Message(val notice: ScaleNotice) : ScaleEvent
 }
 
 /**
@@ -325,7 +352,7 @@ abstract class GattProtocol {
         if (weightKg.isFinite() && weightKg > 0f) io.live(weightKg.toDouble())
     }
 
-    protected fun userInfo(text: String) = io.message(text)
+    protected fun userInfo(kind: ScaleNotice.Kind, vararg args: Any) = io.message(ScaleNotice(kind, args.toList()))
 
     protected fun settingsGetInt(key: String, default: Int = -1): Int = env.store.getInt(key, default)
     protected fun settingsPutInt(key: String, value: Int) = env.store.putInt(key, value)

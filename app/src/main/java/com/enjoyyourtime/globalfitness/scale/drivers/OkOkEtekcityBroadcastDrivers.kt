@@ -4,6 +4,7 @@ package com.enjoyyourtime.globalfitness.scale.drivers
 import com.enjoyyourtime.globalfitness.scale.AdvertisementInfo
 import com.enjoyyourtime.globalfitness.scale.Bytes
 import com.enjoyyourtime.globalfitness.scale.DriverEnv
+import com.enjoyyourtime.globalfitness.scale.DriverNameNote
 import com.enjoyyourtime.globalfitness.scale.FormulaLib
 import com.enjoyyourtime.globalfitness.scale.MatchConfidence
 import com.enjoyyourtime.globalfitness.scale.PassiveScaleDriver
@@ -22,7 +23,8 @@ import java.util.UUID
  */
 class OkOkDriver : PassiveScaleDriver() {
     override val id = "okok_broadcast"
-    override val displayName = "OKOK / Chipsea (anuncios)"
+    override val displayName = "OKOK / Chipsea"
+    override val nameNote = DriverNameNote.BROADCAST
     override val brand = "OKOK / Chipsea"
     override val capabilities = ScaleCapabilities(impedance = true)
     override val keywords = listOf("ADV", "Chipsea-BLE", "Yoda", "V20", "V11", "VF0")

@@ -3,6 +3,7 @@ package com.enjoyyourtime.globalfitness.ui
 import android.app.Activity
 import android.content.ContentResolver
 import android.net.Uri
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
@@ -10,6 +11,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.enjoyyourtime.globalfitness.AppContainer
 import com.enjoyyourtime.globalfitness.GlobalFitnessApp
+import com.enjoyyourtime.globalfitness.R
+import com.enjoyyourtime.globalfitness.UiText
 import com.enjoyyourtime.globalfitness.account.AccountUser
 import com.enjoyyourtime.globalfitness.band.BandState
 import com.enjoyyourtime.globalfitness.ble.GattSessionInfo
@@ -27,6 +30,7 @@ import com.enjoyyourtime.globalfitness.data.ProfileDraft
 import com.enjoyyourtime.globalfitness.domain.BodyComposition
 import com.enjoyyourtime.globalfitness.domain.BodyMetrics
 import com.enjoyyourtime.globalfitness.domain.RecordOutcome
+import com.enjoyyourtime.globalfitness.ui.devices.toUiText
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -54,7 +58,7 @@ data class MainUiState(
 data class BandSummary(val name: String, val hasKey: Boolean, val state: BandState)
 
 sealed interface UiEvent {
-    data class Message(val text: String, val haptic: Boolean = false) : UiEvent
+    data class Message(val text: UiText, val haptic: Boolean = false) : UiEvent
 }
 
 fun Profile.compositionOf(m: Measurement): BodyComposition =
@@ -107,60 +111,62 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
             container.scaleMonitor.outcomes.collect(::onOutcome)
         }
         viewModelScope.launch {
-            container.scaleMonitor.errors.collect { send(it) }
+            container.scaleMonitor.errors.collect { send(it.toUiText()) }
         }
         viewModelScope.launch {
-            container.scaleMonitor.messages.collect { send(it) }
+            container.scaleMonitor.messages.collect { send(it.toUiText()) }
         }
     }
 
     private fun onOutcome(outcome: RecordOutcome) {
         when (outcome) {
-            is RecordOutcome.Saved -> send("Medición guardada", haptic = true)
-            is RecordOutcome.Upgraded -> send("Impedancia añadida a la medición", haptic = true)
+            is RecordOutcome.Saved -> send(UiText.res(R.string.msg_measurement_saved), haptic = true)
+            is RecordOutcome.Upgraded -> send(UiText.res(R.string.msg_impedance_added), haptic = true)
             is RecordOutcome.Duplicate -> Unit
         }
     }
 
-    private fun send(text: String, haptic: Boolean = false) {
+    private fun send(text: UiText, haptic: Boolean = false) {
         _events.trySend(UiEvent.Message(text, haptic))
     }
 
-    /** Runs a database operation, reporting failures as a Spanish snackbar instead of crashing. */
-    private fun launchDb(errorPrefix: String, block: suspend () -> Unit) {
+    private fun send(@StringRes id: Int) = send(UiText.res(id))
+
+    /** Runs a database operation, reporting failures as a snackbar instead of crashing. */
+    private fun launchDb(@StringRes errorPrefix: Int, block: suspend () -> Unit) {
         viewModelScope.launch {
             try {
                 block()
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                send("$errorPrefix: ${e.message ?: e.javaClass.simpleName}")
+                send(UiText.res(R.string.common_error_detail, UiText.res(errorPrefix), e.message ?: e.javaClass.simpleName))
             }
         }
     }
 
     // ---- Profile --------------------------------------------------------------------------
 
-    fun createProfile(draft: ProfileDraft) = launchDb("No se pudo crear el perfil") {
+    fun createProfile(draft: ProfileDraft) = launchDb(R.string.msg_profile_create_failed) {
         val created = repository.saveProfile(draft)
         settings.setSelectedProfileId(created.id)
     }
 
-    fun updateProfile(draft: ProfileDraft) = launchDb("No se pudo guardar el perfil") {
+    fun updateProfile(draft: ProfileDraft) = launchDb(R.string.msg_profile_save_failed) {
         repository.saveProfile(draft)
-        send("Perfil actualizado")
+        send(R.string.msg_profile_updated)
     }
 
     // ---- Measurements ---------------------------------------------------------------------
 
-    fun deleteMeasurement(id: Long) = launchDb("No se pudo eliminar la medición") {
+    fun deleteMeasurement(id: Long) = launchDb(R.string.msg_measurement_delete_failed) {
         repository.deleteMeasurement(id)
-        send("Medición eliminada")
+        send(R.string.msg_measurement_deleted)
     }
 
     fun addManual(weightKg: Double, timestamp: Long) {
         val profile = uiState.value.profile ?: return
-        launchDb("No se pudo guardar la medición") {
+        launchDb(R.string.msg_measurement_save_failed) {
             repository.insertMeasurement(
                 Measurement(
                     id = 0,
@@ -172,7 +178,7 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
                     source = MeasurementSource.MANUAL,
                 ),
             )
-            send("Peso añadido")
+            send(R.string.msg_weight_added)
         }
     }
 
@@ -185,10 +191,10 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
 
     fun refreshScanner() = container.scanner.refresh()
 
-    /** "Sí, es la mía" on the "¿Es tu báscula?" card. */
+    /** "Yes, it's mine" on the "Is this your scale?" card. */
     fun acceptScaleSuggestion() = container.scaleMonitor.acceptSuggestion()
 
-    /** "No" on the "¿Es tu báscula?" card: that scale is not suggested again. */
+    /** "No" on the "Is this your scale?" card: that scale is not suggested again. */
     fun declineScaleSuggestion() = container.scaleMonitor.declineSuggestion()
 
     /** A top-level section was opened: the interstitial policy decides whether to show one. */
@@ -213,38 +219,56 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
                     resolver.openOutputStream(uri, "wt")?.use { out ->
                         out.write(byteArrayOf(0xEF.toByte(), 0xBB.toByte(), 0xBF.toByte())) // UTF-8 BOM for Excel
                         out.write(text.toByteArray(Charsets.UTF_8))
-                    } ?: error("No se pudo abrir el archivo")
+                    } ?: throw FileNotOpened()
                     rows.size
                 }
             }
             send(
                 result.fold(
-                    onSuccess = { "Exportadas $it mediciones" },
-                    onFailure = { "Error al exportar: ${it.message ?: it.javaClass.simpleName}" },
+                    onSuccess = { UiText.plural(R.plurals.msg_csv_exported, it) },
+                    onFailure = { UiText.res(R.string.common_error_detail, UiText.res(R.string.msg_csv_export_failed), errorDetail(it)) },
                 ),
             )
         }
     }
 
-    fun importCsv(resolver: ContentResolver, uri: Uri) = launchDb("Error al importar") {
+    fun importCsv(resolver: ContentResolver, uri: Uri) {
+        viewModelScope.launch {
+            try {
+                importCsvRows(resolver, uri)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                send(UiText.res(R.string.common_error_detail, UiText.res(R.string.msg_csv_import_failed), errorDetail(e)))
+            }
+        }
+    }
+
+    private suspend fun importCsvRows(resolver: ContentResolver, uri: Uri) {
         val parsed = withContext(Dispatchers.IO) {
-            val bytes = resolver.openInputStream(uri)?.use { it.readBytes() } ?: error("No se pudo abrir el archivo")
+            val bytes = resolver.openInputStream(uri)?.use { it.readBytes() } ?: throw FileNotOpened()
             CsvCodec.decode(CsvCodec.decodeBytes(bytes))
         }
         if (parsed.rows.isEmpty()) {
-            send("No se encontraron mediciones válidas en el CSV")
-            return@launchDb
+            send(R.string.msg_csv_no_rows)
+            return
         }
         val r = repository.importRows(parsed.rows, parsed.invalidLines)
         val parts = buildList {
-            add("Importadas ${r.imported}")
-            if (r.duplicates > 0) add("${r.duplicates} duplicadas omitidas")
-            if (r.invalid > 0) add("${r.invalid} filas no válidas")
-            if (r.skippedOtherProfiles > 0) add("${r.skippedOtherProfiles} de otras personas omitidas")
-            if (r.createdProfile) add("perfil creado")
+            add(UiText.plural(R.plurals.msg_csv_imported, r.imported))
+            if (r.duplicates > 0) add(UiText.plural(R.plurals.msg_csv_duplicates, r.duplicates))
+            if (r.invalid > 0) add(UiText.plural(R.plurals.msg_csv_invalid_rows, r.invalid))
+            if (r.skippedOtherProfiles > 0) add(UiText.plural(R.plurals.msg_csv_other_profiles, r.skippedOtherProfiles))
+            if (r.createdProfile) add(UiText.res(R.string.msg_csv_profile_created))
         }
-        send(parts.joinToString(" · "))
+        send(UiText.Joined(parts, " · "))
     }
+
+    /** The file picked for the CSV could not be opened. */
+    private class FileNotOpened : Exception()
+
+    private fun errorDetail(e: Throwable): UiText =
+        if (e is FileNotOpened) UiText.res(R.string.msg_file_open_failed) else UiText.raw(e.message ?: e.javaClass.simpleName)
 
     companion object {
         val Factory = viewModelFactory {

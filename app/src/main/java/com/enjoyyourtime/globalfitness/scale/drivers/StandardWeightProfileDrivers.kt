@@ -5,10 +5,13 @@ import com.enjoyyourtime.globalfitness.scale.AdvertisementInfo
 import com.enjoyyourtime.globalfitness.scale.Bytes
 import com.enjoyyourtime.globalfitness.scale.Cancellable
 import com.enjoyyourtime.globalfitness.scale.ConfigField
+import com.enjoyyourtime.globalfitness.scale.DriverNameNote
+import com.enjoyyourtime.globalfitness.scale.GENERIC_BRAND
 import com.enjoyyourtime.globalfitness.scale.GattProtocol
 import com.enjoyyourtime.globalfitness.scale.GattScaleDriver
 import com.enjoyyourtime.globalfitness.scale.MatchConfidence
 import com.enjoyyourtime.globalfitness.scale.ScaleCapabilities
+import com.enjoyyourtime.globalfitness.scale.ScaleNotice
 import com.enjoyyourtime.globalfitness.scale.ScaleSample
 import com.enjoyyourtime.globalfitness.scale.uuid16
 import java.time.LocalDate
@@ -80,7 +83,7 @@ open class StandardWeightProfileProtocol : GattProtocol() {
             index != null -> requestScaleUserConsent(index)
             else -> registerNewUser()
         }
-        userInfo("Súbete a la báscula")
+        userInfo(ScaleNotice.Kind.STEP_ON)
     }
 
     override fun onNotification(characteristic: UUID, data: ByteArray) {
@@ -88,7 +91,7 @@ open class StandardWeightProfileProtocol : GattProtocol() {
             chrWeightMeasurement -> parseWeight(data)?.let { handleNew(it, Kind.WEIGHT) }
             chrBodyCompositionMeasurement -> parseBodyComposition(data)?.let { handleNew(it, Kind.BODY_COMPOSITION) }
             chrUserControlPoint -> handleControlPoint(data)
-            chrBattery -> if (data.isNotEmpty() && (data[0].toInt() and 0xFF) <= 10) userInfo("Batería de la báscula baja")
+            chrBattery -> if (data.isNotEmpty() && (data[0].toInt() and 0xFF) <= 10) userInfo(ScaleNotice.Kind.LOW_BATTERY)
             else -> Unit
         }
     }
@@ -272,12 +275,12 @@ open class StandardWeightProfileProtocol : GattProtocol() {
                     saveMapping(index, consent)
                     newUserPending = true
                     pendingConsent = null
-                    userInfo("Usuario $index registrado en la báscula (PIN $consent)")
+                    userInfo(ScaleNotice.Kind.USER_REGISTERED, index, consent)
                     sendConsent(index, consent)
                 } else if (result == UCP_OPERATION_FAILED) {
-                    userInfo("La báscula no tiene usuarios libres: indica tu usuario y PIN en Básculas")
+                    userInfo(ScaleNotice.Kind.NO_FREE_USERS_SET_PIN)
                 } else {
-                    userInfo("La báscula no aceptó el registro del usuario (código $result)")
+                    userInfo(ScaleNotice.Kind.USER_REGISTRATION_REFUSED, result)
                 }
             }
             UCP_CONSENT -> when (result) {
@@ -285,13 +288,13 @@ open class StandardWeightProfileProtocol : GattProtocol() {
                     if (newUserPending) {
                         newUserPending = false
                         writeUserDataToScale()
-                        userInfo("Súbete a la báscula para la medición de referencia")
+                        userInfo(ScaleNotice.Kind.STEP_ON_FOR_REFERENCE)
                     }
                     onRequestMeasurement()
                 }
                 UCP_NOT_AUTHORIZED -> {
                     env.store.remove(KEY_LEARNED_CONSENT)
-                    userInfo("La báscula rechazó el PIN del usuario: revísalo en Básculas")
+                    userInfo(ScaleNotice.Kind.PIN_REJECTED)
                     knownIndex()?.let { requestScaleUserConsent(it) }
                 }
                 else -> Unit
@@ -302,7 +305,7 @@ open class StandardWeightProfileProtocol : GattProtocol() {
 
     /** No PIN known for [index]: ask the user (vendors may show the PIN on the scale display). */
     protected open fun requestScaleUserConsent(index: Int) {
-        userInfo("Falta el PIN del usuario $index de la báscula: introdúcelo en Básculas")
+        userInfo(ScaleNotice.Kind.PIN_MISSING, index)
     }
 
     private fun registerNewUser() {
@@ -366,10 +369,11 @@ private val STANDARD_CONFIG = listOf(ConfigField.userSlot(maxSlot = 254, minSlot
 /** Any scale exposing the SIG Weight Scale / Body Composition / User Data services. */
 class StandardWeightProfileDriver : GattScaleDriver() {
     override val id = "sig_weight_scale"
-    override val displayName = "Báscula estándar Bluetooth (perfil Weight Scale)"
-    override val brand = "Genérica"
+    override val displayName = "Weight Scale"
+    override val nameNote = DriverNameNote.STANDARD_PROFILE
+    override val brand = GENERIC_BRAND
     override val capabilities = ScaleCapabilities(deviceComposition = true, userRegistration = true, history = true, config = STANDARD_CONFIG)
-    override val keywords = listOf("SIG", "181D", "181B", "Weight Scale Profile", "Body Composition Service", "estándar")
+    override val keywords = listOf("SIG", "181D", "181B", "Weight Scale Profile", "Body Composition Service", "standard", "estándar", "Bluetooth")
 
     override fun match(adv: AdvertisementInfo): MatchConfidence? =
         if (adv.serviceUuids.any { it == SVC_WEIGHT || it == SVC_BODY_COMP || it == SVC_USER_DATA }) MatchConfidence.MEDIUM else null
@@ -501,7 +505,7 @@ class SanitasSbf72Driver : GattScaleDriver() {
         /** Asks the scale to show the user's PIN on its display (pin index = user index + 16). */
         override fun requestScaleUserConsent(index: Int) {
             writeTo(svc, chrUserList, byteArrayOf((index + 16).toByte()))
-            userInfo("La báscula muestra el PIN del usuario $index: introdúcelo en Básculas")
+            userInfo(ScaleNotice.Kind.PIN_SHOWN_ON_SCALE, index)
         }
 
         override fun onRequestMeasurement() {

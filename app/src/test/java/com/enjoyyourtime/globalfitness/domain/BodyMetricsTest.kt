@@ -87,37 +87,37 @@ class BodyMetricsTest {
     @Test
     fun classificationsForReferenceVector() {
         val c = BodyMetrics.compute(Sex.MALE, 175.0, 30, 75.0, 500)
-        assertEquals(Classification("Normal", Status.GOOD), Metric.BMI.classify(c))
-        assertEquals(Classification("Alto", Status.WARNING), Metric.FAT_PERCENT.classify(c))
-        assertEquals(Classification("Normal", Status.GOOD), Metric.MUSCLE.classify(c))
-        assertEquals(Classification("Bajo", Status.WARNING), Metric.WATER.classify(c))
-        assertEquals(Classification("Normal", Status.GOOD), Metric.BONE.classify(c))
-        assertEquals(Classification("Alto", Status.WARNING), Metric.VISCERAL.classify(c))
+        assertEquals(Classification(Level.NORMAL, Status.GOOD), Metric.BMI.classify(c))
+        assertEquals(Classification(Level.HIGH, Status.WARNING), Metric.FAT_PERCENT.classify(c))
+        assertEquals(Classification(Level.NORMAL, Status.GOOD), Metric.MUSCLE.classify(c))
+        assertEquals(Classification(Level.LOW, Status.WARNING), Metric.WATER.classify(c))
+        assertEquals(Classification(Level.NORMAL, Status.GOOD), Metric.BONE.classify(c))
+        assertEquals(Classification(Level.HIGH, Status.WARNING), Metric.VISCERAL.classify(c))
         // 1600.2 kcal < 75 kg * 21.6 (male, 29–49 years)
-        assertEquals(Classification("Bajo", Status.WARNING), Metric.BMR.classify(c))
-        assertEquals(Classification("Excelente", Status.GOOD), Metric.PROTEIN.classify(c))
-        assertEquals(Classification("Mayor que tu edad", Status.WARNING), Metric.METABOLIC_AGE.classify(c))
+        assertEquals(Classification(Level.LOW, Status.WARNING), Metric.BMR.classify(c))
+        assertEquals(Classification(Level.EXCELLENT, Status.GOOD), Metric.PROTEIN.classify(c))
+        assertEquals(Classification(Level.OLDER_THAN_AGE, Status.WARNING), Metric.METABOLIC_AGE.classify(c))
         val type = Classifier.bodyType(c)
         assertNotNull(type)
-        assertEquals(1, type!!.index)
-        assertEquals("Sobrepeso", type.name)
+        assertEquals(1, type!!.ordinal)
+        assertEquals(BodyType.OVERWEIGHT, type)
     }
 
     @Test
     fun classifierBands() {
-        assertEquals("Bajo", Classifier.bmi(18.4).label)
-        assertEquals("Obesidad", Classifier.bmi(30.0).label)
-        assertEquals("Muy bajo", Classifier.fat(10.0, Sex.MALE, 30).label)
-        assertEquals("Muy alto", Classifier.fat(42.0, Sex.FEMALE, 65).label)
-        assertEquals("Normal", Classifier.fat(30.0, Sex.FEMALE, 16).label) // 16–18 row: [20,28,37,41]
-        assertEquals("Excelente", Classifier.muscle(60.0, Sex.MALE, 180.0).label)
-        assertEquals("Bajo", Classifier.muscle(30.0, Sex.FEMALE, 155.0).label)
-        assertEquals("Alto", Classifier.water(62.0, Sex.FEMALE).label)
-        assertEquals("Muy alto", Classifier.visceral(15.0).label)
-        assertEquals("Bajo", Classifier.bmr(1200.0, 70.0, Sex.MALE, 25).label)
-        assertEquals("Excelente", Classifier.protein(21.0).label)
-        assertEquals("Más joven", Classifier.metabolicAge(30.0, 30).label)
-        assertEquals("Delgado musculoso", Classifier.bodyTypeByIndex(8).name)
+        assertEquals(Level.LOW, Classifier.bmi(18.4).level)
+        assertEquals(Level.OBESE, Classifier.bmi(30.0).level)
+        assertEquals(Level.VERY_LOW, Classifier.fat(10.0, Sex.MALE, 30).level)
+        assertEquals(Level.VERY_HIGH, Classifier.fat(42.0, Sex.FEMALE, 65).level)
+        assertEquals(Level.NORMAL, Classifier.fat(30.0, Sex.FEMALE, 16).level) // 16–18 row: [20,28,37,41]
+        assertEquals(Level.EXCELLENT, Classifier.muscle(60.0, Sex.MALE, 180.0).level)
+        assertEquals(Level.LOW, Classifier.muscle(30.0, Sex.FEMALE, 155.0).level)
+        assertEquals(Level.HIGH, Classifier.water(62.0, Sex.FEMALE).level)
+        assertEquals(Level.VERY_HIGH, Classifier.visceral(15.0).level)
+        assertEquals(Level.LOW, Classifier.bmr(1200.0, 70.0, Sex.MALE, 25).level)
+        assertEquals(Level.EXCELLENT, Classifier.protein(21.0).level)
+        assertEquals(Level.YOUNGER, Classifier.metabolicAge(30.0, 30).level)
+        assertEquals(BodyType.SKINNY_MUSCULAR, Classifier.bodyTypeByIndex(8))
     }
 
     @Test
@@ -131,8 +131,8 @@ class BodyMetricsTest {
         }
         assertEquals(listOf(21.0, 28.0, 35.0, 40.0), Classifier.fatThresholds(Sex.FEMALE, 18).toList())
         assertEquals(listOf(11.0, 17.0, 22.0, 27.0), Classifier.fatThresholds(Sex.MALE, 18).toList())
-        assertEquals("Muy bajo", Classifier.fat(6.0, Sex.MALE, 10).label)
-        assertEquals("Alto", Classifier.fat(26.0, Sex.MALE, 15).label)
+        assertEquals(Level.VERY_LOW, Classifier.fat(6.0, Sex.MALE, 10).level)
+        assertEquals(Level.HIGH, Classifier.fat(26.0, Sex.MALE, 15).level)
     }
 
     @Test
@@ -147,10 +147,10 @@ class BodyMetricsTest {
         val r = Classifier.boneRange(Sex.MALE, 80.0)
         assertEquals(2.2, r.start, 1e-9)
         assertEquals(4.2, r.endInclusive, 1e-9)
-        assertEquals("Bajo", Classifier.bone(2.1, Sex.MALE, 80.0).label)
-        assertEquals("Normal", Classifier.bone(2.2, Sex.MALE, 80.0).label)
-        assertEquals("Normal", Classifier.bone(4.2, Sex.MALE, 80.0).label)
-        assertEquals("Alto", Classifier.bone(4.3, Sex.MALE, 80.0).label)
+        assertEquals(Level.LOW, Classifier.bone(2.1, Sex.MALE, 80.0).level)
+        assertEquals(Level.NORMAL, Classifier.bone(2.2, Sex.MALE, 80.0).level)
+        assertEquals(Level.NORMAL, Classifier.bone(4.2, Sex.MALE, 80.0).level)
+        assertEquals(Level.HIGH, Classifier.bone(4.3, Sex.MALE, 80.0).level)
     }
 
     @Test
@@ -176,7 +176,7 @@ class BodyMetricsTest {
 
         // Its own metric: % of body weight against the skeletal muscle bands (M 33.3–39.3).
         assertEquals(c.skeletalMusclePercent!!, Metric.SKELETAL_MUSCLE.extract(c)!!, 0.0)
-        assertEquals(Classification("Alto", Status.GOOD), Metric.SKELETAL_MUSCLE.classify(c))
+        assertEquals(Classification(Level.HIGH, Status.GOOD), Metric.SKELETAL_MUSCLE.classify(c))
         assertEquals(33.3..39.3, Metric.SKELETAL_MUSCLE.normalRange(c))
         assertNull(Metric.SKELETAL_MUSCLE.classify(mi))
     }

@@ -9,6 +9,7 @@ import com.enjoyyourtime.globalfitness.scale.GattProtocol
 import com.enjoyyourtime.globalfitness.scale.GattScaleDriver
 import com.enjoyyourtime.globalfitness.scale.MatchConfidence
 import com.enjoyyourtime.globalfitness.scale.ScaleCapabilities
+import com.enjoyyourtime.globalfitness.scale.ScaleNotice
 import com.enjoyyourtime.globalfitness.scale.ScaleSample
 import com.enjoyyourtime.globalfitness.scale.ScaleUnit
 import com.enjoyyourtime.globalfitness.scale.uuid16
@@ -44,7 +45,7 @@ class ExcelvanCF36xDriver : GattScaleDriver() {
         override fun onConnected() {
             writeTo(svc, chrWrite, userConfig(user.isMale, user.activityLevel, user.heightCm, user.ageAt(env.wallClock()), user.unit))
             setNotifyOn(svc, chrNotify)
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {
@@ -106,7 +107,7 @@ class DigooDGSO38HDriver : GattScaleDriver() {
 
         override fun onConnected() {
             setNotifyOn(svc, chrMeasurement)
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {
@@ -173,7 +174,7 @@ class HesleyDriver : GattScaleDriver() {
         override fun onConnected() {
             setNotifyOn(svc, chrNotify)
             writeTo(svc, chrCmd, byteArrayOf(0xA5.toByte(), 0x01, 0x2C, 0xAB.toByte(), 0x50, 0x5A, 0x29))
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {
@@ -223,7 +224,7 @@ class InlifeDriver : GattScaleDriver() {
             setNotifyOn(svc, chrNotify)
             val level = athleteLevel(user.activityLevel) + 1
             sendCommand(CMD_SET_USER, level, if (user.isMale) 0 else 1, user.appUserId and 0xFF, user.ageAt(env.wallClock()) and 0xFF, user.heightCm.toInt() and 0xFF)
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {
@@ -253,7 +254,7 @@ class InlifeDriver : GattScaleDriver() {
             val weight = Bytes.fromUnsignedInt16Be(d, 2) / 10.0f
             val lbmRaw = Bytes.fromUnsignedInt24Be(d, 4)
             if (lbmRaw >= 0xFFFFFF) {
-                userInfo("Medición fallida: coloca bien los pies en la báscula")
+                userInfo(ScaleNotice.Kind.MEASUREMENT_FAILED_FEET)
                 return null
             }
             var lbm = lbmRaw / 1000.0f
@@ -341,7 +342,7 @@ class ExingtechY1Driver : GattScaleDriver() {
                 chrCmd,
                 byteArrayOf(0x10, (user.appUserId and 0xFF).toByte(), if (user.isMale) 0 else 1, (user.ageAt(env.wallClock()) and 0xFF).toByte(), (user.heightCm.toInt() and 0xFF).toByte()),
             )
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {

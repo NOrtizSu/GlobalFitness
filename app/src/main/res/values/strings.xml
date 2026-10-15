@@ -1,4 +1,323 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">GlobalFitness</string>
+    <!-- App -->
+    <string name="app_name" translatable="false">GlobalFitness</string>
+    <string name="band_notification_listener_label">GlobalFitness: forwarding to your band</string>
+    <!-- Common actions -->
+    <string name="action_cancel">Cancel</string>
+    <string name="action_ok">OK</string>
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_retry">Retry</string>
+    <string name="action_got_it">Got it</string>
+    <string name="action_close">Close</string>
+    <string name="action_back">Back</string>
+    <string name="action_continue">Continue</string>
+    <string name="action_skip">Skip</string>
+    <string name="action_open_settings">Open settings</string>
+    <string name="action_grant_permission">Grant permission</string>
+    <string name="action_turn_on_bluetooth">Turn on Bluetooth</string>
+    <string name="action_turn_on_location">Turn on location</string>
+    <string name="action_connect_health_connect">Connect Health Connect</string>
+    <string name="action_install_health_connect">Install Health Connect</string>
+    <string name="action_update_health_connect">Update Health Connect</string>
+    <string name="action_add_manual_weight">Add weight manually</string>
+    <string name="common_no_data">No data</string>
+    <string name="common_not_enough_data">Not enough data</string>
+    <string name="common_time">Time</string>
+    <string name="common_experimental">Experimental</string>
+    <string name="common_required_mark">%1$s *</string>
+    <string name="common_error_detail">%1$s: %2$s</string>
+    <!-- Units and values -->
+    <string name="unit_kg">kg</string>
+    <string name="unit_kcal">kcal</string>
+    <string name="unit_percent" formatted="false">%</string>
+    <string name="unit_years">years</string>
+    <string name="value_kg">%1$s kg</string>
+    <string name="value_kcal">%1$s kcal</string>
+    <string name="value_percent">%1$s%%</string>
+    <plurals name="value_years">
+        <item quantity="one">%1$s year</item>
+        <item quantity="other">%1$s years</item>
+    </plurals>
+    <string name="value_ohm">%1$s Ω</string>
+    <!-- Relative dates -->
+    <string name="time_today">Today</string>
+    <string name="time_yesterday">Yesterday</string>
+    <string name="time_today_at">Today, %1$s</string>
+    <string name="time_yesterday_at">Yesterday, %1$s</string>
+    <!-- Navigation -->
+    <string name="nav_today">Today</string>
+    <string name="nav_body">Body</string>
+    <string name="nav_activity">Activity</string>
+    <string name="nav_devices">Devices</string>
+    <string name="nav_profile">Profile</string>
+    <!-- Body metrics -->
+    <string name="metric_weight">Weight</string>
+    <string name="metric_bmi">BMI</string>
+    <string name="metric_fat_percent">Body fat</string>
+    <string name="metric_fat_mass">Fat mass</string>
+    <string name="metric_muscle">Muscle</string>
+    <string name="metric_skeletal_muscle">Skeletal muscle</string>
+    <string name="metric_water">Water</string>
+    <string name="metric_bone">Bone</string>
+    <string name="metric_visceral">Visceral fat</string>
+    <string name="metric_bmr">Basal metabolic rate</string>
+    <string name="metric_metabolic_age">Metabolic age</string>
+    <string name="metric_protein">Protein</string>
+    <string name="metric_ideal_weight">Ideal weight</string>
+    <!-- Classification chips -->
+    <string name="class_low">Low</string>
+    <string name="class_very_low">Very low</string>
+    <string name="class_normal">Normal</string>
+    <string name="class_high">High</string>
+    <string name="class_very_high">Very high</string>
+    <string name="class_overweight">Overweight</string>
+    <string name="class_obese">Obese</string>
+    <string name="class_excellent">Excellent</string>
+    <string name="class_optimal">Optimal</string>
+    <string name="class_younger">Younger</string>
+    <string name="class_older_than_age">Older than your age</string>
+    <string name="class_in_range">In range</string>
+    <string name="class_out_of_range">Out of range</string>
+    <!-- Body types -->
+    <string name="body_type">Body type</string>
+    <string name="body_type_obese">Obese</string>
+    <string name="body_type_overweight">Overweight</string>
+    <string name="body_type_solid">Solidly built</string>
+    <string name="body_type_lack_exercise">Lacks exercise</string>
+    <string name="body_type_balanced">Balanced</string>
+    <string name="body_type_balanced_muscular">Balanced muscular</string>
+    <string name="body_type_skinny">Skinny</string>
+    <string name="body_type_balanced_skinny">Balanced skinny</string>
+    <string name="body_type_skinny_muscular">Skinny muscular</string>
+    <!-- Health Connect rationale (shown by Health Connect) -->
+    <string name="health_rationale_title">Health data privacy</string>
+    <string name="health_rationale_intro">GlobalFitness uses Health Connect for two things:</string>
+    <string name="health_rationale_read">• Reading the data from your band or watch (for example the Xiaomi Smart Band through Mi Fitness): steps, distance, calories, heart rate, resting heart rate, heart rate variability, sleep, blood oxygen, respiratory rate and workouts. It also reads the weight and body fat recorded by other apps. With the past-data permission it imports up to one year.</string>
+    <string name="health_rationale_write">• Writing your scale measurements: weight, body fat, bone mass, lean mass, basal metabolic rate and body water. If you delete a measurement in the app, it is also deleted from Health Connect.</string>
+    <string name="health_rationale_storage">Data read from Health Connect is stored only on this phone: it is not uploaded to the optional cloud backup, not used for advertising and not shared with anyone. The app uses it only to show you summaries and charts.</string>
+    <string name="health_rationale_revoke">You can revoke any permission at any time in Health Connect; the app stops reading that type of data and deletes its local copy on the next sync.</string>
+    <!-- Snackbar messages -->
+    <string name="msg_measurement_saved">Measurement saved</string>
+    <string name="msg_impedance_added">Impedance added to the measurement</string>
+    <string name="msg_profile_create_failed">Could not create the profile</string>
+    <string name="msg_profile_save_failed">Could not save the profile</string>
+    <string name="msg_profile_updated">Profile updated</string>
+    <string name="msg_measurement_delete_failed">Could not delete the measurement</string>
+    <string name="msg_measurement_deleted">Measurement deleted</string>
+    <string name="msg_measurement_save_failed">Could not save the measurement</string>
+    <string name="msg_weight_added">Weight added</string>
+    <string name="msg_file_open_failed">Could not open the file</string>
+    <string name="msg_csv_export_failed">Export failed</string>
+    <string name="msg_csv_import_failed">Import failed</string>
+    <plurals name="msg_csv_exported">
+        <item quantity="one">Exported %1$d measurement</item>
+        <item quantity="other">Exported %1$d measurements</item>
+    </plurals>
+    <string name="msg_csv_no_rows">No valid measurements found in the CSV</string>
+    <plurals name="msg_csv_imported">
+        <item quantity="one">%1$d measurement imported</item>
+        <item quantity="other">%1$d measurements imported</item>
+    </plurals>
+    <plurals name="msg_csv_duplicates">
+        <item quantity="one">%1$d duplicate skipped</item>
+        <item quantity="other">%1$d duplicates skipped</item>
+    </plurals>
+    <plurals name="msg_csv_invalid_rows">
+        <item quantity="one">%1$d invalid row</item>
+        <item quantity="other">%1$d invalid rows</item>
+    </plurals>
+    <plurals name="msg_csv_other_profiles">
+        <item quantity="one">%1$d from other people skipped</item>
+        <item quantity="other">%1$d from other people skipped</item>
+    </plurals>
+    <string name="msg_csv_profile_created">profile created</string>
+    <string name="ads_privacy_options_failed">Could not open the privacy options: %1$s</string>
+    <!-- Scale messages (drivers and connections) -->
+    <string name="scale_step_on">Step on the scale</string>
+    <string name="scale_step_on_for_reference">Step on the scale for the reference measurement</string>
+    <string name="scale_low_battery">Scale battery low</string>
+    <string name="scale_measurement_failed_feet">Measurement failed: place your feet properly on the scale</string>
+    <string name="scale_fat_measurement_failed">The scale could not measure body fat</string>
+    <string name="scale_invalid_record">Invalid record from the scale</string>
+    <string name="scale_user_created_step_on">User created on the scale: step on it for the reference measurement</string>
+    <string name="scale_full">The scale can\'t hold more users</string>
+    <string name="scale_user_create_failed">The scale could not create the user (no free slots?)</string>
+    <string name="scale_user_rejected">The scale rejected the user: try again later</string>
+    <string name="scale_no_free_users_choose_slot">The scale has no free users: choose your user (1–8) in the scale settings</string>
+    <string name="scale_no_free_users_set_pin">The scale has no free users: enter your user and PIN in Scales</string>
+    <string name="scale_user_registered">User %1$s registered on the scale (PIN %2$s)</string>
+    <string name="scale_user_registration_refused">The scale did not accept the user registration (code %1$s)</string>
+    <string name="scale_pin_rejected">The scale rejected the user PIN: check it in Scales</string>
+    <string name="scale_pin_missing">The PIN of scale user %1$s is missing: enter it in Scales</string>
+    <string name="scale_pin_shown">The scale shows the PIN of user %1$s: enter it in Scales</string>
+    <string name="scale_paired">Scale paired</string>
+    <string name="scale_not_paired">Scale not paired: put the scale in pairing mode</string>
+    <string name="scale_trisa_paired">Trisa paired. Step on it again to measure</string>
+    <string name="scale_trisa_not_paired">Trisa not paired: press the pairing button on the scale</string>
+    <string name="scale_omron_unknown_model">Unrecognized Omron model</string>
+    <string name="scale_omron_hold_pairing">Press and hold the pairing button on the Omron</string>
+    <string name="scale_omron_not_pairing">The Omron is not in pairing mode</string>
+    <string name="scale_omron_paired">Omron paired</string>
+    <string name="scale_omron_pairing_failed">Could not pair the Omron</string>
+    <string name="scale_omron_session_rejected">The Omron rejected the session</string>
+    <string name="scale_omron_read_error">Error reading the Omron memory</string>
+    <string name="scale_omron_no_new">No new measurements on the Omron</string>
+    <plurals name="scale_omron_measurements_read">
+        <item quantity="one">%1$d measurement read from the Omron</item>
+        <item quantity="other">%1$d measurements read from the Omron</item>
+    </plurals>
+    <string name="scale_omron_stopped">The Omron stopped responding</string>
+    <string name="scale_eufy_auth_rejected">The Eufy scale rejected the authentication</string>
+    <string name="scale_bind_key_needed">%1$s scale detected: set its bind key in Scales to read it.</string>
+    <string name="scale_bind_key_wrong">The %1$s bind key does not decrypt its data: check it in Scales.</string>
+    <string name="scale_missing_nearby_permission">Nearby devices permission missing</string>
+    <string name="scale_bluetooth_unavailable">Bluetooth not available</string>
+    <string name="scale_bluetooth_off">Bluetooth is off</string>
+    <string name="scale_invalid_address">Invalid address: %1$s</string>
+    <string name="scale_connect_not_started">Android could not start the connection</string>
+    <string name="scale_not_connected">Not connected</string>
+    <string name="scale_service_discovery_failed">Could not discover the services</string>
+    <string name="scale_services_read_failed">Could not read the services (%1$s)</string>
+    <string name="scale_stopped_responding">The scale stopped responding</string>
+    <string name="scale_connection_closed">Connection closed</string>
+    <string name="scale_disconnected">The scale disconnected</string>
+    <string name="scale_connection_lost">Lost the connection to the scale (out of range)</string>
+    <string name="scale_closed_connection">The scale closed the connection</string>
+    <string name="scale_phone_cancelled">Connection cancelled by the phone</string>
+    <string name="scale_connection_not_established">Could not establish the connection</string>
+    <string name="scale_gatt_error_133">Bluetooth connection error (133). Retrying on the next weighing</string>
+    <string name="scale_gatt_error">Bluetooth connection error (%1$s)</string>
+    <string name="scale_connect_timeout">Could not connect (timed out)</string>
+    <string name="scale_connect_failed">Could not connect</string>
+    <string name="scale_connect_failed_detail">Could not connect: %1$s</string>
+    <string name="scale_protocol_error">Protocol error: %1$s</string>
+    <string name="scale_no_new_data">No new data from the scale</string>
+    <string name="scale_auto_configured">Scale detected and set up: %1$s.</string>
+    <string name="scale_auto_configured_needs_setup">Scale detected and set up: %1$s. Complete its settings in Devices.</string>
+    <string name="scale_added_step_on">Scale added: %1$s. Step on it so the app can connect.</string>
+    <string name="scale_added_needs_setup">Scale added: %1$s. Complete its settings.</string>
+    <string name="scale_save_failed">Could not save the measurement: %1$s</string>
+    <!-- Bluetooth scan errors -->
+    <string name="scan_error_already_started">The scan was already running.</string>
+    <string name="scan_error_registration">Android could not register the scan. Retrying in 30 s; if it persists, turn Bluetooth off and on.</string>
+    <string name="scan_error_internal">Internal Bluetooth error. Retrying in 30 s.</string>
+    <string name="scan_error_unsupported">This phone does not support the Bluetooth LE scanning needed.</string>
+    <string name="scan_error_resources">Bluetooth has no free resources (too many apps scanning). Retrying in 30 s.</string>
+    <string name="scan_error_too_frequent">Android limited scanning because it was started too often. Retrying in 30 s.</string>
+    <string name="scan_error_code">Bluetooth scan error (code %1$d).</string>
+    <!-- Scale driver names (brand and model names stay as they are) -->
+    <string name="scale_brand_generic">Generic</string>
+    <string name="driver_name_standard_profile">Standard Bluetooth scale (%1$s profile)</string>
+    <string name="driver_name_scale">%1$s scale</string>
+    <string name="driver_name_body_fat_broadcast">%1$s (body fat scale, broadcast)</string>
+    <string name="driver_name_broadcast">%1$s (broadcast)</string>
+    <string name="driver_name_aabb_broadcast">%1$s (AABB broadcast)</string>
+    <string name="driver_name_d0_e0_broadcast">%1$s (0xD0/0xE0 broadcast)</string>
+    <string name="driver_name_eight_electrodes">%1$s (8 electrodes)</string>
+    <string name="driver_name_mgb_protocol">%1$s (MGB protocol)</string>
+    <string name="driver_name_connection">%1$s (Bluetooth connection)</string>
+    <string name="driver_name_new_model">%1$s (new)</string>
+    <string name="driver_name_first_generation">%1$s (1st gen.)</string>
+    <string name="formula_standard_impedance">Standard impedance (Sun 2003)</string>
+    <string name="formula_trisa_resistance">Trisa (resistance)</string>
+    <string name="formula_wla25">Fitdays WLA25 (10 impedances)</string>
+    <string name="formula_keep_s3">Keep S3 (dual frequency)</string>
+    <!-- Scale settings -->
+    <string name="config_bind_key">Bind key (BLE key)</string>
+    <string name="config_bind_key_help">32-character hexadecimal key from the Xiaomi cloud (e.g. obtained with Xiaomi Cloud Tokens Extractor).</string>
+    <string name="config_pin">User PIN</string>
+    <string name="config_pin_help">The user\'s consent code (0–9999) on the scale. Leave it empty so the app registers a new user.</string>
+    <string name="config_user_slot">User on the scale</string>
+    <string name="config_user_slot_help">User position the app registers or uses on the scale (%1$d = first).</string>
+    <string name="config_scale_profile">Profile on the scale</string>
+    <string name="config_scale_profile_help">Number of the scale profile that is yours (if several people use it). Empty: all.</string>
+    <string name="config_error_required">Required</string>
+    <string name="config_error_hex_key">Must be 32 hexadecimal characters</string>
+    <string name="config_error_user_slot">User between %1$d and %2$d</string>
+    <string name="config_error_pin">PIN of up to 4 digits</string>
+    <!-- Main screen -->
+    <string name="error_database_open">Could not open the database: %1$s</string>
+    <string name="common_disclaimer">Estimates from the scale or calculated with published formulas. Not a medical diagnosis.</string>
+    <string name="common_view_trend">View trend</string>
+    <plurals name="common_days">
+        <item quantity="one">%1$d day</item>
+        <item quantity="other">%1$d days</item>
+    </plurals>
+    <string name="unit_hours_short">h</string>
+    <string name="unit_bpm">bpm</string>
+    <string name="body_composition">Body composition</string>
+    <string name="body_no_measurements_title">No measurements yet</string>
+    <string name="body_no_composition_hint">No body composition: step on barefoot with dry feet.</string>
+    <!-- Today -->
+    <string name="today_open_account">Open account</string>
+    <string name="today_cloud_paused_title">Cloud backup paused</string>
+    <string name="today_cloud_paused_text">We need you to choose which data to keep. Tap to decide.</string>
+    <string name="today_last_composition">Last measurement with composition: %1$s</string>
+    <string name="today_greeting">Hi</string>
+    <string name="today_greeting_name">Hi, %1$s</string>
+    <string name="today_hc_connect_text">Connect Health Connect to see your steps, sleep and resting heart rate here.</string>
+    <string name="today_hc_install_text">With Health Connect you will see the steps, sleep and resting heart rate from your band or watch here.</string>
+    <string name="today_steps">Steps</string>
+    <string name="today_goal_of">of %1$s</string>
+    <string name="today_steps_desc">Steps today: %1$s of %2$s</string>
+    <string name="today_steps_desc_none">Steps today: no data</string>
+    <string name="today_sleep">Sleep</string>
+    <string name="today_sleep_goal">of 8 h</string>
+    <string name="today_sleep_desc">Last night\'s sleep: %1$s of 8 hours</string>
+    <string name="today_sleep_desc_none">Last night\'s sleep: no data</string>
+    <string name="today_resting_hr">Resting HR</string>
+    <plurals name="today_resting_hr_desc">
+        <item quantity="one">Resting heart rate: %1$d beat per minute</item>
+        <item quantity="other">Resting heart rate: %1$d beats per minute</item>
+    </plurals>
+    <string name="today_resting_hr_desc_none">Resting heart rate: no data</string>
+    <string name="today_hc_no_data">Health Connect has no data from your band or watch yet.</string>
+    <string name="today_view_activity">View activity</string>
+    <string name="chip_scale_listening">Scale: listening</string>
+    <string name="chip_scale_starting">Scale: starting</string>
+    <string name="chip_scale_permission">Scale: permission needed</string>
+    <string name="chip_bluetooth_off">Bluetooth off</string>
+    <string name="chip_no_ble">No Bluetooth LE</string>
+    <string name="chip_scale_paused">Scale: paused</string>
+    <string name="chip_scale_error">Scale: error</string>
+    <string name="chip_cloud_paused">Cloud: paused</string>
+    <string name="chip_cloud_syncing">Cloud: syncing…</string>
+    <string name="chip_cloud_error">Cloud: error</string>
+    <string name="chip_cloud_pending">Cloud: upload pending</string>
+    <string name="chip_cloud_synced">Cloud: %1$s</string>
+    <string name="chip_cloud_connected">Cloud: connected</string>
+    <string name="chip_band">Band: %1$s</string>
+    <string name="today_no_measurements_text">Step on the scale barefoot with the app open: the measurement will appear here. If your scale is not supported, add your weight manually.</string>
+    <string name="today_view_weight_trend">View weight trend</string>
+    <string name="today_weekly_change_none">Weekly change: not enough data</string>
+    <string name="today_weekly_stable">Stable this week (%1$s)</string>
+    <string name="today_weekly_change">%1$s in 7 days</string>
+    <!-- Live scale card -->
+    <string name="live_no_ble_title">Bluetooth LE not available</string>
+    <string name="live_no_ble_text">This phone has no Bluetooth Low Energy, which is needed to read the scale.</string>
+    <string name="live_permission_title">Bluetooth permission missing</string>
+    <string name="live_permission_text">To read your scale and your band, GlobalFitness needs the nearby devices permission (location on Android 11 or earlier). Your location is never used or stored.</string>
+    <string name="live_bluetooth_off_title">Bluetooth is off</string>
+    <string name="live_bluetooth_off_text">Turn on Bluetooth to detect the scale.</string>
+    <string name="live_scan_error_title">Error searching for the scale</string>
+    <string name="live_location_off_title">Location is off</string>
+    <string name="live_location_off_text">On Android 11 or earlier the system does not deliver Bluetooth advertisements while location is off.</string>
+    <string name="live_connecting">Connecting to %1$s…</string>
+    <string name="live_stay_on">Don\'t step off the scale.</string>
+    <string name="live_measuring">Measuring</string>
+    <string name="live_stand_still">Stand still.</string>
+    <string name="live_stable_measuring">Stable · measuring composition…</string>
+    <string name="live_dont_step_off_yet">Don\'t step off yet.</string>
+    <string name="live_save_failed">Could not save %1$s</string>
+    <string name="live_already_saved">Measurement already saved</string>
+    <string name="live_with_impedance">with impedance (%1$s)</string>
+    <string name="live_without_impedance">without impedance (socks or dry feet?)</string>
+    <string name="live_session_connected">%1$s: connected</string>
+    <string name="live_waiting_measurement">Waiting for the measurement…</string>
+    <string name="live_measuring_scale">Measuring · %1$s</string>
+    <string name="live_session_measuring">%1$s: measuring…</string>
+    <string name="live_read_failed">Could not read %1$s</string>
+    <string name="live_read_failed_hint">Step on the scale again. If it happens again, check its settings in Devices.</string>
 </resources>

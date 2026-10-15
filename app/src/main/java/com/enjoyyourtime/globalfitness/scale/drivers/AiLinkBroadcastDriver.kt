@@ -4,6 +4,7 @@ package com.enjoyyourtime.globalfitness.scale.drivers
 import com.enjoyyourtime.globalfitness.scale.AdvertisementInfo
 import com.enjoyyourtime.globalfitness.scale.Bytes
 import com.enjoyyourtime.globalfitness.scale.DriverEnv
+import com.enjoyyourtime.globalfitness.scale.DriverNameNote
 import com.enjoyyourtime.globalfitness.scale.FormulaLib
 import com.enjoyyourtime.globalfitness.scale.MatchConfidence
 import com.enjoyyourtime.globalfitness.scale.PassiveScaleDriver
@@ -21,7 +22,8 @@ import java.util.Locale
  */
 class AiLinkBroadcastDriver : PassiveScaleDriver() {
     override val id = "ailink_broadcast"
-    override val displayName = "AiLink / eLink (báscula de grasa por anuncios)"
+    override val displayName = "AiLink / eLink"
+    override val nameNote = DriverNameNote.BODY_FAT_BROADCAST
     override val brand = "AiLink / Aicare"
     override val capabilities = ScaleCapabilities(impedance = true)
     override val formulaLib = FormulaLib.STANDARD_IMPEDANCE

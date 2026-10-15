@@ -17,7 +17,8 @@ import java.util.UUID
 /** One notification / indication (or read result) received from the peripheral. */
 class GattNotification(val characteristic: UUID, val value: ByteArray)
 
-class GattException(message: String) : Exception(message)
+/** A connection failure; [notice] is what the user sees. */
+class GattException(val notice: ScaleNotice) : Exception(notice.kind.name)
 
 /**
  * Minimal coroutine view of a GATT connection. Implemented on Android by [GattSession]; a fake
@@ -42,7 +43,7 @@ interface GattLink {
     fun characteristics(): List<GattCharInfo> = emptyList()
 
     /** Why the link failed on its own (e.g. a wedged operation), null when it did not. */
-    val failure: String? get() = null
+    val failure: ScaleNotice? get() = null
     suspend fun enableNotifications(service: UUID, characteristic: UUID): Boolean
     suspend fun write(service: UUID, characteristic: UUID, value: ByteArray, withResponse: Boolean): Boolean
     suspend fun read(service: UUID, characteristic: UUID): ByteArray?
@@ -78,7 +79,7 @@ class GattSessionRunner(
     private sealed interface Event {
         class Notify(val n: GattNotification) : Event
         class Timer(val action: () -> Unit) : Event
-        class End(val reason: String?) : Event
+        class End(val reason: ScaleNotice?) : Event
     }
 
     fun run(): Flow<ScaleEvent> = channelFlow {
@@ -91,13 +92,18 @@ class GattSessionRunner(
         } catch (e: CancellationException) {
             link.close()
             if (e is kotlinx.coroutines.TimeoutCancellationException) {
-                send(ScaleEvent.Status(SessionStatus.FAILED, "No se pudo conectar (tiempo agotado)"))
+                send(ScaleEvent.Status(SessionStatus.FAILED, ScaleNotice(ScaleNotice.Kind.CONNECT_TIMEOUT)))
                 return@channelFlow
             }
             throw e
         } catch (e: Exception) {
             link.close()
-            send(ScaleEvent.Status(SessionStatus.FAILED, e.message ?: "No se pudo conectar"))
+            val notice = when {
+                e is GattException -> e.notice
+                e.message != null -> ScaleNotice(ScaleNotice.Kind.CONNECT_FAILED_DETAIL, listOf(e.message!!))
+                else -> ScaleNotice(ScaleNotice.Kind.CONNECT_FAILED)
+            }
+            send(ScaleEvent.Status(SessionStatus.FAILED, notice))
             return@channelFlow
         }
         val ops = Channel<Op>(Channel.UNLIMITED)
@@ -150,8 +156,8 @@ class GattSessionRunner(
                 trySend(ScaleEvent.Live(weightKg))
             }
 
-            override fun message(text: String) {
-                trySend(ScaleEvent.Message(text))
+            override fun message(notice: ScaleNotice) {
+                trySend(ScaleEvent.Message(notice))
             }
         }
 
@@ -166,7 +172,7 @@ class GattSessionRunner(
             }
             linkWatchJob = launch {
                 link.isConnected.first { !it }
-                events.send(Event.End("La báscula se desconectó"))
+                events.send(Event.End(ScaleNotice(ScaleNotice.Kind.SCALE_DISCONNECTED)))
             }
             opsJob = launch {
             for (op in ops) {
@@ -201,7 +207,7 @@ class GattSessionRunner(
 
         val startedAt = env.elapsedClock()
         var lastActivity = startedAt
-        var endReason: String? = null
+        var endReason: ScaleNotice? = null
 
         fun guarded(block: () -> Unit) {
             try {
@@ -209,7 +215,7 @@ class GattSessionRunner(
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                trySend(ScaleEvent.Message("Error del protocolo: ${e.message ?: e.javaClass.simpleName}"))
+                trySend(ScaleEvent.Message(ScaleNotice(ScaleNotice.Kind.PROTOCOL_ERROR, listOf(e.message ?: e.javaClass.simpleName))))
             }
         }
 
@@ -268,7 +274,7 @@ class GattSessionRunner(
     }.buffer(Channel.UNLIMITED)
 
     companion object {
-        const val NO_DATA = "Sin datos nuevos de la báscula"
+        val NO_DATA = ScaleNotice(ScaleNotice.Kind.NO_NEW_DATA)
     }
 }
 

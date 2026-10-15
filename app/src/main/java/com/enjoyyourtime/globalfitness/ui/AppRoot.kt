@@ -43,6 +43,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
@@ -56,6 +57,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.domain.Metric
 import com.enjoyyourtime.globalfitness.ui.account.AccountScreen
 import com.enjoyyourtime.globalfitness.ui.account.AccountViewModel
@@ -90,6 +92,7 @@ fun AppRoot() {
     val rationaleSeen by vm.permissionRationaleSeen.collectAsStateWithLifecycle()
 
     val haptic = LocalHapticFeedback.current
+    val context = LocalContext.current
     val snackbar = remember { SnackbarHostState() }
     val access = rememberBleAccess(
         rationaleSeen = rationaleSeen,
@@ -105,7 +108,7 @@ fun AppRoot() {
                 is UiEvent.Message -> {
                     if (event.haptic) haptic.performHapticFeedback(HapticFeedbackType.Confirm)
                     snackbar.currentSnackbarData?.dismiss()
-                    snackbar.showSnackbar(event.text, withDismissAction = true, duration = SnackbarDuration.Short)
+                    snackbar.showSnackbar(event.text.resolve(context), withDismissAction = true, duration = SnackbarDuration.Short)
                 }
             }
         }
@@ -118,7 +121,7 @@ fun AppRoot() {
                 CircularProgressIndicator()
             } else {
                 Text(
-                    "No se pudo abrir la base de datos: $error",
+                    stringResource(R.string.error_database_open, error),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.error,
                 )
@@ -201,7 +204,7 @@ private fun MainScaffold(
                                 selected = selected,
                                 onClick = { navController.navigateToSection(item) },
                                 icon = { Icon(if (selected) item.selectedIcon else item.icon, contentDescription = null) },
-                                label = { Text(item.label, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                                label = { Text(stringResource(item.label), maxLines = 1, overflow = TextOverflow.Ellipsis) },
                             )
                         }
                     }
@@ -214,8 +217,8 @@ private fun MainScaffold(
                     onClick = { showManual = true },
                     expanded = manualFabExpanded,
                     // Named for TalkBack while only the icon shows.
-                    icon = { Icon(Icons.Filled.Add, contentDescription = if (manualFabExpanded) null else "Añadir peso manual") },
-                    text = { Text("Añadir peso manual") },
+                    icon = { Icon(Icons.Filled.Add, contentDescription = if (manualFabExpanded) null else stringResource(R.string.action_add_manual_weight)) },
+                    text = { Text(stringResource(R.string.action_add_manual_weight)) },
                 )
             }
         },

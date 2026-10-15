@@ -9,6 +9,7 @@ import com.enjoyyourtime.globalfitness.scale.GattProtocol
 import com.enjoyyourtime.globalfitness.scale.GattScaleDriver
 import com.enjoyyourtime.globalfitness.scale.MatchConfidence
 import com.enjoyyourtime.globalfitness.scale.ScaleCapabilities
+import com.enjoyyourtime.globalfitness.scale.ScaleNotice
 import com.enjoyyourtime.globalfitness.scale.ScaleSample
 import com.enjoyyourtime.globalfitness.scale.uuid16
 import java.util.Locale
@@ -179,7 +180,7 @@ class CultSmartScaleProDriver : GattScaleDriver() {
 
         override fun onConnected() {
             setNotifyOn(svc, chrNotify)
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onDisconnected() {
@@ -345,7 +346,7 @@ class HealthKeep280Driver : GattScaleDriver() {
             )
             payload[7] = Bytes.sum8(payload, 0, 7).toByte()
             writeTo(svc, chrWrite, payload)
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {

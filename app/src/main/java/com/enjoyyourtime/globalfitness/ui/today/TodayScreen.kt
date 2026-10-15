@@ -34,9 +34,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.account.AccountUser
 import com.enjoyyourtime.globalfitness.ble.GattSessionInfo
 import com.enjoyyourtime.globalfitness.ble.LiveScale
@@ -52,7 +55,7 @@ import com.enjoyyourtime.globalfitness.ui.BleAccess
 import com.enjoyyourtime.globalfitness.ui.Entry
 import com.enjoyyourtime.globalfitness.ui.Fmt
 import com.enjoyyourtime.globalfitness.ui.MainUiState
-import com.enjoyyourtime.globalfitness.ui.body.NO_COMPOSITION_HINT
+import com.enjoyyourtime.globalfitness.ui.label
 import com.enjoyyourtime.globalfitness.ui.components.AppCard
 import com.enjoyyourtime.globalfitness.ui.components.AppIcons
 import com.enjoyyourtime.globalfitness.ui.components.ProgressRing
@@ -61,7 +64,7 @@ import com.enjoyyourtime.globalfitness.ui.components.Sparkline
 import com.enjoyyourtime.globalfitness.ui.components.StatusChip
 import com.enjoyyourtime.globalfitness.ui.components.TabPage
 import com.enjoyyourtime.globalfitness.ui.devices.ScaleSuggestionCard
-import com.enjoyyourtime.globalfitness.ui.devices.bandStatusText
+import com.enjoyyourtime.globalfitness.ui.devices.bandStatus
 import com.enjoyyourtime.globalfitness.ui.health.HealthDashboard
 import com.enjoyyourtime.globalfitness.ui.health.HealthFormat
 import com.enjoyyourtime.globalfitness.ui.health.HealthUiState
@@ -85,12 +88,12 @@ data class TodayStatus(
     val user: AccountUser?,
     val cloud: CloudSyncStatus,
     val band: BandSummary?,
-    /** A nearby scale waiting for "¿Es tu báscula?" (same as in Dispositivos). */
+    /** A nearby scale waiting for "Is this your scale?" (same as in Devices). */
     val suggestion: ScaleSuggestion? = null,
 )
 
 /**
- * "Hoy": greeting with today's rings (Health Connect), the weighing in progress, the latest
+ * Today: greeting with today's rings (Health Connect), the weighing in progress, the latest
  * weight with its 30-day trend, body composition highlights and quick status chips.
  */
 @Composable
@@ -121,7 +124,7 @@ fun TodayScreen(
     val entries = state.entries
     val session = visibleSession(status.sessions, now)
 
-    TabPage(title = "Hoy") {
+    TabPage(title = stringResource(R.string.nav_today)) {
         item(key = "hero") {
             HeroCard(
                 name = state.profile?.name,
@@ -138,15 +141,15 @@ fun TodayScreen(
                 AppCard(
                     containerColor = MaterialTheme.colorScheme.errorContainer,
                     onClick = onOpenAccount,
-                    onClickLabel = "Abrir cuenta",
+                    onClickLabel = stringResource(R.string.today_open_account),
                 ) {
                     Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
                         Icon(Icons.Filled.Warning, contentDescription = null, tint = MaterialTheme.colorScheme.onErrorContainer)
                         Spacer(Modifier.width(16.dp))
                         Column(Modifier.weight(1f)) {
-                            Text("Copia en la nube en pausa", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onErrorContainer)
+                            Text(stringResource(R.string.today_cloud_paused_title), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onErrorContainer)
                             Text(
-                                "Necesitamos que elijas qué datos conservar. Toca para decidir.",
+                                stringResource(R.string.today_cloud_paused_text),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onErrorContainer,
                             )
@@ -174,10 +177,10 @@ fun TodayScreen(
             val latest = entries.lastOrNull { it.composition.fatPercent != null }
             item(key = "composition-title") {
                 Column {
-                    SectionTitle("Composición corporal")
+                    SectionTitle(stringResource(R.string.body_composition))
                     if (latest != null && latest != entries.last()) {
                         Text(
-                            "Última medición con composición: ${Fmt.relative(latest.measurement.timestamp, now).lowercase(Fmt.LOCALE)}",
+                            stringResource(R.string.today_last_composition, Fmt.relative(latest.measurement.timestamp, now)),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.padding(start = 4.dp),
@@ -188,7 +191,7 @@ fun TodayScreen(
             if (latest == null) {
                 item(key = "composition-empty") {
                     Text(
-                        NO_COMPOSITION_HINT,
+                        stringResource(R.string.body_no_composition_hint),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(horizontal = 4.dp),
@@ -208,7 +211,7 @@ fun TodayScreen(
         }
         item(key = "disclaimer") {
             Text(
-                "Estimaciones de la báscula o calculadas con fórmulas publicadas. No son un diagnóstico médico.",
+                stringResource(R.string.common_disclaimer),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(horizontal = 4.dp),
@@ -231,25 +234,27 @@ private fun HeroCard(
         Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Column {
                 Text(
-                    name?.let { "Hola, $it" } ?: "Hola",
+                    name?.let { stringResource(R.string.today_greeting_name, it) } ?: stringResource(R.string.today_greeting),
                     style = MaterialTheme.typography.headlineSmall,
                     color = onContainer,
                     modifier = Modifier.semantics { heading() },
                 )
-                Text(longDate(LocalDate.now()), style = MaterialTheme.typography.bodyMedium, color = onContainer)
+                Text(Fmt.longDate(LocalDate.now()), style = MaterialTheme.typography.bodyMedium, color = onContainer)
             }
             val connected = health.availability == HcAvailability.AVAILABLE && health.canRead
             when {
                 connected -> Rings(dashboard, onOpenActivity)
                 health.availability == HcAvailability.AVAILABLE -> HeroCallToAction(
-                    text = "Conecta Health Connect para ver aquí tus pasos, tu sueño y tu pulso en reposo.",
-                    action = "Conectar Health Connect",
+                    text = stringResource(R.string.today_hc_connect_text),
+                    action = stringResource(R.string.action_connect_health_connect),
                     onClick = onConnect,
                 )
                 health.availability == HcAvailability.NOT_INSTALLED || health.availability == HcAvailability.UPDATE_REQUIRED ->
                     HeroCallToAction(
-                        text = "Con Health Connect verás aquí tus pasos, tu sueño y tu pulso en reposo de tu pulsera o reloj.",
-                        action = if (health.availability == HcAvailability.NOT_INSTALLED) "Instalar Health Connect" else "Actualizar Health Connect",
+                        text = stringResource(R.string.today_hc_install_text),
+                        action = stringResource(
+                            if (health.availability == HcAvailability.NOT_INSTALLED) R.string.action_install_health_connect else R.string.action_update_health_connect,
+                        ),
                         onClick = onInstall,
                     )
                 else -> Unit
@@ -275,8 +280,8 @@ private fun Rings(d: HealthDashboard?, onOpenActivity: () -> Unit) {
     val resting = d?.todaySummary?.restingHr ?: d?.restingTrend?.current?.average?.let { Math.round(it).toInt() }
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
         RingColumn(
-            label = "Pasos",
-            caption = "de ${HealthFormat.count(HealthViewModel.STEPS_GOAL)}",
+            label = stringResource(R.string.today_steps),
+            caption = stringResource(R.string.today_goal_of, HealthFormat.count(HealthViewModel.STEPS_GOAL)),
             ring = {
                 ProgressRing(
                     progress = steps?.let { it.toFloat() / HealthViewModel.STEPS_GOAL },
@@ -284,44 +289,47 @@ private fun Rings(d: HealthDashboard?, onOpenActivity: () -> Unit) {
                     unit = "",
                     color = scheme.primary,
                     trackColor = track,
-                    description = steps?.let { "Pasos hoy: ${HealthFormat.count(it)} de ${HealthFormat.count(HealthViewModel.STEPS_GOAL)}" }
-                        ?: "Pasos hoy: sin datos",
+                    description = steps?.let {
+                        stringResource(R.string.today_steps_desc, HealthFormat.count(it), HealthFormat.count(HealthViewModel.STEPS_GOAL))
+                    } ?: stringResource(R.string.today_steps_desc_none),
                 )
             },
         )
         RingColumn(
-            label = "Sueño",
-            caption = "de 8 h",
+            label = stringResource(R.string.today_sleep),
+            caption = stringResource(R.string.today_sleep_goal),
             ring = {
                 ProgressRing(
                     progress = sleep?.let { it.toFloat() / SLEEP_GOAL_MINUTES },
-                    value = sleep?.let { "${it / 60}:${String.format(Fmt.LOCALE, "%02d", it % 60)}" } ?: "—",
-                    unit = if (sleep != null) "h" else "",
+                    value = sleep?.let { HealthFormat.hoursMinutes(it) } ?: "—",
+                    unit = if (sleep != null) stringResource(R.string.unit_hours_short) else "",
                     color = scheme.tertiary,
                     trackColor = track,
-                    description = sleep?.let { "Sueño de anoche: ${HealthFormat.minutes(it)} de 8 horas" } ?: "Sueño de anoche: sin datos",
+                    description = sleep?.let { stringResource(R.string.today_sleep_desc, HealthFormat.minutes(it)) }
+                        ?: stringResource(R.string.today_sleep_desc_none),
                 )
             },
         )
         RingColumn(
-            label = "Pulso reposo",
-            caption = "lpm",
+            label = stringResource(R.string.today_resting_hr),
+            caption = stringResource(R.string.unit_bpm),
             ring = {
-                // Scale: a full ring is 100 lpm, the upper end of the normal resting range.
+                // Scale: a full ring is 100 bpm, the upper end of the normal resting range.
                 ProgressRing(
                     progress = resting?.let { it / 100f },
-                    value = resting?.toString() ?: "—",
+                    value = resting?.let { Fmt.count(it.toLong()) } ?: "—",
                     unit = "",
                     color = scheme.secondary,
                     trackColor = track,
-                    description = resting?.let { "Pulso en reposo: $it latidos por minuto" } ?: "Pulso en reposo: sin datos",
+                    description = resting?.let { pluralStringResource(R.plurals.today_resting_hr_desc, it, it) }
+                        ?: stringResource(R.string.today_resting_hr_desc_none),
                 )
             },
         )
     }
     if (d != null && !d.hasData) {
         Text(
-            "Health Connect todavía no tiene datos de tu pulsera o reloj.",
+            stringResource(R.string.today_hc_no_data),
             style = MaterialTheme.typography.bodySmall,
             color = scheme.onPrimaryContainer,
         )
@@ -333,7 +341,7 @@ private fun Rings(d: HealthDashboard?, onOpenActivity: () -> Unit) {
             contentColor = scheme.primary,
         ),
         modifier = Modifier.heightIn(min = 48.dp),
-    ) { Text("Ver actividad") }
+    ) { Text(stringResource(R.string.today_view_activity)) }
 }
 
 @Composable
@@ -354,28 +362,28 @@ private fun StatusChips(
 ) {
     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         val scale = when (status.scanStatus) {
-            is ScanStatus.Scanning -> "Báscula: escuchando"
-            ScanStatus.Starting -> "Báscula: iniciando"
-            ScanStatus.MissingPermission -> "Báscula: falta permiso"
-            ScanStatus.BluetoothOff -> "Bluetooth apagado"
-            ScanStatus.NoBluetoothLe -> "Sin Bluetooth LE"
-            ScanStatus.Stopped -> "Báscula: en pausa"
-            is ScanStatus.Failed -> "Báscula: error"
+            is ScanStatus.Scanning -> R.string.chip_scale_listening
+            ScanStatus.Starting -> R.string.chip_scale_starting
+            ScanStatus.MissingPermission -> R.string.chip_scale_permission
+            ScanStatus.BluetoothOff -> R.string.chip_bluetooth_off
+            ScanStatus.NoBluetoothLe -> R.string.chip_no_ble
+            ScanStatus.Stopped -> R.string.chip_scale_paused
+            is ScanStatus.Failed -> R.string.chip_scale_error
         }
-        StatusAssistChip(scale, AppIcons.Bluetooth, onOpenDevices)
+        StatusAssistChip(stringResource(scale), AppIcons.Bluetooth, onOpenDevices)
         if (status.user != null) {
             val cloud = status.cloud
             val text = when {
-                cloud.conflict != null || cloud.deletionPending -> "Nube: en pausa"
-                cloud.syncing || cloud.deleting -> "Nube: sincronizando…"
-                cloud.error != null -> "Nube: error"
-                cloud.pendingUpload -> "Nube: pendiente de subir"
-                cloud.lastSyncAt != null -> "Nube: ${Fmt.relative(cloud.lastSyncAt).lowercase(Fmt.LOCALE)}"
-                else -> "Nube: conectada"
+                cloud.conflict != null || cloud.deletionPending -> stringResource(R.string.chip_cloud_paused)
+                cloud.syncing || cloud.deleting -> stringResource(R.string.chip_cloud_syncing)
+                cloud.error != null -> stringResource(R.string.chip_cloud_error)
+                cloud.pendingUpload -> stringResource(R.string.chip_cloud_pending)
+                cloud.lastSyncAt != null -> stringResource(R.string.chip_cloud_synced, Fmt.relative(cloud.lastSyncAt))
+                else -> stringResource(R.string.chip_cloud_connected)
             }
             StatusAssistChip(text, AppIcons.Cloud, onOpenAccount)
         }
-        status.band?.let { StatusAssistChip("Pulsera: ${bandStatusText(it).removePrefix("Modo directo · ").lowercase(Fmt.LOCALE)}", AppIcons.Watch, onOpenBand) }
+        status.band?.let { StatusAssistChip(stringResource(R.string.chip_band, bandStatus(it, withMode = false)), AppIcons.Watch, onOpenBand) }
     }
 }
 
@@ -394,17 +402,16 @@ private fun WeightCard(entries: List<Entry>, now: Long, onOpen: () -> Unit, onAd
     if (latest == null) {
         AppCard {
             Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text("Aún no hay mediciones", style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.body_no_measurements_title), style = MaterialTheme.typography.titleMedium)
                 Text(
-                    "Súbete a la báscula descalzo y con la app abierta: la medición aparecerá aquí. " +
-                        "Si tu báscula no es compatible, añade el peso a mano.",
+                    stringResource(R.string.today_no_measurements_text),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 FilledTonalButton(onClick = onAddWeight, modifier = Modifier.heightIn(min = 48.dp)) {
                     Icon(Icons.Filled.Add, contentDescription = null)
                     Spacer(Modifier.width(8.dp))
-                    Text("Añadir peso manual")
+                    Text(stringResource(R.string.action_add_manual_weight))
                 }
             }
         }
@@ -414,19 +421,21 @@ private fun WeightCard(entries: List<Entry>, now: Long, onOpen: () -> Unit, onAd
     val points = remember(entries) { entries.map { TimePoint(it.measurement.timestamp, it.measurement.weightKg) } }
     val weekly = remember(points) { Trends.weeklyTrend(Trends.movingAverage(points)) }
     val recent = points.filter { it.t >= now - SPARKLINE_DAYS * Trends.DAY_MS }.map { it.v }
-    AppCard(onClick = onOpen, onClickLabel = "Ver evolución del peso") {
+    AppCard(onClick = onOpen, onClickLabel = stringResource(R.string.today_view_weight_trend)) {
         Row(Modifier.padding(20.dp), verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                Text("Peso", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(stringResource(R.string.metric_weight), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 Row(verticalAlignment = Alignment.Bottom) {
                     Text(Fmt.num(m.weightKg, 2), style = MaterialTheme.typography.displaySmall.merge(TabularNumbers))
                     Spacer(Modifier.width(4.dp))
-                    Text("kg", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(bottom = 6.dp))
+                    Text(stringResource(R.string.unit_kg), style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(bottom = 6.dp))
                 }
                 val (icon, trend) = when {
-                    weekly == null -> AppIcons.TrendFlat to "Cambio semanal: faltan datos"
-                    abs(weekly) < 0.1 -> AppIcons.TrendFlat to "Estable esta semana (${Fmt.signed(weekly, 2)} kg)"
-                    else -> (if (weekly > 0) AppIcons.TrendUp else AppIcons.TrendDown) to "${Fmt.signed(weekly, 2)} kg en 7 días"
+                    weekly == null -> AppIcons.TrendFlat to stringResource(R.string.today_weekly_change_none)
+                    abs(weekly) < 0.1 -> AppIcons.TrendFlat to
+                        stringResource(R.string.today_weekly_stable, stringResource(R.string.value_kg, Fmt.signed(weekly, 2)))
+                    else -> (if (weekly > 0) AppIcons.TrendUp else AppIcons.TrendDown) to
+                        stringResource(R.string.today_weekly_change, stringResource(R.string.value_kg, Fmt.signed(weekly, 2)))
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(icon, contentDescription = null, modifier = Modifier.size(18.dp), tint = MaterialTheme.colorScheme.primary)
@@ -443,7 +452,7 @@ private fun WeightCard(entries: List<Entry>, now: Long, onOpen: () -> Unit, onAd
                 Spacer(Modifier.width(16.dp))
                 Column(horizontalAlignment = Alignment.End) {
                     Sparkline(recent, MaterialTheme.colorScheme.primary, Modifier.width(112.dp).height(56.dp))
-                    Text("30 días", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(pluralStringResource(R.plurals.common_days, SPARKLINE_DAYS, SPARKLINE_DAYS), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
         }
@@ -454,21 +463,13 @@ private fun WeightCard(entries: List<Entry>, now: Long, onOpen: () -> Unit, onAd
 private fun HighlightTile(metric: Metric, latest: Entry, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val c = latest.composition
     val value = metric.extract(c)
-    AppCard(modifier, onClick = onClick, onClickLabel = "Ver evolución") {
+    AppCard(modifier, onClick = onClick, onClickLabel = stringResource(R.string.common_view_trend)) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            Text(metric.label, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1)
+            Text(metric.label(), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1)
             Text(value?.let { Fmt.metric(metric, it) } ?: "—", style = MaterialTheme.typography.titleLarge.merge(TabularNumbers), maxLines = 1)
             if (value != null) metric.classify(c)?.let { StatusChip(it) }
         }
     }
 }
 
-private val WEEKDAYS = arrayOf("lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo")
-private val MONTHS = arrayOf(
-    "enero", "febrero", "marzo", "abril", "mayo", "junio",
-    "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre",
-)
 
-/** "Miércoles, 15 de octubre". */
-private fun longDate(d: LocalDate): String =
-    "${WEEKDAYS[d.dayOfWeek.value - 1]}, ${d.dayOfMonth} de ${MONTHS[d.monthValue - 1]}".replaceFirstChar { it.uppercase(Fmt.LOCALE) }

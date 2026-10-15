@@ -4,11 +4,13 @@ package com.enjoyyourtime.globalfitness.scale.drivers
 import com.enjoyyourtime.globalfitness.scale.AdvertisementInfo
 import com.enjoyyourtime.globalfitness.scale.Bytes
 import com.enjoyyourtime.globalfitness.scale.Cancellable
+import com.enjoyyourtime.globalfitness.scale.DriverNameNote
 import com.enjoyyourtime.globalfitness.scale.FormulaLib
 import com.enjoyyourtime.globalfitness.scale.GattProtocol
 import com.enjoyyourtime.globalfitness.scale.GattScaleDriver
 import com.enjoyyourtime.globalfitness.scale.MatchConfidence
 import com.enjoyyourtime.globalfitness.scale.ScaleCapabilities
+import com.enjoyyourtime.globalfitness.scale.ScaleNotice
 import com.enjoyyourtime.globalfitness.scale.ScaleSample
 import com.enjoyyourtime.globalfitness.scale.ScaleUnit
 import com.enjoyyourtime.globalfitness.scale.uuid16
@@ -27,7 +29,8 @@ internal fun icomonConfig(cmd: Int, b3: Int, b4: Int, b5: Int): ByteArray {
 /** EEBBL Body Fat Scale (P1, 8 electrodes): weight published after 8 identical stable A2 frames. */
 class EEBBLDriver : GattScaleDriver() {
     override val id = "eebbl_p1"
-    override val displayName = "EEBBL Body Fat Scale P1 (8 electrodos)"
+    override val displayName = "EEBBL Body Fat Scale P1"
+    override val nameNote = DriverNameNote.EIGHT_ELECTRODES
     override val brand = "EEBBL"
     override val capabilities = ScaleCapabilities()
     override val keywords = listOf("P1")
@@ -60,7 +63,7 @@ class EEBBLDriver : GattScaleDriver() {
             writeTo(svc, chrWrite, icomonConfig(0xFD, (t.year - 2000).coerceIn(0, 99), t.monthValue, t.dayOfMonth))
             writeTo(svc, chrWrite, icomonConfig(0xFC, t.hour, t.minute, t.second))
             writeTo(svc, chrWrite, icomonConfig(0xFE, 6, user.unit.ordinal, 0))
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {
@@ -135,7 +138,7 @@ class VitafitVT701Driver : GattScaleDriver() {
             writeTo(svc, chrWrite, buildCommand(0x33, byteArrayOf(0x00)))
             writeTo(svc, chrWrite, buildCommand(0x44, byteArrayOf()))
             writeTo(svc, chrWrite, buildCommand(0x17, byteArrayOf(0x01)))
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {
@@ -244,7 +247,7 @@ class RobiS9Driver : GattScaleDriver() {
             setNotifyOn(svc, chrLive)
             setNotifyOn(svc, chrResult)
             HANDSHAKE.forEach { writeTo(svc, chrWrite, Bytes.fromHex(it)) }
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {
@@ -307,7 +310,7 @@ class RunstarR5Driver : GattScaleDriver() {
             writeTo(svc, chrWrite, icomonConfig(0xFD, (t.year - 2000).coerceIn(0, 99), t.monthValue, t.dayOfMonth))
             writeTo(svc, chrWrite, icomonConfig(0xFC, t.hour, t.minute, t.second))
             writeTo(svc, chrWrite, icomonConfig(0xFE, 6, unitCode(user.unit), 0))
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {
@@ -360,7 +363,7 @@ class RunstarR6Driver : GattScaleDriver() {
         override fun onConnected() {
             setNotifyOn(svc, chrLive)
             setNotifyOn(svc, chrResult)
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {
