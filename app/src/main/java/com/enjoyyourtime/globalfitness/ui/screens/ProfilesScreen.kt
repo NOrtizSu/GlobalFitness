@@ -46,6 +46,7 @@ import com.enjoyyourtime.globalfitness.data.Profile
 import com.enjoyyourtime.globalfitness.data.ProfileDraft
 import com.enjoyyourtime.globalfitness.ui.Fmt
 import com.enjoyyourtime.globalfitness.ui.MainUiState
+import com.enjoyyourtime.globalfitness.ui.band.BandActivity
 import com.enjoyyourtime.globalfitness.ui.components.AppIcons
 import com.enjoyyourtime.globalfitness.ui.components.ProfileDot
 import com.enjoyyourtime.globalfitness.ui.components.SectionTitle
@@ -129,6 +130,15 @@ fun ProfilesScreen(
                         }
                     }
                 }
+            }
+        }
+
+        // Temporary entry point to the experimental direct band mode (until navigation is redesigned).
+        item { SectionTitle("Pulsera", Modifier.padding(top = 8.dp)) }
+        item {
+            val context = LocalContext.current
+            OutlinedButton(onClick = { context.startActivity(BandActivity.intent(context)) }) {
+                Text("Xiaomi Smart Band 9 · modo directo (experimental)")
             }
         }
 
