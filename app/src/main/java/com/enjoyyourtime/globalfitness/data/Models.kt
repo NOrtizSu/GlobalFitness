@@ -1,5 +1,8 @@
 package com.enjoyyourtime.globalfitness.data
 
+import com.enjoyyourtime.globalfitness.scale.CompositionSource
+import com.enjoyyourtime.globalfitness.scale.DeviceComposition
+import com.enjoyyourtime.globalfitness.scale.FormulaLib
 import java.time.Instant
 import java.time.LocalDate
 import java.time.Period
@@ -51,11 +54,20 @@ data class ProfileDraft(
 
 data class Measurement(
     val id: Long,
-    /** Null means pending assignment. */
+    /** Owner profile. The app has a single profile; null only before it exists (adopted on creation). */
     val profileId: Long?,
     val timestamp: Long,
     val weightKg: Double,
     val impedance: Int?,
     val scaleKey: String?,
     val source: MeasurementSource,
+    /** Composition reported (or computed at capture time) by the scale, if any. */
+    val composition: DeviceComposition? = null,
+    /** Null for rows stored before multi-scale support (Mi Scale 2 / manual). */
+    val compositionSource: CompositionSource? = null,
+    /** Formula library used to compute composition from [impedance]; null = Mi Fit (legacy rows). */
+    val formulaLib: FormulaLib? = null,
+    /** Driver id of the scale that produced it (null for manual / legacy rows). */
+    val deviceDriver: String? = null,
+    val deviceAddress: String? = null,
 )

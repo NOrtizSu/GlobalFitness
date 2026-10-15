@@ -13,11 +13,22 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
-data class ImportResult(val imported: Int, val duplicates: Int, val invalid: Int, val createdProfiles: Int)
+data class ImportResult(
+    val imported: Int,
+    val duplicates: Int,
+    val invalid: Int,
+    val createdProfile: Boolean,
+    /** Rows of other people skipped from an old multi-profile export. */
+    val skippedOtherProfiles: Int,
+)
 
 /**
- * Single source of truth. Everything is loaded into memory at start; writes go to SQLite on
- * the IO dispatcher and then update the in-memory StateFlows.
+ * Single source of truth. The app has exactly one user profile: every measurement belongs to it.
+ * Everything is loaded into memory at start; writes go to SQLite on the IO dispatcher and then
+ * update the in-memory StateFlows.
+ *
+ * Databases from multi-profile versions keep all their rows; the profile kept is the one that was
+ * selected (else the one with most measurements), and only its measurements are loaded.
  */
 class Repository(
     private val db: AppDatabase,
@@ -25,15 +36,24 @@ class Repository(
     private val io: CoroutineDispatcher = Dispatchers.IO,
     private val compute: CoroutineDispatcher = Dispatchers.Default,
     private val clock: () -> Long = System::currentTimeMillis,
+    /** Profile to keep when an old database has several. */
+    private val preferredProfileId: () -> Long? = { null },
 ) {
     private val mutex = Mutex()
 
+    private val _profile = MutableStateFlow<Profile?>(null)
+
+    /** The single user profile (null until onboarding creates it). */
+    val profile: StateFlow<Profile?> = _profile.asStateFlow()
+
     private val _profiles = MutableStateFlow<List<Profile>>(emptyList())
+
+    /** [profile] as a list (0 or 1 element), for screens written for lists. */
     val profiles: StateFlow<List<Profile>> = _profiles.asStateFlow()
 
     private val _measurements = MutableStateFlow<List<Measurement>>(emptyList())
 
-    /** All measurements sorted by timestamp ascending. */
+    /** All measurements of the profile, sorted by timestamp ascending. */
     val measurements: StateFlow<List<Measurement>> = _measurements.asStateFlow()
 
     private val _loaded = MutableStateFlow(false)
@@ -49,10 +69,12 @@ class Repository(
             mutex.withLock {
                 try {
                     val (p, m) = withContext(io) {
-                        db.fixOrphans()
-                        db.loadProfiles() to db.loadMeasurements()
+                        val all = db.loadProfiles()
+                        val primary = choosePrimary(all, db.countMeasurementsByProfile(), preferredProfileId())
+                        if (primary != null) db.adoptMeasurements(primary.id)
+                        primary to db.loadMeasurements(primary?.id)
                     }
-                    _profiles.value = p
+                    setProfile(p)
                     _measurements.value = m
                     _loaded.value = true
                 } catch (e: CancellationException) {
@@ -73,79 +95,76 @@ class Repository(
         return mutex.withLock { block() }
     }
 
-    private fun profileExists(id: Long?): Boolean = id != null && _profiles.value.any { it.id == id }
-
-    // ---- Profiles -------------------------------------------------------------------------
-
-    suspend fun createProfile(draft: ProfileDraft): Profile = write {
-        val profile = Profile(
-            id = 0,
-            name = draft.name.trim(),
-            sex = draft.sex,
-            birthDate = draft.birthDate,
-            heightCm = draft.heightCm,
-            targetWeightKg = draft.targetWeightKg,
-            colorIndex = ProfileColors.nextColorIndex(_profiles.value),
-            createdAt = clock(),
-        )
-        val id = withContext(io) { db.insertProfile(profile) }
-        val created = profile.copy(id = id)
-        _profiles.value = _profiles.value + created
-        created
+    private fun setProfile(p: Profile?) {
+        _profile.value = p
+        _profiles.value = listOfNotNull(p)
     }
 
-    suspend fun updateProfile(id: Long, draft: ProfileDraft) = write {
-        val current = _profiles.value.firstOrNull { it.id == id } ?: return@write
-        val updated = current.copy(
-            name = draft.name.trim(),
-            sex = draft.sex,
-            birthDate = draft.birthDate,
-            heightCm = draft.heightCm,
-            targetWeightKg = draft.targetWeightKg,
-        )
-        withContext(io) { db.updateProfile(updated) }
-        _profiles.value = _profiles.value.map { if (it.id == id) updated else it }
-    }
+    // ---- Profile ---------------------------------------------------------------------------
 
-    suspend fun deleteProfile(id: Long, deleteMeasurements: Boolean) = write {
-        withContext(io) { db.deleteProfile(id, deleteMeasurements) }
-        _profiles.value = _profiles.value.filterNot { it.id == id }
-        _measurements.value = if (deleteMeasurements) {
-            _measurements.value.filterNot { it.profileId == id }
+    /**
+     * Creates the profile, or updates it when one already exists (single-profile app).
+     * Measurements stored before the profile existed are adopted by it.
+     */
+    suspend fun saveProfile(draft: ProfileDraft): Profile = write {
+        val current = _profile.value
+        if (current != null) {
+            val updated = current.copy(
+                name = draft.name.trim(),
+                sex = draft.sex,
+                birthDate = draft.birthDate,
+                heightCm = draft.heightCm,
+                targetWeightKg = draft.targetWeightKg,
+            )
+            withContext(io) { db.updateProfile(updated) }
+            setProfile(updated)
+            updated
         } else {
-            _measurements.value.map { if (it.profileId == id) it.copy(profileId = null) else it }
+            val profile = Profile(
+                id = 0,
+                name = draft.name.trim(),
+                sex = draft.sex,
+                birthDate = draft.birthDate,
+                heightCm = draft.heightCm,
+                targetWeightKg = draft.targetWeightKg,
+                colorIndex = 0,
+                createdAt = clock(),
+            )
+            val (created, adopted) = withContext(io) {
+                val id = db.insertProfile(profile)
+                db.adoptMeasurements(id)
+                profile.copy(id = id) to db.loadMeasurements(id)
+            }
+            setProfile(created)
+            _measurements.value = adopted
+            created
         }
     }
 
     // ---- Measurements ---------------------------------------------------------------------
 
     /**
-     * Inserts and returns the stored measurement, or null if its scale_key already exists.
-     * A profile that no longer exists (deleted meanwhile) turns it into a pending measurement.
+     * Inserts and returns the stored measurement (owned by the profile), or null if its
+     * scale_key already exists.
      */
     suspend fun insertMeasurement(m: Measurement): Measurement? = write {
-        val safe = if (m.profileId != null && !profileExists(m.profileId)) m.copy(profileId = null) else m
-        val id = withContext(io) { db.insertMeasurement(safe) }
+        val owned = m.copy(profileId = _profile.value?.id)
+        val id = withContext(io) { db.insertMeasurement(owned) }
         if (id < 0) return@write null
-        val stored = safe.copy(id = id)
+        val stored = owned.copy(id = id)
         _measurements.value = sorted(_measurements.value + stored)
         stored
     }
 
-    suspend fun setImpedance(id: Long, impedance: Int): Measurement? = write {
-        if (_measurements.value.none { it.id == id }) return@write null
-        withContext(io) { db.updateMeasurementImpedance(id, impedance) }
-        var updated: Measurement? = null
-        _measurements.value = _measurements.value.map {
-            if (it.id == id) it.copy(impedance = impedance).also { u -> updated = u } else it
-        }
+    /**
+     * Replaces the scale-provided data (impedance, composition, provenance) of an existing row,
+     * e.g. when the impedance arrives after a weight-only commit. Null when the row is gone.
+     */
+    suspend fun updateScaleData(updated: Measurement): Measurement? = write {
+        if (_measurements.value.none { it.id == updated.id }) return@write null
+        withContext(io) { db.updateMeasurementScaleData(updated) }
+        _measurements.value = _measurements.value.map { if (it.id == updated.id) updated else it }
         updated
-    }
-
-    suspend fun assignMeasurement(id: Long, profileId: Long?) = write {
-        val target = profileId?.takeIf { profileExists(it) }
-        withContext(io) { db.assignMeasurement(id, target) }
-        _measurements.value = _measurements.value.map { if (it.id == id) it.copy(profileId = target) else it }
     }
 
     suspend fun deleteMeasurement(id: Long) = write {
@@ -154,23 +173,33 @@ class Repository(
     }
 
     /**
-     * Imports parsed CSV rows: planning/dedupe off the main thread, then one DB transaction for
-     * new profiles and measurements; memory is updated only after the transaction succeeds.
+     * Imports parsed CSV rows: planning/dedupe off the main thread, then one DB transaction;
+     * memory is updated only after the transaction succeeds.
      */
     suspend fun importRows(rows: List<CsvImportRow>, invalid: Int): ImportResult = write {
-        val currentProfiles = _profiles.value
+        val currentProfile = _profile.value
         val currentMeasurements = _measurements.value
-        val plan = withContext(compute) { ImportPlanner.plan(rows, currentProfiles, currentMeasurements, clock()) }
+        val plan = withContext(compute) { ImportPlanner.plan(rows, currentProfile, currentMeasurements, clock()) }
         val (created, inserted) = withContext(io) { db.applyImport(plan) }
-        _profiles.value = currentProfiles + created
+        if (created != null) setProfile(created)
         _measurements.value = withContext(compute) { sorted(currentMeasurements + inserted) }
         ImportResult(
             imported = inserted.size,
             duplicates = plan.duplicates + (plan.measurements.size - inserted.size),
             invalid = invalid,
-            createdProfiles = created.size,
+            createdProfile = created != null,
+            skippedOtherProfiles = plan.skippedOtherProfiles,
         )
     }
 
     private fun sorted(list: List<Measurement>) = list.sortedWith(compareBy({ it.timestamp }, { it.id }))
+
+    companion object {
+        /** Selected profile if it still exists, else the one with most measurements, else the oldest. */
+        fun choosePrimary(profiles: List<Profile>, counts: Map<Long, Int>, preferredId: Long?): Profile? {
+            if (profiles.isEmpty()) return null
+            profiles.firstOrNull { it.id == preferredId }?.let { return it }
+            return profiles.maxWithOrNull(compareBy<Profile> { counts[it.id] ?: 0 }.thenByDescending { it.createdAt })
+        }
+    }
 }

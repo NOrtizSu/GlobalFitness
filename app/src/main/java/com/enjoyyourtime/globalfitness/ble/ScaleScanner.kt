@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
 import android.bluetooth.le.BluetoothLeScanner
 import android.bluetooth.le.ScanCallback
+import android.bluetooth.le.ScanRecord
 import android.bluetooth.le.ScanResult
 import android.bluetooth.le.ScanSettings
 import android.content.BroadcastReceiver
@@ -15,11 +16,12 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Build
-import android.os.ParcelUuid
 import android.os.SystemClock
 import androidx.core.content.ContextCompat
 import androidx.core.location.LocationManagerCompat
+import androidx.core.util.size
 import com.enjoyyourtime.globalfitness.data.SettingsStore
+import com.enjoyyourtime.globalfitness.scale.AdvertisementInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.BufferOverflow
@@ -47,15 +49,7 @@ sealed interface ScanStatus {
     data class Failed(val code: Int, val message: String) : ScanStatus
 }
 
-/** A parsed scale advertisement plus radio metadata. */
-data class ScaleAdvertisement(
-    val frame: ScaleFrame,
-    val address: String,
-    val rssi: Int,
-    val receivedAtMillis: Long,
-)
-
-/** Last frame seen, for the diagnostics panel. */
+/** Last Mi Scale (0x181B) frame seen, for the diagnostics panel. */
 data class ScanDebugInfo(
     val rawHex: String,
     val address: String,
@@ -67,11 +61,12 @@ data class ScanDebugInfo(
 )
 
 /**
- * Passive BLE listener for the Mi Body Composition Scale 2.
+ * Passive BLE listener for every supported scale.
  *
- * Uses an unfiltered low-latency scan and filters in software on the 0x181B service data,
- * because hardware service-data filters are unreliable on some phones. Only runs while the
- * app is in the foreground ([onForegroundStart] / [onForegroundStop]).
+ * Uses an unfiltered low-latency scan and hands every advertisement (as [AdvertisementInfo]) to
+ * the scale drivers, because hardware filters are unreliable on some phones and scale families
+ * are recognised by name, services or payload. Only runs while the app is in the foreground
+ * ([onForegroundStart] / [onForegroundStop]).
  */
 class ScaleScanner(
     private val context: Context,
@@ -86,19 +81,16 @@ class ScaleScanner(
     private val _status = MutableStateFlow<ScanStatus>(ScanStatus.Stopped)
     val status: StateFlow<ScanStatus> = _status.asStateFlow()
 
-    private val _frames = MutableSharedFlow<ScaleAdvertisement>(
-        extraBufferCapacity = 64,
+    private val _advertisements = MutableSharedFlow<AdvertisementInfo>(
+        extraBufferCapacity = 256,
         onBufferOverflow = BufferOverflow.DROP_OLDEST,
     )
-    val frames: SharedFlow<ScaleAdvertisement> = _frames.asSharedFlow()
+
+    /** Every advertisement received while scanning. */
+    val advertisements: SharedFlow<AdvertisementInfo> = _advertisements.asSharedFlow()
 
     private val _debug = MutableStateFlow<ScanDebugInfo?>(null)
     val debug: StateFlow<ScanDebugInfo?> = _debug.asStateFlow()
-
-    private val _lastScaleAddress = MutableStateFlow<String?>(null)
-
-    /** Address of the last device whose frame parsed correctly and was not ignored by the pin. */
-    val lastScaleAddress: StateFlow<String?> = _lastScaleAddress.asStateFlow()
 
     /** Number of visible activities; scanning runs while > 0 (robust to overlapping instances). */
     private var foregroundCount = 0
@@ -112,7 +104,6 @@ class ScaleScanner(
     private val startTimes = ArrayDeque<Long>()
     private var receiverRegistered = false
 
-    private val serviceUuid = ParcelUuid(MiScaleParser.SERVICE_UUID)
 
     private val bluetoothStateReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -305,24 +296,39 @@ class ScaleScanner(
 
     private fun handleResult(result: ScanResult) {
         val record = result.scanRecord ?: return
-        val data = record.getServiceData(serviceUuid) ?: return
         val address = result.device?.address ?: return
         val now = System.currentTimeMillis()
-        val frame = MiScaleParser.parse(data)
-        val pinned = settings.pinnedMac.value
-        val ignored = pinned != null && !pinned.equals(address, ignoreCase = true)
-        _debug.value = ScanDebugInfo(
-            rawHex = MiScaleParser.toHex(data),
+        val adv = toAdvertisementInfo(result, record, address, now)
+        adv.serviceData[MiScaleParser.SERVICE_UUID]?.let { data ->
+            val configured = settings.configuredScales.value
+            _debug.value = ScanDebugInfo(
+                rawHex = MiScaleParser.toHex(data),
+                address = address,
+                deviceName = record.deviceName,
+                rssi = result.rssi,
+                receivedAtMillis = now,
+                frame = MiScaleParser.parse(data),
+                ignoredByPin = configured.isNotEmpty() && configured.none { it.matchesAddress(address) },
+            )
+        }
+        _advertisements.tryEmit(adv)
+    }
+
+    private fun toAdvertisementInfo(result: ScanResult, record: ScanRecord, address: String, now: Long): AdvertisementInfo {
+        val serviceData = record.serviceData?.entries?.associate { (k, v) -> k.uuid to v } ?: emptyMap()
+        val manufacturer = record.manufacturerSpecificData?.let { sparse ->
+            buildMap { for (i in 0 until sparse.size) put(sparse.keyAt(i), sparse.valueAt(i)) }
+        } ?: emptyMap()
+        return AdvertisementInfo(
             address = address,
-            deviceName = record.deviceName,
+            name = record.deviceName,
             rssi = result.rssi,
+            serviceUuids = record.serviceUuids?.map { it.uuid } ?: emptyList(),
+            serviceData = serviceData,
+            manufacturerData = manufacturer,
+            rawBytes = record.bytes,
             receivedAtMillis = now,
-            frame = frame,
-            ignoredByPin = ignored,
         )
-        if (frame == null || ignored) return
-        _lastScaleAddress.value = address
-        _frames.tryEmit(ScaleAdvertisement(frame, address, result.rssi, now))
     }
 
     private fun isLocationOffForScan(): Boolean {

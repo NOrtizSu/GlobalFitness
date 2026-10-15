@@ -25,7 +25,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
+
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -42,13 +42,9 @@ data class MainUiState(
     val loaded: Boolean = false,
     val profiles: List<Profile> = emptyList(),
     val selectedProfile: Profile? = null,
-    /** Selected profile's measurements, oldest first. */
+    /** The profile's measurements, oldest first. */
     val entries: List<Entry> = emptyList(),
-    /** Measurements without profile, newest first. */
-    val pending: List<Measurement> = emptyList(),
     val measurementCounts: Map<Long, Int> = emptyMap(),
-    val toleranceKg: Double = 3.0,
-    val pinnedMac: String? = null,
 )
 
 sealed interface UiEvent {
@@ -56,37 +52,25 @@ sealed interface UiEvent {
 }
 
 fun Profile.compositionOf(m: Measurement): BodyComposition =
-    BodyMetrics.compute(sex, heightCm, ageAt(m.timestamp), m.weightKg, m.impedance)
+    BodyMetrics.forMeasurement(sex, heightCm, ageAt(m.timestamp), m)
 
 class MainViewModel(private val container: AppContainer) : ViewModel() {
     private val repository = container.repository
     private val settings = container.settings
 
-    private val settingsFlow = combine(settings.selectedProfileId, settings.toleranceKg, settings.pinnedMac) { sel, tol, mac ->
-        Triple(sel, tol, mac)
-    }
-
     val uiState: StateFlow<MainUiState> = combine(
         repository.loaded,
-        repository.profiles,
+        repository.profile,
         repository.measurements,
-        settingsFlow,
-    ) { loaded, profiles, measurements, (selectedId, tolerance, mac) ->
-        val selected = profiles.firstOrNull { it.id == selectedId } ?: profiles.firstOrNull()
-        val entries = if (selected == null) {
-            emptyList()
-        } else {
-            measurements.filter { it.profileId == selected.id }.map { Entry(it, selected.compositionOf(it)) }
-        }
+    ) { loaded, profile, measurements ->
+        // Single-profile app: every measurement belongs to the profile.
+        val entries = if (profile == null) emptyList() else measurements.map { Entry(it, profile.compositionOf(it)) }
         MainUiState(
             loaded = loaded,
-            profiles = profiles,
-            selectedProfile = selected,
+            profiles = listOfNotNull(profile),
+            selectedProfile = profile,
             entries = entries,
-            pending = measurements.filter { it.profileId == null }.sortedByDescending { it.timestamp },
-            measurementCounts = measurements.mapNotNull { it.profileId }.groupingBy { it }.eachCount(),
-            toleranceKg = tolerance,
-            pinnedMac = mac,
+            measurementCounts = if (profile == null) emptyMap() else mapOf(profile.id to measurements.size),
         )
     }.flowOn(Dispatchers.Default).stateIn(viewModelScope, SharingStarted.Eagerly, MainUiState())
 
@@ -94,18 +78,10 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
     val scanStatus: StateFlow<ScanStatus> = container.scanner.status
     val live: StateFlow<LiveScale> = container.scaleMonitor.live
     val debug: StateFlow<ScanDebugInfo?> = container.scanner.debug
-    val lastScaleAddress: StateFlow<String?> = container.scanner.lastScaleAddress
     val permissionRationaleSeen: StateFlow<Boolean> = settings.permissionRationaleSeen
 
     private val _events = Channel<UiEvent>(Channel.BUFFERED)
     val events: Flow<UiEvent> = _events.receiveAsFlow()
-
-    private val pendingPromptId = MutableStateFlow<Long?>(null)
-
-    /** Measurement waiting for "¿De quién es esta medición?". */
-    val pendingPrompt: StateFlow<Measurement?> = combine(pendingPromptId, repository.measurements) { id, all ->
-        id?.let { wanted -> all.firstOrNull { it.id == wanted && it.profileId == null } }
-    }.stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     init {
         viewModelScope.launch {
@@ -114,24 +90,15 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
         viewModelScope.launch {
             container.scaleMonitor.errors.collect { send(it) }
         }
+        viewModelScope.launch {
+            container.scaleMonitor.messages.collect { send(it) }
+        }
     }
 
     private fun onOutcome(outcome: RecordOutcome) {
         when (outcome) {
-            is RecordOutcome.Saved -> {
-                val profile = outcome.profile
-                if (profile != null) {
-                    settings.setSelectedProfileId(profile.id)
-                    send("Guardado para ${profile.name}", haptic = true)
-                } else {
-                    pendingPromptId.value = outcome.measurement.id
-                    send("Medición guardada, falta asignarla", haptic = true)
-                }
-            }
-            is RecordOutcome.Upgraded -> {
-                val name = outcome.profile?.name
-                send(if (name != null) "Impedancia añadida a la medición de $name" else "Impedancia añadida a la medición", haptic = true)
-            }
+            is RecordOutcome.Saved -> send("Medición guardada", haptic = true)
+            is RecordOutcome.Upgraded -> send("Impedancia añadida a la medición", haptic = true)
             is RecordOutcome.Duplicate -> Unit
         }
     }
@@ -153,52 +120,24 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
         }
     }
 
-    // ---- Profiles -------------------------------------------------------------------------
-
-    fun selectProfile(id: Long) = settings.setSelectedProfileId(id)
+    // ---- Profile --------------------------------------------------------------------------
 
     fun createProfile(draft: ProfileDraft) = launchDb("No se pudo crear el perfil") {
-        val created = repository.createProfile(draft)
+        val created = repository.saveProfile(draft)
         settings.setSelectedProfileId(created.id)
         send("Perfil «${created.name}» creado")
     }
 
-    fun updateProfile(id: Long, draft: ProfileDraft) = launchDb("No se pudo guardar el perfil") {
-        repository.updateProfile(id, draft)
+    fun updateProfile(@Suppress("UNUSED_PARAMETER") id: Long, draft: ProfileDraft) = launchDb("No se pudo guardar el perfil") {
+        repository.saveProfile(draft)
         send("Perfil actualizado")
-    }
-
-    fun deleteProfile(profile: Profile, deleteMeasurements: Boolean) = launchDb("No se pudo eliminar el perfil") {
-        repository.deleteProfile(profile.id, deleteMeasurements)
-        if (settings.selectedProfileId.value == profile.id) {
-            settings.setSelectedProfileId(repository.profiles.value.firstOrNull()?.id)
-        }
-        send(
-            if (deleteMeasurements) {
-                "Perfil «${profile.name}» eliminado con sus mediciones"
-            } else {
-                "Perfil «${profile.name}» eliminado; sus mediciones quedan pendientes"
-            },
-        )
     }
 
     // ---- Measurements ---------------------------------------------------------------------
 
-    fun assign(measurementId: Long, profileId: Long) = launchDb("No se pudo asignar la medición") {
-        repository.assignMeasurement(measurementId, profileId)
-        if (pendingPromptId.value == measurementId) pendingPromptId.value = null
-        val name = repository.profiles.value.firstOrNull { it.id == profileId }?.name
-        if (name != null) send("Asignada a $name")
-    }
-
     fun deleteMeasurement(id: Long) = launchDb("No se pudo eliminar la medición") {
         repository.deleteMeasurement(id)
-        if (pendingPromptId.value == id) pendingPromptId.value = null
         send("Medición eliminada")
-    }
-
-    fun dismissPrompt() {
-        pendingPromptId.value = null
     }
 
     fun addManual(weightKg: Double, timestamp: Long) {
@@ -220,18 +159,6 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
     }
 
     // ---- Settings -------------------------------------------------------------------------
-
-    fun setTolerance(kg: Double) = settings.setToleranceKg(kg)
-
-    fun pinScale(address: String) {
-        settings.setPinnedMac(address)
-        send("Báscula vinculada: $address")
-    }
-
-    fun forgetScale() {
-        settings.setPinnedMac(null)
-        send("Báscula olvidada; se aceptará cualquier Mi Scale")
-    }
 
     fun markPermissionRationaleSeen() = settings.markPermissionRationaleSeen()
 
@@ -280,7 +207,8 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
             add("Importadas ${r.imported}")
             if (r.duplicates > 0) add("${r.duplicates} duplicadas omitidas")
             if (r.invalid > 0) add("${r.invalid} filas no válidas")
-            if (r.createdProfiles > 0) add("${r.createdProfiles} perfiles creados")
+            if (r.skippedOtherProfiles > 0) add("${r.skippedOtherProfiles} de otros perfiles omitidas")
+            if (r.createdProfile) add("perfil creado")
         }
         send(parts.joinToString(" · "))
     }

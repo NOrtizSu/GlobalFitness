@@ -16,30 +16,70 @@ object ProfileColors {
     }
 }
 
-/** A measurement to insert; its owner is an existing profile id or a new profile of the plan. */
-data class PlannedMeasurement(val measurement: Measurement, val newProfileIndex: Int?)
-
 data class ImportPlan(
-    /** Profiles to create (id = 0) in this order. */
-    val newProfiles: List<Profile>,
-    val measurements: List<PlannedMeasurement>,
+    /** Profile to create first (only when the app has none yet and the file describes it). */
+    val newProfile: Profile?,
+    /** Measurements to insert; owned by the existing profile, or by [newProfile] once created. */
+    val measurements: List<Measurement>,
     val duplicates: Int,
+    /** Rows of other people in an old multi-profile export. */
+    val skippedOtherProfiles: Int,
+    /** Profile name whose rows were imported (null for files without profile column). */
+    val sourceProfileName: String?,
 )
 
 /**
- * Pure planning of a CSV import: resolves profiles by name (creating missing ones when the row
- * carries sex, birth date and height) and drops duplicates (same scale key, or same reading
- * within ±60 s). Uses a hash set and a time-sorted index, so it is O(n log n).
+ * Pure planning of a CSV import into the app's single profile.
+ *
+ * Old exports may contain several profiles: only one person's rows are imported — the profile
+ * whose name matches the local profile, otherwise the one with most rows. Rows without a profile
+ * name are imported only when the file has at most one named profile (in a multi-profile file
+ * they were someone's unassigned weighings). Duplicates (same scale key, or same reading within
+ * ±60 s) are dropped. Uses a hash set and a time-sorted index, so it is O(n log n).
  */
 object ImportPlanner {
     const val DUPLICATE_WINDOW_MS = 60_000L
 
-    fun plan(rows: List<CsvImportRow>, profiles: List<Profile>, existing: List<Measurement>, now: Long): ImportPlan {
-        val existingByName = HashMap<String, Long>()
-        for (p in profiles) existingByName.putIfAbsent(nameKey(p.name), p.id)
-        val newIndexByName = HashMap<String, Int>()
-        val newProfiles = ArrayList<Profile>()
-        val colorPool = profiles.toMutableList()
+    fun plan(rows: List<CsvImportRow>, profile: Profile?, existing: List<Measurement>, now: Long): ImportPlan {
+        val counts = LinkedHashMap<String, Int>()
+        val displayNames = HashMap<String, String>()
+        for (row in rows) {
+            val name = row.profileName?.trim()?.takeIf { it.isNotEmpty() } ?: continue
+            val key = nameKey(name)
+            counts[key] = (counts[key] ?: 0) + 1
+            displayNames.putIfAbsent(key, name)
+        }
+        val chosenKey: String? = when {
+            counts.isEmpty() -> null
+            profile != null && nameKey(profile.name) in counts -> nameKey(profile.name)
+            else -> counts.entries.maxByOrNull { it.value }?.key // first max wins (file order)
+        }
+        val acceptNameless = counts.size <= 1
+
+        val accepted = rows.filter { row ->
+            val name = row.profileName?.trim()?.takeIf { it.isNotEmpty() }
+            if (name == null) acceptNameless else nameKey(name) == chosenKey
+        }
+        val skippedOther = rows.size - accepted.size
+
+        val newProfile = if (profile == null) {
+            accepted.firstOrNull { r ->
+                r.profileName?.isNotBlank() == true && r.sex != null && r.birthDate != null && r.heightCm != null && r.heightCm > 0
+            }?.let { r ->
+                Profile(
+                    id = 0,
+                    name = r.profileName!!.trim(),
+                    sex = r.sex!!,
+                    birthDate = r.birthDate!!,
+                    heightCm = r.heightCm!!,
+                    targetWeightKg = r.targetWeightKg,
+                    colorIndex = 0,
+                    createdAt = now,
+                )
+            }
+        } else {
+            null
+        }
 
         val keys = HashSet<String>()
         val byTime = TreeMap<Long, MutableList<Long>>()
@@ -49,9 +89,9 @@ object ImportPlanner {
         }
         existing.forEach { index(it.scaleKey, it.timestamp, it.weightKg) }
 
-        val planned = ArrayList<PlannedMeasurement>()
+        val planned = ArrayList<Measurement>()
         var duplicates = 0
-        for (row in rows) {
+        for (row in accepted) {
             val grams = WeightMath.grams(row.weightKg)
             val isDuplicate = (row.scaleKey != null && row.scaleKey in keys) ||
                 byTime.subMap(row.timestamp - DUPLICATE_WINDOW_MS, true, row.timestamp + DUPLICATE_WINDOW_MS, true)
@@ -60,49 +100,29 @@ object ImportPlanner {
                 duplicates++
                 continue
             }
-
-            var profileId: Long? = null
-            var newIndex: Int? = null
-            val name = row.profileName?.trim()?.takeIf { it.isNotEmpty() }
-            if (name != null) {
-                val key = nameKey(name)
-                profileId = existingByName[key]
-                if (profileId == null) {
-                    newIndex = newIndexByName[key]
-                    if (newIndex == null && row.sex != null && row.birthDate != null && row.heightCm != null && row.heightCm > 0) {
-                        val profile = Profile(
-                            id = 0,
-                            name = name,
-                            sex = row.sex,
-                            birthDate = row.birthDate,
-                            heightCm = row.heightCm,
-                            targetWeightKg = row.targetWeightKg,
-                            colorIndex = ProfileColors.nextColorIndex(colorPool),
-                            createdAt = now,
-                        )
-                        newProfiles += profile
-                        colorPool += profile
-                        newIndex = newProfiles.lastIndex
-                        newIndexByName[key] = newIndex
-                    }
-                }
-            }
-
-            planned += PlannedMeasurement(
-                measurement = Measurement(
-                    id = 0,
-                    profileId = profileId,
-                    timestamp = row.timestamp,
-                    weightKg = row.weightKg,
-                    impedance = row.impedance,
-                    scaleKey = row.scaleKey,
-                    source = row.source,
-                ),
-                newProfileIndex = newIndex,
+            planned += Measurement(
+                id = 0,
+                profileId = profile?.id,
+                timestamp = row.timestamp,
+                weightKg = row.weightKg,
+                impedance = row.impedance,
+                scaleKey = row.scaleKey,
+                source = row.source,
+                composition = row.composition,
+                compositionSource = row.compositionSource,
+                formulaLib = row.formulaLib,
+                deviceDriver = row.deviceDriver,
+                deviceAddress = row.deviceAddress,
             )
             index(row.scaleKey, row.timestamp, row.weightKg)
         }
-        return ImportPlan(newProfiles, planned, duplicates)
+        return ImportPlan(
+            newProfile = newProfile,
+            measurements = planned,
+            duplicates = duplicates,
+            skippedOtherProfiles = skippedOther,
+            sourceProfileName = chosenKey?.let { displayNames[it] },
+        )
     }
 
     private fun nameKey(name: String): String = name.trim().lowercase(Locale.ROOT)

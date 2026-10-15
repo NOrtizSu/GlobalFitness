@@ -16,12 +16,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -53,7 +50,6 @@ import com.enjoyyourtime.globalfitness.domain.Classifier
 import com.enjoyyourtime.globalfitness.domain.Metric
 import com.enjoyyourtime.globalfitness.ui.Fmt
 import com.enjoyyourtime.globalfitness.ui.compositionOf
-import com.enjoyyourtime.globalfitness.ui.components.ProfileDot
 import com.enjoyyourtime.globalfitness.ui.components.StatusChip
 import com.enjoyyourtime.globalfitness.ui.theme.TabularNumbers
 import java.time.Instant
@@ -61,40 +57,6 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZoneOffset
-
-/** "¿De quién es esta medición?" prompt for an ambiguous scale measurement. */
-@Composable
-fun PendingAssignDialog(
-    measurement: Measurement,
-    profiles: List<Profile>,
-    onAssign: (Long) -> Unit,
-    onDiscard: () -> Unit,
-    onLater: () -> Unit,
-) {
-    AlertDialog(
-        onDismissRequest = onLater,
-        title = { Text("¿De quién es esta medición? ${Fmt.num(measurement.weightKg, 1)} kg") },
-        text = {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text(
-                    Fmt.relative(measurement.timestamp) +
-                        if (measurement.impedance != null) " · con impedancia" else " · sin impedancia",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                profiles.forEach { p ->
-                    OutlinedButton(onClick = { onAssign(p.id) }, modifier = Modifier.fillMaxWidth()) {
-                        ProfileDot(p.colorIndex)
-                        Spacer(Modifier.width(8.dp))
-                        Text(p.name, modifier = Modifier.weight(1f))
-                    }
-                }
-            }
-        },
-        confirmButton = { TextButton(onClick = onLater) { Text("Más tarde") } },
-        dismissButton = { TextButton(onClick = onDiscard) { Text("Descartar") } },
-    )
-}
 
 @Composable
 fun ConfirmDialog(
@@ -220,19 +182,16 @@ fun ManualEntryDialog(profileName: String, onSave: (Double, Long) -> Unit, onDis
     if (showTime) TimeInputDialog(initial = time, onPick = { time = it }, onDismiss = { showTime = false })
 }
 
-/** Bottom sheet with every metric of one measurement plus reassign / delete actions. */
+/** Bottom sheet with every metric of one measurement plus the delete action. */
 @Composable
 fun MeasurementDetailSheet(
     measurement: Measurement,
     profile: Profile?,
-    profiles: List<Profile>,
-    onAssign: (Long) -> Unit,
     onDelete: () -> Unit,
     onDismiss: () -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var confirmDelete by remember { mutableStateOf(false) }
-    var menuOpen by remember { mutableStateOf(false) }
 
     ModalBottomSheet(onDismissRequest = onDismiss, sheetState = sheetState) {
         Column(
@@ -274,26 +233,6 @@ fun MeasurementDetailSheet(
             }
             HorizontalDivider(Modifier.padding(vertical = 4.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                val others = profiles.filter { it.id != profile?.id }
-                Column {
-                    OutlinedButton(onClick = { menuOpen = true }, enabled = others.isNotEmpty()) {
-                        Icon(Icons.Filled.Person, contentDescription = null)
-                        Spacer(Modifier.width(6.dp))
-                        Text(if (profile == null) "Asignar a…" else "Reasignar a…")
-                    }
-                    DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
-                        others.forEach { p ->
-                            DropdownMenuItem(
-                                text = { Text(p.name) },
-                                leadingIcon = { ProfileDot(p.colorIndex) },
-                                onClick = {
-                                    menuOpen = false
-                                    onAssign(p.id)
-                                },
-                            )
-                        }
-                    }
-                }
                 OutlinedButton(onClick = { confirmDelete = true }) {
                     Icon(Icons.Filled.Delete, contentDescription = null, tint = MaterialTheme.colorScheme.error)
                     Spacer(Modifier.width(6.dp))

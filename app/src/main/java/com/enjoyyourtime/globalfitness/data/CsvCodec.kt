@@ -1,6 +1,9 @@
 package com.enjoyyourtime.globalfitness.data
 
 import com.enjoyyourtime.globalfitness.domain.BodyComposition
+import com.enjoyyourtime.globalfitness.scale.CompositionSource
+import com.enjoyyourtime.globalfitness.scale.DeviceComposition
+import com.enjoyyourtime.globalfitness.scale.FormulaLib
 import java.nio.ByteBuffer
 import java.nio.charset.CharacterCodingException
 import java.nio.charset.Charset
@@ -33,6 +36,11 @@ data class CsvImportRow(
     val impedance: Int?,
     val source: MeasurementSource,
     val scaleKey: String?,
+    val composition: DeviceComposition? = null,
+    val compositionSource: CompositionSource? = null,
+    val formulaLib: FormulaLib? = null,
+    val deviceDriver: String? = null,
+    val deviceAddress: String? = null,
 )
 
 data class CsvParseResult(val rows: List<CsvImportRow>, val invalidLines: Int)
@@ -53,11 +61,30 @@ object CsvCodec {
     const val COL_SOURCE = "origen"
     const val COL_KEY = "clave_bascula"
 
+    // Added with multi-scale support (absent in older files, which still import).
+    const val COL_COMPOSITION_SOURCE = "fuente_composicion"
+    const val COL_FORMULA = "formula"
+    const val COL_DRIVER = "bascula_modelo"
+    const val COL_ADDRESS = "bascula_mac"
+    const val COL_DEV_FAT = "disp_grasa_pct"
+    const val COL_DEV_WATER = "disp_agua_pct"
+    const val COL_DEV_MUSCLE_PCT = "disp_musculo_pct"
+    const val COL_DEV_MUSCLE_KG = "disp_musculo_kg"
+    const val COL_DEV_BONE = "disp_hueso_kg"
+    const val COL_DEV_VISCERAL = "disp_grasa_visceral"
+    const val COL_DEV_BMR = "disp_metabolismo_kcal"
+    const val COL_DEV_LBM = "disp_masa_magra_kg"
+    const val COL_DEV_PROTEIN = "disp_proteina_pct"
+    const val COL_DEV_METABOLIC_AGE = "disp_edad_metabolica"
+
     val HEADER = listOf(
         COL_PROFILE, COL_SEX, COL_BIRTH, COL_HEIGHT, COL_TARGET,
         COL_DATE, COL_WEIGHT, COL_IMPEDANCE, COL_SOURCE, COL_KEY,
         "imc", "grasa_pct", "masa_grasa_kg", "musculo_kg", "agua_pct", "hueso_kg",
         "grasa_visceral", "metabolismo_basal_kcal", "edad_metabolica", "proteina_pct",
+        COL_COMPOSITION_SOURCE, COL_FORMULA, COL_DRIVER, COL_ADDRESS,
+        COL_DEV_FAT, COL_DEV_WATER, COL_DEV_MUSCLE_PCT, COL_DEV_MUSCLE_KG, COL_DEV_BONE,
+        COL_DEV_VISCERAL, COL_DEV_BMR, COL_DEV_LBM, COL_DEV_PROTEIN, COL_DEV_METABOLIC_AGE,
     )
 
     private const val SEP = ';'
@@ -91,7 +118,11 @@ object CsvCodec {
                 num(c?.bmr, 0),
                 num(c?.metabolicAge, 0),
                 num(c?.proteinPercent, 2),
-            )
+                m.compositionSource?.code.orEmpty(),
+                m.formulaLib?.id.orEmpty(),
+                m.deviceDriver.orEmpty(),
+                m.deviceAddress.orEmpty(),
+            ) + deviceFields(m.composition)
             appendLine(fields.joinToString(SEP.toString()) { quote(it) })
         }
     }
@@ -126,10 +157,41 @@ object CsvCodec {
                 impedance = col(COL_IMPEDANCE)?.let { parseNumber(it) }?.toInt()?.takeIf { it > 0 },
                 source = MeasurementSource.fromCode(col(COL_SOURCE)),
                 scaleKey = col(COL_KEY),
+                composition = DeviceComposition.of(
+                    DeviceComposition(
+                        fatPercent = col(COL_DEV_FAT)?.let { parseNumber(it) },
+                        waterPercent = col(COL_DEV_WATER)?.let { parseNumber(it) },
+                        musclePercent = col(COL_DEV_MUSCLE_PCT)?.let { parseNumber(it) },
+                        muscleKg = col(COL_DEV_MUSCLE_KG)?.let { parseNumber(it) },
+                        boneKg = col(COL_DEV_BONE)?.let { parseNumber(it) },
+                        visceralFat = col(COL_DEV_VISCERAL)?.let { parseNumber(it) },
+                        bmrKcal = col(COL_DEV_BMR)?.let { parseNumber(it) },
+                        lbmKg = col(COL_DEV_LBM)?.let { parseNumber(it) },
+                        proteinPercent = col(COL_DEV_PROTEIN)?.let { parseNumber(it) },
+                        metabolicAge = col(COL_DEV_METABOLIC_AGE)?.let { parseNumber(it) },
+                    ),
+                ),
+                compositionSource = CompositionSource.fromCode(col(COL_COMPOSITION_SOURCE)),
+                formulaLib = FormulaLib.fromId(col(COL_FORMULA)),
+                deviceDriver = col(COL_DRIVER),
+                deviceAddress = col(COL_ADDRESS),
             )
         }
         return CsvParseResult(rows, invalid)
     }
+
+    private fun deviceFields(d: DeviceComposition?): List<String> = listOf(
+        num(d?.fatPercent, 2),
+        num(d?.waterPercent, 2),
+        num(d?.musclePercent, 2),
+        num(d?.muscleKg, 2),
+        num(d?.boneKg, 2),
+        num(d?.visceralFat, 2),
+        num(d?.bmrKcal, 0),
+        num(d?.lbmKg, 2),
+        num(d?.proteinPercent, 2),
+        num(d?.metabolicAge, 0),
+    )
 
     fun parseNumber(s: String): Double? = s.trim().replace(',', '.').toDoubleOrNull()
 

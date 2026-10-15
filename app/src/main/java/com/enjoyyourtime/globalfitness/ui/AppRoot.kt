@@ -2,23 +2,18 @@
 
 package com.enjoyyourtime.globalfitness.ui
 
-import androidx.compose.foundation.clickable
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -43,7 +38,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
@@ -53,7 +47,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.enjoyyourtime.globalfitness.ble.ScaleScanner
-import com.enjoyyourtime.globalfitness.data.Profile
 import com.enjoyyourtime.globalfitness.domain.Metric
 import com.enjoyyourtime.globalfitness.ui.components.AppIcons
 import com.enjoyyourtime.globalfitness.ui.components.ProfileDot
@@ -63,8 +56,8 @@ import com.enjoyyourtime.globalfitness.ui.screens.HistoryScreen
 import com.enjoyyourtime.globalfitness.ui.screens.HomeScreen
 import com.enjoyyourtime.globalfitness.ui.screens.ManualEntryDialog
 import com.enjoyyourtime.globalfitness.ui.screens.MeasurementDetailSheet
+import com.enjoyyourtime.globalfitness.ui.devices.ScaleDevicesScreen
 import com.enjoyyourtime.globalfitness.ui.screens.OnboardingScreen
-import com.enjoyyourtime.globalfitness.ui.screens.PendingAssignDialog
 import com.enjoyyourtime.globalfitness.ui.screens.ProfilesScreen
 import kotlinx.coroutines.launch
 
@@ -88,9 +81,7 @@ fun AppRoot(vm: MainViewModel = viewModel(factory = MainViewModel.Factory)) {
     val scanStatus by vm.scanStatus.collectAsStateWithLifecycle()
     val live by vm.live.collectAsStateWithLifecycle()
     val debug by vm.debug.collectAsStateWithLifecycle()
-    val prompt by vm.pendingPrompt.collectAsStateWithLifecycle()
     val loadError by vm.loadError.collectAsStateWithLifecycle()
-    val lastScaleAddress by vm.lastScaleAddress.collectAsStateWithLifecycle()
     val rationaleSeen by vm.permissionRationaleSeen.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
@@ -151,14 +142,27 @@ fun AppRoot(vm: MainViewModel = viewModel(factory = MainViewModel.Factory)) {
     var chartRange by rememberSaveable { mutableStateOf(ChartRange.M3) }
     var showManual by rememberSaveable { mutableStateOf(false) }
     var detailId by rememberSaveable { mutableLongStateOf(-1L) }
-    var assignId by rememberSaveable { mutableLongStateOf(-1L) }
+    var showScales by rememberSaveable { mutableStateOf(false) }
+
+    // Temporary entry point to the scales screen (navigation is integrated by the UI redesign).
+    if (showScales) {
+        BackHandler { showScales = false }
+        ScaleDevicesScreen(onBack = { showScales = false })
+        return
+    }
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     val selected = state.selectedProfile
-                    if (selected != null) ProfileSelector(state.profiles, selected, vm::selectProfile)
+                    if (selected != null) {
+                        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 8.dp)) {
+                            ProfileDot(selected.colorIndex)
+                            Spacer(Modifier.width(10.dp))
+                            Text(selected.name, style = MaterialTheme.typography.titleLarge, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        }
+                    }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface),
             )
@@ -209,20 +213,14 @@ fun AppRoot(vm: MainViewModel = viewModel(factory = MainViewModel.Factory)) {
                 Tab.HISTORY -> HistoryScreen(
                     state = state,
                     onOpen = { detailId = it.id },
-                    onAssignPending = { assignId = it.id },
                 )
                 Tab.PROFILES -> ProfilesScreen(
                     state = state,
                     scanStatus = scanStatus,
                     live = live,
                     debug = debug,
-                    lastScaleAddress = lastScaleAddress,
-                    onCreate = vm::createProfile,
                     onUpdate = vm::updateProfile,
-                    onDelete = vm::deleteProfile,
-                    onTolerance = vm::setTolerance,
-                    onPin = vm::pinScale,
-                    onForget = vm::forgetScale,
+                    onOpenScales = { showScales = true },
                     onExport = { vm.exportCsv(context.contentResolver, it) },
                     onImport = { vm.importCsv(context.contentResolver, it) },
                 )
@@ -231,16 +229,10 @@ fun AppRoot(vm: MainViewModel = viewModel(factory = MainViewModel.Factory)) {
     }
 
     val detail = state.entries.firstOrNull { it.measurement.id == detailId }?.measurement
-        ?: state.pending.firstOrNull { it.id == detailId }
     if (detail != null) {
         MeasurementDetailSheet(
             measurement = detail,
-            profile = state.profiles.firstOrNull { it.id == detail.profileId },
-            profiles = state.profiles,
-            onAssign = { profileId ->
-                vm.assign(detail.id, profileId)
-                detailId = -1L
-            },
+            profile = state.selectedProfile,
             onDelete = {
                 vm.deleteMeasurement(detail.id)
                 detailId = -1L
@@ -259,64 +251,6 @@ fun AppRoot(vm: MainViewModel = viewModel(factory = MainViewModel.Factory)) {
                 },
                 onDismiss = { showManual = false },
             )
-        }
-    }
-
-    state.pending.firstOrNull { it.id == assignId }?.let { m ->
-        PendingAssignDialog(
-            measurement = m,
-            profiles = state.profiles,
-            onAssign = {
-                vm.assign(m.id, it)
-                assignId = -1L
-            },
-            onDiscard = {
-                vm.deleteMeasurement(m.id)
-                assignId = -1L
-            },
-            onLater = { assignId = -1L },
-        )
-    }
-
-    prompt?.takeIf { it.id != assignId }?.let { m ->
-        PendingAssignDialog(
-            measurement = m,
-            profiles = state.profiles,
-            onAssign = { vm.assign(m.id, it) },
-            onDiscard = { vm.deleteMeasurement(m.id) },
-            onLater = vm::dismissPrompt,
-        )
-    }
-}
-
-@Composable
-private fun ProfileSelector(profiles: List<Profile>, selected: Profile, onSelect: (Long) -> Unit) {
-    var expanded by remember { mutableStateOf(false) }
-    Box {
-        Row(
-            modifier = Modifier
-                .clip(RoundedCornerShape(50))
-                .clickable(onClickLabel = "Cambiar perfil") { expanded = true }
-                .padding(horizontal = 8.dp, vertical = 6.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            ProfileDot(selected.colorIndex)
-            Spacer(Modifier.width(10.dp))
-            Text(selected.name, style = MaterialTheme.typography.titleLarge, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            Icon(Icons.Filled.ArrowDropDown, contentDescription = null)
-        }
-        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-            profiles.forEach { p ->
-                DropdownMenuItem(
-                    text = { Text(p.name) },
-                    leadingIcon = { ProfileDot(p.colorIndex) },
-                    trailingIcon = { if (p.id == selected.id) Icon(Icons.Filled.Check, contentDescription = "Seleccionado") },
-                    onClick = {
-                        onSelect(p.id)
-                        expanded = false
-                    },
-                )
-            }
         }
     }
 }

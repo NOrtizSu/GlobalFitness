@@ -1,6 +1,10 @@
 package com.enjoyyourtime.globalfitness.domain
 
+import com.enjoyyourtime.globalfitness.data.Measurement
 import com.enjoyyourtime.globalfitness.data.Sex
+import com.enjoyyourtime.globalfitness.scale.DeviceComposition
+import com.enjoyyourtime.globalfitness.scale.FormulaLib
+import com.enjoyyourtime.globalfitness.scale.libs.FormulaLibs
 import kotlin.math.pow
 
 /** All metrics derived from one weighing. Impedance-dependent values are null without impedance. */
@@ -84,6 +88,62 @@ object BodyMetrics {
             idealWeightKg = ideal,
             healthyWeightMinKg = 18.5 * hm * hm,
             healthyWeightMaxKg = 24.9 * hm * hm,
+        )
+    }
+
+    /**
+     * Composition of a stored measurement: values provided by the scale win; missing ones come
+     * from the measurement's formula library applied to its impedance (legacy rows without a
+     * library are Mi Scale 2 rows: Mi Fit formulas); without impedance only weight-based metrics.
+     * The impedance of another scale that declared no library is kept but not interpreted.
+     */
+    fun forMeasurement(sex: Sex, heightCm: Double, age: Int, m: Measurement): BodyComposition {
+        val interpretable = m.formulaLib != null || m.deviceDriver == null
+        return compute(sex, heightCm, age, m.weightKg, m.impedance.takeIf { interpretable }, m.formulaLib, m.composition)
+            .copy(impedance = m.impedance)
+    }
+
+    fun compute(
+        sex: Sex,
+        heightCm: Double,
+        age: Int,
+        weightKg: Double,
+        impedance: Int?,
+        lib: FormulaLib?,
+        device: DeviceComposition?,
+    ): BodyComposition {
+        val libComposition = if (impedance != null && lib != null && lib != FormulaLib.MI_SCALE) {
+            FormulaLibs.compute(lib, sex == Sex.MALE, age, heightCm, weightKg, impedance)
+        } else {
+            null
+        }
+        val miImpedance = if (lib == null || lib == FormulaLib.MI_SCALE) impedance else null
+        val base = compute(sex, heightCm, age, weightKg, miImpedance).copy(impedance = impedance)
+        val overlay = device?.mergedWith(libComposition) ?: libComposition ?: return base
+        return applyOverlay(base, overlay)
+    }
+
+    private fun applyOverlay(base: BodyComposition, d: DeviceComposition): BodyComposition {
+        val w = base.weightKg
+        val fat = d.fatPercent ?: base.fatPercent
+        val water = d.waterPercent ?: base.waterPercent
+        val muscle = d.muscleKg ?: d.musclePercent?.let { w * it / 100.0 } ?: base.muscleKg
+        val protein = d.proteinPercent
+            ?: if (muscle != null && water != null && (d.muscleKg != null || d.musclePercent != null || d.waterPercent != null)) {
+                (muscle / w * 100.0 - water).coerceIn(5.0, 32.0)
+            } else {
+                base.proteinPercent
+            }
+        return base.copy(
+            fatPercent = fat,
+            fatMassKg = fat?.let { w * it / 100.0 },
+            waterPercent = water,
+            boneKg = d.boneKg ?: base.boneKg,
+            muscleKg = muscle,
+            visceralFat = d.visceralFat ?: base.visceralFat,
+            bmr = d.bmrKcal ?: base.bmr,
+            metabolicAge = d.metabolicAge ?: base.metabolicAge,
+            proteinPercent = protein,
         )
     }
 

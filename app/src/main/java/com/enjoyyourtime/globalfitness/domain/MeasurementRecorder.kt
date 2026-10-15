@@ -1,83 +1,96 @@
 package com.enjoyyourtime.globalfitness.domain
 
-import com.enjoyyourtime.globalfitness.ble.CompletedMeasurement
 import com.enjoyyourtime.globalfitness.data.Measurement
 import com.enjoyyourtime.globalfitness.data.MeasurementSource
-import com.enjoyyourtime.globalfitness.data.Profile
 import com.enjoyyourtime.globalfitness.data.Repository
-import com.enjoyyourtime.globalfitness.data.SettingsStore
+import com.enjoyyourtime.globalfitness.scale.CompositionSource
+import com.enjoyyourtime.globalfitness.scale.ScaleReading
 import kotlin.math.abs
 
-/** Result of persisting a scale measurement. */
+/** Result of persisting a scale reading. */
 sealed interface RecordOutcome {
     val measurement: Measurement
 
-    /** New row. [profile] is null when the measurement is pending assignment. */
-    data class Saved(override val measurement: Measurement, val profile: Profile?) : RecordOutcome
+    /** New row (owned by the single profile). */
+    data class Saved(override val measurement: Measurement) : RecordOutcome
 
-    /** Impedance added to an existing weight-only row. */
-    data class Upgraded(override val measurement: Measurement, val profile: Profile?) : RecordOutcome
+    /** Impedance and/or composition added to an existing row of the same weighing. */
+    data class Upgraded(override val measurement: Measurement) : RecordOutcome
 
-    /** Already stored (e.g. re-broadcast after an app restart). */
+    /** Already stored (e.g. re-broadcast after an app restart, history downloaded again). */
     data class Duplicate(override val measurement: Measurement) : RecordOutcome
 }
 
-/** Persists assembled measurements exactly once and auto-assigns them to a profile. */
-class MeasurementRecorder(
-    private val repository: Repository,
-    private val settings: SettingsStore,
-) {
-    /** Returns null when nothing was stored (e.g. an upgrade for a row the user discarded). */
-    suspend fun record(c: CompletedMeasurement): RecordOutcome? {
+/**
+ * Persists readings from any scale driver exactly once. Dedupe: same dedupe key, or same reading
+ * (±25 g) within [DUPLICATE_WINDOW_MS]. A later reading of the same weighing that carries data the
+ * stored row lacks (impedance, device composition) upgrades the row instead of inserting.
+ */
+class MeasurementRecorder(private val repository: Repository) {
+
+    /** Returns null when nothing was stored (e.g. an upgrade for a row the user deleted). */
+    suspend fun record(r: ScaleReading): RecordOutcome? {
         repository.awaitLoaded()
         val all = repository.measurements.value
-        val existing = all.firstOrNull { it.scaleKey == c.scaleKey } ?: findNear(all, c)
+        val existing = r.dedupeKey?.let { key -> all.firstOrNull { it.scaleKey == key } } ?: findNear(all, r)
 
-        if (c.isImpedanceUpgrade && existing == null) {
-            // The weight-only row is gone (discarded/deleted): do not resurrect it.
+        if (r.isImpedanceUpgrade && existing == null) {
+            // The weight-only row is gone (deleted): do not resurrect it.
             return null
         }
 
         if (existing != null) {
-            if (existing.impedance == null && c.impedance != null) {
-                val updated = repository.setImpedance(existing.id, c.impedance) ?: return null
-                return RecordOutcome.Upgraded(updated, profileOf(updated))
-            }
-            return RecordOutcome.Duplicate(existing)
+            val upgraded = upgradeOf(existing, r) ?: return RecordOutcome.Duplicate(existing)
+            val stored = repository.updateScaleData(upgraded) ?: return null
+            return RecordOutcome.Upgraded(stored)
         }
 
-        val profileId = ProfileMatcher.match(
-            weightKg = c.weightKg,
-            timestamp = c.receivedAtMillis,
-            profiles = repository.profiles.value,
-            measurements = all,
-            toleranceKg = settings.toleranceKg.value,
-        )
         val stored = repository.insertMeasurement(
             Measurement(
                 id = 0,
-                profileId = profileId,
-                timestamp = c.receivedAtMillis,
-                weightKg = c.weightKg,
-                impedance = c.impedance,
-                scaleKey = c.scaleKey,
+                profileId = null,
+                timestamp = r.measuredAtMillis,
+                weightKg = r.weightKg,
+                impedance = r.impedance,
+                scaleKey = r.dedupeKey,
                 source = MeasurementSource.SCALE,
+                composition = r.composition,
+                compositionSource = r.compositionSource,
+                formulaLib = r.formulaLib,
+                deviceDriver = r.driverId,
+                deviceAddress = r.deviceAddress,
             ),
         )
         if (stored == null) {
-            // Unique scale_key conflict: someone stored it meanwhile.
-            val dup = repository.measurements.value.firstOrNull { it.scaleKey == c.scaleKey } ?: return null
+            // Unique scale_key conflict: stored meanwhile.
+            val dup = repository.measurements.value.firstOrNull { it.scaleKey == r.dedupeKey } ?: return null
             return RecordOutcome.Duplicate(dup)
         }
-        return RecordOutcome.Saved(stored, profileOf(stored))
+        return RecordOutcome.Saved(stored)
     }
 
-    private fun profileOf(m: Measurement): Profile? =
-        m.profileId?.let { id -> repository.profiles.value.firstOrNull { it.id == id } }
+    private fun upgradeOf(e: Measurement, r: ScaleReading): Measurement? {
+        val addImpedance = e.impedance == null && r.impedance != null
+        val addComposition = e.composition == null && r.composition != null
+        if (!addImpedance && !addComposition) return null
+        val source = when {
+            addComposition -> r.compositionSource
+            e.compositionSource == null || e.compositionSource == CompositionSource.None -> r.compositionSource
+            else -> e.compositionSource
+        }
+        return e.copy(
+            impedance = e.impedance ?: r.impedance,
+            composition = e.composition ?: r.composition,
+            compositionSource = source,
+            formulaLib = e.formulaLib ?: r.formulaLib,
+            deviceDriver = e.deviceDriver ?: r.driverId,
+            deviceAddress = e.deviceAddress ?: r.deviceAddress,
+        )
+    }
 
-    private fun findNear(all: List<Measurement>, c: CompletedMeasurement): Measurement? =
+    private fun findNear(all: List<Measurement>, r: ScaleReading): Measurement? =
         all.lastOrNull {
-            abs(it.timestamp - c.receivedAtMillis) <= DUPLICATE_WINDOW_MS && WeightMath.sameReading(it.weightKg, c.weightKg)
+            abs(it.timestamp - r.measuredAtMillis) <= DUPLICATE_WINDOW_MS && WeightMath.sameReading(it.weightKg, r.weightKg)
         }
 
     companion object {

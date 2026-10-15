@@ -13,9 +13,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -46,7 +43,6 @@ import java.time.ZoneId
 fun HistoryScreen(
     state: MainUiState,
     onOpen: (Measurement) -> Unit,
-    onAssignPending: (Measurement) -> Unit,
 ) {
     val zone = ZoneId.systemDefault()
     val groups = remember(state.entries) {
@@ -56,36 +52,6 @@ fun HistoryScreen(
     }
 
     LazyColumn(contentPadding = PaddingValues(bottom = 96.dp)) {
-        if (state.pending.isNotEmpty()) {
-            item(key = "pending-header") {
-                Text(
-                    "Sin asignar (${state.pending.size})",
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 4.dp),
-                )
-            }
-            items(state.pending, key = { "p-${it.id}" }) { m ->
-                Card(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
-                    onClick = { onOpen(m) },
-                ) {
-                    Row(Modifier.padding(horizontal = 16.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Column(Modifier.weight(1f)) {
-                            Text(Fmt.kg(m.weightKg), style = MaterialTheme.typography.titleMedium.merge(TabularNumbers), fontWeight = FontWeight.SemiBold)
-                            Text(
-                                Fmt.relative(m.timestamp) + if (m.impedance != null) " · con impedancia" else " · sin impedancia",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSecondaryContainer,
-                            )
-                        }
-                        FilledTonalButton(onClick = { onAssignPending(m) }) { Text("Asignar") }
-                    }
-                }
-            }
-        }
-
         if (state.entries.isEmpty()) {
             item(key = "empty") {
                 Text(
