@@ -1,0 +1,1315 @@
+account\AccountManager.kt:86: No hay ninguna sesión iniciada.
+account\AccountManager.kt:113: No hay ninguna sesión iniciada.
+account\AccountManager.kt:152: Google ha devuelto un tipo de credencial no admitido.
+account\AccountManager.kt:165: La respuesta de Google no es válida. Inténtalo de nuevo.
+account\AuthErrors.kt:14: No hay ninguna cuenta de Google en este teléfono. Añade una en Ajustes del sistema y vuelve a intentarlo.
+account\AuthErrors.kt:20: Este teléfono no permite iniciar sesión con Google (falta o está desactualizado Google Play Services).
+account\AuthErrors.kt:22: Developer console
+account\AuthErrors.kt:23: El inicio de sesión con Google no está configurado para esta versión de la app.
+account\AuthErrors.kt:24: No se pudo iniciar sesión con Google${detail.takeIf { it.isNotBlank() }?.let { 
+account\AuthErrors.kt:29: Sin conexión a Internet. Inténtalo de nuevo.
+account\AuthErrors.kt:30: Demasiados intentos. Espera un momento y vuelve a intentarlo.
+account\AuthErrors.kt:31: Por seguridad, vuelve a identificarte con Google e inténtalo de nuevo.
+account\AuthErrors.kt:32: La cuenta ya no existe o está desactivada.
+account\AuthErrors.kt:33: Google no ha aceptado la credencial. Inténtalo de nuevo.
+account\AuthErrors.kt:34: Error de la cuenta: ${e.message ?: e.javaClass.simpleName}
+account\AuthErrors.kt:40: Elige la misma cuenta de Google con la que iniciaste sesión${expectedEmail?.let { 
+ads\AdsManager.kt:141: No se pudieron abrir las opciones de privacidad: ${it.message}
+band\BandController.kt:160: Desconectada al salir de la pantalla de la pulsera
+band\BandController.kt:195: Conectando con ${band.name} (${band.address}) por Bluetooth clásico (SPP)
+band\BandController.kt:196: Aviso: la pulsera ya tiene una conexión abierta por otra app
+band\BandController.kt:203: Socket RFCOMM abierto
+band\BandController.kt:222: Conectada (${ready.protocolLabel})
+band\BandController.kt:250: Conexión cerrada: la pulsera queda libre para Mi Fitness
+band\BandController.kt:265: Conexión cancelada
+band\BandController.kt:282: Error: $message
+band\BandController.kt:295: Sin respuesta a ${request.type}/${request.subtype}
+band\BandController.kt:301: La pulsera no respondió a la lista de alarmas
+band\BandController.kt:307: Buscar pulsera
+band\BandController.kt:307: Parar búsqueda
+band\BandController.kt:318: Sincronizar hora
+band\BandController.kt:320: Hora de la pulsera sincronizada
+band\BandController.kt:323: Actualizar estado
+band\BandController.kt:328: Pulso en vivo
+band\BandController.kt:328: Parar pulso en vivo
+band\BandController.kt:347: Guardar alarma
+band\BandController.kt:353: La pulsera no confirmó la alarma nueva
+band\BandController.kt:361: Borrar alarma
+band\BandController.kt:366: Notificación de prueba
+band\BandController.kt:374: Notificación de prueba del modo directo
+band\BandController.kt:379: Notificación de prueba enviada
+band\BandController.kt:391: Notificación reenviada (${n.appName})
+band\BandController.kt:393: No se pudo reenviar la notificación: ${e.message}
+band\BandController.kt:405: No se pudo retirar la notificación: ${e.message}
+band\BandController.kt:445: Modelo ${info.model}, firmware ${info.firmware}
+band\BandController.kt:492: La pulsera pide buscar el teléfono (no disponible en modo directo)
+band\BandController.kt:524: Hora enviada a la pulsera
+band\BandController.kt:537: Conecta primero la pulsera
+band\BandController.kt:544: $label: ${e.message}
+band\BandController.kt:545: $label: ${e.message}
+band\BandController.kt:568: Desconectada por inactividad
+band\BandController.kt:579: La pulsera indica que ya la encontraste
+band\BandController.kt:584: La pulsera está conectada a otra app (casi seguro Mi Fitness) y solo admite una conexión. 
+band\BandController.kt:585: Detén temporalmente Mi Fitness (Ajustes → Aplicaciones → Mi Fitness → Forzar detención) y vuelve a intentarlo. 
+band\BandController.kt:586: Al terminar, abre Mi Fitness para que siga sincronizando.
+band\BandDatabase.kt:28: CREATE INDEX idx_hr_samples_time ON hr_samples(timestamp)
+band\BandDatabase.kt:53: SELECT timestamp, bpm, source FROM hr_samples WHERE timestamp BETWEEN ? AND ? ORDER BY timestamp
+band\BandDatabase.kt:62: SELECT COUNT(*) FROM hr_samples
+band\BandLog.kt:35: [clave oculta]
+band\BandManager.kt:55: Clave de autenticación guardada
+band\BandManager.kt:61: Clave de autenticación borrada
+band\BandManager.kt:67: Pulsera elegida: ${candidate.name} (${candidate.address})
+band\RfcommLink.kt:33: Fin de la conexión
+band\RfcommLink.kt:91: Tiempo de conexión agotado
+band\xiaomi\AuthKey.kt:30: Introduce la clave de autenticación.
+band\xiaomi\AuthKey.kt:33: La clave solo puede contener dígitos hexadecimales (0-9 y a-f), con el prefijo 0x opcional.
+band\xiaomi\AuthKey.kt:38: La clave debe tener $HEX_LENGTH caracteres hexadecimales (tiene ${text.length}).
+band\xiaomi\SppProtocol.kt:29: SPP v1
+band\xiaomi\SppProtocol.kt:70: SPP v2
+band\xiaomi\XiaomiBand9.kt:9: ^Xiaomi Smart Band 9 [0-9A-F]{4}$
+band\xiaomi\XiaomiBand9.kt:12: ^(Xiaomi Smart Band|Redmi Smart Band|Mi Smart Band)
+band\xiaomi\XiaomiCrypto.kt:74: CCM: datos más cortos que la etiqueta
+band\xiaomi\XiaomiCrypto.kt:84: CCM: etiqueta de autenticación incorrecta
+band\xiaomi\XiaomiCrypto.kt:111: CCM nonce must be 7..13 bytes
+band\xiaomi\XiaomiCrypto.kt:112: CCM tag length must be 4..16 and even
+band\xiaomi\XiaomiCrypto.kt:113: CCM payload too long
+band\xiaomi\XiaomiSession.kt:40: Este teléfono no tiene Bluetooth.
+band\xiaomi\XiaomiSession.kt:41: El Bluetooth está desactivado. Actívalo y vuelve a intentarlo.
+band\xiaomi\XiaomiSession.kt:42: Falta el permiso «Dispositivos cercanos» (Bluetooth). Concédelo para conectar con la pulsera.
+band\xiaomi\XiaomiSession.kt:43: Primero guarda la clave de autenticación de la pulsera.
+band\xiaomi\XiaomiSession.kt:44: Primero elige tu pulsera en la lista.
+band\xiaomi\XiaomiSession.kt:46: No se encontró la pulsera. Comprueba que esté encendida, cerca y emparejada con este teléfono 
+band\xiaomi\XiaomiSession.kt:47: (aparece en Ajustes → Bluetooth si Mi Fitness la vinculó).
+band\xiaomi\XiaomiSession.kt:50: No se pudo abrir la conexión con la pulsera. Si Mi Fitness está conectado a ella, la pulsera está ocupada: 
+band\xiaomi\XiaomiSession.kt:51: detén temporalmente Mi Fitness (Ajustes → Aplicaciones → Mi Fitness → Forzar detención) y vuelve a intentarlo. 
+band\xiaomi\XiaomiSession.kt:52: Comprueba también que la pulsera esté cerca y con batería.
+band\xiaomi\XiaomiSession.kt:55: La pulsera no responde. Probablemente esté ocupada con Mi Fitness: detén temporalmente Mi Fitness 
+band\xiaomi\XiaomiSession.kt:56: (Ajustes → Aplicaciones → Mi Fitness → Forzar detención) y vuelve a intentarlo.
+band\xiaomi\XiaomiSession.kt:59: Clave de autenticación incorrecta: la pulsera no la reconoce. Comprueba que copiaste la clave actual; 
+band\xiaomi\XiaomiSession.kt:60: si desvinculaste la pulsera en Mi Fitness, la clave cambió y necesitas la nueva.
+band\xiaomi\XiaomiSession.kt:62: La pulsera rechazó la autenticación. Revisa la clave y vuelve a intentarlo.
+band\xiaomi\XiaomiSession.kt:63: Se perdió la conexión con la pulsera.
+band\xiaomi\XiaomiSession.kt:64: La pulsera no respondió a tiempo.
+band\xiaomi\XiaomiSession.kt:148: Pidiendo la versión del protocolo SPP
+band\xiaomi\XiaomiSession.kt:153: Sin respuesta de versión: se usa SPP v1
+band\xiaomi\XiaomiSession.kt:158: Iniciando sesión SPP v2
+band\xiaomi\XiaomiSession.kt:164: Autenticando (paso 1/2)
+band\xiaomi\XiaomiSession.kt:171: Autenticando (paso 2/2)
+band\xiaomi\XiaomiSession.kt:179: Autenticada: comunicación cifrada (${protocol.label})
+band\xiaomi\XiaomiSession.kt:182: Autenticada: comunicación sin cifrar
+band\xiaomi\XiaomiSession.kt:184: Respuesta de autenticación inesperada ${nonceReply.type}/${nonceReply.subtype}
+band\xiaomi\XiaomiSession.kt:255: Trama SPP v2 descartada (checksum incorrecto)
+band\xiaomi\XiaomiSession.kt:263: Sesión SPP v2 aceptada por la pulsera
+band\xiaomi\XiaomiSession.kt:277: La pulsera pide reenviar desde el paquete ${packet.sequenceNumber}
+band\xiaomi\XiaomiSession.kt:287: Paquete descartado: no se pudo descifrar
+band\xiaomi\XiaomiSession.kt:290: Paquete descartado: datos cifrados no válidos
+band\xiaomi\XiaomiSession.kt:298: Paquete del canal $channel ignorado (${payload.size} bytes)
+band\xiaomi\XiaomiSession.kt:305: Versión SPP de la pulsera: ${XiaomiCrypto.toHex(payload).ifEmpty { 
+band\xiaomi\XiaomiSession.kt:315: Comando de la pulsera ilegible (${bytes.size} bytes)
+band\xiaomi\XiaomiSession.kt:319: ← ${command.type}/${command.subtype}
+band\xiaomi\XiaomiSession.kt:344: → ${command.type}/${command.subtype}
+band\xiaomi\XiaomiSession.kt:418: Sin confirmación tras $timeoutsWithoutAck reintentos: se cierra la conexión
+band\xiaomi\XiaomiSession.kt:419: La pulsera dejó de confirmar los datos enviados.
+band\xiaomi\XiaomiSession.kt:422: Sin confirmación del paquete ${v2.window.oldestUnacked()}: reenviando
+band\xiaomi\XiaomiSession.kt:436: Sesión terminada: ${reason.message}
+billing\BillingRepository.kt:170: No se pudo abrir la compra de Google Play. Inténtalo de nuevo.
+billing\BillingRepository.kt:190: ¡Gracias por tu apoyo! Ya no verás anuncios.
+billing\BillingRepository.kt:198: Ya habías comprado «Quitar anuncios». Restaurando la compra…
+billing\BillingRepository.kt:245: Compra restaurada: no verás anuncios.
+billing\BillingRepository.kt:247: No hay ninguna compra de «Quitar anuncios» en esta cuenta de Google Play.
+billing\BillingRepository.kt:350: «Quitar anuncios» no está disponible ahora mismo en Google Play.
+billing\BillingRepository.kt:352: Pago pendiente. Los anuncios desaparecerán en cuanto Google Play confirme el pago.
+billing\BillingRepository.kt:363: Google Play no permite compras en este dispositivo o con esta cuenta.
+billing\BillingRepository.kt:366: No se pudo conectar con Google Play. Comprueba la conexión e inténtalo de nuevo.
+billing\BillingRepository.kt:367: «Quitar anuncios» no está disponible ahora mismo en Google Play.
+billing\BillingRepository.kt:369: Google Play ha rechazado la compra. Instala la app desde Google Play para poder comprar.
+billing\BillingRepository.kt:370: Tu versión de Google Play no admite esta compra.
+billing\BillingRepository.kt:371: Ya tienes «Quitar anuncios».
+billing\BillingRepository.kt:372: Error de Google Play ($code). Inténtalo de nuevo.
+ble\MiScaleParser.kt:97: Odd hex length
+ble\ScaleMonitor.kt:274:  Completa su configuración en Dispositivos.
+ble\ScaleMonitor.kt:275: Báscula detectada y configurada: ${result.driver.displayName}.$extra
+ble\ScaleMonitor.kt:304:  Completa su configuración.
+ble\ScaleMonitor.kt:304:  Súbete a la báscula para que la app se conecte.
+ble\ScaleMonitor.kt:305: Báscula añadida: ${driver.displayName}.$extra
+ble\ScaleMonitor.kt:476: No se pudo guardar la medición: ${e.message ?: e.javaClass.simpleName}
+ble\ScaleMonitor.kt:611: Mi Body Composition Scale 2
+ble\ScaleScanner.kt:414: El escaneo ya estaba en marcha.
+ble\ScaleScanner.kt:416: Android no pudo registrar el escaneo. Reintentando en 30 s; si persiste, apaga y enciende el Bluetooth.
+ble\ScaleScanner.kt:417: Error interno del Bluetooth. Reintentando en 30 s.
+ble\ScaleScanner.kt:418: Este teléfono no admite el escaneo Bluetooth LE necesario.
+ble\ScaleScanner.kt:420: El Bluetooth no tiene recursos libres (demasiadas apps escaneando). Reintentando en 30 s.
+ble\ScaleScanner.kt:422: Android limitó el escaneo por iniciarlo demasiadas veces. Reintentando en 30 s.
+ble\ScaleScanner.kt:423: Error de escaneo Bluetooth (código $code).
+cloud\CloudErrors.kt:26: Sin conexión con la nube. Se reintentará automáticamente.
+cloud\CloudErrors.kt:27: La nube ha rechazado el acceso. Cierra sesión y vuelve a iniciarla.
+cloud\CloudErrors.kt:28: La sesión ha caducado. Vuelve a iniciar sesión.
+cloud\CloudErrors.kt:29: La nube está saturada. Se reintentará más tarde.
+cloud\CloudErrors.kt:30: Error de la nube (${e.code.name.lowercase()}). Inténtalo de nuevo más tarde.
+cloud\CloudErrors.kt:32: Sin conexión a Internet. Se reintentará automáticamente.
+cloud\CloudErrors.kt:33: La nube no ha respondido a tiempo. Comprueba la conexión e inténtalo de nuevo.
+cloud\CloudErrors.kt:34: Error al sincronizar: ${e.message ?: e.javaClass.simpleName}
+cloud\CloudSyncEngine.kt:134: No hay ninguna sesión iniciada.
+cloud\CloudSyncEngine.kt:156: No se pudieron borrar todos los datos de la nube. ${CloudErrors.message(e)}
+cloud\CloudSyncEngine.kt:161: Se han borrado tus datos de la nube y tu cuenta. Los datos de este teléfono se conservan.
+cloud\CloudSyncEngine.kt:162: No se ha borrado nada.
+cloud\CloudSyncEngine.kt:315: Tu copia en la nube ya no existe (se borró desde otro dispositivo). 
+cloud\CloudSyncEngine.kt:316: Se ha cerrado la sesión; los datos de este teléfono se conservan.
+cloud\RepositoryBackupAdapter.kt:100: No se pudo abrir la base de datos del teléfono: $it
+cloud\RepositoryBackupAdapter.kt:101: La base de datos del teléfono no termina de cargar.
+cloud\SyncMerge.kt:50: ${m.impedance ?: 
+cloud\SyncMerge.kt:56: $base|$composition|${m.compositionSource ?: 
+cloud\SyncMerge.kt:56: }|${m.formulaLib ?: 
+cloud\SyncMerge.kt:56: }|${m.deviceDriver ?: 
+cloud\SyncMerge.kt:66: $k=${if (v is Number) num(v) else v.toString()}
+data\AppDatabase.kt:45: CREATE INDEX idx_measurements_profile_time ON measurements(profile_id, timestamp)
+data\AppDatabase.kt:60: ALTER TABLE measurements ADD COLUMN $column $type
+data\AppDatabase.kt:61: CREATE TABLE IF NOT EXISTS deleted_scale_keys (scale_key TEXT PRIMARY KEY, deleted_at INTEGER NOT NULL)
+data\AppDatabase.kt:65: SELECT scale_key FROM deleted_scale_keys
+data\AppDatabase.kt:74: ALTER TABLE measurements ADD COLUMN $column $type
+data\AppDatabase.kt:88: SELECT id, name, sex, birth_date, height_cm, target_weight_kg, color_index, created_at FROM profiles ORDER BY created_at, id
+data\AppDatabase.kt:112: SELECT profile_id, COUNT(*) FROM measurements WHERE profile_id IS NOT NULL GROUP BY profile_id
+data\AppDatabase.kt:129: profile_id IS NULL OR profile_id NOT IN (SELECT id FROM profiles)
+data\AppDatabase.kt:140: profile_id IS NULL
+data\AppDatabase.kt:142: profile_id = ?
+data\AppDatabase.kt:145: SELECT $MEASUREMENT_COLUMNS FROM measurements WHERE $where ORDER BY timestamp, id
+data\AppDatabase.kt:154: id = ?
+data\AppDatabase.kt:182: id = ?
+data\AppDatabase.kt:188: SELECT scale_key FROM measurements WHERE id = ?
+data\AppDatabase.kt:198: id = ?
+data\CsvCodec.kt:208: yyyy-MM-dd H:mm[:ss]
+data\CsvCodec.kt:209: d/M/yyyy H:mm[:ss]
+data\CsvCodec.kt:210: d-M-yyyy H:mm[:ss]
+data\CsvCodec.kt:275: ' && i + 1 < line.length && line[i + 1] == '
+data\SettingsStore.kt:91: Mi Body Composition Scale 2
+domain\Classification.kt:39: Muy bajo
+domain\Classification.kt:43: Muy alto
+domain\Classification.kt:131: Muy alto
+domain\Classification.kt:161: Más joven
+domain\Classification.kt:163: Mayor que tu edad
+domain\Classification.kt:168: En rango
+domain\Classification.kt:170: Fuera de rango
+domain\Classification.kt:174: Grasa alta y poca masa muscular.
+domain\Classification.kt:175: Grasa alta con masa muscular normal.
+domain\Classification.kt:176: Grasa alta con mucha masa muscular.
+domain\Classification.kt:177: Falta de ejercicio
+domain\Classification.kt:177: Grasa normal y poca masa muscular.
+domain\Classification.kt:178: Grasa y músculo dentro de lo normal.
+domain\Classification.kt:179: Equilibrado musculoso
+domain\Classification.kt:179: Grasa normal con mucha masa muscular.
+domain\Classification.kt:180: Grasa baja y poca masa muscular.
+domain\Classification.kt:181: Delgado equilibrado
+domain\Classification.kt:181: Grasa baja con masa muscular normal.
+domain\Classification.kt:182: Delgado musculoso
+domain\Classification.kt:182: Grasa baja con mucha masa muscular.
+domain\Metric.kt:16: Masa grasa
+domain\Metric.kt:17: Músculo
+domain\Metric.kt:18: Músculo esquelético
+domain\Metric.kt:21: Grasa visceral
+domain\Metric.kt:22: Metabolismo basal
+domain\Metric.kt:23: Edad metabólica
+domain\Metric.kt:23: años
+domain\Metric.kt:24: Proteína
+domain\Metric.kt:25: Peso ideal
+health\HealthCache.kt:60: CREATE INDEX idx_hr_time ON hr_samples(time)
+health\HealthCache.kt:61: CREATE INDEX idx_hr_record ON hr_samples(record_id)
+health\HealthCache.kt:74: CREATE INDEX idx_points_kind_time ON points(kind, time)
+health\HealthCache.kt:86: CREATE INDEX idx_sleep_end ON sleep_sessions(end_time)
+health\HealthCache.kt:97: CREATE INDEX idx_stages_session ON sleep_stages(session_id)
+health\HealthCache.kt:112: CREATE INDEX idx_exercises_start ON exercises(start)
+health\HealthCache.kt:113: CREATE TABLE sync_meta (key TEXT PRIMARY KEY, value TEXT NOT NULL)
+health\HealthCache.kt:131: ALTER TABLE export_ledger ADD COLUMN record_key TEXT
+health\HealthCache.kt:151: date = ?
+health\HealthCache.kt:191: record_id = ?
+health\HealthCache.kt:213: time >= ?
+health\HealthCache.kt:218: SELECT time, bpm FROM hr_samples WHERE time >= ? AND time < ? ORDER BY time
+health\HealthCache.kt:249: kind = ? AND record_id = ?
+health\HealthCache.kt:254: kind = ?
+health\HealthCache.kt:255: kind = ? AND time >= ?
+health\HealthCache.kt:260: SELECT time, value, origin FROM points WHERE kind = ? AND time >= ? AND time < ? ORDER BY time
+health\HealthCache.kt:268: SELECT time, value, origin FROM points WHERE kind = ? ORDER BY time DESC LIMIT 1
+health\HealthCache.kt:278: session_id = ?
+health\HealthCache.kt:311: session_id = ?
+health\HealthCache.kt:312: record_id = ?
+health\HealthCache.kt:325: session_id IN (SELECT record_id FROM sleep_sessions WHERE start >= ?)
+health\HealthCache.kt:326: start >= ?
+health\HealthCache.kt:335: SELECT record_id, start, end_time, title, origin FROM sleep_sessions WHERE end_time >= ? AND end_time < ? ORDER BY end_time
+health\HealthCache.kt:391: start >= ?
+health\HealthCache.kt:441: time < ?
+health\HealthCache.kt:442: time < ?
+health\HealthCache.kt:443: session_id IN (SELECT record_id FROM sleep_sessions WHERE end_time < ?)
+health\HealthCache.kt:444: end_time < ?
+health\HealthCache.kt:445: start < ?
+health\HealthCache.kt:446: date < ?
+health\HealthCache.kt:453: SELECT value FROM sync_meta WHERE key = ?
+health\HealthCache.kt:459: key = ?
+health\HealthCache.kt:476: SELECT measurement_id, signature, version, types, record_key FROM export_ledger
+health\HealthCache.kt:504: SELECT COUNT(*) FROM export_ledger
+health\HealthCache.kt:509: $column = ?
+health\HealthMappings.kt:22: Otro entrenamiento
+health\HealthMappings.kt:23: Bádminton
+health\HealthMappings.kt:24: Béisbol
+health\HealthMappings.kt:27: Bicicleta estática
+health\HealthMappings.kt:28: Boot camp
+health\HealthMappings.kt:31: Críquet
+health\HealthMappings.kt:33: Elíptica
+health\HealthMappings.kt:34: Clase de ejercicio
+health\HealthMappings.kt:36: Fútbol americano
+health\HealthMappings.kt:37: Fútbol australiano
+health\HealthMappings.kt:40: Respiración guiada
+health\HealthMappings.kt:45: Hockey sobre hielo
+health\HealthMappings.kt:46: Patinaje sobre hielo
+health\HealthMappings.kt:47: Artes marciales
+health\HealthMappings.kt:48: Remo en kayak
+health\HealthMappings.kt:51: Ráquetbol
+health\HealthMappings.kt:53: Hockey sobre patines
+health\HealthMappings.kt:55: Máquina de remo
+health\HealthMappings.kt:58: Cinta de correr
+health\HealthMappings.kt:62: Esquí
+health\HealthMappings.kt:64: Raquetas de nieve
+health\HealthMappings.kt:65: Fútbol
+health\HealthMappings.kt:66: Sóftbol
+health\HealthMappings.kt:68: Subir escaleras
+health\HealthMappings.kt:69: Máquina de escaleras
+health\HealthMappings.kt:70: Entrenamiento de fuerza
+health\HealthMappings.kt:73: Natación en aguas abiertas
+health\HealthMappings.kt:74: Natación en piscina
+health\HealthMappings.kt:75: Tenis de mesa
+health\HealthMappings.kt:81: Silla de ruedas
+health\HealthMappings.kt:92: Mi Fitness
+health\HealthMappings.kt:93: Mi Fitness
+health\HealthMappings.kt:94: Zepp Life
+health\HealthMappings.kt:96: Google Fit
+health\HealthMappings.kt:97: Health Connect
+health\HealthMappings.kt:98: Health Connect
+health\HealthMappings.kt:99: Samsung Health
+health\HealthMappings.kt:101: Garmin Connect
+health\HealthMappings.kt:102: Huawei Salud
+health\HealthMappings.kt:105: Polar Flow
+health\HealthModels.kt:34: Sin fase
+health\HealthPermissions.kt:11: Calorías activas
+health\HealthPermissions.kt:12: Calorías totales
+health\HealthPermissions.kt:14: Pulso en reposo
+health\HealthPermissions.kt:15: Variabilidad del pulso
+health\HealthPermissions.kt:16: Sueño
+health\HealthPermissions.kt:17: Oxígeno en sangre
+health\HealthPermissions.kt:19: Frecuencia respiratoria
+health\HealthPermissions.kt:21: Grasa corporal
+health\HealthPermissions.kt:22: Masa ósea
+health\HealthPermissions.kt:23: Masa magra
+health\HealthPermissions.kt:24: Metabolismo basal
+health\HealthPermissions.kt:25: Agua corporal
+health\HealthSync.kt:97: Health Connect no está disponible en este dispositivo.
+health\HealthSync.kt:116: No se pudo sincronizar: 
+health\HealthSync.kt:124: No se pudo sincronizar: ${describe(e)}
+health\HealthSync.kt:160: ${type.label} (${describe(e)})
+health\HealthSync.kt:508: rate limit
+health\HealthSync.kt:509: límite de peticiones de Health Connect, inténtalo en unos minutos
+health\HealthSync.kt:510: la app pasó a segundo plano
+health\HealthSync.kt:511: permiso retirado
+health\HealthSync.kt:512: Health Connect no respondió
+health\ScaleExporter.kt:108: El historial ya estaba en Health Connect
+health\ScaleExporter.kt:109: Exportada 1 medición
+health\ScaleExporter.kt:110: Exportadas ${result.written} mediciones
+health\ScaleExporter.kt:114: $written · 1 registro antiguo eliminado
+health\ScaleExporter.kt:115: $written · ${result.legacyDeleted} registros antiguos eliminados
+health\ScaleExporter.kt:125: No se pudo escribir en Health Connect: ${HealthSync.describe(e)}
+health\ScaleExporter.kt:295: ${driver.brand} 
+health\domain\HeartRateZones.kt:18: Muy suave
+health\domain\HeartRateZones.kt:18: Máxima
+scale\AdvertisementInfo.kt:57: , name=
+scale\AdvertisementInfo.kt:57: , rssi=
+scale\AdvertisementInfo.kt:58: , services=
+scale\AdvertisementInfo.kt:59: , sd[
+scale\AdvertisementInfo.kt:61: , md[
+scale\Bytes.kt:73: Odd hex length
+scale\GattSession.kt:92: No se pudieron leer los servicios ($status)
+scale\GattSession.kt:119: Legacy callback for API < 33
+scale\GattSession.kt:133: Legacy callback for API < 33
+scale\GattSession.kt:147: Falta el permiso de dispositivos cercanos
+scale\GattSession.kt:148: Bluetooth no disponible
+scale\GattSession.kt:149: Bluetooth desactivado
+scale\GattSession.kt:153: Dirección no válida: $address
+scale\GattSession.kt:160: Falta el permiso de dispositivos cercanos
+scale\GattSession.kt:161: Android no pudo iniciar la conexión
+scale\GattSession.kt:171: No conectado
+scale\GattSession.kt:175: No se pudieron buscar los servicios
+scale\GattSession.kt:215: La báscula dejó de responder
+scale\GattSession.kt:217: La báscula dejó de responder
+scale\GattSession.kt:319: Conexión cerrada
+scale\GattSession.kt:338: La báscula se desconectó
+scale\GattSession.kt:339: Se perdió la conexión con la báscula (fuera de alcance)
+scale\GattSession.kt:340: La báscula cerró la conexión
+scale\GattSession.kt:341: Conexión cancelada por el teléfono
+scale\GattSession.kt:342: No se pudo establecer la conexión
+scale\GattSession.kt:343: Error de conexión Bluetooth (133). Reintentando en la próxima medición
+scale\GattSession.kt:344: Error de conexión Bluetooth ($status)
+scale\GattSessionRunner.kt:94: No se pudo conectar (tiempo agotado)
+scale\GattSessionRunner.kt:100: No se pudo conectar
+scale\GattSessionRunner.kt:169: La báscula se desconectó
+scale\GattSessionRunner.kt:212: Error del protocolo: ${e.message ?: e.javaClass.simpleName}
+scale\GattSessionRunner.kt:271: Sin datos nuevos de la báscula
+scale\ScaleDriver.kt:45: Deben ser 32 caracteres hexadecimales
+scale\ScaleDriver.kt:47: Usuario entre $minSlot y $maxSlot
+scale\ScaleDriver.kt:49: PIN de hasta 4 cifras
+scale\ScaleDriver.kt:61: PIN del usuario
+scale\ScaleDriver.kt:62: Código de consentimiento (0-9999) del usuario en la báscula. Déjalo vacío para que la app registre un usuario nuevo.
+scale\ScaleDriver.kt:68: Usuario en la báscula
+scale\ScaleDriver.kt:69: Posición de usuario que la app registra/usa en la báscula ($minSlot = primera).
+scale\ScaleDriver.kt:274: Protocol not attached
+scale\ScaleDriver.kt:275: Protocol not attached
+scale\ScaleReading.kt:80: Xiaomi Mi Fit
+scale\ScaleReading.kt:81: Xiaomi S400
+scale\ScaleReading.kt:82: Impedancia estándar (Sun 2003)
+scale\ScaleReading.kt:86: Trisa (resistencia)
+scale\ScaleReading.kt:89: Fitdays WLA25 (10 impedancias)
+scale\ScaleReading.kt:90: icomon WLA07
+scale\ScaleReading.kt:91: RENPHO ES-26BB
+scale\ScaleReading.kt:92: 1byone / Eufy
+scale\ScaleReading.kt:93: 1byone (nuevo)
+scale\ScaleReading.kt:95: Chipsea / Etekcity
+scale\ScaleReading.kt:96: Keep S3 (doble frecuencia)
+scale\ScaleRegistry.kt:17: Duplicate driver ids
+scale\ScaleSample.kt:140: ScaleSample(user=$userId, t=$dateTime, w=$weightKg, fat=$fatPercent, water=$waterPercent, 
+scale\ScaleSample.kt:141: muscle=$musclePercent, bone=$boneKg, lbm=$lbmKg, visc=$visceralFat, bmr=$bmrKcal, imp=$impedance)
+scale\drivers\AiLinkBroadcastDriver.kt:24: AiLink / eLink (báscula de grasa por anuncios)
+scale\drivers\AiLinkBroadcastDriver.kt:25: AiLink / Aicare
+scale\drivers\BeurerSanitasDriver.kt:27: Beurer BF700/710/800 · Sanitas SBF70 · SilverCrest SBF75
+scale\drivers\BeurerSanitasDriver.kt:28: Beurer / Sanitas / SilverCrest
+scale\drivers\BeurerSanitasDriver.kt:40: beurer bf700
+scale\drivers\BeurerSanitasDriver.kt:40: beurer bf800
+scale\drivers\BeurerSanitasDriver.kt:42: beurer bf710
+scale\drivers\BeurerSanitasDriver.kt:43: sanitas sbf70
+scale\drivers\BeurerSanitasDriver.kt:147: Súbete a la báscula
+scale\drivers\BeurerSanitasDriver.kt:231: Batería de la báscula baja
+scale\drivers\BeurerSanitasDriver.kt:273: Usuario creado en la báscula: súbete para la medición de referencia
+scale\drivers\BeurerSanitasDriver.kt:280: La báscula no admite más usuarios
+scale\drivers\BeurerSanitasDriver.kt:288: Súbete a la báscula
+scale\drivers\MedisanaDriver.kt:24: Medisana BS430 / BS440 / BS444
+scale\drivers\MedisanaDriver.kt:59: Súbete a la báscula
+scale\drivers\OkOkEtekcityBroadcastDrivers.kt:25: OKOK / Chipsea (anuncios)
+scale\drivers\OkOkEtekcityBroadcastDrivers.kt:26: OKOK / Chipsea
+scale\drivers\OkOkEtekcityBroadcastDrivers.kt:239: Etekcity Fit 8S
+scale\drivers\QnYunmaiXiaomiBroadcastDrivers.kt:26: QN / Renpho / FITINDEX (anuncios AABB)
+scale\drivers\QnYunmaiXiaomiBroadcastDrivers.kt:27: QN / Renpho / FITINDEX
+scale\drivers\QnYunmaiXiaomiBroadcastDrivers.kt:78: Yunmai X (YMBS-M268)
+scale\drivers\QnYunmaiXiaomiBroadcastDrivers.kt:146: Xiaomi Body Composition Scale S800
+scale\drivers\QnYunmaiXiaomiBroadcastDrivers.kt:152: Bind key (clave BLE)
+scale\drivers\QnYunmaiXiaomiBroadcastDrivers.kt:153: Clave de 32 caracteres hexadecimales de la nube de Xiaomi.
+scale\drivers\QnYunmaiXiaomiBroadcastDrivers.kt:159: MIJIA SCALE S800
+scale\drivers\QnYunmaiXiaomiBroadcastDrivers.kt:163: MIJIA SCALE S800
+scale\drivers\QnYunmaiXiaomiBroadcastDrivers.kt:192: Báscula S800 detectada: configura su bind key en Básculas para leerla.
+scale\drivers\QnYunmaiXiaomiBroadcastDrivers.kt:204: La bind key de la S800 no descifra sus datos: revísala en Básculas.
+scale\drivers\SimpleBroadcastDrivers.kt:24: Báscula AAA002 / AAA007 / AAA013
+scale\drivers\SimpleBroadcastDrivers.kt:25: Genérica (AAA)
+scale\drivers\SimpleBroadcastDrivers.kt:71: Eufy Smart Scale C20 (T9130)
+scale\drivers\SimpleBroadcastDrivers.kt:181: Sinocare Weight Scale
+scale\drivers\SimpleBroadcastDrivers.kt:188: Weight Scale
+scale\drivers\SimpleBroadcastDrivers.kt:248: Scale Up (anuncio 0xD0/0xE0)
+scale\drivers\SimpleBroadcastDrivers.kt:249: Genérica (Scale Up)
+scale\drivers\SimpleBroadcastDrivers.kt:311: PICOOC Mini Lite
+scale\drivers\SimpleGattDriversA.kt:30: Excelvan CF36xBLE
+scale\drivers\SimpleGattDriversA.kt:33: Electronic Scale
+scale\drivers\SimpleGattDriversA.kt:36: Electronic Scale
+scale\drivers\SimpleGattDriversA.kt:47: Súbete a la báscula
+scale\drivers\SimpleGattDriversA.kt:94: Digoo DG-SO38H (Mengii)
+scale\drivers\SimpleGattDriversA.kt:109: Súbete a la báscula
+scale\drivers\SimpleGattDriversA.kt:160: Hesley (YunChen)
+scale\drivers\SimpleGattDriversA.kt:176: Súbete a la báscula
+scale\drivers\SimpleGattDriversA.kt:226: Súbete a la báscula
+scale\drivers\SimpleGattDriversA.kt:256: Medición fallida: coloca bien los pies en la báscula
+scale\drivers\SimpleGattDriversA.kt:322: Exingtech Y1 (VScale)
+scale\drivers\SimpleGattDriversA.kt:344: Súbete a la báscula
+scale\drivers\SimpleGattDriversA.kt:374: Belter / Ebelter Body Fat-B2 (EF-916B4)
+scale\drivers\SimpleGattDriversA.kt:377: Body Fat-B2
+scale\drivers\SimpleGattDriversA.kt:380: BODY FAT-B2
+scale\drivers\SimpleGattDriversB.kt:30: EEBBL Body Fat Scale P1 (8 electrodos)
+scale\drivers\SimpleGattDriversB.kt:63: Súbete a la báscula
+scale\drivers\SimpleGattDriversB.kt:117: Vitafit VT701
+scale\drivers\SimpleGattDriversB.kt:138: Súbete a la báscula
+scale\drivers\SimpleGattDriversB.kt:222: Robi S9
+scale\drivers\SimpleGattDriversB.kt:229: robi s9
+scale\drivers\SimpleGattDriversB.kt:247: Súbete a la báscula
+scale\drivers\SimpleGattDriversB.kt:284: Runstar R5
+scale\drivers\SimpleGattDriversB.kt:310: Súbete a la báscula
+scale\drivers\SimpleGattDriversB.kt:344: Runstar R6
+scale\drivers\SimpleGattDriversB.kt:363: Súbete a la báscula
+scale\drivers\SimpleGattDriversC.kt:25: RyFit (云悦) / Chronocloud
+scale\drivers\SimpleGattDriversC.kt:161: Cult Smart Scale Pro
+scale\drivers\SimpleGattDriversC.kt:167: CULT SMART SCALE
+scale\drivers\SimpleGattDriversC.kt:182: Súbete a la báscula
+scale\drivers\SimpleGattDriversC.kt:231: realme Smart Scale
+scale\drivers\SimpleGattDriversC.kt:240: realme smart scale
+scale\drivers\SimpleGattDriversC.kt:325: Healthkeep Smart Scale (280)
+scale\drivers\SimpleGattDriversC.kt:348: Súbete a la báscula
+scale\drivers\SimpleGattDriversD.kt:47: FitTrack Dara 2.0
+scale\drivers\SimpleGattDriversD.kt:68: Súbete a la báscula
+scale\drivers\SimpleGattDriversD.kt:147: Hume Health Dara 2.0
+scale\drivers\SimpleGattDriversD.kt:148: Hume Health
+scale\drivers\SimpleGattDriversD.kt:153: Dara 2.0
+scale\drivers\SimpleGattDriversD.kt:164: Súbete a la báscula
+scale\drivers\SimpleGattDriversD.kt:227: Súbete a la báscula
+scale\drivers\SimpleGattDriversD.kt:330: Dr. Trust SSW532
+scale\drivers\SimpleGattDriversD.kt:331: Dr. Trust
+scale\drivers\SimpleGattDriversD.kt:402: Súbete a la báscula
+scale\drivers\SimpleGattDriversD.kt:545: Taylor 5331891 BIA · ALPHA Smart Scale PRO 3
+scale\drivers\SimpleGattDriversD.kt:546: Taylor / ALPHA
+scale\drivers\SimpleGattDriversD.kt:549: BIA SCALE
+scale\drivers\SimpleGattDriversD.kt:549: PRO 3
+scale\drivers\SimpleGattDriversD.kt:553: BIA SCALE
+scale\drivers\SimpleGattDriversD.kt:582: Súbete a la báscula
+scale\drivers\SimpleGattDriversD.kt:668: BIA SCALE
+scale\drivers\SimpleGattDriversD.kt:717: SWAN / Icomon (protocolo MGB)
+scale\drivers\SimpleGattDriversD.kt:718: SWAN / Icomon
+scale\drivers\SimpleGattDriversD.kt:747: Súbete a la báscula
+scale\drivers\SimpleGattDriversE.kt:28: Active Era BF-06
+scale\drivers\SimpleGattDriversE.kt:29: Active Era
+scale\drivers\SimpleGattDriversE.kt:32: AE BS-06
+scale\drivers\SimpleGattDriversE.kt:35: AE BS-06
+scale\drivers\SimpleGattDriversE.kt:49: Súbete a la báscula
+scale\drivers\SimpleGattDriversE.kt:114: ES-CS20M / ES-32MD
+scale\drivers\SimpleGattDriversE.kt:115: Lefu / QN
+scale\drivers\SimpleGattDriversE.kt:273: RENPHO ES-26BB-B · Elis Solar (R-A012/R-A020)
+scale\drivers\SimpleGattDriversE.kt:277: Elis Solar
+scale\drivers\SimpleGattDriversE.kt:341: RENPHO ES-WBE28
+scale\drivers\SimpleGattDriversE.kt:376: Súbete a la báscula
+scale\drivers\SimpleGattDriversE.kt:393: QN / Yolanda / RENPHO / FITINDEX (conexión)
+scale\drivers\SimpleGattDriversE.kt:394: QN / RENPHO / FITINDEX
+scale\drivers\SimpleGattDriversE.kt:397: Fit Plus
+scale\drivers\SimpleGattDriversE.kt:402: fit plus
+scale\drivers\SimpleGattDriversE.kt:437: Súbete a la báscula
+scale\drivers\SimpleGattDriversF.kt:35: 1byone Health Scale · Eufy C1/P1/A1
+scale\drivers\SimpleGattDriversF.kt:36: 1byone / Eufy
+scale\drivers\SimpleGattDriversF.kt:39: Health Scale
+scale\drivers\SimpleGattDriversF.kt:39: Eufy C1
+scale\drivers\SimpleGattDriversF.kt:39: Eufy P1
+scale\drivers\SimpleGattDriversF.kt:39: Eufy A1
+scale\drivers\SimpleGattDriversF.kt:69: Súbete a la báscula
+scale\drivers\SimpleGattDriversF.kt:88: Batería de la báscula baja
+scale\drivers\SimpleGattDriversF.kt:155: health scale
+scale\drivers\SimpleGattDriversF.kt:183: 1byone (nuevo)
+scale\drivers\SimpleGattDriversF.kt:189: 1byone scale
+scale\drivers\SimpleGattDriversF.kt:201: Súbete a la báscula
+scale\drivers\SimpleGattDriversF.kt:282: Yunmai Mini (Signal, ISM, ISC2P, Scale-3)
+scale\drivers\SimpleGattDriversF.kt:282: Yunmai SE
+scale\drivers\SimpleGattDriversF.kt:320: Súbete a la báscula
+scale\drivers\SimpleGattDriversF.kt:376: Eufy Smart Scale P2 / P2 Pro (T9148/T9149)
+scale\drivers\SimpleGattDriversF.kt:387: eufy t9148
+scale\drivers\SimpleGattDriversF.kt:387: eufy t9149
+scale\drivers\SimpleGattDriversF.kt:406: Súbete a la báscula
+scale\drivers\SimpleGattDriversF.kt:419: La báscula Eufy rechazó la autenticación
+scale\drivers\SimpleGattDriversF.kt:489: Súbete a la báscula
+scale\drivers\SimpleGattDriversG.kt:33: Etekcity ESF-551
+scale\drivers\SimpleGattDriversG.kt:37: Etekcity Smart Fitness Scale
+scale\drivers\SimpleGattDriversG.kt:40: Etekcity Smart Fitness Scale
+scale\drivers\SimpleGattDriversG.kt:50: Súbete a la báscula
+scale\drivers\SimpleGattDriversG.kt:108: openScale DIY (Arduino + HM-10)
+scale\drivers\SimpleGattDriversG.kt:146: Registro de la báscula no válido
+scale\drivers\SimpleGattDriversG.kt:196: Hoffen BBS-8107 · ProfiCare PC-PW 3008 BT
+scale\drivers\SimpleGattDriversG.kt:197: Hoffen / ProfiCare
+scale\drivers\SimpleGattDriversG.kt:200: Hoffen BS-8107
+scale\drivers\SimpleGattDriversG.kt:200: PC-PW 3008 BT
+scale\drivers\SimpleGattDriversG.kt:230: Súbete a la báscula
+scale\drivers\SimpleGattDriversG.kt:249: hoffen bs-8107
+scale\drivers\SimpleGattDriversG.kt:249: pc-pw 3008 bt
+scale\drivers\SimpleGattDriversG.kt:282: Senssun Fat
+scale\drivers\SimpleGattDriversG.kt:288: SENSSUN FAT
+scale\drivers\SimpleGattDriversG.kt:341: Súbete a la báscula
+scale\drivers\SimpleGattDriversG.kt:354: La báscula no pudo medir la grasa corporal
+scale\drivers\SimpleGattDriversG.kt:498: Huawei AH100 / CH100
+scale\drivers\SimpleGattDriversG.kt:499: Huawei / Honor
+scale\drivers\SimpleGattDriversG.kt:502: Body Fat Scale
+scale\drivers\SimpleGattDriversG.kt:508: HUAWEI 
+scale\drivers\SimpleGattDriversG.kt:508: HONOR 
+scale\drivers\SimpleGattDriversG.kt:532: Súbete a la báscula
+scale\drivers\SimpleGattDriversG.kt:611: Honor Smart Scale CH100S
+scale\drivers\SimpleGattDriversG.kt:612: Huawei / Honor
+scale\drivers\SimpleGattDriversG.kt:638: Súbete a la báscula
+scale\drivers\SimpleGattDriversH.kt:49: La báscula no tiene usuarios libres: elige tu usuario (1-8) en la configuración de la báscula
+scale\drivers\SimpleGattDriversH.kt:57: 1BODY CONNECT · X-LINE
+scale\drivers\SimpleGattDriversH.kt:58: 1BODY / Transtek
+scale\drivers\SimpleGattDriversH.kt:64: 1BODY CONNECT
+scale\drivers\SimpleGattDriversH.kt:64: 0BODY CONNECT
+scale\drivers\SimpleGattDriversH.kt:105: Báscula emparejada
+scale\drivers\SimpleGattDriversH.kt:112: Báscula no emparejada: pon la báscula en modo emparejamiento
+scale\drivers\SimpleGattDriversH.kt:220: Weight Gurus Smart Scale 0376
+scale\drivers\SimpleGattDriversH.kt:221: Weight Gurus
+scale\drivers\SimpleGattDriversH.kt:270: Báscula emparejada
+scale\drivers\SimpleGattDriversH.kt:279: Báscula no emparejada: pon la báscula en modo emparejamiento
+scale\drivers\SimpleGattDriversH.kt:462: PICOOC (Latin, S1, S3…)
+scale\drivers\SimpleGattDriversH.kt:492: Súbete a la báscula
+scale\drivers\SimpleGattDriversH.kt:544: Batería de la báscula baja
+scale\drivers\SimpleGattDriversH.kt:651: Omron HBF-702T / 22xT / BCM-500 / VIVA
+scale\drivers\SimpleGattDriversH.kt:679: Modelo Omron no reconocido
+scale\drivers\SimpleGattDriversH.kt:690: Mantén pulsado el botón de emparejamiento de la Omron
+scale\drivers\SimpleGattDriversH.kt:724: Mantén pulsado el botón de emparejamiento de la Omron
+scale\drivers\SimpleGattDriversH.kt:735: La Omron no está en modo emparejamiento
+scale\drivers\SimpleGattDriversH.kt:739: Omron emparejada
+scale\drivers\SimpleGattDriversH.kt:742: No se pudo emparejar la Omron
+scale\drivers\SimpleGattDriversH.kt:756: La Omron rechazó la sesión
+scale\drivers\SimpleGattDriversH.kt:761: Error leyendo la memoria de la Omron
+scale\drivers\SimpleGattDriversH.kt:819: No hay mediciones nuevas en la Omron
+scale\drivers\SimpleGattDriversH.kt:822: Mediciones leídas de la Omron: ${fresh.size}
+scale\drivers\SimpleGattDriversH.kt:855: La Omron dejó de responder
+scale\drivers\SimpleGattDriversH.kt:926: Keep S3
+scale\drivers\SimpleGattDriversH.kt:976: Súbete a la báscula
+scale\drivers\SoehnleTrisaDrivers.kt:30: Soehnle Shape 200/100/50 · Style 100
+scale\drivers\SoehnleTrisaDrivers.kt:97: Batería de la báscula baja
+scale\drivers\SoehnleTrisaDrivers.kt:114: Usuario creado en la báscula: súbete para la medición de referencia
+scale\drivers\SoehnleTrisaDrivers.kt:116: La báscula no pudo crear el usuario (¿sin huecos libres?)
+scale\drivers\SoehnleTrisaDrivers.kt:123: La báscula rechazó el usuario: vuelve a intentarlo más tarde
+scale\drivers\SoehnleTrisaDrivers.kt:170: Trisa Body Analyze 4.0
+scale\drivers\SoehnleTrisaDrivers.kt:205: Trisa emparejada. Súbete de nuevo para medir
+scale\drivers\SoehnleTrisaDrivers.kt:212: Trisa no emparejada: pulsa el botón de emparejamiento de la báscula
+scale\drivers\StandardWeightProfileDrivers.kt:83: Súbete a la báscula
+scale\drivers\StandardWeightProfileDrivers.kt:91: Batería de la báscula baja
+scale\drivers\StandardWeightProfileDrivers.kt:196: measurement unsuccessful
+scale\drivers\StandardWeightProfileDrivers.kt:275: Usuario $index registrado en la báscula (PIN $consent)
+scale\drivers\StandardWeightProfileDrivers.kt:278: La báscula no tiene usuarios libres: indica tu usuario y PIN en Básculas
+scale\drivers\StandardWeightProfileDrivers.kt:280: La báscula no aceptó el registro del usuario (código $result)
+scale\drivers\StandardWeightProfileDrivers.kt:288: Súbete a la báscula para la medición de referencia
+scale\drivers\StandardWeightProfileDrivers.kt:294: La báscula rechazó el PIN del usuario: revísalo en Básculas
+scale\drivers\StandardWeightProfileDrivers.kt:305: Falta el PIN del usuario $index de la báscula: introdúcelo en Básculas
+scale\drivers\StandardWeightProfileDrivers.kt:369: Báscula estándar Bluetooth (perfil Weight Scale)
+scale\drivers\StandardWeightProfileDrivers.kt:370: Genérica
+scale\drivers\StandardWeightProfileDrivers.kt:372: Weight Scale Profile
+scale\drivers\StandardWeightProfileDrivers.kt:372: Body Composition Service
+scale\drivers\StandardWeightProfileDrivers.kt:372: estándar
+scale\drivers\StandardWeightProfileDrivers.kt:389: A&D UC-352BLE
+scale\drivers\StandardWeightProfileDrivers.kt:403: Beurer BF450
+scale\drivers\StandardWeightProfileDrivers.kt:482: Sanitas SBF72 / SBF73 · Beurer BF915
+scale\drivers\StandardWeightProfileDrivers.kt:483: Sanitas / Beurer
+scale\drivers\StandardWeightProfileDrivers.kt:504: La báscula muestra el PIN del usuario $index: introdúcelo en Básculas
+scale\drivers\StandardWeightProfileDrivers.kt:522: Beurer BF105/720/1000/950/500/600/850 · Sanitas SBF76/77
+scale\drivers\StandardWeightProfileDrivers.kt:523: Beurer / Sanitas
+scale\drivers\XiaomiMiScaleDrivers.kt:30: Xiaomi Mi Body Composition Scale 2
+scale\drivers\XiaomiMiScaleDrivers.kt:35: Mi Scale 2
+scale\drivers\XiaomiMiScaleDrivers.kt:35: Mi Body Composition
+scale\drivers\XiaomiMiScaleDrivers.kt:35: Mi Smart Scale
+scale\drivers\XiaomiMiScaleDrivers.kt:110: Xiaomi Mi Smart Scale (1ª gen.)
+scale\drivers\XiaomiMiScaleDrivers.kt:113: MI SCALE
+scale\drivers\XiaomiMiScaleDrivers.kt:113: Mi Scale v1
+scale\drivers\XiaomiMiScaleDrivers.kt:118: MI SCALE
+scale\drivers\XiaomiMiScaleDrivers.kt:118: MI SCALE2
+scale\drivers\XiaomiMiScaleDrivers.kt:118: MI SCALE 
+scale\drivers\XiaomiS400Driver.kt:30: Xiaomi Body Composition Scale S400
+scale\drivers\XiaomiS400Driver.kt:37: Bind key (clave BLE)
+scale\drivers\XiaomiS400Driver.kt:38: Clave de 32 caracteres hexadecimales de la nube de Xiaomi (p. ej. con Xiaomi Cloud Tokens Extractor).
+scale\drivers\XiaomiS400Driver.kt:44: Perfil en la báscula
+scale\drivers\XiaomiS400Driver.kt:45: Número de perfil de la báscula que es el tuyo (si la usan varias personas). Vacío: todos.
+scale\drivers\XiaomiS400Driver.kt:52: Mi Body Composition Scale S400
+scale\drivers\XiaomiS400Driver.kt:56: SCALE S400
+scale\drivers\XiaomiS400Driver.kt:87: Báscula S400 detectada: configura su bind key en Básculas para leerla.
+scale\drivers\XiaomiS400Driver.kt:105: La bind key de la S400 no descifra sus datos: revísala en Básculas.
+scale\libs\AesCcm.kt:42: Bad AES key length
+scale\libs\AesCcm.kt:47: Bad nonce length
+scale\libs\AesCcm.kt:74: Bad tag length
+scale\libs\AesCcm.kt:85: AAD too long
+scale\libs\AfuB1Lib.kt:276: AFU frame body must be 15 bytes
+scale\libs\EufyP2Lib.kt:24: Eufy: dirección MAC no válida
+scale\libs\EufyP2Lib.kt:119: C1 not received
+scale\libs\KeepS3Lib.kt:109: invalid Keep S3 ID24 token
+scale\libs\KeepS3Lib.kt:116: Keep S3 ID24 requires 12 random bytes
+scale\libs\OmronLib.kt:112: read block out of range: $length
+scale\libs\OmronLib.kt:113: address out of range: $address
+ui\AppRoot.kt:121: No se pudo abrir la base de datos: $error
+ui\AppRoot.kt:217: Añadir peso manual
+ui\AppRoot.kt:218: Añadir peso manual
+ui\Format.kt:39: $value $unit
+ui\Format.kt:43: ${num(v, decimals)} kg
+ui\Format.kt:47: ${it.dayOfMonth} ${MONTHS_SHORT[it.monthValue - 1]}
+ui\Format.kt:49: ${it.dayOfMonth} ${MONTHS_SHORT[it.monthValue - 1]} ${it.year}
+ui\Format.kt:51: ${d.dayOfMonth} ${MONTHS_SHORT[d.monthValue - 1]} ${d.year}
+ui\Format.kt:53: ${MONTHS_SHORT[it.monthValue - 1]} ${it.year}
+ui\Format.kt:57: ${dayMonthYear(ms)}, ${time(ms)}
+ui\Format.kt:60:  ${it.year}
+ui\Format.kt:66: mié
+ui\Format.kt:69: sáb
+ui\Format.kt:78: Hoy, ${time(ms)}
+ui\Format.kt:79: Ayer, ${time(ms)}
+ui\Format.kt:81: ${weekday(d.dayOfWeek)} ${d.dayOfMonth} ${MONTHS_SHORT[d.monthValue - 1]}
+ui\Format.kt:82: $base, ${time(ms)}
+ui\Format.kt:82: $base ${d.year}, ${time(ms)}
+ui\Format.kt:88: ${weekday(it.dayOfWeek)} ${it.dayOfMonth}, ${time(ms)}
+ui\MainViewModel.kt:119: Medición guardada
+ui\MainViewModel.kt:120: Impedancia añadida a la medición
+ui\MainViewModel.kt:137: $errorPrefix: ${e.message ?: e.javaClass.simpleName}
+ui\MainViewModel.kt:144: No se pudo crear el perfil
+ui\MainViewModel.kt:149: No se pudo guardar el perfil
+ui\MainViewModel.kt:151: Perfil actualizado
+ui\MainViewModel.kt:156: No se pudo eliminar la medición
+ui\MainViewModel.kt:158: Medición eliminada
+ui\MainViewModel.kt:163: No se pudo guardar la medición
+ui\MainViewModel.kt:175: Peso añadido
+ui\MainViewModel.kt:216: No se pudo abrir el archivo
+ui\MainViewModel.kt:222: Exportadas $it mediciones
+ui\MainViewModel.kt:223: Error al exportar: ${it.message ?: it.javaClass.simpleName}
+ui\MainViewModel.kt:229: Error al importar
+ui\MainViewModel.kt:231: No se pudo abrir el archivo
+ui\MainViewModel.kt:235: No se encontraron mediciones válidas en el CSV
+ui\MainViewModel.kt:240: Importadas ${r.imported}
+ui\MainViewModel.kt:241: ${r.duplicates} duplicadas omitidas
+ui\MainViewModel.kt:242: ${r.invalid} filas no válidas
+ui\MainViewModel.kt:243: ${r.skippedOtherProfiles} de otras personas omitidas
+ui\MainViewModel.kt:244: perfil creado
+ui\account\AccountScreen.kt:95: Cuenta y copia en la nube
+ui\account\AccountScreen.kt:140: Copia de seguridad en la nube
+ui\account\AccountScreen.kt:142: Guarda tus datos en la nube y recupéralos si cambias de móvil o reinstalas la app.
+ui\account\AccountScreen.kt:145: Tu perfil, tus ajustes y tus mediciones se guardan en tu cuenta, en servidores de Google en la UE (Madrid).
+ui\account\AccountScreen.kt:146: Se sincroniza sola cuando hay conexión; sin conexión todo sigue funcionando.
+ui\account\AccountScreen.kt:147: Es opcional: sin cuenta, la app funciona igual y los datos se quedan solo en este teléfono.
+ui\account\AccountScreen.kt:148: Puedes borrar tus datos de la nube y la cuenta cuando quieras.
+ui\account\AccountScreen.kt:150: Nunca se suben los datos de Health Connect ni la clave de la pulsera.
+ui\account\AccountScreen.kt:159: Iniciar sesión con Google
+ui\account\AccountScreen.kt:197: Cuenta de Google
+ui\account\AccountScreen.kt:208: El borrado de tus datos de la nube no terminó y la sincronización está en pausa. Vuelve a pulsar 
+ui\account\AccountScreen.kt:209: «Borrar mis datos de la nube y la cuenta» para completarlo, o cierra sesión.
+ui\account\AccountScreen.kt:217: Sincronización
+ui\account\AccountScreen.kt:222: Sincronizar ahora
+ui\account\AccountScreen.kt:228: Cerrar sesión
+ui\account\AccountScreen.kt:240: Borrar mis datos de la nube y la cuenta
+ui\account\AccountScreen.kt:246: ¿Cerrar sesión?
+ui\account\AccountScreen.kt:247: Tus datos se quedan en este teléfono, pero dejarán de copiarse en la nube hasta que vuelvas a iniciar sesión.
+ui\account\AccountScreen.kt:252: Cerrar sesión
+ui\account\AccountScreen.kt:260: ¿Borrar tus datos de la nube y tu cuenta?
+ui\account\AccountScreen.kt:263: Se borrarán para siempre tu copia en la nube (perfil, mediciones y básculas) y tu cuenta de 
+ui\account\AccountScreen.kt:264: GlobalFitness. Los datos de este teléfono no se borran.\n\n
+ui\account\AccountScreen.kt:265: Por seguridad, Google te pedirá que elijas y confirmes la cuenta.
+ui\account\AccountScreen.kt:275: Borrar definitivamente
+ui\account\AccountScreen.kt:292: Última sincronización: ${Fmt.dateTime(it)}
+ui\account\AccountScreen.kt:292: Aún no se ha sincronizado.
+ui\account\AccountScreen.kt:299: Hay cambios guardados que se subirán cuando haya conexión.
+ui\account\AccountScreen.kt:309: $error (reintentando)
+ui\account\AccountViewModel.kt:44: Sesión iniciada. Sincronizando tus datos…
+ui\account\AccountViewModel.kt:52: Sesión cerrada. Tus datos siguen en este teléfono.
+ui\account\AccountViewModel.kt:77: Error inesperado: ${e.message ?: e.javaClass.simpleName}
+ui\account\ConflictCard.kt:41: Tu copia en la nube tiene otros datos
+ui\account\ConflictCard.kt:42: Este teléfono y tu copia en la nube tienen mediciones distintas (de otro móvil o de otro perfil). 
+ui\account\ConflictCard.kt:43: Para no mezclar datos de personas distintas no se juntan solas: elige qué datos conservar.
+ui\account\ConflictCard.kt:46: Restaurar la copia de la nube en este móvil
+ui\account\ConflictCard.kt:47: Los datos de este teléfono se sustituirán por los de la nube. Las mediciones que solo estén en este 
+ui\account\ConflictCard.kt:48: teléfono se borrarán.
+ui\account\ConflictCard.kt:53: Sustituir la copia de la nube por los datos de este móvil
+ui\account\ConflictCard.kt:54: Tu copia en la nube se sustituirá por los datos de este teléfono. Las mediciones que solo estén en la 
+ui\account\ConflictCard.kt:55: nube se borrarán.
+ui\account\ConflictCard.kt:62: Has borrado ${conflict.count} mediciones en este teléfono
+ui\account\ConflictCard.kt:63: ¿Las borramos también de tu copia en la nube?
+ui\account\ConflictCard.kt:65: Borrar también de la nube
+ui\account\ConflictCard.kt:66: Recuperarlas desde la nube
+ui\account\ConflictCard.kt:79: Sincronización en pausa hasta que elijas qué datos conservar.
+ui\account\ConflictCard.kt:83: Elegir qué datos conservar
+ui\band\BandAlarms.kt:52: Una vez
+ui\band\BandAlarms.kt:53: Todos los días
+ui\band\BandAlarms.kt:55: De lunes a viernes
+ui\band\BandAlarms.kt:56: Fines de semana
+ui\band\BandAlarms.kt:59: Repetición configurada en la pulsera
+ui\band\BandAlarms.kt:87: Alarmas guardadas en la pulsera
+ui\band\BandAlarms.kt:88: $count de $maxAlarms alarmas
+ui\band\BandAlarms.kt:89: $count alarmas
+ui\band\BandAlarms.kt:101: No hay alarmas en la pulsera.
+ui\band\BandAlarms.kt:105: Nueva alarma
+ui\band\BandAlarms.kt:106: Volver a leer
+ui\band\BandAlarms.kt:109: Los cambios se envían a la pulsera y la lista se vuelve a leer de ella, así ves lo que realmente guardó.
+ui\band\BandAlarms.kt:126:  · inteligente
+ui\band\BandAlarms.kt:130: Editar alarma de las ${timeLabel(alarm.spec.hour, alarm.spec.minute)}
+ui\band\BandAlarms.kt:131: Borrar alarma de las ${timeLabel(alarm.spec.hour, alarm.spec.minute)}
+ui\band\BandAlarms.kt:145: Nueva alarma
+ui\band\BandAlarms.kt:145: Editar alarma
+ui\band\BandAlarms.kt:166: Despertador inteligente
+ui\band\BandAlarms.kt:168: La pulsera puede despertarte un poco antes, en sueño ligero.
+ui\band\BandForwarding.kt:51: Reenviar notificaciones del teléfono
+ui\band\BandForwarding.kt:55: Solo mientras la pulsera está conectada en modo directo y solo de las apps que marques. 
+ui\band\BandForwarding.kt:56: El resto del tiempo es Mi Fitness quien envía las notificaciones. El contenido nunca se guarda.
+ui\band\BandForwarding.kt:62: Hace falta el acceso a notificaciones de Android para leerlas.
+ui\band\BandForwarding.kt:77: Dar acceso a notificaciones
+ui\band\BandForwarding.kt:80: Activo: se reenviarán cuando conectes la pulsera.
+ui\band\BandForwarding.kt:90: Las apps aparecerán aquí cuando publiquen una notificación.
+ui\band\BandKeyHelp.kt:37: La clave de autenticación
+ui\band\BandKeyHelp.kt:52: ¿Qué es?
+ui\band\BandKeyHelp.kt:54: Es una clave secreta de 32 caracteres hexadecimales (16 bytes) que comparten tu pulsera y tu cuenta Xiaomi. 
+ui\band\BandKeyHelp.kt:55: Los servidores de Xiaomi la generan cuando vinculas la pulsera en Mi Fitness. La pulsera la usa para 
+ui\band\BandKeyHelp.kt:56: comprobar que el teléfono que se conecta está autorizado y para cifrar la comunicación. 
+ui\band\BandKeyHelp.kt:57: No se puede generar en el teléfono: hay que obtenerla de Mi Fitness o de tu cuenta Xiaomi.
+ui\band\BandKeyHelp.kt:61: Si desvinculas la pulsera en Mi Fitness (o la restableces de fábrica), la clave deja de valer. Tras volver a vincularla tendrás que obtener la nueva.
+ui\band\BandKeyHelp.kt:62: No compartas la clave: quien la tenga puede conectarse a tu pulsera.
+ui\band\BandKeyHelp.kt:63: Esta app la guarda solo en su almacenamiento privado, fuera de las copias de seguridad, y nunca la muestra en el diagnóstico.
+ui\band\BandKeyHelp.kt:65: Cómo obtenerla
+ui\band\BandKeyHelp.kt:66: Estos son los métodos que documenta el proyecto Gadgetbridge. La app no extrae la clave por ti.
+ui\band\BandKeyHelp.kt:68: Registros de Mi Fitness (sin root): Mi Fitness (antes Xiaomi Wear, paquete com.xiaomi.wearable) guarda archivos de 
+ui\band\BandKeyHelp.kt:69: registro en el almacenamiento del teléfono, en Android/data/com.xiaomi.wearable/files/log/ 
+ui\band\BandKeyHelp.kt:70: (en la variante Mi Health: Android/data/com.mi.health/files/log/). 
+ui\band\BandKeyHelp.kt:71: Busca en ellos (por ejemplo en XiaomiFit.device.log) los campos «encryptKey», «authKey», «token» o 
+ui\band\BandKeyHelp.kt:72: «huamiAuthKey» seguidos de 32 caracteres hexadecimales. Si hay varios, prueba primero el más cercano al final del archivo. 
+ui\band\BandKeyHelp.kt:73: En Android 11 y posteriores esas carpetas suelen ser accesibles solo conectando el teléfono a un ordenador (MTP o adb).
+ui\band\BandKeyHelp.kt:76: Teléfono con root: cierra Mi Fitness y consulta su base de datos «device_db»; la clave está en el atributo 
+ui\band\BandKeyHelp.kt:77: «auth_key» o «encrypt_key» del JSON «detail».
+ui\band\BandKeyHelp.kt:80: Herramienta de terceros «Xiaomi Cloud Tokens Extractor»: inicia sesión con tu cuenta Xiaomi en un ordenador y 
+ui\band\BandKeyHelp.kt:81: muestra las claves de tus dispositivos. Es software de terceros: úsalo bajo tu responsabilidad.
+ui\band\BandKeyHelp.kt:85: Pégala en el campo «Clave de autenticación», con o sin el prefijo 0x. Se ignoran espacios y saltos de línea.
+ui\band\BandKeyHelp.kt:87: Antes de conectar
+ui\band\BandKeyHelp.kt:89: La pulsera solo admite una conexión. Si Mi Fitness está conectado a ella, detén Mi Fitness temporalmente: 
+ui\band\BandKeyHelp.kt:90: Ajustes → Aplicaciones → Mi Fitness → Forzar detención. Al terminar, abre Mi Fitness otra vez para que siga 
+ui\band\BandKeyHelp.kt:91: sincronizando con Health Connect. Esta app nunca cierra ni modifica Mi Fitness por su cuenta.
+ui\band\BandKeyHelp.kt:94: Más información
+ui\band\BandKeyHelp.kt:95: Gadgetbridge: obtener la clave (servidor Huami/Xiaomi)
+ui\band\BandKeyHelp.kt:96: Gadgetbridge: dispositivos Xiaomi
+ui\band\BandKeyHelp.kt:97: Xiaomi Cloud Tokens Extractor (terceros)
+ui\band\BandKeyHelp.kt:114: •  $text
+ui\band\BandScreen.kt:123: Pulsera (modo directo)
+ui\band\BandScreen.kt:145: Clave de autenticación
+ui\band\BandScreen.kt:158: Tu pulsera
+ui\band\BandScreen.kt:205: Alarmas de la pulsera
+ui\band\BandScreen.kt:220: Reenvío de notificaciones
+ui\band\BandScreen.kt:267: Conexión directa con la Xiaomi Smart Band 9
+ui\band\BandScreen.kt:269: La app habla con la pulsera por Bluetooth (como Gadgetbridge), sin pasar por Mi Fitness. 
+ui\band\BandScreen.kt:270: La pulsera solo admite una conexión: mientras esta pantalla está conectada, Mi Fitness no puede sincronizar. 
+ui\band\BandScreen.kt:271: Por eso la conexión se abre solo cuando pulsas «Conectar» y se cierra sola tras 2 minutos sin uso o al salir.
+ui\band\BandScreen.kt:276: Función experimental: no se ha probado con una pulsera real.
+ui\band\BandScreen.kt:289: Para buscar y conectar la pulsera hace falta el permiso «Dispositivos cercanos».
+ui\band\BandScreen.kt:292: Conceder permiso
+ui\band\BandScreen.kt:320: ${it.name} · ${it.address}
+ui\band\BandScreen.kt:325:  · cargando
+ui\band\BandScreen.kt:328: Batería
+ui\band\BandScreen.kt:328: $level %$charging
+ui\band\BandScreen.kt:330: En la muñeca
+ui\band\BandScreen.kt:330: Sí
+ui\band\BandScreen.kt:334: N.º de serie
+ui\band\BandScreen.kt:336: Hora sincronizada
+ui\band\BandScreen.kt:342: Activar Bluetooth
+ui\band\BandScreen.kt:352: Actualizar batería
+ui\band\BandScreen.kt:356: Ajustes de Mi Fitness
+ui\band\BandScreen.kt:361: Guarda la clave y elige tu pulsera para poder conectar.
+ui\band\BandScreen.kt:368: La pulsera vuelve a estar libre. Si detuviste Mi Fitness, ábrelo de nuevo para que siga sincronizando con Health Connect.
+ui\band\BandScreen.kt:381:  ($it)
+ui\band\BandScreen.kt:409: Parar búsqueda
+ui\band\BandScreen.kt:411: Buscar pulsera
+ui\band\BandScreen.kt:413: Sincronizar hora
+ui\band\BandScreen.kt:414: Notificación de prueba
+ui\band\BandScreen.kt:418: La pulsera está vibrando. Púlsala para indicar que la encontraste o pulsa «Parar búsqueda».
+ui\band\BandScreen.kt:424: Sincronizar la hora al conectar
+ui\band\BandScreen.kt:436: Pulso en vivo
+ui\band\BandScreen.kt:441: Esperando datos de la pulsera…
+ui\band\BandScreen.kt:454: Midiendo… mantén la pulsera ajustada a la muñeca.
+ui\band\BandScreen.kt:456: Pasos de hoy
+ui\band\BandScreen.kt:457: Calorías
+ui\band\BandScreen.kt:457: ${live.calories} kcal
+ui\band\BandScreen.kt:458: Horas de pie
+ui\band\BandScreen.kt:462: Las lecturas se guardan en el teléfono (band.db) para poder combinarlas más adelante. 
+ui\band\BandScreen.kt:463: Mientras el pulso en vivo está activo y ves esta pantalla, la conexión no se cierra por inactividad.
+ui\band\BandScreen.kt:477: Diagnóstico
+ui\band\BandScreen.kt:478: Mostrar (${lines.size})
+ui\band\BandScreen.kt:482: Registro de la conexión. Nunca incluye la clave de autenticación.
+ui\band\BandScreen.kt:487: Sin entradas todavía.
+ui\band\BandScreen.kt:491: ${Fmt.time(line.timeMs)}:${secondsOf(line.timeMs)}  ${line.text}
+ui\band\BandScreen.kt:496: Borrar registro
+ui\band\BandSetup.kt:61: Clave guardada en el teléfono (oculta).
+ui\band\BandSetup.kt:68: Pega la clave de 32 caracteres hexadecimales de tu pulsera (con o sin «0x»).
+ui\band\BandSetup.kt:75: Clave de autenticación
+ui\band\BandSetup.kt:92: Guardar clave
+ui\band\BandSetup.kt:96: Se guarda solo en el almacenamiento privado de la app, fuera de las copias de seguridad, y nunca aparece en el diagnóstico.
+ui\band\BandSetup.kt:101: ¿Qué es la clave y cómo la obtengo?
+ui\band\BandSetup.kt:131: Elegida: ${selected.name}
+ui\band\BandSetup.kt:131: Elige tu Xiaomi Smart Band 9.
+ui\band\BandSetup.kt:135: Aparecen las pulseras emparejadas con este teléfono (Mi Fitness la empareja) y las que se detecten cerca.
+ui\band\BandSetup.kt:146: Buscar pulseras cercanas
+ui\band\BandSetup.kt:151: No hay ninguna pulsera Xiaomi emparejada ni detectada todavía.
+ui\band\BandSetup.kt:179: $it dBm
+ui\band\BandSetup.kt:184: No es una Smart Band 9: este modo solo está adaptado a ese modelo y puede no funcionar.
+ui\band\BandViewModel.kt:67: No se pudo guardar la clave en el teléfono.
+ui\band\LiveHeartRateChart.kt:37: Pulso en vivo: ${samples.size} lecturas, de ${samples.minOf { it.bpm }} a ${samples.maxOf { it.bpm }} latidos por minuto
+ui\body\BodyScreen.kt:144: Aún no hay mediciones
+ui\body\BodyScreen.kt:145: Súbete a la báscula descalzo y con la app abierta, o añade tu peso a mano con el botón de abajo. 
+ui\body\BodyScreen.kt:146: Aquí verás la evolución de tu peso y tu composición corporal.
+ui\body\BodyScreen.kt:192: Resumen del periodo
+ui\body\BodyScreen.kt:196: Mín
+ui\body\BodyScreen.kt:197: Máx
+ui\body\BodyScreen.kt:201: ${Fmt.signed(it, 2)} kg/sem
+ui\body\BodyScreen.kt:201: Faltan datos
+ui\body\BodyScreen.kt:204: Proyección al objetivo
+ui\body\BodyScreen.kt:205: Sin objetivo
+ui\body\BodyScreen.kt:207: Sin tendencia
+ui\body\BodyScreen.kt:208: ~ ${Fmt.dayMonthYear(p.epochMillis)}
+ui\body\BodyScreen.kt:224: El ritmo necesita al menos 3 mediciones que abarquen 7 días dentro de los últimos 28.
+ui\body\BodyScreen.kt:241:  · ${list.size}
+ui\body\BodyScreen.kt:255: Estimaciones de la báscula o calculadas con fórmulas publicadas. No son un diagnóstico médico.
+ui\body\BodyScreen.kt:292: Rango normal (IMC 18,5–24,9)
+ui\body\BodyScreen.kt:292: Rango normal
+ui\body\BodyScreen.kt:294: Objetivo ${Fmt.num(it, 1)} kg
+ui\body\BodyScreen.kt:318: Esta métrica necesita la composición corporal. Súbete descalzo y con los pies secos.
+ui\body\BodyScreen.kt:320: Todavía no hay mediciones.
+ui\body\BodyScreen.kt:323: Sin mediciones en este periodo. Prueba con un periodo más largo.
+ui\body\BodyScreen.kt:325: Solo hay una medición en este periodo (${Fmt.metric(metric, points[0].v)}, ${Fmt.dayMonth(points[0].t)}). 
+ui\body\BodyScreen.kt:326: Se necesitan al menos 2 para dibujar la tendencia.
+ui\body\BodyScreen.kt:369: Composición actual
+ui\body\BodyScreen.kt:372: ${Fmt.relative(entry.measurement.timestamp)} · ${Fmt.kg(c.weightKg)}
+ui\body\BodyScreen.kt:411: Báscula
+ui\body\BodyScreen.kt:419: Grasa ${Fmt.num(fat, 1)} %
+ui\body\BodyScreen.kt:419: Sin composición
+ui\body\MeasurementDialogs.kt:58: Sin composición corporal: súbete descalzo y con los pies secos.
+ui\body\MeasurementDialogs.kt:62: Composición medida por la báscula
+ui\body\MeasurementDialogs.kt:63: Composición calculada (fórmula ${source.lib.label})
+ui\body\MeasurementDialogs.kt:65: Composición calculada (fórmula ${FormulaLib.MI_SCALE.label})
+ui\body\MeasurementDialogs.kt:87: Añadir peso manual
+ui\body\MeasurementDialogs.kt:90: Solo el peso: la composición corporal necesita la báscula.
+ui\body\MeasurementDialogs.kt:98: Introduce un peso entre 2 y 300 kg
+ui\body\MeasurementDialogs.kt:113: La fecha no puede estar en el futuro.
+ui\body\MeasurementDialogs.kt:156: Báscula
+ui\body\MeasurementDialogs.kt:164: $it Ω
+ui\body\MeasurementDialogs.kt:175: Tipo de cuerpo
+ui\body\MeasurementDialogs.kt:189: ¿Eliminar medición?
+ui\body\MeasurementDialogs.kt:190: Se borrará la medición de ${Fmt.kg(m.weightKg)} del ${Fmt.dateTime(m.timestamp)}. No se puede deshacer.
+ui\charts\CompositionBar.kt:34: Músculo
+ui\charts\CompositionBar.kt:38: ${it.label} ${Fmt.num(it.kg, 1)} kg
+ui\charts\CompositionBar.kt:45: Composición: $description
+ui\charts\CompositionBar.kt:75: ${Fmt.num(s.kg, 1)} kg · ${Fmt.num(s.kg / weightKg * 100, 1)} %
+ui\charts\TrendChart.kt:126: Gráfico de $metricLabel con ${points.size} mediciones
+ui\charts\TrendChart.kt:128: , de ${Fmt.num(points.minOf { it.v }, valueDecimals)} a ${Fmt.num(points.maxOf { it.v }, valueDecimals)} $unit
+ui\charts\TrendChart.kt:251: Media 7 días: 
+ui\charts\TrendChart.kt:301: Media 7 días
+ui\components\AppIcons.kt:54: M17.71,7.71L12,2h-1v7.59L6.41,5 5,6.41 10.59,12 5,17.59 6.41,19 11,14.41L11,22h1l5.71,-5.71 -4.3,-4.29 4.3,-4.29zM13,5.83l1.88,1.88L13,9.59L13,5.83zM14.88,16.29L13,18.17v-3.76l1.88,1.88z
+ui\components\AppIcons.kt:77: M20,12c0,-2.54 -1.19,-4.81 -3.04,-6.27L16,0H8l-0.95,5.73C5.19,7.19 4,9.45 4,12s1.19,4.81 3.05,6.27L8,24h8l0.96,-5.73C18.81,16.81 20,14.54 20,12zM6,12c0,-3.31 2.69,-6 6,-6s6,2.69 6,6 -2.69,6 -6,6 -6,-2.69 -6,-6z
+ui\components\AppIcons.kt:110: M9.4,16.6L4.8,12l4.6,-4.6L8,6l-6,6 6,6 1.4,-1.4zM14.6,16.6l4.6,-4.6 -4.6,-4.6L16,6l6,6 -6,6 -1.4,-1.4z
+ui\devices\DevicesScreen.kt:81: Básculas
+ui\devices\DevicesScreen.kt:90: Health Connect
+ui\devices\DevicesScreen.kt:123: Xiaomi Smart Band 9
+ui\devices\DevicesScreen.kt:133: Modo directo por Bluetooth, sin Mi Fitness: pulso en directo, buscar la pulsera, alarmas y 
+ui\devices\DevicesScreen.kt:134: notificaciones. Mientras está abierto ocupa la pulsera y Mi Fitness no puede sincronizar.
+ui\devices\DevicesScreen.kt:139: Abrir modo directo (experimental)
+ui\devices\DevicesScreen.kt:147: Sin configurar
+ui\devices\DevicesScreen.kt:148: Falta la clave de autenticación
+ui\devices\DevicesScreen.kt:156:  · batería $it %
+ui\devices\DevicesScreen.kt:157: Modo directo · $connection$battery
+ui\devices\DevicesScreen.kt:174: Diagnóstico BLE
+ui\devices\DevicesScreen.kt:179: Medición en curso
+ui\devices\DevicesScreen.kt:182: Aún no se ha recibido ningún anuncio de Mi Scale (0x181B).
+ui\devices\DevicesScreen.kt:189: Dirección
+ui\devices\DevicesScreen.kt:189:  (ignorada)
+ui\devices\DevicesScreen.kt:191: ${debug.rssi} dBm
+ui\devices\DevicesScreen.kt:196: Decodificación
+ui\devices\DevicesScreen.kt:196: Longitud no válida (13 bytes)
+ui\devices\DevicesScreen.kt:198: ${Fmt.num(f.weightKg, 3)} kg (bruto ${f.rawWeight}, ${f.unit.label})
+ui\devices\DevicesScreen.kt:199: sí
+ui\devices\DevicesScreen.kt:200: Carga retirada
+ui\devices\DevicesScreen.kt:200: sí
+ui\devices\DevicesScreen.kt:201: $it Ω
+ui\devices\DevicesScreen.kt:201: no válida
+ui\devices\DevicesScreen.kt:202: Hora báscula
+ui\devices\DevicesScreen.kt:210: Sin Bluetooth LE
+ui\devices\DevicesScreen.kt:211: Falta permiso
+ui\devices\DevicesScreen.kt:212: Bluetooth apagado
+ui\devices\DevicesScreen.kt:213: Iniciando escaneo…
+ui\devices\DevicesScreen.kt:214: Escaneando (ubicación apagada)
+ui\devices\DevicesScreen.kt:215: Error ${s.code}: ${s.message}
+ui\devices\DevicesScreen.kt:219: En espera
+ui\devices\DevicesScreen.kt:220: Conectando con ${l.scaleName}
+ui\devices\DevicesScreen.kt:221: Midiendo ${Fmt.kg(l.weightKg)}
+ui\devices\DevicesScreen.kt:222: Estable ${Fmt.kg(l.weightKg)}, esperando impedancia
+ui\devices\DevicesScreen.kt:223: Guardada ${Fmt.kg(l.weightKg)}
+ui\devices\DevicesScreen.kt:223:  · $it Ω
+ui\devices\DevicesScreen.kt:223:  · sin impedancia
+ui\devices\DevicesScreen.kt:224: Error al guardar ${Fmt.kg(l.weightKg)}
+ui\devices\ScaleDevicesSection.kt:80: Ninguna todavía. Súbete a tu báscula con la app abierta: si se reconoce sin dudas se 
+ui\devices\ScaleDevicesSection.kt:81: configura sola. También puedes elegirla en el catálogo.
+ui\devices\ScaleDevicesSection.kt:100: Añadir desde el catálogo
+ui\devices\ScaleDevicesSection.kt:105: Detectadas cerca
+ui\devices\ScaleDevicesSection.kt:117: Buscando básculas… súbete a la báscula para despertarla.
+ui\devices\ScaleDevicesSection.kt:169: ¿Quitar ${item.scale.name}?
+ui\devices\ScaleDevicesSection.kt:170: Las mediciones guardadas se conservan. No se volverá a configurar sola.
+ui\devices\ScaleDevicesSection.kt:191: ¿Es tu báscula?
+ui\devices\ScaleDevicesSection.kt:193: ${s.brand} · ${s.driverName}
+ui\devices\ScaleDevicesSection.kt:197: ${s.deviceName ?: 
+ui\devices\ScaleDevicesSection.kt:197: } · ${s.address}
+ui\devices\ScaleDevicesSection.kt:202: Para leerla, la app se conecta a la báscula (y puede guardar tu perfil en ella). Confírmalo solo si es la tuya.
+ui\devices\ScaleDevicesSection.kt:207: Sí, es la mía
+ui\devices\ScaleDevicesSection.kt:230: ${it.brand} · ${it.displayName}
+ui\devices\ScaleDevicesSection.kt:230: Modelo desconocido (${item.scale.driverId})
+ui\devices\ScaleDevicesSection.kt:235: Renombrar ${item.scale.name}
+ui\devices\ScaleDevicesSection.kt:236: Quitar ${item.scale.name}
+ui\devices\ScaleDevicesSection.kt:242: Conexión Bluetooth
+ui\devices\ScaleDevicesSection.kt:243: Lectura de anuncios
+ui\devices\ScaleDevicesSection.kt:251: Dispositivo $it
+ui\devices\ScaleDevicesSection.kt:251: Cualquier dispositivo compatible (se vinculará al primero que se lea)
+ui\devices\ScaleDevicesSection.kt:256: Vista: ${Fmt.relative(it)}
+ui\devices\ScaleDevicesSection.kt:256: Aún no vista en esta sesión
+ui\devices\ScaleDevicesSection.kt:263: Falta configurar: ${item.missingConfig.joinToString()}
+ui\devices\ScaleDevicesSection.kt:279: Conectada, esperando datos…
+ui\devices\ScaleDevicesSection.kt:280:  ${Fmt.kg(it)}
+ui\devices\ScaleDevicesSection.kt:281:  ${Fmt.kg(it)}
+ui\devices\ScaleDevicesSection.kt:282: Sesión terminada
+ui\devices\ScaleDevicesSection.kt:282: : $it
+ui\devices\ScaleDevicesSection.kt:283: Error: 
+ui\devices\ScaleDevicesSection.kt:283: no se pudo leer la báscula
+ui\devices\ScaleDevicesSection.kt:342: ${item.driver.brand} · ${item.name ?: 
+ui\devices\ScaleDevicesSection.kt:342: } · ${item.rssi} dBm
+ui\devices\ScaleDevicesSection.kt:352: Coincidencia 
+ui\devices\ScaleDevicesSection.kt:359: También podría ser: 
+ui\devices\ScaleDevicesSection.kt:365: Ya configurada
+ui\devices\ScaleDevicesSection.kt:368: Usar esta
+ui\devices\ScaleDevicesSection.kt:394: Catálogo de básculas
+ui\devices\ScaleDevicesSection.kt:401: Marca o modelo
+ui\devices\ScaleDevicesSection.kt:405: ${drivers.size} modelos
+ui\devices\ScaleDevicesSection.kt:420: conexión Bluetooth
+ui\devices\ScaleDevicesSection.kt:420: lectura de anuncios
+ui\devices\ScaleDevicesSection.kt:446: ¿Qué dispositivo usar?
+ui\devices\ScaleDevicesSection.kt:449: ${c.name ?: 
+ui\devices\ScaleDevicesSection.kt:449: } · ${c.address} · ${c.rssi} dBm
+ui\devices\ScaleDevicesSection.kt:454: No hay ninguna cerca ahora mismo. Puedes elegir cualquier dispositivo compatible: 
+ui\devices\ScaleDevicesSection.kt:455: quedará vinculada a la primera que se reconozca con seguridad y dé una medición.
+ui\devices\ScaleDevicesSection.kt:461: Cualquier dispositivo compatible
+ui\devices\ScaleDevicesSection.kt:474: Nombre de la báscula
+ui\devices\ScaleDevicesViewModel.kt:144: Esa báscula ya está configurada
+ui\devices\ScaleDevicesViewModel.kt:156:  Completa su configuración.
+ui\devices\ScaleDevicesViewModel.kt:157:  Súbete a la báscula para que la app se conecte.
+ui\devices\ScaleDevicesViewModel.kt:160: Báscula añadida: ${driver.displayName}.$hint
+ui\devices\ScaleDevicesViewModel.kt:174: Báscula eliminada: ${scale.name}
+ui\devices\ScaleDevicesViewModel.kt:179: La báscula ya no existe
+ui\devices\ScaleDevicesViewModel.kt:181: Ajuste desconocido
+ui\devices\ScaleDevicesViewModel.kt:189: Ajuste guardado
+ui\health\ActivityScreen.kt:106: Entrenamientos (90 días)
+ui\health\ActivityScreen.kt:108: Sin entrenamientos registrados.
+ui\health\ActivityScreen.kt:136: Health Connect
+ui\health\ActivityScreen.kt:139: Health Connect no está disponible en este dispositivo (necesita Android 9 o superior).
+ui\health\ActivityScreen.kt:142: Instala Health Connect desde Google Play para traer los datos de la pulsera y guardar los de la báscula.
+ui\health\ActivityScreen.kt:143: Instalar Health Connect
+ui\health\ActivityScreen.kt:146: Tu versión de Health Connect es antigua. Actualízala desde Google Play para continuar.
+ui\health\ActivityScreen.kt:147: Actualizar Health Connect
+ui\health\ActivityScreen.kt:152: Conecta Health Connect para ver aquí los pasos, el pulso, el sueño, el oxígeno en sangre y los 
+ui\health\ActivityScreen.kt:153: entrenamientos de tu pulsera (Mi Fitness u otra app), y para guardar en Health Connect las 
+ui\health\ActivityScreen.kt:154: mediciones de la báscula. Los datos se quedan en el teléfono.
+ui\health\ActivityScreen.kt:156: Conectar Health Connect
+ui\health\ActivityScreen.kt:160: Conectado con permisos parciales
+ui\health\ActivityScreen.kt:165: Sin permiso de lectura: 
+ui\health\ActivityScreen.kt:167: Sin permiso para escribir el peso: las mediciones de la báscula no se envían.
+ui\health\ActivityScreen.kt:169: Permite «Acceder a datos anteriores» para importar hasta 1 año (ahora: últimos 30 días).
+ui\health\ActivityScreen.kt:172: Revisar permisos
+ui\health\ActivityScreen.kt:173: Abrir Health Connect
+ui\health\ActivityScreen.kt:198: Sincronización
+ui\health\ActivityScreen.kt:202: Última: ${Fmt.relative(sync.lastSyncAt)}
+ui\health\ActivityScreen.kt:203: Todavía no se ha sincronizado
+ui\health\ActivityScreen.kt:212: Sincronizar ahora
+ui\health\ActivityScreen.kt:225: Aún no hay datos de la pulsera
+ui\health\ActivityScreen.kt:227: Health Connect no tiene datos de actividad, pulso o sueño. Comprueba que Mi Fitness escribe en 
+ui\health\ActivityScreen.kt:228: Health Connect (instrucciones al final) y sincroniza la pulsera en Mi Fitness.
+ui\health\ActivityScreen.kt:238: Conectar la Xiaomi Smart Band con Mi Fitness
+ui\health\ActivityScreen.kt:239: 1. En Mi Fitness: Perfil → Datos de terceros (o «Aplicaciones de terceros») → Health Connect, y activa la sincronización.
+ui\health\ActivityScreen.kt:240: 2. En Health Connect → Permisos de apps → Mi Fitness: permite que escriba pasos, pulso, sueño, oxígeno en sangre y ejercicio.
+ui\health\ActivityScreen.kt:241: 3. Sincroniza la pulsera en Mi Fitness y pulsa aquí «Sincronizar ahora».
+ui\health\ActivityScreen.kt:242: Sirve igual cualquier otra app de pulsera o reloj que escriba en Health Connect.
+ui\health\ActivityScreen.kt:260: Media 7 días: ${HealthFormat.count(it.average.roundToInt().toLong())}
+ui\health\ActivityScreen.kt:266: Calorías activas
+ui\health\ActivityScreen.kt:268: Totales: ${HealthFormat.kcal(it)}
+ui\health\ActivityScreen.kt:275: Pulso en reposo
+ui\health\ActivityScreen.kt:278:  (${Fmt.signed(it, 0)} vs. semana anterior)
+ui\health\ActivityScreen.kt:279: Media 7 días: ${HealthFormat.bpm(avg.average.roundToInt())}$change
+ui\health\ActivityScreen.kt:286: Sueño de anoche
+ui\health\ActivityScreen.kt:288: Media 7 días: ${HealthFormat.minutes(it.average.roundToInt())}
+ui\health\ActivityScreen.kt:290: ${it.label} · ${it.score}/100
+ui\health\ActivityScreen.kt:295: Oxígeno en sangre
+ui\health\ActivityScreen.kt:297: Mínimo: ${HealthFormat.percent(it)}
+ui\health\ActivityScreen.kt:329: Pasos diarios
+ui\health\ActivityScreen.kt:343: Sin pasos en este periodo.
+ui\health\ActivityScreen.kt:348: Media: ${HealthFormat.count(withData.average().roundToInt().toLong())} pasos/día · 
+ui\health\ActivityScreen.kt:349: objetivo de ${HealthFormat.count(HealthViewModel.STEPS_GOAL)} cumplido $reached de ${withData.size} días
+ui\health\ActivityScreen.kt:350:  · media 30 días: ${HealthFormat.count(it.average.roundToInt().toLong())}
+ui\health\ActivityScreen.kt:363: Día anterior
+ui\health\ActivityScreen.kt:371: Día siguiente
+ui\health\ActivityScreen.kt:376: Sin datos de pulso en Health Connect este día.
+ui\health\ActivityScreen.kt:382: Media ${HealthFormat.bpm(stats.avg)} · mín ${stats.min} · máx ${stats.max}
+ui\health\ActivityScreen.kt:383:  · en reposo $it lpm
+ui\health\ActivityScreen.kt:389: Pulsera · modo directo
+ui\health\ActivityScreen.kt:390: Pulso en directo registrado por la app con la pulsera conectada (no está en Health Connect).
+ui\health\ActivityScreen.kt:395: Últimos 30 días
+ui\health\ActivityScreen.kt:397: Sin datos de pulso.
+ui\health\ActivityScreen.kt:405: Sueño
+ui\health\ActivityScreen.kt:408: Sin datos de sueño de anoche.
+ui\health\ActivityScreen.kt:411: Anoche · ${Fmt.time(night.start)}–${Fmt.time(night.end)}
+ui\health\ActivityScreen.kt:417: ${q.label} · ${q.score}/100
+ui\health\ActivityScreen.kt:419: Dormido ${HealthFormat.minutes(night.asleepMinutes)}
+ui\health\ActivityScreen.kt:423: profundo + REM ${Fmt.num(it * 100, 0)} % (meta ≥ 40 %)
+ui\health\ActivityScreen.kt:425: Calidad = duración (objetivo 7–9 h, hasta 60 puntos) + sueño reparador (profundo + REM, hasta 40). 
+ui\health\ActivityScreen.kt:426: Sin fases: solo cuenta la duración.
+ui\health\ActivityScreen.kt:432: ${it.label} ${HealthFormat.minutes(night.minutesOf(it))}
+ui\health\ActivityScreen.kt:433:  · eficiencia ${Fmt.num(it, 0)} %
+ui\health\ActivityScreen.kt:436: Últimas $SLEEP_CHART_NIGHTS noches
+ui\health\ActivityScreen.kt:440: Sin datos de sueño.
+ui\health\ActivityScreen.kt:443: Media 7 noches: ${HealthFormat.minutes(it.average.roundToInt())} dormido
+ui\health\ActivityScreen.kt:452: Oxígeno en sangre (14 días)
+ui\health\ActivityScreen.kt:454: Sin lecturas de SpO₂.
+ui\health\ActivityScreen.kt:458: Media ${HealthFormat.percent(values.average())} · mínimo ${HealthFormat.percent(values.min())} · ${values.size} lecturas
+ui\health\ActivityScreen.kt:468: Ver detalles
+ui\health\ActivityScreen.kt:481: ${it.avg} lpm de media
+ui\health\ActivityScreen.kt:484: Fuente: ${item.source}
+ui\health\ActivityScreen.kt:499: Duración
+ui\health\ActivityScreen.kt:500: Título
+ui\health\ActivityScreen.kt:502: Calorías activas
+ui\health\ActivityScreen.kt:504: Pulso medio
+ui\health\ActivityScreen.kt:505: Pulso máximo
+ui\health\ActivityScreen.kt:510: Zonas de pulso (máx. estimado ${HeartRateZones.maxHeartRate(age)} lpm = 220 − $age)
+ui\health\ActivityScreen.kt:517: ${HeartRateZones.REST_LABEL} (< ${zones.first().minBpm})
+ui\health\ActivityScreen.kt:520: Z$index ${z.label} (${z.minBpm}${z.maxBpm?.let { 
+ui\health\ActivityScreen.kt:522: ${HealthFormat.minutes((ms / 60_000L).toInt())} · ${Fmt.num(ms * 100.0 / total, 0)} %
+ui\health\ActivityScreen.kt:549: Último peso de otra app: ${Fmt.kg(w.value, 1)} (${d.externalWeightSource}, ${Fmt.dayMonth(w.time)})
+ui\health\ActivityScreen.kt:551: Los totales diarios los calcula Health Connect sin duplicar datos de varias apps.
+ui\health\ActivityScreen.kt:564: Enviar mediciones de la báscula a Health Connect
+ui\health\ActivityScreen.kt:571: Cada medición nueva se guarda como peso, grasa corporal, masa ósea, masa magra, metabolismo basal y 
+ui\health\ActivityScreen.kt:572: agua corporal (los valores que tenga). Si borras una medición, también se borra de Health Connect.
+ui\health\ActivityScreen.kt:575: Falta el permiso para escribir el peso en Health Connect.
+ui\health\ActivityScreen.kt:576: Conceder permiso
+ui\health\ActivityScreen.kt:580: Ninguna medición en Health Connect todavía.
+ui\health\ActivityScreen.kt:581: 1 medición en Health Connect.
+ui\health\ActivityScreen.kt:582: ${export.exportedCount} mediciones en Health Connect.
+ui\health\ActivityScreen.kt:585: Exportar historial a Health Connect
+ui\health\HealthCharts.kt:264: Objetivo ${HealthFormat.count(goal)}
+ui\health\HealthCharts.kt:266: Pasos diarios de ${days.size} días
+ui\health\HealthCharts.kt:267: , media ${HealthFormat.count(withData.average().toLong())}
+ui\health\HealthCharts.kt:309: Sin datos
+ui\health\HealthCharts.kt:312: Objetivo cumplido
+ui\health\HealthCharts.kt:312: ${Fmt.num(pct, 0)} % del objetivo
+ui\health\HealthCharts.kt:350: Sin datos de pulso este día
+ui\health\HealthCharts.kt:352: Pulso del día: de ${samples.minOf { it.bpm }} a ${samples.maxOf { it.bpm }} lpm
+ui\health\HealthCharts.kt:353: , en reposo $it lpm
+ui\health\HealthCharts.kt:360: En reposo
+ui\health\HealthCharts.kt:403: En reposo: ${HealthFormat.bpm(it)}
+ui\health\HealthCharts.kt:444: Sin datos de pulso
+ui\health\HealthCharts.kt:446: Rango diario de pulso en ${ranges.size} días, entre ${ranges.minOf { it.min }} y ${ranges.maxOf { it.max }} lpm
+ui\health\HealthCharts.kt:452: Mín–máx del día
+ui\health\HealthCharts.kt:496: Sin datos
+ui\health\HealthCharts.kt:498: ${r.min}–${r.max} lpm
+ui\health\HealthCharts.kt:499: Media: ${HealthFormat.bpm(r.avg)}
+ui\health\HealthCharts.kt:530: Hipnograma de ${Fmt.time(session.start)} a ${Fmt.time(session.end)}: 
+ui\health\HealthCharts.kt:531: ${it.label} ${HealthFormat.minutes(night.minutesOf(it))}
+ui\health\HealthCharts.kt:606: ${Fmt.num(it, decimals)} h
+ui\health\HealthCharts.kt:611: Objetivo 7–9 h
+ui\health\HealthCharts.kt:613: Sueño por noche en ${nights.size} noches
+ui\health\HealthCharts.kt:614: , media ${HealthFormat.minutes(withData.map { it.asleepMinutes }.average().toInt())}
+ui\health\HealthCharts.kt:658: Noche del ${HealthFormat.weekdayDayMonth(date)}
+ui\health\HealthCharts.kt:660: Sin datos
+ui\health\HealthCharts.kt:662: Dormido ${HealthFormat.minutes(night.asleepMinutes)}
+ui\health\HealthCharts.kt:665: ${stage.label}: ${HealthFormat.minutes(m)}
+ui\health\HealthCharts.kt:690: ${Fmt.num(it, decimals)} %
+ui\health\HealthCharts.kt:698: Sin lecturas de oxígeno en sangre
+ui\health\HealthCharts.kt:700: ${points.size} lecturas de oxígeno en sangre, de ${Fmt.num(points.minOf { it.value }, 0)} a ${Fmt.num(points.maxOf { it.value }, 0)} %
+ui\health\HealthFormat.kt:14: ${count(v)} pasos
+ui\health\HealthFormat.kt:16: ${Fmt.num(meters / 1000.0, if (meters >= 10_000) 1 else 2)} km
+ui\health\HealthFormat.kt:18: ${count(v.roundToLong())} kcal
+ui\health\HealthFormat.kt:20: $v lpm
+ui\health\HealthFormat.kt:22: ${Fmt.num(v, decimals)} %
+ui\health\HealthFormat.kt:28: $m min
+ui\health\HealthFormat.kt:28: %d h %02d min
+ui\health\HealthFormat.kt:32: ${Fmt.num(totalMinutes / 60.0, decimals)} h
+ui\health\HealthFormat.kt:34: ${d.dayOfMonth} ${MONTHS_SHORT[d.monthValue - 1]}
+ui\health\HealthFormat.kt:37: ${Fmt.weekday(d.dayOfWeek)} ${dayMonth(d)}
+ui\health\HealthPermissionsRationaleActivity.kt:53: Privacidad de los datos de salud
+ui\health\HealthPermissionsRationaleActivity.kt:62: GlobalFitness usa Health Connect para dos cosas:
+ui\health\HealthPermissionsRationaleActivity.kt:64: • Leer los datos de tu pulsera o reloj (por ejemplo, la Xiaomi Smart Band a través de Mi Fitness): 
+ui\health\HealthPermissionsRationaleActivity.kt:65: pasos, distancia, calorías, pulso, pulso en reposo, variabilidad del pulso, sueño, oxígeno en 
+ui\health\HealthPermissionsRationaleActivity.kt:66: sangre, frecuencia respiratoria y entrenamientos. También lee el peso y la grasa corporal que 
+ui\health\HealthPermissionsRationaleActivity.kt:67: registren otras apps. Con el permiso de datos anteriores importa hasta un año.
+ui\health\HealthPermissionsRationaleActivity.kt:70: • Escribir las mediciones de tu báscula: peso, grasa corporal, masa ósea, masa magra, metabolismo 
+ui\health\HealthPermissionsRationaleActivity.kt:71: basal y agua corporal. Si borras una medición en la app, también se borra de Health Connect.
+ui\health\HealthPermissionsRationaleActivity.kt:74: Los datos leídos de Health Connect se guardan solo en este teléfono: no se suben a la copia en la 
+ui\health\HealthPermissionsRationaleActivity.kt:75: nube opcional, no se usan para publicidad y no se comparten con nadie. La app los usa 
+ui\health\HealthPermissionsRationaleActivity.kt:76: únicamente para mostrarte resúmenes y gráficos.
+ui\health\HealthPermissionsRationaleActivity.kt:79: Puedes retirar cualquier permiso cuando quieras desde Health Connect; la app deja de leer ese tipo 
+ui\health\HealthPermissionsRationaleActivity.kt:80: de dato y borra su copia local en la siguiente sincronización.
+ui\health\HealthViewModel.kt:48: 7 días
+ui\health\HealthViewModel.kt:49: 30 días
+ui\health\HealthViewModel.kt:50: 90 días
+ui\onboarding\OnboardingFlow.kt:236: Bienvenido a GlobalFitness
+ui\onboarding\OnboardingFlow.kt:237: Tu peso y tu composición corporal desde tu báscula Bluetooth, junto a los pasos, el sueño y el pulso 
+ui\onboarding\OnboardingFlow.kt:238: de tu pulsera. Sin cuenta: tus datos se quedan en el teléfono.
+ui\onboarding\OnboardingFlow.kt:245: ¿Ya tienes una copia en la nube?
+ui\onboarding\OnboardingFlow.kt:248: Inicia sesión con Google para restaurarla: recuperarás tu perfil y tu historial.
+ui\onboarding\OnboardingFlow.kt:253: Iniciar sesión con Google
+ui\onboarding\OnboardingFlow.kt:257: Continuar sin cuenta
+ui\onboarding\OnboardingFlow.kt:271: Iniciando sesión…
+ui\onboarding\OnboardingFlow.kt:271: Restaurando tu copia…
+ui\onboarding\OnboardingFlow.kt:273: Elige tu cuenta de Google en la ventana del sistema.
+ui\onboarding\OnboardingFlow.kt:275: Estamos trayendo tu perfil y tu historial desde la nube. Solo tarda unos segundos.
+ui\onboarding\OnboardingFlow.kt:284: Continuar sin restaurar
+ui\onboarding\OnboardingFlow.kt:289: Tu perfil
+ui\onboarding\OnboardingFlow.kt:291: Tu cuenta aún no tiene ninguna copia en la nube. 
+ui\onboarding\OnboardingFlow.kt:292: Con tu sexo, edad y altura se calcula la composición corporal a partir de la báscula.
+ui\onboarding\OnboardingFlow.kt:312: Puedes cambiarlos cuando quieras en Dispositivos.
+ui\onboarding\OnboardingFlow.kt:318: Dispositivos cercanos (Bluetooth)
+ui\onboarding\OnboardingFlow.kt:319: Para leer tu báscula y conectar con tu pulsera. No se usa tu ubicación.
+ui\onboarding\OnboardingFlow.kt:326: Health Connect (opcional)
+ui\onboarding\OnboardingFlow.kt:327: Para ver los pasos, el sueño y el pulso de tu pulsera o reloj, y guardar allí tus mediciones.
+ui\onboarding\OnboardingFlow.kt:363: No disponible en este teléfono
+ui\onboarding\OnboardingFlow.kt:374: Todo listo, $it
+ui\onboarding\OnboardingFlow.kt:374: Todo listo
+ui\onboarding\OnboardingFlow.kt:375: Súbete a tu báscula descalzo y con la app abierta: si es compatible se configura sola. 
+ui\onboarding\OnboardingFlow.kt:376: Puedes elegir tu modelo y ver la pulsera en Dispositivos.
+ui\premium\RemoveAdsScreen.kt:59: Quitar anuncios
+ui\premium\RemoveAdsScreen.kt:77: GlobalFitness sin anuncios
+ui\premium\RemoveAdsScreen.kt:78: Sin banners ni anuncios a pantalla completa.
+ui\premium\RemoveAdsScreen.kt:79: Pago único: sin suscripción.
+ui\premium\RemoveAdsScreen.kt:80: Se restaura en tus otros móviles con la misma cuenta de Google Play.
+ui\premium\RemoveAdsScreen.kt:81: Ayudas a mantener y mejorar la app.
+ui\premium\RemoveAdsScreen.kt:85: Compra activa: no verás anuncios. ¡Gracias por tu apoyo!
+ui\premium\RemoveAdsScreen.kt:87: Pago pendiente. Los anuncios desaparecerán en cuanto Google Play confirme el pago.
+ui\premium\RemoveAdsScreen.kt:103: Comprar por $price
+ui\premium\RemoveAdsScreen.kt:107: Restaurar compras
+ui\premium\RemoveAdsScreen.kt:117: Simular premium
+ui\premium\RemoveAdsScreen.kt:119: Solo en compilaciones de depuración: oculta los anuncios sin comprar.
+ui\premium\RemoveAdsScreen.kt:154: Consultando el precio en Google Play…
+ui\profile\AboutScreens.kt:62: Política de privacidad
+ui\profile\AboutScreens.kt:68: No se pudo abrir la política de privacidad.
+ui\profile\AboutScreens.kt:84: Los protocolos Bluetooth de las básculas y sus fórmulas de composición corporal están portados de openScale.
+ui\profile\AboutScreens.kt:90: El protocolo de la Xiaomi Smart Band (modo directo) está portado de Gadgetbridge.
+ui\profile\AboutScreens.kt:96: AndroidX, Jetpack Compose y Material 3
+ui\profile\AboutScreens.kt:96: Interfaz, navegación y ciclo de vida.
+ui\profile\AboutScreens.kt:97: Health Connect (connect-client)
+ui\profile\AboutScreens.kt:97: Lectura y escritura de datos de salud.
+ui\profile\AboutScreens.kt:98: Kotlin y kotlinx.coroutines
+ui\profile\AboutScreens.kt:98: Lenguaje y concurrencia.
+ui\profile\AboutScreens.kt:99: Protocol Buffers (javalite)
+ui\profile\AboutScreens.kt:99: Mensajes del protocolo de la pulsera.
+ui\profile\AboutScreens.kt:101: Firebase, Google Mobile Ads, UMP y Play Billing
+ui\profile\AboutScreens.kt:102: Condiciones de Google
+ui\profile\AboutScreens.kt:103: Cuenta y copia en la nube, anuncios con consentimiento y la compra «Quitar anuncios».
+ui\profile\AboutScreens.kt:112: Código abierto
+ui\profile\AboutScreens.kt:121: GlobalFitness es software libre
+ui\profile\AboutScreens.kt:123: © 2026 Enjoy Your Time y colaboradores. Puedes redistribuirlo y modificarlo según la 
+ui\profile\AboutScreens.kt:124: licencia GNU Affero General Public License, versión 3 o posterior (AGPL-3.0). Se 
+ui\profile\AboutScreens.kt:125: distribuye SIN NINGUNA GARANTÍA. El código fuente completo de cada versión está 
+ui\profile\AboutScreens.kt:126: disponible gratis en GitHub.
+ui\profile\AboutScreens.kt:130: Ver el código fuente
+ui\profile\AboutScreens.kt:133: Leer la licencia AGPL-3.0
+ui\profile\AboutScreens.kt:140: GlobalFitness incluye código portado de proyectos libres. Gracias a sus autores.
+ui\profile\AboutScreens.kt:159: Licencia: ${notice.license}
+ui\profile\AboutScreens.kt:161: Abrir web del proyecto
+ui\profile\ProfileForm.kt:93: Escribe un nombre
+ui\profile\ProfileForm.kt:108: Fecha de nacimiento
+ui\profile\ProfileForm.kt:113: ${Fmt.date(it)} (${Period.between(it, LocalDate.now()).years} años)
+ui\profile\ProfileForm.kt:113: Elegir fecha
+ui\profile\ProfileForm.kt:118: Elige una fecha de nacimiento válida
+ui\profile\ProfileForm.kt:127: Entre 80 y 250 cm
+ui\profile\ProfileForm.kt:134: Peso objetivo (opcional)
+ui\profile\ProfileForm.kt:138: Entre 20 y 300 kg, o déjalo vacío
+ui\profile\ProfileForm.kt:182: Nuevo perfil
+ui\profile\ProfileForm.kt:182: Editar perfil
+ui\profile\ProfileScreen.kt:112: 1 medición
+ui\profile\ProfileScreen.kt:112: $count mediciones
+ui\profile\ProfileScreen.kt:119: ${profile.ageAt(System.currentTimeMillis())} años
+ui\profile\ProfileScreen.kt:120: ${Fmt.num(profile.heightCm, if (profile.heightCm % 1.0 == 0.0) 0 else 1)} cm
+ui\profile\ProfileScreen.kt:121: objetivo ${Fmt.num(it, 1)} kg
+ui\profile\ProfileScreen.kt:121: sin peso objetivo
+ui\profile\ProfileScreen.kt:127: Editar perfil
+ui\profile\ProfileScreen.kt:133: Cuenta y anuncios
+ui\profile\ProfileScreen.kt:141: Cuenta y copia en la nube
+ui\profile\ProfileScreen.kt:143: Sin cuenta: tus datos solo están en este teléfono
+ui\profile\ProfileScreen.kt:144: ${signedIn.email ?: 
+ui\profile\ProfileScreen.kt:144: } · sincronización en pausa, toca para elegir
+ui\profile\ProfileScreen.kt:145: ${signedIn.email ?: 
+ui\profile\ProfileScreen.kt:145: } · error de sincronización
+ui\profile\ProfileScreen.kt:146: ${signedIn.email ?: 
+ui\profile\ProfileScreen.kt:146: } · ${Fmt.relative(cloud.lastSyncAt!!)}
+ui\profile\ProfileScreen.kt:155: Premium activo
+ui\profile\ProfileScreen.kt:156: Sin anuncios. ¡Gracias por tu apoyo!
+ui\profile\ProfileScreen.kt:162: Quitar anuncios
+ui\profile\ProfileScreen.kt:163: Pago único, sin suscripción
+ui\profile\ProfileScreen.kt:171: Opciones de privacidad de anuncios
+ui\profile\ProfileScreen.kt:172: Revisa o cambia tu consentimiento
+ui\profile\ProfileScreen.kt:184: Exportar CSV
+ui\profile\ProfileScreen.kt:185: Todas las mediciones con sus métricas (separador «;», decimales con coma)
+ui\profile\ProfileScreen.kt:191: Importar CSV
+ui\profile\ProfileScreen.kt:192: Se omiten las mediciones duplicadas
+ui\profile\ProfileScreen.kt:210: Acerca de
+ui\profile\ProfileScreen.kt:215: GlobalFitness ${BuildConfig.VERSION_NAME}
+ui\profile\ProfileScreen.kt:216: Versión ${BuildConfig.VERSION_CODE}
+ui\profile\ProfileScreen.kt:216:  · depuración
+ui\profile\ProfileScreen.kt:222: Código fuente (AGPL-3.0)
+ui\profile\ProfileScreen.kt:223: Software libre: descarga, estudia o modifica el código en GitHub
+ui\profile\ProfileScreen.kt:229: Política de privacidad
+ui\profile\ProfileScreen.kt:230: Borrador pendiente de revisión legal
+ui\profile\ProfileScreen.kt:236: Código abierto y licencias
+ui\profile\ProfileScreen.kt:237: Licencia AGPL-3.0, código de openScale (GPL-3.0) y Gadgetbridge (AGPL-3.0), bibliotecas
+ui\today\ScaleLiveCard.kt:79: Bluetooth LE no disponible
+ui\today\ScaleLiveCard.kt:80: Este teléfono no tiene Bluetooth de baja energía, necesario para leer la báscula.
+ui\today\ScaleLiveCard.kt:83: Falta el permiso de Bluetooth
+ui\today\ScaleLiveCard.kt:84: Para leer tu báscula y tu pulsera, GlobalFitness necesita el permiso de dispositivos cercanos 
+ui\today\ScaleLiveCard.kt:85: (en Android 11 o anterior, el de ubicación). No se usa ni guarda tu ubicación.
+ui\today\ScaleLiveCard.kt:86: Abrir ajustes
+ui\today\ScaleLiveCard.kt:86: Conceder permiso
+ui\today\ScaleLiveCard.kt:90: Bluetooth desactivado
+ui\today\ScaleLiveCard.kt:91: Activa el Bluetooth para detectar la báscula.
+ui\today\ScaleLiveCard.kt:92: Activar Bluetooth
+ui\today\ScaleLiveCard.kt:96: Error al buscar la báscula
+ui\today\ScaleLiveCard.kt:106: Ubicación desactivada
+ui\today\ScaleLiveCard.kt:107: En Android 11 o anterior el sistema no entrega anuncios Bluetooth si la ubicación está apagada.
+ui\today\ScaleLiveCard.kt:108: Activar ubicación
+ui\today\ScaleLiveCard.kt:128: Conectando con ${state.scaleName}…
+ui\today\ScaleLiveCard.kt:128: No te bajes de la báscula.
+ui\today\ScaleLiveCard.kt:129: Quédate quieto.
+ui\today\ScaleLiveCard.kt:130: Estable · midiendo la composición…
+ui\today\ScaleLiveCard.kt:130: No te bajes todavía.
+ui\today\ScaleLiveCard.kt:132: No se pudo guardar ${Fmt.kg(state.weightKg)}
+ui\today\ScaleLiveCard.kt:136: Medición ya guardada
+ui\today\ScaleLiveCard.kt:136: Medición guardada
+ui\today\ScaleLiveCard.kt:137: con impedancia (${state.impedance} Ω)
+ui\today\ScaleLiveCard.kt:137: sin impedancia (¿calcetines o pies secos?)
+ui\today\ScaleLiveCard.kt:144: ${Fmt.kg(state.weightKg)} · $sub
+ui\today\ScaleLiveCard.kt:158: Conectando con ${session.scaleName}…
+ui\today\ScaleLiveCard.kt:158: No te bajes de la báscula.
+ui\today\ScaleLiveCard.kt:159: ${session.scaleName}: conectada
+ui\today\ScaleLiveCard.kt:159: Esperando la medición…
+ui\today\ScaleLiveCard.kt:160: Midiendo · ${session.scaleName}
+ui\today\ScaleLiveCard.kt:160: Quédate quieto.
+ui\today\ScaleLiveCard.kt:161: ${session.scaleName}: midiendo…
+ui\today\ScaleLiveCard.kt:163: No se pudo leer ${session.scaleName}
+ui\today\ScaleLiveCard.kt:164: Vuelve a subirte a la báscula. Si se repite, revisa su configuración en Dispositivos.
+ui\today\TodayScreen.kt:141: Abrir cuenta
+ui\today\TodayScreen.kt:147: Copia en la nube en pausa
+ui\today\TodayScreen.kt:149: Necesitamos que elijas qué datos conservar. Toca para decidir.
+ui\today\TodayScreen.kt:177: Composición corporal
+ui\today\TodayScreen.kt:180: Última medición con composición: ${Fmt.relative(latest.measurement.timestamp, now).lowercase(Fmt.LOCALE)}
+ui\today\TodayScreen.kt:211: Estimaciones de la báscula o calculadas con fórmulas publicadas. No son un diagnóstico médico.
+ui\today\TodayScreen.kt:234: Hola, $it
+ui\today\TodayScreen.kt:245: Conecta Health Connect para ver aquí tus pasos, tu sueño y tu pulso en reposo.
+ui\today\TodayScreen.kt:246: Conectar Health Connect
+ui\today\TodayScreen.kt:251: Con Health Connect verás aquí tus pasos, tu sueño y tu pulso en reposo de tu pulsera o reloj.
+ui\today\TodayScreen.kt:252: Instalar Health Connect
+ui\today\TodayScreen.kt:252: Actualizar Health Connect
+ui\today\TodayScreen.kt:279: de ${HealthFormat.count(HealthViewModel.STEPS_GOAL)}
+ui\today\TodayScreen.kt:287: Pasos hoy: ${HealthFormat.count(it)} de ${HealthFormat.count(HealthViewModel.STEPS_GOAL)}
+ui\today\TodayScreen.kt:288: Pasos hoy: sin datos
+ui\today\TodayScreen.kt:293: Sueño
+ui\today\TodayScreen.kt:294: de 8 h
+ui\today\TodayScreen.kt:298: ${it / 60}:${String.format(Fmt.LOCALE, 
+ui\today\TodayScreen.kt:298: , it % 60)}
+ui\today\TodayScreen.kt:302: Sueño de anoche: ${HealthFormat.minutes(it)} de 8 horas
+ui\today\TodayScreen.kt:302: Sueño de anoche: sin datos
+ui\today\TodayScreen.kt:307: Pulso reposo
+ui\today\TodayScreen.kt:317: Pulso en reposo: $it latidos por minuto
+ui\today\TodayScreen.kt:317: Pulso en reposo: sin datos
+ui\today\TodayScreen.kt:324: Health Connect todavía no tiene datos de tu pulsera o reloj.
+ui\today\TodayScreen.kt:336: Ver actividad
+ui\today\TodayScreen.kt:357: Báscula: escuchando
+ui\today\TodayScreen.kt:358: Báscula: iniciando
+ui\today\TodayScreen.kt:359: Báscula: falta permiso
+ui\today\TodayScreen.kt:360: Bluetooth apagado
+ui\today\TodayScreen.kt:361: Sin Bluetooth LE
+ui\today\TodayScreen.kt:362: Báscula: en pausa
+ui\today\TodayScreen.kt:363: Báscula: error
+ui\today\TodayScreen.kt:369: Nube: en pausa
+ui\today\TodayScreen.kt:370: Nube: sincronizando…
+ui\today\TodayScreen.kt:371: Nube: error
+ui\today\TodayScreen.kt:372: Nube: pendiente de subir
+ui\today\TodayScreen.kt:373: Nube: ${Fmt.relative(cloud.lastSyncAt).lowercase(Fmt.LOCALE)}
+ui\today\TodayScreen.kt:374: Nube: conectada
+ui\today\TodayScreen.kt:378: Pulsera: ${bandStatusText(it).removePrefix(
+ui\today\TodayScreen.kt:397: Aún no hay mediciones
+ui\today\TodayScreen.kt:399: Súbete a la báscula descalzo y con la app abierta: la medición aparecerá aquí. 
+ui\today\TodayScreen.kt:400: Si tu báscula no es compatible, añade el peso a mano.
+ui\today\TodayScreen.kt:407: Añadir peso manual
+ui\today\TodayScreen.kt:417: Ver evolución del peso
+ui\today\TodayScreen.kt:427: Cambio semanal: faltan datos
+ui\today\TodayScreen.kt:428: Estable esta semana (${Fmt.signed(weekly, 2)} kg)
+ui\today\TodayScreen.kt:429: ${Fmt.signed(weekly, 2)} kg en 7 días
+ui\today\TodayScreen.kt:446: 30 días
+ui\today\TodayScreen.kt:457: Ver evolución
+ui\today\TodayScreen.kt:466: miércoles
+ui\today\TodayScreen.kt:466: sábado
+ui\today\TodayScreen.kt:474: ${WEEKDAYS[d.dayOfWeek.value - 1]}, ${d.dayOfMonth} de ${MONTHS[d.monthValue - 1]}
+TOTAL 1314
