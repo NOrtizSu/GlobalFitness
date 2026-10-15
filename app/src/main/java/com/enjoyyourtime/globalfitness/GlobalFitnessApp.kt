@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.os.SystemClock
 import android.util.Log
+import com.enjoyyourtime.globalfitness.band.BandManager
 import com.enjoyyourtime.globalfitness.ble.ScaleMonitor
 import com.enjoyyourtime.globalfitness.ble.ScaleScanner
 import com.enjoyyourtime.globalfitness.data.AppDatabase
@@ -33,6 +34,9 @@ class AppContainer(context: Context) {
         wallClock = System::currentTimeMillis,
         elapsedClock = SystemClock::elapsedRealtime,
     )
+
+    /** Experimental direct Xiaomi Smart Band 9 mode; created on first use. */
+    val band by lazy { BandManager(context.applicationContext, appScope) }
 }
 
 class GlobalFitnessApp : Application() {
