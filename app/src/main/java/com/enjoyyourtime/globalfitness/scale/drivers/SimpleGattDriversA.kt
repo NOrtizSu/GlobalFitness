@@ -117,7 +117,10 @@ class DigooDGSO38HDriver : GattScaleDriver() {
                 writeTo(svc, chrExtra, allValuesRequest(user.isMale, user.heightCm, user.ageAt(env.wallClock()), user.unit))
                 return
             }
-            if (ctrl and 0x02 != 0) publish(parse(data))
+            if (ctrl and 0x02 != 0) {
+                publish(parse(data))
+                finishSoon()
+            }
         }
     }
 
@@ -174,7 +177,10 @@ class HesleyDriver : GattScaleDriver() {
         }
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {
-            if (characteristic == chrNotify && data.size == 20) publish(parse(data))
+            if (characteristic == chrNotify && data.size == 20) {
+                publish(parse(data))
+                finishSoon()
+            }
         }
     }
 
@@ -274,7 +280,7 @@ class InlifeDriver : GattScaleDriver() {
                 weightKg = weight
                 fatPercent = (fatKg / weight * 100.0).coerceIn(5.0, 80.0).toFloat()
                 waterPercent = (0.73 * (weight - fatKg) / weight * 100.0).coerceIn(5.0, 80.0).toFloat()
-                musclePercent = (0.548 * lbm / weight * 100.0).coerceIn(5.0, 80.0).toFloat()
+                skeletalMusclePercent = (0.548 * lbm / weight * 100.0).coerceIn(5.0, 80.0).toFloat()
                 boneKg = (0.05158 * lbm).coerceIn(0.5, 8.0).toFloat()
                 lbmKg = lbm
                 visceralFat = visceral.coerceIn(1.0, 50.0).toFloat()
@@ -378,9 +384,11 @@ class EbelterBodyFatB2Driver : GattScaleDriver() {
         private val chrWrite = uuid16(0xFAA1)
         private val chrNotify = uuid16(0xFAA2)
         private var lastHandshake = Long.MIN_VALUE / 2
-        private var lastPublish = Long.MIN_VALUE / 2
         private var lastWeightRaw = -1
         private var lastFatRaw = -1
+        private var repeats = 0
+        private var published = false
+        private val STABLE_FRAMES = 3
 
         override fun onConnected() {
             setNotifyOn(svc, chrNotify)
@@ -401,16 +409,17 @@ class EbelterBodyFatB2Driver : GattScaleDriver() {
             val kg = weightRaw / 10.0f
             if (kg < 10.0f) return
             live(kg)
-            val now = env.elapsedClock()
-            if (weightRaw == lastWeightRaw && fatRaw == lastFatRaw) return
-            if (now - lastPublish < 6_000L) return
-            lastPublish = now
+            if (published) return
+            repeats = if (weightRaw == lastWeightRaw && fatRaw == lastFatRaw) repeats + 1 else 1
             lastWeightRaw = weightRaw
             lastFatRaw = fatRaw
+            if (repeats < STABLE_FRAMES) return
+            published = true
             publish(ScaleSample().apply {
                 weightKg = kg
                 if (fatRaw != 0) fatPercent = fatRaw / 10.0f
             })
+            requestDisconnect()
         }
 
         private fun handshake(force: Boolean) {

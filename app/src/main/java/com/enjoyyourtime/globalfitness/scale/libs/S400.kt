@@ -16,6 +16,10 @@ data class S400Packet(
     val impedanceHigh: Float?,
     val impedanceLow: Float?,
     val heartRate: Int?,
+    /** Scale-side user profile the measurement belongs to (object byte 3). */
+    val profileId: Int = 0,
+    /** MiBeacon frame counter (extended counter << 8 | counter): identical for re-broadcasts. */
+    val counter: Long = 0,
 )
 
 /** MiBeacon v5 AES-CCM decryption of Xiaomi Body Composition Scale S400 advertisements. */
@@ -41,7 +45,8 @@ object S400Decryptor {
             val nonce = mac.reversedArray() + data.copyOfRange(2, 5) + data.copyOfRange(data.size - 7, data.size - 4)
             val cipherText = data.copyOfRange(5, data.size - 7) + data.copyOfRange(data.size - TAG_BYTES, data.size)
             val plain = AesCcm.decrypt(key, nonce, cipherText, byteArrayOf(0x11), TAG_BYTES) ?: return null
-            parseDecrypted(plain)
+            val counter = (Bytes.fromUnsignedInt24Le(data, data.size - 7).toLong() shl 8) or Bytes.u8(data, 4).toLong()
+            parseDecrypted(plain)?.copy(counter = counter)
         } catch (e: Exception) {
             null
         }
@@ -53,6 +58,8 @@ object S400Decryptor {
      */
     fun parseDecrypted(decrypted: ByteArray): S400Packet? {
         if (decrypted.size < 12) return null
+        // Object 0x6E16 ("body composition"), 9 data bytes.
+        if (Bytes.fromUnsignedInt16Le(decrypted, 0) != OBJECT_TYPE || Bytes.u8(decrypted, 2) != OBJECT_LENGTH) return null
         val value = Bytes.fromSignedInt32Le(decrypted, 4)
         val weightRaw = value and 0x7FF
         val heartRateRaw = (value shr 11) and 0x7F
@@ -61,11 +68,14 @@ object S400Decryptor {
         val impedanceHigh = if (weightRaw != 0 && impedanceRaw != 0) impedanceRaw / 10f else null
         val impedanceLow = if (weightRaw == 0 && impedanceRaw != 0) impedanceRaw / 10f else null
         return if (weightRaw != 0 || impedanceLow != null) {
-            S400Packet(weightRaw / 10f, impedanceHigh, impedanceLow, heartRate)
+            S400Packet(weightRaw / 10f, impedanceHigh, impedanceLow, heartRate, profileId = Bytes.u8(decrypted, 3))
         } else {
             null
         }
     }
+
+    const val OBJECT_TYPE = 0x6E16
+    const val OBJECT_LENGTH = 9
 
     fun isValidBindKey(bindKey: String?): Boolean = bindKey != null && bindKey.length == 32 && Bytes.isHex(bindKey)
 
@@ -108,7 +118,12 @@ class S400Aggregator(
     private val sessions = HashMap<String, Session>()
     private val recent = HashMap<String, Recent>()
 
+    /** True while a weighing is being collected (call [flush] about once per second). */
+    val hasPending: Boolean get() = sessions.isNotEmpty()
+
     fun ingest(deviceMac: String, packet: S400Packet, nowMs: Long): Outcome {
+        // A half weighing left over from before must never complete the next one.
+        sessions[deviceMac]?.let { if (nowMs - it.firstSeenAt > sessionTimeoutMs) sessions.remove(deviceMac) }
         val session = sessions.getOrPut(deviceMac) { Session(firstSeenAt = nowMs) }
         if (packet.weightKg > 0f) session.weightKg = packet.weightKg
         packet.impedanceHigh?.let { session.impedanceHigh = it }
@@ -135,6 +150,31 @@ class S400Aggregator(
         recent[deviceMac] = Recent(weight, impHigh, nowMs)
         sessions.remove(deviceMac)
         return Outcome.Finalized(weight, impHigh, impLow, session.heartRate, timedOut)
+    }
+
+    /**
+     * Time-based end of weighings: a packet A whose packet B never came is finalized alone after
+     * [sessionTimeoutMs] (older firmware); anything else that old is dropped.
+     */
+    fun flush(nowMs: Long): List<Pair<String, Outcome.Finalized>> {
+        val out = ArrayList<Pair<String, Outcome.Finalized>>()
+        val it = sessions.entries.iterator()
+        while (it.hasNext()) {
+            val (mac, s) = it.next()
+            if (nowMs - s.firstSeenAt < sessionTimeoutMs) continue
+            it.remove()
+            val weight = s.weightKg ?: continue
+            val impHigh = s.impedanceHigh ?: continue
+            val previous = recent[mac]
+            if (previous != null && abs(previous.weight - weight) < dedupWeightToleranceKg &&
+                abs(previous.impedanceHigh - impHigh) < dedupImpedanceToleranceOhm && nowMs - previous.timeMs < sessionTimeoutMs
+            ) {
+                continue
+            }
+            recent[mac] = Recent(weight, impHigh, nowMs)
+            out += mac to Outcome.Finalized(weight, impHigh, s.impedanceLow, s.heartRate, timedOut = true)
+        }
+        return out
     }
 }
 

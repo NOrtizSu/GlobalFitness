@@ -2,7 +2,7 @@ package com.enjoyyourtime.globalfitness.domain
 
 import com.enjoyyourtime.globalfitness.data.Measurement
 import com.enjoyyourtime.globalfitness.data.MeasurementSource
-import com.enjoyyourtime.globalfitness.data.Repository
+import com.enjoyyourtime.globalfitness.data.MeasurementStore
 import com.enjoyyourtime.globalfitness.scale.CompositionSource
 import com.enjoyyourtime.globalfitness.scale.ScaleReading
 import kotlin.math.abs
@@ -26,11 +26,20 @@ sealed interface RecordOutcome {
  * (±25 g) within [DUPLICATE_WINDOW_MS]. A later reading of the same weighing that carries data the
  * stored row lacks (impedance, device composition) upgrades the row instead of inserting.
  */
-class MeasurementRecorder(private val repository: Repository) {
+class MeasurementRecorder(private val repository: MeasurementStore) {
 
-    /** Returns null when nothing was stored (e.g. an upgrade for a row the user deleted). */
+    /** True when the database holds weighings of the Mi Body Composition Scale 2 (pre multi-scale versions). */
+    suspend fun hasLegacyMiScaleRows(): Boolean {
+        repository.awaitLoaded()
+        return repository.measurements.value.any {
+            it.source == MeasurementSource.SCALE && (it.deviceDriver == null || it.deviceDriver == LEGACY_MI_SCALE_DRIVER)
+        }
+    }
+
+    /** Returns null when nothing was stored (a measurement the user deleted, or an upgrade for one). */
     suspend fun record(r: ScaleReading): RecordOutcome? {
         repository.awaitLoaded()
+        if (r.dedupeKey != null && repository.isDeletedScaleKey(r.dedupeKey)) return null
         val all = repository.measurements.value
         val existing = r.dedupeKey?.let { key -> all.firstOrNull { it.scaleKey == key } } ?: findNear(all, r)
 
@@ -59,6 +68,7 @@ class MeasurementRecorder(private val repository: Repository) {
                 formulaLib = r.formulaLib,
                 deviceDriver = r.driverId,
                 deviceAddress = r.deviceAddress,
+                impedanceLow = r.impedanceLow,
             ),
         )
         if (stored == null) {
@@ -80,6 +90,7 @@ class MeasurementRecorder(private val repository: Repository) {
         }
         return e.copy(
             impedance = e.impedance ?: r.impedance,
+            impedanceLow = e.impedanceLow ?: r.impedanceLow,
             composition = e.composition ?: r.composition,
             compositionSource = source,
             formulaLib = e.formulaLib ?: r.formulaLib,
@@ -95,5 +106,6 @@ class MeasurementRecorder(private val repository: Repository) {
 
     companion object {
         const val DUPLICATE_WINDOW_MS = 3 * 60_000L
+        private const val LEGACY_MI_SCALE_DRIVER = "xiaomi_mi_scale_2"
     }
 }

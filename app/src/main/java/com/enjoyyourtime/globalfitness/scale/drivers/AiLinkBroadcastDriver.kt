@@ -66,6 +66,8 @@ class AiLinkBroadcastDriver : PassiveScaleDriver() {
 object AiLinkLib {
     const val STATUS_COMPLETE = 0xFF
     const val UNIT_KG = 0
+    const val UNIT_JIN = 1
+    const val UNIT_LB = 6
     private val KNOWN_STATUSES = setOf(0x00, 0x01, 0x02, 0x03, 0x04, STATUS_COMPLETE)
     private const val RECORD_LENGTH = 18
     private const val CHECKSUM_INDEX = 7
@@ -112,7 +114,12 @@ object AiLinkLib {
             decimals = decimals,
             isNegative = p[3].toInt() and 0x80 != 0,
             rawWeight = raw,
-            weightKg = if (unit == UNIT_KG) applyDecimals(raw, decimals) else null,
+            weightKg = when (unit) {
+                UNIT_KG -> applyDecimals(raw, decimals)
+                UNIT_JIN -> applyDecimals(raw, decimals) / 2f
+                UNIT_LB -> applyDecimals(raw, decimals) * 0.45359237f
+                else -> null
+            },
             impedance = Bytes.fromUnsignedInt16Be(p, 5),
             algorithm = Bytes.u8(p, 7),
         )

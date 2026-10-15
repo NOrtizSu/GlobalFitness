@@ -188,6 +188,7 @@ class BodyConnectDriver : GattScaleDriver() {
             val weight = lastWeight?.takeIf { it > 0f } ?: return
             publish(ScaleSample().apply {
                 dateTime = deviceTimeToJava(wts)
+                fromHistory = true // stamped by the scale (clock set on connect); may be a stored weighing
                 weightKg = weight
                 fatPercent = fat
                 waterPercent = water
@@ -351,10 +352,14 @@ class WeightGurusA3Driver : GattScaleDriver() {
                 impedance = float32(data, off)
                 off += 4
             }
-            if (flags and 0x08 != 0) off += 1
+            if (flags and 0x08 != 0) {
+                if (off < data.size && Bytes.u8(data, off) != currentSlot()) return // another person's weighing
+                off += 1
+            }
             val hasAppend = flags and 0x10 != 0 && off < data.size && Bytes.u8(data, off) and 0x10 != 0
             val m = ScaleSample().apply {
                 dateTime = ts?.let { deviceTimeToJava(it) }
+                fromHistory = ts != null // stamped by the scale (clock set on connect); may be stored
                 weightKg = weight
                 this.impedance = impedance?.takeIf { it > 0f }
             }
@@ -488,7 +493,7 @@ class PicoocDriver : GattScaleDriver() {
         }
 
         override fun onDisconnected() {
-            if (!published && weightKg > 0f) publishSession()
+            if (!published && confirmed && weightKg > 0f) publishSession()
             settle?.cancel()
         }
 
@@ -518,12 +523,16 @@ class PicoocDriver : GattScaleDriver() {
                         live(f.weightKg)
                     }
                     if (f.impedance > 0.0) impedance = f.impedance
-                    if (f.complete) armSettle()
+                    if (f.complete) {
+                        confirmed = true
+                        armSettle()
+                    }
                 }
                 OP_BODY_COMPOSITION -> {
                     send(ack(prefix, op))
                     val c = parseComposition(data) ?: return
                     composition = c
+                    confirmed = true
                     if (c.weightKg in MIN_WEIGHT..MAX_WEIGHT) weightKg = c.weightKg
                     if (c.impedance > 0.0) impedance = c.impedance
                     armSettle()
@@ -550,8 +559,10 @@ class PicoocDriver : GattScaleDriver() {
             schedule(PROFILE_DELAY_MS) { send(profile) }
         }
 
+        private var confirmed = false
+
         private fun armSettle() {
-            if (published || weightKg <= 0f) return
+            if (published || !confirmed || weightKg <= 0f) return
             settle?.cancel()
             settle = schedule(SETTLE_MS) { publishSession() }
         }
@@ -786,15 +797,18 @@ class OmronWlcDriver : GattScaleDriver() {
 
         private fun publishRecords(raw: ByteArray) {
             val lastKey = "$KEY_LAST_PREFIX$slot"
-            val known = settingsGetString(lastKey)?.toLongOrNull() ?: 0L
-            val fresh = raw.toList().chunked(profile.recordSize).mapNotNull { OmronBodyCompositionLib.decodeRecord(it.toByteArray(), profile) }
-                .filter { it.timestampMillis > known }.sortedBy { it.timestampMillis }
+            val all = raw.toList().chunked(profile.recordSize).mapNotNull { OmronBodyCompositionLib.decodeRecord(it.toByteArray(), profile) }
+            var known = settingsGetString(lastKey)?.toLongOrNull() ?: 0L
+            // The scale clock was reset (all records older than the watermark): start over; records
+            // already stored are recognised by the recorder.
+            if (all.isNotEmpty() && all.maxOf { it.timestampMillis } < known) known = 0L
+            val fresh = all.filter { it.timestampMillis > known }.sortedBy { it.timestampMillis }
             fresh.forEach { r ->
                 publish(ScaleSample().apply {
                     dateTime = r.timestampMillis
                     weightKg = r.weightKg
                     fatPercent = r.bodyFatPercent
-                    musclePercent = r.skeletalMusclePercent
+                    skeletalMusclePercent = r.skeletalMusclePercent
                     visceralFat = r.visceralFatLevel
                     bmrKcal = r.bmrKcal?.toFloat()
                     metabolicAge = r.bodyAgeYears?.takeIf { it in 10..99 }?.toFloat()
@@ -1019,7 +1033,8 @@ class KeepS3Driver : GattScaleDriver() {
                     sample.lbmKg = c.fatFreeMassKg
                     sample.bmrKcal = c.basalMetabolicRateKcal.toFloat()
                     sample.proteinPercent = c.proteinPercent
-                    sample.musclePercent = c.skeletalMusclePercent
+                    sample.musclePercent = c.musclePercent
+                    sample.skeletalMusclePercent = c.skeletalMusclePercent
                     sample.metabolicAge = c.bodyAge.takeIf { it in 10..99 }?.toFloat()
                     sample.computedWith = FormulaLib.KEEP_S3
                 }

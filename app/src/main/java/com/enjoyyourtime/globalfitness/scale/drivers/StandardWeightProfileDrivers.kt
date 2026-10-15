@@ -52,6 +52,10 @@ open class StandardWeightProfileProtocol : GattProtocol() {
     private var newUserPending = false
     private var pendingConsent: Int? = null
 
+    /** The last body composition packet announced more packets of the same measurement. */
+    private var multiPacket = false
+    private var continuation = false
+
     private enum class Kind { WEIGHT, BODY_COMPOSITION }
 
     /** Hook for vendors that need a "take measurement" command once the user is authorized. */
@@ -95,13 +99,26 @@ open class StandardWeightProfileProtocol : GattProtocol() {
 
     // ---- User index / consent persistence ----------------------------------------------------
 
-    protected fun knownIndex(): Int? =
-        env.store.getInt(KEY_LEARNED_INDEX, -1).takeIf { it >= 0 }
-            ?: env.store.getString(ConfigField.KEY_USER_SLOT)?.toIntOrNull()
+    /**
+     * The user's index on the scale: the configured one wins; a learned index of another slot is
+     * forgotten (with its PIN) as soon as the user configures a different slot.
+     */
+    protected fun knownIndex(): Int? {
+        val configured = env.store.getString(ConfigField.KEY_USER_SLOT)?.toIntOrNull()?.takeIf { it in 0..254 }
+        val learned = env.store.getInt(KEY_LEARNED_INDEX, -1).takeIf { it in 0..254 }
+        if (configured != null) {
+            if (learned != null && learned != configured) {
+                env.store.remove(KEY_LEARNED_INDEX)
+                env.store.remove(KEY_LEARNED_CONSENT)
+            }
+            return configured
+        }
+        return learned
+    }
 
     protected fun knownConsent(): Int? =
-        env.store.getInt(KEY_LEARNED_CONSENT, -1).takeIf { it >= 0 }
-            ?: env.store.getString(ConfigField.KEY_PIN)?.toIntOrNull()
+        env.store.getString(ConfigField.KEY_PIN)?.toIntOrNull()
+            ?: env.store.getInt(KEY_LEARNED_CONSENT, -1).takeIf { it >= 0 }
 
     private fun saveMapping(index: Int, consent: Int?) {
         env.store.putInt(KEY_LEARNED_INDEX, index)
@@ -112,12 +129,21 @@ open class StandardWeightProfileProtocol : GattProtocol() {
 
     private fun handleNew(m: ScaleSample, kind: Kind) {
         val prev = pending
+        // A body composition split in several packets keeps filling the same measurement.
+        val continues = kind == Kind.BODY_COMPOSITION && continuation
+        continuation = kind == Kind.BODY_COMPOSITION && multiPacket
         if (prev == null) {
             pending = m
             pendingKinds = hashSetOf(kind)
         } else {
             val sameTime = prev.dateTime == null || m.dateTime == null || prev.dateTime == m.dateTime
-            if (kind in pendingKinds || !sameTime) {
+            if (continues && sameTime) {
+                prev.mergeWith(m)
+                if (!continuation && pendingKinds.size == Kind.entries.size && prev.hasWeight()) {
+                    flushPending()
+                    return
+                }
+            } else if (kind in pendingKinds || !sameTime) {
                 // A different weighing (e.g. history records): publish the previous one first.
                 flushPending()
                 pending = m
@@ -125,7 +151,7 @@ open class StandardWeightProfileProtocol : GattProtocol() {
             } else {
                 prev.mergeWith(m)
                 pendingKinds += kind
-                if (pendingKinds.size == Kind.entries.size && prev.hasWeight()) {
+                if (!continuation && pendingKinds.size == Kind.entries.size && prev.hasWeight()) {
                     flushPending()
                     return
                 }
@@ -145,7 +171,10 @@ open class StandardWeightProfileProtocol : GattProtocol() {
         pendingWaterMassKg = null
         val w = m.weightKg
         if (water != null && m.waterPercent == null && w != null && w > 0f) m.waterPercent = water / w * 100f
-        if (m.hasWeight()) publish(transformBeforePublish(m))
+        if (m.hasWeight()) {
+            publish(transformBeforePublish(m))
+            finishSoon(5_000L) // history records keep the session alive
+        }
     }
 
     /** True when the scale attributed the record to another user index than ours. */
@@ -164,9 +193,12 @@ open class StandardWeightProfileProtocol : GattProtocol() {
         val userPresent = flags and 0x04 != 0
         val m = ScaleSample()
         val raw = Bytes.fromUnsignedInt16Le(value, o); o += 2
+        if (raw == SIG_UNSUCCESSFUL) return null // "measurement unsuccessful"
         m.weightKg = if (isKg) raw * 0.005f else raw * 0.01f * LB_TO_KG
         if (tsPresent && value.size >= o + 7) {
             m.dateTime = sigDateTime(value, o)
+            // The clock is set on connect, so stamped records may be stored ones: keep their time.
+            m.fromHistory = true
             o += 7
         }
         if (userPresent && value.size > o) {
@@ -184,11 +216,15 @@ open class StandardWeightProfileProtocol : GattProtocol() {
         val isKg = flags and 0x0001 == 0
         val massMultiplier = if (isKg) 0.005f else 0.01f * LB_TO_KG
         val m = ScaleSample()
-        m.fatPercent = Bytes.fromUnsignedInt16Le(value, o) * 0.1f; o += 2
+        val fatRaw = Bytes.fromUnsignedInt16Le(value, o); o += 2
+        if (fatRaw != SIG_UNSUCCESSFUL) m.fatPercent = fatRaw * 0.1f
         fun has(bit: Int) = flags and bit != 0
-        fun u16(): Int? = if (value.size >= o + 2) Bytes.fromUnsignedInt16Le(value, o).also { o += 2 } else null
+        // 0xFFFF in any field means "not measured".
+        fun u16(): Int? = if (value.size >= o + 2) Bytes.fromUnsignedInt16Le(value, o).also { o += 2 }.takeIf { it != SIG_UNSUCCESSFUL } else null
+        multiPacket = has(MULTIPLE_PACKETS)
         if (has(0x0002) && value.size >= o + 7) {
             m.dateTime = sigDateTime(value, o)
+            m.fromHistory = true
             o += 7
         }
         if (has(0x0004) && value.size > o) {
@@ -297,6 +333,8 @@ open class StandardWeightProfileProtocol : GattProtocol() {
     companion object {
         const val KEY_LEARNED_INDEX = "uds_index"
         const val KEY_LEARNED_CONSENT = "uds_consent"
+        private const val SIG_UNSUCCESSFUL = 0xFFFF
+        private const val MULTIPLE_PACKETS = 0x1000
         private const val UCP_REGISTER_NEW_USER = 0x01
         private const val UCP_CONSENT = 0x02
         private const val UCP_RESPONSE = 0x20
@@ -323,7 +361,7 @@ open class StandardWeightProfileProtocol : GattProtocol() {
     }
 }
 
-private val STANDARD_CONFIG = listOf(ConfigField.userSlot(maxSlot = 255), ConfigField.pin())
+private val STANDARD_CONFIG = listOf(ConfigField.userSlot(maxSlot = 254, minSlot = 0), ConfigField.pin())
 
 /** Any scale exposing the SIG Weight Scale / Body Composition / User Data services. */
 class StandardWeightProfileDriver : GattScaleDriver() {
@@ -427,10 +465,11 @@ class BeurerBF450Driver : GattScaleDriver() {
         override fun transformBeforePublish(m: ScaleSample): ScaleSample {
             val bc = bodyComp ?: return m
             val w = m.weightKg?.takeIf { it > 0f } ?: return m
-            m.fatPercent = bc[0]
-            m.musclePercent = bc[1]
-            m.waterPercent = bc[3] / w * 100f
-            if (lastImpedance > 0f) m.impedance = lastImpedance
+            // Fixed vendor offsets (unverified against the flags): never override SIG-parsed values.
+            if (m.fatPercent == null) m.fatPercent = bc[0]
+            if (m.musclePercent == null) m.musclePercent = bc[1]
+            if (m.waterPercent == null) m.waterPercent = bc[3] / w * 100f
+            if (lastImpedance > 0f && m.impedance == null) m.impedance = lastImpedance
             bodyComp = null
             return m
         }

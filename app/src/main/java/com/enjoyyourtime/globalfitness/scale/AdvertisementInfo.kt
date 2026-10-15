@@ -21,10 +21,10 @@ class AdvertisementInfo(
     val receivedAtMillis: Long = 0L,
 ) {
     /** Advertised name, trimmed; empty when the device has none. */
-    val nameOrEmpty: String get() = name?.trim().orEmpty()
+    val nameOrEmpty: String = name?.trim().orEmpty()
 
-    /** Upper-cased name for case-insensitive matching. */
-    val upperName: String get() = nameOrEmpty.uppercase(Locale.ROOT)
+    /** Upper-cased name for case-insensitive matching (computed once per advertisement). */
+    val upperName: String = nameOrEmpty.uppercase(Locale.ROOT)
 
     fun hasService(uuid: UUID): Boolean = uuid in serviceUuids || serviceData.containsKey(uuid)
 

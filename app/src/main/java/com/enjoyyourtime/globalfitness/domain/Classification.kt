@@ -69,6 +69,19 @@ object Classifier {
         }
     }
 
+    /** Normal skeletal muscle % range by sex (BIA consumer-scale reference bands). */
+    fun skeletalMuscleRange(sex: Sex): ClosedFloatingPointRange<Double> =
+        if (sex == Sex.FEMALE) 24.3..30.3 else 33.3..39.3
+
+    fun skeletalMuscle(percent: Double, sex: Sex): Classification {
+        val r = skeletalMuscleRange(sex)
+        return when {
+            percent < r.start -> Classification("Bajo", Status.WARNING)
+            percent <= r.endInclusive -> Classification("Normal", Status.GOOD)
+            else -> Classification("Alto", Status.GOOD)
+        }
+    }
+
     fun waterRange(sex: Sex): ClosedFloatingPointRange<Double> =
         if (sex == Sex.FEMALE) 45.0..60.0 else 55.0..65.0
 

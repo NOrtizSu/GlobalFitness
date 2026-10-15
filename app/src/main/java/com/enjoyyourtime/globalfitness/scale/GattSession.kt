@@ -15,12 +15,12 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withTimeoutOrNull
@@ -29,7 +29,9 @@ import java.util.UUID
 /**
  * Coroutine wrapper over [BluetoothGatt] with a serialized operation queue: only one GATT
  * operation is in flight at a time (Android silently drops concurrent ones). Each operation
- * waits for its callback, bounded by [opTimeoutMs].
+ * waits for its own callback (matched by kind and characteristic, so a late or spontaneous
+ * callback never completes the wrong operation), bounded by [opTimeoutMs]. A timed-out operation
+ * means the link is wedged: the connection is dropped and [failure] explains why.
  *
  * Handles both the API 33+ callback/write signatures and the legacy (deprecated) ones.
  */
@@ -43,7 +45,7 @@ class GattSession(
     private val opMutex = Mutex()
 
     @Volatile private var gatt: BluetoothGatt? = null
-    @Volatile private var pending: CompletableDeferred<Result>? = null
+    @Volatile private var pending: PendingOp? = null
     @Volatile private var connectWaiter: CompletableDeferred<Unit>? = null
     @Volatile private var servicesWaiter: CompletableDeferred<Unit>? = null
     @Volatile private var closed = false
@@ -51,10 +53,23 @@ class GattSession(
     private val _connected = MutableStateFlow(false)
     override val isConnected: StateFlow<Boolean> = _connected.asStateFlow()
 
-    private val _notifications = MutableSharedFlow<GattNotification>(extraBufferCapacity = 256)
-    override val notifications: Flow<GattNotification> = _notifications.asSharedFlow()
+    // Unlimited: a notification burst (history download) must never be dropped.
+    private val _notifications = Channel<GattNotification>(Channel.UNLIMITED)
+    override val notifications: Flow<GattNotification> = _notifications.receiveAsFlow()
+
+    @Volatile private var failureText: String? = null
+    override val failure: String? get() = failureText
 
     private class Result(val status: Int, val value: ByteArray? = null, val mtu: Int = 0)
+
+    private enum class OpKind { MTU, DESCRIPTOR, WRITE, READ }
+
+    /** The in-flight operation: only its own callback may complete it. */
+    private class PendingOp(val kind: OpKind, val uuid: UUID?, val deferred: CompletableDeferred<Result>) {
+        fun completeIf(kind: OpKind, uuid: UUID?, result: Result) {
+            if (kind == this.kind && (this.uuid == null || this.uuid == uuid)) deferred.complete(result)
+        }
+    }
 
     private val callback = object : BluetoothGattCallback() {
         override fun onConnectionStateChange(g: BluetoothGatt, status: Int, newState: Int) {
@@ -66,7 +81,7 @@ class GattSession(
                 val error = GattException(errorText(status))
                 connectWaiter?.completeExceptionally(error)
                 servicesWaiter?.completeExceptionally(error)
-                pending?.completeExceptionally(error)
+                pending?.deferred?.completeExceptionally(error)
             }
         }
 
@@ -78,16 +93,18 @@ class GattSession(
             }
         }
 
+        // Some stacks also call this spontaneously (peer-initiated exchange): only a pending MTU
+        // request takes it.
         override fun onMtuChanged(g: BluetoothGatt, mtu: Int, status: Int) {
-            pending?.complete(Result(status, mtu = mtu))
+            pending?.completeIf(OpKind.MTU, null, Result(status, mtu = mtu))
         }
 
         override fun onDescriptorWrite(g: BluetoothGatt, descriptor: BluetoothGattDescriptor, status: Int) {
-            pending?.complete(Result(status))
+            pending?.completeIf(OpKind.DESCRIPTOR, descriptor.characteristic?.uuid, Result(status))
         }
 
         override fun onCharacteristicWrite(g: BluetoothGatt, characteristic: BluetoothGattCharacteristic, status: Int) {
-            pending?.complete(Result(status))
+            pending?.completeIf(OpKind.WRITE, characteristic.uuid, Result(status))
         }
 
         override fun onCharacteristicRead(
@@ -96,13 +113,13 @@ class GattSession(
             value: ByteArray,
             status: Int,
         ) {
-            pending?.complete(Result(status, value.copyOf()))
+            pending?.completeIf(OpKind.READ, characteristic.uuid, Result(status, value.copyOf()))
         }
 
         @Deprecated("Legacy callback for API < 33")
         @Suppress("DEPRECATION")
         override fun onCharacteristicRead(g: BluetoothGatt, characteristic: BluetoothGattCharacteristic, status: Int) {
-            pending?.complete(Result(status, characteristic.value?.copyOf()))
+            pending?.completeIf(OpKind.READ, characteristic.uuid, Result(status, characteristic.value?.copyOf()))
         }
 
         override fun onCharacteristicChanged(
@@ -110,14 +127,14 @@ class GattSession(
             characteristic: BluetoothGattCharacteristic,
             value: ByteArray,
         ) {
-            _notifications.tryEmit(GattNotification(characteristic.uuid, value.copyOf()))
+            _notifications.trySend(GattNotification(characteristic.uuid, value.copyOf()))
         }
 
         @Deprecated("Legacy callback for API < 33")
         @Suppress("DEPRECATION")
         override fun onCharacteristicChanged(g: BluetoothGatt, characteristic: BluetoothGattCharacteristic) {
             val value = characteristic.value ?: return
-            _notifications.tryEmit(GattNotification(characteristic.uuid, value.copyOf()))
+            _notifications.trySend(GattNotification(characteristic.uuid, value.copyOf()))
         }
     }
 
@@ -162,33 +179,48 @@ class GattSession(
         }
     }
 
-    /** Runs one GATT operation: [start] must return true when the request was accepted. */
-    private suspend fun op(start: (BluetoothGatt) -> Boolean): Result? = opMutex.withLock {
-        val g = gatt ?: return@withLock null
-        if (!_connected.value || closed) return@withLock null
-        val waiter = CompletableDeferred<Result>()
-        pending = waiter
-        try {
-            val started = try {
-                start(g)
-            } catch (e: SecurityException) {
-                false
-            }
-            if (!started) return@withLock null
-            withTimeoutOrNull(opTimeoutMs) {
-                try {
-                    waiter.await()
-                } catch (e: GattException) {
-                    null
+    /**
+     * Runs one GATT operation: [start] must return true when the request was accepted. When its
+     * callback does not arrive within [opTimeoutMs] the stack is wedged (it would refuse every
+     * later operation): the connection is dropped and [GattException] is thrown.
+     */
+    private suspend fun op(kind: OpKind, uuid: UUID?, start: (BluetoothGatt) -> Boolean): Result? {
+        var timedOut = false
+        val result = opMutex.withLock {
+            val g = gatt ?: return@withLock null
+            if (!_connected.value || closed) return@withLock null
+            val waiter = CompletableDeferred<Result>()
+            pending = PendingOp(kind, uuid, waiter)
+            try {
+                val started = try {
+                    start(g)
+                } catch (e: SecurityException) {
+                    false
                 }
+                if (!started) return@withLock null
+                val r = withTimeoutOrNull(opTimeoutMs) {
+                    try {
+                        waiter.await()
+                    } catch (e: GattException) {
+                        null
+                    }
+                }
+                if (r == null && !waiter.isCompleted) timedOut = true
+                r
+            } finally {
+                pending = null
             }
-        } finally {
-            pending = null
         }
+        if (timedOut) {
+            failureText = "La báscula dejó de responder"
+            close()
+            throw GattException("La báscula dejó de responder")
+        }
+        return result
     }
 
     override suspend fun requestMtu(mtu: Int): Int? =
-        op { it.requestMtu(mtu) }?.takeIf { it.status == BluetoothGatt.GATT_SUCCESS }?.mtu
+        op(OpKind.MTU, null) { it.requestMtu(mtu) }?.takeIf { it.status == BluetoothGatt.GATT_SUCCESS }?.mtu
 
     private fun characteristic(service: UUID, characteristic: UUID): BluetoothGattCharacteristic? =
         gatt?.getService(service)?.getCharacteristic(characteristic)
@@ -226,7 +258,7 @@ class GattSession(
                 BluetoothGattDescriptor.ENABLE_INDICATION_VALUE
             else -> BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE
         }
-        val result = op { gg -> writeDescriptorCompat(gg, descriptor, value) }
+        val result = op(OpKind.DESCRIPTOR, characteristic) { gg -> writeDescriptorCompat(gg, descriptor, value) }
         return result?.status == BluetoothGatt.GATT_SUCCESS
     }
 
@@ -241,13 +273,13 @@ class GattSession(
             supportsNoResponse -> BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE
             else -> return false
         }
-        val result = op { g -> writeCharacteristicCompat(g, ch, value, type) }
+        val result = op(OpKind.WRITE, characteristic) { g -> writeCharacteristicCompat(g, ch, value, type) }
         return result?.status == BluetoothGatt.GATT_SUCCESS
     }
 
     override suspend fun read(service: UUID, characteristic: UUID): ByteArray? {
         val ch = characteristic(service, characteristic) ?: return null
-        val result = op { g -> g.readCharacteristic(ch) } ?: return null
+        val result = op(OpKind.READ, characteristic) { g -> g.readCharacteristic(ch) } ?: return null
         return result.value.takeIf { result.status == BluetoothGatt.GATT_SUCCESS }
     }
 
@@ -287,7 +319,8 @@ class GattSession(
         val error = GattException("Conexión cerrada")
         connectWaiter?.completeExceptionally(error)
         servicesWaiter?.completeExceptionally(error)
-        pending?.completeExceptionally(error)
+        pending?.deferred?.completeExceptionally(error)
+        _notifications.close()
         try {
             g.disconnect()
         } catch (_: SecurityException) {

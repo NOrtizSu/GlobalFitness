@@ -76,6 +76,7 @@ class SoehnleDriver : GattScaleDriver() {
             setNotifyOn(svcUserData, chrUcp)
             val index = settingsGetInt(KEY_INDEX, -1)
             if (index == -1) {
+                registrations++
                 writeTo(svcUserData, chrUcp, byteArrayOf(0x01, 0x00, 0x00))
             } else {
                 writeTo(svcUserData, chrUcp, byteArrayOf(0x02, index.toByte(), 0x00, 0x00))
@@ -97,18 +98,30 @@ class SoehnleDriver : GattScaleDriver() {
             }
         }
 
+        private var registrations = 0
+
         private fun handleUcp(value: ByteArray) {
             if (value.size < 3 || value[0] != 0x20.toByte()) return
             when (value[1].toInt()) {
                 0x01 -> if (value[2] == 0x01.toByte() && value.size >= 4) {
-                    settingsPutInt(KEY_INDEX, Bytes.u8(value, 3))
+                    val index = Bytes.u8(value, 3)
+                    settingsPutInt(KEY_INDEX, index)
+                    // Consent with the new index, then the profile the scale computes with.
+                    writeTo(svcUserData, chrUcp, byteArrayOf(0x02, index.toByte(), 0x00, 0x00))
+                    writeTo(svcUserData, chrAge, byteArrayOf(user.ageAt(env.wallClock()).toByte()))
+                    writeTo(svcUserData, chrGender, byteArrayOf(if (user.isMale) 0x00 else 0x01))
+                    writeTo(svcUserData, chrHeight, Bytes.toInt16Le(user.heightCm.toInt()))
                     userInfo("Usuario creado en la báscula: súbete para la medición de referencia")
                 } else {
                     userInfo("La báscula no pudo crear el usuario (¿sin huecos libres?)")
                 }
                 0x02 -> if (value[2] != 0x01.toByte()) {
                     settingsRemove(KEY_INDEX)
-                    writeTo(svcUserData, chrUcp, byteArrayOf(0x01, 0x00, 0x00))
+                    if (registrations++ < MAX_REGISTRATIONS) {
+                        writeTo(svcUserData, chrUcp, byteArrayOf(0x01, 0x00, 0x00))
+                    } else {
+                        userInfo("La báscula rechazó el usuario: vuelve a intentarlo más tarde")
+                    }
                 }
             }
         }
@@ -134,14 +147,16 @@ class SoehnleDriver : GattScaleDriver() {
                 sample.impedance = imp50
                 sample.waterPercent = lib.getWater(weight, imp50)
                 sample.fatPercent = lib.getFat(weight, imp50)
-                if (imp5 > 0f) sample.musclePercent = lib.getMuscle(weight, imp50, imp5)
+                if (imp5 > 0f) sample.skeletalMusclePercent = lib.getMuscle(weight, imp50, imp5)
                 sample.computedWith = FormulaLib.SOEHNLE
             }
             publish(sample)
+            finishSoon(5_000L)
         }
 
         companion object {
             const val KEY_INDEX = "soehnle_index"
+            private const val MAX_REGISTRATIONS = 1
         }
     }
 }
@@ -245,7 +260,7 @@ class TrisaBodyAnalyzeDriver : GattScaleDriver() {
                 val lib = TrisaBodyAnalyzeLib(if (isMale) 1 else 0, age, heightCm)
                 sample.fatPercent = lib.getFat(weight, impedance)
                 sample.waterPercent = lib.getWater(weight, impedance)
-                sample.musclePercent = lib.getMuscle(weight, impedance)
+                sample.skeletalMusclePercent = lib.getMuscle(weight, impedance)
                 sample.boneKg = lib.getBone(weight, impedance)
                 // The raw resistance is stored (as openScale does); composition derives from it.
                 sample.impedance = r2

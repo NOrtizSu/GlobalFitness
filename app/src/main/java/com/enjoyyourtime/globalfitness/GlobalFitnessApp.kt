@@ -59,7 +59,7 @@ class AppContainer(context: Context) {
         scope = appScope,
         wallClock = System::currentTimeMillis,
         elapsedClock = SystemClock::elapsedRealtime,
-    )
+    ).also { monitor -> appScope.launch { monitor.gattConnecting.collect { scanner.setPaused(it) } } }
 
     /** Experimental direct Xiaomi Smart Band 9 mode; created on first use. */
     val band by lazy {

@@ -119,8 +119,11 @@ class ESCS20MDriver : GattScaleDriver() {
 
     override fun match(adv: AdvertisementInfo): MatchConfidence? {
         val n = adv.nameOrEmpty.lowercase(Locale.ROOT)
+        // Firmware that broadcasts complete QN frames is read passively (as openScale's order does).
+        val broadcasts = QnBroadcastDriver.parseFrame(adv.manufacturer(QnBroadcastDriver.COMPANY_ID)) != null
         return when {
-            n.contains("es-cs20m") || n.contains("es-32md") || n.startsWith("113360_") -> MatchConfidence.HIGH
+            (n.contains("es-cs20m") || n.contains("es-32md") || n.startsWith("113360_")) && !broadcasts -> MatchConfidence.HIGH
+            n.contains("es-cs20m") || n.contains("es-32md") || n.startsWith("113360_") -> MatchConfidence.MEDIUM
             adv.serviceUuids.contains(SVC) -> MatchConfidence.MEDIUM
             else -> null
         }
@@ -292,7 +295,10 @@ class RenphoES26BBDriver : GattScaleDriver() {
             if (characteristic != chrNotify || data.isEmpty()) return
             if (Bytes.sum8(data, 0, data.size - 1) != Bytes.u8(data, data.size - 1)) return
             when (Bytes.u8(data, 2)) {
-                0x14 -> parseLiveFrame(data)?.let { (w, r) -> publish(sample(w, r, null)) }
+                0x14 -> parseLiveFrame(data)?.let { (w, r) ->
+                    publish(sample(w, r, null))
+                    finishSoon(5_000L) // offline records may still follow
+                }
                 0x15 -> parseOfflineRecord(data)?.let { (w, r, ago) ->
                     publish(sample(w, r, env.wallClock() - ago * 1000L).apply { fromHistory = true })
                     val ack = byteArrayOf(0x55, 0xAA.toByte(), 0x95.toByte(), 0x00, 0x01, 0x01, 0x00)
@@ -394,7 +400,11 @@ class QnDriver : GattScaleDriver() {
         val n = adv.nameOrEmpty.lowercase(Locale.ROOT)
         val hasQn = adv.hasService16(0xFFE0) || adv.hasService16(0xFFF0)
         val qnName = n.contains("qn-scale") || n.contains("renpho-scale") || n.contains("seb-scale") || n == "fit plus"
-        return if (hasQn && (qnName || adv.hasService16(0xAE00))) MatchConfidence.HIGH else null
+        return when {
+            hasQn && qnName -> MatchConfidence.HIGH
+            hasQn && adv.hasService16(0xAE00) -> MatchConfidence.MEDIUM
+            else -> null
+        }
     }
 
     override fun newProtocol(adv: AdvertisementInfo?): GattProtocol = Protocol()
@@ -504,6 +514,7 @@ class QnDriver : GattScaleDriver() {
 
         private fun publishQn(kg: Float, r1: Float) {
             val ohm = if (universal) r1 / 10f else r1
+            finishSoon()
             publish(ScaleSample().apply {
                 weightKg = kg
                 if (ohm > 0f) {

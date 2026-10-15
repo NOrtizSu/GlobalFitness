@@ -41,6 +41,7 @@ data class CsvImportRow(
     val formulaLib: FormulaLib? = null,
     val deviceDriver: String? = null,
     val deviceAddress: String? = null,
+    val impedanceLow: Int? = null,
 )
 
 data class CsvParseResult(val rows: List<CsvImportRow>, val invalidLines: Int)
@@ -76,6 +77,8 @@ object CsvCodec {
     const val COL_DEV_LBM = "disp_masa_magra_kg"
     const val COL_DEV_PROTEIN = "disp_proteina_pct"
     const val COL_DEV_METABOLIC_AGE = "disp_edad_metabolica"
+    const val COL_DEV_SKELETAL = "disp_musculo_esqueletico_pct"
+    const val COL_IMPEDANCE_LOW = "impedancia_baja_ohm"
 
     val HEADER = listOf(
         COL_PROFILE, COL_SEX, COL_BIRTH, COL_HEIGHT, COL_TARGET,
@@ -85,6 +88,7 @@ object CsvCodec {
         COL_COMPOSITION_SOURCE, COL_FORMULA, COL_DRIVER, COL_ADDRESS,
         COL_DEV_FAT, COL_DEV_WATER, COL_DEV_MUSCLE_PCT, COL_DEV_MUSCLE_KG, COL_DEV_BONE,
         COL_DEV_VISCERAL, COL_DEV_BMR, COL_DEV_LBM, COL_DEV_PROTEIN, COL_DEV_METABOLIC_AGE,
+        COL_DEV_SKELETAL, COL_IMPEDANCE_LOW,
     )
 
     private const val SEP = ';'
@@ -122,7 +126,7 @@ object CsvCodec {
                 m.formulaLib?.id.orEmpty(),
                 m.deviceDriver.orEmpty(),
                 m.deviceAddress.orEmpty(),
-            ) + deviceFields(m.composition)
+            ) + deviceFields(m.composition) + listOf(m.impedanceLow?.toString().orEmpty())
             appendLine(fields.joinToString(SEP.toString()) { quote(it) })
         }
     }
@@ -169,12 +173,14 @@ object CsvCodec {
                         lbmKg = col(COL_DEV_LBM)?.let { parseNumber(it) },
                         proteinPercent = col(COL_DEV_PROTEIN)?.let { parseNumber(it) },
                         metabolicAge = col(COL_DEV_METABOLIC_AGE)?.let { parseNumber(it) },
+                        skeletalMusclePercent = col(COL_DEV_SKELETAL)?.let { parseNumber(it) },
                     ),
                 ),
                 compositionSource = CompositionSource.fromCode(col(COL_COMPOSITION_SOURCE)),
                 formulaLib = FormulaLib.fromId(col(COL_FORMULA)),
                 deviceDriver = col(COL_DRIVER),
                 deviceAddress = col(COL_ADDRESS),
+                impedanceLow = col(COL_IMPEDANCE_LOW)?.let { parseNumber(it) }?.toInt()?.takeIf { it > 0 },
             )
         }
         return CsvParseResult(rows, invalid)
@@ -191,9 +197,11 @@ object CsvCodec {
         num(d?.lbmKg, 2),
         num(d?.proteinPercent, 2),
         num(d?.metabolicAge, 0),
+        num(d?.skeletalMusclePercent, 2),
     )
 
-    fun parseNumber(s: String): Double? = s.trim().replace(',', '.').toDoubleOrNull()
+    /** Finite numbers only ("NaN" / "Infinity" are rejected). */
+    fun parseNumber(s: String): Double? = s.trim().replace(',', '.').toDoubleOrNull()?.takeIf { it.isFinite() }
 
     /** Local date-time formats besides ISO, including what Spanish Excel writes back. */
     private val DATE_TIME_FORMATS = listOf(

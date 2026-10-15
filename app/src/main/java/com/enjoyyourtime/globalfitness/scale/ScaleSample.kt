@@ -23,6 +23,9 @@ class ScaleSample {
     var bmrKcal: Float? = null
     var proteinPercent: Float? = null
     var metabolicAge: Float? = null
+
+    /** Skeletal muscle % (not the total muscle of [musclePercent]). */
+    var skeletalMusclePercent: Float? = null
     var impedance: Float? = null
     var impedanceLow: Float? = null
     var heartRate: Int? = null
@@ -51,6 +54,7 @@ class ScaleSample {
         if (!usable(bmrKcal)) bmrKcal = other.bmrKcal
         if (!usable(proteinPercent)) proteinPercent = other.proteinPercent
         if (!usable(metabolicAge)) metabolicAge = other.metabolicAge
+        if (!usable(skeletalMusclePercent)) skeletalMusclePercent = other.skeletalMusclePercent
         if (!usable(impedance)) impedance = other.impedance
         if (!usable(impedanceLow)) impedanceLow = other.impedanceLow
         if ((heartRate ?: 0) <= 0) heartRate = other.heartRate
@@ -63,19 +67,23 @@ class ScaleSample {
 
     fun copy(): ScaleSample = ScaleSample().also { it.mergeWith(this); it.userId = userId; it.dateTime = dateTime }
 
-    /** Composition values present in this sample (null when none). */
+    /**
+     * Composition values present in this sample (null when none). Scale-reported values outside
+     * human ranges (e.g. SIG "unsuccessful" 0xFFFF fields) are dropped.
+     */
     fun composition(): DeviceComposition? = DeviceComposition.of(
         DeviceComposition(
-            fatPercent = d(fatPercent),
-            waterPercent = d(waterPercent),
-            musclePercent = d(musclePercent),
+            fatPercent = d(fatPercent)?.takeIf { it in 2.0..75.0 },
+            waterPercent = d(waterPercent)?.takeIf { it in 20.0..80.0 },
+            musclePercent = d(musclePercent)?.takeIf { it in 10.0..90.0 },
             muscleKg = d(muscleKg),
-            boneKg = d(boneKg),
+            boneKg = d(boneKg)?.takeIf { it in 0.5..8.0 },
             visceralFat = d(visceralFat),
             bmrKcal = d(bmrKcal),
             lbmKg = d(lbmKg),
             proteinPercent = d(proteinPercent),
             metabolicAge = d(metabolicAge),
+            skeletalMusclePercent = d(skeletalMusclePercent)?.takeIf { it in 5.0..70.0 },
         ),
     )
 
@@ -88,9 +96,17 @@ class ScaleSample {
         val w = weightKg ?: return null
         if (!w.isFinite() || w <= 0f || w > MAX_WEIGHT_KG) return null
         val weight = w.toDouble()
-        val measuredAt = ScaleReading.plausibleTime(dateTime, receivedAt)
+        val scaleTime = dateTime
+        val plausible = ScaleReading.plausibleTime(scaleTime, receivedAt)
+        // A weighing taken just now keeps the phone's time when the scale clock is clearly off.
+        val measuredAt = if (!fromHistory && scaleTime != null && kotlin.math.abs(scaleTime - receivedAt) > ScaleReading.LIVE_CLOCK_TOLERANCE_MS) {
+            receivedAt
+        } else {
+            plausible
+        }
         val comp = composition()
         val imp = impedance?.takeIf { it.isFinite() && it > 0f }?.let { Math.round(it) }
+        val impLow = impedanceLow?.takeIf { it.isFinite() && it > 0f }?.let { Math.round(it) }
         val lib = computedWith ?: impedanceLib ?: formulaLib
         val source = when {
             comp != null && computedWith != null -> CompositionSource.Formula(computedWith!!)
@@ -99,12 +115,15 @@ class ScaleSample {
             else -> CompositionSource.None
         }
         val addr = env.address.orEmpty()
-        val keyTime = if (dateTime != null && measuredAt == dateTime) measuredAt / 1000 else receivedAt
+        // The raw scale timestamp identifies a record even when the scale clock is wrong, so a
+        // history downloaded again is recognised; without one, each reception is its own weighing.
+        val keyTime = if (scaleTime != null) scaleTime / 1000 else receivedAt
         val key = "${env.driverId}|$addr|$keyTime|${ScaleReading.grams(weight)}"
         return ScaleReading(
             weightKg = weight,
             impedance = imp,
             composition = comp,
+            impedanceLow = impLow,
             measuredAtMillis = measuredAt,
             receivedAtMillis = receivedAt,
             dedupeKey = key,

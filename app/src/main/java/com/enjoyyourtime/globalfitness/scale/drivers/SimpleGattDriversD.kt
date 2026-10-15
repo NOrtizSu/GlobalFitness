@@ -55,6 +55,7 @@ class FitTrackDaraDriver : GattScaleDriver() {
         private val chrCfg = uuid16(0xFFB1)
         private val chrData = uuid16(0xFFB2)
         private var pendingKg = 0f
+        private var stableKg = 0f
         private var stableCount = 0
         private var lastDeci = -1
         private var published = false
@@ -100,12 +101,15 @@ class FitTrackDaraDriver : GattScaleDriver() {
             live(pendingKg)
             stableCount = if (deci == lastDeci) stableCount + 1 else 1
             lastDeci = deci
-            if (stable || stableCount >= 4) armGrace()
+            if (stable || stableCount >= 4) {
+                stableKg = pendingKg
+                armGrace()
+            }
         }
 
         private fun armGrace() {
             if (grace != null || published) return
-            grace = schedule(10_000) { if (!published && pendingKg > 0f) publishFinal() }
+            grace = schedule(10_000) { if (!published) publishFinal() }
         }
 
         private fun applyIndex(idx: Int, v: Int) {
@@ -120,9 +124,10 @@ class FitTrackDaraDriver : GattScaleDriver() {
             }
         }
 
+        /** Only a weight the scale locked (or the composition frame's) is ever published. */
         private fun publishFinal() {
             if (published) return
-            val kg = pending.weightKg?.takeIf { it > 0f } ?: pendingKg
+            val kg = pending.weightKg?.takeIf { it > 0f } ?: stableKg
             if (kg <= 0f) return
             published = true
             grace?.cancel()
@@ -266,6 +271,7 @@ class RelaxmedicDriver : GattScaleDriver() {
                 sample.waterPercent = r.water
                 sample.musclePercent = r.musclePercent
                 sample.muscleKg = r.muscleKg
+                sample.skeletalMusclePercent = r.skeletalMuscle
                 sample.boneKg = r.boneKg
                 sample.visceralFat = r.visceralFat.toFloat()
                 sample.proteinPercent = r.protein
@@ -480,7 +486,7 @@ class DrTrustSSW532Driver : GattScaleDriver() {
                 weightKg = pendingKg
                 fatPercent = fat.coerceIn(0f, 75f)
                 waterPercent = lib.totalBodyWaterPercentage.toFloat().coerceIn(0f, 80f)
-                musclePercent = lib.skeletalMusclePercentage.toFloat().coerceIn(0f, 99f)
+                skeletalMusclePercent = lib.skeletalMusclePercentage.toFloat().coerceIn(0f, 99f)
                 boneKg = lib.boneMassKg.toFloat().coerceIn(0f, 10f)
                 bmrKcal = lib.basalMetabolicRate.toFloat().coerceIn(0f, 5000f)
                 lbmKg = lib.fatFreeMassKg.toFloat().coerceIn(0f, 150f)
@@ -544,7 +550,8 @@ class TaylorBIADriver : GattScaleDriver() {
 
     override fun match(adv: AdvertisementInfo): MatchConfidence? {
         val model = modelFor(adv.nameOrEmpty) ?: return null
-        if (model == Model.ALPHA_PRO3 && !adv.hasService16(0xFFB0)) return null
+        val generic = model == Model.ALPHA_PRO3 || adv.upperName.contains("BIA SCALE")
+        if (generic && !adv.hasService16(0xFFB0)) return null
         return MatchConfidence.HIGH
     }
 
@@ -555,6 +562,7 @@ class TaylorBIADriver : GattScaleDriver() {
         private val chrCfg = uuid16(0xFFB1)
         private val chrData = uuid16(0xFFB2)
         private var pendingGrams = 0
+        private var stableGrams = 0
         private var stableCount = 0
         private var published = false
         private var fallback: Cancellable? = null
@@ -576,7 +584,7 @@ class TaylorBIADriver : GattScaleDriver() {
 
         override fun onDisconnected() {
             fallback?.cancel()
-            if (model == Model.TAYLOR_BIA && !published && pendingGrams > 0) publishFinal(pendingGrams, 0)
+            if (model == Model.TAYLOR_BIA && !published && stableGrams > 0) publishFinal(stableGrams, 0)
         }
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {
@@ -614,10 +622,11 @@ class TaylorBIADriver : GattScaleDriver() {
             if (f.weightGrams <= 0) return
             stableCount = if (f.weightGrams == pendingGrams) stableCount + 1 else 1
             pendingGrams = f.weightGrams
+            if (stableCount >= 2) stableGrams = f.weightGrams
             if (f.locked || stableCount >= 4) {
                 if (publishFinal(f.weightGrams, 0)) requestDisconnect()
             } else if (fallback == null && !published) {
-                fallback = schedule(8_000) { if (!published && pendingGrams > 0 && publishFinal(pendingGrams, 0)) requestDisconnect() }
+                fallback = schedule(8_000) { if (!published && stableGrams > 0 && publishFinal(stableGrams, 0)) requestDisconnect() }
             }
         }
 
@@ -713,8 +722,10 @@ class MgbDriver : GattScaleDriver() {
 
     override fun match(adv: AdvertisementInfo): MatchConfidence? {
         val n = adv.nameOrEmpty.lowercase(Locale.ROOT)
+        val known = n.startsWith("swan") || n == "icomon" || n == "yg"
         return when {
-            n.startsWith("swan") || n == "icomon" || n == "yg" -> MatchConfidence.HIGH
+            known && adv.hasService16(0xFFB0) -> MatchConfidence.HIGH
+            known -> MatchConfidence.MEDIUM
             adv.hasService16(0xFFB0) -> MatchConfidence.LOW
             else -> null
         }

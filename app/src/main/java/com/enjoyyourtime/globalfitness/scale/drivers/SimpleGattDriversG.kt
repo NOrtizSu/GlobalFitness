@@ -3,6 +3,7 @@ package com.enjoyyourtime.globalfitness.scale.drivers
 
 import com.enjoyyourtime.globalfitness.scale.AdvertisementInfo
 import com.enjoyyourtime.globalfitness.scale.Bytes
+import com.enjoyyourtime.globalfitness.scale.Cancellable
 import com.enjoyyourtime.globalfitness.scale.FormulaLib
 import com.enjoyyourtime.globalfitness.scale.GattProtocol
 import com.enjoyyourtime.globalfitness.scale.GattScaleDriver
@@ -49,13 +50,25 @@ class EtekcityESF551Driver : GattScaleDriver() {
             userInfo("Súbete a la báscula")
         }
 
+        private var weightOnly: Cancellable? = null
+        private var done = false
+
         override fun onNotification(characteristic: UUID, data: ByteArray) {
-            if (characteristic != chrNotify) return
+            if (characteristic != chrNotify || done) return
             val frame = parse(data) ?: return
-            if (!frame.final) {
-                live(frame.weightKg)
+            if (frame.final) {
+                finish(frame)
                 return
             }
+            live(frame.weightKg)
+            // Locked without impedance (shoes, no contact): weight only, unless the impedance follows.
+            if (frame.locked && weightOnly == null) weightOnly = schedule(WEIGHT_ONLY_WAIT_MS) { finish(frame) }
+        }
+
+        private fun finish(frame: Frame) {
+            if (done) return
+            done = true
+            weightOnly?.cancel()
             publish(ScaleSample().apply {
                 weightKg = frame.weightKg
                 if (frame.impedance in 1 until 1500) impedance = frame.impedance.toFloat()
@@ -64,9 +77,11 @@ class EtekcityESF551Driver : GattScaleDriver() {
         }
     }
 
-    data class Frame(val weightKg: Float, val impedance: Int, val final: Boolean)
+    data class Frame(val weightKg: Float, val impedance: Int, val final: Boolean, val locked: Boolean = final)
 
     companion object {
+        private const val WEIGHT_ONLY_WAIT_MS = 4_000L
+
         fun unitCommand(unit: ScaleUnit): ByteArray {
             val u = unit.ordinal
             return byteArrayOf(0xA5.toByte(), 0x22, 0x03, 0x05, 0x00, (43 - u).toByte(), 0x01, 0x63, 0xA1.toByte(), 0x00, u.toByte())
@@ -81,7 +96,8 @@ class EtekcityESF551Driver : GattScaleDriver() {
             }
             val kg = Bytes.fromUnsignedInt24Le(d, 10) / 1000f
             val impedance = Bytes.fromUnsignedInt16Le(d, 13)
-            return Frame(kg, impedance, d[20] == 1.toByte() && impedance > 0)
+            val locked = d[20] == 1.toByte()
+            return Frame(kg, impedance, locked && impedance > 0, locked)
         }
     }
 }
@@ -559,6 +575,12 @@ class HuaweiAh100Driver : GattScaleDriver() {
             val key = magicKey ?: return false
             val plain = runCatching { HuaweiFaa0.aesCtr(HuaweiFaa0.macXor(first.copyOfRange(3, first.size), mac), key) }.getOrNull() ?: return false
             val record = HuaweiFaa0.parseRecord(plain) ?: return false
+            if (record.userId != (user.appUserId and 0xFF)) {
+                // Another person's record: acknowledged (so history moves on) but not imported.
+                cmd(HuaweiFaa0.CMD_FAT_ACK, byteArrayOf(0x00))
+                if (type == HuaweiFaa0.NTFY_HISTORY_RECORD) cmd(HuaweiFaa0.CMD_GET_RECORD, byteArrayOf(0x01))
+                return true
+            }
             lastWeightTenths = (record.weightKg * 10f).toInt()
             publish(HuaweiFaa0.sample(record, requirePlausibleYear = false).apply { fromHistory = type == HuaweiFaa0.NTFY_HISTORY_RECORD })
             cmd(HuaweiFaa0.CMD_FAT_ACK, byteArrayOf(0x00))
@@ -655,6 +677,12 @@ class HuaweiCh100sDriver : GattScaleDriver() {
                 return HuaweiFaa0.macXor(runCatching { HuaweiFaa0.aesCtr(raw, HuaweiFaa0.INITIAL_KEY) }.getOrDefault(raw), mac)
             }
             val record = HuaweiFaa0.parseRecord(decrypt(first) + decrypt(second)) ?: return
+            if (record.userId != (user.appUserId and 0xFF)) {
+                // Another person's record: acknowledged (so history moves on) but not imported.
+                plain(HuaweiFaa0.CMD_FAT_ACK, byteArrayOf(0x00))
+                if (type == HuaweiFaa0.NTFY_HISTORY_RECORD) plain(HuaweiFaa0.CMD_GET_RECORD, byteArrayOf(0x01))
+                return
+            }
             lastWeightTenths = (record.weightKg * 10f).toInt()
             publish(HuaweiFaa0.sample(record, requirePlausibleYear = true).apply { fromHistory = type == HuaweiFaa0.NTFY_HISTORY_RECORD })
             plain(HuaweiFaa0.CMD_FAT_ACK, byteArrayOf(0x00))

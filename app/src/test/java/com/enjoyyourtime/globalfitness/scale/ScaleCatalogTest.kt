@@ -105,7 +105,7 @@ class ScaleCatalogTest {
         adv("VIVA") to "omron_wlp",
         adv("BLEsmart_0001000C0080E1A2B3C4") to "omron_wlp",
         adv(services = listOf(uuid16(0x1320))) to "yunmai_x",
-        adv(manufacturer = mapOf(0xFFFF to hex("AABB00000000"))) to "qn_broadcast",
+        adv(manufacturer = mapOf(0xFFFF to hex("aabb00005e00530172000000ffffff1500761b510e032300"))) to "qn_broadcast",
         adv("ADV", manufacturer = mapOf(0x20CA to ByteArray(16))) to "okok_broadcast",
         adv("ADV", manufacturer = mapOf(0x11CA to ByteArray(16))) to "okok_broadcast",
         adv("ADV", manufacturer = mapOf(0xF0FF to ByteArray(16))) to "okok_broadcast",

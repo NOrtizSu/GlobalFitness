@@ -79,7 +79,10 @@ fun DevicesScreen(
 
     TabPage(title = "Dispositivos") {
         item { SectionTitle("Básculas") }
-        scaleDevicesSection(scales, dialogs, onUse = scalesVm::useDetected, onSaveConfig = scalesVm::setConfig)
+        scaleDevicesSection(
+            scales, dialogs, onUse = scalesVm::useDetected, onSaveConfig = scalesVm::setConfig,
+            onAcceptSuggestion = scalesVm::acceptSuggestion, onDeclineSuggestion = scalesVm::declineSuggestion,
+        )
 
         item { SectionTitle("Pulsera") }
         item { BandCard(band, onOpenBand) }

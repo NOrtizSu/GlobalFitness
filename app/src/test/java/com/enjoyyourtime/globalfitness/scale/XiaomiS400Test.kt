@@ -67,7 +67,13 @@ class XiaomiS400Test {
         val header = byteArrayOf(0x48, 0x59, 0xD5.toByte(), 0x3B, counter.toByte())
         val extCounter = byteArrayOf(0x01, 0x00, 0x00)
         val word = (weightRaw and 0x7FF) or ((hrRaw and 0x7F) shl 11) or (impedanceRaw shl 18)
-        val plain = ByteArray(12).also { Bytes.toInt32Le(it, 4, word.toLong() and 0xFFFFFFFFL) }
+        val plain = ByteArray(12).also {
+            it[0] = 0x16
+            it[1] = 0x6E
+            it[2] = 0x09 // object 0x6E16, 9 bytes
+            it[3] = 0x01 // scale profile
+            Bytes.toInt32Le(it, 4, word.toLong() and 0xFFFFFFFFL)
+        }
         val nonce = Bytes.fromHex(macAddress).reversedArray() + header.copyOfRange(2, 5) + extCounter
         val sealed = AesCcm.encrypt(Bytes.fromHex(bindKey), nonce, plain, byteArrayOf(0x11), 4)
         return header + sealed.copyOfRange(0, 12) + extCounter + sealed.copyOfRange(12, 16)

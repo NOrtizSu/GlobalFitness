@@ -76,9 +76,11 @@ object Bytes {
 
     fun isHex(s: String): Boolean = s.isNotEmpty() && s.all { it.isDigit() || it.lowercaseChar() in 'a'..'f' }
 
-    /** 16-bit Bluetooth SIG UUID on the base UUID, e.g. `uuid16(0x181D)`. */
-    fun uuid16(short: Int): UUID =
-        UUID.fromString(String.format(Locale.ROOT, "0000%04x-0000-1000-8000-00805f9b34fb", short))
+    private const val BASE_UUID_LSB = -0x7fffff7fa064cb05L // 0x800000805F9B34FB
+    private const val BASE_UUID_MSB_LOW = 0x1000L
+
+    /** 16-bit Bluetooth SIG UUID on the base UUID, e.g. `uuid16(0x181D)` (no string parsing). */
+    fun uuid16(short: Int): UUID = UUID(((short.toLong() and 0xFFFF) shl 32) or BASE_UUID_MSB_LOW, BASE_UUID_LSB)
 
     /** XOR of all bytes in [from, to). */
     fun xor(data: ByteArray, from: Int = 0, to: Int = data.size): Int {

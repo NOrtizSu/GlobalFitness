@@ -3,6 +3,7 @@ package com.enjoyyourtime.globalfitness.scale.drivers
 
 import com.enjoyyourtime.globalfitness.scale.AdvertisementInfo
 import com.enjoyyourtime.globalfitness.scale.Bytes
+import com.enjoyyourtime.globalfitness.scale.ConfigField
 import com.enjoyyourtime.globalfitness.scale.GattProtocol
 import com.enjoyyourtime.globalfitness.scale.GattScaleDriver
 import com.enjoyyourtime.globalfitness.scale.MatchConfidence
@@ -22,7 +23,7 @@ class MedisanaBs44xDriver : GattScaleDriver() {
     override val id = "medisana_bs44x"
     override val displayName = "Medisana BS430 / BS440 / BS444"
     override val brand = "Medisana"
-    override val capabilities = ScaleCapabilities(deviceComposition = true)
+    override val capabilities = ScaleCapabilities(deviceComposition = true, history = true, config = listOf(ConfigField.userSlot(8)))
     override val keywords = listOf("BS430", "BS440", "BS444", "BS44x")
 
     override fun match(adv: AdvertisementInfo): MatchConfidence? {
@@ -58,12 +59,21 @@ class MedisanaBs44xDriver : GattScaleDriver() {
             userInfo("Súbete a la báscula")
         }
 
+        /** The app user's person number on the scale (configured slot, 1 by default). */
+        private val person: Int get() = user.userSlot
+
         override fun onNotification(characteristic: UUID, data: ByteArray) {
             when (characteristic) {
                 chrWeight -> parseWeight(data)
                 chrFeature -> {
                     parseFeature(data)
-                    current?.let { publish(it) }
+                    current?.let { m ->
+                        // Records older than a few minutes come from the scale memory.
+                        val t = m.dateTime
+                        if (t != null && env.wallClock() - t > HISTORY_AGE_MS) m.fromHistory = true
+                        publish(m)
+                        finishSoon(5_000L)
+                    }
                     current = null
                 }
             }
@@ -71,14 +81,24 @@ class MedisanaBs44xDriver : GattScaleDriver() {
 
         private fun parseWeight(d: ByteArray) {
             if (d.size < 9) return
-            val m = current ?: ScaleSample().also { current = it }
+            // Byte 13: person number; another person's weighing is never imported.
+            if (d.size > 13 && Bytes.u8(d, 13) != person) {
+                current = null
+                return
+            }
+            val m = ScaleSample().also { current = it }
             m.weightKg = Bytes.fromUnsignedInt16Le(d, 1) / 100.0f
             m.dateTime = mapTimestamp(Bytes.fromUnsignedInt32Le(d, 5)) * 1000
         }
 
         private fun parseFeature(d: ByteArray) {
             if (d.size < 16) return
-            val m = current ?: ScaleSample().also { current = it }
+            // Byte 5: person number.
+            if (Bytes.u8(d, 5) != person) {
+                current = null
+                return
+            }
+            val m = current ?: return
             m.fatPercent = tenth12(d, 8)
             m.waterPercent = tenth12(d, 10)
             m.musclePercent = tenth12(d, 12)
@@ -124,6 +144,7 @@ class MedisanaBs44xDriver : GattScaleDriver() {
         val SERVICE: UUID = uuid16(0x78B2)
         const val EPOCH_2010 = 1262304000L
         private const val KEY_EPOCH = "epoch_mode"
+        private const val HISTORY_AGE_MS = 5 * 60_000L
 
         fun predictEpoch(name: String): EpochMode? {
             val n = name.lowercase(Locale.ROOT)
