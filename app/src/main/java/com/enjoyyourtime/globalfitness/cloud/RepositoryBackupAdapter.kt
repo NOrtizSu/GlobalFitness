@@ -35,21 +35,20 @@ class RepositoryBackupAdapter(
 ) : BackupDataSource {
 
     override val changes: Flow<Unit> = merge(
-        repository.profiles.drop(1).map { },
+        repository.profile.drop(1).map { },
         repository.measurements.drop(1).map { },
-        settings.toleranceKg.drop(1).map { },
     )
 
     override suspend fun snapshot(): LocalSnapshot {
         repository.awaitLoaded()
         val owner = owner()
         val all = repository.measurements.value
-        val tolerance = settings.toleranceKg.value
         return withContext(Dispatchers.Default) {
             LocalSnapshot(
                 datasetKey = owner?.let { "profile:${it.id}:${it.createdAt}" } ?: "none",
                 profile = owner?.toRecord(),
-                settings = SettingsRecord(mapOf(PortableSettings.ASSIGNMENT_TOLERANCE_KG to tolerance), editedAt = 0L),
+                // Single-profile app: no portable settings left (the assignment tolerance is gone).
+                settings = SettingsRecord(emptyMap(), editedAt = 0L),
                 measurements = owner?.let { o -> all.filter { it.profileId == o.id }.map { it.toRecord() } }.orEmpty(),
                 devices = emptyList(),
             )
@@ -59,9 +58,6 @@ class RepositoryBackupAdapter(
     override suspend fun apply(remote: RemoteChanges) {
         repository.awaitLoaded()
         remote.profile?.let { applyProfile(it) }
-        (remote.settings?.values?.get(PortableSettings.ASSIGNMENT_TOLERANCE_KG) as? Number)?.let {
-            settings.setToleranceKg(it.toDouble())
-        }
 
         val owner = owner() ?: return
         val byId = HashMap<String, Measurement>()
@@ -77,15 +73,15 @@ class RepositoryBackupAdapter(
             when {
                 existing == null -> inserts += record.toImportRow(owner)
                 record.impedance != null && record.impedance != existing.impedance ->
-                    repository.setImpedance(existing.id, record.impedance)
+                    repository.updateScaleData(existing.copy(impedance = record.impedance))
             }
         }
         // One transaction for a whole restore. Rows the planner sees as duplicates are skipped.
         if (inserts.isNotEmpty()) repository.importRows(inserts, invalid = 0)
     }
 
-    /** The profile created at onboarding (oldest), standing in for the single user profile. */
-    private fun owner(): Profile? = repository.profiles.value.minWithOrNull(compareBy({ it.createdAt }, { it.id }))
+    /** The app's single user profile. */
+    private fun owner(): Profile? = repository.profile.value
 
     private suspend fun applyProfile(record: ProfileRecord) {
         val birthDate = try {
@@ -101,13 +97,8 @@ class RepositoryBackupAdapter(
             heightCm = record.heightCm,
             targetWeightKg = record.targetWeightKg,
         )
-        val owner = owner()
-        if (owner != null) {
-            repository.updateProfile(owner.id, draft)
-        } else {
-            val created = repository.createProfile(draft)
-            settings.setSelectedProfileId(created.id)
-        }
+        // Creates the single profile or updates it in place.
+        repository.saveProfile(draft)
     }
 
     private fun Profile.toRecord() = ProfileRecord(
