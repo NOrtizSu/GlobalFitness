@@ -13,3 +13,6 @@
 *.aab
 /dist/
 .omc/
+
+# Agent worktrees
+/.claude/worktrees/
