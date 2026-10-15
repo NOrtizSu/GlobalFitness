@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -79,7 +80,8 @@ private val BlockGap = 12.dp
 
 /**
  * "Cuerpo": metric trend chart with range, period stats, projection and composition, then the
- * history grouped by month. Tapping a row opens its detail sheet (with delete).
+ * history grouped by month. Tapping a row opens its detail sheet (with delete). [listState] is
+ * hoisted so the "Añadir peso manual" button can shrink while the page is scrolled.
  */
 @Composable
 fun BodyScreen(
@@ -89,6 +91,7 @@ fun BodyScreen(
     range: ChartRange,
     onRange: (ChartRange) -> Unit,
     onDelete: (Long) -> Unit,
+    listState: LazyListState,
 ) {
     val profile = state.profile ?: return
     val entries = state.entries
@@ -130,7 +133,7 @@ fun BodyScreen(
             .toList()
     }
 
-    TabPage(title = "Cuerpo", bottomPadding = 104.dp, itemSpacing = 0.dp) {
+    TabPage(title = "Cuerpo", listState = listState, bottomPadding = 104.dp, itemSpacing = 0.dp) {
         if (entries.isEmpty()) {
             block("empty") {
                 NoticeCard(

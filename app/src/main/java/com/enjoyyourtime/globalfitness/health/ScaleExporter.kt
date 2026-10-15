@@ -19,6 +19,7 @@ import androidx.health.connect.client.units.Percentage
 import androidx.health.connect.client.units.Power
 import com.enjoyyourtime.globalfitness.data.Measurement
 import com.enjoyyourtime.globalfitness.data.Repository
+import com.enjoyyourtime.globalfitness.scale.ScaleRegistry
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -58,6 +59,8 @@ class ScaleExporter(
     private val cache: HealthCache,
     private val settings: HealthSettings,
     private val repository: Repository,
+    /** Scale drivers, for the device (brand / model) of each reading. */
+    private val scales: ScaleRegistry,
     private val scope: CoroutineScope,
     private val ownPackage: String,
     private val io: CoroutineDispatcher = Dispatchers.IO,
@@ -237,7 +240,7 @@ class ScaleExporter(
         // (dropped values, or legacy `gf-<id>` ids being migrated) are deleted after the insert.
         val zone = zone()
         for (chunk in plan.writes.chunked(WRITE_CHUNK)) {
-            client.insertRecords(chunk.flatMap { buildRecords(it.payload, it.version, zone) })
+            client.insertRecords(chunk.flatMap { buildRecords(it.payload, it.version, zone, scales) })
             deleteRecords(client, chunk.flatMap { w -> w.stale.filter { it.type in allowed } })
             for (w in chunk) {
                 val p = w.payload
@@ -273,8 +276,6 @@ class ScaleExporter(
             else -> null
         }
 
-        private val SCALE = Device(type = Device.TYPE_SCALE, manufacturer = "Xiaomi", model = "Mi Body Composition Scale")
-
         fun recordClass(type: ExportRecordType): KClass<out Record> = when (type) {
             ExportRecordType.WEIGHT -> WeightRecord::class
             ExportRecordType.BODY_FAT -> BodyFatRecord::class
@@ -284,13 +285,25 @@ class ScaleExporter(
             ExportRecordType.BODY_WATER_MASS -> BodyWaterMassRecord::class
         }
 
-        /** Health Connect records of one payload; scale readings carry a scale device. */
-        fun buildRecords(p: ExportPayload, version: Long, zone: ZoneId): List<Record> {
+        /**
+         * The scale behind a reading: brand and model of its driver in [scales], or a scale of
+         * unknown make (readings stored before multi-scale support, or a driver that no longer exists).
+         */
+        fun scaleDevice(driverId: String?, scales: ScaleRegistry): Device {
+            val driver = scales.find(driverId) ?: return Device(type = Device.TYPE_SCALE)
+            // "Xiaomi Mi Body Composition Scale 2" by "Xiaomi" -> model "Mi Body Composition Scale 2".
+            val model = driver.displayName.removePrefix("${driver.brand} ").ifBlank { driver.displayName }
+            return Device(type = Device.TYPE_SCALE, manufacturer = driver.brand, model = model)
+        }
+
+        /** Health Connect records of one payload; scale readings carry their scale, manual ones no device. */
+        fun buildRecords(p: ExportPayload, version: Long, zone: ZoneId, scales: ScaleRegistry): List<Record> {
             val time = Instant.ofEpochMilli(p.timestamp)
             val offset = zone.rules.getOffset(time)
+            val device = if (p.fromScale) scaleDevice(p.deviceDriver, scales) else null
             fun meta(type: ExportRecordType): Metadata {
                 val id = ClientRecordIds.of(p.recordKey, type)
-                return if (p.fromScale) Metadata.autoRecorded(SCALE, id, version) else Metadata.manualEntry(id, version)
+                return if (device != null) Metadata.autoRecorded(device, id, version) else Metadata.manualEntry(id, version)
             }
             return listOfNotNull<Record>(
                 WeightRecord(time, offset, Mass.kilograms(p.weightKg), meta(ExportRecordType.WEIGHT)),

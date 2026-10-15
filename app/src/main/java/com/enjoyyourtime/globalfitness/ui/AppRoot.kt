@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CircularProgressIndicator
@@ -31,6 +32,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -166,6 +168,9 @@ private fun MainScaffold(
     var bodyMetric by rememberSaveable { mutableStateOf(Metric.WEIGHT) }
     var bodyRange by rememberSaveable { mutableStateOf(ChartRange.M3) }
     var showManual by rememberSaveable { mutableStateOf(false) }
+    // "Añadir peso manual" shrinks to its icon once the body page leaves the top (it would cover the chart and rows).
+    val bodyList = rememberLazyListState()
+    val manualFabExpanded by remember { derivedStateOf { bodyList.firstVisibleItemIndex == 0 } }
 
     // Interstitial opportunity on every section change (not on the first one, not on sub-pages).
     var lastSection by rememberSaveable { mutableStateOf<String?>(null) }
@@ -207,7 +212,9 @@ private fun MainScaffold(
             if (section == TopLevel.BODY) {
                 ExtendedFloatingActionButton(
                     onClick = { showManual = true },
-                    icon = { Icon(Icons.Filled.Add, contentDescription = null) },
+                    expanded = manualFabExpanded,
+                    // Named for TalkBack while only the icon shows.
+                    icon = { Icon(Icons.Filled.Add, contentDescription = if (manualFabExpanded) null else "Añadir peso manual") },
                     text = { Text("Añadir peso manual") },
                 )
             }
@@ -258,6 +265,7 @@ private fun MainScaffold(
                     range = bodyRange,
                     onRange = { bodyRange = it },
                     onDelete = vm::deleteMeasurement,
+                    listState = bodyList,
                 )
             }
             composable(TopLevel.ACTIVITY.route) {

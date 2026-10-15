@@ -10,6 +10,8 @@ import com.enjoyyourtime.globalfitness.data.MeasurementSource
 import com.enjoyyourtime.globalfitness.data.Profile
 import com.enjoyyourtime.globalfitness.data.Sex
 import com.enjoyyourtime.globalfitness.domain.BodyMetrics
+import com.enjoyyourtime.globalfitness.scale.drivers.AllDrivers
+import com.enjoyyourtime.globalfitness.scale.drivers.MiScale2Driver
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNull
@@ -22,6 +24,7 @@ class ScaleExportPlanTest {
     private val profile = Profile(1, "Ana", Sex.FEMALE, LocalDate.of(1990, 5, 1), 165.0, null, 0, 0)
     private val t0 = 1_800_000_000_000L
     private val all = ExportRecordType.entries.toSet()
+    private val scales = AllDrivers.registry()
 
     private fun m(id: Long, impedance: Int? = 500, weight: Double = 62.0, source: MeasurementSource = MeasurementSource.SCALE) =
         Measurement(id, profile.id, t0 + id * 86_400_000L, weight, impedance, "k$id", source)
@@ -212,7 +215,7 @@ class ScaleExportPlanTest {
     @Test
     fun recordsCarryClientIdsVersionAndScaleDevice() {
         val p = payload(8)
-        val records = ScaleExporter.buildRecords(p, version = 3, zone = ZoneId.of("Europe/Madrid"))
+        val records = ScaleExporter.buildRecords(p, version = 3, zone = ZoneId.of("Europe/Madrid"), scales = scales)
         assertEquals(6, records.size)
         val weight = records.filterIsInstance<WeightRecord>().single()
         assertEquals(62.0, weight.weight.inKilograms, 1e-9)
@@ -229,8 +232,46 @@ class ScaleExportPlanTest {
     @Test
     fun manualMeasurementsAreManualEntries() {
         val p = ExportPayload.from(m(3, impedance = null, source = MeasurementSource.MANUAL), profile, all)!!
-        val records = ScaleExporter.buildRecords(p, version = 1, zone = ZoneId.of("UTC"))
+        val records = ScaleExporter.buildRecords(p, version = 1, zone = ZoneId.of("UTC"), scales = scales)
         assertEquals(2, records.size)
-        records.forEach { assertEquals(Metadata.RECORDING_METHOD_MANUAL_ENTRY, it.metadata.recordingMethod) }
+        records.forEach {
+            assertEquals(Metadata.RECORDING_METHOD_MANUAL_ENTRY, it.metadata.recordingMethod)
+            assertNull(it.metadata.device)
+        }
+    }
+
+    @Test
+    fun scaleReadingsCarryTheirDriversBrandAndModel() {
+        val driver = scales.find(MiScale2Driver.ID)!!
+        val p = ExportPayload.from(m(4).copy(deviceDriver = MiScale2Driver.ID), profile, all)!!
+        val records = ScaleExporter.buildRecords(p, version = 1, zone = ZoneId.of("UTC"), scales = scales)
+        records.forEach {
+            assertEquals(Metadata.RECORDING_METHOD_AUTOMATICALLY_RECORDED, it.metadata.recordingMethod)
+            assertEquals(Device.TYPE_SCALE, it.metadata.device?.type)
+            assertEquals("Xiaomi", it.metadata.device?.manufacturer)
+            assertEquals("Mi Body Composition Scale 2", it.metadata.device?.model)
+        }
+        assertEquals(driver.brand, records.first().metadata.device?.manufacturer)
+
+        // Every driver gets its own brand; a model that does not start with the brand is kept whole.
+        scales.drivers.forEach { d ->
+            val device = ScaleExporter.scaleDevice(d.id, scales)
+            assertEquals(d.brand, device.manufacturer)
+            assertTrue(d.displayName.endsWith(device.model!!))
+        }
+    }
+
+    @Test
+    fun scaleReadingsWithoutAKnownDriverAreAnUnknownScale() {
+        for (driverId in listOf(null, "no_such_driver")) {
+            val p = ExportPayload.from(m(5).copy(deviceDriver = driverId), profile, all)!!
+            val records = ScaleExporter.buildRecords(p, version = 1, zone = ZoneId.of("UTC"), scales = scales)
+            records.forEach {
+                assertEquals(Metadata.RECORDING_METHOD_AUTOMATICALLY_RECORDED, it.metadata.recordingMethod)
+                assertEquals(Device.TYPE_SCALE, it.metadata.device?.type)
+                assertNull(it.metadata.device?.manufacturer)
+                assertNull(it.metadata.device?.model)
+            }
+        }
     }
 }

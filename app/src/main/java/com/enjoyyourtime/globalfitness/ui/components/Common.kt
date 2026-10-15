@@ -27,11 +27,11 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -123,8 +123,10 @@ fun SectionTitle(text: String, modifier: Modifier = Modifier) {
 }
 
 /**
- * Top-level page: a large collapsing title over a lazy list. [bottomPadding] leaves room for a
- * floating action button.
+ * Top-level page: a compact title bar (the same on every section, tinted once content scrolls
+ * under it) over a lazy list. The list ends above the ad banner and navigation bar (the main
+ * scaffold's padding); [bottomPadding] adds room after the last item, e.g. for a floating action
+ * button.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -137,9 +139,9 @@ fun TabPage(
     itemSpacing: Dp = 12.dp,
     content: LazyListScope.() -> Unit,
 ) {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     Column(modifier.fillMaxSize().nestedScroll(scrollBehavior.nestedScrollConnection)) {
-        LargeTopAppBar(
+        TopAppBar(
             title = { Text(title, maxLines = 1, overflow = TextOverflow.Ellipsis) },
             actions = actions,
             scrollBehavior = scrollBehavior,

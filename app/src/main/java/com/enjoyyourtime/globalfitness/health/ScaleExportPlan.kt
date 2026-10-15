@@ -56,6 +56,8 @@ data class ExportPayload(
     val recordKey: String,
     val timestamp: Long,
     val fromScale: Boolean,
+    /** Driver id of the scale that took it ([Measurement.deviceDriver]); null when unknown or manual. */
+    val deviceDriver: String?,
     val weightKg: Double,
     val bodyFatPercent: Double?,
     val boneKg: Double?,
@@ -103,6 +105,7 @@ data class ExportPayload(
                 recordKey = ClientRecordIds.recordKey(m),
                 timestamp = m.timestamp,
                 fromScale = m.source == MeasurementSource.SCALE,
+                deviceDriver = m.deviceDriver,
                 weightKg = m.weightKg,
                 bodyFatPercent = keep(ExportRecordType.BODY_FAT, c.fatPercent),
                 boneKg = keep(ExportRecordType.BONE_MASS, c.boneKg),
