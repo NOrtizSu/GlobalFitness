@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Android Auto Backup (API 30 and lower): a safety net that works without signing in.
+    Everything is backed up (app databases and normal preferences) except:
+    - band_prefs: Xiaomi Band auth key, never leaves the device.
+    - health.db: Health Connect cache, re-read from Health Connect on the new device.
+    - Firestore's local cache: it belongs to the signed-in session and would replay stale writes.
+    Cloud sync bookkeeping lives in noBackupFilesDir, which is never backed up.
+    Keep in sync with data_extraction_rules.xml.
+-->
+<full-backup-content>
+    <exclude domain="sharedpref" path="band_prefs.xml" />
+    <exclude domain="database" path="health.db" />
+    <exclude domain="database" path="health.db-journal" />
+    <exclude domain="database" path="health.db-wal" />
+    <exclude domain="database" path="health.db-shm" />
+    <exclude domain="database" path="firestore.%5BDEFAULT%5D.globalfitness-app.%28default%29" />
+    <exclude domain="database" path="firestore.%5BDEFAULT%5D.globalfitness-app.%28default%29-journal" />
+    <exclude domain="database" path="firestore.%5BDEFAULT%5D.globalfitness-app.%28default%29-wal" />
+    <exclude domain="database" path="firestore.%5BDEFAULT%5D.globalfitness-app.%28default%29-shm" />
+</full-backup-content>
