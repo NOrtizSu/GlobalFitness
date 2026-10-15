@@ -1,5 +1,6 @@
 package com.enjoyyourtime.globalfitness.scale.libs
 
+import com.enjoyyourtime.globalfitness.scale.ActivityLevel
 import com.enjoyyourtime.globalfitness.scale.DeviceComposition
 import com.enjoyyourtime.globalfitness.scale.FormulaLib
 
@@ -22,6 +23,8 @@ object FormulaLibs {
         val imp = impedance.toFloat()
         return when (lib) {
             FormulaLib.MI_SCALE -> null
+            // Needs all ten impedances: only the values computed at capture time exist.
+            FormulaLib.WLA25 -> null
             FormulaLib.S400 -> {
                 // Stored rows keep only the high-frequency impedance: single-band fallback.
                 val r = S400BodyComposition.compute(S400Inputs(age, isMale, h, w, imp, imp))
@@ -29,6 +32,50 @@ object FormulaLibs {
                     fat = r.bfPct, water = r.tbwPct, musclePct = r.smmPct, muscleKg = r.smmKg, bone = r.boneKg,
                     visceral = r.vfi, bmr = r.bmrKcal, lbm = r.ffmKg, protein = r.proteinPct,
                 )
+            }
+            FormulaLib.STANDARD_IMPEDANCE -> {
+                val l = StandardImpedanceLib(isMale, age, weightKg, heightCm / 100.0, impedance.toDouble())
+                composition(
+                    fat = l.totalFatPercentage.toFloat().coerceIn(0f, 75f),
+                    water = l.totalBodyWaterPercentage.toFloat().coerceIn(0f, 80f),
+                    musclePct = l.skeletalMusclePercentage.toFloat().coerceIn(0f, 100f),
+                    bone = l.boneMassKg.toFloat().coerceIn(0f, 10f),
+                    lbm = l.fatFreeMassKg.toFloat().coerceIn(0f, 150f),
+                    bmr = l.basalMetabolicRate.toFloat(),
+                )
+            }
+            FormulaLib.YUNMAI -> {
+                val l = YunmaiLib(if (isMale) 1 else 0, h, ActivityLevel.SEDENTARY)
+                val fat = l.getFat(age, w, impedance)
+                if (fat <= 0f) {
+                    null
+                } else {
+                    val muscle = l.getMuscle(fat)
+                    composition(
+                        fat = fat, water = l.getWater(fat), musclePct = muscle, bone = l.getBoneMass(muscle, w),
+                        lbm = l.getLeanBodyMass(w, fat), visceral = l.getVisceralFat(fat, age),
+                    )
+                }
+            }
+            FormulaLib.TRISA -> {
+                val l = TrisaBodyAnalyzeLib(if (isMale) 1 else 0, age, h)
+                composition(fat = l.getFat(w, imp), water = l.getWater(w, imp), musclePct = l.getMuscle(w, imp), bone = l.getBone(w, imp))
+            }
+            FormulaLib.OKOK_V2 -> {
+                if (age <= 5) {
+                    null
+                } else {
+                    val l = OkOkV2Lib(age, if (isMale) 1 else 0, h)
+                    composition(
+                        fat = l.getBodyFat(w, imp), water = l.getWater(w, imp), musclePct = l.getMuscle(w, imp),
+                        bone = l.getBoneMass(w, imp), lbm = l.getLBM(w, imp), visceral = l.getVisceralFat(w, imp),
+                        bmr = l.getBMR(w), protein = l.getProtein(w, imp), metabolicAge = l.getBodyAge(w, imp).toFloat(),
+                    )
+                }
+            }
+            FormulaLib.SOEHNLE -> {
+                val l = SoehnleLib(isMale, age, h, SoehnleLib.activity(ActivityLevel.SEDENTARY))
+                composition(fat = l.getFat(w, imp), water = l.getWater(w, imp))
             }
         }
     }

@@ -50,6 +50,12 @@ data class DeviceComposition(
 enum class FormulaLib(val id: String, val label: String) {
     MI_SCALE("MI_SCALE", "Xiaomi Mi Fit"),
     S400("S400", "Xiaomi S400"),
+    STANDARD_IMPEDANCE("STANDARD_IMPEDANCE", "Impedancia estándar (Sun 2003)"),
+    YUNMAI("YUNMAI", "Yunmai"),
+    TRISA("TRISA", "Trisa"),
+    SOEHNLE("SOEHNLE", "Soehnle"),
+    OKOK_V2("OKOK_V2", "OKOK"),
+    WLA25("WLA25", "Fitdays WLA25 (10 impedancias)"),
     ;
 
     companion object {

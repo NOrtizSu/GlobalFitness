@@ -22,7 +22,7 @@ enum class LinkKind {
     GATT,
 }
 
-enum class ConfigKind { HEX_KEY_32, USER_SLOT, TEXT }
+enum class ConfigKind { HEX_KEY_32, USER_SLOT, PIN, TEXT }
 
 /** One per-driver setting the user can (or must) fill in. */
 data class ConfigField(
@@ -43,6 +43,8 @@ data class ConfigField(
                 if (v.length == 32 && Bytes.isHex(v)) null else "Deben ser 32 caracteres hexadecimales"
             ConfigKind.USER_SLOT ->
                 if (v.toIntOrNull() in 1..maxSlot) null else "Usuario entre 1 y $maxSlot"
+            ConfigKind.PIN ->
+                if (v.length <= 4 && v.toIntOrNull() in 0..9999) null else "PIN de hasta 4 cifras"
             ConfigKind.TEXT -> null
         }
     }
@@ -50,6 +52,14 @@ data class ConfigField(
     companion object {
         const val KEY_BINDKEY = "bindkey"
         const val KEY_USER_SLOT = "user_slot"
+        const val KEY_PIN = "pin"
+
+        fun pin() = ConfigField(
+            key = KEY_PIN,
+            label = "PIN del usuario",
+            help = "Código de consentimiento (0-9999) del usuario en la báscula. Déjalo vacío para que la app registre un usuario nuevo.",
+            kind = ConfigKind.PIN,
+        )
 
         fun userSlot(maxSlot: Int = 8) = ConfigField(
             key = KEY_USER_SLOT,

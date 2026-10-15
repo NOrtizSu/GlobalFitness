@@ -304,6 +304,7 @@ private fun ConfigFieldEditor(field: ConfigField, current: String, onSave: (Stri
                 value = when (field.kind) {
                     ConfigKind.HEX_KEY_32 -> new.filter { it.isDigit() || it.lowercaseChar() in 'a'..'f' }.take(32)
                     ConfigKind.USER_SLOT -> new.filter { it.isDigit() }.take(2)
+                    ConfigKind.PIN -> new.filter { it.isDigit() }.take(4)
                     ConfigKind.TEXT -> new
                 }
                 error = null

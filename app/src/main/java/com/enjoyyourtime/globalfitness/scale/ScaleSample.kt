@@ -30,6 +30,9 @@ class ScaleSample {
     /** Set when the driver computed the composition itself with a formula library. */
     var computedWith: FormulaLib? = null
 
+    /** Library for (re)computing composition from [impedance] when it differs per frame variant. */
+    var impedanceLib: FormulaLib? = null
+
     /** Marks samples downloaded from the scale memory. */
     var fromHistory: Boolean = false
 
@@ -52,6 +55,7 @@ class ScaleSample {
         if (!usable(impedanceLow)) impedanceLow = other.impedanceLow
         if ((heartRate ?: 0) <= 0) heartRate = other.heartRate
         if (computedWith == null) computedWith = other.computedWith
+        if (impedanceLib == null) impedanceLib = other.impedanceLib
         if (other.userId != UNKNOWN_USER && (userId == UNKNOWN_USER || userId == -1)) userId = other.userId
         if (dateTime == null) dateTime = other.dateTime
         fromHistory = fromHistory || other.fromHistory
@@ -87,7 +91,7 @@ class ScaleSample {
         val measuredAt = ScaleReading.plausibleTime(dateTime, receivedAt)
         val comp = composition()
         val imp = impedance?.takeIf { it.isFinite() && it > 0f }?.let { Math.round(it) }
-        val lib = computedWith ?: formulaLib
+        val lib = computedWith ?: impedanceLib ?: formulaLib
         val source = when {
             comp != null && computedWith != null -> CompositionSource.Formula(computedWith!!)
             comp != null -> CompositionSource.Device
