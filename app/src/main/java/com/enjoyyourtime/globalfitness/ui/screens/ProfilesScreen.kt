@@ -48,6 +48,7 @@ import com.enjoyyourtime.globalfitness.data.ProfileDraft
 import com.enjoyyourtime.globalfitness.ui.Fmt
 import com.enjoyyourtime.globalfitness.ui.MainUiState
 import com.enjoyyourtime.globalfitness.ui.band.BandActivity
+import com.enjoyyourtime.globalfitness.ui.account.AccountAndPremiumEntry
 import com.enjoyyourtime.globalfitness.ui.components.AppIcons
 import com.enjoyyourtime.globalfitness.ui.components.ProfileDot
 import com.enjoyyourtime.globalfitness.ui.components.SectionTitle
@@ -151,6 +152,7 @@ fun ProfilesScreen(
                 Text("Salud: pulsera y Health Connect")
             }
         }
+        item { AccountAndPremiumEntry(Modifier.padding(top = 8.dp)) } // TEMPORARY entry point (cloud account / ads)
 
         item {
             DiagnosticsCard(

@@ -52,10 +52,15 @@
         <package android:name="com.xiaomi.wearable" />
         <package android:name="com.mi.health" />
     </queries>
+    <!-- Optional cloud backup (Firebase), ads (AdMob) and Google Play Billing. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".GlobalFitnessApp"
         android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -63,6 +68,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GlobalFitness"
         tools:targetApi="33">
+        <!-- Test id in debug builds; release reads ADMOB_APP_ID (see app/build.gradle.kts). -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="${admobAppId}" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
