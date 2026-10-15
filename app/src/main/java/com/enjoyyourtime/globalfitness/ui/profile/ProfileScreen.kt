@@ -1,5 +1,7 @@
 package com.enjoyyourtime.globalfitness.ui.profile
 
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -227,8 +229,14 @@ fun ProfileScreen(
                 SettingRow(
                     icon = Icons.Filled.Lock,
                     title = "Política de privacidad",
-                    subtitle = "Borrador pendiente de revisión legal",
-                    onClick = onOpenPrivacyPolicy,
+                    subtitle = "Qué datos se guardan, dónde y cómo borrarlos",
+                    onClick = {
+                        // The web version when online; the copy bundled in the app otherwise.
+                        val online = context.getSystemService(ConnectivityManager::class.java)?.let { cm ->
+                            cm.getNetworkCapabilities(cm.activeNetwork)?.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+                        } == true
+                        if (!online || runCatching { uriHandler.openUri(PRIVACY_POLICY_URL) }.isFailure) onOpenPrivacyPolicy()
+                    },
                 )
                 HorizontalDivider(color = MaterialTheme.colorScheme.surfaceContainerHighest)
                 SettingRow(

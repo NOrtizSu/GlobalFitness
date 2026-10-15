@@ -38,6 +38,9 @@ import kotlinx.coroutines.withContext
 /** Bundled from docs/privacy-policy.md at build time (see app/build.gradle.kts). */
 private const val POLICY_ASSET = "privacy-policy.md"
 
+/** Public privacy policy (Firebase Hosting, hosting/public/privacy.html); the asset is its offline copy. */
+const val PRIVACY_POLICY_URL = "https://globalfitness-app.web.app/privacy.html"
+
 /** Corresponding Source of the app (AGPL-3.0 sections 6 and 13). */
 const val SOURCE_CODE_URL = "https://github.com/NOrtizSu/GlobalFitness"
 private const val LICENSE_URL = "https://www.gnu.org/licenses/agpl-3.0.html"
@@ -48,7 +51,7 @@ private sealed interface PolicyState {
     data object Failed : PolicyState
 }
 
-/** The privacy policy, rendered in-app. */
+/** The privacy policy rendered in-app: the offline copy of [PRIVACY_POLICY_URL]. */
 @Composable
 fun PrivacyPolicyScreen(onBack: () -> Unit) {
     val context = LocalContext.current

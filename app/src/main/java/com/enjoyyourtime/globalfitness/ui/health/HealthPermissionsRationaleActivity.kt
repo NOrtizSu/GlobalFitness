@@ -17,13 +17,16 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import com.enjoyyourtime.globalfitness.ui.Fmt
+import com.enjoyyourtime.globalfitness.ui.profile.PRIVACY_POLICY_URL
 import com.enjoyyourtime.globalfitness.ui.theme.GlobalFitnessTheme
 
 /**
@@ -50,6 +53,7 @@ class HealthPermissionsRationaleActivity : ComponentActivity() {
 
 @Composable
 private fun RationaleScreen(onClose: () -> Unit) {
+    val uriHandler = LocalUriHandler.current
     Scaffold(topBar = { TopAppBar(title = { Text("Privacidad de los datos de salud") }) }) { padding ->
         Column(
             Modifier
@@ -79,6 +83,7 @@ private fun RationaleScreen(onClose: () -> Unit) {
                 "Puedes retirar cualquier permiso cuando quieras desde Health Connect; la app deja de leer ese tipo " +
                     "de dato y borra su copia local en la siguiente sincronización.",
             )
+            OutlinedButton(onClick = { runCatching { uriHandler.openUri(PRIVACY_POLICY_URL) } }) { Text("Política de privacidad completa") }
             Button(onClick = onClose) { Text("Entendido") }
         }
     }
