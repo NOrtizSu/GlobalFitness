@@ -73,6 +73,50 @@ object FormulaLibs {
                     )
                 }
             }
+            FormulaLib.WLA07 -> {
+                val l = Wla07BodyComposition(w, heightCm.toInt(), impedance.toDouble(), age, isMale)
+                val fat = l.bodyFatPercent.toFloat()
+                composition(
+                    fat = fat, musclePct = l.musclePercent.toFloat(), visceral = l.visceralFat.toFloat(), bone = l.boneMass.toFloat(),
+                    water = l.moisturePercent.toFloat(), lbm = w * (100f - fat) / 100f, bmr = l.bmr.toFloat(), protein = l.protein.toFloat(),
+                )
+            }
+            FormulaLib.RENPHO_ES26BB -> {
+                val fat = RenphoEs26bbLib.bodyFatPercent(w, h / 100f, age, isMale, impedance)
+                composition(
+                    fat = fat, water = RenphoEs26bbLib.waterPercent(fat, isMale), musclePct = RenphoEs26bbLib.skeletalMusclePercent(fat, isMale),
+                    bone = RenphoEs26bbLib.boneMass(w, fat, isMale), protein = RenphoEs26bbLib.proteinPercent(fat, isMale), lbm = w * (100f - fat) / 100f,
+                )
+            }
+            FormulaLib.ONE_BYONE -> {
+                val l = OneByoneLib(if (isMale) 1 else 0, age, h, 0)
+                val fat = l.getBodyFat(w, imp)
+                composition(
+                    fat = fat, water = l.getWater(fat), bone = l.getBoneMass(w, imp), visceral = l.getVisceralFat(w),
+                    musclePct = l.getMuscle(w, imp), lbm = l.getLBM(w, fat),
+                )
+            }
+            FormulaLib.ONE_BYONE_NEW -> {
+                val l = OneByoneNewLib(if (isMale) 1 else 0, age, h, 0)
+                composition(
+                    fat = l.getBodyFatPercentage(w, impedance), water = l.getWaterPercentage(w, impedance),
+                    bone = l.getBoneMass(w, impedance), visceral = l.getVisceralFat(w),
+                    musclePct = l.getSkeletonMusclePercentage(w, impedance), lbm = l.getLBM(w, impedance),
+                )
+            }
+            FormulaLib.AFU_B1 -> {
+                val sex = if (isMale) 1 else 0
+                val fat = AfuB1Lib.bodyFatPercent(weightKg, heightCm, age, sex, impedance.toDouble())
+                val c = fat?.let { AfuB1Lib.bodyComposition(sex, age, h, w, it) }
+                if (fat == null || c == null) {
+                    null
+                } else {
+                    composition(
+                        fat = fat, water = c.waterPercent.toFloat(), musclePct = c.skeletalMusclePercent.toFloat(), bone = c.boneMassKg,
+                        visceral = c.visceralFatIndex.toFloat(), protein = c.proteinPercent.toFloat(), lbm = c.fatFreeMassKg,
+                    )
+                }
+            }
             FormulaLib.SOEHNLE -> {
                 val l = SoehnleLib(isMale, age, h, SoehnleLib.activity(ActivityLevel.SEDENTARY))
                 composition(fat = l.getFat(w, imp), water = l.getWater(w, imp))

@@ -56,6 +56,11 @@ enum class FormulaLib(val id: String, val label: String) {
     SOEHNLE("SOEHNLE", "Soehnle"),
     OKOK_V2("OKOK_V2", "OKOK"),
     WLA25("WLA25", "Fitdays WLA25 (10 impedancias)"),
+    WLA07("WLA07", "icomon WLA07"),
+    RENPHO_ES26BB("RENPHO_ES26BB", "RENPHO ES-26BB"),
+    ONE_BYONE("ONE_BYONE", "1byone / Eufy"),
+    ONE_BYONE_NEW("ONE_BYONE_NEW", "1byone (nuevo)"),
+    AFU_B1("AFU_B1", "AFU-BH-TZ-B1"),
     ;
 
     companion object {

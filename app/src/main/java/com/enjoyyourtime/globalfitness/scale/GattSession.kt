@@ -196,6 +196,19 @@ class GattSession(
     override fun hasCharacteristic(service: UUID, characteristic: UUID): Boolean =
         characteristic(service, characteristic) != null
 
+    override fun characteristics(): List<GattCharInfo> =
+        gatt?.services.orEmpty().flatMap { s ->
+            s.characteristics.orEmpty().map { c ->
+                val p = c.properties
+                GattCharInfo(
+                    service = s.uuid,
+                    characteristic = c.uuid,
+                    canNotify = p and (BluetoothGattCharacteristic.PROPERTY_NOTIFY or BluetoothGattCharacteristic.PROPERTY_INDICATE) != 0,
+                    canWrite = p and (BluetoothGattCharacteristic.PROPERTY_WRITE or BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE) != 0,
+                )
+            }
+        }
+
     override suspend fun enableNotifications(service: UUID, characteristic: UUID): Boolean {
         val ch = characteristic(service, characteristic) ?: return false
         val g = gatt ?: return false

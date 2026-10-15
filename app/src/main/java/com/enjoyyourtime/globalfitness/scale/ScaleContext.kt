@@ -31,6 +31,8 @@ data class ScaleContext(
     val userSlot: Int = 1,
     val unit: ScaleUnit = ScaleUnit.KG,
     val activityLevel: ActivityLevel = ActivityLevel.SEDENTARY,
+    /** Impedance of the last stored measurement, seeded back by protocols that keep a user history on the scale. */
+    val lastImpedance: Int? = null,
 ) {
     val isMale: Boolean get() = sex == Sex.MALE
 
@@ -44,7 +46,7 @@ data class ScaleContext(
 
     companion object {
         /** Context for the app's single [profile]; [DEFAULT] when it does not exist yet. */
-        fun from(profile: Profile?, lastWeightKg: Double?): ScaleContext =
+        fun from(profile: Profile?, lastWeightKg: Double?, lastImpedance: Int? = null): ScaleContext =
             if (profile == null) {
                 DEFAULT
             } else {
@@ -56,6 +58,7 @@ data class ScaleContext(
                     heightCm = profile.heightCm.toFloat(),
                     lastWeightKg = lastWeightKg?.toFloat(),
                     goalWeightKg = profile.targetWeightKg?.toFloat(),
+                    lastImpedance = lastImpedance,
                 )
             }
 

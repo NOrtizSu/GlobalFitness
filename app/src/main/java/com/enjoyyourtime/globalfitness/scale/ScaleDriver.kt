@@ -189,6 +189,9 @@ fun interface Cancellable {
     fun cancel()
 }
 
+/** One characteristic of the discovered GATT tree. */
+data class GattCharInfo(val service: UUID, val characteristic: UUID, val canNotify: Boolean, val canWrite: Boolean)
+
 /**
  * Operations a GATT protocol can request. Calls are queued and executed in order by the session
  * runner (each waits for its callback), so protocols just call them in protocol order.
@@ -201,6 +204,9 @@ interface GattIo {
     /** Reads a characteristic; the value is delivered to [GattProtocol.onNotification]. */
     fun read(service: UUID, characteristic: UUID)
     fun hasCharacteristic(service: UUID, characteristic: UUID): Boolean
+
+    /** Every characteristic of the discovered GATT tree (for protocols that subscribe to all of them). */
+    fun characteristics(): List<GattCharInfo>
 
     /** Ends the session once the queued operations are done. */
     fun disconnect()
@@ -257,6 +263,8 @@ abstract class GattProtocol {
     protected fun hasCharacteristic(service: UUID, characteristic: UUID): Boolean =
         io.hasCharacteristic(service, characteristic)
 
+    protected fun characteristics(): List<GattCharInfo> = io.characteristics()
+
     protected fun requestDisconnect() = io.disconnect()
 
     protected fun schedule(delayMs: Long, action: () -> Unit): Cancellable = io.schedule(delayMs, action)
@@ -282,8 +290,18 @@ abstract class GattProtocol {
 }
 
 /** GATT driver: connects when a configured scale advertises and runs a [GattProtocol]. */
+/** Pause after each GATT operation (openScale's tuning profiles): some scales drop back-to-back commands. */
+data class GattPacing(val afterNotifyMs: Long, val afterWriteMs: Long, val afterWriteNoResponseMs: Long, val afterReadMs: Long) {
+    companion object {
+        val BALANCED = GattPacing(afterNotifyMs = 120, afterWriteMs = 80, afterWriteNoResponseMs = 35, afterReadMs = 20)
+        val CONSERVATIVE = GattPacing(afterNotifyMs = 160, afterWriteMs = 100, afterWriteNoResponseMs = 50, afterReadMs = 30)
+    }
+}
+
 abstract class GattScaleDriver : ScaleDriver {
     final override val link: LinkKind get() = LinkKind.GATT
+
+    open val pacing: GattPacing get() = GattPacing.BALANCED
 
     /** [adv] is the advertisement that triggered the connection (variant detection). */
     abstract fun newProtocol(adv: AdvertisementInfo?): GattProtocol

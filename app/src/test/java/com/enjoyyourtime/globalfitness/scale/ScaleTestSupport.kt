@@ -106,6 +106,11 @@ class FakeGattIo(
     override fun hasCharacteristic(service: UUID, characteristic: UUID): Boolean =
         available == null || (service to characteristic) in available
 
+    /** GATT tree reported to protocols that enumerate it. */
+    var tree: List<GattCharInfo> = emptyList()
+
+    override fun characteristics(): List<GattCharInfo> = tree
+
     override fun disconnect() {
         ops += Op.Disconnect
     }

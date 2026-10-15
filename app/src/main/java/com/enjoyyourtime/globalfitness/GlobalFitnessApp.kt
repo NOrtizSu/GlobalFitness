@@ -36,7 +36,8 @@ class AppContainer(context: Context) {
         settings = settings,
         recorder = recorder,
         contextProvider = {
-            ScaleContext.from(repository.profile.value, repository.measurements.value.lastOrNull()?.weightKg)
+            val last = repository.measurements.value.lastOrNull()
+            ScaleContext.from(repository.profile.value, last?.weightKg, last?.impedance)
         },
         linkFactory = { address -> GattSession(context.applicationContext, address) },
         scope = appScope,

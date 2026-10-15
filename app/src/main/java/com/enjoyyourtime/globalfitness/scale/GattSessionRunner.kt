@@ -37,6 +37,9 @@ interface GattLink {
     /** Returns the negotiated MTU, or null when the request failed. */
     suspend fun requestMtu(mtu: Int): Int?
     fun hasCharacteristic(service: UUID, characteristic: UUID): Boolean
+
+    /** The discovered GATT tree (empty before service discovery). */
+    fun characteristics(): List<GattCharInfo> = emptyList()
     suspend fun enableNotifications(service: UUID, characteristic: UUID): Boolean
     suspend fun write(service: UUID, characteristic: UUID, value: ByteArray, withResponse: Boolean): Boolean
     suspend fun read(service: UUID, characteristic: UUID): ByteArray?
@@ -119,6 +122,8 @@ class GattSessionRunner(
             override fun hasCharacteristic(service: UUID, characteristic: UUID): Boolean =
                 link.hasCharacteristic(service, characteristic)
 
+            override fun characteristics(): List<GattCharInfo> = link.characteristics()
+
             override fun disconnect() {
                 ops.trySend(Op.Disconnect)
             }
@@ -160,6 +165,7 @@ class GattSessionRunner(
             link.isConnected.first { !it }
             events.send(Event.End("La báscula se desconectó"))
         }
+        val pacing = driver.pacing
         val opsJob = launch {
             for (op in ops) {
                 try {
@@ -179,6 +185,14 @@ class GattSessionRunner(
                 } catch (e: Exception) {
                     // A failed operation is not fatal: the protocol decides (like openScale).
                 }
+                delay(
+                    when (op) {
+                        is Op.Notify -> pacing.afterNotifyMs
+                        is Op.Write -> if (op.withResponse) pacing.afterWriteMs else pacing.afterWriteNoResponseMs
+                        is Op.Read -> pacing.afterReadMs
+                        Op.Disconnect -> 0L
+                    },
+                )
             }
         }
 
