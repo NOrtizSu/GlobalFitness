@@ -2,8 +2,8 @@
 # Credential Manager and kotlinx.coroutines ship their own consumer rules; these cover what is
 # specific to this app.
 
-# GlobalFitness is open source: keep line numbers so Play Console stack traces stay readable (Play
-# deobfuscates them with app/build/outputs/mapping/release/mapping.txt, uploaded with the bundle).
+# Keep line numbers so Play Console stack traces stay readable (Play deobfuscates them with the R8
+# mapping that the app bundle embeds).
 -keepattributes SourceFile,LineNumberTable
 -renamesourcefileattribute SourceFile
 
