@@ -149,11 +149,11 @@ class ESCS20MDriver : GattScaleDriver() {
         override fun onNotification(characteristic: UUID, data: ByteArray) {
             if (characteristic != chrResults || data.isEmpty()) return
             when (Bytes.u8(data, 0)) {
-                0xAD -> fragment = data.copyOfRange(3, data.size)
+                0xAD -> if (data.size > 3) fragment = data.copyOfRange(3, data.size)
                 0xAF -> {
                     val f = fragment ?: return
                     fragment = null
-                    frame(f + data.copyOfRange(3, data.size))
+                    if (data.size > 3) frame(f + data.copyOfRange(3, data.size))
                 }
                 else -> frame(data)
             }

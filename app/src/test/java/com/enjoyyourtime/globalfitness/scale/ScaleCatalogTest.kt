@@ -147,6 +147,42 @@ class ScaleCatalogTest {
     }
 
     @Test
+    fun everyFixtureHasAtMostOneHighMatch() {
+        val ambiguous = fixtures.mapNotNull { (adv, _) ->
+            val high = registry.detect(adv).filter { it.confidence == MatchConfidence.HIGH }
+            if (high.size > 1) "${adv.name ?: adv.manufacturerData.keys}: ${high.map { it.driver.id }}" else null
+        }
+        assertTrue(ambiguous.joinToString("\n"), ambiguous.isEmpty())
+    }
+
+    /** Everyday BLE devices near a phone must never be taken for a scale with certainty. */
+    @Test
+    fun everydayDevicesNeverMatchWithCertainty() {
+        val devices = listOf(
+            adv("Galaxy Buds2 Pro", manufacturer = mapOf(0x0075 to hex("4209810214150300212a0101"))),
+            adv("AirPods Pro", manufacturer = mapOf(0x004C to hex("0719010e2002f58f01000000000000000000000000000000000000"))),
+            adv(manufacturer = mapOf(0x004C to hex("0215f7826da64fa24e988024bc5b71e0893e00010002c5"))), // iBeacon
+            adv(serviceData = mapOf(uuid16(0xFEAA) to hex("10e8037777772e6578616d706c652e636f6d"))), // Eddystone URL
+            adv("Xiaomi Smart Band 8", listOf(uuid16(0xFE95)), mapOf(uuid16(0xFE95) to hex("3091b5260a3a5e7c2d54a1f8"))),
+            adv("Mi Smart Band 6", serviceData = mapOf(uuid16(0xFEE0) to hex("0001"))),
+            adv("Forerunner 255", listOf(uuid16(0xFE1F))),
+            adv("Charge 5", listOf(uuid16(0xFB09))),
+            adv("ESP32", manufacturer = mapOf(0xFFFF to hex("0102030405060708090a"))), // dev boards use 0xFFFF
+            adv("ESP32_BLE", manufacturer = mapOf(0xFFFF to hex("aabb"))),
+            adv("Tile", listOf(uuid16(0xFEED)), mapOf(uuid16(0xFEED) to hex("020002000000"))),
+            adv(serviceData = mapOf(uuid16(0xFE2C) to hex("00000045"))), // Google Fast Pair
+            adv("LE-Bose QC35", manufacturer = mapOf(0x009E to hex("0012345678"))),
+            adv("[TV] Samsung", manufacturer = mapOf(0x0075 to hex("0201000000000000"))),
+            adv("Nordic_UART", listOf(uuid16(0xFFF0), uuid16(0xFFE0))),
+            adv("HC-08", listOf(uuid16(0xFFE0))),
+        )
+        val certain = devices.mapNotNull { a ->
+            registry.detect(a).firstOrNull { it.confidence == MatchConfidence.HIGH }?.let { "${a.name}: ${it.driver.id}" }
+        }
+        assertTrue(certain.joinToString("\n"), certain.isEmpty())
+    }
+
+    @Test
     fun onlyTheMiScale2IsVerified() {
         assertEquals(listOf("xiaomi_mi_scale_2"), registry.drivers.filter { it.verified }.map { it.id })
     }

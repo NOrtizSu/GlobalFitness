@@ -199,7 +199,7 @@ class XiaomiS800Driver : PassiveScaleDriver() {
             val mac = cachedMac ?: runCatching { Bytes.fromHex(adv.address).reversedArray() }.getOrNull() ?: return null
             val plain = decrypt(frame, Bytes.fromHex(key), mac)
             if (plain == null) {
-                if (Bytes.fromUnsignedInt16Le(frame, 0) and FC_ENCRYPTED != 0 && ++keyFailures >= 10 && !keyWarned) {
+                if (frame.size >= 12 && Bytes.fromUnsignedInt16Le(frame, 0) and FC_ENCRYPTED != 0 && ++keyFailures >= 10 && !keyWarned) {
                     keyWarned = true
                     env.messages("La bind key de la S800 no descifra sus datos: revísala en Básculas.")
                 }
