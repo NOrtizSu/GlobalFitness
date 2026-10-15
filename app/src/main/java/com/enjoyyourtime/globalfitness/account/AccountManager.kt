@@ -78,13 +78,16 @@ class AccountManager(context: Context) {
         }
     }
 
-    /** Fresh Google login for sensitive operations (account deletion). Must be the same account. */
+    /**
+     * Fresh Google login for sensitive operations (account deletion). The user always confirms
+     * the account explicitly (no auto-select), and it must be the signed-in one.
+     */
     suspend fun reauthenticate(activity: Activity): AuthResult {
         val current = auth.currentUser ?: return AuthResult.Failure("No hay ninguna sesión iniciada.")
         val authorizedOnly = GetGoogleIdOption.Builder()
             .setServerClientId(webClientId)
             .setFilterByAuthorizedAccounts(true)
-            .setAutoSelectEnabled(true)
+            .setAutoSelectEnabled(false)
             .build()
         var result = googleIdToken(activity, authorizedOnly)
         if (result is TokenResult.Error && result.noCredential) {

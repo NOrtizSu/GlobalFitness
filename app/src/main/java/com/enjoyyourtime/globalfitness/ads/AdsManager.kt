@@ -8,6 +8,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.enjoyyourtime.globalfitness.BuildConfig
+import com.enjoyyourtime.globalfitness.MainActivity
+import com.enjoyyourtime.globalfitness.billing.BillingRepository
 import com.google.android.gms.ads.MobileAds
 import com.google.android.ump.ConsentInformation
 import com.google.android.ump.ConsentRequestParameters
@@ -27,20 +29,27 @@ import kotlinx.coroutines.withContext
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
- * AdMob with Google's UMP consent (GDPR): the consent form runs when the first activity resumes,
+ * AdMob with Google's UMP consent (GDPR): the consent form runs when [MainActivity] resumes,
  * the Mobile Ads SDK is initialized only once [ConsentInformation.canRequestAds] is true, and
- * nothing is requested for premium users.
+ * nothing is requested for premium users or before Google Play has answered whether the user is
+ * premium (see [BillingRepository.entitlementKnown], which has its own short timeout).
  */
 class AdsManager(
     private val application: Application,
     private val scope: CoroutineScope,
-    private val isPremium: StateFlow<Boolean>,
+    premium: StateFlow<Boolean>,
+    /** False until the "remove ads" ownership is known (or a short timeout passed). */
+    entitlementKnown: StateFlow<Boolean>,
     val suppression: AdSuppression,
     /** Emits when a measurement was saved (no interstitial in the next 30 s). */
     measurementSaved: Flow<Unit>,
-    /** True while a scale weighing is in progress. */
+    /** True while a scale weighing or a GATT scale session is in progress. */
     scaleBusy: Flow<Boolean>,
 ) {
+    /** Premium, or not known yet: no ads in both cases. */
+    private val isPremium: StateFlow<Boolean> = combine(premium, entitlementKnown) { p, known -> p || !known }
+        .stateIn(scope, SharingStarted.Eagerly, premium.value || !entitlementKnown.value)
+
     private val consentInformation = UserMessagingPlatform.getConsentInformation(application)
     private val initStarted = AtomicBoolean(false)
     private var consentInFlight = false
@@ -77,7 +86,8 @@ class AdsManager(
         application.registerActivityLifecycleCallbacks(
             object : Application.ActivityLifecycleCallbacks {
                 override fun onActivityResumed(activity: Activity) {
-                    if (!isPremium.value) gatherConsent(activity)
+                    // Only the app's own screen; never over ad, sign-in or permission activities.
+                    if (activity is MainActivity && !premium.value) gatherConsent(activity)
                 }
 
                 override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) = Unit
@@ -89,7 +99,13 @@ class AdsManager(
             },
         )
         ProcessLifecycleOwner.get().lifecycle.addObserver(
-            LifecycleEventObserver { _, event -> if (event == Lifecycle.Event.ON_START) interstitials.onSessionStart() },
+            LifecycleEventObserver { _, event ->
+                when (event) {
+                    Lifecycle.Event.ON_START -> interstitials.onSessionStart()
+                    Lifecycle.Event.ON_STOP -> interstitials.onSessionStop()
+                    else -> Unit
+                }
+            },
         )
         scope.launch {
             combine(_canRequestAds, isPremium) { can, premium -> can && !premium }.first { it }

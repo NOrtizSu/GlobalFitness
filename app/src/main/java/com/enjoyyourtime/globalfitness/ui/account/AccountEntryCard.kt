@@ -59,6 +59,7 @@ fun AccountAndPremiumEntry(modifier: Modifier = Modifier) {
                     Text(
                         when {
                             signedIn == null -> "Sin cuenta: los datos solo están en este teléfono"
+                            sync.conflict != null || sync.deletionPending -> "$who · sincronización en pausa, toca para elegir"
                             sync.error != null -> "$who · error de sincronización"
                             lastSync != null -> "$who · ${Fmt.dateTime(lastSync)}"
                             else -> who

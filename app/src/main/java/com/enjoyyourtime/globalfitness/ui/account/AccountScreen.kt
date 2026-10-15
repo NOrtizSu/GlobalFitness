@@ -64,6 +64,7 @@ import com.enjoyyourtime.globalfitness.GlobalFitnessApp
 import com.enjoyyourtime.globalfitness.account.AccountUser
 import com.enjoyyourtime.globalfitness.ads.AdSuppression
 import com.enjoyyourtime.globalfitness.cloud.CloudSyncStatus
+import com.enjoyyourtime.globalfitness.cloud.ConflictChoice
 import com.enjoyyourtime.globalfitness.ui.Fmt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -120,6 +121,7 @@ fun AccountScreen(onBack: () -> Unit, vm: AccountViewModel = viewModel(factory =
                     onSync = vm::syncNow,
                     onSignOut = vm::signOut,
                     onDelete = { activity?.let(vm::deleteCloudDataAndAccount) },
+                    onResolve = vm::resolveConflict,
                 )
             }
         }
@@ -181,9 +183,11 @@ private fun SignedIn(
     onSync: () -> Unit,
     onSignOut: () -> Unit,
     onDelete: () -> Unit,
+    onResolve: (ConflictChoice) -> Unit,
 ) {
     var confirmSignOut by rememberSaveable { mutableStateOf(false) }
     var confirmDelete by rememberSaveable { mutableStateOf(false) }
+    val working = busy != null || status.deleting
 
     OutlinedCard(Modifier.fillMaxWidth()) {
         Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -198,11 +202,21 @@ private fun SignedIn(
         }
     }
 
+    status.conflict?.let { ConflictCard(it, enabled = !working, onResolve = onResolve) }
+    if (status.deletionPending && !status.deleting) {
+        Text(
+            "El borrado de tus datos de la nube no terminó y la sincronización está en pausa. Vuelve a pulsar " +
+                "«Borrar mis datos de la nube y la cuenta» para completarlo, o cierra sesión.",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.error,
+        )
+    }
+
     OutlinedCard(Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text("Sincronización", style = MaterialTheme.typography.titleSmall)
             SyncStatusLine(status)
-            FilledTonalButton(onClick = onSync, enabled = !status.syncing && busy == null) {
+            FilledTonalButton(onClick = onSync, enabled = !status.syncing && !working && !status.deletionPending) {
                 Icon(Icons.Filled.Refresh, contentDescription = null)
                 Spacer(Modifier.width(8.dp))
                 Text("Sincronizar ahora")
@@ -210,16 +224,16 @@ private fun SignedIn(
         }
     }
 
-    OutlinedButton(onClick = { confirmSignOut = true }, enabled = busy == null, modifier = Modifier.fillMaxWidth()) {
+    OutlinedButton(onClick = { confirmSignOut = true }, enabled = !working, modifier = Modifier.fillMaxWidth()) {
         Text("Cerrar sesión")
     }
     TextButton(
         onClick = { confirmDelete = true },
-        enabled = busy == null,
+        enabled = !working,
         modifier = Modifier.fillMaxWidth(),
         colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error),
     ) {
-        if (busy == AccountAction.DELETE) {
+        if (status.deleting) {
             CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp, color = MaterialTheme.colorScheme.error)
             Spacer(Modifier.width(8.dp))
         }
@@ -246,9 +260,9 @@ private fun SignedIn(
             title = { Text("¿Borrar tus datos de la nube y tu cuenta?") },
             text = {
                 Text(
-                    "Se borrarán para siempre tu copia en la nube (perfil, ajustes y mediciones) y tu cuenta de " +
+                    "Se borrarán para siempre tu copia en la nube (perfil, mediciones y básculas) y tu cuenta de " +
                         "GlobalFitness. Los datos de este teléfono no se borran.\n\n" +
-                        "Por seguridad, Google te pedirá que confirmes la cuenta.",
+                        "Por seguridad, Google te pedirá que elijas y confirmes la cuenta.",
                 )
             },
             confirmButton = {

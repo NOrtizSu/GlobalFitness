@@ -12,25 +12,32 @@ import com.enjoyyourtime.globalfitness.account.AccountUser
 import com.enjoyyourtime.globalfitness.account.AuthResult
 import com.enjoyyourtime.globalfitness.ads.AdSuppression
 import com.enjoyyourtime.globalfitness.cloud.CloudSyncStatus
+import com.enjoyyourtime.globalfitness.cloud.ConflictChoice
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-enum class AccountAction { SIGN_IN, SIGN_OUT, DELETE }
+enum class AccountAction { SIGN_IN, SIGN_OUT }
 
 class AccountViewModel(private val container: AppContainer) : ViewModel() {
+    private val engine = container.cloudSync
+
     val user: StateFlow<AccountUser?> = container.account.user
-    val status: StateFlow<CloudSyncStatus> = container.cloudSync.status
+    val status: StateFlow<CloudSyncStatus> = engine.status
 
     private val _busy = MutableStateFlow<AccountAction?>(null)
     val busy: StateFlow<AccountAction?> = _busy.asStateFlow()
 
     private val _message = MutableStateFlow<String?>(null)
 
-    /** One-shot Spanish feedback, cleared with [consumeMessage]. */
-    val message: StateFlow<String?> = _message.asStateFlow()
+    /** One-shot Spanish feedback (this screen's actions and sync notices), cleared with [consumeMessage]. */
+    val message: StateFlow<String?> = combine(_message, engine.messages) { own, engineMessage -> own ?: engineMessage }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     fun signIn(activity: Activity) = perform(AccountAction.SIGN_IN, AdSuppression.SIGN_IN) {
         when (val result = container.account.signIn(activity)) {
@@ -41,22 +48,20 @@ class AccountViewModel(private val container: AppContainer) : ViewModel() {
     }
 
     fun signOut() = perform(AccountAction.SIGN_OUT, null) {
-        container.account.signOut()
+        engine.signOut()
         "Sesión cerrada. Tus datos siguen en este teléfono."
     }
 
-    fun syncNow() = container.cloudSync.syncNow()
+    fun syncNow() = engine.syncNow()
 
-    fun deleteCloudDataAndAccount(activity: Activity) = perform(AccountAction.DELETE, AdSuppression.SIGN_IN) {
-        when (val result = container.cloudSync.deleteCloudDataAndAccount(activity)) {
-            AuthResult.Success -> "Se han borrado tus datos de la nube y tu cuenta. Los datos de este teléfono se conservan."
-            AuthResult.Cancelled -> "No se ha borrado nada."
-            is AuthResult.Failure -> result.message
-        }
-    }
+    fun resolveConflict(choice: ConflictChoice) = engine.resolveConflict(choice)
+
+    /** Runs in the app scope (keeps going if this screen closes); progress in [status], result in [message]. */
+    fun deleteCloudDataAndAccount(activity: Activity) = engine.deleteCloudDataAndAccount(activity)
 
     fun consumeMessage() {
         _message.value = null
+        engine.consumeMessage()
     }
 
     private fun perform(action: AccountAction, suppressAds: String?, block: suspend () -> String?) {

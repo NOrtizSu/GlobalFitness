@@ -22,6 +22,21 @@ class SyncStateStore(context: Context) {
         Unit
     }
 
+    /** A cloud deletion started for [uid] and has not finished: sync stays paused until it does. */
+    suspend fun isDeletionPending(uid: String): Boolean = withContext(Dispatchers.IO) { pendingFile(uid).isFile }
+
+    suspend fun setDeletionPending(uid: String, pending: Boolean) = withContext(Dispatchers.IO) {
+        if (pending) {
+            dir.mkdirs()
+            pendingFile(uid).writeText("1")
+        } else {
+            pendingFile(uid).delete()
+        }
+        Unit
+    }
+
+    private fun pendingFile(uid: String) = File(dir, "deletion_pending_${FirestoreCodec.safeDocId(uid)}")
+
     suspend fun loadStamps(): EditStamps =
         read(File(dir, STAMPS_FILE))?.let(SyncStateCodec::decodeStamps) ?: EditStamps(null, null)
 

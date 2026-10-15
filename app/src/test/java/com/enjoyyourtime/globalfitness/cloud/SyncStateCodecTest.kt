@@ -9,28 +9,32 @@ class SyncStateCodecTest {
     @Test
     fun baseRoundTrips() {
         val base = SyncBase(
-            datasetKey = "profile:3:1700000000000",
+            datasetKey = "8d5f0c1e-0000-4000-8000-000000000001",
             lastPullAt = 1_700_000_123_456L,
             lastSyncAt = 1_700_000_200_000L,
             measurements = mapOf(
                 "m_1_80000" to BaseEntry.Live("-|scale"),
-                "m_2_80100" to BaseEntry.Live("512|manual"),
+                "m_2_80100" to BaseEntry.Live("512|manual|fatPercent=18.0|DEVICE|-|xiaomi_s400"),
                 "m_3_80200" to BaseEntry.Deleted(1_700_000_000_999L),
+                "m_4_80210" to BaseEntry.Alias("m_2_80100"),
             ),
             devices = mapOf("mi_scale_2_1" to BaseEntry.Live("abc123")),
+            profileSynced = true,
+            premiumMirrored = true,
         )
         assertEquals(base, SyncStateCodec.decodeBase(SyncStateCodec.encodeBase(base)))
     }
 
     @Test
     fun baseWithoutCursorRoundTrips() {
-        val base = SyncBase("none", null, null, emptyMap(), emptyMap())
+        val base = SyncBase("ds", null, null, emptyMap(), emptyMap())
         assertEquals(base, SyncStateCodec.decodeBase(SyncStateCodec.encodeBase(base)))
     }
 
     @Test
-    fun unknownVersionOrGarbageIsIgnored() {
-        assertNull(SyncStateCodec.decodeBase("v\t99\ndataset\tx\n"))
+    fun oldVersionsAndGarbageAreDropped() {
+        // Version 1 bases had no dataset id: the next sync starts fresh instead of trusting them.
+        assertNull(SyncStateCodec.decodeBase("v\t1\ndataset\tprofile:1:1\nm\tm_1_80000\tL\t-|scale\n"))
         assertNull(SyncStateCodec.decodeBase("garbage"))
         assertNull(SyncStateCodec.decodeBase(""))
     }
@@ -44,10 +48,10 @@ class SyncStateCodecTest {
 
     @Test
     fun editStampKeepsTimeUntilContentChanges() {
-        val first = EditStamp.observe(previous = null, hash = "a", now = 500, fallback = 100)
-        assertEquals(EditStamp("a", 100), first) // first sighting: the data layer's best known time
+        val first = EditStamp.observe(previous = null, hash = "a", now = 500, fallback = 0)
+        assertEquals(EditStamp("a", 0), first) // first sighting: never newer than the cloud
 
-        assertEquals(first, EditStamp.observe(first, "a", now = 900, fallback = 100))
-        assertEquals(EditStamp("b", 900), EditStamp.observe(first, "b", now = 900, fallback = 100))
+        assertEquals(first, EditStamp.observe(first, "a", now = 900, fallback = 0))
+        assertEquals(EditStamp("b", 900), EditStamp.observe(first, "b", now = 900, fallback = 0))
     }
 }

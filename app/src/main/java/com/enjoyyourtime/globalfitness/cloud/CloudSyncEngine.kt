@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -28,6 +27,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+
+/** The sync is paused until the user answers. */
+data class SyncConflict(val kind: ConflictKind, val count: Int = 0)
 
 /** What the account screen shows about the backup. */
 data class CloudSyncStatus(
@@ -41,13 +43,20 @@ data class CloudSyncStatus(
     val retrying: Boolean = false,
     /** Some changes are saved in the offline queue and will be sent when there is connection. */
     val pendingUpload: Boolean = false,
+    /** Paused waiting for the user's choice (see [CloudSyncEngine.resolveConflict]). */
+    val conflict: SyncConflict? = null,
+    /** "Borrar mis datos de la nube" is running. */
+    val deleting: Boolean = false,
+    /** A cloud deletion did not finish: sync is paused until it is retried or the user signs out. */
+    val deletionPending: Boolean = false,
 )
 
 /**
- * Keeps the local data and the user's cloud copy in sync while signed in:
- * a merge right after sign-in and on app start, a pull/merge when the app comes back to the
- * foreground or on "Sincronizar ahora", and a debounced upload after local changes.
- * Everything runs in the background with retries; errors are surfaced in [status], never thrown.
+ * Keeps the local data and the user's cloud copy in sync while signed in: a merge right after
+ * sign-in and on app start, a pull/merge when the app comes back to the foreground or on
+ * "Sincronizar ahora", and a debounced upload after local changes. Two different datasets are never
+ * merged automatically (see [DatasetGate]). Everything runs in the background with retries; errors
+ * are surfaced in [status] and [messages], never thrown.
  */
 @OptIn(FlowPreview::class)
 class CloudSyncEngine(
@@ -55,9 +64,10 @@ class CloudSyncEngine(
     private val scope: CoroutineScope,
     private val account: AccountManager,
     private val source: BackupDataSource,
-    isPremium: StateFlow<Boolean>,
+    private val isPremium: StateFlow<Boolean>,
     private val remote: FirestoreBackupRemote = FirestoreBackupRemote(),
     private val store: SyncStateStore = SyncStateStore(context),
+    private val identityStore: DatasetIdentityStore = DatasetIdentityStore(context),
     private val clock: () -> Long = System::currentTimeMillis,
     private val retry: RetryPolicy = RetryPolicy(),
 ) {
@@ -65,6 +75,7 @@ class CloudSyncEngine(
     private val requests = Channel<Unit>(Channel.CONFLATED)
     private var stamps: EditStamps? = null
     private var lastForegroundSync = 0L
+    private var pendingChoice: ConflictChoice? = null
 
     @Volatile
     private var deleting = false
@@ -72,95 +83,131 @@ class CloudSyncEngine(
     private val _status = MutableStateFlow(CloudSyncStatus(signedIn = account.user.value != null))
     val status: StateFlow<CloudSyncStatus> = _status.asStateFlow()
 
+    private val _messages = MutableStateFlow<String?>(null)
+
+    /** One-shot Spanish notices (account deleted, cloud copy gone...), cleared with [consumeMessage]. */
+    val messages: StateFlow<String?> = _messages.asStateFlow()
+
     init {
         scope.launch { watchLocalChanges() }
         scope.launch { runWhileSignedIn() }
         scope.launch {
-            val mirrored = HashSet<String>()
-            combine(account.user.map { it?.uid }, isPremium) { uid, premium -> uid.takeIf { premium } }
-                .distinctUntilChanged()
-                .collect { uid ->
-                    if (uid != null && uid !in mirrored) {
-                        try {
-                            remote.markPremium(uid)
-                            mirrored += uid
-                        } catch (e: CancellationException) {
-                            throw e
-                        } catch (e: Exception) {
-                            Log.w(TAG, "Could not mirror premium flag", e)
-                        }
-                    }
-                }
+            // Mirror the informational premium flag on the next sync.
+            isPremium.collect { premium -> if (premium && account.user.value != null) requests.trySend(Unit) }
         }
         ProcessLifecycleOwner.get().lifecycle.addObserver(
             LifecycleEventObserver { _, event -> if (event == Lifecycle.Event.ON_START) onAppForeground() },
         )
     }
 
-    /** "Sincronizar ahora". */
+    /** "Sincronizar ahora" (also re-checks a paused conflict). */
     fun syncNow() {
         requests.trySend(Unit)
     }
 
+    /** The user's answer to [CloudSyncStatus.conflict]. */
+    fun resolveConflict(choice: ConflictChoice) {
+        pendingChoice = choice
+        _status.update { it.copy(conflict = null) }
+        requests.trySend(Unit)
+    }
+
+    fun consumeMessage() {
+        _messages.value = null
+    }
+
+    /** Signs out; local data stays. Also gives up a pending cloud deletion of this account. */
+    suspend fun signOut() {
+        account.currentUid()?.let { store.setDeletionPending(it, false) }
+        pendingChoice = null
+        account.signOut()
+    }
+
     /**
      * Deletes the whole cloud backup and the Firebase account (Play policy: account deletion).
-     * Re-authenticates first, so nothing is deleted if the user backs out. Local data stays.
+     * Runs in the app scope (survives the screen), re-authenticates first so nothing is deleted if
+     * the user backs out, and pauses sync until it finishes. The result arrives in [messages].
      */
-    suspend fun deleteCloudDataAndAccount(activity: Activity): AuthResult {
-        val uid = account.currentUid() ?: return AuthResult.Failure("No hay ninguna sesión iniciada.")
+    fun deleteCloudDataAndAccount(activity: Activity) {
+        val uid = account.currentUid()
+        if (uid == null) {
+            _messages.value = "No hay ninguna sesión iniciada."
+            return
+        }
+        if (deleting) return
         deleting = true
-        try {
-            return mutex.withLock {
-                val reauth = account.reauthenticate(activity)
-                if (reauth != AuthResult.Success) return@withLock reauth
-                // Forget what was synced: if anything below fails, the next sync re-uploads from scratch.
-                store.clearBase(uid)
-                try {
-                    remote.deleteAll(uid)
-                } catch (e: CancellationException) {
-                    throw e
-                } catch (e: Exception) {
-                    Log.w(TAG, "Cloud deletion failed", e)
-                    return@withLock AuthResult.Failure("No se pudieron borrar los datos de la nube. ${CloudErrors.message(e)}")
+        _status.update { it.copy(deleting = true) }
+        var prompt: Activity? = activity
+        scope.launch {
+            try {
+                val result = mutex.withLock {
+                    val reauth = account.reauthenticate(prompt ?: return@withLock AuthResult.Cancelled)
+                    prompt = null
+                    if (reauth != AuthResult.Success) return@withLock reauth
+                    store.setDeletionPending(uid, true)
+                    // Forget what was synced: if anything fails, the next sync starts from scratch.
+                    store.clearBase(uid)
+                    try {
+                        remote.deleteAll(uid)
+                    } catch (e: CancellationException) {
+                        throw e
+                    } catch (e: Exception) {
+                        Log.w(TAG, "Cloud deletion failed", e)
+                        return@withLock AuthResult.Failure("No se pudieron borrar todos los datos de la nube. ${CloudErrors.message(e)}")
+                    }
+                    account.deleteUser().also { if (it == AuthResult.Success) store.setDeletionPending(uid, false) }
                 }
-                account.deleteUser()
+                _messages.value = when (result) {
+                    AuthResult.Success -> "Se han borrado tus datos de la nube y tu cuenta. Los datos de este teléfono se conservan."
+                    AuthResult.Cancelled -> "No se ha borrado nada."
+                    is AuthResult.Failure -> result.message
+                }
+            } finally {
+                prompt = null
+                deleting = false
+                val pending = store.isDeletionPending(uid)
+                _status.update { it.copy(deleting = false, deletionPending = pending && account.currentUid() == uid) }
             }
-        } finally {
-            deleting = false
         }
     }
 
     private fun onAppForeground() {
         val now = SystemClock.elapsedRealtime()
-        if (account.user.value == null || now - lastForegroundSync < FOREGROUND_SYNC_MIN_INTERVAL_MS) return
+        if (account.user.value == null || _status.value.conflict != null) return
+        if (now - lastForegroundSync < FOREGROUND_SYNC_MIN_INTERVAL_MS) return
         lastForegroundSync = now
         requests.trySend(Unit)
     }
 
-    /** Records edit times of local changes and schedules a debounced upload while signed in. */
+    /** Records identity / edit times of local changes and schedules a debounced upload while signed in. */
     private suspend fun watchLocalChanges() {
         source.changes.debounce(LOCAL_CHANGE_DEBOUNCE_MS).collect {
             try {
-                mutex.withLock { stamped(source.snapshot()) }
+                mutex.withLock { prepare(source.snapshot()) }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                Log.w(TAG, "Could not record local edit time", e)
+                Log.w(TAG, "Could not observe the local data", e)
             }
-            if (account.user.value != null) requests.trySend(Unit)
+            if (account.user.value != null && _status.value.conflict == null) requests.trySend(Unit)
         }
     }
 
     private suspend fun runWhileSignedIn() {
         account.user.map { it?.uid }.distinctUntilChanged().collectLatest { uid ->
+            pendingChoice = null
             if (uid == null) {
                 _status.value = CloudSyncStatus()
                 return@collectLatest
             }
             val base = store.loadBase(uid)
-            _status.value = CloudSyncStatus(signedIn = true, lastSyncAt = base?.lastSyncAt)
+            _status.value = CloudSyncStatus(
+                signedIn = true,
+                lastSyncAt = base?.lastSyncAt,
+                deletionPending = store.isDeletionPending(uid),
+            )
             lastForegroundSync = SystemClock.elapsedRealtime()
-            requests.trySend(Unit) // first merge after sign-in / app start
+            requests.trySend(Unit) // first sync after sign-in / app start
             for (request in requests) syncWithRetry(uid)
         }
     }
@@ -193,25 +240,100 @@ class CloudSyncEngine(
         }
     }
 
-    /** One full sync. Returns whether writes are still queued offline, or null if it was skipped. */
+    /** One sync. Returns whether writes are still queued offline, or null if it was skipped or paused. */
     private suspend fun syncOnce(uid: String): Boolean? = mutex.withLock {
         if (deleting || account.currentUid() != uid) return@withLock null
-        val local = stamped(source.snapshot())
+        if (store.isDeletionPending(uid)) {
+            _status.update { it.copy(deletionPending = true) }
+            return@withLock null
+        }
+        val local = prepare(source.snapshot())
         val base = store.loadBase(uid)
-        val since = if (SyncMerge.isBaseTrusted(base, local)) base?.lastPullAt else null
-        val remoteSnapshot = remote.fetch(uid, since)
+        val trusted = SyncMerge.isBaseTrusted(base, local)
+        var remoteSnapshot = remote.fetch(uid, if (trusted) base?.lastPullAt else null)
+        val choice = pendingChoice
+        val mode = DatasetGate.decide(local, remoteSnapshot, base, choice)
+        if ((mode == SyncMode.AdoptCloud || mode == SyncMode.ReplaceCloud) && !remoteSnapshot.complete) {
+            remoteSnapshot = remote.fetch(uid, null)
+        }
         val now = clock()
-        val plan = withContext(Dispatchers.Default) { SyncMerge.plan(local, remoteSnapshot, base, now) }
+        val plan = when (mode) {
+            SyncMode.Idle -> return@withLock false
+            SyncMode.RemoteWiped -> {
+                onRemoteWiped(uid)
+                return@withLock null
+            }
+            is SyncMode.NeedsChoice -> {
+                _status.update { it.copy(conflict = SyncConflict(mode.kind)) }
+                return@withLock null
+            }
+            SyncMode.Merge -> {
+                val effectiveBase = if (choice == ConflictChoice.UNDO_DELETIONS && base != null) SyncMerge.withoutLiveEntries(base) else base
+                val merge = withContext(Dispatchers.Default) { SyncMerge.plan(local, remoteSnapshot, effectiveBase, now) }
+                if (choice != ConflictChoice.CONFIRM_DELETIONS && SyncMerge.isMassDeletion(merge, effectiveBase)) {
+                    _status.update { it.copy(conflict = SyncConflict(ConflictKind.MASS_DELETE, merge.measurementDeletions)) }
+                    return@withLock null
+                }
+                merge
+            }
+            SyncMode.AdoptCloud -> SyncMerge.planAdoptCloud(local, remoteSnapshot)
+            SyncMode.ReplaceCloud -> SyncMerge.planReplaceCloud(local, remoteSnapshot, now)
+        }
+        val datasetId = if (mode == SyncMode.AdoptCloud) {
+            (remoteSnapshot.profileDoc as? RemoteProfileDoc.Live)?.datasetId ?: local.datasetId
+        } else {
+            local.datasetId
+        }
 
-        if (!plan.localChanges.isEmpty) source.apply(plan.localChanges)
+        var after = local
+        if (!plan.localChanges.isEmpty) {
+            val changes = if (mode == SyncMode.Merge) {
+                SyncMerge.dropStaleSingles(plan.localChanges, local, source.snapshot())
+            } else {
+                plan.localChanges
+            }
+            source.apply(changes)
+            after = source.snapshot() // right after applying, before the (slow) upload
+        }
+        if (datasetId != local.datasetId) {
+            withContext(Dispatchers.IO) { identityStore.load()?.let { identityStore.save(it.adopt(datasetId)) } }
+        }
         val confirmed = if (plan.uploads.isEmpty()) true else remote.write(uid, plan.uploads)
-        val after = source.snapshot()
         rememberAppliedEdits(plan.localChanges, after)
-        store.saveBase(uid, SyncMerge.nextBase(base, local, remoteSnapshot, plan, after, now))
+
+        var next = SyncMerge.nextBase(base, local.copy(datasetId = datasetId), remoteSnapshot, plan, after, now)
+        if (isPremium.value && !next.premiumMirrored && !deleting) next = next.copy(premiumMirrored = mirrorPremium(uid))
+        store.saveBase(uid, next)
+        pendingChoice = null
+        _status.update { it.copy(conflict = null) }
         !confirmed
     }
 
-    /** Fills profile / settings edit times from the stamps (see [EditStamp.observe]). Call under [mutex]. */
+    /** The cloud copy this phone synced is gone (account deleted elsewhere): stop and sign out, keep local data. */
+    private suspend fun onRemoteWiped(uid: String) {
+        store.clearBase(uid)
+        _messages.value = "Tu copia en la nube ya no existe (se borró desde otro dispositivo). " +
+            "Se ha cerrado la sesión; los datos de este teléfono se conservan."
+        // Outside this coroutine: signing out cancels the sync worker that is running here.
+        scope.launch { account.signOut() }
+    }
+
+    private suspend fun mirrorPremium(uid: String): Boolean = try {
+        remote.markPremium(uid)
+    } catch (e: CancellationException) {
+        throw e
+    } catch (e: Exception) {
+        Log.w(TAG, "Could not mirror the premium flag; retried on the next sync", e)
+        false
+    }
+
+    /** Dataset identity (and deletion journal) plus profile / settings edit times. Call under [mutex]. */
+    private suspend fun prepare(snapshot: LocalSnapshot): LocalSnapshot {
+        val identity = withContext(Dispatchers.IO) { identityStore.observe(snapshot.ownerKey, clock()) }
+        return stamped(snapshot.copy(datasetId = identity.datasetId, profileDeletedAt = identity.profileDeletedAt))
+    }
+
+    /** Fills profile / settings edit times from the stamps (see [EditStamp.observe]). */
     private suspend fun stamped(local: LocalSnapshot): LocalSnapshot {
         val current = stamps ?: store.loadStamps()
         val now = clock()
