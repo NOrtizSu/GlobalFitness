@@ -7,6 +7,8 @@ import android.util.Log
 import com.enjoyyourtime.globalfitness.GlobalFitnessApp
 import com.enjoyyourtime.globalfitness.data.Measurement
 import com.enjoyyourtime.globalfitness.data.MeasurementSource
+import com.enjoyyourtime.globalfitness.scale.CompositionSource
+import com.enjoyyourtime.globalfitness.scale.FormulaLib
 import kotlinx.coroutines.launch
 import kotlin.math.sin
 import kotlin.random.Random
@@ -14,6 +16,8 @@ import kotlin.random.Random
 /**
  * Debug-only test helper: adds a deterministic weight history (Mi Scale 2 readings with
  * impedance, plus a few manual weights) to the current profile, to check the UI on an emulator.
+ * With `--es lib <FormulaLib id>` the scale readings use that formula library instead (e.g.
+ * `STANDARD_IMPEDANCE`, which also estimates skeletal muscle).
  *
  *     adb shell am broadcast -n com.enjoyyourtime.globalfitness/.debug.DebugMeasurementSeedReceiver --ei days 120
  */
@@ -23,6 +27,7 @@ class DebugMeasurementSeedReceiver : BroadcastReceiver() {
         val pending = goAsync()
         val container = (context.applicationContext as GlobalFitnessApp).container
         val days = intent.getIntExtra("days", 120).coerceIn(1, 3650)
+        val lib = FormulaLib.fromId(intent.getStringExtra("lib"))?.takeIf { it != FormulaLib.MI_SCALE }
         container.appScope.launch {
             try {
                 container.repository.awaitLoaded()
@@ -44,8 +49,10 @@ class DebugMeasurementSeedReceiver : BroadcastReceiver() {
                             timestamp = t,
                             weightKg = Math.round(weight * 20) / 20.0,
                             impedance = if (manual) null else 480 + random.nextInt(-25, 25),
-                            scaleKey = if (manual) null else "debug-$d",
+                            scaleKey = if (manual) null else "debug-${lib?.id?.plus("-").orEmpty()}$d",
                             source = if (manual) MeasurementSource.MANUAL else MeasurementSource.SCALE,
+                            compositionSource = if (manual || lib == null) null else CompositionSource.Formula(lib),
+                            formulaLib = if (manual) null else lib,
                         ),
                     )
                     added++

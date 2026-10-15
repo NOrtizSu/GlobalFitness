@@ -162,8 +162,9 @@ fun MeasurementDetailSheet(entry: Entry, onDelete: () -> Unit, onDismiss: () -> 
             HorizontalDivider(Modifier.padding(vertical = 8.dp))
             InfoRow("Peso", Fmt.kg(m.weightKg))
             InfoRow("Impedancia", m.impedance?.let { "$it Ω" } ?: "—")
-            Metric.entries.filter { it != Metric.WEIGHT }.forEach { metric ->
+            Metric.entries.forEach { metric ->
                 val v = metric.extract(c)
+                if (metric == Metric.WEIGHT || (metric.optional && v == null)) return@forEach
                 val chip = if (v != null) metric.classify(c) else null
                 InfoRow(
                     metric.label,

@@ -7,12 +7,15 @@ enum class Metric(
     val decimals: Int,
     val needsImpedance: Boolean,
     val chartable: Boolean = true,
+    /** Listed only when a measurement has a value (few scales or formula libraries estimate it). */
+    val optional: Boolean = false,
 ) {
     WEIGHT("Peso", "kg", 2, needsImpedance = false),
     BMI("IMC", "", 1, needsImpedance = false),
     FAT_PERCENT("Grasa", "%", 1, needsImpedance = true),
     FAT_MASS("Masa grasa", "kg", 1, needsImpedance = true),
     MUSCLE("Músculo", "kg", 1, needsImpedance = true),
+    SKELETAL_MUSCLE("Músculo esquelético", "%", 1, needsImpedance = true, optional = true),
     WATER("Agua", "%", 1, needsImpedance = true),
     BONE("Hueso", "kg", 2, needsImpedance = true),
     VISCERAL("Grasa visceral", "", 1, needsImpedance = false),
@@ -27,6 +30,7 @@ enum class Metric(
         FAT_PERCENT -> c.fatPercent
         FAT_MASS -> c.fatMassKg
         MUSCLE -> c.muscleKg
+        SKELETAL_MUSCLE -> c.skeletalMusclePercent
         WATER -> c.waterPercent
         BONE -> c.boneKg
         VISCERAL -> c.visceralFat
@@ -42,6 +46,7 @@ enum class Metric(
         BMI -> Classifier.bmi(c.bmi)
         FAT_PERCENT, FAT_MASS -> c.fatPercent?.let { Classifier.fat(it, c.sex, c.age) }
         MUSCLE -> c.muscleKg?.let { Classifier.muscle(it, c.sex, c.heightCm) }
+        SKELETAL_MUSCLE -> c.skeletalMusclePercent?.let { Classifier.skeletalMuscle(it, c.sex) }
         WATER -> c.waterPercent?.let { Classifier.water(it, c.sex) }
         BONE -> c.boneKg?.let { Classifier.bone(it, c.sex, c.weightKg) }
         VISCERAL -> Classifier.visceral(c.visceralFat)
@@ -60,6 +65,7 @@ enum class Metric(
         BMI -> 18.5..24.9
         FAT_PERCENT -> Classifier.fatThresholds(c.sex, c.age).let { it[0]..it[2] }
         MUSCLE -> Classifier.muscleRange(c.sex, c.heightCm)
+        SKELETAL_MUSCLE -> Classifier.skeletalMuscleRange(c.sex)
         WATER -> Classifier.waterRange(c.sex)
         BONE -> Classifier.boneRange(c.sex, c.weightKg)
         VISCERAL -> 1.0..9.9

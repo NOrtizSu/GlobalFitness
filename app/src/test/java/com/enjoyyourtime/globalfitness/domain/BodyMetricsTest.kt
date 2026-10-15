@@ -173,6 +173,25 @@ class BodyMetricsTest {
 
         val mi = BodyMetrics.compute(Sex.MALE, 180.0, 30, 80.0, 500)
         assertNull(mi.skeletalMusclePercent)
+
+        // Its own metric: % of body weight against the skeletal muscle bands (M 33.3–39.3).
+        assertEquals(c.skeletalMusclePercent!!, Metric.SKELETAL_MUSCLE.extract(c)!!, 0.0)
+        assertEquals(Classification("Alto", Status.GOOD), Metric.SKELETAL_MUSCLE.classify(c))
+        assertEquals(33.3..39.3, Metric.SKELETAL_MUSCLE.normalRange(c))
+        assertNull(Metric.SKELETAL_MUSCLE.classify(mi))
+    }
+
+    /** A status chip never shows for a value that is missing (e.g. protein or muscle a library does not give). */
+    @Test
+    fun noStatusWithoutAValue() {
+        for (lib in FormulaLib.entries + null) {
+            for (impedance in listOf(null, 500)) {
+                val c = BodyMetrics.compute(Sex.FEMALE, 165.0, 40, 62.0, impedance, lib, null)
+                for (metric in Metric.entries) {
+                    if (metric.extract(c) == null) assertNull("$lib $impedance $metric", metric.classify(c))
+                }
+            }
+        }
     }
 
     @Test

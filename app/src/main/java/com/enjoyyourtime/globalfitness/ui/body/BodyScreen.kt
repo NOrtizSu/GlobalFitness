@@ -121,9 +121,13 @@ fun BodyScreen(
     val average = allAverage.filter { it.t >= xStart }
     val latestWithValue = entries.lastOrNull { metric.extract(it.composition) != null }
 
+    // Optional metrics (skeletal muscle) only when some measurement has them, or while selected.
+    val chipMetrics = remember(entries, metric) {
+        Metric.chartMetrics.filter { m -> !m.optional || m == metric || entries.any { m.extract(it.composition) != null } }
+    }
     val chipState = rememberLazyListState()
     LaunchedEffect(metric) {
-        val index = Metric.chartMetrics.indexOf(metric)
+        val index = chipMetrics.indexOf(metric)
         if (index >= 0) chipState.animateScrollToItem(index)
     }
     val zone = ZoneId.systemDefault()
@@ -152,7 +156,7 @@ fun BodyScreen(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fullBleed(16.dp),
             ) {
-                items(Metric.chartMetrics) { m ->
+                items(chipMetrics) { m ->
                     FilterChip(selected = m == metric, onClick = { onMetric(m) }, label = { Text(m.label) })
                 }
             }
