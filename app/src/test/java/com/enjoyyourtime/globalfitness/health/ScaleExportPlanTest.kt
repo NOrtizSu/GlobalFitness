@@ -28,23 +28,35 @@ class ScaleExportPlanTest {
 
     private fun payload(id: Long, impedance: Int? = 500, weight: Double = 62.0) = ExportPayload.from(m(id, impedance, weight), profile, all)!!
 
-    private fun ledger(p: ExportPayload, version: Long = 1) = LedgerEntry(p.measurementId, p.signature, version, p.types)
+    private fun ledger(p: ExportPayload, version: Long = 1, key: String? = p.recordKey) =
+        LedgerEntry(p.measurementId, p.signature, version, p.types, key)
+
+    private val now = t0 + 400 * 86_400_000L
 
     // ---- clientRecordId scheme ------------------------------------------------------------
 
     @Test
-    fun clientRecordIdSchemeRoundTrips() {
-        assertEquals("gf-42-weight", ClientRecordIds.of(42, ExportRecordType.WEIGHT))
-        assertEquals("gf-42-bodyfat", ClientRecordIds.of(42, ExportRecordType.BODY_FAT))
-        assertEquals("gf-7-bmr", ClientRecordIds.of(7, ExportRecordType.BASAL_METABOLIC_RATE))
-        for (type in ExportRecordType.entries) {
-            assertEquals(123L to type, ClientRecordIds.parse(ClientRecordIds.of(123, type)))
-        }
-        val ids = ExportRecordType.entries.map { ClientRecordIds.of(5, it) }
+    fun clientRecordIdsUseTheStableNaturalId() {
+        val m = m(42, weight = 62.35)
+        val key = ClientRecordIds.recordKey(m)
+        assertEquals("m_${m.timestamp}_62350", key)
+        assertEquals("$key-weight", ClientRecordIds.of(key, ExportRecordType.WEIGHT))
+        assertEquals("$key-bodyfat", ClientRecordIds.of(key, ExportRecordType.BODY_FAT))
+        assertEquals("$key-bmr", ClientRecordIds.of(key, ExportRecordType.BASAL_METABOLIC_RATE))
+        val ids = ExportRecordType.entries.map { ClientRecordIds.of(key, it) }
         assertEquals("ids must be unique per type", ids.size, ids.toSet().size)
-        assertNull(ClientRecordIds.parse("gf-x-weight"))
-        assertNull(ClientRecordIds.parse("gf-5-height"))
-        assertNull(ClientRecordIds.parse("other-5-weight"))
+        // The local database id plays no part: the same reading after a reinstall gets the same ids.
+        assertEquals(key, ClientRecordIds.recordKey(m.copy(id = 1)))
+        assertEquals(key, payload(42, weight = 62.35).recordKey)
+    }
+
+    @Test
+    fun legacyLedgerEntriesResolveToTheOldIds() {
+        assertEquals("gf-42-weight", ClientRecordIds.legacy(42, ExportRecordType.WEIGHT))
+        val legacy = LedgerEntry(42, "sig", 1, setOf(ExportRecordType.WEIGHT, ExportRecordType.BODY_FAT), recordKey = null)
+        assertEquals(listOf("gf-42-weight", "gf-42-bodyfat"), legacy.refs().map { it.clientId })
+        val current = legacy.copy(recordKey = "m_5_62000")
+        assertEquals("m_5_62000-weight", current.clientId(ExportRecordType.WEIGHT))
     }
 
     // ---- Payload --------------------------------------------------------------------------
@@ -88,23 +100,25 @@ class ScaleExportPlanTest {
     @Test
     fun newMeasurementsAfterTheWatermarkAreWrittenAutomatically() {
         val payloads = listOf(payload(1), payload(2), payload(3))
-        val plan = ScaleExportPlanner.plan(setOf(1, 2, 3), payloads, emptyList(), autoAfterId = 2, backfill = false, writeEnabled = true)
+        val plan = ScaleExportPlanner.plan(setOf(1, 2, 3), payloads, emptyList(), autoAfterId = 2, backfill = false, writeEnabled = true, now = now)
         assertEquals(listOf(3L), plan.writes.map { it.payload.measurementId })
-        assertEquals(1L, plan.writes.single().version)
+        // First writes are versioned with the clock, above anything an earlier installation wrote.
+        assertEquals(now, plan.writes.single().version)
+        assertTrue(plan.writes.single().stale.isEmpty())
         assertTrue(plan.deletes.isEmpty())
     }
 
     @Test
     fun historyExportWritesEverythingNotYetWritten() {
         val payloads = listOf(payload(1), payload(2), payload(3))
-        val plan = ScaleExportPlanner.plan(setOf(1, 2, 3), payloads, listOf(ledger(payload(2))), autoAfterId = 5, backfill = true, writeEnabled = true)
+        val plan = ScaleExportPlanner.plan(setOf(1, 2, 3), payloads, listOf(ledger(payload(2))), autoAfterId = 5, backfill = true, writeEnabled = true, now = now)
         assertEquals(listOf(1L, 3L), plan.writes.map { it.payload.measurementId })
     }
 
     @Test
     fun unchangedMeasurementsAreNotRewritten() {
         val p = payload(4)
-        val plan = ScaleExportPlanner.plan(setOf(4), listOf(p), listOf(ledger(p, version = 3)), autoAfterId = 0, backfill = true, writeEnabled = true)
+        val plan = ScaleExportPlanner.plan(setOf(4), listOf(p), listOf(ledger(p, version = 3)), autoAfterId = 0, backfill = true, writeEnabled = true, now = now)
         assertTrue(plan.isEmpty)
     }
 
@@ -113,29 +127,55 @@ class ScaleExportPlanTest {
         // Weight-only first, then the impedance arrived: same client ids, version + 1.
         val before = payload(4, impedance = null)
         val after = payload(4)
-        val plan = ScaleExportPlanner.plan(setOf(4), listOf(after), listOf(ledger(before, version = 1)), autoAfterId = 10, backfill = false, writeEnabled = true)
+        val plan = ScaleExportPlanner.plan(setOf(4), listOf(after), listOf(ledger(before, version = now)), autoAfterId = 10, backfill = false, writeEnabled = true, now = now)
         val write = plan.writes.single()
-        assertEquals(2L, write.version)
-        assertTrue(write.staleTypes.isEmpty())
+        assertEquals(now + 1, write.version)
+        assertTrue(write.stale.isEmpty())
 
-        // The other way round: values that disappear are deleted.
-        val shrink = ScaleExportPlanner.plan(setOf(4), listOf(before), listOf(ledger(after, version = 2)), autoAfterId = 10, backfill = false, writeEnabled = true)
-        assertEquals(3L, shrink.writes.single().version)
-        assertEquals(after.types - before.types, shrink.writes.single().staleTypes)
+        // The other way round: values that disappear are deleted (same ids).
+        val shrink = ScaleExportPlanner.plan(setOf(4), listOf(before), listOf(ledger(after, version = 7)), autoAfterId = 10, backfill = false, writeEnabled = true, now = now)
+        assertEquals(now, shrink.writes.single().version)
+        assertEquals(
+            (after.types - before.types).map { ClientRecordIds.of(before.recordKey, it) }.toSet(),
+            shrink.writes.single().stale.map { it.clientId }.toSet(),
+        )
+    }
+
+    @Test
+    fun legacyEntriesAreRewrittenWithNaturalIdsAndTheirOldRecordsDeleted() {
+        val p = payload(4)
+        val legacy = ledger(p, version = 2, key = null)
+        val plan = ScaleExportPlanner.plan(setOf(4), listOf(p), listOf(legacy), autoAfterId = 10, backfill = false, writeEnabled = true, now = now)
+        val write = plan.writes.single()
+        assertEquals(p.recordKey, write.payload.recordKey)
+        assertEquals(p.types.map { ClientRecordIds.legacy(4, it) }.toSet(), write.stale.map { it.clientId }.toSet())
+        // With the switch off nothing is migrated yet, but deletions keep working on the legacy ids.
+        val off = ScaleExportPlanner.plan(emptySet(), emptyList(), listOf(legacy), autoAfterId = 10, backfill = false, writeEnabled = false, now = now)
+        assertEquals(listOf("gf-4-weight"), off.deletes.single().refs(setOf(ExportRecordType.WEIGHT)).map { it.clientId })
+    }
+
+    @Test
+    fun editedWeightMovesTheRecordsToTheNewNaturalId() {
+        val before = payload(4, weight = 62.0)
+        val after = payload(4, weight = 62.4)
+        val plan = ScaleExportPlanner.plan(setOf(4), listOf(after), listOf(ledger(before)), autoAfterId = 10, backfill = false, writeEnabled = true, now = now)
+        val write = plan.writes.single()
+        assertNotEquals(before.recordKey, after.recordKey)
+        assertEquals(before.types.map { ClientRecordIds.of(before.recordKey, it) }.toSet(), write.stale.map { it.clientId }.toSet())
     }
 
     @Test
     fun deletedOrUnassignedMeasurementsAreDeletedEvenWithTheSwitchOff() {
         val p1 = payload(1)
         val p2 = payload(2)
-        val plan = ScaleExportPlanner.plan(setOf(1), listOf(p1), listOf(ledger(p1), ledger(p2)), autoAfterId = 0, backfill = false, writeEnabled = false)
+        val plan = ScaleExportPlanner.plan(setOf(1), listOf(p1), listOf(ledger(p1), ledger(p2)), autoAfterId = 0, backfill = false, writeEnabled = false, now = now)
         assertTrue(plan.writes.isEmpty())
         assertEquals(listOf(2L), plan.deletes.map { it.measurementId })
     }
 
     @Test
     fun switchOffWritesNothing() {
-        val plan = ScaleExportPlanner.plan(setOf(9), listOf(payload(9)), emptyList(), autoAfterId = 0, backfill = false, writeEnabled = false)
+        val plan = ScaleExportPlanner.plan(setOf(9), listOf(payload(9)), emptyList(), autoAfterId = 0, backfill = false, writeEnabled = false, now = now)
         assertTrue(plan.isEmpty)
     }
 
@@ -143,7 +183,7 @@ class ScaleExportPlanTest {
     fun missingPayloadDoesNotDeleteAnOwnedMeasurement() {
         // Weight permission revoked: no payloads, but measurements still belong to the profile.
         val p = payload(1)
-        val plan = ScaleExportPlanner.plan(setOf(1), emptyList(), listOf(ledger(p)), autoAfterId = 0, backfill = false, writeEnabled = true)
+        val plan = ScaleExportPlanner.plan(setOf(1), emptyList(), listOf(ledger(p)), autoAfterId = 0, backfill = false, writeEnabled = true, now = now)
         assertTrue(plan.isEmpty)
     }
 
@@ -156,11 +196,11 @@ class ScaleExportPlanTest {
         assertEquals(6, records.size)
         val weight = records.filterIsInstance<WeightRecord>().single()
         assertEquals(62.0, weight.weight.inKilograms, 1e-9)
-        assertEquals("gf-8-weight", weight.metadata.clientRecordId)
+        assertEquals("${p.recordKey}-weight", weight.metadata.clientRecordId)
         assertEquals(3L, weight.metadata.clientRecordVersion)
         assertEquals(Device.TYPE_SCALE, weight.metadata.device?.type)
         assertEquals(Metadata.RECORDING_METHOD_AUTOMATICALLY_RECORDED, weight.metadata.recordingMethod)
-        assertEquals("gf-8-bodyfat", records.filterIsInstance<BodyFatRecord>().single().metadata.clientRecordId)
+        assertEquals("${p.recordKey}-bodyfat", records.filterIsInstance<BodyFatRecord>().single().metadata.clientRecordId)
         val bmr = records.filterIsInstance<BasalMetabolicRateRecord>().single()
         assertEquals(p.bmrKcalPerDay!!, bmr.basalMetabolicRate.inKilocaloriesPerDay, 1e-6)
         assertEquals(records.map { it.metadata.clientRecordId }.toSet().size, records.size)

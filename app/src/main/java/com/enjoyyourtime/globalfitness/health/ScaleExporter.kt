@@ -138,6 +138,7 @@ class ScaleExporter(
                 autoAfterId = settings.exportAfterId,
                 backfill = backfill,
                 writeEnabled = if (backfill) canExport else enabled,
+                now = clock(),
             )
             if (plan.isEmpty) return@withContext 0
             execute(client, plan, allowed)
@@ -152,26 +153,28 @@ class ScaleExporter(
         val now = clock()
         // Deletions: measurements that were removed or unassigned.
         val deletable = plan.deletes.associateWith { it.types intersect allowed }
-        deleteRecords(client, deletable.flatMap { (entry, types) -> types.map { entry.measurementId to it } })
+        deleteRecords(client, deletable.flatMap { (entry, types) -> entry.refs(types) })
         for ((entry, types) in deletable) {
             val remaining = entry.types - types
             if (remaining.isEmpty()) cache.removeLedger(listOf(entry.measurementId)) else cache.putLedger(entry.copy(types = remaining), now)
         }
-        // (Re-)writes in chunks; Health Connect upserts by clientRecordId + version.
+        // (Re-)writes in chunks; Health Connect upserts by clientRecordId + version. Stale records
+        // (dropped values, or legacy `gf-<id>` ids being migrated) are deleted after the insert.
         val zone = zone()
         for (chunk in plan.writes.chunked(WRITE_CHUNK)) {
             client.insertRecords(chunk.flatMap { buildRecords(it.payload, it.version, zone) })
-            deleteRecords(client, chunk.flatMap { w -> (w.staleTypes intersect allowed).map { w.payload.measurementId to it } })
+            deleteRecords(client, chunk.flatMap { w -> w.stale.filter { it.type in allowed } })
             for (w in chunk) {
-                cache.putLedger(LedgerEntry(w.payload.measurementId, w.payload.signature, w.version, w.payload.types), now)
+                val p = w.payload
+                cache.putLedger(LedgerEntry(p.measurementId, p.signature, w.version, p.types, p.recordKey), now)
             }
         }
     }
 
-    private suspend fun deleteRecords(client: HealthConnectClient, items: List<Pair<Long, ExportRecordType>>) {
-        for ((type, list) in items.groupBy({ it.second }, { it.first })) {
-            for (ids in list.chunked(DELETE_CHUNK)) {
-                client.deleteRecords(recordClass(type), emptyList(), ids.map { ClientRecordIds.of(it, type) })
+    private suspend fun deleteRecords(client: HealthConnectClient, refs: List<RecordRef>) {
+        for ((type, ids) in refs.groupBy({ it.type }, { it.clientId })) {
+            for (chunk in ids.chunked(DELETE_CHUNK)) {
+                client.deleteRecords(recordClass(type), emptyList(), chunk)
             }
         }
     }
@@ -198,7 +201,7 @@ class ScaleExporter(
             val time = Instant.ofEpochMilli(p.timestamp)
             val offset = zone.rules.getOffset(time)
             fun meta(type: ExportRecordType): Metadata {
-                val id = ClientRecordIds.of(p.measurementId, type)
+                val id = ClientRecordIds.of(p.recordKey, type)
                 return if (p.fromScale) Metadata.autoRecorded(SCALE, id, version) else Metadata.manualEntry(id, version)
             }
             return listOfNotNull<Record>(

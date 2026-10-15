@@ -118,14 +118,17 @@ class HealthCache(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, D
                 signature TEXT NOT NULL,
                 version INTEGER NOT NULL,
                 types TEXT NOT NULL,
-                exported_at INTEGER NOT NULL
+                exported_at INTEGER NOT NULL,
+                record_key TEXT
             )
             """.trimIndent(),
         )
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        // Version 1 is the only schema so far.
+        // v2: natural Health Connect client ids. Rows written before keep record_key = NULL
+        // (legacy `gf-<id>` ids) and are migrated by the exporter on its next run.
+        if (oldVersion < 2) db.execSQL("ALTER TABLE export_ledger ADD COLUMN record_key TEXT")
     }
 
     // ---- Daily activity -------------------------------------------------------------------
@@ -470,11 +473,11 @@ class HealthCache(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, D
     // ---- Export ledger --------------------------------------------------------------------
 
     fun loadLedger(): List<LedgerEntry> =
-        readableDatabase.rawQuery("SELECT measurement_id, signature, version, types FROM export_ledger", null).use { c ->
+        readableDatabase.rawQuery("SELECT measurement_id, signature, version, types, record_key FROM export_ledger", null).use { c ->
             buildList {
                 while (c.moveToNext()) {
                     val types = c.getString(3).split(',').mapNotNull { ExportRecordType.fromCode(it) }.toSet()
-                    add(LedgerEntry(c.getLong(0), c.getString(1), c.getLong(2), types))
+                    add(LedgerEntry(c.getLong(0), c.getString(1), c.getLong(2), types, if (c.isNull(4)) null else c.getString(4)))
                 }
             }
         }
@@ -489,6 +492,7 @@ class HealthCache(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, D
                 put("version", entry.version)
                 put("types", entry.types.joinToString(",") { it.code })
                 put("exported_at", now)
+                put("record_key", entry.recordKey)
             },
             SQLiteDatabase.CONFLICT_REPLACE,
         )
@@ -512,6 +516,6 @@ class HealthCache(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, D
 
     companion object {
         const val DB_NAME = "health.db"
-        const val DB_VERSION = 1
+        const val DB_VERSION = 2
     }
 }

@@ -1,5 +1,6 @@
 package com.enjoyyourtime.globalfitness.health
 
+import com.enjoyyourtime.globalfitness.cloud.MeasurementIds
 import com.enjoyyourtime.globalfitness.data.Measurement
 import com.enjoyyourtime.globalfitness.data.MeasurementSource
 import com.enjoyyourtime.globalfitness.data.Profile
@@ -22,28 +23,34 @@ enum class ExportRecordType(val code: String, val dataType: HealthDataType) {
 }
 
 /**
- * `clientRecordId` scheme: `gf-<measurementId>-<type>`. Health Connect upserts records with the
- * same client id when the `clientRecordVersion` is not lower, so re-writes are idempotent.
+ * `clientRecordId` scheme: `<recordKey>-<type>`, where the record key is the measurement's stable
+ * natural id `m_<epochMillis>_<weightGrams>` (the same id as the cloud backup, [MeasurementIds]).
+ * It does not depend on the local database id, which restarts at 1 after a reinstall or a data
+ * wipe, so a new measurement can never overwrite the records of an older one. Health Connect
+ * upserts records with the same client id when the `clientRecordVersion` is not lower, so
+ * re-writes are idempotent.
+ *
+ * Older builds used `gf-<measurementId>-<type>` ([legacy]); ledger entries written that way have no
+ * record key and are migrated (re-written with the natural id, legacy records deleted).
  */
 object ClientRecordIds {
-    private const val PREFIX = "gf-"
+    private const val LEGACY_PREFIX = "gf-"
 
-    fun of(measurementId: Long, type: ExportRecordType): String = "$PREFIX$measurementId-${type.code}"
+    fun recordKey(m: Measurement): String = MeasurementIds.idOf(m.timestamp, m.weightKg)
 
-    fun parse(id: String): Pair<Long, ExportRecordType>? {
-        if (!id.startsWith(PREFIX)) return null
-        val rest = id.removePrefix(PREFIX)
-        val dash = rest.indexOf('-')
-        if (dash <= 0) return null
-        val measurementId = rest.substring(0, dash).toLongOrNull() ?: return null
-        val type = ExportRecordType.fromCode(rest.substring(dash + 1)) ?: return null
-        return measurementId to type
-    }
+    fun of(recordKey: String, type: ExportRecordType): String = "$recordKey-${type.code}"
+
+    fun legacy(measurementId: Long, type: ExportRecordType): String = "$LEGACY_PREFIX$measurementId-${type.code}"
 }
+
+/** One Health Connect record of a measurement: its type and client id. */
+data class RecordRef(val type: ExportRecordType, val clientId: String)
 
 /** Values of one measurement to write. Null values are not written. */
 data class ExportPayload(
     val measurementId: Long,
+    /** Stable natural id the client record ids are built from ([ClientRecordIds]). */
+    val recordKey: String,
     val timestamp: Long,
     val fromScale: Boolean,
     val weightKg: Double,
@@ -82,13 +89,15 @@ data class ExportPayload(
         /**
          * Builds the payload of [m] for [profile], keeping only the record types in [allowed]
          * (those with a granted write permission). Null when weight cannot be written.
+         * Composition reported by the scale itself wins over the formulas, as everywhere else.
          */
         fun from(m: Measurement, profile: Profile, allowed: Set<ExportRecordType>): ExportPayload? {
             if (ExportRecordType.WEIGHT !in allowed) return null
-            val c = BodyMetrics.compute(profile.sex, profile.heightCm, profile.ageAt(m.timestamp), m.weightKg, m.impedance)
+            val c = BodyMetrics.forMeasurement(profile.sex, profile.heightCm, profile.ageAt(m.timestamp), m)
             fun <T> keep(type: ExportRecordType, value: T?): T? = if (type in allowed) value else null
             return ExportPayload(
                 measurementId = m.id,
+                recordKey = ClientRecordIds.recordKey(m),
                 timestamp = m.timestamp,
                 fromScale = m.source == MeasurementSource.SCALE,
                 weightKg = m.weightKg,
@@ -108,10 +117,17 @@ data class LedgerEntry(
     val signature: String,
     val version: Long,
     val types: Set<ExportRecordType>,
-)
+    /** Natural id the records were written with; null for records in the legacy `gf-<id>` scheme. */
+    val recordKey: String?,
+) {
+    fun clientId(type: ExportRecordType): String =
+        recordKey?.let { ClientRecordIds.of(it, type) } ?: ClientRecordIds.legacy(measurementId, type)
 
-/** A (re-)write: [staleTypes] were written before but are no longer part of the payload. */
-data class ExportWrite(val payload: ExportPayload, val version: Long, val staleTypes: Set<ExportRecordType>)
+    fun refs(of: Set<ExportRecordType> = types): List<RecordRef> = of.map { RecordRef(it, clientId(it)) }
+}
+
+/** A (re-)write of [payload]; [stale] records were written before and must go (dropped values, old ids). */
+data class ExportWrite(val payload: ExportPayload, val version: Long, val stale: List<RecordRef>)
 
 data class ExportPlan(val writes: List<ExportWrite>, val deletes: List<LedgerEntry>) {
     val isEmpty: Boolean get() = writes.isEmpty() && deletes.isEmpty()
@@ -127,6 +143,8 @@ object ScaleExportPlanner {
      * @param autoAfterId measurements with a larger id are "new" and written automatically;
      *   older ones are only written by a history export ([backfill]).
      * @param writeEnabled the "Enviar mediciones" toggle (or an explicit history export).
+     * @param now wall clock. Record versions never go below it, so a write always supersedes
+     *   records left with the same natural id by an earlier installation.
      */
     fun plan(
         ownedIds: Set<Long>,
@@ -135,6 +153,7 @@ object ScaleExportPlanner {
         autoAfterId: Long,
         backfill: Boolean,
         writeEnabled: Boolean,
+        now: Long,
     ): ExportPlan {
         val byId = ledger.associateBy { it.measurementId }
         val deletes = ledger.filter { it.measurementId !in ownedIds }
@@ -142,9 +161,14 @@ object ScaleExportPlanner {
         val writes = payloads.filter { it.measurementId in ownedIds }.mapNotNull { p ->
             val previous = byId[p.measurementId]
             when {
-                previous == null -> if (backfill || p.measurementId > autoAfterId) ExportWrite(p, 1, emptySet()) else null
-                previous.signature == p.signature -> null
-                else -> ExportWrite(p, previous.version + 1, previous.types - p.types)
+                previous == null -> if (backfill || p.measurementId > autoAfterId) ExportWrite(p, now, emptyList()) else null
+                previous.signature == p.signature && previous.recordKey == p.recordKey -> null
+                else -> {
+                    // Same ids: only values that disappeared are stale. New ids (legacy scheme, or the
+                    // weight or time changed): every record written before is stale.
+                    val stale = if (previous.recordKey == p.recordKey) previous.refs(previous.types - p.types) else previous.refs()
+                    ExportWrite(p, maxOf(now, previous.version + 1), stale)
+                }
             }
         }
         return ExportPlan(writes, deletes)
