@@ -29,8 +29,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 /** Manual dependency container (no DI library). */
 class AppContainer(context: Context) {
@@ -60,7 +62,15 @@ class AppContainer(context: Context) {
     )
 
     /** Experimental direct Xiaomi Smart Band 9 mode; created on first use. */
-    val band by lazy { BandManager(context.applicationContext, appScope) }
+    val band by lazy {
+        BandManager(context.applicationContext, appScope).also { manager ->
+            // No interstitials while the band streams live heart rate.
+            appScope.launch {
+                manager.state.map { it.liveActive }.distinctUntilChanged()
+                    .collect { adSuppression.set(AdSuppression.BAND_LIVE_HEART_RATE, it) }
+            }
+        }
+    }
     val health = HealthModule(context, repository, appScope)
     // ---- Optional Google account + cloud backup, ads and the "Quitar anuncios" purchase --------
     val adSuppression = AdSuppression()
