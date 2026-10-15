@@ -65,8 +65,9 @@ fun BandKeyHelpScreen(onBack: () -> Unit) {
             Heading("Cómo obtenerla")
             Paragraph("Estos son los métodos que documenta el proyecto Gadgetbridge. La app no extrae la clave por ti.")
             Bullet(
-                "Registros de Mi Fitness (sin root): Mi Fitness guarda archivos de registro en el almacenamiento del teléfono, en " +
-                    "Android/data/com.mi.health/files/log/ (con Xiaomi Wear: Android/data/com.xiaomi.wearable/files/log/). " +
+                "Registros de Mi Fitness (sin root): Mi Fitness (antes Xiaomi Wear, paquete com.xiaomi.wearable) guarda archivos de " +
+                    "registro en el almacenamiento del teléfono, en Android/data/com.xiaomi.wearable/files/log/ " +
+                    "(en la variante Mi Health: Android/data/com.mi.health/files/log/). " +
                     "Busca en ellos (por ejemplo en XiaomiFit.device.log) los campos «encryptKey», «authKey», «token» o " +
                     "«huamiAuthKey» seguidos de 32 caracteres hexadecimales. Si hay varios, prueba primero el más cercano al final del archivo. " +
                     "En Android 11 y posteriores esas carpetas suelen ser accesibles solo conectando el teléfono a un ordenador (MTP o adb).",

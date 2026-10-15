@@ -1,6 +1,7 @@
 package com.enjoyyourtime.globalfitness.ui.band
 
-import androidx.compose.foundation.selection.selectable
+import android.view.WindowManager
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -22,6 +24,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,6 +53,8 @@ fun AuthKeyCard(
 ) {
     var editing by remember { mutableStateOf(false) }
     var visible by remember { mutableStateOf(false) }
+    // No screenshots, screen recording or recents thumbnail while the key can be typed or shown.
+    SecureWindowWhile(!hasKey || editing)
     OutlinedCard(Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             if (hasKey && !editing) {
@@ -94,6 +99,18 @@ fun AuthKeyCard(
                 )
             }
             TextButton(onClick = onHelp, modifier = Modifier.padding(start = 0.dp)) { Text("¿Qué es la clave y cómo la obtengo?") }
+        }
+    }
+}
+
+/** Sets FLAG_SECURE on the window while [active] and this composable is in the composition. */
+@Composable
+private fun SecureWindowWhile(active: Boolean) {
+    val activity = LocalActivity.current ?: return
+    DisposableEffect(activity, active) {
+        if (active) activity.window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        onDispose {
+            if (active) activity.window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
         }
     }
 }

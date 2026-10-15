@@ -111,6 +111,24 @@ class XiaomiSessionTest {
         session.close()
     }
 
+    /** A command in the same read as the 1/27 confirmation, collected only later. */
+    private fun commandRightAfterAuthIsKept(sppVersion: Int) = runTest {
+        val band = FakeBand(keyBytes, sppVersion).apply { pushAfterAuth = batteryReply(55) }
+        val session = session(band)
+        session.handshake()
+        delay(100) // nobody collects yet
+        val pushed = withTimeout(2_000) { session.commands.first() }
+        assertEquals(55, pushed.system.power.battery.level)
+        assertTrue(logLines.none { it.contains("ilegible") || it.contains("descifrar") })
+        session.close()
+    }
+
+    @Test
+    fun v1CommandRightAfterAuthIsDecryptedAndBuffered() = commandRightAfterAuthIsKept(1)
+
+    @Test
+    fun v2CommandRightAfterAuthIsBuffered() = commandRightAfterAuthIsKept(2)
+
     @Test
     fun wrongKeyFailsTheHandshake() = runTest {
         val band = FakeBand(range(1, 17), sppVersion = 2)

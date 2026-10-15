@@ -51,6 +51,13 @@ class FakeBand(
     @Volatile
     var onCommand: (XiaomiProto.Command) -> List<XiaomiProto.Command> = { emptyList() }
 
+    /** Encrypted command sent in the same read chunk as the 1/27 auth confirmation. */
+    @Volatile
+    var pushAfterAuth: XiaomiProto.Command? = null
+
+    @Volatile
+    var linkClosed = false
+
     val link: BandLink = object : BandLink {
         override suspend fun read(): ByteArray = try {
             toPhone.receive()
@@ -61,6 +68,7 @@ class FakeBand(
         override suspend fun write(data: ByteArray) = onBytes(data)
 
         override fun close() {
+            linkClosed = true
             toPhone.close()
         }
     }
@@ -149,7 +157,9 @@ class FakeBand(
                 XiaomiCrypto.aesCcmDecrypt(phoneEncKey(), v1Nonce(phoneEncNonce(), 0), confirm.encryptedDeviceInfo.toByteArray()),
             )
             authenticated = true
-            sendCommand(XiaomiCommands.simple(XiaomiCommands.TYPE_AUTH, XiaomiCommands.AUTH_CONFIRM), encrypted = false)
+            val confirmFrame = frameFor(XiaomiCommands.simple(XiaomiCommands.TYPE_AUTH, XiaomiCommands.AUTH_CONFIRM), encrypted = false)
+            val extra = pushAfterAuth?.let { frameFor(it, encrypted = true) } ?: ByteArray(0)
+            toPhone.trySend(confirmFrame + extra)
             return
         }
         check(authenticated) { "command before auth" }
@@ -158,21 +168,23 @@ class FakeBand(
     }
 
     private fun sendCommand(command: XiaomiProto.Command, encrypted: Boolean) {
+        toPhone.trySend(frameFor(command, encrypted))
+    }
+
+    private fun frameFor(command: XiaomiProto.Command, encrypted: Boolean): ByteArray {
         val bytes = command.toByteArray()
         if (!v2Active) {
-            val frame = if (encrypted) {
+            return if (encrypted) {
                 v1Frame(SppPacketV1.CHANNEL_PROTO_RX, SppPacketV1.DATA_TYPE_ENCRYPTED, XiaomiCrypto.aesCcmEncrypt(phoneDecKey(), v1Nonce(phoneDecNonce(), 0), bytes))
             } else {
                 v1Frame(SppPacketV1.CHANNEL_PROTO_RX, SppPacketV1.DATA_TYPE_AUTH, bytes)
             }
-            toPhone.trySend(frame)
-        } else {
-            val opCode = if (encrypted) SppPacketV2.OPCODE_SEND_ENCRYPTED else SppPacketV2.OPCODE_SEND_PLAINTEXT
-            val body = if (encrypted) XiaomiCrypto.aesCtr(phoneDecKey(), phoneDecKey(), bytes) else bytes
-            val payload = byteArrayOf(1, opCode.toByte()) + body
-            toPhone.trySend(SppPacketV2.encodeFrame(SppPacketV2.TYPE_DATA, bandSequence, payload))
-            bandSequence = (bandSequence + 1) and 0xff
         }
+        val opCode = if (encrypted) SppPacketV2.OPCODE_SEND_ENCRYPTED else SppPacketV2.OPCODE_SEND_PLAINTEXT
+        val body = if (encrypted) XiaomiCrypto.aesCtr(phoneDecKey(), phoneDecKey(), bytes) else bytes
+        val frame = SppPacketV2.encodeFrame(SppPacketV2.TYPE_DATA, bandSequence, byteArrayOf(1, opCode.toByte()) + body)
+        bandSequence = (bandSequence + 1) and 0xff
+        return frame
     }
 
     private fun v1Frame(rawChannel: Int, dataType: Int, payload: ByteArray): ByteArray =

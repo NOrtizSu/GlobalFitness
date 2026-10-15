@@ -46,9 +46,11 @@
     <uses-permission android:name="android.permission.health.WRITE_BASAL_METABOLIC_RATE" />
     <uses-permission android:name="android.permission.health.WRITE_BODY_WATER_MASS" />
 
-    <!-- Health Connect app on Android 13 and lower -->
+    <!-- Health Connect app (Android 13 and lower) and installed Mi Fitness variant (band settings shortcut) -->
     <queries>
         <package android:name="com.google.android.apps.healthdata" />
+        <package android:name="com.xiaomi.wearable" />
+        <package android:name="com.mi.health" />
     </queries>
 
     <application
