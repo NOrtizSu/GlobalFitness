@@ -84,6 +84,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
 
     implementation(libs.protobuf.javalite)
+    implementation(libs.androidx.health.connect.client)
 
     testImplementation(libs.junit)
 }

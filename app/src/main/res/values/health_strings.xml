@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="health_title">Salud</string>
+    <string name="health_rationale_title">Privacidad de los datos de salud</string>
+</resources>

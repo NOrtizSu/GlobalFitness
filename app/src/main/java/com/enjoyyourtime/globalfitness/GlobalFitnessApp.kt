@@ -11,6 +11,7 @@ import com.enjoyyourtime.globalfitness.data.AppDatabase
 import com.enjoyyourtime.globalfitness.data.Repository
 import com.enjoyyourtime.globalfitness.data.SettingsStore
 import com.enjoyyourtime.globalfitness.domain.MeasurementRecorder
+import com.enjoyyourtime.globalfitness.health.HealthModule
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -37,6 +38,7 @@ class AppContainer(context: Context) {
 
     /** Experimental direct Xiaomi Smart Band 9 mode; created on first use. */
     val band by lazy { BandManager(context.applicationContext, appScope) }
+    val health = HealthModule(context, repository, appScope)
 }
 
 class GlobalFitnessApp : Application() {
@@ -46,5 +48,6 @@ class GlobalFitnessApp : Application() {
     override fun onCreate() {
         super.onCreate()
         container = AppContainer(this)
+        registerActivityLifecycleCallbacks(container.health)
     }
 }

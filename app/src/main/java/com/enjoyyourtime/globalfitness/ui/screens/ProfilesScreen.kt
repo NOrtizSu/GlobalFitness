@@ -1,5 +1,6 @@
 package com.enjoyyourtime.globalfitness.ui.screens
 
+import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -50,6 +51,7 @@ import com.enjoyyourtime.globalfitness.ui.band.BandActivity
 import com.enjoyyourtime.globalfitness.ui.components.AppIcons
 import com.enjoyyourtime.globalfitness.ui.components.ProfileDot
 import com.enjoyyourtime.globalfitness.ui.components.SectionTitle
+import com.enjoyyourtime.globalfitness.ui.health.HealthActivity
 import com.enjoyyourtime.globalfitness.ui.theme.TabularNumbers
 import java.time.LocalDate
 
@@ -139,6 +141,14 @@ fun ProfilesScreen(
             val context = LocalContext.current
             OutlinedButton(onClick = { context.startActivity(BandActivity.intent(context)) }) {
                 Text("Xiaomi Smart Band 9 · modo directo (experimental)")
+            }
+        }
+
+        item {
+            // Temporary entry point to the Health Connect screen (until the navigation redesign).
+            val context = LocalContext.current
+            OutlinedButton(onClick = { context.startActivity(Intent(context, HealthActivity::class.java)) }) {
+                Text("Salud: pulsera y Health Connect")
             }
         }
 
