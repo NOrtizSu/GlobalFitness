@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Simple bathroom-scale glyph: rounded platform with a display window and two foot pads cut out. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillType="evenOdd"
+        android:pathData="M39,31 L69,31 A9,9 0 0 1 78,40 L78,68 A9,9 0 0 1 69,77 L39,77 A9,9 0 0 1 30,68 L30,40 A9,9 0 0 1 39,31 Z
+            M45,37 L63,37 A3,3 0 0 1 66,40 L66,45 A3,3 0 0 1 63,48 L45,48 A3,3 0 0 1 42,45 L42,40 A3,3 0 0 1 45,37 Z
+            M42,62 A4.5,7.5 0 1 0 51,62 A4.5,7.5 0 1 0 42,62 Z
+            M57,62 A4.5,7.5 0 1 0 66,62 A4.5,7.5 0 1 0 57,62 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M53,40 L55,40 L55,45 L53,45 Z" />
+</vector>
