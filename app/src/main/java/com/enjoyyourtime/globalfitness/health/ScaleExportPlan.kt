@@ -41,6 +41,9 @@ object ClientRecordIds {
     fun of(recordKey: String, type: ExportRecordType): String = "$recordKey-${type.code}"
 
     fun legacy(measurementId: Long, type: ExportRecordType): String = "$LEGACY_PREFIX$measurementId-${type.code}"
+
+    /** True for a client id in the legacy `gf-<measurementId>-<type>` scheme. */
+    fun isLegacy(clientId: String?): Boolean = clientId?.startsWith(LEGACY_PREFIX) == true
 }
 
 /** One Health Connect record of a measurement: its type and client id. */

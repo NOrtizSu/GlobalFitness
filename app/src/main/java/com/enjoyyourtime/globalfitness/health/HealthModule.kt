@@ -20,7 +20,7 @@ class HealthModule(context: Context, repository: Repository, private val scope: 
     val settings = HealthSettings(context)
     val gateway = HealthConnectGateway(context)
     val sync = HealthSync(gateway, cache, settings, scope, ownPackage = context.packageName)
-    val exporter = ScaleExporter(gateway, cache, settings, repository, scope)
+    val exporter = ScaleExporter(gateway, cache, settings, repository, scope, ownPackage = context.packageName)
 
     init {
         exporter.start()

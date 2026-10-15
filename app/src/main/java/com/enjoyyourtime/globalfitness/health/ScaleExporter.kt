@@ -9,11 +9,15 @@ import androidx.health.connect.client.records.BoneMassRecord
 import androidx.health.connect.client.records.LeanBodyMassRecord
 import androidx.health.connect.client.records.Record
 import androidx.health.connect.client.records.WeightRecord
+import androidx.health.connect.client.records.metadata.DataOrigin
 import androidx.health.connect.client.records.metadata.Device
 import androidx.health.connect.client.records.metadata.Metadata
+import androidx.health.connect.client.request.ReadRecordsRequest
+import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.health.connect.client.units.Mass
 import androidx.health.connect.client.units.Percentage
 import androidx.health.connect.client.units.Power
+import com.enjoyyourtime.globalfitness.data.Measurement
 import com.enjoyyourtime.globalfitness.data.Repository
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
@@ -46,7 +50,8 @@ data class ExportState(
 /**
  * Writes the profile's scale measurements to Health Connect (weight, body fat, bone mass, lean
  * mass, BMR, body water) and deletes them again when a measurement is deleted or unassigned.
- * Observes the [Repository] read-only; what was written is tracked in the cache's ledger.
+ * Observes the [Repository] read-only; what was written is tracked in the cache's ledger. Records
+ * left by an earlier installation in the legacy id scheme are swept once ([LegacyRecordSweep]).
  */
 class ScaleExporter(
     private val gateway: HealthConnectGateway,
@@ -54,6 +59,7 @@ class ScaleExporter(
     private val settings: HealthSettings,
     private val repository: Repository,
     private val scope: CoroutineScope,
+    private val ownPackage: String,
     private val io: CoroutineDispatcher = Dispatchers.IO,
     private val clock: () -> Long = System::currentTimeMillis,
     private val zone: () -> ZoneId = ZoneId::systemDefault,
@@ -87,24 +93,27 @@ class ScaleExporter(
         settings.setExportChoice(enabled)
     }
 
-    /** "Exportar historial a Health Connect". */
+    /** "Exportar historial a Health Connect" (also sweeps legacy records again). */
     suspend fun exportHistory() {
         _state.update { it.copy(running = true, message = null, error = null) }
-        val written = runCatchingReconcile(backfill = true)
-        _state.update {
-            it.copy(
-                running = false,
-                message = when (written) {
-                    null -> it.message
-                    0 -> "El historial ya estaba en Health Connect"
-                    1 -> "Exportada 1 medición"
-                    else -> "Exportadas $written mediciones"
-                },
-            )
+        val result = runCatchingReconcile(backfill = true)
+        _state.update { it.copy(running = false, message = result?.let(::historyMessage) ?: it.message) }
+    }
+
+    private fun historyMessage(result: Reconciled): String {
+        val written = when (result.written) {
+            0 -> "El historial ya estaba en Health Connect"
+            1 -> "Exportada 1 medición"
+            else -> "Exportadas ${result.written} mediciones"
+        }
+        return when (result.legacyDeleted) {
+            0 -> written
+            1 -> "$written · 1 registro antiguo eliminado"
+            else -> "$written · ${result.legacyDeleted} registros antiguos eliminados"
         }
     }
 
-    private suspend fun runCatchingReconcile(backfill: Boolean): Int? = try {
+    private suspend fun runCatchingReconcile(backfill: Boolean): Reconciled? = try {
         reconcile(backfill).also { _state.update { s -> s.copy(error = null) } }
     } catch (e: CancellationException) {
         throw e
@@ -114,13 +123,16 @@ class ScaleExporter(
         null
     }
 
-    /** Returns the number of measurements written. */
-    private suspend fun reconcile(backfill: Boolean): Int = mutex.withLock {
-        if (!repository.loaded.value) return 0
+    /** Measurements written and legacy records deleted by one reconciliation. */
+    private data class Reconciled(val written: Int, val legacyDeleted: Int)
+
+    private suspend fun reconcile(backfill: Boolean): Reconciled = mutex.withLock {
+        val nothing = Reconciled(0, 0)
+        if (!repository.loaded.value) return nothing
         val granted = gateway.granted.value
         val allowed = ExportRecordType.entries.filter { HealthPermissions.canWrite(granted, it.dataType) }.toSet()
-        if (allowed.isEmpty()) return 0
-        val client = gateway.client() ?: return 0
+        if (allowed.isEmpty()) return nothing
+        val client = gateway.client() ?: return nothing
         val canExport = HealthPermissions.canExport(granted)
         val enabled = HealthSettings.exportEnabled(settings.exportChoice.value, canExport)
         val measurements = repository.measurements.value
@@ -145,9 +157,71 @@ class ScaleExporter(
             execute(client, plan, allowed)
             plan.writes.size
         }
+        val legacyDeleted = withContext(io) { sweepLegacy(client, allowed, measurements, force = backfill) }
         val count = withContext(io) { cache.ledgerCount() }
         _state.update { it.copy(exportedCount = count) }
-        written
+        Reconciled(written, legacyDeleted)
+    }
+
+    /**
+     * Deletes this app's own records left in the legacy `gf-` scheme that the ledger does not track
+     * ([LegacyRecordSweep]). Each record type is swept once (remembered in health.db, which is not
+     * backed up, so a reinstall sweeps again) and again on every history export. A type that
+     * cannot be read right now (partial grant) or a failure is retried on a later run; the export
+     * itself is never affected. Returns the number of records deleted.
+     */
+    private suspend fun sweepLegacy(
+        client: HealthConnectClient,
+        writable: Set<ExportRecordType>,
+        measurements: List<Measurement>,
+        force: Boolean,
+    ): Int {
+        val swept = ExportRecordType.entries.filterTo(HashSet()) { cache.meta(sweepKey(it)) != null }
+        val types = LegacyRecordSweep.pendingTypes(writable, swept, force)
+        if (types.isEmpty()) return 0
+        val ledger = cache.loadLedger()
+        var deleted = 0
+        try {
+            for (type in types) {
+                val stale = try {
+                    LegacyRecordSweep.select(readOwnRecords(client, type), ownPackage, ledger, measurements)
+                } catch (e: SecurityException) {
+                    Log.i(TAG, "Legacy sweep of ${type.code} skipped: ${e.message}")
+                    continue
+                }
+                for (chunk in stale.chunked(DELETE_CHUNK)) client.deleteRecords(recordClass(type), chunk, emptyList())
+                cache.setMeta(sweepKey(type), clock().toString())
+                deleted += stale.size
+            }
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            Log.w(TAG, "Legacy record sweep failed", e)
+        }
+        if (deleted > 0) Log.i(TAG, "Deleted $deleted legacy Health Connect records")
+        return deleted
+    }
+
+    /** Every record of [type] written by this app (all pages). */
+    private suspend fun readOwnRecords(client: HealthConnectClient, type: ExportRecordType): List<StoredRecord> {
+        val records = ArrayList<StoredRecord>()
+        var pageToken: String? = null
+        do {
+            val response = client.readRecords(
+                ReadRecordsRequest(
+                    recordType = recordClass(type),
+                    timeRangeFilter = TimeRangeFilter.after(Instant.EPOCH),
+                    dataOriginFilter = setOf(DataOrigin(ownPackage)),
+                    pageSize = READ_PAGE,
+                    pageToken = pageToken,
+                ),
+            )
+            response.records.mapTo(records) { r ->
+                StoredRecord(r.metadata.id, r.metadata.clientRecordId, r.metadata.dataOrigin.packageName, timeOf(r)?.toEpochMilli())
+            }
+            pageToken = response.pageToken
+        } while (pageToken != null)
+        return records
     }
 
     private suspend fun execute(client: HealthConnectClient, plan: ExportPlan, allowed: Set<ExportRecordType>) {
@@ -185,6 +259,19 @@ class ScaleExporter(
         private const val DEBOUNCE_MS = 1_000L
         private const val WRITE_CHUNK = 50
         private const val DELETE_CHUNK = 500
+        private const val READ_PAGE = 1_000
+
+        private fun sweepKey(type: ExportRecordType) = "legacy_sweep_${type.code}"
+
+        private fun timeOf(record: Record): Instant? = when (record) {
+            is WeightRecord -> record.time
+            is BodyFatRecord -> record.time
+            is BoneMassRecord -> record.time
+            is LeanBodyMassRecord -> record.time
+            is BasalMetabolicRateRecord -> record.time
+            is BodyWaterMassRecord -> record.time
+            else -> null
+        }
 
         private val SCALE = Device(type = Device.TYPE_SCALE, manufacturer = "Xiaomi", model = "Mi Body Composition Scale")
 
