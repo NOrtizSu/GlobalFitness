@@ -170,7 +170,11 @@ class CloudSyncEngine(
         while (!deleting) {
             _status.update { it.copy(syncing = true) }
             try {
-                val queued = syncOnce(uid) ?: return
+                val queued = syncOnce(uid)
+                if (queued == null) {
+                    _status.update { it.copy(syncing = false) }
+                    return
+                }
                 _status.update {
                     it.copy(syncing = false, retrying = false, error = null, lastSyncAt = clock(), pendingUpload = queued)
                 }
