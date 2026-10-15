@@ -145,7 +145,9 @@ object MarkdownLite {
                     i = end + 1
                 }
                 c == '[' -> {
-                    val close = text.indexOf("](", i)
+                    // The first ']' after '[' must open the "(url)" part, or it is plain text.
+                    val bracket = text.indexOf(']', i)
+                    val close = if (bracket > i && text.getOrNull(bracket + 1) == '(') bracket else -1
                     val end = if (close > i) text.indexOf(')', close + 2) else -1
                     if (close > i && end > close) {
                         emit()

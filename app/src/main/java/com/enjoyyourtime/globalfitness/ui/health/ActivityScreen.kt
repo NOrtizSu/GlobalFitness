@@ -42,7 +42,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.enjoyyourtime.globalfitness.domain.Classification
 import com.enjoyyourtime.globalfitness.health.HcAvailability
@@ -77,11 +76,6 @@ fun ActivityScreen(vm: HealthViewModel, onConnect: () -> Unit) {
     val dashboard by vm.dashboard.collectAsStateWithLifecycle()
     val detail by vm.detail.collectAsStateWithLifecycle()
     var stepsRange by rememberSaveable { mutableStateOf(DayRange.D30) }
-
-    LifecycleResumeEffect(Unit) {
-        vm.onResume()
-        onPauseOrDispose { }
-    }
 
     TabPage(title = "Actividad") {
         val available = state.availability == HcAvailability.AVAILABLE

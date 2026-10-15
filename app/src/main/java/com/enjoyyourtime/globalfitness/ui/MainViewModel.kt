@@ -76,6 +76,9 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
         )
     }.flowOn(Dispatchers.Default).stateIn(viewModelScope, SharingStarted.Eagerly, MainUiState())
 
+    /** The profile right now (uiState is derived on a background dispatcher and can lag a moment). */
+    val currentProfile: Profile? get() = repository.profile.value
+
     val loadError: StateFlow<String?> = repository.loadError
     val scanStatus: StateFlow<ScanStatus> = container.scanner.status
     val live: StateFlow<LiveScale> = container.scaleMonitor.live

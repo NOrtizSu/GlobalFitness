@@ -155,6 +155,26 @@ class ScaleExportPlanTest {
     }
 
     @Test
+    fun legacyMigrationWaitsUntilEveryOldRecordCanBeDeleted() {
+        val p = payload(4)
+        val legacy = ledger(p, version = 2, key = null)
+        val weightOnly = setOf(ExportRecordType.WEIGHT)
+        val partial = ScaleExportPlanner.plan(
+            setOf(4), listOf(p), listOf(legacy), autoAfterId = 10, backfill = false, writeEnabled = true, now = now, deletable = weightOnly,
+        )
+        assertTrue("keeps the legacy entry (and its ids) until body fat etc. can be deleted too", partial.isEmpty)
+    }
+
+    @Test
+    fun rowsSharingANaturalIdAreWrittenOnce() {
+        // A manual weight saved twice in the same minute: same timestamp and grams.
+        val first = payload(7, impedance = null)
+        val twin = first.copy(measurementId = 8)
+        val plan = ScaleExportPlanner.plan(setOf(7, 8), listOf(twin, first), emptyList(), autoAfterId = 0, backfill = false, writeEnabled = true, now = now)
+        assertEquals(listOf(7L), plan.writes.map { it.payload.measurementId })
+    }
+
+    @Test
     fun editedWeightMovesTheRecordsToTheNewNaturalId() {
         val before = payload(4, weight = 62.0)
         val after = payload(4, weight = 62.4)

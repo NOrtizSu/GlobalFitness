@@ -43,7 +43,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.compose.dropUnlessResumed
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
@@ -124,9 +126,8 @@ fun AppRoot() {
     }
 
     // Decided once the data is loaded: a first launch walks through the onboarding to the end.
-    var onboarding by rememberSaveable { mutableStateOf<Boolean?>(null) }
-    if (onboarding == null) onboarding = state.profile == null
-    if (onboarding == true || state.profile == null) {
+    var onboarding by rememberSaveable { mutableStateOf(state.profile == null) }
+    if (onboarding || state.profile == null) {
         val accountVm: AccountViewModel = viewModel(factory = AccountViewModel.Factory)
         OnboardingFlow(
             vm = vm,
@@ -174,11 +175,16 @@ private fun MainScaffold(
     }
 
     val openBand = { context.startActivity(BandActivity.intent(context)) }
+    // The health view model outlives the screens: refresh "today" (and band.db) on every resume.
+    LifecycleResumeEffect(Unit) {
+        healthVm.onResume()
+        onPauseOrDispose { }
+    }
 
     Scaffold(
         contentWindowInsets = WindowInsets(0),
         bottomBar = {
-            AnimatedVisibility(visible = section != null, enter = expandVertically() + fadeIn(), exit = shrinkVertically() + fadeOut()) {
+            AnimatedVisibility(visible = route == null || section != null, enter = expandVertically() + fadeIn(), exit = shrinkVertically() + fadeOut()) {
                 Column {
                     AdBanner()
                     NavigationBar {
@@ -235,7 +241,7 @@ private fun MainScaffold(
                         navController.navigateToSection(TopLevel.BODY)
                     },
                     onAddWeight = { showManual = true },
-                    onOpenAccount = { navController.navigate(Routes.ACCOUNT) },
+                    onOpenAccount = { navController.openSubPage(Routes.ACCOUNT) },
                     onOpenDevices = { navController.navigateToSection(TopLevel.DEVICES) },
                     onOpenActivity = { navController.navigateToSection(TopLevel.ACTIVITY) },
                     onOpenBand = openBand,
@@ -263,16 +269,16 @@ private fun MainScaffold(
                     vm = vm,
                     healthVm = healthVm,
                     onConnectHealth = connectHealth,
-                    onOpenAccount = { navController.navigate(Routes.ACCOUNT) },
-                    onOpenRemoveAds = { navController.navigate(Routes.REMOVE_ADS) },
-                    onOpenPrivacyPolicy = { navController.navigate(Routes.PRIVACY_POLICY) },
-                    onOpenLicenses = { navController.navigate(Routes.LICENSES) },
+                    onOpenAccount = { navController.openSubPage(Routes.ACCOUNT) },
+                    onOpenRemoveAds = { navController.openSubPage(Routes.REMOVE_ADS) },
+                    onOpenPrivacyPolicy = { navController.openSubPage(Routes.PRIVACY_POLICY) },
+                    onOpenLicenses = { navController.openSubPage(Routes.LICENSES) },
                 )
             }
-            subPage(Routes.ACCOUNT) { AccountScreen(onBack = { navController.popBackStack() }) }
-            subPage(Routes.REMOVE_ADS) { RemoveAdsScreen(onBack = { navController.popBackStack() }) }
-            subPage(Routes.PRIVACY_POLICY) { PrivacyPolicyScreen(onBack = { navController.popBackStack() }) }
-            subPage(Routes.LICENSES) { OpenSourceScreen(onBack = { navController.popBackStack() }) }
+            subPage(Routes.ACCOUNT, navController) { back -> AccountScreen(onBack = back) }
+            subPage(Routes.REMOVE_ADS, navController) { back -> RemoveAdsScreen(onBack = back) }
+            subPage(Routes.PRIVACY_POLICY, navController) { back -> PrivacyPolicyScreen(onBack = back) }
+            subPage(Routes.LICENSES, navController) { back -> OpenSourceScreen(onBack = back) }
         }
     }
 
@@ -287,15 +293,30 @@ private fun MainScaffold(
     }
 }
 
-/** Sub-pages slide in from the end and back out (also with the predictive back gesture). */
-private fun NavGraphBuilder.subPage(route: String, content: @Composable () -> Unit) {
+/**
+ * Sub-pages slide in from the end and back out (also with the predictive back gesture). [content]
+ * gets a back action that ignores repeated taps during the exit animation.
+ */
+private fun NavGraphBuilder.subPage(
+    route: String,
+    navController: NavHostController,
+    content: @Composable (back: () -> Unit) -> Unit,
+) {
     composable(
         route,
         enterTransition = { slideInHorizontally(AppMotion.spatial()) { it / 3 } + fadeIn(AppMotion.effects()) },
         exitTransition = { fadeOut(AppMotion.effects()) },
         popEnterTransition = { fadeIn(AppMotion.effects()) },
         popExitTransition = { slideOutHorizontally(AppMotion.spatial()) { it / 3 } + fadeOut(AppMotion.effects()) },
-    ) { content() }
+    ) {
+        // LocalLifecycleOwner is this back stack entry: a second tap after it started leaving is dropped.
+        content(dropUnlessResumed { navController.popBackStack() })
+    }
+}
+
+/** Opens a sub-page once, even on a double tap. */
+private fun NavHostController.openSubPage(route: String) {
+    navigate(route) { launchSingleTop = true }
 }
 
 /** Bottom-bar navigation: one copy of each section, state saved and restored when switching. */

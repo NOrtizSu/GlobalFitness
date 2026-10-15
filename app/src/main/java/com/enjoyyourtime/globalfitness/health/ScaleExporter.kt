@@ -139,6 +139,7 @@ class ScaleExporter(
                 backfill = backfill,
                 writeEnabled = if (backfill) canExport else enabled,
                 now = clock(),
+                deletable = allowed,
             )
             if (plan.isEmpty) return@withContext 0
             execute(client, plan, allowed)

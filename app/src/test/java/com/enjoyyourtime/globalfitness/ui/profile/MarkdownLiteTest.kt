@@ -62,6 +62,10 @@ class MarkdownLiteTest {
     @Test
     fun underscoresInsideWordsAndLoneBracketsStayLiteral() {
         assertEquals(listOf(MdRun("snake_case [sin enlace] 2 * 3")), MarkdownLite.inline("snake_case [sin enlace] 2 * 3"))
+        assertEquals(
+            listOf(MdRun("[nota] ver "), MdRun("x", url = "https://a.b")),
+            MarkdownLite.inline("[nota] ver [x](https://a.b)"),
+        )
     }
 
     @Test

@@ -46,15 +46,18 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.enjoyyourtime.globalfitness.ble.ScaleScanner
 import com.enjoyyourtime.globalfitness.ble.ScanStatus
 import com.enjoyyourtime.globalfitness.data.ProfileDraft
 import com.enjoyyourtime.globalfitness.health.HcAvailability
@@ -97,6 +100,9 @@ fun OnboardingFlow(
     var step by rememberSaveable { mutableStateOf(OnboardingStep.WELCOME) }
     var restoreStartedAt by rememberSaveable { mutableLongStateOf(0L) }
     var nothingToRestore by rememberSaveable { mutableStateOf(false) }
+    var syncRequested by rememberSaveable { mutableStateOf(false) }
+    val context = LocalContext.current
+    val bluetoothGranted = remember(scanStatus) { ScaleScanner.hasScanPermission(context) }
 
     LaunchedEffect(message) {
         message?.let {
@@ -111,7 +117,8 @@ fun OnboardingFlow(
         }
     }
     // Sign-in cancelled or failed: back to the welcome page. Signed in and synced without a profile in
-    // the cloud: create one.
+    // the cloud: create one. Signed in but no sync under way (the same account signed in again):
+    // ask for one, since the engine only syncs by itself when the account changes.
     LaunchedEffect(step, busy, user, cloud) {
         if (step != OnboardingStep.RESTORE) return@LaunchedEffect
         // Current values, not the collected ones (those can lag a frame behind the sign-in start).
@@ -120,14 +127,19 @@ fun OnboardingFlow(
         val synced = status.lastSyncAt?.let { it >= restoreStartedAt } == true && !status.syncing
         when {
             !signedIn && accountVm.busy.value == null -> step = OnboardingStep.WELCOME
-            signedIn && synced && status.conflict == null && vm.uiState.value.profile == null -> {
+            signedIn && synced && status.conflict == null && vm.currentProfile == null -> {
                 nothingToRestore = true
                 step = OnboardingStep.PROFILE
+            }
+            signedIn && !synced && !syncRequested && !status.syncing && !status.retrying && status.conflict == null -> {
+                syncRequested = true
+                accountVm.syncNow()
             }
         }
     }
 
     BackHandler(enabled = step == OnboardingStep.PROFILE || step == OnboardingStep.RESTORE) {
+        nothingToRestore = false
         step = OnboardingStep.WELCOME
     }
 
@@ -148,13 +160,18 @@ fun OnboardingFlow(
                         OnboardingStep.WELCOME -> Welcome(
                             onSignIn = {
                                 restoreStartedAt = System.currentTimeMillis()
+                                syncRequested = false
                                 step = OnboardingStep.RESTORE
                                 activity?.let(accountVm::signIn)
                             },
-                            onSkip = { step = OnboardingStep.PROFILE },
+                            onSkip = {
+                                nothingToRestore = false
+                                step = OnboardingStep.PROFILE
+                            },
                         )
                         OnboardingStep.RESTORE -> Restore(
                             signingIn = busy == AccountAction.SIGN_IN || user == null,
+                            working = cloud.syncing || cloud.retrying,
                             error = cloud.error,
                             conflict = {
                                 cloud.conflict?.let { ConflictCard(it, enabled = !cloud.syncing, onResolve = accountVm::resolveConflict) }
@@ -164,7 +181,7 @@ fun OnboardingFlow(
                         )
                         OnboardingStep.PROFILE -> ProfileStep(nothingToRestore = nothingToRestore, onCreate = vm::createProfile)
                         OnboardingStep.PERMISSIONS -> Permissions(
-                            bluetoothGranted = scanStatus != ScanStatus.MissingPermission,
+                            bluetoothGranted = bluetoothGranted,
                             bluetoothAvailable = scanStatus != ScanStatus.NoBluetoothLe,
                             onBluetooth = if (access.permanentlyDenied) access.openAppSettings else access.requestPermissions,
                             healthAvailability = health.availability,
@@ -243,6 +260,7 @@ private fun Welcome(onSignIn: () -> Unit, onSkip: () -> Unit) {
 @Composable
 private fun Restore(
     signingIn: Boolean,
+    working: Boolean,
     error: String?,
     conflict: @Composable () -> Unit,
     onRetry: () -> Unit,
@@ -257,10 +275,9 @@ private fun Restore(
             "Estamos trayendo tu perfil y tu historial desde la nube. Solo tarda unos segundos."
         },
     )
-    if (error == null) {
-        CircularProgressIndicator(Modifier.size(40.dp))
-    } else {
-        Text(error, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.error)
+    if (signingIn || working) CircularProgressIndicator(Modifier.size(40.dp))
+    if (error != null) Text(error, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.error)
+    if (!signingIn && !working) {
         OutlinedButton(onClick = onRetry, modifier = Modifier.heightIn(min = 48.dp)) { Text("Reintentar") }
     }
     conflict()
@@ -300,7 +317,7 @@ private fun Permissions(
         icon = AppIcons.Bluetooth,
         title = "Dispositivos cercanos (Bluetooth)",
         text = "Para leer tu báscula y conectar con tu pulsera. No se usa tu ubicación.",
-        done = bluetoothGranted,
+        done = bluetoothAvailable && bluetoothGranted,
         action = if (bluetoothAvailable) "Permitir" else null,
         onAction = onBluetooth,
     )

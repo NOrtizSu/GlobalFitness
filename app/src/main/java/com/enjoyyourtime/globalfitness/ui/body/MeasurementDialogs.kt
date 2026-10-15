@@ -29,8 +29,11 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
@@ -66,11 +69,14 @@ fun compositionSourceLabel(m: Measurement): String? = when (val source = m.compo
 @Composable
 fun ManualEntryDialog(onSave: (Double, Long) -> Unit, onDismiss: () -> Unit) {
     val zone = ZoneId.systemDefault()
-    var weightText by remember { mutableStateOf("") }
-    var date by remember { mutableStateOf(LocalDate.now()) }
-    var time by remember { mutableStateOf(LocalTime.now().withSecond(0).withNano(0)) }
-    var showDate by remember { mutableStateOf(false) }
-    var showTime by remember { mutableStateOf(false) }
+    var weightText by rememberSaveable { mutableStateOf("") }
+    var epochDay by rememberSaveable { mutableLongStateOf(LocalDate.now().toEpochDay()) }
+    var minuteOfDay by rememberSaveable { mutableIntStateOf(LocalTime.now().let { it.hour * 60 + it.minute }) }
+    var showDate by rememberSaveable { mutableStateOf(false) }
+    var showTime by rememberSaveable { mutableStateOf(false) }
+    var saved by remember { mutableStateOf(false) }
+    val date = LocalDate.ofEpochDay(epochDay)
+    val time = LocalTime.of(minuteOfDay / 60, minuteOfDay % 60)
     val weight = Fmt.parseDecimal(weightText)
     val valid = weight != null && weight in 2.0..300.0
     val timestamp = date.atTime(time).atZone(zone).toInstant().toEpochMilli()
@@ -109,12 +115,21 @@ fun ManualEntryDialog(onSave: (Double, Long) -> Unit, onDismiss: () -> Unit) {
             }
         },
         confirmButton = {
-            TextButton(onClick = { weight?.let { onSave(it, timestamp) } }, enabled = valid && !inFuture) { Text("Guardar") }
+            TextButton(
+                onClick = {
+                    // A fast double tap must not save the same weight twice.
+                    if (!saved && weight != null) {
+                        saved = true
+                        onSave(weight, timestamp)
+                    }
+                },
+                enabled = valid && !inFuture && !saved,
+            ) { Text("Guardar") }
         },
         dismissButton = { TextButton(onClick = onDismiss) { Text("Cancelar") } },
     )
-    if (showDate) DatePickerModal(initial = date, onPick = { date = it }, onDismiss = { showDate = false }, minYear = 2000)
-    if (showTime) TimeInputDialog(initial = time, onPick = { time = it }, onDismiss = { showTime = false })
+    if (showDate) DatePickerModal(initial = date, onPick = { epochDay = it.toEpochDay() }, onDismiss = { showDate = false }, minYear = 2000)
+    if (showTime) TimeInputDialog(initial = time, onPick = { minuteOfDay = it.hour * 60 + it.minute }, onDismiss = { showTime = false })
 }
 
 /** Bottom sheet with every metric of one measurement plus the delete action. */

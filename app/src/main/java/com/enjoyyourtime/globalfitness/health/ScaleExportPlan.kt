@@ -145,6 +145,9 @@ object ScaleExportPlanner {
      * @param writeEnabled the "Enviar mediciones" toggle (or an explicit history export).
      * @param now wall clock. Record versions never go below it, so a write always supersedes
      *   records left with the same natural id by an earlier installation.
+     * @param deletable record types this app may delete right now (write permission). A
+     *   measurement only moves to new ids once every record written under the old ones can go;
+     *   until then it keeps its ledger entry, so nothing is left behind untracked.
      */
     fun plan(
         ownedIds: Set<Long>,
@@ -154,15 +157,22 @@ object ScaleExportPlanner {
         backfill: Boolean,
         writeEnabled: Boolean,
         now: Long,
+        deletable: Set<ExportRecordType> = ExportRecordType.entries.toSet(),
     ): ExportPlan {
         val byId = ledger.associateBy { it.measurementId }
         val deletes = ledger.filter { it.measurementId !in ownedIds }
         if (!writeEnabled) return ExportPlan(emptyList(), deletes)
-        val writes = payloads.filter { it.measurementId in ownedIds }.mapNotNull { p ->
+        // Two rows with the same natural id (a manual weight saved twice in the same minute) map to the
+        // same records: only the oldest one writes them.
+        val owned = payloads.filter { it.measurementId in ownedIds }
+            .groupBy { it.recordKey }
+            .map { (_, sameKey) -> sameKey.minBy { it.measurementId } }
+        val writes = owned.mapNotNull { p ->
             val previous = byId[p.measurementId]
             when {
                 previous == null -> if (backfill || p.measurementId > autoAfterId) ExportWrite(p, now, emptyList()) else null
                 previous.signature == p.signature && previous.recordKey == p.recordKey -> null
+                previous.recordKey != p.recordKey && !deletable.containsAll(previous.types) -> null
                 else -> {
                     // Same ids: only values that disappeared are stale. New ids (legacy scheme, or the
                     // weight or time changed): every record written before is stale.

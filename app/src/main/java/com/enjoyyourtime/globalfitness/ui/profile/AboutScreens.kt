@@ -116,7 +116,7 @@ fun OpenSourceScreen(onBack: () -> Unit) {
                     style = MaterialTheme.typography.bodyLarge,
                 )
             }
-            items(PORTED) { NoticeItem(it, onOpen = { uriHandler.openUri(it.url) }) }
+            items(PORTED) { NoticeItem(it, onOpen = { runCatching { uriHandler.openUri(it.url) } }) }
             item {
                 AppCard(containerColor = MaterialTheme.colorScheme.tertiaryContainer) {
                     Text(
@@ -131,7 +131,7 @@ fun OpenSourceScreen(onBack: () -> Unit) {
             item {
                 Text("Bibliotecas", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(top = 8.dp))
             }
-            items(LIBRARIES) { NoticeItem(it, onOpen = { uriHandler.openUri(it.url) }) }
+            items(LIBRARIES) { NoticeItem(it, onOpen = { runCatching { uriHandler.openUri(it.url) } }) }
         }
     }
 }
