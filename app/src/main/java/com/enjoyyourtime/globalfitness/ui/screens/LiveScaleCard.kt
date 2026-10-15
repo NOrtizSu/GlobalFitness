@@ -125,6 +125,11 @@ private fun LiveContent(live: LiveScale) {
                     )
                 }
             }
+            is LiveScale.Connecting -> Row(verticalAlignment = Alignment.CenterVertically) {
+                CircularProgressIndicator(Modifier.size(20.dp), strokeWidth = 2.dp)
+                Spacer(Modifier.width(12.dp))
+                Text("Conectando con ${state.scaleName}…", style = MaterialTheme.typography.titleMedium)
+            }
             is LiveScale.Measuring -> WeightLine("Midiendo", state.weightKg, null)
             is LiveScale.Stabilized -> WeightLine("Estable – midiendo impedancia…", state.weightKg, "No te bajes todavía")
             is LiveScale.SaveFailed -> Problem(

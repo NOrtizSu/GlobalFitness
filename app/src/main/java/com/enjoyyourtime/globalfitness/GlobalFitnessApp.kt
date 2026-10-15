@@ -10,6 +10,9 @@ import com.enjoyyourtime.globalfitness.data.AppDatabase
 import com.enjoyyourtime.globalfitness.data.Repository
 import com.enjoyyourtime.globalfitness.data.SettingsStore
 import com.enjoyyourtime.globalfitness.domain.MeasurementRecorder
+import com.enjoyyourtime.globalfitness.scale.GattSession
+import com.enjoyyourtime.globalfitness.scale.ScaleContext
+import com.enjoyyourtime.globalfitness.scale.drivers.AllDrivers
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,12 +26,19 @@ class AppContainer(context: Context) {
     val appScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate + crashGuard)
     val settings = SettingsStore(context)
     val database = AppDatabase(context)
-    val repository = Repository(database, appScope)
+    val repository = Repository(database, appScope, preferredProfileId = { settings.selectedProfileId.value })
     val scanner = ScaleScanner(context, settings, appScope)
-    val recorder = MeasurementRecorder(repository, settings)
+    val recorder = MeasurementRecorder(repository)
+    val scaleRegistry = AllDrivers.registry()
     val scaleMonitor = ScaleMonitor(
-        scanner = scanner,
+        advertisements = scanner.advertisements,
+        registry = scaleRegistry,
+        settings = settings,
         recorder = recorder,
+        contextProvider = {
+            ScaleContext.from(repository.profile.value, repository.measurements.value.lastOrNull()?.weightKg)
+        },
+        linkFactory = { address -> GattSession(context.applicationContext, address) },
         scope = appScope,
         wallClock = System::currentTimeMillis,
         elapsedClock = SystemClock::elapsedRealtime,

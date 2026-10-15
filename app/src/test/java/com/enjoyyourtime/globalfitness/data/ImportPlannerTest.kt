@@ -1,6 +1,8 @@
 package com.enjoyyourtime.globalfitness.data
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Test
 import java.time.LocalDate
 
@@ -38,35 +40,72 @@ class ImportPlannerTest {
                 row("Ana", t0 + 120_000, 61.35), // 2 min later: different weighing
                 row("Ana", t0 + 120_000, 61.35), // duplicate inside the file itself
             ),
-            profiles = listOf(ana),
+            profile = ana,
             existing = existing,
             now = t0,
         )
         assertEquals(3, plan.duplicates)
+        assertEquals(0, plan.skippedOtherProfiles)
         assertEquals(2, plan.measurements.size)
-        assertEquals(listOf(1L, 1L), plan.measurements.map { it.measurement.profileId })
+        assertEquals(listOf(1L, 1L), plan.measurements.map { it.profileId })
+        assertNull(plan.newProfile)
     }
 
     @Test
-    fun createsMissingProfilesOnceAndLeavesUnknownOnesPending() {
+    fun multiProfileFileImportsOnlyTheLocalProfileRows() {
         val plan = ImportPlanner.plan(
             rows = listOf(
                 row("luis", t0, 80.0, withProfileData = true),
                 row("Luis ", t0 + 86_400_000, 79.5, withProfileData = true),
                 row("Desconocido", t0 + 2 * 86_400_000, 70.0),
                 row("ANA", t0 + 3 * 86_400_000, 60.0),
-                row(null, t0 + 4 * 86_400_000, 65.0),
+                row(null, t0 + 4 * 86_400_000, 65.0), // someone's unassigned weighing: skipped
             ),
-            profiles = listOf(ana),
+            profile = ana,
             existing = emptyList(),
             now = t0,
         )
-        assertEquals(1, plan.newProfiles.size)
-        assertEquals("luis", plan.newProfiles[0].name)
-        assertEquals(1, plan.newProfiles[0].colorIndex) // slot 0 is taken by Ana
-        assertEquals(listOf(0, 0, null, null, null), plan.measurements.map { it.newProfileIndex })
-        assertEquals(listOf(null, null, null, 1L, null), plan.measurements.map { it.measurement.profileId })
+        assertNull(plan.newProfile)
+        assertEquals("ANA", plan.sourceProfileName)
+        assertEquals(listOf(60.0), plan.measurements.map { it.weightKg })
+        assertEquals(listOf(1L), plan.measurements.map { it.profileId })
+        assertEquals(4, plan.skippedOtherProfiles)
         assertEquals(0, plan.duplicates)
+    }
+
+    @Test
+    fun withoutNameMatchTheProfileWithMostRowsWins() {
+        val plan = ImportPlanner.plan(
+            rows = listOf(
+                row("Marta", t0, 58.0),
+                row("luis", t0 + 1_000_000, 80.0, withProfileData = true),
+                row("Luis ", t0 + 86_400_000, 79.5, withProfileData = true),
+            ),
+            profile = null,
+            existing = emptyList(),
+            now = t0,
+        )
+        assertNotNull(plan.newProfile)
+        val created = plan.newProfile!!
+        assertEquals("luis", created.name)
+        assertEquals(180.0, created.heightCm, 1e-9)
+        assertEquals(listOf(80.0, 79.5), plan.measurements.map { it.weightKg })
+        assertEquals(1, plan.skippedOtherProfiles)
+    }
+
+    @Test
+    fun singleProfileFileKeepsRowsWithoutName() {
+        val plan = ImportPlanner.plan(
+            rows = listOf(
+                row("Ana", t0, 61.0),
+                row(null, t0 + 86_400_000, 61.5),
+            ),
+            profile = ana,
+            existing = emptyList(),
+            now = t0,
+        )
+        assertEquals(2, plan.measurements.size)
+        assertEquals(0, plan.skippedOtherProfiles)
     }
 
     @Test
