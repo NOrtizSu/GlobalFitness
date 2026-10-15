@@ -26,18 +26,20 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.ref.WeakReference
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
- * AdMob with Google's UMP consent (GDPR): the consent form runs when [MainActivity] resumes,
- * the Mobile Ads SDK is initialized only once [ConsentInformation.canRequestAds] is true, and
- * nothing is requested for premium users or before Google Play has answered whether the user is
- * premium (see [BillingRepository.entitlementKnown], which has its own short timeout).
+ * AdMob with Google's UMP consent (GDPR): the consent form runs when [MainActivity] resumes once
+ * the onboarding is over (never over the welcome pages), the Mobile Ads SDK is initialized only
+ * after the onboarding and once [ConsentInformation.canRequestAds] is true, and nothing is
+ * requested for premium users or before Google Play has answered whether the user is premium
+ * (see [BillingRepository.entitlementKnown], which has its own short timeout).
  */
 class AdsManager(
     private val application: Application,
     private val scope: CoroutineScope,
-    premium: StateFlow<Boolean>,
+    private val premium: StateFlow<Boolean>,
     /** False until the "remove ads" ownership is known (or a short timeout passed). */
     entitlementKnown: StateFlow<Boolean>,
     val suppression: AdSuppression,
@@ -45,6 +47,8 @@ class AdsManager(
     measurementSaved: Flow<Unit>,
     /** True while a scale weighing or a GATT scale session is in progress. */
     scaleBusy: Flow<Boolean>,
+    /** False while the first-launch onboarding is on screen: no consent form, SDK or ads yet. */
+    private val onboardingCompleted: StateFlow<Boolean>,
 ) {
     /** Premium, or not known yet: no ads in both cases. */
     private val isPremium: StateFlow<Boolean> = combine(premium, entitlementKnown) { p, known -> p || !known }
@@ -54,6 +58,9 @@ class AdsManager(
     private val initStarted = AtomicBoolean(false)
     private var consentInFlight = false
     private var consentUpdatedThisProcess = false
+
+    /** The resumed [MainActivity], if any (main thread only). */
+    private var resumedMain: WeakReference<MainActivity>? = null
 
     private val _canRequestAds = MutableStateFlow(consentInformation.canRequestAds())
     val canRequestAds: StateFlow<Boolean> = _canRequestAds.asStateFlow()
@@ -86,13 +93,17 @@ class AdsManager(
         application.registerActivityLifecycleCallbacks(
             object : Application.ActivityLifecycleCallbacks {
                 override fun onActivityResumed(activity: Activity) {
-                    // Only the app's own screen; never over ad, sign-in or permission activities.
-                    if (activity is MainActivity && !premium.value) gatherConsent(activity)
+                    if (activity !is MainActivity) return
+                    resumedMain = WeakReference(activity)
+                    maybeGatherConsent()
+                }
+
+                override fun onActivityPaused(activity: Activity) {
+                    if (resumedMain?.get() === activity) resumedMain = null
                 }
 
                 override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) = Unit
                 override fun onActivityStarted(activity: Activity) = Unit
-                override fun onActivityPaused(activity: Activity) = Unit
                 override fun onActivityStopped(activity: Activity) = Unit
                 override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) = Unit
                 override fun onActivityDestroyed(activity: Activity) = Unit
@@ -107,8 +118,10 @@ class AdsManager(
                 }
             },
         )
+        // The onboarding just ended while the app is on screen: ask for consent now.
+        scope.launch { onboardingCompleted.collect { done -> if (done) maybeGatherConsent() } }
         scope.launch {
-            combine(_canRequestAds, isPremium) { can, premium -> can && !premium }.first { it }
+            combine(_canRequestAds, isPremium, onboardingCompleted) { can, noAds, done -> can && !noAds && done }.first { it }
             initializeMobileAds()
         }
         scope.launch {
@@ -127,6 +140,16 @@ class AdsManager(
             refreshConsentState()
             onDone(formError?.let { "No se pudieron abrir las opciones de privacidad: ${it.message}" })
         }
+    }
+
+    /**
+     * Only on the app's own screen (never over ad, sign-in or permission activities) and only
+     * after the onboarding, so the consent form never covers the welcome pages.
+     */
+    private fun maybeGatherConsent() {
+        val activity = resumedMain?.get() ?: return
+        if (!onboardingCompleted.value || premium.value) return
+        gatherConsent(activity)
     }
 
     /** UMP: refresh the consent status on every launch and show the form when required. */

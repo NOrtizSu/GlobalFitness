@@ -178,6 +178,9 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
 
     fun markPermissionRationaleSeen() = settings.markPermissionRationaleSeen()
 
+    /** The main sections are on screen: ad consent and ads may start (see [com.enjoyyourtime.globalfitness.ads.AdsManager]). */
+    fun markOnboardingCompleted() = container.onboarding.markCompleted()
+
     fun refreshScanner() = container.scanner.refresh()
 
     /** A top-level section was opened: the interstitial policy decides whether to show one. */

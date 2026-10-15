@@ -2,11 +2,12 @@
 <!--
     Android Auto Backup / device-to-device transfer (API 31+). Same policy as backup_rules.xml:
     back up the app databases and normal preferences, but never the Xiaomi Band auth key
-    (band_prefs), the Health Connect cache (health.db) or Firestore's local cache.
+    (band_prefs), the onboarding flag, the Health Connect cache (health.db) or Firestore's local cache.
 -->
 <data-extraction-rules>
     <cloud-backup>
         <exclude domain="sharedpref" path="band_prefs.xml" />
+        <exclude domain="sharedpref" path="onboarding.xml" />
         <exclude domain="database" path="health.db" />
         <exclude domain="database" path="health.db-journal" />
         <exclude domain="database" path="health.db-wal" />
@@ -18,6 +19,7 @@
     </cloud-backup>
     <device-transfer>
         <exclude domain="sharedpref" path="band_prefs.xml" />
+        <exclude domain="sharedpref" path="onboarding.xml" />
         <exclude domain="database" path="health.db" />
         <exclude domain="database" path="health.db-journal" />
         <exclude domain="database" path="health.db-wal" />

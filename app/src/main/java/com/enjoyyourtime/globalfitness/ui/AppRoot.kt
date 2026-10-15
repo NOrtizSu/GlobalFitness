@@ -140,6 +140,8 @@ fun AppRoot() {
         )
         return
     }
+    // Only now may the ad consent form appear (it never covers the onboarding).
+    LaunchedEffect(Unit) { vm.markOnboardingCompleted() }
 
     CompositionLocalProvider(LocalAppSnackbar provides snackbar) {
         MainScaffold(vm, healthVm, access, snackbar, connectHealth)

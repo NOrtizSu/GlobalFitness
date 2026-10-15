@@ -77,6 +77,7 @@ class AppContainer(context: Context) {
     val billing = BillingRepository(context, appScope, adSuppression)
     val account = AccountManager(context)
     val cloudSync = CloudSyncEngine(context, appScope, account, RepositoryBackupAdapter(repository, settings), billing.isPremium)
+    val onboarding = OnboardingStore(context)
     val ads = AdsManager(
         application = context.applicationContext as Application,
         scope = appScope,
@@ -89,6 +90,7 @@ class AppContainer(context: Context) {
             live is LiveScale.Connecting || live is LiveScale.Measuring || live is LiveScale.Stabilized ||
                 sessions.values.any { it.status in BUSY_SESSION_STATES }
         },
+        onboardingCompleted = onboarding.completed,
     )
 
     private companion object {
