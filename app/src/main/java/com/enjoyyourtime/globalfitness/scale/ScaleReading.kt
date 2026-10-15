@@ -2,7 +2,11 @@ package com.enjoyyourtime.globalfitness.scale
 
 import kotlin.math.roundToLong
 
-/** Body composition values reported (or computed at capture time) by a scale. All optional. */
+/**
+ * Body composition values reported (or computed at capture time) by a scale. All optional.
+ * [musclePercent]/[muscleKg] are total muscle (Mi Fit "masa muscular"); [skeletalMusclePercent]
+ * is skeletal muscle, a different (smaller) quantity reported by many BIA libraries and scales.
+ */
 data class DeviceComposition(
     val fatPercent: Double? = null,
     val waterPercent: Double? = null,
@@ -14,11 +18,33 @@ data class DeviceComposition(
     val lbmKg: Double? = null,
     val proteinPercent: Double? = null,
     val metabolicAge: Double? = null,
+    val skeletalMusclePercent: Double? = null,
 ) {
     val isEmpty: Boolean
         get() = fatPercent == null && waterPercent == null && musclePercent == null && muscleKg == null &&
             boneKg == null && visceralFat == null && bmrKcal == null && lbmKg == null &&
-            proteinPercent == null && metabolicAge == null
+            proteinPercent == null && metabolicAge == null && skeletalMusclePercent == null
+
+    /** Total muscle in kg for [weightKg], from whichever form this source reported. */
+    fun muscleKgFor(weightKg: Double): Double? = muscleKg ?: musclePercent?.let { weightKg * it / 100.0 }
+
+    /**
+     * Only physiologically possible values (non-finite, non-positive and out-of-range values
+     * dropped one by one), so nothing absurd can be stored or exported.
+     */
+    fun sanitized(): DeviceComposition = DeviceComposition(
+        fatPercent = fatPercent.within(1.0, 80.0),
+        waterPercent = waterPercent.within(15.0, 85.0),
+        musclePercent = musclePercent.within(10.0, 95.0),
+        muscleKg = muscleKg.within(5.0, 200.0),
+        boneKg = boneKg.within(0.3, 10.0),
+        visceralFat = visceralFat.within(0.5, 60.0),
+        bmrKcal = bmrKcal.within(300.0, 6000.0),
+        lbmKg = lbmKg.within(5.0, 300.0),
+        proteinPercent = proteinPercent.within(2.0, 45.0),
+        metabolicAge = metabolicAge.within(5.0, 120.0),
+        skeletalMusclePercent = skeletalMusclePercent.within(5.0, 75.0),
+    )
 
     /** Values of this object win; missing ones are taken from [other]. */
     fun mergedWith(other: DeviceComposition?): DeviceComposition {
@@ -34,12 +60,15 @@ data class DeviceComposition(
             lbmKg = lbmKg ?: other.lbmKg,
             proteinPercent = proteinPercent ?: other.proteinPercent,
             metabolicAge = metabolicAge ?: other.metabolicAge,
+            skeletalMusclePercent = skeletalMusclePercent ?: other.skeletalMusclePercent,
         )
     }
 
     companion object {
-        /** Null when every value is missing. */
-        fun of(c: DeviceComposition): DeviceComposition? = c.takeUnless { it.isEmpty }
+        /** Sanitized copy ([sanitized]); null when nothing usable is left. */
+        fun of(c: DeviceComposition): DeviceComposition? = c.sanitized().takeUnless { it.isEmpty }
+
+        private fun Double?.within(min: Double, max: Double): Double? = this?.takeIf { it.isFinite() && it >= min && it <= max }
     }
 }
 
@@ -108,6 +137,8 @@ data class ScaleReading(
     /** Impedance in ohms (the primary / high-frequency one for multi-frequency scales). */
     val impedance: Int? = null,
     val composition: DeviceComposition? = null,
+    /** Low-frequency impedance of dual-frequency scales, needed to recompute their composition. */
+    val impedanceLow: Int? = null,
     /** Scale time when plausible, otherwise the receive time. Becomes the measurement timestamp. */
     val measuredAtMillis: Long,
     val receivedAtMillis: Long,
@@ -132,6 +163,9 @@ data class ScaleReading(
         /** Scale clocks are often unset: accept scale time only within this window. */
         private const val PAST_WINDOW_MS = 5L * 365 * 24 * 3_600_000
         private const val FUTURE_WINDOW_MS = 24L * 3_600_000
+
+        /** A live weighing's scale clock may be off by at most this much (else the phone's time is used). */
+        const val LIVE_CLOCK_TOLERANCE_MS = 10L * 60_000
 
         fun plausibleTime(scaleTime: Long?, receivedAt: Long): Long =
             if (scaleTime != null && scaleTime in (receivedAt - PAST_WINDOW_MS)..(receivedAt + FUTURE_WINDOW_MS)) {

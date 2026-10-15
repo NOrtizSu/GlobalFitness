@@ -49,7 +49,8 @@ class DriverProtocolsTest {
     @Test
     fun huaweiAh100DecodesTheEncryptedMeasurement() {
         val mac = "5C:CA:D3:08:7B:4F"
-        val h = ProtocolHarness(HuaweiAh100Driver(), address = mac).connect()
+        val clock = ScaleTestSupport.Clock(ScaleTestSupport.epochMillis(2026, 5, 19, 8, 13))
+        val h = ProtocolHarness(HuaweiAh100Driver(), address = mac, clock = clock).connect()
         val rx = uuid16(0xFAA2)
         val macBytes = hex("5CCAD3087B4F")
         h.notify(rx, "BD0100")
@@ -290,7 +291,7 @@ class DriverProtocolsTest {
     fun yunmaiMiniFinalFrameForTheAppUser() {
         val h = ProtocolHarness(YunmaiDriver(isMini = true)).connect()
         val notify = uuid16(0xFFE4)
-        val ts = 1_799_000_000L
+        val ts = h.clock.now / 1000 - 60
         fun frame(uid: Int) = ByteArray(19).also {
             it[1] = 0x14
             it[3] = 0x02

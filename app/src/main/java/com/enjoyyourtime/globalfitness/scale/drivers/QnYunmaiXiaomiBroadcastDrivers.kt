@@ -11,6 +11,7 @@ import com.enjoyyourtime.globalfitness.scale.MatchConfidence
 import com.enjoyyourtime.globalfitness.scale.PassiveScaleDriver
 import com.enjoyyourtime.globalfitness.scale.PassiveSession
 import com.enjoyyourtime.globalfitness.scale.ScaleCapabilities
+import com.enjoyyourtime.globalfitness.scale.ScaleReading
 import com.enjoyyourtime.globalfitness.scale.ScaleSample
 import com.enjoyyourtime.globalfitness.scale.SimplePassiveSession
 import com.enjoyyourtime.globalfitness.scale.libs.AesCcm
@@ -27,8 +28,14 @@ class QnBroadcastDriver : PassiveScaleDriver() {
     override val capabilities = ScaleCapabilities()
     override val keywords = listOf("Yolanda", "FT-26R", "ES-CS20M", "AABB")
 
-    override fun match(adv: AdvertisementInfo): MatchConfidence? =
-        if (adv.manufacturer(COMPANY_ID)?.let { hasMagic(it) } == true) MatchConfidence.HIGH else null
+    override fun match(adv: AdvertisementInfo): MatchConfidence? {
+        val data = adv.manufacturer(COMPANY_ID) ?: return null
+        return when {
+            parseFrame(data) != null -> MatchConfidence.HIGH
+            hasMagic(data) && data.size >= 19 -> MatchConfidence.MEDIUM
+            else -> null
+        }
+    }
 
     override fun newSession(env: DriverEnv): PassiveSession = object : SimplePassiveSession(null) {
         override fun parse(adv: AdvertisementInfo, env: DriverEnv): ScaleSample? {
@@ -96,7 +103,7 @@ class YunmaiXDriver : PassiveScaleDriver() {
                     armed = false
                     ScaleSample().apply {
                         weightKg = f.weightKg
-                        if (f.impedanceOhm > 0) impedance = f.impedanceOhm.toFloat()
+                        if (f.impedanceOhm in 1..3000) impedance = f.impedanceOhm.toFloat()
                     }
                 }
                 else -> null
@@ -162,6 +169,20 @@ class XiaomiS800Driver : PassiveScaleDriver() {
     override fun newSession(env: DriverEnv): PassiveSession = object : SimplePassiveSession(null) {
         private var cachedMac: ByteArray? = null
         private var warned = false
+        private var keyFailures = 0
+        private var keyWarned = false
+        private var lastCounter: Long? = null
+
+        override fun parseAdvertisement(adv: AdvertisementInfo, env: DriverEnv): List<ScaleReading> {
+            val frame = adv.serviceData16(0xFE95)
+            val counter = frame?.let { frameCounter(it) }
+            if (counter != null && counter == lastCounter) return emptyList() // same packet re-broadcast
+            val readings = super.parseAdvertisement(adv, env)
+            if (readings.isEmpty() || counter == null) return readings
+            lastCounter = counter
+            // The MiBeacon counter identifies the weighing across app restarts (no scale clock).
+            return readings.map { r -> r.copy(dedupeKey = "${r.driverId}|${env.address.orEmpty()}|c$counter|${ScaleReading.grams(r.weightKg)}") }
+        }
 
         override fun parse(adv: AdvertisementInfo, env: DriverEnv): ScaleSample? {
             val key = env.store.getString(ConfigField.KEY_BINDKEY)?.trim()
@@ -176,7 +197,15 @@ class XiaomiS800Driver : PassiveScaleDriver() {
             if (frame.size >= 4 && Bytes.fromUnsignedInt16Le(frame, 2) != PRODUCT_ID) return null
             macFrameOrder(frame)?.let { cachedMac = it }
             val mac = cachedMac ?: runCatching { Bytes.fromHex(adv.address).reversedArray() }.getOrNull() ?: return null
-            val plain = decrypt(frame, Bytes.fromHex(key), mac) ?: return null
+            val plain = decrypt(frame, Bytes.fromHex(key), mac)
+            if (plain == null) {
+                if (frame.size >= 12 && Bytes.fromUnsignedInt16Le(frame, 0) and FC_ENCRYPTED != 0 && ++keyFailures >= 10 && !keyWarned) {
+                    keyWarned = true
+                    env.messages("La bind key de la S800 no descifra sus datos: revísala en Básculas.")
+                }
+                return null
+            }
+            keyFailures = 0
             val kg = parseWeightKg(plain) ?: return null
             return ScaleSample().apply { weightKg = kg }
         }
@@ -184,8 +213,11 @@ class XiaomiS800Driver : PassiveScaleDriver() {
 
     companion object {
         const val PRODUCT_ID = 0x51E2
-        private const val FC_ENCRYPTED = 0x08
+        const val FC_ENCRYPTED = 0x08
         private const val FC_MAC_INCLUDED = 0x10
+
+        private const val FC_CAPABILITY = 0x20
+        private const val CAP_IO = 0x20
 
         fun macFrameOrder(data: ByteArray): ByteArray? {
             if (data.size < 11) return null
@@ -193,12 +225,31 @@ class XiaomiS800Driver : PassiveScaleDriver() {
             return data.copyOfRange(5, 11)
         }
 
-        /** `FC | PID | cnt | [MAC] | cipher | extCnt(3) | MIC(4)`; nonce = MAC + data[2..5) + extCnt. */
+        /** Frame counter (extended counter << 8 | counter) of an encrypted frame, else null. */
+        fun frameCounter(data: ByteArray): Long? {
+            if (data.size < 12 || Bytes.fromUnsignedInt16Le(data, 0) and FC_ENCRYPTED == 0) return null
+            return (Bytes.fromUnsignedInt24Le(data, data.size - 7).toLong() shl 8) or Bytes.u8(data, 4).toLong()
+        }
+
+        /** Start of the encrypted object: after the optional MAC and capability (+ IO capability) bytes. */
+        private fun payloadStart(data: ByteArray, fc: Int): Int? {
+            var start = 5
+            if (fc and FC_MAC_INCLUDED != 0) start += 6
+            if (fc and FC_CAPABILITY != 0) {
+                if (data.size <= start) return null
+                val capability = Bytes.u8(data, start)
+                start += 1
+                if (capability and CAP_IO != 0) start += 2
+            }
+            return start
+        }
+
+        /** `FC | PID | cnt | [MAC] | [cap [io]] | cipher | extCnt(3) | MIC(4)`; nonce = MAC + data[2..5) + extCnt. */
         fun decrypt(data: ByteArray, bindKey: ByteArray, macFrameOrder: ByteArray): ByteArray? {
             if (data.size < 12 || bindKey.size != 16 || macFrameOrder.size != 6) return null
             val fc = Bytes.fromUnsignedInt16Le(data, 0)
             if (fc and FC_ENCRYPTED == 0) return null
-            val start = if (fc and FC_MAC_INCLUDED != 0) 11 else 5
+            val start = payloadStart(data, fc) ?: return null
             if (data.size < start + 7) return null
             val cipher = data.copyOfRange(start, data.size - 7)
             val ext = data.copyOfRange(data.size - 7, data.size - 4)

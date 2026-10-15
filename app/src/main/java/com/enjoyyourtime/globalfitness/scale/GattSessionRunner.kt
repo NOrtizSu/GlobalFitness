@@ -40,6 +40,9 @@ interface GattLink {
 
     /** The discovered GATT tree (empty before service discovery). */
     fun characteristics(): List<GattCharInfo> = emptyList()
+
+    /** Why the link failed on its own (e.g. a wedged operation), null when it did not. */
+    val failure: String? get() = null
     suspend fun enableNotifications(service: UUID, characteristic: UUID): Boolean
     suspend fun write(service: UUID, characteristic: UUID, value: ByteArray, withResponse: Boolean): Boolean
     suspend fun read(service: UUID, characteristic: UUID): ByteArray?
@@ -97,9 +100,6 @@ class GattSessionRunner(
             send(ScaleEvent.Status(SessionStatus.FAILED, e.message ?: "No se pudo conectar"))
             return@channelFlow
         }
-        runCatching { if (requestedMtu > 23) link.requestMtu(requestedMtu) }
-        send(ScaleEvent.Status(SessionStatus.CONNECTED))
-
         val ops = Channel<Op>(Channel.UNLIMITED)
         val events = Channel<Event>(Channel.UNLIMITED)
         var measuring = false
@@ -155,18 +155,20 @@ class GattSessionRunner(
             }
         }
 
-        val protocol = driver.createProtocol(adv)
-        protocol.attach(io, env)
-
-        val notificationsJob = launch {
-            link.notifications.collect { events.send(Event.Notify(it)) }
-        }
-        val linkWatchJob = launch {
-            link.isConnected.first { !it }
-            events.send(Event.End("La báscula se desconectó"))
-        }
+        var notificationsJob: Job? = null
+        var linkWatchJob: Job? = null
+        var opsJob: Job? = null
+        var protocol: GattProtocol? = null
         val pacing = driver.pacing
-        val opsJob = launch {
+        fun startJobs() {
+            notificationsJob = launch {
+                link.notifications.collect { events.send(Event.Notify(it)) }
+            }
+            linkWatchJob = launch {
+                link.isConnected.first { !it }
+                events.send(Event.End("La báscula se desconectó"))
+            }
+            opsJob = launch {
             for (op in ops) {
                 try {
                     when (op) {
@@ -194,12 +196,12 @@ class GattSessionRunner(
                     },
                 )
             }
+            }
         }
 
         val startedAt = env.elapsedClock()
         var lastActivity = startedAt
         var endReason: String? = null
-        var failed = false
 
         fun guarded(block: () -> Unit) {
             try {
@@ -212,47 +214,62 @@ class GattSessionRunner(
         }
 
         try {
-            guarded { protocol.onConnected() }
+            runCatching { if (requestedMtu > 23) link.requestMtu(requestedMtu) }
+                .onFailure { if (it is CancellationException) throw it }
+            send(ScaleEvent.Status(SessionStatus.CONNECTED))
+            val p = driver.createProtocol(adv)
+            p.attach(io, env)
+            protocol = p
+            startJobs()
+            guarded { p.onConnected() }
             while (true) {
                 val now = env.elapsedClock()
                 val idleLeft = idleTimeoutMs - (now - lastActivity)
                 val sessionLeft = maxSessionMs - (now - startedAt)
                 val wait = minOf(idleLeft, sessionLeft)
                 if (wait <= 0) {
-                    endReason = if (published == 0) "Sin datos de la báscula (tiempo agotado)" else null
-                    failed = published == 0
+                    endReason = if (published == 0) NO_DATA else null
                     break
                 }
                 val event = withTimeoutOrNull(wait) { events.receive() } ?: continue
                 when (event) {
                     is Event.Notify -> {
                         lastActivity = env.elapsedClock()
-                        guarded { protocol.onNotification(event.n.characteristic, event.n.value) }
+                        guarded { p.onNotification(event.n.characteristic, event.n.value) }
                     }
                     is Event.Timer -> guarded { event.action() }
                     is Event.End -> {
                         endReason = event.reason
-                        failed = event.reason != null && published == 0
                         break
                     }
                 }
             }
         } finally {
-            guarded { protocol.onDisconnected() }
+            // Drivers may still publish here (flush on disconnect): counted below.
+            protocol?.let { guarded { it.onDisconnected() } }
             timers.forEach { it.cancel() }
-            notificationsJob.cancel()
-            linkWatchJob.cancel()
-            opsJob.cancel()
+            notificationsJob?.cancel()
+            linkWatchJob?.cancel()
+            opsJob?.cancel()
             ops.close()
             link.close()
         }
-        send(
-            ScaleEvent.Status(
-                if (failed) SessionStatus.FAILED else SessionStatus.DONE,
-                endReason,
-            ),
-        )
+        // Connected but nothing received is not an error (the user stepped off, or the scale had
+        // nothing new); only a link that failed on its own is.
+        val linkFailure = link.failure
+        val status = if (linkFailure != null && published == 0) SessionStatus.FAILED else SessionStatus.DONE
+        val detail = when {
+            linkFailure != null && published == 0 -> linkFailure
+            published > 0 -> null
+            endReason != null -> NO_DATA
+            else -> null
+        }
+        send(ScaleEvent.Status(status, detail))
     }.buffer(Channel.UNLIMITED)
+
+    companion object {
+        const val NO_DATA = "Sin datos nuevos de la báscula"
+    }
 }
 
 /** Entry point matching the driver API: runs a full session over [link]. */

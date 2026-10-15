@@ -40,10 +40,13 @@ class ScaleRegistry(val drivers: List<ScaleDriver>) {
     }
 
     companion object {
+        /** A driver bug must never break detection: anything but a VM error counts as "no match". */
         fun safeMatch(driver: ScaleDriver, adv: AdvertisementInfo): MatchConfidence? =
             try {
                 driver.match(adv)
-            } catch (e: Exception) {
+            } catch (e: VirtualMachineError) {
+                throw e
+            } catch (e: Throwable) {
                 null
             }
 
@@ -55,13 +58,17 @@ class ScaleRegistry(val drivers: List<ScaleDriver>) {
     }
 }
 
-/** A device seen recently that at least one driver recognised. */
+/** A device seen recently that at least one driver recognised (times on the elapsed clock). */
 data class DetectedScale(
     val address: String,
     val name: String?,
     val rssi: Int,
     val lastSeenMillis: Long,
     val matches: List<ScaleMatch>,
+    /** When this device started being seen (it is forgotten after the detector's TTL). */
+    val firstSeenMillis: Long = lastSeenMillis,
+    /** Advertisements received since [firstSeenMillis]. */
+    val adverts: Int = 1,
 ) {
     val best: ScaleMatch get() = matches.first()
     val highMatches: List<ScaleMatch> get() = matches.filter { it.confidence == MatchConfidence.HIGH }
@@ -74,30 +81,44 @@ sealed interface DetectionResult {
 
     /** No scale configured and this device is the only unambiguous match: configure it. */
     data class AutoConfigure(val driver: ScaleDriver, val address: String, val name: String?) : DetectionResult
+
+    /**
+     * Same certainty, but the driver connects to the scale (and may register a user on it): it is
+     * only offered to the user ("¿Es tu báscula?"), never set up silently.
+     */
+    data class Suggest(val driver: ScaleDriver, val address: String, val name: String?) : DetectionResult
 }
 
 /**
  * Pure detection bookkeeping fed with every advertisement: keeps the "detected scales" list
- * (fresh for [ttlMs]) and decides when to auto-configure.
+ * (fresh for [ttlMs], on the elapsed clock) and decides when to auto-configure.
  *
- * Auto-configuration happens only when no scale is configured, the device has exactly one
- * HIGH-confidence match, no other fresh device has a HIGH match (avoids grabbing a neighbour's
- * scale when several are around) and the user did not remove that device before ([dismissed]).
+ * A device is taken only when no scale is configured, it has exactly one HIGH-confidence match,
+ * it is close ([rssiGate]), it has been heard [minAdverts] times over at least [settleMs] (not a
+ * one-off passer-by), no other fresh, non-dismissed device has a HIGH match (a neighbour's scale)
+ * and the user did not remove it before. Passive drivers are configured; drivers that connect
+ * or register users are only suggested.
  */
 class ScaleDetector(
     private val registry: ScaleRegistry,
     private val ttlMs: Long = 120_000L,
     /** Same device re-matched at most this often (matching ~70 drivers on every advertisement is wasteful). */
     private val rematchIntervalMs: Long = 2_000L,
+    private val rssiGate: Int = -70,
+    private val settleMs: Long = 3_000L,
+    private val minAdverts: Int = 2,
 ) {
     private val seen = LinkedHashMap<String, DetectedScale>()
     private val lastMatchAt = LinkedHashMap<String, Long>()
-    private val autoConfigured = HashSet<String>()
+    private val decided = HashSet<String>()
 
     fun detected(now: Long): List<DetectedScale> {
         prune(now)
         return seen.values.sortedByDescending { it.rssi }
     }
+
+    /** The matches last computed for [address] (refreshed at most every [rematchIntervalMs]). */
+    fun matchesFor(address: String): List<ScaleMatch> = seen[address.uppercase(Locale.ROOT)]?.matches.orEmpty()
 
     fun onAdvertisement(
         adv: AdvertisementInfo,
@@ -106,7 +127,8 @@ class ScaleDetector(
         dismissed: Set<String>,
     ): DetectionResult {
         val key = adv.address.uppercase(Locale.ROOT)
-        val previous = seen[key]
+        // An entry older than the TTL (not pruned yet) is a new sighting.
+        val previous = seen[key]?.takeIf { now - it.lastSeenMillis <= ttlMs }
         val last = lastMatchAt[key]
         val matches = if (last != null && now - last < rematchIntervalMs) {
             previous?.matches ?: return DetectionResult.Ignored
@@ -117,7 +139,8 @@ class ScaleDetector(
             registry.detect(adv)
         }
         if (matches.isEmpty()) {
-            if (previous != null) seen.remove(key)
+            // A single advertisement without the recognisable part (e.g. no scan response) does
+            // not make a known device disappear: it simply ages out after the TTL.
             return DetectionResult.Ignored
         }
         val entry = DetectedScale(
@@ -126,23 +149,34 @@ class ScaleDetector(
             rssi = adv.rssi,
             lastSeenMillis = now,
             matches = matches,
+            firstSeenMillis = previous?.firstSeenMillis ?: now,
+            adverts = (previous?.adverts ?: 0) + 1,
         )
         seen[key] = entry
         prune(now)
 
-        if (configured.isNotEmpty() || key in dismissed || key in autoConfigured) return DetectionResult.Updated
+        if (configured.isNotEmpty() || key in dismissed || key in decided) return DetectionResult.Updated
         val high = entry.highMatches
-        if (high.size != 1) return DetectionResult.Updated
-        val othersWithHigh = seen.values.any { it !== entry && it.highMatches.isNotEmpty() }
+        if (high.size != 1 || adv.rssi < rssiGate) return DetectionResult.Updated
+        if (entry.adverts < minAdverts || now - entry.firstSeenMillis < settleMs) return DetectionResult.Updated
+        val othersWithHigh = seen.values.any {
+            it !== entry && it.address.uppercase(Locale.ROOT) !in dismissed && it.highMatches.isNotEmpty()
+        }
         if (othersWithHigh) return DetectionResult.Updated
-        autoConfigured += key
-        return DetectionResult.AutoConfigure(high.single().driver, adv.address, entry.name)
+        decided += key
+        val driver = high.single().driver
+        return if (driver is PassiveScaleDriver && !driver.capabilities.userRegistration) {
+            DetectionResult.AutoConfigure(driver, adv.address, entry.name)
+        } else {
+            DetectionResult.Suggest(driver, adv.address, entry.name)
+        }
     }
 
     fun forget(address: String) {
         val key = address.uppercase(Locale.ROOT)
         seen.remove(key)
         lastMatchAt.remove(key)
+        decided.remove(key)
     }
 
     private fun prune(now: Long) {

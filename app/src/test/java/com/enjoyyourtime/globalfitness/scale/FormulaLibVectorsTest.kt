@@ -227,7 +227,8 @@ class FormulaLibVectorsTest {
                 else -> {
                     assertNotNull("$lib", c)
                     val fat = c!!.fatPercent
-                    if (fat != null) assertTrue("$lib fat $fat", fat in 3.0..60.0)
+                    assertNotNull("$lib fat", fat)
+                    assertTrue("$lib fat $fat", fat!! in 3.0..60.0)
                     c.waterPercent?.let { assertTrue("$lib water $it", it in 20.0..80.0) }
                     c.boneKg?.let { assertTrue("$lib bone $it", it in 0.5..10.0) }
                 }

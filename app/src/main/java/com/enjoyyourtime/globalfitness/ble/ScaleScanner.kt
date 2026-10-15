@@ -104,6 +104,9 @@ class ScaleScanner(
     private val startTimes = ArrayDeque<Long>()
     private var receiverRegistered = false
 
+    /** True while a scale GATT connection is being set up. */
+    private var paused = false
+
 
     private val bluetoothStateReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -153,9 +156,19 @@ class ScaleScanner(
         }
     }
 
+    /**
+     * Pauses the low-latency scan while a GATT connection is being established: on several
+     * chipsets a running scan makes the connection fail (status 133). Call on the main thread.
+     */
+    fun setPaused(value: Boolean) {
+        if (paused == value) return
+        paused = value
+        if (value) stopScan() else refresh()
+    }
+
     /** Re-evaluates preconditions (permission granted, Bluetooth enabled...) and starts scanning. */
     fun refresh() {
-        if (!foreground) return
+        if (!foreground || paused) return
         val bt = adapter
         when {
             bt == null || !context.packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE) ->
@@ -175,7 +188,7 @@ class ScaleScanner(
 
     @SuppressLint("MissingPermission")
     private fun startScan() {
-        if (!foreground || activeCallback != null) return
+        if (!foreground || paused || activeCallback != null) return
         val now = elapsedRealtime()
         while (startTimes.isNotEmpty() && now - startTimes.first() > START_LIMIT_WINDOW_MS) startTimes.removeFirst()
         if (startTimes.size >= MAX_STARTS_PER_WINDOW) {

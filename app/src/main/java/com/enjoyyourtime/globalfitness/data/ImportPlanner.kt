@@ -113,6 +113,7 @@ object ImportPlanner {
                 formulaLib = row.formulaLib,
                 deviceDriver = row.deviceDriver,
                 deviceAddress = row.deviceAddress,
+                impedanceLow = row.impedanceLow,
             )
             index(row.scaleKey, row.timestamp, row.weightKg)
         }

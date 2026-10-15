@@ -67,7 +67,13 @@ class XiaomiS400Test {
         val header = byteArrayOf(0x48, 0x59, 0xD5.toByte(), 0x3B, counter.toByte())
         val extCounter = byteArrayOf(0x01, 0x00, 0x00)
         val word = (weightRaw and 0x7FF) or ((hrRaw and 0x7F) shl 11) or (impedanceRaw shl 18)
-        val plain = ByteArray(12).also { Bytes.toInt32Le(it, 4, word.toLong() and 0xFFFFFFFFL) }
+        val plain = ByteArray(12).also {
+            it[0] = 0x16
+            it[1] = 0x6E
+            it[2] = 0x09 // object 0x6E16, 9 bytes
+            it[3] = 0x01 // scale profile
+            Bytes.toInt32Le(it, 4, word.toLong() and 0xFFFFFFFFL)
+        }
         val nonce = Bytes.fromHex(macAddress).reversedArray() + header.copyOfRange(2, 5) + extCounter
         val sealed = AesCcm.encrypt(Bytes.fromHex(bindKey), nonce, plain, byteArrayOf(0x11), 4)
         return header + sealed.copyOfRange(0, 12) + extCounter + sealed.copyOfRange(12, 16)
@@ -113,6 +119,27 @@ class XiaomiS400Test {
     }
 
     private fun assertNotNullComposition(r: ScaleReading) = r.composition.also { assertNotNull(it) }!!
+
+    /** Older firmware sends packet A only: the session's tick finalizes it after the timeout. */
+    @Test
+    fun driverFinalizesPacketAAloneOnTick() {
+        val bindKey = "00112233445566778899aabbccddeeff"
+        val driver = XiaomiS400Driver()
+        val clock = ScaleTestSupport.Clock()
+        val env = ScaleTestSupport.env(driver.id, clock, store = MapDriverStore(mapOf(ConfigField.KEY_BINDKEY to bindKey)))
+        val session = driver.newSession(env)
+        val packetA = encryptAdvert(ScaleTestSupport.ADDRESS, bindKey, weightRaw = 755, hrRaw = 22, impedanceRaw = 5100, counter = 9)
+        assertTrue(session.parseAdvertisement(ScaleTestSupport.adv(serviceData = mapOf(Bytes.uuid16(0xFE95) to packetA)), env).isEmpty())
+        assertTrue(session.needsTick)
+        clock.advance(5_000)
+        assertTrue(session.tick(env).isEmpty())
+        clock.advance(5_000)
+        val r = session.tick(env).single()
+        assertEquals(75.5, r.weightKg, 1e-4)
+        assertEquals(510, r.impedance)
+        assertNull(r.impedanceLow)
+        assertTrue(!session.needsTick)
+    }
 
     @Test
     fun aggregatorFinalizesWithPacketAOnlyAfterTimeout() {

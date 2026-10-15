@@ -140,17 +140,14 @@ class BeurerSanitasDriver : GattScaleDriver() {
                     }
                 }
                 8 -> {
-                    val stored = storedData
+                    if (storedData != null) publishStoredIfOurs(currentRemoteUser)
                     when {
-                        stored != null -> {
-                            addMeasurement(stored)
-                            storedData = null
-                        }
                         !dataReceived && currentRemoteUser != null && currentRemoteUser?.isNew == false -> {
                             waitForDataInStep = 8
                             userInfo("Súbete a la báscula")
                             sendCommand(CMD_DO_MEASUREMENT, *encodeUserId(currentRemoteUser))
                         }
+                        dataReceived -> requestDisconnect()
                     }
                 }
             }
@@ -172,7 +169,21 @@ class BeurerSanitasDriver : GattScaleDriver() {
             proceedTo(5)
         }
 
+        /**
+         * A measurement taken before our user was identified is published only if the scale
+         * attributed it to our remote user; anyone else's weighing is dropped.
+         */
+        private fun publishStoredIfOurs(ru: RemoteUser?) {
+            val stored = storedData ?: return
+            storedData = null
+            if (ru != null && ru.localUserId == user.appUserId && storedUid == ru.remoteUserId) {
+                addMeasurement(stored)
+                dataReceived = true
+            }
+        }
+
         private fun processSavedMeasurement(data: ByteArray) {
+            if (data.size < 4) return
             val count = Bytes.u8(data, 2)
             val current = Bytes.u8(data, 3)
             processMeasurementData(data, 4, firstPart = current % 2 == 1, saved = true)
@@ -187,9 +198,11 @@ class BeurerSanitasDriver : GattScaleDriver() {
         }
 
         private fun processMeasurement(data: ByteArray) {
+            if (data.size < 4) return
             val count = Bytes.u8(data, 2)
             val current = Bytes.u8(data, 3)
             if (current == 1) {
+                if (data.size < 13) return
                 val uid = decodeUserId(data, 5)
                 candidateUid = uid
                 currentRemoteUser = remoteUsers.firstOrNull { it.remoteUserId == uid }
@@ -255,10 +268,7 @@ class BeurerSanitasDriver : GattScaleDriver() {
                         val ru = currentRemoteUser
                         if (ru != null) {
                             ru.isNew = true
-                            storedData?.let {
-                                addMeasurement(it)
-                                storedData = null
-                            }
+                            publishStoredIfOurs(ru)
                             readyForData = true
                             userInfo("Usuario creado en la báscula: súbete para la medición de referencia")
                             sendCommand(CMD_DO_MEASUREMENT, *encodeUserId(ru))
@@ -298,10 +308,10 @@ class BeurerSanitasDriver : GattScaleDriver() {
                 // Only the app user's slot is ours (saved data is fetched for mapped users only).
                 if (ru.localUserId == user.appUserId) addMeasurement(merged, fromHistory = saved)
                 dataReceived = true
+                // The deferred copy is dropped only when it is this very record.
                 val pending = storedData
                 if (pending != null && ru.remoteUserId == storedUid && timestamp(merged) == timestamp(pending)) storedData = null
                 measurementData = null
-                storedData = null
             } else if (!saved) {
                 storedData = merged
                 storedUid = candidateUid

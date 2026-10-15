@@ -44,11 +44,27 @@ class AppDatabase(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, D
         )
         db.execSQL("CREATE INDEX idx_measurements_profile_time ON measurements(profile_id, timestamp)")
         migrateTo2(db)
+        migrateTo3(db)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         if (oldVersion < 2) migrateTo2(db)
+        if (oldVersion < 3) migrateTo3(db)
     }
+
+    /**
+     * v3 (additive): skeletal muscle and low-frequency impedance columns, and the keys of deleted
+     * scale measurements so a re-broadcast or history download never brings them back.
+     */
+    private fun migrateTo3(db: SQLiteDatabase) {
+        for ((column, type) in V3_COLUMNS) db.execSQL("ALTER TABLE measurements ADD COLUMN $column $type")
+        db.execSQL("CREATE TABLE IF NOT EXISTS deleted_scale_keys (scale_key TEXT PRIMARY KEY, deleted_at INTEGER NOT NULL)")
+    }
+
+    fun loadDeletedScaleKeys(): Set<String> =
+        readableDatabase.rawQuery("SELECT scale_key FROM deleted_scale_keys", null).use { c ->
+            buildSet { while (c.moveToNext()) add(c.getString(0)) }
+        }
 
     /**
      * v2: multi-scale support. Only adds nullable columns (existing rows are preserved) and tags
@@ -166,9 +182,22 @@ class AppDatabase(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, D
         writableDatabase.update("measurements", values, "id = ?", arrayOf(m.id.toString()))
     }
 
-    fun deleteMeasurement(id: Long) {
-        writableDatabase.delete("measurements", "id = ?", arrayOf(id.toString()))
-    }
+    /** Deletes the row and remembers its scale key (tombstone). Returns that key, if any. */
+    fun deleteMeasurement(id: Long, nowMillis: Long): String? =
+        writableDatabase.transaction {
+            val key = rawQuery("SELECT scale_key FROM measurements WHERE id = ?", arrayOf(id.toString())).use { c ->
+                if (c.moveToFirst() && !c.isNull(0)) c.getString(0) else null
+            }
+            if (key != null) {
+                val values = ContentValues().apply {
+                    put("scale_key", key)
+                    put("deleted_at", nowMillis)
+                }
+                insertWithOnConflict("deleted_scale_keys", null, values, SQLiteDatabase.CONFLICT_REPLACE)
+            }
+            delete("measurements", "id = ?", arrayOf(id.toString()))
+            key
+        }
 
     private fun Profile.toValues() = ContentValues().apply {
         put("name", name)
@@ -202,6 +231,8 @@ class AppDatabase(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, D
         putDouble("dev_lbm_kg", c?.lbmKg)
         putDouble("dev_protein_pct", c?.proteinPercent)
         putDouble("dev_metabolic_age", c?.metabolicAge)
+        putDouble("dev_skeletal_pct", c?.skeletalMusclePercent)
+        if (m.impedanceLow == null) putNull("impedance_low") else put("impedance_low", m.impedanceLow)
         putText("composition_source", m.compositionSource?.code)
         putText("formula_lib", m.formulaLib?.id)
         putText("device_driver", m.deviceDriver)
@@ -231,6 +262,7 @@ class AppDatabase(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, D
                 lbmKg = doubleOrNull(14),
                 proteinPercent = doubleOrNull(15),
                 metabolicAge = doubleOrNull(16),
+                skeletalMusclePercent = doubleOrNull(21),
             ),
         )
         return Measurement(
@@ -246,12 +278,13 @@ class AppDatabase(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, D
             formulaLib = FormulaLib.fromId(if (isNull(18)) null else getString(18)),
             deviceDriver = if (isNull(19)) null else getString(19),
             deviceAddress = if (isNull(20)) null else getString(20),
+            impedanceLow = if (isNull(22)) null else getInt(22),
         )
     }
 
     companion object {
         const val DB_NAME = "globalfitness.db"
-        const val DB_VERSION = 2
+        const val DB_VERSION = 3
 
         /** Driver id of the rows stored before v2 (all from the Mi Body Composition Scale 2). */
         const val LEGACY_DRIVER = "xiaomi_mi_scale_2"
@@ -274,8 +307,14 @@ class AppDatabase(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, D
             "device_address" to "TEXT",
         )
 
+        /** Columns added in v3, in cursor order after the v2 ones. */
+        val V3_COLUMNS = listOf(
+            "dev_skeletal_pct" to "REAL",
+            "impedance_low" to "INTEGER",
+        )
+
         private val MEASUREMENT_COLUMNS =
-            (listOf("id", "profile_id", "timestamp", "weight_kg", "impedance", "scale_key", "source") + V2_COLUMNS.map { it.first })
+            (listOf("id", "profile_id", "timestamp", "weight_kg", "impedance", "scale_key", "source") + (V2_COLUMNS + V3_COLUMNS).map { it.first })
                 .joinToString(", ")
     }
 }

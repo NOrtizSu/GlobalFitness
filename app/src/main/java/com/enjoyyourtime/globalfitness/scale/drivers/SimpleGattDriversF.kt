@@ -26,13 +26,6 @@ import java.util.UUID
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
-/** Activity level → 1byone "people type" (0 low, 1 medium, 2 high). */
-internal fun oneByonePeopleType(level: ActivityLevel): Int = when (level) {
-    ActivityLevel.SEDENTARY, ActivityLevel.MILD -> 0
-    ActivityLevel.MODERATE -> 1
-    ActivityLevel.HEAVY, ActivityLevel.EXTREME -> 2
-}
-
 /**
  * 1byone "Health Scale" (classic) and Eufy C1/P1/A1 (T9146/T9147/T9120): FFF0 with FD/F1/F2
  * commands; live and history 0xCF frames with impedance. Composition with the 1byone formulas.
@@ -339,6 +332,7 @@ class YunmaiDriver(private val isMini: Boolean) : GattScaleDriver() {
             }
             publish(m)
             last = m
+            finishSoon()
         }
 
         private fun parseFinal(f: ByteArray): ScaleSample? {
@@ -357,11 +351,10 @@ class YunmaiDriver(private val isMini: Boolean) : GattScaleDriver() {
                     val fat = Bytes.fromUnsignedInt16Be(f, 17) / 100.0f
                     if (fat > 0f) {
                         val lib = YunmaiLib(if (user.isMale) 1 else 0, user.heightCm, user.activityLevel)
-                        val muscle = lib.getMuscle(fat)
                         m.fatPercent = fat
-                        m.musclePercent = muscle
+                        m.skeletalMusclePercent = lib.getSkeletalMuscle(fat)
                         m.waterPercent = lib.getWater(fat)
-                        m.boneKg = lib.getBoneMass(muscle, kg)
+                        m.boneKg = lib.getBoneMass(lib.getMuscle(fat), kg)
                         m.lbmKg = lib.getLeanBodyMass(kg, fat)
                         m.visceralFat = lib.getVisceralFat(fat, user.ageAt(ts))
                         m.computedWith = FormulaLib.YUNMAI
@@ -434,6 +427,7 @@ class EufyP2Driver : GattScaleDriver() {
                         weightKg = r.weightKg
                         if (r.impedanceOhm > 0) impedance = r.impedanceOhm.toFloat()
                     })
+                    finishSoon()
                 }
             }
         }

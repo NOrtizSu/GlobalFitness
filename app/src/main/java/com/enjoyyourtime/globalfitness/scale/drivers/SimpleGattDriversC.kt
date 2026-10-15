@@ -31,7 +31,7 @@ class RyFitDriver : GattScaleDriver() {
         val n = adv.upperName
         return when {
             n.contains("CHRONOCLOUD") || n.contains("RYFIT") -> MatchConfidence.HIGH
-            adv.address.uppercase(Locale.ROOT).startsWith("D0:39:72") -> MatchConfidence.MEDIUM
+            adv.address.uppercase(Locale.ROOT).startsWith("D0:39:72") -> MatchConfidence.LOW
             else -> null
         }
     }
@@ -163,7 +163,11 @@ class CultSmartScaleProDriver : GattScaleDriver() {
     override val capabilities = ScaleCapabilities(impedance = true)
     override val formulaLib = FormulaLib.STANDARD_IMPEDANCE
 
-    override fun match(adv: AdvertisementInfo): MatchConfidence? = if (adv.upperName.startsWith("CULT")) MatchConfidence.HIGH else null
+    override fun match(adv: AdvertisementInfo): MatchConfidence? = when {
+        adv.upperName.startsWith("CULT SMART SCALE") -> MatchConfidence.HIGH
+        adv.upperName.startsWith("CULT") -> MatchConfidence.MEDIUM
+        else -> null
+    }
 
     override fun newProtocol(adv: AdvertisementInfo?): GattProtocol = object : GattProtocol() {
         private val svc = uuid16(0xFFF0)
@@ -229,10 +233,14 @@ class RealmeSmartScaleDriver : GattScaleDriver() {
     override val capabilities = ScaleCapabilities(impedance = true, history = true)
     override val formulaLib = FormulaLib.YUNMAI
 
-    override fun match(adv: AdvertisementInfo): MatchConfidence? = when {
-        adv.nameOrEmpty.lowercase(Locale.ROOT).contains("realme") -> MatchConfidence.HIGH
-        adv.serviceUuids.contains(SVC) -> MatchConfidence.HIGH
-        else -> null
+    override fun match(adv: AdvertisementInfo): MatchConfidence? {
+        val n = adv.nameOrEmpty.lowercase(Locale.ROOT)
+        val service = adv.serviceUuids.contains(SVC)
+        return when {
+            n.startsWith("realme smart scale") || (service && n.contains("realme")) -> MatchConfidence.HIGH
+            n.contains("realme") || service -> MatchConfidence.MEDIUM
+            else -> null
+        }
     }
 
     override fun newProtocol(adv: AdvertisementInfo?): GattProtocol = Protocol()
@@ -278,6 +286,7 @@ class RealmeSmartScaleDriver : GattScaleDriver() {
                 if (scaleTime > 0) dateTime = scaleTime * 1000L
                 if (imp > 0) impedance = imp.toFloat()
             })
+            finishSoon() // also stops the keep-alive (timers end with the session)
         }
 
         private fun buildHandshake(): List<ByteArray> {

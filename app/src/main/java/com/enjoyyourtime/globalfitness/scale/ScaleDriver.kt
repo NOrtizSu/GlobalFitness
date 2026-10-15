@@ -33,6 +33,8 @@ data class ConfigField(
     val required: Boolean = false,
     /** For [ConfigKind.USER_SLOT]: highest slot number. */
     val maxSlot: Int = 8,
+    /** Lowest valid user slot (0 for SIG user-data indexes). */
+    val minSlot: Int = 1,
 ) {
     /** Spanish error message, or null when [value] is acceptable. */
     fun validate(value: String?): String? {
@@ -42,7 +44,7 @@ data class ConfigField(
             ConfigKind.HEX_KEY_32 ->
                 if (v.length == 32 && Bytes.isHex(v)) null else "Deben ser 32 caracteres hexadecimales"
             ConfigKind.USER_SLOT ->
-                if (v.toIntOrNull() in 1..maxSlot) null else "Usuario entre 1 y $maxSlot"
+                if (v.toIntOrNull() in minSlot..maxSlot) null else "Usuario entre $minSlot y $maxSlot"
             ConfigKind.PIN ->
                 if (v.length <= 4 && v.toIntOrNull() in 0..9999) null else "PIN de hasta 4 cifras"
             ConfigKind.TEXT -> null
@@ -61,12 +63,13 @@ data class ConfigField(
             kind = ConfigKind.PIN,
         )
 
-        fun userSlot(maxSlot: Int = 8) = ConfigField(
+        fun userSlot(maxSlot: Int = 8, minSlot: Int = 1) = ConfigField(
             key = KEY_USER_SLOT,
             label = "Usuario en la báscula",
-            help = "Posición de usuario que la app registra/usa en la báscula (1 = primera).",
+            help = "Posición de usuario que la app registra/usa en la báscula ($minSlot = primera).",
             kind = ConfigKind.USER_SLOT,
             maxSlot = maxSlot,
+            minSlot = minSlot,
         )
     }
 }
@@ -149,7 +152,9 @@ interface PassiveSession {
 /**
  * Convenience base for stateless/simple broadcast protocols: implement [parse], which returns a
  * finished sample (or null) and may update [live]. Re-broadcasts of the same weighing are
- * suppressed here (same weight within [rebroadcastWindowMs]).
+ * suppressed here: same weight (±50 g) within [rebroadcastWindowMs] of the committed one, unless
+ * the repeat adds the impedance the first one lacked (the recorder then upgrades the row). A live
+ * weight that moves away (> 0.5 kg) or drops to zero re-arms the session for the next weighing.
  */
 abstract class SimplePassiveSession(
     private val formulaLib: FormulaLib?,
@@ -157,6 +162,7 @@ abstract class SimplePassiveSession(
 ) : PassiveSession {
     private var lastGrams: Long? = null
     private var lastAt: Long = 0L
+    private var lastHadImpedance = false
     override var live: LiveState = LiveState.Idle
         protected set
 
@@ -167,21 +173,49 @@ abstract class SimplePassiveSession(
         val now = env.elapsedClock()
         val reading = sample.toReading(env, formulaLib, if (adv.receivedAtMillis > 0) adv.receivedAtMillis else env.wallClock())
             ?: return emptyList()
+        return commit(reading, now)
+    }
+
+    /** Applies the re-broadcast rules to a finished [reading] (also for time-based commits). */
+    protected fun commit(reading: ScaleReading, now: Long): List<ScaleReading> {
         val grams = ScaleReading.grams(reading.weightKg)
         val last = lastGrams
         if (last != null && kotlin.math.abs(last - grams) <= 50 && now - lastAt <= rebroadcastWindowMs) {
-            lastAt = now
+            live = LiveState.Done
+            if (reading.impedance != null && !lastHadImpedance) {
+                lastHadImpedance = true
+                return listOf(reading)
+            }
             return emptyList()
         }
         lastGrams = grams
         lastAt = now
+        lastHadImpedance = reading.impedance != null
         live = LiveState.Done
         return listOf(reading)
     }
 
-    /** Reports a live (not yet final) weight for the home card. */
+    /** Reports a live (not yet final) weight for the home card; zero means the scale is empty. */
     protected fun liveWeight(weightKg: Float) {
-        if (weightKg.isFinite() && weightKg > 0f) live = LiveState.Measuring(weightKg.toDouble())
+        if (!weightKg.isFinite()) return
+        if (weightKg <= 0f) {
+            noLoad()
+            return
+        }
+        val last = lastGrams
+        if (last != null && kotlin.math.abs(ScaleReading.grams(weightKg.toDouble()) - last) > REARM_GRAMS) lastGrams = null
+        live = LiveState.Measuring(weightKg.toDouble())
+    }
+
+    /** The scale is empty: the next weighing is new even if it weighs the same. */
+    protected fun noLoad() {
+        lastGrams = null
+        lastHadImpedance = false
+        if (live is LiveState.Measuring || live is LiveState.Stabilized) live = LiveState.Idle
+    }
+
+    private companion object {
+        const val REARM_GRAMS = 500L
     }
 }
 
@@ -266,6 +300,17 @@ abstract class GattProtocol {
     protected fun characteristics(): List<GattCharInfo> = io.characteristics()
 
     protected fun requestDisconnect() = io.disconnect()
+
+    private var finishTimer: Cancellable? = null
+
+    /**
+     * Ends the session [delayMs] after the last call: records that follow quickly (history,
+     * repeated finals) still arrive, and the scale is not kept awake by an idle connection.
+     */
+    protected fun finishSoon(delayMs: Long = 3_000L) {
+        finishTimer?.cancel()
+        finishTimer = schedule(delayMs) { requestDisconnect() }
+    }
 
     protected fun schedule(delayMs: Long, action: () -> Unit): Cancellable = io.schedule(delayMs, action)
 

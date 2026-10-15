@@ -41,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import com.enjoyyourtime.globalfitness.ble.ScaleSuggestion
 import com.enjoyyourtime.globalfitness.scale.ConfigField
 import com.enjoyyourtime.globalfitness.scale.ConfigKind
 import com.enjoyyourtime.globalfitness.scale.LinkKind
@@ -67,7 +68,12 @@ fun LazyListScope.scaleDevicesSection(
     dialogs: ScaleDialogs,
     onUse: (DetectedScaleItem, ScaleDriver) -> Unit,
     onSaveConfig: (scaleId: String, key: String, value: String) -> String?,
+    onAcceptSuggestion: () -> Unit = {},
+    onDeclineSuggestion: () -> Unit = {},
 ) {
+    state.suggestion?.let { s ->
+        item(key = "scales-suggestion") { SuggestionCard(s, onAccept = onAcceptSuggestion, onDecline = onDeclineSuggestion) }
+    }
     if (state.configured.isEmpty()) {
         item(key = "scales-empty") {
             Text(
@@ -174,6 +180,37 @@ fun ScaleDialogsHost(state: ScaleDevicesUiState, dialogs: ScaleDialogs, vm: Scal
 }
 
 @Composable
+private fun SuggestionCard(s: ScaleSuggestion, onAccept: () -> Unit, onDecline: () -> Unit) {
+    AppCard {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(AppIcons.Scale, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                Spacer(Modifier.width(12.dp))
+                Column(Modifier.weight(1f)) {
+                    Text("¿Es tu báscula?", style = MaterialTheme.typography.titleMedium)
+                    Text(
+                        "${s.brand} · ${s.driverName}",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    Text("${s.deviceName ?: "Sin nombre"} · ${s.address}", style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Monospace)
+                }
+            }
+            if (!s.verified) ExperimentalBadge()
+            Text(
+                "Para leerla, la app se conecta a la báscula (y puede guardar tu perfil en ella). Confírmalo solo si es la tuya.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FilledTonalButton(onClick = onAccept) { Text("Sí, es la mía") }
+                OutlinedButton(onClick = onDecline) { Text("No") }
+            }
+        }
+    }
+}
+
+@Composable
 private fun ConfiguredScaleCard(
     item: ConfiguredScaleItem,
     onRename: () -> Unit,
@@ -210,7 +247,7 @@ private fun ConfiguredScaleCard(
                 )
             }
             Text(
-                item.scale.address?.let { "Dispositivo $it" } ?: "Cualquier dispositivo compatible",
+                item.scale.address?.let { "Dispositivo $it" } ?: "Cualquier dispositivo compatible (se vinculará al primero que se lea)",
                 style = MaterialTheme.typography.bodySmall,
                 fontFamily = if (item.scale.address != null) FontFamily.Monospace else null,
             )
@@ -268,7 +305,7 @@ private fun ConfigFieldEditor(field: ConfigField, current: String, onSave: (Stri
             onValueChange = { new ->
                 value = when (field.kind) {
                     ConfigKind.HEX_KEY_32 -> new.filter { it.isDigit() || it.lowercaseChar() in 'a'..'f' }.take(32)
-                    ConfigKind.USER_SLOT -> new.filter { it.isDigit() }.take(2)
+                    ConfigKind.USER_SLOT -> new.filter { it.isDigit() }.take(3)
                     ConfigKind.PIN -> new.filter { it.isDigit() }.take(4)
                     ConfigKind.TEXT -> new
                 }
@@ -413,8 +450,8 @@ private fun BindDialog(
                 }
                 if (candidates.isEmpty()) {
                     Text(
-                        "No hay ninguna cerca ahora mismo. Puedes vincularla a cualquier dispositivo compatible " +
-                            "y se usará la primera que se detecte.",
+                        "No hay ninguna cerca ahora mismo. Puedes elegir cualquier dispositivo compatible: " +
+                            "quedará vinculada a la primera que se reconozca con seguridad y dé una medición.",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )

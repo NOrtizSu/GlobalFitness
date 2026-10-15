@@ -13,6 +13,20 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
+/** What [com.enjoyyourtime.globalfitness.domain.MeasurementRecorder] needs from the storage. */
+interface MeasurementStore {
+    val measurements: StateFlow<List<Measurement>>
+
+    suspend fun awaitLoaded()
+
+    suspend fun insertMeasurement(m: Measurement): Measurement?
+
+    suspend fun updateScaleData(updated: Measurement): Measurement?
+
+    /** True when the user deleted the measurement with this scale key. */
+    fun isDeletedScaleKey(key: String): Boolean
+}
+
 data class ImportResult(
     val imported: Int,
     val duplicates: Int,
@@ -38,8 +52,10 @@ class Repository(
     private val clock: () -> Long = System::currentTimeMillis,
     /** Profile to keep when an old database has several. */
     private val preferredProfileId: () -> Long? = { null },
-) {
+) : MeasurementStore {
     private val mutex = Mutex()
+
+    @Volatile private var deletedKeys: Set<String> = emptySet()
 
     private val _profile = MutableStateFlow<Profile?>(null)
 
@@ -54,7 +70,7 @@ class Repository(
     private val _measurements = MutableStateFlow<List<Measurement>>(emptyList())
 
     /** All measurements of the profile, sorted by timestamp ascending. */
-    val measurements: StateFlow<List<Measurement>> = _measurements.asStateFlow()
+    override val measurements: StateFlow<List<Measurement>> = _measurements.asStateFlow()
 
     private val _loaded = MutableStateFlow(false)
     val loaded: StateFlow<Boolean> = _loaded.asStateFlow()
@@ -72,6 +88,7 @@ class Repository(
                         val all = db.loadProfiles()
                         val primary = choosePrimary(all, db.countMeasurementsByProfile(), preferredProfileId())
                         if (primary != null) db.adoptMeasurements(primary.id)
+                        deletedKeys = db.loadDeletedScaleKeys()
                         primary to db.loadMeasurements(primary?.id)
                     }
                     setProfile(p)
@@ -86,7 +103,9 @@ class Repository(
         }
     }
 
-    suspend fun awaitLoaded() {
+    override fun isDeletedScaleKey(key: String): Boolean = key in deletedKeys
+
+    override suspend fun awaitLoaded() {
         loaded.first { it }
     }
 
@@ -147,7 +166,7 @@ class Repository(
      * Inserts and returns the stored measurement (owned by the profile), or null if its
      * scale_key already exists.
      */
-    suspend fun insertMeasurement(m: Measurement): Measurement? = write {
+    override suspend fun insertMeasurement(m: Measurement): Measurement? = write {
         val owned = m.copy(profileId = _profile.value?.id)
         val id = withContext(io) { db.insertMeasurement(owned) }
         if (id < 0) return@write null
@@ -160,15 +179,17 @@ class Repository(
      * Replaces the scale-provided data (impedance, composition, provenance) of an existing row,
      * e.g. when the impedance arrives after a weight-only commit. Null when the row is gone.
      */
-    suspend fun updateScaleData(updated: Measurement): Measurement? = write {
+    override suspend fun updateScaleData(updated: Measurement): Measurement? = write {
         if (_measurements.value.none { it.id == updated.id }) return@write null
         withContext(io) { db.updateMeasurementScaleData(updated) }
         _measurements.value = _measurements.value.map { if (it.id == updated.id) updated else it }
         updated
     }
 
+    /** Deletes a measurement; a scale reading with its key is never stored again. */
     suspend fun deleteMeasurement(id: Long) = write {
-        withContext(io) { db.deleteMeasurement(id) }
+        val key = withContext(io) { db.deleteMeasurement(id, clock()) }
+        if (key != null) deletedKeys = deletedKeys + key
         _measurements.value = _measurements.value.filterNot { it.id == id }
     }
 

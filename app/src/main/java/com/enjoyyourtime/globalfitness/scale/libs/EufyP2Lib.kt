@@ -102,9 +102,16 @@ class EufyAuthHandler(mac: String, clientUuid: String? = null) {
 
     fun buildC0(): List<ByteArray> = EufyP2Lib.buildSubContract(EufyP2Lib.encryptToHex(clientUuid, key), 0xC0)
 
+    /** False until the last C1 segment arrived; a corrupt C1 (bad base64 / padding) also returns false. */
     fun handleC1(frame: ByteArray): Boolean {
         val payload = c1.feed(frame) ?: return false
-        deviceUuid = EufyP2Lib.decrypt(Base64.getDecoder().decode(String(payload, Charsets.US_ASCII)), key)
+        deviceUuid = try {
+            EufyP2Lib.decrypt(Base64.getDecoder().decode(String(payload, Charsets.US_ASCII)), key)
+        } catch (e: IllegalArgumentException) {
+            return false
+        } catch (e: java.security.GeneralSecurityException) {
+            return false
+        }
         return true
     }
 

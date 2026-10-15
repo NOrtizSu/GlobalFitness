@@ -99,7 +99,7 @@ class XiaomiMiScaleDriversTest {
     }
 
     @Test
-    fun miScale1PublishesStableWeightOnceWithScaleTime() {
+    fun miScale1CommitsTheLastStableWeightWhenTheLoadIsRemoved() {
         val clock = ScaleTestSupport.Clock(ScaleTestSupport.epochMillis(2026, 10, 15, 8, 31, 0))
         val driver = MiScale1Driver()
         val env = ScaleTestSupport.env(driver.id, clock)
@@ -108,11 +108,45 @@ class XiaomiMiScaleDriversTest {
         assertEquals(MatchConfidence.HIGH, driver.match(adv(0x20, 14_400)))
         assertTrue(session.parseAdvertisement(adv(0x00, 12_000), env).isEmpty())
         assertEquals(LiveState.Measuring(60.0), session.live)
-        val r = session.parseAdvertisement(adv(0x20, 14_400), env).single()
+        // Stable values still being refined: nothing committed yet.
+        assertTrue(session.parseAdvertisement(adv(0x20, 14_380), env).isEmpty())
+        assertTrue(session.parseAdvertisement(adv(0x20, 14_400), env).isEmpty())
+        assertEquals(LiveState.Stabilized(72.0), session.live)
+        val r = session.parseAdvertisement(adv(0xA0, 14_400), env).single() // stepped off
         assertEquals(72.0, r.weightKg, 1e-4)
         assertEquals(ScaleTestSupport.epochMillis(2026, 10, 15, 8, 30, 45), r.measuredAtMillis)
+        assertEquals(LiveState.Done, session.live)
+        // The scale keeps re-broadcasting the same weighing: committed once.
         clock.advance(1_000)
         assertTrue(session.parseAdvertisement(adv(0x20, 14_400), env).isEmpty())
         assertTrue(session.parseAdvertisement(adv(0xA0, 14_400), env).isEmpty())
+    }
+
+    @Test
+    fun miScale1CommitsAfterTheStableValueSettled() {
+        val clock = ScaleTestSupport.Clock(ScaleTestSupport.epochMillis(2026, 10, 15, 8, 31, 0))
+        val driver = MiScale1Driver()
+        val env = ScaleTestSupport.env(driver.id, clock)
+        val session = driver.newSession(env)
+        val adv = ScaleTestSupport.adv(serviceData = mapOf(sd181d to v1Frame(0x20, 14_400)), receivedAt = clock.now)
+        assertTrue(session.parseAdvertisement(adv, env).isEmpty())
+        assertTrue(session.needsTick)
+        clock.advance(MiScale1Driver.SETTLE_MS - 1)
+        assertTrue(session.tick(env).isEmpty())
+        clock.advance(1)
+        assertEquals(72.0, session.tick(env).single().weightKg, 1e-4)
+        assertTrue(!session.needsTick)
+    }
+
+    @Test
+    fun weightOnlyMiSmartScale2IsTheVersionOneDriver() {
+        val registry = com.enjoyyourtime.globalfitness.scale.drivers.AllDrivers.registry()
+        // "MI SCALE2" (XMTZC04HM) broadcasts the 10-byte 0x181D frame, not the 0x181B one.
+        val adv = ScaleTestSupport.adv(name = "MI SCALE2", serviceData = mapOf(sd181d to v1Frame(0x20, 14_400)))
+        assertEquals("xiaomi_mi_scale_1", registry.best(adv)!!.driver.id)
+        assertNull(MiScale2Driver().match(adv))
+        // Nameless, with a plausible date: still unambiguous.
+        val nameless = ScaleTestSupport.adv(serviceData = mapOf(sd181d to v1Frame(0x20, 14_400)))
+        assertEquals(MatchConfidence.HIGH, MiScale1Driver().match(nameless))
     }
 }

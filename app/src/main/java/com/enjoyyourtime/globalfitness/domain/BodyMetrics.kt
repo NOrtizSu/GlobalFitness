@@ -2,6 +2,7 @@ package com.enjoyyourtime.globalfitness.domain
 
 import com.enjoyyourtime.globalfitness.data.Measurement
 import com.enjoyyourtime.globalfitness.data.Sex
+import com.enjoyyourtime.globalfitness.scale.CompositionSource
 import com.enjoyyourtime.globalfitness.scale.DeviceComposition
 import com.enjoyyourtime.globalfitness.scale.FormulaLib
 import com.enjoyyourtime.globalfitness.scale.libs.FormulaLibs
@@ -27,6 +28,11 @@ data class BodyComposition(
     val idealWeightKg: Double,
     val healthyWeightMinKg: Double,
     val healthyWeightMaxKg: Double,
+    /**
+     * Skeletal muscle % when the scale or its formula library estimates it. A different quantity
+     * from [muscleKg] (total muscle, "Masa muscular"): label it "Músculo esquelético".
+     */
+    val skeletalMusclePercent: Double? = null,
 ) {
     val hasImpedance: Boolean get() = impedance != null
 }
@@ -99,10 +105,21 @@ object BodyMetrics {
      */
     fun forMeasurement(sex: Sex, heightCm: Double, age: Int, m: Measurement): BodyComposition {
         val interpretable = m.formulaLib != null || m.deviceDriver == null
-        return compute(sex, heightCm, age, m.weightKg, m.impedance.takeIf { interpretable }, m.formulaLib, m.composition)
-            .copy(impedance = m.impedance)
+        val source = m.compositionSource
+        // Stored values of a library that is fully recomputable from the impedance were computed
+        // with the profile of that day: recompute so profile corrections apply to history too.
+        val recomputable = source is CompositionSource.Formula && source.lib in FormulaLibs.RECOMPUTABLE && source.lib == m.formulaLib
+        return compute(
+            sex, heightCm, age, m.weightKg, m.impedance.takeIf { interpretable }, m.formulaLib, m.composition,
+            impedanceLow = m.impedanceLow, libWins = recomputable,
+        ).copy(impedance = m.impedance)
     }
 
+    /**
+     * Combines, value by value: the scale's own values ([device]) win, then the formula library
+     * applied to the impedance, then the Mi Fit / weight-only estimates. With [libWins] the
+     * library comes first (stored values were computed by the same library).
+     */
     fun compute(
         sex: Sex,
         heightCm: Double,
@@ -111,39 +128,45 @@ object BodyMetrics {
         impedance: Int?,
         lib: FormulaLib?,
         device: DeviceComposition?,
+        impedanceLow: Int? = null,
+        libWins: Boolean = false,
     ): BodyComposition {
         val libComposition = if (impedance != null && lib != null && lib != FormulaLib.MI_SCALE) {
-            FormulaLibs.compute(lib, sex == Sex.MALE, age, heightCm, weightKg, impedance)
+            FormulaLibs.compute(lib, sex == Sex.MALE, age, heightCm, weightKg, impedance, impedanceLow, deviceFat = device?.fatPercent)
         } else {
             null
         }
         val miImpedance = if (lib == null || lib == FormulaLib.MI_SCALE) impedance else null
         val base = compute(sex, heightCm, age, weightKg, miImpedance).copy(impedance = impedance)
-        val overlay = device?.mergedWith(libComposition) ?: libComposition ?: return base
-        return applyOverlay(base, overlay)
+        if (device == null && libComposition == null) return base
+        return if (libWins) applyOverlay(base, libComposition, device) else applyOverlay(base, device, libComposition)
     }
 
-    private fun applyOverlay(base: BodyComposition, d: DeviceComposition): BodyComposition {
+    private fun applyOverlay(base: BodyComposition, first: DeviceComposition?, second: DeviceComposition?): BodyComposition {
         val w = base.weightKg
-        val fat = d.fatPercent ?: base.fatPercent
-        val water = d.waterPercent ?: base.waterPercent
-        val muscle = d.muscleKg ?: d.musclePercent?.let { w * it / 100.0 } ?: base.muscleKg
-        val protein = d.proteinPercent
-            ?: if (muscle != null && water != null && (d.muscleKg != null || d.musclePercent != null || d.waterPercent != null)) {
-                (muscle / w * 100.0 - water).coerceIn(5.0, 32.0)
-            } else {
-                base.proteinPercent
-            }
+        val female = base.sex == Sex.FEMALE
+        fun pick(f: (DeviceComposition) -> Double?): Double? = first?.let(f) ?: second?.let(f)
+        val fat = pick { it.fatPercent } ?: base.fatPercent
+        // Water from the Mi Fit relation when only fat is known (scales that report fat alone).
+        val water = pick { it.waterPercent } ?: base.waterPercent ?: fat?.let { waterPercent(it) }
+        val bone = pick { it.boneKg } ?: base.boneKg
+        // Total muscle, resolved per source so one source's kg never overrides another's %.
+        val reportedMuscle = first?.muscleKgFor(w) ?: second?.muscleKgFor(w)
+        val muscle = reportedMuscle ?: base.muscleKg ?: if (fat != null && bone != null) muscleMass(female, w, fat, bone) else null
+        // Protein only from total muscle (the Mi Fit relation), never from skeletal muscle.
+        val protein = pick { it.proteinPercent }
+            ?: if (muscle != null && water != null) (muscle / w * 100.0 - water).coerceIn(5.0, 32.0) else base.proteinPercent
         return base.copy(
             fatPercent = fat,
             fatMassKg = fat?.let { w * it / 100.0 },
             waterPercent = water,
-            boneKg = d.boneKg ?: base.boneKg,
+            boneKg = bone,
             muscleKg = muscle,
-            visceralFat = d.visceralFat ?: base.visceralFat,
-            bmr = d.bmrKcal ?: base.bmr,
-            metabolicAge = d.metabolicAge ?: base.metabolicAge,
+            visceralFat = pick { it.visceralFat } ?: base.visceralFat,
+            bmr = pick { it.bmrKcal } ?: base.bmr,
+            metabolicAge = pick { it.metabolicAge } ?: base.metabolicAge,
             proteinPercent = protein,
+            skeletalMusclePercent = pick { it.skeletalMusclePercent },
         )
     }
 

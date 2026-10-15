@@ -8,6 +8,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.enjoyyourtime.globalfitness.AppContainer
 import com.enjoyyourtime.globalfitness.GlobalFitnessApp
 import com.enjoyyourtime.globalfitness.ble.GattSessionInfo
+import com.enjoyyourtime.globalfitness.ble.ScaleSuggestion
 import com.enjoyyourtime.globalfitness.scale.ConfiguredScale
 import com.enjoyyourtime.globalfitness.scale.DetectedScale
 import com.enjoyyourtime.globalfitness.scale.LinkKind
@@ -55,6 +56,8 @@ data class ScaleDevicesUiState(
     val detected: List<DetectedScaleItem> = emptyList(),
     val catalogQuery: String = "",
     val catalog: List<ScaleDriver> = emptyList(),
+    /** A scale recognised with certainty that connects to the phone: asked before setting it up. */
+    val suggestion: ScaleSuggestion? = null,
 )
 
 /** State and actions of the scales section (configured, detected, manual catalog). */
@@ -90,12 +93,14 @@ class ScaleDevicesViewModel(private val container: AppContainer) : ViewModel() {
         monitor.detected,
         query,
         settings.configuredScales,
-    ) { configured, detected, q, scales ->
+        monitor.suggestion,
+    ) { configured, detected, q, scales, suggestion ->
         ScaleDevicesUiState(
             configured = configured,
             detected = detected.map { it.toItem(scales) },
             catalogQuery = q,
             catalog = registry.search(q),
+            suggestion = suggestion,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), ScaleDevicesUiState(catalog = registry.search("")))
 
@@ -120,6 +125,12 @@ class ScaleDevicesViewModel(private val container: AppContainer) : ViewModel() {
     fun setQuery(q: String) {
         query.value = q
     }
+
+    /** "Sí, es mi báscula". */
+    fun acceptSuggestion() = monitor.acceptSuggestion()
+
+    /** "No es mía": not offered again. */
+    fun declineSuggestion() = monitor.declineSuggestion()
 
     /** "Usar esta": configures a detected device with [driver]. */
     fun useDetected(item: DetectedScaleItem, driver: ScaleDriver = item.driver) {

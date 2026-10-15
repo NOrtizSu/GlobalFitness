@@ -94,10 +94,16 @@ class EEBBLDriver : GattScaleDriver() {
                 return
             }
             // Alternative "rich" indication carrying the weight after a 1F 01 0x marker.
+            if (published) return
             for (i in 0 until data.size - 4) {
-                if (data[i] == 0x1F.toByte() && data[i + 1] == 0x01.toByte() && Bytes.u8(data, i + 2) in 1..3) {
+                // The weight's high byte is 0 below 65.5 kg: accept 0..3 and check the range instead.
+                if (data[i] == 0x1F.toByte() && data[i + 1] == 0x01.toByte() && Bytes.u8(data, i + 2) in 0..3) {
                     val kg = Bytes.fromUnsignedInt24Be(data, i + 2) / 1000.0f
+                    if (kg !in 10f..250f) continue
+                    published = true
+                    publishedKg = kg
                     publish(ScaleSample().apply { weightKg = kg })
+                    requestDisconnect()
                     return
                 }
             }
@@ -220,7 +226,12 @@ class RobiS9Driver : GattScaleDriver() {
     override fun match(adv: AdvertisementInfo): MatchConfidence? {
         val n = adv.nameOrEmpty.lowercase(Locale.ROOT)
         if (n.startsWith("swan") || n == "icomon" || n == "yg") return null
-        return if (n.contains("robi")) MatchConfidence.HIGH else null
+        val model = n == "robi" || n.startsWith("robi s9") || n.startsWith("robi-s9") || n.startsWith("robis9")
+        return when {
+            model || (n.startsWith("robi") && adv.hasService16(0xFFB0)) -> MatchConfidence.HIGH
+            n.contains("robi") -> MatchConfidence.LOW
+            else -> null
+        }
     }
 
     override fun newProtocol(adv: AdvertisementInfo?): GattProtocol = object : GattProtocol() {
@@ -239,6 +250,7 @@ class RobiS9Driver : GattScaleDriver() {
         override fun onNotification(characteristic: UUID, data: ByteArray) {
             val kg = parseFinalWeightKg(data) ?: return
             publish(ScaleSample().apply { weightKg = kg })
+            finishSoon()
         }
     }
 

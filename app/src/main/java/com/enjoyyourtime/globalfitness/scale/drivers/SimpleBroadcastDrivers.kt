@@ -75,42 +75,66 @@ class EufyC20Driver : PassiveScaleDriver() {
     override val keywords = listOf("T9130", "C20", "Anker")
 
     override fun match(adv: AdvertisementInfo): MatchConfidence? {
-        if (adv.manufacturerData.containsKey(MANUFACTURER_ID)) return MatchConfidence.HIGH
+        adv.manufacturer(MANUFACTURER_ID)?.let { return if (decode(it) != null) MatchConfidence.HIGH else MatchConfidence.MEDIUM }
         val n = adv.upperName
         return if (n.startsWith("EUFY") && (n.contains("C20") || n.contains("T9130"))) MatchConfidence.HIGH else null
     }
 
     override fun newSession(env: DriverEnv): PassiveSession = Session()
 
+    /**
+     * Collects one weighing: the weight must be seen at least twice (the first frames are still
+     * moving); impedance and heart rate are added when they come. Everything expires after
+     * [QUIET_MS] without frames: a weight-only reading is committed if it was confirmed.
+     */
     private inner class Session : PassiveSession {
         private var stored: ScaleSample? = null
+        private var weightRepeats = 0
         private var lastAt = 0L
         private var lastGrams: Long? = null
         private var lastFinishAt = 0L
         override var live: LiveState = LiveState.Idle
             private set
 
-        override val needsTick: Boolean get() = stored?.hasWeight() == true
+        override val needsTick: Boolean get() = stored != null
 
         override fun parseAdvertisement(adv: AdvertisementInfo, env: DriverEnv): List<ScaleReading> {
-            val payload = adv.manufacturerData.values.firstOrNull { it.size >= 14 } ?: return emptyList()
+            val payload = adv.manufacturer(MANUFACTURER_ID) ?: return emptyList()
             val m = decode(payload) ?: return emptyList()
-            lastAt = env.elapsedClock()
-            val s = stored ?: ScaleSample().also { stored = it }
-            m.weightKg?.let { s.weightKg = it }
+            val now = env.elapsedClock()
+            if (stored != null && now - lastAt >= QUIET_MS) expire(env)
+            lastAt = now
+            val s = stored ?: ScaleSample().also {
+                stored = it
+                weightRepeats = 0
+            }
+            m.weightKg?.let { w ->
+                weightRepeats = if (s.weightKg == w) weightRepeats + 1 else 1
+                s.weightKg = w
+            }
             m.impedance?.let { s.impedance = it }
             m.heartRate?.let { s.heartRate = it }
             s.weightKg?.let { live = LiveState.Measuring(it.toDouble()) }
-            return if (s.hasWeight() && (s.impedance ?: 0f) > 0f && (s.heartRate ?: 0) > 0) finish(env) else emptyList()
+            val complete = weightRepeats >= 2 && (s.impedance ?: 0f) > 0f && (s.heartRate ?: 0) > 0
+            return if (complete) finish(env) else emptyList()
         }
 
-        /** Weight seen but impedance / heart rate never came: commit weight-only after a quiet period. */
+        /** Quiet period over: commit a confirmed weight (weight only if that is all that came). */
         override fun tick(env: DriverEnv): List<ScaleReading> =
-            if (stored?.hasWeight() == true && env.elapsedClock() - lastAt >= QUIET_MS) finish(env) else emptyList()
+            if (stored != null && env.elapsedClock() - lastAt >= QUIET_MS) expire(env) else emptyList()
+
+        private fun expire(env: DriverEnv): List<ScaleReading> {
+            if (weightRepeats >= 2 && stored?.hasWeight() == true) return finish(env)
+            stored = null
+            weightRepeats = 0
+            if (live !is LiveState.Done) live = LiveState.Idle
+            return emptyList()
+        }
 
         private fun finish(env: DriverEnv): List<ScaleReading> {
             val s = stored ?: return emptyList()
             stored = null
+            weightRepeats = 0
             live = LiveState.Done
             val reading = s.toReading(env, FormulaLib.MI_SCALE) ?: return emptyList()
             val grams = ScaleReading.grams(reading.weightKg)
@@ -159,7 +183,8 @@ class SinocareDriver : PassiveScaleDriver() {
     override val capabilities = ScaleCapabilities()
 
     override fun match(adv: AdvertisementInfo): MatchConfidence? = when {
-        adv.manufacturerData.containsKey(MANUFACTURER_ID) -> MatchConfidence.HIGH
+        adv.manufacturer(MANUFACTURER_ID)?.let { weightRaw(it) } != null -> MatchConfidence.HIGH
+        adv.manufacturerData.containsKey(MANUFACTURER_ID) -> MatchConfidence.MEDIUM
         adv.nameOrEmpty.equals("Weight Scale", ignoreCase = true) -> MatchConfidence.MEDIUM
         else -> null
     }
@@ -167,11 +192,22 @@ class SinocareDriver : PassiveScaleDriver() {
     override fun newSession(env: DriverEnv): PassiveSession = object : SimplePassiveSession(null) {
         private var lastRaw = 0
         private var repeat = 0
+        private var lastAt = 0L
 
         override fun parse(adv: AdvertisementInfo, env: DriverEnv): ScaleSample? {
             val data = adv.manufacturer(MANUFACTURER_ID) ?: adv.manufacturer(MANUFACTURER_ID_ALT) ?: return null
             val raw = weightRaw(data) ?: return null
-            if (raw <= 0) return null
+            val now = env.elapsedClock()
+            val silent = now - lastAt > SILENCE_RESET_MS
+            lastAt = now
+            if (raw <= 0 || silent) {
+                lastRaw = 0
+                repeat = 0
+                if (raw <= 0) {
+                    noLoad()
+                    return null
+                }
+            }
             if (raw != lastRaw) {
                 lastRaw = raw
                 repeat = 1
@@ -192,6 +228,7 @@ class SinocareDriver : PassiveScaleDriver() {
         const val MANUFACTURER_ID = 0xFF64
         const val MANUFACTURER_ID_ALT = 0x0000
         const val STABLE_REPEATS = 9
+        private const val SILENCE_RESET_MS = 5_000L
 
         /** Raw weight (kg × 100) of a frame with a valid checksum, else null. */
         fun weightRaw(data: ByteArray): Int? {
@@ -212,11 +249,16 @@ class ScaleupDriver : PassiveScaleDriver() {
     override val brand = "Genérica (Scale Up)"
     override val capabilities = ScaleCapabilities()
 
-    override fun match(adv: AdvertisementInfo): MatchConfidence? = when {
-        adv.nameOrEmpty.trim().equals("da", ignoreCase = true) -> MatchConfidence.MEDIUM
-        adv.manufacturerData.entries.any { (key, data) -> (key and 0xFF == FLAG_MEASURING || key and 0xFF == FLAG_STABLE) && data.size >= 9 } ->
-            MatchConfidence.LOW
-        else -> null
+    override fun match(adv: AdvertisementInfo): MatchConfidence? {
+        val frames = adv.manufacturerData.entries.filter { (key, data) ->
+            (key and 0xFF == FLAG_MEASURING || key and 0xFF == FLAG_STABLE) && data.size >= 9 && weightKg(key, data) in 0.5f..300f
+        }
+        return when {
+            frames.any { macEcho(it.value, adv.address) } -> MatchConfidence.MEDIUM
+            adv.nameOrEmpty.trim().equals("da", ignoreCase = true) -> MatchConfidence.MEDIUM
+            frames.isNotEmpty() -> MatchConfidence.LOW
+            else -> null
+        }
     }
 
     override fun newSession(env: DriverEnv): PassiveSession = object : SimplePassiveSession(null) {
@@ -225,7 +267,7 @@ class ScaleupDriver : PassiveScaleDriver() {
                 if (data.size < 9) continue
                 val flag = key and 0xFF
                 if (flag != FLAG_MEASURING && flag != FLAG_STABLE) continue
-                val kg = (((key shr 8) shl 8) or Bytes.u8(data, 0)) / 100.0f
+                val kg = weightKg(key, data)
                 if (kg < 0.5f || kg > 300f) continue
                 if (flag == FLAG_MEASURING) {
                     liveWeight(kg)
@@ -240,6 +282,17 @@ class ScaleupDriver : PassiveScaleDriver() {
     companion object {
         const val FLAG_MEASURING = 0xD0
         const val FLAG_STABLE = 0xE0
+
+        fun weightKg(key: Int, data: ByteArray): Float = (((key shr 8) shl 8) or Bytes.u8(data, 0)) / 100.0f
+
+        /** Bytes 3..8 repeat the device address (either byte order). */
+        fun macEcho(data: ByteArray, address: String): Boolean {
+            if (data.size < 9) return false
+            val mac = address.split(":").mapNotNull { it.toIntOrNull(16) }
+            if (mac.size != 6) return false
+            val echo = (3..8).map { Bytes.u8(data, it) }
+            return echo == mac || echo == mac.reversed()
+        }
     }
 }
 

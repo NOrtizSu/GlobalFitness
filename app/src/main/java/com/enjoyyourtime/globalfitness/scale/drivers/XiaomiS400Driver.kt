@@ -39,6 +39,13 @@ class XiaomiS400Driver : PassiveScaleDriver() {
                 kind = ConfigKind.HEX_KEY_32,
                 required = true,
             ),
+            ConfigField(
+                key = KEY_PROFILE,
+                label = "Perfil en la báscula",
+                help = "Número de perfil de la báscula que es el tuyo (si la usan varias personas). Vacío: todos.",
+                kind = ConfigKind.USER_SLOT,
+                maxSlot = 255,
+            ),
         ),
     )
     override val formulaLib = FormulaLib.S400
@@ -60,10 +67,17 @@ class XiaomiS400Driver : PassiveScaleDriver() {
     private inner class Session : PassiveSession {
         private val aggregator = S400Aggregator()
         private var warned = false
+        private var keyFailures = 0
+        private var keyWarned = false
         private var lastGrams: Long? = null
         private var lastAt = 0L
+        private var lastCounter: Long? = null
+        private var pendingCounter: Long = 0
+        private var pendingReceived: Long = 0
         override var live: LiveState = LiveState.Idle
             private set
+
+        override val needsTick: Boolean get() = aggregator.hasPending
 
         override fun parseAdvertisement(adv: AdvertisementInfo, env: DriverEnv): List<ScaleReading> {
             val bindKey = env.store.getString(ConfigField.KEY_BINDKEY)?.trim()?.lowercase()
@@ -75,25 +89,58 @@ class XiaomiS400Driver : PassiveScaleDriver() {
                 return emptyList()
             }
             val data = serviceData(adv) ?: return emptyList()
-            val packet = S400Decryptor.decrypt(data, adv.address, bindKey!!) ?: return emptyList()
+            val packet = S400Decryptor.decrypt(data, adv.address, bindKey!!)
+            if (packet == null) {
+                if (data.size >= 5 && Bytes.fromUnsignedInt16Le(data, if (data.size == 26) 4 else 2) == PRODUCT_ID) keyFailure(env)
+                return emptyList()
+            }
+            keyFailures = 0
             return ingest(packet, adv, env)
         }
 
+        private fun keyFailure(env: DriverEnv) {
+            keyFailures++
+            if (keyFailures >= KEY_FAILURES_BEFORE_HINT && !keyWarned) {
+                keyWarned = true
+                env.messages("La bind key de la S400 no descifra sus datos: revísala en Básculas.")
+            }
+        }
+
+        override fun tick(env: DriverEnv): List<ScaleReading> =
+            aggregator.flush(env.elapsedClock()).flatMap { (_, outcome) -> finalized(outcome, pendingCounter, pendingReceived, env) }
+
         fun ingest(packet: S400Packet, adv: AdvertisementInfo, env: DriverEnv): List<ScaleReading> {
-            if (packet.weightKg > 0f) live = LiveState.Stabilized(packet.weightKg.toDouble())
+            val wanted = env.store.getString(KEY_PROFILE)?.toIntOrNull()
+            if (wanted != null && packet.profileId != wanted) return emptyList()
+            if (packet.counter != 0L && packet.counter == lastCounter) {
+                live = LiveState.Done // a re-broadcast of the committed weighing
+                return emptyList()
+            }
+            if (packet.weightKg > 0f) {
+                live = LiveState.Stabilized(packet.weightKg.toDouble())
+                pendingCounter = packet.counter
+                pendingReceived = if (adv.receivedAtMillis > 0) adv.receivedAtMillis else env.wallClock()
+            }
             val now = env.elapsedClock()
             val outcome = aggregator.ingest(adv.address, packet, now)
+            if (outcome is S400Aggregator.Outcome.Duplicate) live = LiveState.Done
             if (outcome !is S400Aggregator.Outcome.Finalized) return emptyList()
+            val received = if (adv.receivedAtMillis > 0) adv.receivedAtMillis else env.wallClock()
+            return finalized(outcome, pendingCounter.takeIf { it != 0L } ?: packet.counter, received, env)
+        }
+
+        private fun finalized(outcome: S400Aggregator.Outcome.Finalized, counter: Long, received: Long, env: DriverEnv): List<ScaleReading> {
+            val now = env.elapsedClock()
+            lastCounter = counter.takeIf { it != 0L }
+            live = LiveState.Done
             val grams = Math.round(outcome.weightKg * 1000.0)
             val previous = lastGrams
             if (previous != null && kotlin.math.abs(previous - grams) <= 50 && now - lastAt <= REBROADCAST_WINDOW_MS) {
-                lastAt = now
                 return emptyList()
             }
             lastGrams = grams
             lastAt = now
             val ctx = env.ctx
-            val received = if (adv.receivedAtMillis > 0) adv.receivedAtMillis else env.wallClock()
             val comp = S400BodyComposition.compute(
                 S400Inputs(
                     age = ctx.ageAt(received),
@@ -111,8 +158,7 @@ class XiaomiS400Driver : PassiveScaleDriver() {
                 heartRate = outcome.heartRate
                 fatPercent = comp.bfPct
                 waterPercent = comp.tbwPct
-                musclePercent = comp.smmPct
-                muscleKg = comp.smmKg
+                skeletalMusclePercent = comp.smmPct
                 boneKg = comp.boneKg
                 lbmKg = comp.ffmKg
                 visceralFat = comp.vfi
@@ -120,8 +166,10 @@ class XiaomiS400Driver : PassiveScaleDriver() {
                 proteinPercent = comp.proteinPct
                 computedWith = FormulaLib.S400
             }
-            live = LiveState.Done
-            return listOfNotNull(sample.toReading(env, FormulaLib.S400, received))
+            val reading = sample.toReading(env, FormulaLib.S400, received) ?: return emptyList()
+            // The MiBeacon counter identifies the weighing across app restarts (no scale clock).
+            val key = if (counter != 0L) "${reading.driverId}|${env.address.orEmpty()}|c$counter|$grams" else reading.dedupeKey
+            return listOf(reading.copy(dedupeKey = key))
         }
 
         private fun serviceData(adv: AdvertisementInfo): ByteArray? {
@@ -134,6 +182,8 @@ class XiaomiS400Driver : PassiveScaleDriver() {
     companion object {
         const val MIBEACON_SERVICE = 0xFE95
         const val PRODUCT_ID = 0x3BD5
+        const val KEY_PROFILE = "s400_profile"
         private const val REBROADCAST_WINDOW_MS = 60_000L
+        private const val KEY_FAILURES_BEFORE_HINT = 10
     }
 }

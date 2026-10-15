@@ -14,16 +14,49 @@ class ScaleDetectorTest {
     private fun mi(address: String) = ScaleTestSupport.adv(serviceData = miFrame, address = address)
 
     @Test
-    fun autoConfiguresTheOnlyUnambiguousScaleOnce() {
+    fun autoConfiguresTheOnlyUnambiguousScaleOnceItSettled() {
         val detector = ScaleDetector(registry)
-        val result = detector.onAdvertisement(mi("AA:AA:AA:AA:AA:01"), 1_000, emptyList(), emptySet())
+        // A single advertisement (a passer-by) is not enough.
+        assertEquals(DetectionResult.Updated, detector.onAdvertisement(mi("AA:AA:AA:AA:AA:01"), 1_000, emptyList(), emptySet()))
+        assertEquals(DetectionResult.Updated, detector.onAdvertisement(mi("AA:AA:AA:AA:AA:01"), 2_500, emptyList(), emptySet()))
+        val result = detector.onAdvertisement(mi("AA:AA:AA:AA:AA:01"), 4_000, emptyList(), emptySet())
         assertTrue(result is DetectionResult.AutoConfigure)
         result as DetectionResult.AutoConfigure
         assertEquals(MiScale2Driver.ID, result.driver.id)
         assertEquals("AA:AA:AA:AA:AA:01", result.address)
         // Seen again before the app stored the configuration: no second auto-configuration.
-        assertEquals(DetectionResult.Updated, detector.onAdvertisement(mi("AA:AA:AA:AA:AA:01"), 5_000, emptyList(), emptySet()))
+        assertEquals(DetectionResult.Updated, detector.onAdvertisement(mi("AA:AA:AA:AA:AA:01"), 7_000, emptyList(), emptySet()))
+        assertEquals(1, detector.detected(7_000).size)
+    }
+
+    @Test
+    fun farAwayScalesAreNotTaken() {
+        val detector = ScaleDetector(registry)
+        val far = ScaleTestSupport.adv(serviceData = miFrame, address = "AA:AA:AA:AA:AA:01", rssi = -85)
+        assertEquals(DetectionResult.Updated, detector.onAdvertisement(far, 0, emptyList(), emptySet()))
+        assertEquals(DetectionResult.Updated, detector.onAdvertisement(far, 5_000, emptyList(), emptySet()))
         assertEquals(1, detector.detected(5_000).size)
+    }
+
+    @Test
+    fun connectingScalesAreOnlySuggested() {
+        val detector = ScaleDetector(registry)
+        val omron = ScaleTestSupport.adv(name = "HBF-702T", address = "AA:AA:AA:AA:AA:07")
+        detector.onAdvertisement(omron, 0, emptyList(), emptySet())
+        val result = detector.onAdvertisement(omron, 3_000, emptyList(), emptySet())
+        assertTrue("$result", result is DetectionResult.Suggest)
+        assertEquals("omron_wlp", (result as DetectionResult.Suggest).driver.id)
+    }
+
+    @Test
+    fun aSingleUnrecognisedAdvertDoesNotDropAKnownDevice() {
+        val detector = ScaleDetector(registry, rematchIntervalMs = 0)
+        detector.onAdvertisement(mi("AA:AA:AA:AA:AA:01"), 0, emptyList(), setOf("AA:AA:AA:AA:AA:01"))
+        // Same device without its service data (e.g. only the scan response arrived).
+        val bare = ScaleTestSupport.adv(address = "AA:AA:AA:AA:AA:01")
+        assertEquals(DetectionResult.Ignored, detector.onAdvertisement(bare, 1_000, emptyList(), emptySet()))
+        assertEquals(1, detector.detected(1_000).size)
+        assertTrue(detector.matchesFor("aa:aa:aa:aa:aa:01").isNotEmpty())
     }
 
     @Test
@@ -39,12 +72,23 @@ class ScaleDetectorTest {
     @Test
     fun twoScalesAroundAreAmbiguous() {
         val detector = ScaleDetector(registry)
-        assertTrue(detector.onAdvertisement(mi("AA:AA:AA:AA:AA:01"), 0, emptyList(), setOf("AA:AA:AA:AA:AA:01")) is DetectionResult.Updated)
-        // A second scale while the first one (dismissed, but still around) is fresh: no auto-config.
+        detector.onAdvertisement(mi("AA:AA:AA:AA:AA:01"), 0, emptyList(), emptySet())
+        // A second scale while the first one is fresh: no auto-config for either.
         assertEquals(DetectionResult.Updated, detector.onAdvertisement(mi("AA:AA:AA:AA:AA:02"), 1_000, emptyList(), emptySet()))
+        assertEquals(DetectionResult.Updated, detector.onAdvertisement(mi("AA:AA:AA:AA:AA:02"), 5_000, emptyList(), emptySet()))
         // Once the first one has not been seen for the TTL, the second one is unambiguous.
-        val later = detector.onAdvertisement(mi("AA:AA:AA:AA:AA:02"), 200_000, emptyList(), emptySet())
+        detector.onAdvertisement(mi("AA:AA:AA:AA:AA:02"), 200_000, emptyList(), emptySet())
+        val later = detector.onAdvertisement(mi("AA:AA:AA:AA:AA:02"), 204_000, emptyList(), emptySet())
         assertTrue(later is DetectionResult.AutoConfigure)
+    }
+
+    @Test
+    fun aDismissedNeighbourDoesNotBlockTheUsersScale() {
+        val detector = ScaleDetector(registry)
+        val dismissed = setOf("AA:AA:AA:AA:AA:01")
+        detector.onAdvertisement(mi("AA:AA:AA:AA:AA:01"), 0, emptyList(), dismissed)
+        detector.onAdvertisement(mi("AA:AA:AA:AA:AA:02"), 1_000, emptyList(), dismissed)
+        assertTrue(detector.onAdvertisement(mi("AA:AA:AA:AA:AA:02"), 4_500, emptyList(), dismissed) is DetectionResult.AutoConfigure)
     }
 
     @Test

@@ -1,7 +1,13 @@
 package com.enjoyyourtime.globalfitness.domain
 
+import com.enjoyyourtime.globalfitness.data.Measurement
+import com.enjoyyourtime.globalfitness.data.MeasurementSource
 import com.enjoyyourtime.globalfitness.data.Profile
 import com.enjoyyourtime.globalfitness.data.Sex
+import com.enjoyyourtime.globalfitness.scale.CompositionSource
+import com.enjoyyourtime.globalfitness.scale.DeviceComposition
+import com.enjoyyourtime.globalfitness.scale.FormulaLib
+import com.enjoyyourtime.globalfitness.scale.libs.FormulaLibs
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
@@ -154,6 +160,55 @@ class BodyMetricsTest {
         val birthday = LocalDate.of(2026, 10, 16).atTime(12, 0).toInstant(ZoneOffset.UTC).toEpochMilli()
         assertEquals(29, p.ageAt(dayBefore, ZoneOffset.UTC))
         assertEquals(30, p.ageAt(birthday, ZoneOffset.UTC))
+    }
+
+    /** Skeletal muscle is its own metric: never taken as total muscle, never used for protein. */
+    @Test
+    fun skeletalMuscleIsReportedSeparatelyFromTotalMuscle() {
+        val c = BodyMetrics.compute(Sex.MALE, 180.0, 30, 80.0, 500, FormulaLib.ONE_BYONE_NEW, null)
+        assertEquals(40.57, c.skeletalMusclePercent!!, 0.1)
+        assertEquals(15.96, c.proteinPercent!!, 0.1) // the library's own protein estimate
+        val skeletalKg = 80.0 * c.skeletalMusclePercent!! / 100.0
+        assertTrue("total ${c.muscleKg} vs skeletal $skeletalKg", c.muscleKg!! > skeletalKg + 10.0)
+
+        val mi = BodyMetrics.compute(Sex.MALE, 180.0, 30, 80.0, 500)
+        assertNull(mi.skeletalMusclePercent)
+    }
+
+    @Test
+    fun s400UsesBothImpedancesWhenTheLowOneIsStored() {
+        val dual = BodyMetrics.compute(Sex.MALE, 172.0, 27, 76.5, 365, FormulaLib.S400, null, impedanceLow = 402)
+        assertEquals(14.1, dual.fatPercent!!, 0.2)
+        // Rows without the low-frequency value still get a composition (standard model).
+        val single = BodyMetrics.compute(Sex.MALE, 172.0, 27, 76.5, 365, FormulaLib.S400, null)
+        assertTrue("fat ${single.fatPercent}", single.fatPercent!! in 3.0..60.0)
+    }
+
+    @Test
+    fun implausibleImpedanceGivesNoLibraryComposition() {
+        for (imp in listOf(100, 2_000)) {
+            val c = BodyMetrics.compute(Sex.MALE, 180.0, 35, 80.0, imp, FormulaLib.STANDARD_IMPEDANCE, null)
+            assertNull("impedance $imp", c.fatPercent)
+            assertEquals(imp, c.impedance)
+        }
+        assertNotNull(BodyMetrics.compute(Sex.MALE, 180.0, 35, 80.0, 500, FormulaLib.STANDARD_IMPEDANCE, null).fatPercent)
+    }
+
+    @Test
+    fun recomputableLibraryValuesFollowTheCurrentProfile() {
+        val stored = DeviceComposition(fatPercent = 30.0, waterPercent = 50.0)
+        val m = Measurement(
+            1, 1, 0L, 80.0, 500, "k", MeasurementSource.SCALE,
+            composition = stored,
+            compositionSource = CompositionSource.Formula(FormulaLib.STANDARD_IMPEDANCE),
+            formulaLib = FormulaLib.STANDARD_IMPEDANCE,
+            deviceDriver = "okok_broadcast",
+        )
+        val expected = FormulaLibs.compute(FormulaLib.STANDARD_IMPEDANCE, true, 35, 180.0, 80.0, 500)!!.fatPercent!!
+        assertEquals(expected, BodyMetrics.forMeasurement(Sex.MALE, 180.0, 35, m).fatPercent!!, 1e-9)
+        // Values measured by the scale itself always win.
+        val device = m.copy(compositionSource = CompositionSource.Device)
+        assertEquals(30.0, BodyMetrics.forMeasurement(Sex.MALE, 180.0, 35, device).fatPercent!!, 1e-9)
     }
 
     private data class Quad(val h: Double, val w: Double, val age: Int, val imp: Int)

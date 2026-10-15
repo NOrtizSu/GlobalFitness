@@ -70,4 +70,6 @@ data class Measurement(
     /** Driver id of the scale that produced it (null for manual / legacy rows). */
     val deviceDriver: String? = null,
     val deviceAddress: String? = null,
+    /** Low-frequency impedance of dual-frequency scales (S400, Keep S3). */
+    val impedanceLow: Int? = null,
 )

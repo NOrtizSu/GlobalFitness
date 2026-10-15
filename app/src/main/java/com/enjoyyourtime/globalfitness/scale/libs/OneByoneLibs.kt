@@ -1,6 +1,15 @@
 // Formulas ported from openScale (GPL-3.0), https://github.com/oliexdev/openScale
 package com.enjoyyourtime.globalfitness.scale.libs
 
+import com.enjoyyourtime.globalfitness.scale.ActivityLevel
+
+/** Activity level -> 1byone "people type" (0 low, 1 medium, 2 high), as openScale maps it. */
+fun oneByonePeopleType(level: ActivityLevel): Int = when (level) {
+    ActivityLevel.SEDENTARY, ActivityLevel.MILD -> 0
+    ActivityLevel.MODERATE -> 1
+    ActivityLevel.HEAVY, ActivityLevel.EXTREME -> 2
+}
+
 /** 1byone / Eufy (classic) formulas. sex: 1 male, 0 female; peopleType: 0 low, 1 medium, 2 high activity. */
 class OneByoneLib(private val sex: Int, private val age: Int, private val height: Float, private val peopleType: Int) {
     fun getLBM(weight: Float, bodyFat: Float): Float = weight - bodyFat / 100.0f * weight
@@ -149,4 +158,8 @@ class OneByoneNewLib(private val sex: Int, private val age: Int, private val hei
         w *= if (w > 50) 0.98f else 1.02f
         return w.coerceIn(35f, 75f)
     }
+
+    fun getProteinPercentage(weight: Float, impedance: Int): Float =
+        ((100.0f - getBodyFatPercentage(weight, impedance)) - getWaterPercentage(weight, impedance) * 1.08f) -
+            (getBoneMass(weight, impedance) / weight) * 100.0f
 }

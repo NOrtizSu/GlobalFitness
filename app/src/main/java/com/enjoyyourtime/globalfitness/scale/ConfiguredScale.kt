@@ -1,7 +1,26 @@
 package com.enjoyyourtime.globalfitness.scale
 
+import kotlinx.coroutines.flow.StateFlow
 import java.net.URLDecoder
 import java.net.URLEncoder
+
+/** Persistence of the configured scales as the scale monitor needs it (SettingsStore in the app). */
+interface ScaleConfigStore {
+    val configuredScales: StateFlow<List<ConfiguredScale>>
+
+    /** Addresses never to set up automatically again (removed or declined by the user). */
+    val dismissedAutoConfig: StateFlow<Set<String>>
+
+    /** Applies [transform] to the current list atomically. */
+    fun updateConfiguredScales(transform: (List<ConfiguredScale>) -> List<ConfiguredScale>)
+
+    fun dismissAutoConfig(address: String)
+
+    /** True once the one-time check for Mi Scale weighings of older versions ran. */
+    val legacyScaleCheckDone: Boolean
+
+    fun markLegacyScaleCheckDone()
+}
 
 /**
  * A scale the user (or auto-detection) set up. [address] null means "any device this driver
