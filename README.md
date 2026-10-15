@@ -115,8 +115,22 @@ adb shell am broadcast -n com.enjoyyourtime.globalfitness/.health.debug.DebugHea
 
 ## Licencia
 
-Los protocolos de las básculas están portados de [openScale](https://github.com/oliexdev/openScale)
-(**GPL-3.0**) y el de la Xiaomi Smart Band de [Gadgetbridge](https://codeberg.org/Freeyourgadget/Gadgetbridge)
-(**AGPL-3.0**); los avisos están en *Perfil → Código abierto*. **Antes de publicar hay que decidir la
-licencia del proyecto**: distribuir la app con ese código obliga a una licencia compatible (p. ej.
-AGPL-3.0) y a ofrecer el código fuente, o bien a sustituir esas partes.
+GlobalFitness es **software libre** bajo la **GNU Affero General Public License v3.0 o posterior**
+(`AGPL-3.0-or-later`): texto completo en [`LICENSE`](LICENSE), atribuciones en [`NOTICE`](NOTICE).
+Se distribuye sin ninguna garantía.
+
+- **Código portado**: los protocolos de las básculas y sus fórmulas de composición corporal vienen de
+  [openScale](https://github.com/oliexdev/openScale) (**GPL-3.0-or-later**, © olie.xdev y colaboradores;
+  `scale/drivers/`, `scale/libs/` y `domain/BodyMetrics.kt`), y el protocolo de la Xiaomi Smart Band de
+  [Gadgetbridge](https://codeberg.org/Freeyourgadget/Gadgetbridge) (**AGPL-3.0-or-later**, © colaboradores
+  de Gadgetbridge; `band/xiaomi/` y `src/main/proto/xiaomi.proto`). La GPL-3.0 (sección 13) permite
+  combinarlo con código AGPL-3.0; el conjunto se distribuye bajo la AGPL-3.0.
+- **Código fuente para los usuarios**: la app enlaza el repositorio en *Perfil → Acerca de → Código fuente
+  (AGPL-3.0)* y muestra la licencia, la ausencia de garantía y los avisos en *Perfil → Código abierto y
+  licencias*. Cada versión publicada debe tener su etiqueta en el repositorio (`v1.0.0`, …) para que el
+  código corresponda exactamente al binario distribuido.
+- **Cabeceras**: los ficheros sin cabecera quedan cubiertos por `LICENSE`. Los ficheros nuevos pueden
+  empezar por `// SPDX-License-Identifier: AGPL-3.0-or-later`; los que contienen código portado conservan
+  la cabecera que cita su proyecto de origen.
+- Las bibliotecas que usa la app (AndroidX, Kotlin, Protocol Buffers, Firebase, Google Mobile Ads, Play
+  Billing…) mantienen sus propias licencias; ver `NOTICE`.

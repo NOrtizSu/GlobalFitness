@@ -1,0 +1,68 @@
+GlobalFitness
+Copyright (C) 2026 Enjoy Your Time <enjoyyourtime.online@gmail.com> and the GlobalFitness contributors
+
+This program is free software: you can redistribute it and/or modify it under the terms of the
+GNU Affero General Public License as published by the Free Software Foundation, either version 3
+of the License, or (at your option) any later version (SPDX: AGPL-3.0-or-later).
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Affero General Public License for more details. The full license text is in the LICENSE file and
+at https://www.gnu.org/licenses/agpl-3.0.txt.
+
+Source code (including the Corresponding Source of every published build):
+https://github.com/NOrtizSu/GlobalFitness
+
+Files without a license header are covered by the LICENSE file. New source files may start with
+the line "// SPDX-License-Identifier: AGPL-3.0-or-later"; files with ported code keep the header
+that names the upstream project.
+
+
+Third-party code ported into this project
+=========================================
+
+openScale
+---------
+Copyright (C) olie.xdev <olie.xdev@googlemail.com> and the openScale contributors.
+License: GNU General Public License v3.0 or later (GPL-3.0-or-later).
+https://github.com/oliexdev/openScale
+
+The Bluetooth scale protocols and the body-composition formulas were ported from openScale
+(Java/Kotlin to Kotlin). GPL-3.0 section 13 allows combining this code with AGPL-3.0 code; the
+combined work is distributed under the AGPL-3.0. Ported code lives in:
+
+  - app/src/main/java/com/enjoyyourtime/globalfitness/scale/drivers/
+      Scale drivers (every file whose header reads "ported from openScale").
+  - app/src/main/java/com/enjoyyourtime/globalfitness/scale/libs/
+      Scale protocol and body-composition libraries (AfuB1Lib, EtekcityLib, EufyP2Lib,
+      ImpedanceLibs, KeepS3Lib, OmronLib, OneByoneLibs, RenphoEs26bbLib, S400,
+      Wla07BodyComposition, Wla25BodyComposition). EtekcityLib reaches openScale from
+      https://github.com/ronnnnnnnnnnnnn/etekcity_esf551_ble.
+  - app/src/main/java/com/enjoyyourtime/globalfitness/domain/BodyMetrics.kt
+      Mi Fit body-composition formulas, as in openScale's MiScaleLib.
+
+Gadgetbridge
+------------
+Copyright (C) the Gadgetbridge contributors.
+License: GNU Affero General Public License v3.0 or later (AGPL-3.0-or-later).
+https://codeberg.org/Freeyourgadget/Gadgetbridge
+
+The Xiaomi Smart Band protocol (SPP transport V1/V2, authentication, encryption and commands)
+used by the experimental direct band mode was ported from Gadgetbridge. Ported code lives in:
+
+  - app/src/main/java/com/enjoyyourtime/globalfitness/band/xiaomi/
+  - app/src/main/proto/xiaomi.proto
+      Trimmed copy of Gadgetbridge's xiaomi.proto message definitions.
+
+
+Libraries
+=========
+
+The app links the following libraries, each under its own license:
+
+  - AndroidX, Jetpack Compose, Material 3, Health Connect client: Apache-2.0
+  - Kotlin standard library and kotlinx.coroutines: Apache-2.0
+  - Protocol Buffers (javalite runtime): BSD-3-Clause
+  - Firebase (Authentication, Cloud Firestore), Google Mobile Ads, User Messaging Platform,
+    Google Play Billing, Credential Manager / Google Identity: Google's terms
+    (https://developers.google.com/terms) and the Android SDK license.

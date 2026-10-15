@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.enjoyyourtime.globalfitness.BuildConfig
@@ -74,6 +75,7 @@ fun ProfileScreen(
     val privacyOptions by vm.adPrivacyOptionsRequired.collectAsStateWithLifecycle()
     val health by healthVm.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    val uriHandler = LocalUriHandler.current
     val activity = LocalActivity.current
     var editing by rememberSaveable { mutableStateOf(false) }
 
@@ -216,6 +218,13 @@ fun ProfileScreen(
                 )
                 HorizontalDivider(color = MaterialTheme.colorScheme.surfaceContainerHighest)
                 SettingRow(
+                    icon = AppIcons.Code,
+                    title = "Código fuente (AGPL-3.0)",
+                    subtitle = "Software libre: descarga, estudia o modifica el código en GitHub",
+                    onClick = { runCatching { uriHandler.openUri(SOURCE_CODE_URL) } },
+                )
+                HorizontalDivider(color = MaterialTheme.colorScheme.surfaceContainerHighest)
+                SettingRow(
                     icon = Icons.Filled.Lock,
                     title = "Política de privacidad",
                     subtitle = "Borrador pendiente de revisión legal",
@@ -224,8 +233,8 @@ fun ProfileScreen(
                 HorizontalDivider(color = MaterialTheme.colorScheme.surfaceContainerHighest)
                 SettingRow(
                     icon = AppIcons.Logo,
-                    title = "Código abierto",
-                    subtitle = "Protocolos de openScale (GPL-3.0) y Gadgetbridge (AGPL-3.0), bibliotecas",
+                    title = "Código abierto y licencias",
+                    subtitle = "Licencia AGPL-3.0, código de openScale (GPL-3.0) y Gadgetbridge (AGPL-3.0), bibliotecas",
                     onClick = onOpenLicenses,
                 )
             }

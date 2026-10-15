@@ -105,6 +105,11 @@ object AppIcons {
         icon("ChevronRight", "M10,6L8.59,7.41 13.17,12l-4.58,4.59L10,18l6,-6z")
     }
 
+    /** Source code ("< >"). */
+    val Code: ImageVector by lazy {
+        icon("Code", "M9.4,16.6L4.8,12l4.6,-4.6L8,6l-6,6 6,6 1.4,-1.4zM14.6,16.6l4.6,-4.6 -4.6,-4.6L16,6l6,6 -6,6 -1.4,-1.4z")
+    }
+
     val TrendUp: ImageVector by lazy {
         icon("TrendUp", "M16,6l2.29,2.29 -4.88,4.88 -4,-4L2,16.59 3.41,18l6,-6 4,4 6.3,-6.29L22,12V6z")
     }

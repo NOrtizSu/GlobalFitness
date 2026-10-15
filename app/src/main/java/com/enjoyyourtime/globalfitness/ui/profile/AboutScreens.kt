@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -37,13 +38,17 @@ import kotlinx.coroutines.withContext
 /** Bundled from docs/privacy-policy.md at build time (see app/build.gradle.kts). */
 private const val POLICY_ASSET = "privacy-policy.md"
 
+/** Corresponding Source of the app (AGPL-3.0 sections 6 and 13). */
+const val SOURCE_CODE_URL = "https://github.com/NOrtizSu/GlobalFitness"
+private const val LICENSE_URL = "https://www.gnu.org/licenses/agpl-3.0.html"
+
 private sealed interface PolicyState {
     data object Loading : PolicyState
     data class Loaded(val blocks: List<MdBlock>) : PolicyState
     data object Failed : PolicyState
 }
 
-/** The privacy policy (a draft pending legal review, as its own banner says), rendered in-app. */
+/** The privacy policy, rendered in-app. */
 @Composable
 fun PrivacyPolicyScreen(onBack: () -> Unit) {
     val context = LocalContext.current
@@ -100,7 +105,7 @@ private val LIBRARIES = listOf(
     ),
 )
 
-/** Open-source notices: ported protocol code first (copyleft), then the libraries. */
+/** Licence and source code (AGPL-3.0 "Appropriate Legal Notices"), ported code, then the libraries. */
 @Composable
 fun OpenSourceScreen(onBack: () -> Unit) {
     val uriHandler = LocalUriHandler.current
@@ -111,23 +116,33 @@ fun OpenSourceScreen(onBack: () -> Unit) {
             modifier = Modifier.padding(padding),
         ) {
             item {
+                AppCard(containerColor = MaterialTheme.colorScheme.primaryContainer) {
+                    Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Text("GlobalFitness es software libre", style = MaterialTheme.typography.titleMedium)
+                        Text(
+                            "© 2026 Enjoy Your Time y colaboradores. Puedes redistribuirlo y modificarlo según la " +
+                                "licencia GNU Affero General Public License, versión 3 o posterior (AGPL-3.0). Se " +
+                                "distribuye SIN NINGUNA GARANTÍA. El código fuente completo de cada versión está " +
+                                "disponible gratis en GitHub.",
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                        Button(onClick = { runCatching { uriHandler.openUri(SOURCE_CODE_URL) } }, modifier = Modifier.heightIn(min = 48.dp)) {
+                            Text("Ver el código fuente")
+                        }
+                        OutlinedButton(onClick = { runCatching { uriHandler.openUri(LICENSE_URL) } }, modifier = Modifier.heightIn(min = 48.dp)) {
+                            Text("Leer la licencia AGPL-3.0")
+                        }
+                    }
+                }
+            }
+            item {
                 Text(
                     "GlobalFitness incluye código portado de proyectos libres. Gracias a sus autores.",
                     style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(top = 8.dp),
                 )
             }
             items(PORTED) { NoticeItem(it, onOpen = { runCatching { uriHandler.openUri(it.url) } }) }
-            item {
-                AppCard(containerColor = MaterialTheme.colorScheme.tertiaryContainer) {
-                    Text(
-                        "Nota de licencia: el código portado está bajo GPL-3.0 y AGPL-3.0. Antes de publicar la app hay que " +
-                            "decidir su licencia (compatible con ambas, p. ej. AGPL-3.0) y publicar el código fuente " +
-                            "correspondiente, o sustituir esas partes.",
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(16.dp),
-                    )
-                }
-            }
             item {
                 Text("Bibliotecas", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(top = 8.dp))
             }
