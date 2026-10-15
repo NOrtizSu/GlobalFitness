@@ -85,4 +85,18 @@ class InterstitialPolicyTest {
         }
         assertEquals(InterstitialVerdict.PREMIUM, s.tabChange())
     }
+
+    @Test
+    fun failedPreloadsBackOffAndStop() {
+        assertEquals(30_000L, policy.loadRetryDelay(noFill = false, failures = 1, foreground = true))
+        assertEquals(60_000L, policy.loadRetryDelay(noFill = false, failures = 2, foreground = true))
+        assertEquals(120_000L, policy.loadRetryDelay(noFill = false, failures = 3, foreground = true))
+        assertEquals(null, policy.loadRetryDelay(noFill = false, failures = 4, foreground = true))
+    }
+
+    @Test
+    fun noRetriesForNoFillOrInTheBackground() {
+        assertEquals(null, policy.loadRetryDelay(noFill = true, failures = 1, foreground = true))
+        assertEquals(null, policy.loadRetryDelay(noFill = false, failures = 1, foreground = false))
+    }
 }

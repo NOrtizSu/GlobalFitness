@@ -36,6 +36,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import java.lang.ref.WeakReference
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.coroutines.resume
 
@@ -69,6 +70,7 @@ class BillingRepository(
     private val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
     private val connectMutex = Mutex()
     private val connectRetry = RetryPolicy(baseDelayMs = 1_000, maxDelayMs = 15_000, maxAttempts = 4)
+    private val reduceLock = Any()
     private var productDetails: ProductDetails? = null
 
     private var entitlement = EntitlementState(
@@ -84,6 +86,14 @@ class BillingRepository(
     private val _ui = MutableStateFlow(PremiumUiState(isPremium = entitlement.isPremium, simulated = entitlement.simulated))
     val uiState: StateFlow<PremiumUiState> = _ui.asStateFlow()
 
+    private val _entitlementKnown = MutableStateFlow(false)
+
+    /**
+     * True once Google Play answered (or could not be reached), or after [ENTITLEMENT_WAIT_MS]:
+     * ads wait for it so a premium user on a new phone never sees one before the restore.
+     */
+    val entitlementKnown: StateFlow<Boolean> = _entitlementKnown.asStateFlow()
+
     private val client: BillingClient = BillingClient.newBuilder(context.applicationContext)
         .setListener(this)
         .enablePendingPurchases(PendingPurchasesParams.newBuilder().enableOneTimeProducts().build())
@@ -94,14 +104,22 @@ class BillingRepository(
         ProcessLifecycleOwner.get().lifecycle.addObserver(
             LifecycleEventObserver { _, event -> if (event == Lifecycle.Event.ON_START) refresh() },
         )
+        scope.launch {
+            delay(ENTITLEMENT_WAIT_MS)
+            _entitlementKnown.value = true
+        }
     }
 
     /** Price + purchases (restores on start / resume). */
     fun refresh() {
         scope.launch {
-            if (!connect()) return@launch
+            if (!connect()) {
+                _entitlementKnown.value = true
+                return@launch
+            }
             loadProduct()
             queryPurchases(userInitiated = false)
+            _entitlementKnown.value = true
         }
     }
 
@@ -114,8 +132,12 @@ class BillingRepository(
         }
     }
 
-    /** "Comprar". The result arrives in [onPurchasesUpdated]. */
+    /**
+     * "Comprar". The Activity is only held weakly while Play is being prepared, so a screen closed
+     * meanwhile is not leaked. The result arrives in [onPurchasesUpdated].
+     */
     fun launchPurchase(activity: Activity) {
+        val activityRef = WeakReference(activity)
         scope.launch {
             _ui.update { it.copy(busy = true, message = null) }
             try {
@@ -132,12 +154,20 @@ class BillingRepository(
                     .apply { if (offerToken != null) setOfferToken(offerToken) }
                     .build()
                 val flowParams = BillingFlowParams.newBuilder().setProductDetailsParamsList(listOf(productParams)).build()
+                val host = activityRef.get()?.takeUnless { it.isFinishing || it.isDestroyed } ?: return@launch
                 suppression.set(AdSuppression.PURCHASE, true)
-                val result = client.launchBillingFlow(activity, flowParams)
+                val result = client.launchBillingFlow(host, flowParams)
                 if (result.responseCode != BillingResponseCode.OK) {
                     suppression.set(AdSuppression.PURCHASE, false)
                     _ui.update { it.copy(message = BillingMessages.forCode(result.responseCode)) }
                 }
+            } catch (e: CancellationException) {
+                suppression.set(AdSuppression.PURCHASE, false)
+                throw e
+            } catch (e: Exception) {
+                Log.w(TAG, "Purchase flow failed", e)
+                suppression.set(AdSuppression.PURCHASE, false)
+                _ui.update { it.copy(message = "No se pudo abrir la compra de Google Play. Inténtalo de nuevo.") }
             } finally {
                 _ui.update { it.copy(busy = false) }
             }
@@ -246,7 +276,8 @@ class BillingRepository(
         }
     }
 
-    private fun reduce(event: EntitlementEvent) {
+    /** Serialized: Play callbacks and coroutines may report purchases concurrently. */
+    private fun reduce(event: EntitlementEvent) = synchronized(reduceLock) {
         val next = Entitlements.reduce(entitlement, event)
         entitlement = next
         prefs.edit {
@@ -319,6 +350,9 @@ class BillingRepository(
         const val UNAVAILABLE_MESSAGE = "«Quitar anuncios» no está disponible ahora mismo en Google Play."
         const val PENDING_MESSAGE =
             "Pago pendiente. Los anuncios desaparecerán en cuanto Google Play confirme el pago."
+
+        /** Longest wait for Google Play before ads may be shown to a user not known to be premium. */
+        const val ENTITLEMENT_WAIT_MS = 5_000L
     }
 }
 

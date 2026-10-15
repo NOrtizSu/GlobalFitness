@@ -19,6 +19,7 @@ import com.enjoyyourtime.globalfitness.data.Repository
 import com.enjoyyourtime.globalfitness.data.SettingsStore
 import com.enjoyyourtime.globalfitness.domain.MeasurementRecorder
 import com.enjoyyourtime.globalfitness.health.HealthModule
+import com.enjoyyourtime.globalfitness.scale.SessionStatus
 import com.enjoyyourtime.globalfitness.domain.RecordOutcome
 import com.enjoyyourtime.globalfitness.scale.GattSession
 import com.enjoyyourtime.globalfitness.scale.ScaleContext
@@ -27,6 +28,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 
@@ -68,11 +70,20 @@ class AppContainer(context: Context) {
     val ads = AdsManager(
         application = context.applicationContext as Application,
         scope = appScope,
-        isPremium = billing.isPremium,
+        premium = billing.isPremium,
+        entitlementKnown = billing.entitlementKnown,
         suppression = adSuppression,
         measurementSaved = scaleMonitor.outcomes.filter { it !is RecordOutcome.Duplicate }.map { },
-        scaleBusy = scaleMonitor.live.map { it is LiveScale.Measuring || it is LiveScale.Stabilized },
+        // A passive weighing in progress or any GATT scale session that has not finished.
+        scaleBusy = combine(scaleMonitor.live, scaleMonitor.sessions) { live, sessions ->
+            live is LiveScale.Connecting || live is LiveScale.Measuring || live is LiveScale.Stabilized ||
+                sessions.values.any { it.status in BUSY_SESSION_STATES }
+        },
     )
+
+    private companion object {
+        val BUSY_SESSION_STATES = setOf(SessionStatus.CONNECTING, SessionStatus.CONNECTED, SessionStatus.MEASURING)
+    }
 }
 
 class GlobalFitnessApp : Application() {

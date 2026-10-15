@@ -44,4 +44,18 @@ class InterstitialPolicy(
         !s.adLoaded -> InterstitialVerdict.NOT_LOADED
         else -> InterstitialVerdict.SHOW
     }
+
+    /**
+     * Delay before retrying a failed preload, or null for no automatic retry: never in the
+     * background, never after "no fill" (asking again soon will not fill either), and at most
+     * [maxLoadRetries] times per session with backoff. Later section changes still try again.
+     */
+    fun loadRetryDelay(noFill: Boolean, failures: Int, foreground: Boolean): Long? = when {
+        !foreground || noFill || failures > maxLoadRetries -> null
+        else -> (loadRetryBaseMs shl (failures - 1).coerceIn(0, 10)).coerceAtMost(loadRetryMaxMs)
+    }
+
+    val maxLoadRetries = 3
+    val loadRetryBaseMs = 30_000L
+    val loadRetryMaxMs = 5 * 60_000L
 }

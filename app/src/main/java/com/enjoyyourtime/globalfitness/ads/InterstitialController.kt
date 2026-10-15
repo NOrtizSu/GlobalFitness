@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.os.SystemClock
 import android.util.Log
-import com.enjoyyourtime.globalfitness.cloud.RetryPolicy
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -32,21 +31,30 @@ class InterstitialController(
     private val policy: InterstitialPolicy = InterstitialPolicy(),
     private val clock: () -> Long = SystemClock::elapsedRealtime,
 ) {
-    private val loadRetry = RetryPolicy(baseDelayMs = 30_000, maxDelayMs = 10 * 60_000L, maxAttempts = Int.MAX_VALUE)
     private var ad: InterstitialAd? = null
     private var loadedAt = 0L
     private var loading = false
     private var showing = false
     private var failures = 0
     private var retryJob: Job? = null
+    private var foreground = false
 
     private var sessionStartedAt = clock()
     private var lastShownAt: Long? = null
     private var lastMeasurementSavedAt: Long? = null
 
-    /** The app came to the foreground: no interstitial during the first minute. */
+    /** The app came to the foreground: no interstitial during the first minute; loading may resume. */
     fun onSessionStart() {
         sessionStartedAt = clock()
+        foreground = true
+        failures = 0
+        preload()
+    }
+
+    /** The app went to the background: no loads or retries until it comes back. */
+    fun onSessionStop() {
+        foreground = false
+        retryJob?.cancel()
     }
 
     fun noteMeasurementSaved() {
@@ -96,7 +104,7 @@ class InterstitialController(
 
     /** Loads the next interstitial if allowed and none is ready. */
     fun preload() {
-        if (ad != null || loading || isPremium.value || !adsReady.value) return
+        if (!foreground || ad != null || loading || isPremium.value || !adsReady.value) return
         loading = true
         retryJob?.cancel()
         InterstitialAd.load(
@@ -115,8 +123,10 @@ class InterstitialController(
                     loading = false
                     failures++
                     Log.i(TAG, "Interstitial not loaded (${error.code}): ${error.message}")
+                    val wait = policy.loadRetryDelay(noFill = error.code == AdRequest.ERROR_CODE_NO_FILL, failures, foreground)
+                        ?: return // next attempt on a later section change or session
                     retryJob = scope.launch {
-                        delay(loadRetry.delayFor(failures))
+                        delay(wait)
                         preload()
                     }
                 }
