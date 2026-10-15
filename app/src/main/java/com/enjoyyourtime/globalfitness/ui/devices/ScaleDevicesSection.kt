@@ -72,7 +72,7 @@ fun LazyListScope.scaleDevicesSection(
     onDeclineSuggestion: () -> Unit = {},
 ) {
     state.suggestion?.let { s ->
-        item(key = "scales-suggestion") { SuggestionCard(s, onAccept = onAcceptSuggestion, onDecline = onDeclineSuggestion) }
+        item(key = "scales-suggestion") { ScaleSuggestionCard(s, onAccept = onAcceptSuggestion, onDecline = onDeclineSuggestion) }
     }
     if (state.configured.isEmpty()) {
         item(key = "scales-empty") {
@@ -179,8 +179,9 @@ fun ScaleDialogsHost(state: ScaleDevicesUiState, dialogs: ScaleDialogs, vm: Scal
     }
 }
 
+/** "¿Es tu báscula?": a recognised scale that needs a connection waits for the user's OK (also on Hoy). */
 @Composable
-private fun SuggestionCard(s: ScaleSuggestion, onAccept: () -> Unit, onDecline: () -> Unit) {
+internal fun ScaleSuggestionCard(s: ScaleSuggestion, onAccept: () -> Unit, onDecline: () -> Unit) {
     AppCard {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {

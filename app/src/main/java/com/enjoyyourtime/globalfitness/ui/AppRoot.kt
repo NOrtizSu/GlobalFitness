@@ -237,10 +237,11 @@ private fun MainScaffold(
                 val user by vm.accountUser.collectAsStateWithLifecycle()
                 val cloud by vm.cloudStatus.collectAsStateWithLifecycle()
                 val band by vm.band.collectAsStateWithLifecycle()
+                val suggestion by vm.scaleSuggestion.collectAsStateWithLifecycle()
                 val state by vm.uiState.collectAsStateWithLifecycle()
                 TodayScreen(
                     state = state,
-                    status = TodayStatus(scanStatus, live, sessions, health, dashboard, user, cloud, band),
+                    status = TodayStatus(scanStatus, live, sessions, health, dashboard, user, cloud, band, suggestion),
                     access = access,
                     onRetryScan = vm::refreshScanner,
                     onConnectHealth = connectHealth,
@@ -254,6 +255,8 @@ private fun MainScaffold(
                     onOpenDevices = { navController.navigateToSection(TopLevel.DEVICES) },
                     onOpenActivity = { navController.navigateToSection(TopLevel.ACTIVITY) },
                     onOpenBand = openBand,
+                    onAcceptSuggestion = vm::acceptScaleSuggestion,
+                    onDeclineSuggestion = vm::declineScaleSuggestion,
                 )
             }
             composable(TopLevel.BODY.route) {

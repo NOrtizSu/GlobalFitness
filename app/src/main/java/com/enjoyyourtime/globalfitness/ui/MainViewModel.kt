@@ -15,6 +15,7 @@ import com.enjoyyourtime.globalfitness.band.BandState
 import com.enjoyyourtime.globalfitness.ble.GattSessionInfo
 import com.enjoyyourtime.globalfitness.ble.LiveScale
 import com.enjoyyourtime.globalfitness.ble.ScanDebugInfo
+import com.enjoyyourtime.globalfitness.ble.ScaleSuggestion
 import com.enjoyyourtime.globalfitness.ble.ScanStatus
 import com.enjoyyourtime.globalfitness.cloud.CloudSyncStatus
 import com.enjoyyourtime.globalfitness.data.CsvCodec
@@ -83,6 +84,7 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
     val scanStatus: StateFlow<ScanStatus> = container.scanner.status
     val live: StateFlow<LiveScale> = container.scaleMonitor.live
     val sessions: StateFlow<Map<String, GattSessionInfo>> = container.scaleMonitor.sessions
+    val scaleSuggestion: StateFlow<ScaleSuggestion?> = container.scaleMonitor.suggestion
     val debug: StateFlow<ScanDebugInfo?> = container.scanner.debug
     val permissionRationaleSeen: StateFlow<Boolean> = settings.permissionRationaleSeen
 
@@ -182,6 +184,12 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
     fun markOnboardingCompleted() = container.onboarding.markCompleted()
 
     fun refreshScanner() = container.scanner.refresh()
+
+    /** "Sí, es la mía" on the "¿Es tu báscula?" card. */
+    fun acceptScaleSuggestion() = container.scaleMonitor.acceptSuggestion()
+
+    /** "No" on the "¿Es tu báscula?" card: that scale is not suggested again. */
+    fun declineScaleSuggestion() = container.scaleMonitor.declineSuggestion()
 
     /** A top-level section was opened: the interstitial policy decides whether to show one. */
     fun onSectionChanged(activity: Activity) {

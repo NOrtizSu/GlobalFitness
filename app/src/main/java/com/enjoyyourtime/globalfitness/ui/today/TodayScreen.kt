@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import com.enjoyyourtime.globalfitness.account.AccountUser
 import com.enjoyyourtime.globalfitness.ble.GattSessionInfo
 import com.enjoyyourtime.globalfitness.ble.LiveScale
+import com.enjoyyourtime.globalfitness.ble.ScaleSuggestion
 import com.enjoyyourtime.globalfitness.ble.ScanStatus
 import com.enjoyyourtime.globalfitness.cloud.CloudSyncStatus
 import com.enjoyyourtime.globalfitness.domain.Metric
@@ -59,6 +60,7 @@ import com.enjoyyourtime.globalfitness.ui.components.SectionTitle
 import com.enjoyyourtime.globalfitness.ui.components.Sparkline
 import com.enjoyyourtime.globalfitness.ui.components.StatusChip
 import com.enjoyyourtime.globalfitness.ui.components.TabPage
+import com.enjoyyourtime.globalfitness.ui.devices.ScaleSuggestionCard
 import com.enjoyyourtime.globalfitness.ui.devices.bandStatusText
 import com.enjoyyourtime.globalfitness.ui.health.HealthDashboard
 import com.enjoyyourtime.globalfitness.ui.health.HealthFormat
@@ -83,6 +85,8 @@ data class TodayStatus(
     val user: AccountUser?,
     val cloud: CloudSyncStatus,
     val band: BandSummary?,
+    /** A nearby scale waiting for "¿Es tu báscula?" (same as in Dispositivos). */
+    val suggestion: ScaleSuggestion? = null,
 )
 
 /**
@@ -103,6 +107,8 @@ fun TodayScreen(
     onOpenDevices: () -> Unit,
     onOpenActivity: () -> Unit,
     onOpenBand: () -> Unit,
+    onAcceptSuggestion: () -> Unit,
+    onDeclineSuggestion: () -> Unit,
 ) {
     // Keeps relative times and the visibility of a failed session fresh.
     var now by remember { mutableLongStateOf(System.currentTimeMillis()) }
@@ -156,6 +162,9 @@ fun TodayScreen(
                 onOpenDevices = onOpenDevices,
                 onOpenBand = onOpenBand,
             )
+        }
+        status.suggestion?.let { s ->
+            item(key = "scale-suggestion") { ScaleSuggestionCard(s, onAccept = onAcceptSuggestion, onDecline = onDeclineSuggestion) }
         }
         if (scaleCardVisible(status.scanStatus, status.live, session)) {
             item(key = "scale") { ScaleLiveCard(status.scanStatus, status.live, session, access, onRetryScan) }
