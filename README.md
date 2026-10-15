@@ -8,12 +8,14 @@ actives la copia en la nube.
 ## Funciones
 
 - **Básculas Bluetooth (66 modelos)**: catálogo con detección automática. Al subirte a una báscula
-  compatible con la app abierta, se reconoce y se configura sola; también puedes elegirla en
-  *Dispositivos → Añadir desde el catálogo*. Las básculas de solo anuncios se leen de forma pasiva y las
-  que necesitan conexión (GATT) se conectan solas. Los modelos sin verificar con hardware real llevan la
-  etiqueta **Experimental**.
+  compatible con la app abierta, se reconoce: las de solo anuncios se configuran solas y se leen de forma
+  pasiva; las que necesitan conexión (GATT) se proponen con «¿Es tu báscula?» (en *Hoy* y en
+  *Dispositivos*) y solo se conectan cuando confirmas que es la tuya. También puedes elegirla en
+  *Dispositivos → Añadir desde el catálogo*. Solo la Xiaomi Mi Body Composition Scale 2 está verificada
+  con hardware real; el resto lleva la etiqueta **Experimental**.
 - **Composición corporal**: IMC, grasa, masa grasa, músculo, agua, hueso, grasa visceral, metabolismo
-  basal, edad metabólica, proteína, peso ideal y tipo de cuerpo. Se usan los valores que da la propia
+  basal, edad metabólica, proteína, peso ideal y tipo de cuerpo, y músculo esquelético cuando la báscula
+  o su fórmula lo estima. Se usan los valores que da la propia
   báscula y, si no los da, las fórmulas publicadas para cada familia (Mi Fit, Yunmai, Trisa…).
 - **Gráficos**: media móvil de 7 días, rango normal, peso objetivo, ritmo semanal y proyección; historial
   agrupado por meses y peso manual.
@@ -23,8 +25,9 @@ actives la copia en la nube.
 - **Xiaomi Smart Band 9, modo directo (experimental)**: conexión Bluetooth sin Mi Fitness para pulso en
   directo, buscar la pulsera, alarmas y reenvío de notificaciones. El pulso registrado aparece también
   en *Actividad*.
-- **Copia en la nube (opcional)**: inicio de sesión con Google y copia del perfil, el historial y los
-  ajustes en Firebase; restauración al reinstalar o cambiar de móvil (también desde la bienvenida).
+- **Copia en la nube (opcional)**: inicio de sesión con Google y copia del perfil, el historial (con los
+  datos de la báscula) y las básculas configuradas (sin claves ni direcciones) en Firebase; restauración
+  al reinstalar o cambiar de móvil (también desde la bienvenida).
 - **Anuncios y «Quitar anuncios»**: banner y un intersticial con límite de frecuencia (AdMob, con
   consentimiento UMP en la UE); nunca durante la bienvenida, el inicio de sesión, la compra o una
   medición. Pago único con Google Play Billing para quitarlos.
@@ -36,7 +39,7 @@ Cinco secciones en la barra inferior:
 
 | Sección | Contenido |
 |---|---|
-| **Hoy** | Anillos de pasos, sueño y pulso en reposo (Health Connect), medición en curso, último peso con tendencia de 30 días, composición destacada y estado de la báscula, la nube y la pulsera. |
+| **Hoy** | Anillos de pasos, sueño y pulso en reposo (Health Connect), «¿Es tu báscula?» si hay una nueva cerca, medición en curso, último peso con tendencia de 30 días, composición destacada y estado de la báscula, la nube y la pulsera. |
 | **Cuerpo** | Gráfico por métrica y periodo, resumen, proyección, composición e historial por meses (detalle y borrado). Botón «Añadir peso manual». |
 | **Actividad** | Datos de Health Connect y sincronización. |
 | **Dispositivos** | Básculas (configuradas, detectadas, catálogo), pulsera en modo directo, Health Connect y diagnóstico BLE. |
