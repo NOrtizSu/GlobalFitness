@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import com.enjoyyourtime.globalfitness.data.Repository
+import com.enjoyyourtime.globalfitness.scale.ScaleRegistry
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -13,14 +14,14 @@ import kotlinx.coroutines.launch
  * Health Connect wiring for the app container. Registered as activity lifecycle callbacks so
  * every resume refreshes permissions and runs a throttled sync (at most every 5 minutes).
  */
-class HealthModule(context: Context, repository: Repository, private val scope: CoroutineScope) :
+class HealthModule(context: Context, repository: Repository, scales: ScaleRegistry, private val scope: CoroutineScope) :
     Application.ActivityLifecycleCallbacks {
 
     val cache = HealthCache(context)
     val settings = HealthSettings(context)
     val gateway = HealthConnectGateway(context)
     val sync = HealthSync(gateway, cache, settings, scope, ownPackage = context.packageName)
-    val exporter = ScaleExporter(gateway, cache, settings, repository, scope, ownPackage = context.packageName)
+    val exporter = ScaleExporter(gateway, cache, settings, repository, scales, scope, ownPackage = context.packageName)
 
     init {
         exporter.start()

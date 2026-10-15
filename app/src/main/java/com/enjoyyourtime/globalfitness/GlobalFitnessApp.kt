@@ -71,7 +71,7 @@ class AppContainer(context: Context) {
             }
         }
     }
-    val health = HealthModule(context, repository, appScope)
+    val health = HealthModule(context, repository, scaleRegistry, appScope)
     // ---- Optional Google account + cloud backup, ads and the "Quitar anuncios" purchase --------
     val adSuppression = AdSuppression()
     val billing = BillingRepository(context, appScope, adSuppression)
