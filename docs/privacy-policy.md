@@ -149,7 +149,7 @@ Last updated: 15 October 2026 · Contact: **enjoyyourtime.online@gmail.com**
 **Summary.** The app works **without an account** and keeps everything **on your phone** by default.
 **Cloud backup is optional** (Google sign-in) and can be deleted, together with the account, from
 inside the app. **Health data is never used for advertising** and is never sold. The free version
-shows **Google AdMob** ads unless you buy "Quitar anuncios" (remove ads).
+shows **Google AdMob** ads unless you buy "Remove ads".
 
 **Stored on the phone:** profile (name, sex, date of birth, height, target weight), measurements
 (date, weight, bioelectrical impedance, source) and derived body-composition estimates, settings and
@@ -177,14 +177,14 @@ random dataset id), measurements (incl. scale-reported body composition and scal
 configured scales (model, name, user slot), plus an informational `premium` flag if you bought
 "remove ads". Never uploaded: band key, scale bind keys / PINs / pairing keys, Bluetooth addresses,
 Health Connect data, device-specific settings. Legal basis: your explicit consent (GDPR art. 6(1)(a) and 9(2)(a)).
-Kept until you delete it: **Perfil → Cuenta y copia en la nube → "Borrar mis datos de la nube y la
-cuenta"** permanently deletes the cloud copy and the Firebase account (phone data is kept), or email
+Kept until you delete it: **Profile → Account and cloud backup → "Delete my cloud data and
+account"** permanently deletes the cloud copy and the Firebase account (phone data is kept), or email
 us; see [globalfitness-app.web.app/delete-account.html](https://globalfitness-app.web.app/delete-account.html).
 
 **Ads (Google AdMob):** Google may process device identifiers (such as the advertising ID), IP
 address and ad interaction data under the [Google Privacy Policy](https://policies.google.com/privacy).
 In the EEA/UK we ask for consent with Google's User Messaging Platform; you can change it under
-Perfil → "Opciones de privacidad de anuncios". Ad requests never include health or body data or
+Profile → "Ad privacy options". Ad requests never include health or body data or
 any targeting from the app. No ads are shown on the sign-in, purchase or consent screens.
 
 **Google Play Billing:** purchases are processed by Google Play; we only receive the purchase state

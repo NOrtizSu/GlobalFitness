@@ -1,7 +1,7 @@
 # GlobalFitness Privacy Policy
 
 Last updated: 15 October 2026 · Contact: **enjoyyourtime.online@gmail.com** ·
-Web version (Spanish): [globalfitness-app.web.app/privacy.html](https://globalfitness-app.web.app/privacy.html)
+Web version (Spanish, with an English summary): [globalfitness-app.web.app/privacy.html#en](https://globalfitness-app.web.app/privacy.html#en)
 
 This is the English version of the privacy policy. If it differs from the Spanish version, the
 Spanish version prevails.

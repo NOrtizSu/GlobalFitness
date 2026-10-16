@@ -2,8 +2,9 @@
 
 App Android (Kotlin + Jetpack Compose, Material You) para seguir tu **peso y composición corporal**
 con básculas Bluetooth y tu **actividad, sueño y pulso** desde Health Connect o directamente desde una
-Xiaomi Smart Band 9. Interfaz en español, un solo perfil, y los datos se quedan en el teléfono salvo que
-actives la copia en la nube.
+Xiaomi Smart Band 9. Interfaz en 17 idiomas (inglés por defecto; sigue el idioma del sistema, ver
+`docs/translations.md`), un solo perfil, y los datos se quedan en el teléfono salvo que actives la copia
+en la nube.
 
 ## Funciones
 
@@ -120,8 +121,10 @@ Connect de Google Play).
   (`source.html`). Prueba local con `firebase emulators:start --only hosting` y publicación con
   `firebase deploy --only hosting` → `https://globalfitness-app.web.app/`.
 - **Política de privacidad**: `docs/privacy-policy.md` es la fuente (en español e inglés); `privacy.html`
-  debe mantenerse igual. La app abre la versión web (*Perfil → Política de privacidad*) y, sin conexión,
-  la copia incluida en la app. Faltan los datos del responsable (marcados `[COMPLETAR: …]`).
+  debe mantenerse igual. `docs/privacy-policy.en.md` es la traducción completa al inglés. En español la
+  app abre la versión web (*Perfil → Política de privacidad*) y, sin conexión, la copia incluida en la
+  app; en los demás idiomas muestra la copia en inglés incluida en la app. Faltan los datos del
+  responsable (marcados `[COMPLETAR: …]`).
 
 ## Herramientas de depuración
 
