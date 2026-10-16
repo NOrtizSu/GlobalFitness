@@ -3,7 +3,9 @@ package com.enjoyyourtime.globalfitness.ui
 import android.content.Context
 import android.content.res.Resources
 import android.icu.text.DateTimePatternGenerator
+import android.icu.text.ListFormatter
 import android.icu.text.SimpleDateFormat
+import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
 import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.domain.Metric
@@ -12,6 +14,7 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.NumberFormat
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.ZoneId
 import java.util.Date
 import java.util.Locale
@@ -43,7 +46,14 @@ object Fmt {
 
     val locale: Locale get() = Locale.getDefault()
 
-    private fun string(@StringRes id: Int, vararg args: Any): String = checkNotNull(resources).getString(id, *args)
+    /**
+     * A string resource outside composition (chart drawing, formatting helpers). The application
+     * resources follow the app language; a language change recreates the activities.
+     */
+    fun string(@StringRes id: Int, vararg args: Any): String = checkNotNull(resources).getString(id, *args)
+
+    fun plural(@PluralsRes id: Int, count: Int, vararg args: Any): String =
+        checkNotNull(resources).getQuantityString(id, count, *args)
 
     // ---- numbers ---------------------------------------------------------------------------
 
@@ -86,7 +96,7 @@ object Fmt {
         MetricUnit.KG -> string(R.string.value_kg, value)
         MetricUnit.PERCENT -> string(R.string.value_percent, value)
         MetricUnit.KCAL -> string(R.string.value_kcal, value)
-        MetricUnit.YEARS -> checkNotNull(resources).getQuantityString(R.plurals.value_years, abs(amount).roundToInt(), value)
+        MetricUnit.YEARS -> plural(R.plurals.value_years, abs(amount).roundToInt(), value)
         MetricUnit.NONE -> value
     }
 
@@ -100,6 +110,9 @@ object Fmt {
         MetricUnit.YEARS -> string(R.string.unit_years)
         MetricUnit.NONE -> null
     }
+
+    /** "a, b and c" in the current language. */
+    fun list(items: List<String>): String = ListFormatter.getInstance(locale).format(items)
 
     /** Parses "72,5", "72.5" or the same typed with the locale's own digits ("٧٢٫٥"). */
     fun parseDecimal(s: String): Double? {
@@ -158,6 +171,9 @@ object Fmt {
     fun longDate(d: LocalDate): String = capitalized(skeleton(noon(d), "MMMMEEEEd"))
 
     fun time(ms: Long): String = skeleton(ms, timeSkeleton())
+
+    /** A time of day ("07:30" / "7:30 AM"). */
+    fun time(t: LocalTime): String = time(t.atDate(LocalDate.now()).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
 
     /** Time with seconds (diagnostics). */
     fun timeWithSeconds(ms: Long): String = skeleton(ms, if (hour24 == false) "hms" else if (hour24 == true) "Hms" else "jms")

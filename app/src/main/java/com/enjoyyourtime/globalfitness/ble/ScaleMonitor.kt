@@ -7,6 +7,7 @@ import com.enjoyyourtime.globalfitness.scale.ConfiguredScale
 import com.enjoyyourtime.globalfitness.scale.DetectedScale
 import com.enjoyyourtime.globalfitness.scale.DetectionResult
 import com.enjoyyourtime.globalfitness.scale.DriverEnv
+import com.enjoyyourtime.globalfitness.scale.DriverNameNote
 import com.enjoyyourtime.globalfitness.scale.DriverStore
 import com.enjoyyourtime.globalfitness.scale.GattLink
 import com.enjoyyourtime.globalfitness.scale.GattScaleDriver
@@ -81,6 +82,8 @@ data class ScaleSuggestion(
     val address: String,
     val deviceName: String?,
     val verified: Boolean,
+    /** Generic words of the driver name, translated by the UI. */
+    val nameNote: DriverNameNote? = null,
 )
 
 /**
@@ -285,6 +288,7 @@ class ScaleMonitor(
             address = result.address.uppercase(Locale.ROOT),
             deviceName = result.name,
             verified = result.driver.verified,
+            nameNote = result.driver.nameNote,
         )
         publishDetected(force = true)
     }

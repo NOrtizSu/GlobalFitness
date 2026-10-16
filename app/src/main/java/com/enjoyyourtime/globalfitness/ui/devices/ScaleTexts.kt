@@ -14,6 +14,7 @@ import com.enjoyyourtime.globalfitness.scale.GENERIC_BRAND
 import com.enjoyyourtime.globalfitness.scale.ScaleDriver
 import com.enjoyyourtime.globalfitness.scale.ScaleNotice
 import com.enjoyyourtime.globalfitness.scale.ScaleNotice.Kind
+import com.enjoyyourtime.globalfitness.ui.Fmt
 import com.enjoyyourtime.globalfitness.ui.asString
 
 /** Localized texts for the pure-Kotlin scale layer (messages, driver names, settings). */
@@ -108,10 +109,11 @@ fun scanErrorRes(code: Int): Int = when (code) {
 
 /** "OKOK / Chipsea (broadcast)": the model name with its generic words translated. */
 @Composable
-fun ScaleDriver.title(): String = when (val note = nameNote) {
-    null -> displayName
-    else -> stringResource(noteRes(note), displayName)
-}
+fun ScaleDriver.title(): String = driverTitle(displayName, nameNote)
+
+@Composable
+fun driverTitle(displayName: String, note: DriverNameNote?): String =
+    if (note == null) displayName else stringResource(noteRes(note), displayName)
 
 @StringRes
 private fun noteRes(note: DriverNameNote): Int = when (note) {
@@ -165,6 +167,6 @@ fun ConfigField.help(): String = when (key) {
 fun ConfigField.errorText(error: ConfigError): UiText = when (error) {
     ConfigError.REQUIRED -> UiText.res(R.string.config_error_required)
     ConfigError.HEX_KEY_32 -> UiText.res(R.string.config_error_hex_key)
-    ConfigError.USER_SLOT_RANGE -> UiText.res(R.string.config_error_user_slot, minSlot, maxSlot)
+    ConfigError.USER_SLOT_RANGE -> UiText.res(R.string.config_error_user_slot, Fmt.count(minSlot.toLong()), Fmt.count(maxSlot.toLong()))
     ConfigError.PIN_DIGITS -> UiText.res(R.string.config_error_pin)
 }

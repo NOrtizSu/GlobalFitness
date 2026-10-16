@@ -12,7 +12,6 @@ action_got_it = Got it ||| Entendido
 action_close = Close ||| Cerrar
 action_back = Back ||| Atrás
 action_continue = Continue ||| Continuar
-action_skip = Skip ||| Omitir
 action_open_settings = Open settings ||| Abrir ajustes
 action_grant_permission = Grant permission ||| Conceder permiso
 action_turn_on_bluetooth = Turn on Bluetooth ||| Activar Bluetooth

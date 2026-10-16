@@ -7,6 +7,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.enjoyyourtime.globalfitness.AppContainer
 import com.enjoyyourtime.globalfitness.GlobalFitnessApp
+import com.enjoyyourtime.globalfitness.R
+import com.enjoyyourtime.globalfitness.UiText
 import com.enjoyyourtime.globalfitness.ble.GattSessionInfo
 import com.enjoyyourtime.globalfitness.ble.ScaleSuggestion
 import com.enjoyyourtime.globalfitness.scale.ConfiguredScale
@@ -35,8 +37,8 @@ data class ConfiguredScaleItem(
     val driver: ScaleDriver?,
     val session: GattSessionInfo?,
     val lastSeenMillis: Long?,
-    /** Required settings still missing or invalid (labels). */
-    val missingConfig: List<String>,
+    /** Required settings still missing or invalid (label resources). */
+    val missingConfig: List<Int>,
 )
 
 /** A nearby device recognised by at least one driver. */
@@ -68,10 +70,10 @@ class ScaleDevicesViewModel(private val container: AppContainer) : ViewModel() {
 
     private val query = MutableStateFlow("")
 
-    private val _events = Channel<String>(Channel.BUFFERED)
+    private val _events = Channel<UiText>(Channel.BUFFERED)
 
-    /** Spanish snackbar messages. */
-    val events: Flow<String> = _events.receiveAsFlow()
+    /** Snackbar messages. */
+    val events: Flow<UiText> = _events.receiveAsFlow()
 
     private val configuredItems = combine(settings.configuredScales, monitor.sessions, monitor.lastSeen) { list, sessions, seen ->
         list.map { cs ->
@@ -83,7 +85,7 @@ class ScaleDevicesViewModel(private val container: AppContainer) : ViewModel() {
                 lastSeenMillis = seen[cs.id],
                 missingConfig = driver?.capabilities?.config.orEmpty()
                     .filter { it.validate(cs.config[it.key]) != null && it.required }
-                    .map { it.label },
+                    .map { it.labelRes() },
             )
         }
     }
@@ -126,13 +128,13 @@ class ScaleDevicesViewModel(private val container: AppContainer) : ViewModel() {
         query.value = q
     }
 
-    /** "Sí, es mi báscula". */
+    /** "Yes, it's mine". */
     fun acceptSuggestion() = monitor.acceptSuggestion()
 
-    /** "No es mía": not offered again. */
+    /** "No": not offered again. */
     fun declineSuggestion() = monitor.declineSuggestion()
 
-    /** "Usar esta": configures a detected device with [driver]. */
+    /** "Use this one": configures a detected device with [driver]. */
     fun useDetected(item: DetectedScaleItem, driver: ScaleDriver = item.driver) {
         add(driver, item.address)
     }
@@ -141,7 +143,7 @@ class ScaleDevicesViewModel(private val container: AppContainer) : ViewModel() {
     fun add(driver: ScaleDriver, address: String?) {
         val existing = settings.configuredScales.value
         if (existing.any { it.driverId == driver.id && it.address.equals(address, ignoreCase = true) }) {
-            _events.trySend("Esa báscula ya está configurada")
+            _events.trySend(UiText.res(R.string.scales_already_configured))
             return
         }
         val scale = ConfiguredScale(
@@ -152,12 +154,12 @@ class ScaleDevicesViewModel(private val container: AppContainer) : ViewModel() {
             addedAt = System.currentTimeMillis(),
         )
         settings.updateConfiguredScales { it + scale }
-        val hint = when {
-            driver.capabilities.needsConfig -> " Completa su configuración."
-            driver.link == LinkKind.GATT -> " Súbete a la báscula para que la app se conecte."
-            else -> ""
+        val message = when {
+            driver.capabilities.needsConfig -> R.string.scale_added_needs_setup
+            driver.link == LinkKind.GATT -> R.string.scale_added_step_on
+            else -> R.string.scales_added
         }
-        _events.trySend("Báscula añadida: ${driver.displayName}.$hint")
+        _events.trySend(UiText.res(message, driver.displayName))
     }
 
     fun rename(id: String, name: String) {
@@ -171,22 +173,22 @@ class ScaleDevicesViewModel(private val container: AppContainer) : ViewModel() {
         settings.updateConfiguredScales { list -> list.filterNot { it.id == id } }
         // A removed device is never auto-configured again.
         scale.address?.let { settings.dismissAutoConfig(it) }
-        _events.trySend("Báscula eliminada: ${scale.name}")
+        _events.trySend(UiText.res(R.string.scales_removed, scale.name))
     }
 
-    /** Saves one driver setting. Returns the validation error (Spanish) or null when saved. */
-    fun setConfig(id: String, key: String, value: String): String? {
-        val scale = settings.configuredScales.value.firstOrNull { it.id == id } ?: return "La báscula ya no existe"
+    /** Saves one driver setting. Returns the validation error or null when saved. */
+    fun setConfig(id: String, key: String, value: String): UiText? {
+        val scale = settings.configuredScales.value.firstOrNull { it.id == id } ?: return UiText.res(R.string.scales_gone)
         val field = registry.find(scale.driverId)?.capabilities?.config?.firstOrNull { it.key == key }
-            ?: return "Ajuste desconocido"
+            ?: return UiText.res(R.string.scales_unknown_setting)
         val clean = value.trim().let { if (field.kind == com.enjoyyourtime.globalfitness.scale.ConfigKind.HEX_KEY_32) it.lowercase(Locale.ROOT) else it }
-        field.validate(clean)?.let { return it }
+        field.validate(clean)?.let { return field.errorText(it) }
         settings.updateConfiguredScales { list ->
             list.map {
                 if (it.id != id) it else it.copy(config = if (clean.isEmpty()) it.config - key else it.config + (key to clean))
             }
         }
-        _events.trySend("Ajuste guardado")
+        _events.trySend(UiText.res(R.string.scales_setting_saved))
         return null
     }
 

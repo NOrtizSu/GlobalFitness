@@ -108,7 +108,8 @@ android {
         unitTests.isReturnDefaultValues = true
     }
 
-    // The UI is forced to Spanish at runtime; keep all languages in any bundle build.
+    // Users can pick the app language in the system settings (Android 13+, res/xml/locales_config.xml):
+    // keep every language in the base APK so the chosen one is always installed.
     bundle {
         language {
             enableSplit = false
@@ -138,10 +139,13 @@ protobuf {
     }
 }
 
-/** Ships docs/privacy-policy.md as an app asset, shown in Perfil → Política de privacidad. */
+/**
+ * Ships the privacy policy as app assets, shown in Profile → Privacy policy: docs/privacy-policy.md
+ * (Spanish) and docs/privacy-policy.en.md (English, for every other language), same file names.
+ */
 abstract class PrivacyPolicyAssetTask : DefaultTask() {
-    @get:InputFile
-    abstract val policy: RegularFileProperty
+    @get:InputFiles
+    abstract val policies: ConfigurableFileCollection
 
     @get:OutputDirectory
     abstract val outputDir: DirectoryProperty
@@ -151,12 +155,12 @@ abstract class PrivacyPolicyAssetTask : DefaultTask() {
         val out = outputDir.get().asFile
         out.deleteRecursively()
         out.mkdirs()
-        policy.get().asFile.copyTo(out.resolve("privacy-policy.md"))
+        policies.files.forEach { it.copyTo(out.resolve(it.name)) }
     }
 }
 
 val privacyPolicyAssets = tasks.register<PrivacyPolicyAssetTask>("privacyPolicyAssets") {
-    policy.set(rootProject.layout.projectDirectory.file("docs/privacy-policy.md"))
+    policies.from(rootProject.layout.projectDirectory.files("docs/privacy-policy.md", "docs/privacy-policy.en.md"))
     outputDir.set(layout.buildDirectory.dir("generated/privacyPolicyAssets"))
 }
 

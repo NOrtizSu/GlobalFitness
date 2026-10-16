@@ -7,6 +7,8 @@ import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.enjoyyourtime.globalfitness.R
+import com.enjoyyourtime.globalfitness.UiText
 import com.enjoyyourtime.globalfitness.account.AccountManager
 import com.enjoyyourtime.globalfitness.account.AuthResult
 import kotlinx.coroutines.CancellationException
@@ -37,15 +39,15 @@ data class CloudSyncStatus(
     val syncing: Boolean = false,
     /** Wall-clock time of the last successful sync. */
     val lastSyncAt: Long? = null,
-    /** Spanish error of the last attempt, null when it succeeded. */
-    val error: String? = null,
+    /** Error of the last attempt, null when it succeeded. */
+    val error: UiText? = null,
     /** A retry with backoff is scheduled. */
     val retrying: Boolean = false,
     /** Some changes are saved in the offline queue and will be sent when there is connection. */
     val pendingUpload: Boolean = false,
     /** Paused waiting for the user's choice (see [CloudSyncEngine.resolveConflict]). */
     val conflict: SyncConflict? = null,
-    /** "Borrar mis datos de la nube" is running. */
+    /** "Delete my cloud data and account" is running. */
     val deleting: Boolean = false,
     /** A cloud deletion did not finish: sync is paused until it is retried or the user signs out. */
     val deletionPending: Boolean = false,
@@ -54,7 +56,7 @@ data class CloudSyncStatus(
 /**
  * Keeps the local data and the user's cloud copy in sync while signed in: a merge right after
  * sign-in and on app start, a pull/merge when the app comes back to the foreground or on
- * "Sincronizar ahora", and a debounced upload after local changes. Two different datasets are never
+ * "Sync now", and a debounced upload after local changes. Two different datasets are never
  * merged automatically (see [DatasetGate]). Everything runs in the background with retries; errors
  * are surfaced in [status] and [messages], never thrown.
  */
@@ -83,10 +85,10 @@ class CloudSyncEngine(
     private val _status = MutableStateFlow(CloudSyncStatus(signedIn = account.user.value != null))
     val status: StateFlow<CloudSyncStatus> = _status.asStateFlow()
 
-    private val _messages = MutableStateFlow<String?>(null)
+    private val _messages = MutableStateFlow<UiText?>(null)
 
-    /** One-shot Spanish notices (account deleted, cloud copy gone...), cleared with [consumeMessage]. */
-    val messages: StateFlow<String?> = _messages.asStateFlow()
+    /** One-shot notices (account deleted, cloud copy gone...), cleared with [consumeMessage]. */
+    val messages: StateFlow<UiText?> = _messages.asStateFlow()
 
     init {
         scope.launch { watchLocalChanges() }
@@ -100,7 +102,7 @@ class CloudSyncEngine(
         )
     }
 
-    /** "Sincronizar ahora" (also re-checks a paused conflict). */
+    /** "Sync now" (also re-checks a paused conflict). */
     fun syncNow() {
         requests.trySend(Unit)
     }
@@ -131,7 +133,7 @@ class CloudSyncEngine(
     fun deleteCloudDataAndAccount(activity: Activity) {
         val uid = account.currentUid()
         if (uid == null) {
-            _messages.value = "No hay ninguna sesión iniciada."
+            _messages.value = UiText.res(R.string.auth_error_not_signed_in)
             return
         }
         if (deleting) return
@@ -153,13 +155,13 @@ class CloudSyncEngine(
                         throw e
                     } catch (e: Exception) {
                         Log.w(TAG, "Cloud deletion failed", e)
-                        return@withLock AuthResult.Failure("No se pudieron borrar todos los datos de la nube. ${CloudErrors.message(e)}")
+                        return@withLock AuthResult.Failure(UiText.res(R.string.cloud_delete_failed, CloudErrors.message(e)))
                     }
                     account.deleteUser().also { if (it == AuthResult.Success) store.setDeletionPending(uid, false) }
                 }
                 _messages.value = when (result) {
-                    AuthResult.Success -> "Se han borrado tus datos de la nube y tu cuenta. Los datos de este teléfono se conservan."
-                    AuthResult.Cancelled -> "No se ha borrado nada."
+                    AuthResult.Success -> UiText.res(R.string.cloud_deleted)
+                    AuthResult.Cancelled -> UiText.res(R.string.cloud_delete_cancelled)
                     is AuthResult.Failure -> result.message
                 }
             } finally {
@@ -312,8 +314,7 @@ class CloudSyncEngine(
     /** The cloud copy this phone synced is gone (account deleted elsewhere): stop and sign out, keep local data. */
     private suspend fun onRemoteWiped(uid: String) {
         store.clearBase(uid)
-        _messages.value = "Tu copia en la nube ya no existe (se borró desde otro dispositivo). " +
-            "Se ha cerrado la sesión; los datos de este teléfono se conservan."
+        _messages.value = UiText.res(R.string.cloud_copy_gone)
         // Outside this coroutine: signing out cancels the sync worker that is running here.
         scope.launch { account.signOut() }
     }

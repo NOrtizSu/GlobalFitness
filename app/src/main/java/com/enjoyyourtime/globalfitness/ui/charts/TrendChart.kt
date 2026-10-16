@@ -31,6 +31,8 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.drawText
@@ -38,6 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.domain.TimePoint
 import com.enjoyyourtime.globalfitness.domain.Trends
 import com.enjoyyourtime.globalfitness.ui.Fmt
@@ -67,8 +70,8 @@ fun TrendChart(
     average: List<TimePoint>,
     xStart: Long,
     xEnd: Long,
-    valueDecimals: Int,
-    unit: String,
+    /** A value with its unit, e.g. "72,50 kg". */
+    formatValue: (Double) -> String,
     metricLabel: String,
     band: ChartBand?,
     target: ChartTarget?,
@@ -122,12 +125,15 @@ fun TrendChart(
         return listOf(lo - 1, lo).filter { it in points.indices }.minByOrNull { abs(points[it].t - t) }
     }
 
-    val description = buildString {
-        append("Gráfico de $metricLabel con ${points.size} mediciones")
-        if (points.isNotEmpty()) {
-            append(", de ${Fmt.num(points.minOf { it.v }, valueDecimals)} a ${Fmt.num(points.maxOf { it.v }, valueDecimals)} $unit")
-        }
-    }
+    val description = pluralStringResource(
+        R.plurals.chart_trend_desc,
+        points.size,
+        metricLabel,
+        points.size,
+        formatValue(points.minOfOrNull { it.v } ?: 0.0),
+        formatValue(points.maxOfOrNull { it.v } ?: 0.0),
+    )
+    val averageLabel = stringResource(R.string.chart_avg_7d_value)
 
     Column(modifier) {
         ChartLegend(colors)
@@ -246,9 +252,9 @@ fun TrendChart(
 
             val lines = buildList {
                 add(textMeasurer.measure(Fmt.dateTime(sel.t), labelStyle))
-                add(textMeasurer.measure(Fmt.withUnit(Fmt.num(sel.v, valueDecimals), unit), tooltipValueStyle))
+                add(textMeasurer.measure(formatValue(sel.v), tooltipValueStyle))
                 averageByTime[sel.t]?.let {
-                    add(textMeasurer.measure("Media 7 días: " + Fmt.withUnit(Fmt.num(it, valueDecimals), unit), tooltipBodyStyle))
+                    add(textMeasurer.measure(String.format(Fmt.locale, averageLabel, formatValue(it)), tooltipBodyStyle))
                 }
             }
             val pad = 8.dp.toPx()
@@ -285,7 +291,7 @@ private fun ChartLegend(colors: ChartColors) {
                 drawCircle(colors.series1.copy(alpha = 0.45f), 4.dp.toPx())
             }
             Spacer(Modifier.width(4.dp))
-            Text("Mediciones", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(stringResource(R.string.chart_legend_measurements), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
             Canvas(Modifier.size(width = 18.dp, height = 14.dp)) {
@@ -298,7 +304,7 @@ private fun ChartLegend(colors: ChartColors) {
                 )
             }
             Spacer(Modifier.width(4.dp))
-            Text("Media 7 días", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(stringResource(R.string.chart_legend_avg_7d), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }

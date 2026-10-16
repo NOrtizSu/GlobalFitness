@@ -8,6 +8,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.enjoyyourtime.globalfitness.AppContainer
 import com.enjoyyourtime.globalfitness.GlobalFitnessApp
+import com.enjoyyourtime.globalfitness.R
+import com.enjoyyourtime.globalfitness.UiText
 import com.enjoyyourtime.globalfitness.account.AccountUser
 import com.enjoyyourtime.globalfitness.account.AuthResult
 import com.enjoyyourtime.globalfitness.ads.AdSuppression
@@ -33,15 +35,15 @@ class AccountViewModel(private val container: AppContainer) : ViewModel() {
     private val _busy = MutableStateFlow<AccountAction?>(null)
     val busy: StateFlow<AccountAction?> = _busy.asStateFlow()
 
-    private val _message = MutableStateFlow<String?>(null)
+    private val _message = MutableStateFlow<UiText?>(null)
 
-    /** One-shot Spanish feedback (this screen's actions and sync notices), cleared with [consumeMessage]. */
-    val message: StateFlow<String?> = combine(_message, engine.messages) { own, engineMessage -> own ?: engineMessage }
+    /** One-shot feedback (this screen's actions and sync notices), cleared with [consumeMessage]. */
+    val message: StateFlow<UiText?> = combine(_message, engine.messages) { own, engineMessage -> own ?: engineMessage }
         .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     fun signIn(activity: Activity) = perform(AccountAction.SIGN_IN, AdSuppression.SIGN_IN) {
         when (val result = container.account.signIn(activity)) {
-            AuthResult.Success -> "Sesión iniciada. Sincronizando tus datos…"
+            AuthResult.Success -> UiText.res(R.string.account_signed_in)
             AuthResult.Cancelled -> null
             is AuthResult.Failure -> result.message
         }
@@ -49,7 +51,7 @@ class AccountViewModel(private val container: AppContainer) : ViewModel() {
 
     fun signOut() = perform(AccountAction.SIGN_OUT, null) {
         engine.signOut()
-        "Sesión cerrada. Tus datos siguen en este teléfono."
+        UiText.res(R.string.account_signed_out)
     }
 
     fun syncNow() = engine.syncNow()
@@ -64,7 +66,7 @@ class AccountViewModel(private val container: AppContainer) : ViewModel() {
         engine.consumeMessage()
     }
 
-    private fun perform(action: AccountAction, suppressAds: String?, block: suspend () -> String?) {
+    private fun perform(action: AccountAction, suppressAds: String?, block: suspend () -> UiText?) {
         if (_busy.value != null) return
         _busy.value = action
         suppressAds?.let { container.adSuppression.set(it, true) }
@@ -74,7 +76,7 @@ class AccountViewModel(private val container: AppContainer) : ViewModel() {
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                _message.value = "Error inesperado: ${e.message ?: e.javaClass.simpleName}"
+                _message.value = UiText.res(R.string.account_unexpected_error, e.message ?: e.javaClass.simpleName)
             } finally {
                 suppressAds?.let { container.adSuppression.set(it, false) }
                 _busy.value = null

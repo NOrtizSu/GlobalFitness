@@ -49,11 +49,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.band.BandConnectionState
 import com.enjoyyourtime.globalfitness.band.BandLogLine
 import com.enjoyyourtime.globalfitness.band.BandPermissions
@@ -65,6 +67,7 @@ import com.enjoyyourtime.globalfitness.band.xiaomi.AlarmSpec
 import com.enjoyyourtime.globalfitness.band.xiaomi.BandAlarm
 import com.enjoyyourtime.globalfitness.band.xiaomi.BandFailure
 import com.enjoyyourtime.globalfitness.ui.Fmt
+import com.enjoyyourtime.globalfitness.ui.asString
 import com.enjoyyourtime.globalfitness.ui.components.SectionTitle
 import com.enjoyyourtime.globalfitness.ui.theme.TabularNumbers
 
@@ -99,7 +102,7 @@ fun BandScreen(viewModel: BandViewModel, onBack: () -> Unit) {
     val enableBluetooth = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
 
     LaunchedEffect(Unit) {
-        viewModel.messages.collect { snackbar.showSnackbar(it, withDismissAction = true) }
+        viewModel.messages.collect { snackbar.showSnackbar(it.toUiText().resolve(context), withDismissAction = true) }
     }
     LifecycleResumeEffect(Unit) {
         permissionsGranted = BandPermissions.hasConnect(context) && BandPermissions.hasScan(context)
@@ -120,13 +123,13 @@ fun BandScreen(viewModel: BandViewModel, onBack: () -> Unit) {
             TopAppBar(
                 title = {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text("Pulsera (modo directo)")
+                        Text(stringResource(R.string.band_screen_title))
                         Spacer(Modifier.width(8.dp))
                         ExperimentalBadge()
                     }
                 },
                 navigationIcon = {
-                    IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver") }
+                    IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.action_back)) }
                 },
             )
         },
@@ -142,12 +145,12 @@ fun BandScreen(viewModel: BandViewModel, onBack: () -> Unit) {
                 item { PermissionCard(onRequest = { permissionLauncher.launch(BandPermissions.required()) }) }
             }
 
-            item { SectionTitle("Clave de autenticación") }
+            item { SectionTitle(stringResource(R.string.band_key_title)) }
             item {
                 AuthKeyCard(
                     hasKey = hasKey,
                     input = keyInput,
-                    error = keyError,
+                    error = keyError?.asString(),
                     onInput = viewModel::onKeyInput,
                     onSave = viewModel::saveKey,
                     onClear = viewModel::clearKey,
@@ -155,7 +158,7 @@ fun BandScreen(viewModel: BandViewModel, onBack: () -> Unit) {
                 )
             }
 
-            item { SectionTitle("Tu pulsera") }
+            item { SectionTitle(stringResource(R.string.band_your_band)) }
             item {
                 DevicePickerCard(
                     selected = selected,
@@ -168,7 +171,7 @@ fun BandScreen(viewModel: BandViewModel, onBack: () -> Unit) {
                 )
             }
 
-            item { SectionTitle("Estado") }
+            item { SectionTitle(stringResource(R.string.diag_status)) }
             item {
                 StatusCard(
                     state = state,
@@ -189,7 +192,7 @@ fun BandScreen(viewModel: BandViewModel, onBack: () -> Unit) {
             }
 
             if (ready) {
-                item { SectionTitle("Acciones") }
+                item { SectionTitle(stringResource(R.string.band_actions)) }
                 item {
                     ActionsCard(
                         state = state,
@@ -202,7 +205,7 @@ fun BandScreen(viewModel: BandViewModel, onBack: () -> Unit) {
                 }
                 item { LiveCard(state = state, samples = heartRate, onToggle = viewModel::setLiveHeartRate) }
 
-                item { SectionTitle("Alarmas de la pulsera") }
+                item { SectionTitle(stringResource(R.string.band_alarms_section)) }
                 item {
                     AlarmsCard(
                         alarms = state.alarms,
@@ -217,7 +220,7 @@ fun BandScreen(viewModel: BandViewModel, onBack: () -> Unit) {
                 }
             }
 
-            item { SectionTitle("Reenvío de notificaciones") }
+            item { SectionTitle(stringResource(R.string.band_forwarding_title)) }
             item {
                 ForwardingCard(
                     enabled = forwardingEnabled,
@@ -251,7 +254,7 @@ private data class AlarmEditorTarget(val id: Int?, val spec: AlarmSpec?)
 @Composable
 fun ExperimentalBadge() {
     Text(
-        "Experimental",
+        stringResource(R.string.common_experimental),
         style = MaterialTheme.typography.labelSmall,
         color = MaterialTheme.colorScheme.onTertiaryContainer,
         modifier = Modifier
@@ -264,16 +267,14 @@ fun ExperimentalBadge() {
 private fun IntroCard() {
     OutlinedCard(Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            Text("Conexión directa con la Xiaomi Smart Band 9", style = MaterialTheme.typography.titleSmall)
+            Text(stringResource(R.string.band_intro_title), style = MaterialTheme.typography.titleSmall)
             Text(
-                "La app habla con la pulsera por Bluetooth (como Gadgetbridge), sin pasar por Mi Fitness. " +
-                    "La pulsera solo admite una conexión: mientras esta pantalla está conectada, Mi Fitness no puede sincronizar. " +
-                    "Por eso la conexión se abre solo cuando pulsas «Conectar» y se cierra sola tras 2 minutos sin uso o al salir.",
+                stringResource(R.string.band_intro_text),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Text(
-                "Función experimental: no se ha probado con una pulsera real.",
+                stringResource(R.string.band_intro_experimental),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.tertiary,
             )
@@ -286,10 +287,10 @@ private fun PermissionCard(onRequest: () -> Unit) {
     OutlinedCard(Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(
-                "Para buscar y conectar la pulsera hace falta el permiso «Dispositivos cercanos».",
+                stringResource(R.string.band_permission_text),
                 style = MaterialTheme.typography.bodyMedium,
             )
-            Button(onClick = onRequest) { Text("Conceder permiso") }
+            Button(onClick = onRequest) { Text(stringResource(R.string.action_grant_permission)) }
         }
     }
 }
@@ -321,51 +322,55 @@ private fun StatusCard(
             }
 
             state.batteryLevel?.let { level ->
-                val charging = when (state.charging) {
-                    true -> " · cargando"
-                    else -> ""
-                }
-                InfoRow("Batería", "$level %$charging")
+                val battery = Fmt.percent(level.toDouble())
+                InfoRow(
+                    stringResource(R.string.band_battery),
+                    if (state.charging == true) stringResource(R.string.band_battery_charging, battery) else battery,
+                )
             }
-            state.worn?.let { InfoRow("En la muñeca", if (it) "Sí" else "No") }
+            state.worn?.let { InfoRow(stringResource(R.string.band_worn), stringResource(if (it) R.string.common_yes else R.string.common_no)) }
             state.info?.let { info ->
-                InfoRow("Modelo", info.model)
-                InfoRow("Firmware", info.firmware)
-                InfoRow("N.º de serie", info.serial, mono = true)
+                InfoRow(stringResource(R.string.band_model), info.model)
+                InfoRow(stringResource(R.string.band_firmware), info.firmware)
+                InfoRow(stringResource(R.string.band_serial), info.serial, mono = true)
             }
-            state.lastTimeSyncMs?.let { InfoRow("Hora sincronizada", Fmt.time(it)) }
+            state.lastTimeSyncMs?.let { InfoRow(stringResource(R.string.band_time_synced_at), Fmt.time(it)) }
 
-            state.failureMessage?.let { message ->
-                Text(message, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.error)
+            state.failure?.let { failure ->
+                Text(
+                    stringResource(if (state.failureBusy) R.string.band_failure_busy else failure.messageRes()),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.error,
+                )
             }
             if (state.failure == BandFailure.BLUETOOTH_OFF) {
-                OutlinedButton(onClick = onEnableBluetooth) { Text("Activar Bluetooth") }
+                OutlinedButton(onClick = onEnableBluetooth) { Text(stringResource(R.string.action_turn_on_bluetooth)) }
             }
 
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 when (state.connection) {
-                    BandConnectionState.DISCONNECTED -> Button(onClick = onConnect, enabled = canConnect) { Text("Conectar") }
+                    BandConnectionState.DISCONNECTED -> Button(onClick = onConnect, enabled = canConnect) { Text(stringResource(R.string.onboarding_connect)) }
                     BandConnectionState.CONNECTING, BandConnectionState.AUTHENTICATING ->
-                        OutlinedButton(onClick = onDisconnect) { Text("Cancelar") }
+                        OutlinedButton(onClick = onDisconnect) { Text(stringResource(R.string.action_cancel)) }
                     BandConnectionState.READY -> {
-                        Button(onClick = onDisconnect) { Text("Desconectar") }
-                        OutlinedButton(onClick = onRefresh) { Text("Actualizar batería") }
+                        Button(onClick = onDisconnect) { Text(stringResource(R.string.band_disconnect)) }
+                        OutlinedButton(onClick = onRefresh) { Text(stringResource(R.string.band_refresh_battery)) }
                     }
                 }
                 if (state.connection == BandConnectionState.DISCONNECTED && onOpenMiFitnessSettings != null) {
-                    TextButton(onClick = onOpenMiFitnessSettings) { Text("Ajustes de Mi Fitness") }
+                    TextButton(onClick = onOpenMiFitnessSettings) { Text(stringResource(R.string.band_mi_fitness_settings)) }
                 }
             }
             if (!canConnect && state.connection == BandConnectionState.DISCONNECTED) {
                 Text(
-                    "Guarda la clave y elige tu pulsera para poder conectar.",
+                    stringResource(R.string.band_cannot_connect_hint),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
             if (state.releasedForMiFitness && state.connection == BandConnectionState.DISCONNECTED) {
                 Text(
-                    "La pulsera vuelve a estar libre. Si detuviste Mi Fitness, ábrelo de nuevo para que siga sincronizando con Health Connect.",
+                    stringResource(R.string.band_released),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -374,11 +379,13 @@ private fun StatusCard(
     }
 }
 
+@Composable
 private fun connectionLabel(state: BandState): String = when (state.connection) {
-    BandConnectionState.DISCONNECTED -> "Desconectada"
-    BandConnectionState.CONNECTING -> "Conectando…"
-    BandConnectionState.AUTHENTICATING -> "Autenticando…"
-    BandConnectionState.READY -> "Conectada" + (state.protocol?.let { " ($it)" } ?: "")
+    BandConnectionState.DISCONNECTED -> stringResource(R.string.band_status_disconnected)
+    BandConnectionState.CONNECTING -> stringResource(R.string.band_status_connecting)
+    BandConnectionState.AUTHENTICATING -> stringResource(R.string.band_status_authenticating)
+    BandConnectionState.READY -> state.protocol?.let { stringResource(R.string.band_connected_protocol, it) }
+        ?: stringResource(R.string.band_status_connected)
 }
 
 @Composable
@@ -406,22 +413,22 @@ private fun ActionsCard(
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 if (state.finding) {
-                    Button(onClick = { onFind(false) }) { Text("Parar búsqueda") }
+                    Button(onClick = { onFind(false) }) { Text(stringResource(R.string.band_stop_find)) }
                 } else {
-                    FilledTonalButton(onClick = { onFind(true) }) { Text("Buscar pulsera") }
+                    FilledTonalButton(onClick = { onFind(true) }) { Text(stringResource(R.string.band_find)) }
                 }
-                FilledTonalButton(onClick = onSyncTime) { Text("Sincronizar hora") }
-                FilledTonalButton(onClick = onTestNotification) { Text("Notificación de prueba") }
+                FilledTonalButton(onClick = onSyncTime) { Text(stringResource(R.string.band_sync_time)) }
+                FilledTonalButton(onClick = onTestNotification) { Text(stringResource(R.string.band_test_notification)) }
             }
             if (state.finding) {
                 Text(
-                    "La pulsera está vibrando. Púlsala para indicar que la encontraste o pulsa «Parar búsqueda».",
+                    stringResource(R.string.band_finding_text, stringResource(R.string.band_stop_find)),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("Sincronizar la hora al conectar", style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
+                Text(stringResource(R.string.band_sync_time_on_connect), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
                 Switch(checked = syncTimeOnConnect, onCheckedChange = onSyncTimeOnConnect)
             }
         }
@@ -433,34 +440,33 @@ private fun LiveCard(state: BandState, samples: List<HeartRateSample>, onToggle:
     OutlinedCard(Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("Pulso en vivo", style = MaterialTheme.typography.titleSmall, modifier = Modifier.weight(1f))
+                Text(stringResource(R.string.band_live_heart_rate), style = MaterialTheme.typography.titleSmall, modifier = Modifier.weight(1f))
                 Switch(checked = state.liveActive, onCheckedChange = onToggle)
             }
             val live = state.live
             if (state.liveActive && live == null) {
-                Text("Esperando datos de la pulsera…", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(stringResource(R.string.band_waiting_data), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             if (live != null) {
                 Row(verticalAlignment = Alignment.Bottom) {
                     Text(
-                        live.heartRate?.toString() ?: "--",
+                        live.heartRate?.let { Fmt.count(it.toLong()) } ?: "--",
                         style = MaterialTheme.typography.displaySmall.merge(TabularNumbers),
                         fontWeight = FontWeight.SemiBold,
                     )
                     Spacer(Modifier.width(6.dp))
-                    Text("lpm", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(bottom = 6.dp))
+                    Text(stringResource(R.string.unit_bpm), style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(bottom = 6.dp))
                 }
                 if (live.heartRate == null) {
-                    Text("Midiendo… mantén la pulsera ajustada a la muñeca.", style = MaterialTheme.typography.bodySmall)
+                    Text(stringResource(R.string.band_measuring_hint), style = MaterialTheme.typography.bodySmall)
                 }
-                InfoRow("Pasos de hoy", live.steps.toString())
-                InfoRow("Calorías", "${live.calories} kcal")
-                InfoRow("Horas de pie", live.standingHours.toString())
+                InfoRow(stringResource(R.string.band_steps_today), Fmt.count(live.steps.toLong()))
+                InfoRow(stringResource(R.string.band_calories), stringResource(R.string.value_kcal, Fmt.count(live.calories.toLong())))
+                InfoRow(stringResource(R.string.band_standing_hours), Fmt.count(live.standingHours.toLong()))
             }
             if (samples.size >= 2) LiveHeartRateChart(samples)
             Text(
-                "Las lecturas se guardan en el teléfono (band.db) para poder combinarlas más adelante. " +
-                    "Mientras el pulso en vivo está activo y ves esta pantalla, la conexión no se cierra por inactividad.",
+                stringResource(R.string.band_live_storage_text),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -474,31 +480,31 @@ private fun DiagnosticsCard(lines: List<BandLogLine>, onClear: () -> Unit) {
     OutlinedCard(Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("Diagnóstico", style = MaterialTheme.typography.titleSmall, modifier = Modifier.weight(1f))
-                TextButton(onClick = { open = !open }) { Text(if (open) "Ocultar" else "Mostrar (${lines.size})") }
+                Text(stringResource(R.string.band_diagnostics), style = MaterialTheme.typography.titleSmall, modifier = Modifier.weight(1f))
+                TextButton(onClick = { open = !open }) {
+                    Text(if (open) stringResource(R.string.band_log_hide) else stringResource(R.string.band_log_show, Fmt.count(lines.size.toLong())))
+                }
             }
             if (open) {
                 Text(
-                    "Registro de la conexión. Nunca incluye la clave de autenticación.",
+                    stringResource(R.string.band_log_text),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 if (lines.isEmpty()) {
-                    Text("Sin entradas todavía.", style = MaterialTheme.typography.bodySmall)
+                    Text(stringResource(R.string.band_log_empty), style = MaterialTheme.typography.bodySmall)
                 }
                 lines.takeLast(MAX_VISIBLE_LOG_LINES).asReversed().forEach { line ->
                     Text(
-                        "${Fmt.time(line.timeMs)}:${secondsOf(line.timeMs)}  ${line.text}",
+                        "${Fmt.timeWithSeconds(line.timeMs)}  ${line.text}",
                         style = MaterialTheme.typography.bodySmall,
                         fontFamily = FontFamily.Monospace,
                     )
                 }
-                if (lines.isNotEmpty()) TextButton(onClick = onClear) { Text("Borrar registro") }
+                if (lines.isNotEmpty()) TextButton(onClick = onClear) { Text(stringResource(R.string.band_log_clear)) }
             }
         }
     }
 }
 
 private const val MAX_VISIBLE_LOG_LINES = 120
-
-private fun secondsOf(ms: Long): String = "%02d".format(Fmt.LOCALE, (ms / 1000) % 60)

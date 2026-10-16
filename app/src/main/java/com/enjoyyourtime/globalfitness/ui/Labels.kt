@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.UiText
+import com.enjoyyourtime.globalfitness.data.Sex
 import com.enjoyyourtime.globalfitness.domain.BodyType
 import com.enjoyyourtime.globalfitness.domain.Level
 import com.enjoyyourtime.globalfitness.domain.Metric
@@ -62,6 +63,13 @@ val BodyType.nameRes: Int
         BodyType.SKINNY -> R.string.body_type_skinny
         BodyType.BALANCED_SKINNY -> R.string.body_type_balanced_skinny
         BodyType.SKINNY_MUSCULAR -> R.string.body_type_skinny_muscular
+    }
+
+@get:StringRes
+val Sex.labelRes: Int
+    get() = when (this) {
+        Sex.MALE -> R.string.sex_male
+        Sex.FEMALE -> R.string.sex_female
     }
 
 /** Resolves a [UiText] in composition (recomposes on configuration changes). */

@@ -45,11 +45,37 @@ data class LiveStats(
     val updatedAtMs: Long,
 )
 
+/** Short user-facing confirmations and errors (snackbar); the band screen words them. */
+sealed interface BandMessage {
+    data object TimeSynced : BandMessage
+    data object TestNotificationSent : BandMessage
+    data object ConnectFirst : BandMessage
+
+    /** The band says it was found (pressed on the band while it was ringing). */
+    data object Found : BandMessage
+    data class ActionFailed(val action: BandAction, val failure: BandFailure) : BandMessage
+}
+
+/** User actions on the open session; [logName] is used in the (English) diagnostics log. */
+enum class BandAction(val logName: String) {
+    FIND("Find band"),
+    STOP_FIND("Stop finding"),
+    SYNC_TIME("Sync time"),
+    REFRESH_STATUS("Refresh status"),
+    LIVE_HEART_RATE("Live heart rate"),
+    STOP_LIVE_HEART_RATE("Stop live heart rate"),
+    ALARMS("Alarms"),
+    SAVE_ALARM("Save alarm"),
+    DELETE_ALARM("Delete alarm"),
+    TEST_NOTIFICATION("Test notification"),
+}
+
 data class BandState(
     val connection: BandConnectionState = BandConnectionState.DISCONNECTED,
     val protocol: String? = null,
     val failure: BandFailure? = null,
-    val failureMessage: String? = null,
+    /** The failure happened because another app (almost certainly Mi Fitness) holds the band. */
+    val failureBusy: Boolean = false,
     val info: BandDeviceInfo? = null,
     val batteryLevel: Int? = null,
     val charging: Boolean? = null,
@@ -128,10 +154,10 @@ class BandController(
     /** Heart rate samples received during the current live session (for the live chart). */
     val heartRate: StateFlow<List<HeartRateSample>> = _heartRate.asStateFlow()
 
-    private val _messages = MutableSharedFlow<String>(extraBufferCapacity = 8, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    private val _messages = MutableSharedFlow<BandMessage>(extraBufferCapacity = 8, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
     /** Short user-facing confirmations and errors (snackbar). */
-    val messages: SharedFlow<String> = _messages.asSharedFlow()
+    val messages: SharedFlow<BandMessage> = _messages.asSharedFlow()
 
     private var session: XiaomiSession? = null
     private var connectJob: Job? = null
@@ -157,7 +183,7 @@ class BandController(
             leaveJob?.cancel()
             leaveJob = scope.launch {
                 delay(timing.leaveGraceMs)
-                disconnectNow("Desconectada al salir de la pantalla de la pulsera")
+                disconnectNow("Disconnected after leaving the band screen")
             }
         }
     }
@@ -178,7 +204,7 @@ class BandController(
     }
 
     fun disconnect() {
-        scope.launch { disconnectNow("Desconectada") }
+        scope.launch { disconnectNow("Disconnected") }
     }
 
     private suspend fun runConnect() {
@@ -192,15 +218,15 @@ class BandController(
         platform.beforeConnect()
         _state.value = BandState(connection = BandConnectionState.CONNECTING)
         _heartRate.value = emptyList()
-        log.add("Conectando con ${band.name} (${band.address}) por Bluetooth clásico (SPP)")
-        if (platform.isBusyElsewhere(band.address)) log.add("Aviso: la pulsera ya tiene una conexión abierta por otra app")
+        log.add("Connecting to ${band.name} (${band.address}) over classic Bluetooth (SPP)")
+        if (platform.isBusyElsewhere(band.address)) log.add("Warning: another app already has a connection open to the band")
 
         var link: BandLink? = null
         var newSession: XiaomiSession? = null
         try {
             link = platform.openLink(band.address)
             _state.update { it.copy(connection = BandConnectionState.AUTHENTICATING) }
-            log.add("Socket RFCOMM abierto")
+            log.add("RFCOMM socket open")
             newSession = XiaomiSession(link, XiaomiAuth(key), platform.companionInfo(), scope, log::add, timing.session)
             session = newSession
             newSession.handshake()
@@ -219,7 +245,7 @@ class BandController(
 
         val ready = requireNotNull(newSession)
         _state.update { it.copy(connection = BandConnectionState.READY, protocol = ready.protocolLabel) }
-        log.add("Conectada (${ready.protocolLabel})")
+        log.add("Connected (${ready.protocolLabel})")
         watch(ready)
         touch()
         // Its own job: the connection attempt is over, a disconnect must not have to cancel it.
@@ -240,14 +266,13 @@ class BandController(
             _state.update {
                 BandState(
                     failure = failure,
-                    failureMessage = failure?.let { reason.message },
                     info = it.info,
                     batteryLevel = it.batteryLevel,
                     charging = it.charging,
                     releasedForMiFitness = true,
                 )
             }
-            log.add("Conexión cerrada: la pulsera queda libre para Mi Fitness")
+            log.add("Connection closed: the band is free for Mi Fitness")
         }
     }
 
@@ -262,7 +287,7 @@ class BandController(
             val pending = connectJob
             if (pending != null && pending !== current && !pending.isCompleted) {
                 pending.cancelAndJoin()
-                log.add("Conexión cancelada")
+                log.add("Connection cancelled")
             }
             // A connect() requested while we were waiting is newer than this disconnect: leave it alone.
             if (connectJob !== pending) return@withContext
@@ -278,9 +303,8 @@ class BandController(
     private fun onFailure(failure: BandFailure, address: String?) {
         // A refused or silent connection while another app holds a link is the "busy" case.
         val busy = address != null && failure in BUSY_SYMPTOMS && platform.isBusyElsewhere(address)
-        val message = if (busy) BUSY_MESSAGE else failure.message
-        log.add("Error: $message")
-        _state.value = BandState(failure = failure, failureMessage = message, releasedForMiFitness = address != null)
+        log.add("Error: ${failure.logText}" + if (busy) " (the band is connected to another app)" else "")
+        _state.value = BandState(failure = failure, failureBusy = busy, releasedForMiFitness = address != null)
     }
 
     /** As Gadgetbridge on auth success: time (optional), device info, device state, battery; then alarms. */
@@ -292,19 +316,19 @@ class BandController(
                     handleCommand(s, s.request(request))
                 } catch (e: BandException) {
                     if (e.failure != BandFailure.REQUEST_TIMEOUT) throw e
-                    log.add("Sin respuesta a ${request.type}/${request.subtype}")
+                    log.add("No reply to ${request.type}/${request.subtype}")
                 }
             }
             loadAlarms(s)
         } catch (e: BandException) {
             // A closed session is reported by watch().
-            if (e.failure == BandFailure.REQUEST_TIMEOUT) log.add("La pulsera no respondió a la lista de alarmas")
+            if (e.failure == BandFailure.REQUEST_TIMEOUT) log.add("The band did not answer the alarm list request")
         }
     }
 
     // ---- actions ----
 
-    fun findDevice(start: Boolean) = command(if (start) "Buscar pulsera" else "Parar búsqueda") { s ->
+    fun findDevice(start: Boolean) = command(if (start) BandAction.FIND else BandAction.STOP_FIND) { s ->
         // Updated first, so the band's own 2/18 answer to "stop" is not taken for a "found it" press.
         _state.update { it.copy(finding = start) }
         try {
@@ -315,17 +339,17 @@ class BandController(
         }
     }
 
-    fun syncTime() = command("Sincronizar hora") { s ->
+    fun syncTime() = command(BandAction.SYNC_TIME) { s ->
         sendTime(s)
-        _messages.tryEmit("Hora de la pulsera sincronizada")
+        _messages.tryEmit(BandMessage.TimeSynced)
     }
 
-    fun refreshStatus() = command("Actualizar estado") { s ->
+    fun refreshStatus() = command(BandAction.REFRESH_STATUS) { s ->
         handleCommand(s, s.request(XiaomiCommands.getDeviceState()))
         handleCommand(s, s.request(XiaomiCommands.getBattery()))
     }
 
-    fun setLiveHeartRate(enabled: Boolean) = command(if (enabled) "Pulso en vivo" else "Parar pulso en vivo") { s ->
+    fun setLiveHeartRate(enabled: Boolean) = command(if (enabled) BandAction.LIVE_HEART_RATE else BandAction.STOP_LIVE_HEART_RATE) { s ->
         if (enabled) {
             heartRateRecorder.reset()
             _heartRate.value = emptyList()
@@ -341,16 +365,16 @@ class BandController(
         }
     }
 
-    fun refreshAlarms() = command("Alarmas") { s -> loadAlarms(s) }
+    fun refreshAlarms() = command(BandAction.ALARMS) { s -> loadAlarms(s) }
 
     /** Creates ([id] null) or edits an alarm, then reloads the list from the band. */
-    fun saveAlarm(id: Int?, spec: AlarmSpec) = command("Guardar alarma") { s ->
+    fun saveAlarm(id: Int?, spec: AlarmSpec) = command(BandAction.SAVE_ALARM) { s ->
         if (id == null) {
             try {
                 s.request(XiaomiCommands.createAlarm(spec))
             } catch (e: BandException) {
                 if (e.failure != BandFailure.REQUEST_TIMEOUT) throw e
-                log.add("La pulsera no confirmó la alarma nueva")
+                log.add("The band did not confirm the new alarm")
             }
         } else {
             s.send(XiaomiCommands.editAlarm(id, spec))
@@ -358,12 +382,13 @@ class BandController(
         loadAlarms(s)
     }
 
-    fun deleteAlarm(id: Int) = command("Borrar alarma") { s ->
+    fun deleteAlarm(id: Int) = command(BandAction.DELETE_ALARM) { s ->
         s.send(XiaomiCommands.deleteAlarms(listOf(id)))
         loadAlarms(s)
     }
 
-    fun sendTestNotification() = command("Notificación de prueba") { s ->
+    /** Sends a notification with [body] (in the user's language) to the band. */
+    fun sendTestNotification(body: String) = command(BandAction.TEST_NOTIFICATION) { s ->
         s.send(
             XiaomiCommands.notification(
                 BandNotification(
@@ -371,12 +396,12 @@ class BandController(
                     packageName = platform.appPackageName,
                     appName = "GlobalFitness",
                     title = "GlobalFitness",
-                    body = "Notificación de prueba del modo directo",
+                    body = body,
                     whenMillis = clock(),
                 ),
             ),
         )
-        _messages.tryEmit("Notificación de prueba enviada")
+        _messages.tryEmit(BandMessage.TestNotificationSent)
     }
 
     // ---- notification forwarding ----
@@ -388,9 +413,9 @@ class BandController(
                 ?: return@launch
             try {
                 s?.send(XiaomiCommands.notification(bandNotification))
-                log.add("Notificación reenviada (${n.appName})")
+                log.add("Notification forwarded (${n.appName})")
             } catch (e: BandException) {
-                log.add("No se pudo reenviar la notificación: ${e.message}")
+                log.add("Could not forward the notification: ${e.message}")
             }
         }
     }
@@ -402,7 +427,7 @@ class BandController(
             try {
                 s?.send(XiaomiCommands.dismissNotification(id, packageName))
             } catch (e: BandException) {
-                log.add("No se pudo retirar la notificación: ${e.message}")
+                log.add("Could not remove the notification: ${e.message}")
             }
         }
     }
@@ -442,7 +467,7 @@ class BandController(
             XiaomiCommands.SYSTEM_DEVICE_INFO -> if (system.hasDeviceInfo()) {
                 val info = system.deviceInfo
                 _state.update { it.copy(info = BandDeviceInfo(info.model, info.firmware, info.serialNumber)) }
-                log.add("Modelo ${info.model}, firmware ${info.firmware}")
+                log.add("Model ${info.model}, firmware ${info.firmware}")
             }
             XiaomiCommands.SYSTEM_BATTERY -> if (system.power.hasBattery()) {
                 val battery = system.power.battery
@@ -487,9 +512,9 @@ class BandController(
             XiaomiCommands.SYSTEM_FIND_WATCH -> if (system.hasFindDevice() && system.findDevice == XiaomiCommands.FIND_STOP) {
                 val wasFinding = _state.value.finding
                 _state.update { it.copy(finding = false) }
-                if (wasFinding) _messages.tryEmit(FOUND_MESSAGE)
+                if (wasFinding) _messages.tryEmit(BandMessage.Found)
             }
-            XiaomiCommands.SYSTEM_FIND_PHONE -> log.add("La pulsera pide buscar el teléfono (no disponible en modo directo)")
+            XiaomiCommands.SYSTEM_FIND_PHONE -> log.add("The band asks to find the phone (not available in direct mode)")
         }
     }
 
@@ -521,7 +546,7 @@ class BandController(
         val now = clock()
         s.send(XiaomiCommands.setTime(now, TimeZone.getDefault(), platform.is24HourFormat()))
         _state.update { it.copy(lastTimeSyncMs = now) }
-        log.add("Hora enviada a la pulsera")
+        log.add("Time sent to the band")
     }
 
     // ---- helpers ----
@@ -530,19 +555,19 @@ class BandController(
         session?.takeIf { it.isOpen && _state.value.connection == BandConnectionState.READY }
 
     /** Runs a user action on the open session; any action keeps the connection alive. */
-    private fun command(label: String, block: suspend (XiaomiSession) -> Unit) {
+    private fun command(action: BandAction, block: suspend (XiaomiSession) -> Unit) {
         scope.launch {
             val s = readySession()
             if (s == null) {
-                _messages.tryEmit("Conecta primero la pulsera")
+                _messages.tryEmit(BandMessage.ConnectFirst)
                 return@launch
             }
             touch()
             try {
                 block(s)
             } catch (e: BandException) {
-                log.add("$label: ${e.message}")
-                _messages.tryEmit("$label: ${e.message}")
+                log.add("${action.logName}: ${e.message}")
+                _messages.tryEmit(BandMessage.ActionFailed(action, e.failure))
             }
         }
     }
@@ -565,7 +590,7 @@ class BandController(
                 delay(timing.idleTimeoutMs)
                 if (!(_state.value.liveActive && uiVisible)) break
             }
-            disconnectNow("Desconectada por inactividad")
+            disconnectNow("Disconnected after inactivity")
         }
     }
 
@@ -576,13 +601,8 @@ class BandController(
     }
 
     companion object {
-        const val FOUND_MESSAGE = "La pulsera indica que ya la encontraste"
         private const val LIVE_WINDOW_MS = 5 * 60_000L
         private const val TEST_NOTIFICATION_ID = 0x6766 // "gf"
         private val BUSY_SYMPTOMS = setOf(BandFailure.CONNECT_FAILED, BandFailure.NO_RESPONSE)
-        const val BUSY_MESSAGE =
-            "La pulsera está conectada a otra app (casi seguro Mi Fitness) y solo admite una conexión. " +
-                "Detén temporalmente Mi Fitness (Ajustes → Aplicaciones → Mi Fitness → Forzar detención) y vuelve a intentarlo. " +
-                "Al terminar, abre Mi Fitness para que siga sincronizando."
     }
 }

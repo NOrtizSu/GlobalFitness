@@ -48,7 +48,7 @@ class GattSessionRunnerTest {
         var closed = false
 
         override suspend fun connect() {
-            if (failConnect) throw GattException("boom")
+            if (failConnect) throw GattException(ScaleNotice(ScaleNotice.Kind.CONNECT_FAILED))
             connected.value = true
             log += "connect"
         }
@@ -101,7 +101,7 @@ class GattSessionRunnerTest {
         val events = ToyDriver().runSession(link, ScaleTestSupport.env("toy"), null).toList()
         val last = events.last() as ScaleEvent.Status
         assertEquals(SessionStatus.FAILED, last.status)
-        assertEquals("boom", last.detail)
+        assertEquals(ScaleNotice(ScaleNotice.Kind.CONNECT_FAILED), last.detail)
         assertTrue(link.closed)
     }
 

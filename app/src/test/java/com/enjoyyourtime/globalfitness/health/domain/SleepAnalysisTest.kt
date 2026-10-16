@@ -111,7 +111,7 @@ class SleepAnalysisTest {
         // 8 h with 40 % deep + REM: perfect.
         val perfect = SleepAnalysis.quality(night(480, deep = 96, rem = 96))
         assertEquals(100, perfect.score)
-        assertEquals("Bueno", perfect.label)
+        assertEquals(SleepRating.GOOD, perfect.rating)
         assertEquals(Status.GOOD, perfect.status)
 
         // 6 h (−20 points) with 20 % deep + REM (20 of 40 points): 40 + 20 = 60.
@@ -119,12 +119,12 @@ class SleepAnalysisTest {
         assertEquals(40, short.durationPoints)
         assertEquals(20, short.restorativePoints)
         assertEquals(60, short.score)
-        assertEquals("Aceptable", short.label)
+        assertEquals(SleepRating.FAIR, short.rating)
 
         // 4 h or less: no duration points.
         val veryShort = SleepAnalysis.quality(night(200, deep = 40, rem = 40))
         assertEquals(0, veryShort.durationPoints)
-        assertEquals("Mejorable", veryShort.label)
+        assertEquals(SleepRating.POOR, veryShort.rating)
 
         // 10 h: −20 points for the extra hour.
         assertEquals(40, SleepAnalysis.quality(night(600, deep = 240, rem = 0)).durationPoints)

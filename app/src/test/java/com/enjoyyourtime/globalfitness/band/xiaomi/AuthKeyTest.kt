@@ -20,10 +20,10 @@ class AuthKeyTest {
         return (result as AuthKeyResult.Valid).key
     }
 
-    private fun invalidMessage(input: String): String {
+    private fun invalid(input: String): AuthKeyResult.Invalid {
         val result = AuthKey.parse(input)
         assertTrue("expected invalid: $input", result is AuthKeyResult.Invalid)
-        return (result as AuthKeyResult.Invalid).message
+        return result as AuthKeyResult.Invalid
     }
 
     @Test
@@ -44,19 +44,19 @@ class AuthKeyTest {
 
     @Test
     fun rejectsWrongLength() {
-        assertTrue(invalidMessage(hex.dropLast(2)).contains("32"))
-        assertTrue(invalidMessage("0x${hex}00").contains("34"))
+        assertEquals(AuthKeyResult.Invalid(AuthKeyError.WRONG_LENGTH, 30), invalid(hex.dropLast(2)))
+        assertEquals(AuthKeyResult.Invalid(AuthKeyError.WRONG_LENGTH, 34), invalid("0x${hex}00"))
     }
 
     @Test
     fun rejectsNonHexCharacters() {
-        assertTrue(invalidMessage(hex.replaceFirst('a', 'g')).contains("hexadecimales"))
+        assertEquals(AuthKeyError.NOT_HEX, invalid(hex.replaceFirst('a', 'g')).error)
     }
 
     @Test
     fun rejectsEmptyInput() {
-        assertTrue(invalidMessage("   ").isNotEmpty())
-        assertTrue(invalidMessage("0x").isNotEmpty())
+        assertEquals(AuthKeyError.EMPTY, invalid("   ").error)
+        assertEquals(AuthKeyError.EMPTY, invalid("0x").error)
     }
 
     @Test

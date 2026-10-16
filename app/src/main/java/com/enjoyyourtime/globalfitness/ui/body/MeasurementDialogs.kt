@@ -36,8 +36,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.data.Measurement
 import com.enjoyyourtime.globalfitness.data.MeasurementSource
 import com.enjoyyourtime.globalfitness.domain.Classifier
@@ -46,6 +48,9 @@ import com.enjoyyourtime.globalfitness.scale.CompositionSource
 import com.enjoyyourtime.globalfitness.scale.FormulaLib
 import com.enjoyyourtime.globalfitness.ui.Entry
 import com.enjoyyourtime.globalfitness.ui.Fmt
+import com.enjoyyourtime.globalfitness.ui.devices.title
+import com.enjoyyourtime.globalfitness.ui.label
+import com.enjoyyourtime.globalfitness.ui.nameRes
 import com.enjoyyourtime.globalfitness.ui.components.ConfirmDialog
 import com.enjoyyourtime.globalfitness.ui.components.DatePickerModal
 import com.enjoyyourtime.globalfitness.ui.components.InfoRow
@@ -55,17 +60,16 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
 
-const val NO_COMPOSITION_HINT = "Sin composición corporal: súbete descalzo y con los pies secos."
-
-/** Where the body composition of [m] comes from, in Spanish (null for weight-only entries). */
+/** Where the body composition of [m] comes from (null for weight-only entries). */
+@Composable
 fun compositionSourceLabel(m: Measurement): String? = when (val source = m.compositionSource) {
-    CompositionSource.Device -> "Composición medida por la báscula"
-    is CompositionSource.Formula -> "Composición calculada (fórmula ${source.lib.label})"
+    CompositionSource.Device -> stringResource(R.string.comp_source_device)
+    is CompositionSource.Formula -> stringResource(R.string.comp_source_formula, source.lib.title())
     CompositionSource.None -> null
-    null -> if (m.impedance != null) "Composición calculada (fórmula ${FormulaLib.MI_SCALE.label})" else null
+    null -> if (m.impedance != null) stringResource(R.string.comp_source_formula, FormulaLib.MI_SCALE.title()) else null
 }
 
-/** "Añadir peso manual": weight + date + time. */
+/** "Add weight manually": weight + date + time. */
 @Composable
 fun ManualEntryDialog(onSave: (Double, Long) -> Unit, onDismiss: () -> Unit) {
     val zone = ZoneId.systemDefault()
@@ -84,18 +88,20 @@ fun ManualEntryDialog(onSave: (Double, Long) -> Unit, onDismiss: () -> Unit) {
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Añadir peso manual") },
+        title = { Text(stringResource(R.string.action_add_manual_weight)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                Text("Solo el peso: la composición corporal necesita la báscula.", style = MaterialTheme.typography.bodyMedium)
+                Text(stringResource(R.string.manual_weight_only), style = MaterialTheme.typography.bodyMedium)
                 OutlinedTextField(
                     value = weightText,
-                    onValueChange = { weightText = it.filter { ch -> ch.isDigit() || ch == ',' || ch == '.' }.take(6) },
-                    label = { Text("Peso") },
-                    suffix = { Text("kg") },
+                    onValueChange = { weightText = it.filter { ch -> ch.isDigit() || ch == ',' || ch == '.' || ch == '٫' }.take(6) },
+                    label = { Text(stringResource(R.string.metric_weight)) },
+                    suffix = { Text(stringResource(R.string.unit_kg)) },
                     singleLine = true,
                     isError = weightText.isNotEmpty() && !valid,
-                    supportingText = { if (weightText.isNotEmpty() && !valid) Text("Introduce un peso entre 2 y 300 kg") },
+                    supportingText = {
+                        if (weightText.isNotEmpty() && !valid) Text(stringResource(R.string.manual_weight_range, Fmt.kg(2.0, 0), Fmt.kg(300.0, 0)))
+                    },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     modifier = Modifier.fillMaxWidth(),
                 )
@@ -106,11 +112,11 @@ fun ManualEntryDialog(onSave: (Double, Long) -> Unit, onDismiss: () -> Unit) {
                         Text(Fmt.date(date))
                     }
                     OutlinedButton(onClick = { showTime = true }) {
-                        Text(String.format(Fmt.LOCALE, "%02d:%02d", time.hour, time.minute))
+                        Text(Fmt.time(date.atTime(time).atZone(zone).toInstant().toEpochMilli()))
                     }
                 }
                 if (inFuture) {
-                    Text("La fecha no puede estar en el futuro.", color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
+                    Text(stringResource(R.string.manual_date_future), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
                 }
             }
         },
@@ -124,9 +130,9 @@ fun ManualEntryDialog(onSave: (Double, Long) -> Unit, onDismiss: () -> Unit) {
                     }
                 },
                 enabled = valid && !inFuture && !saved,
-            ) { Text("Guardar") }
+            ) { Text(stringResource(R.string.action_save)) }
         },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancelar") } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_cancel)) } },
     )
     if (showDate) DatePickerModal(initial = date, onPick = { epochDay = it.toEpochDay() }, onDismiss = { showDate = false }, minYear = 2000)
     if (showTime) TimeInputDialog(initial = time, onPick = { minuteOfDay = it.hour * 60 + it.minute }, onDismiss = { showTime = false })
@@ -153,42 +159,45 @@ fun MeasurementDetailSheet(entry: Entry, onDelete: () -> Unit, onDismiss: () -> 
             Text(Fmt.dateTime(m.timestamp), style = MaterialTheme.typography.headlineSmall)
             Text(
                 listOfNotNull(
-                    if (m.source == MeasurementSource.MANUAL) "Manual" else "Báscula",
+                    stringResource(if (m.source == MeasurementSource.MANUAL) R.string.source_manual else R.string.source_scale),
                     compositionSourceLabel(m),
                 ).joinToString(" · "),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             HorizontalDivider(Modifier.padding(vertical = 8.dp))
-            InfoRow("Peso", Fmt.kg(m.weightKg))
-            InfoRow("Impedancia", m.impedance?.let { "$it Ω" } ?: "—")
+            InfoRow(stringResource(R.string.metric_weight), Fmt.kg(m.weightKg))
+            InfoRow(
+                stringResource(R.string.metric_impedance),
+                m.impedance?.let { stringResource(R.string.value_ohm, Fmt.count(it.toLong())) } ?: "—",
+            )
             Metric.entries.forEach { metric ->
                 val v = metric.extract(c)
                 if (metric == Metric.WEIGHT || (metric.optional && v == null)) return@forEach
                 val chip = if (v != null) metric.classify(c) else null
                 InfoRow(
-                    metric.label,
+                    metric.label(),
                     v?.let { Fmt.metric(metric, it) } ?: "—",
                     trailing = chip?.let { status -> @Composable { StatusChip(status) } },
                 )
             }
-            Classifier.bodyType(c)?.let { InfoRow("Tipo de cuerpo", it.name) }
+            Classifier.bodyType(c)?.let { InfoRow(stringResource(R.string.body_type), stringResource(it.nameRes)) }
             if (c.fatPercent == null) {
-                Text(NO_COMPOSITION_HINT, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(stringResource(R.string.body_no_composition_hint), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             HorizontalDivider(Modifier.padding(vertical = 8.dp))
             OutlinedButton(onClick = { confirmDelete = true }) {
                 Icon(Icons.Filled.Delete, contentDescription = null, tint = MaterialTheme.colorScheme.error)
                 Spacer(Modifier.width(6.dp))
-                Text("Eliminar", color = MaterialTheme.colorScheme.error)
+                Text(stringResource(R.string.action_delete), color = MaterialTheme.colorScheme.error)
             }
         }
     }
     if (confirmDelete) {
         ConfirmDialog(
-            title = "¿Eliminar medición?",
-            text = "Se borrará la medición de ${Fmt.kg(m.weightKg)} del ${Fmt.dateTime(m.timestamp)}. No se puede deshacer.",
-            confirmLabel = "Eliminar",
+            title = stringResource(R.string.delete_measurement_title),
+            text = stringResource(R.string.delete_measurement_text, Fmt.kg(m.weightKg), Fmt.dateTime(m.timestamp)),
+            confirmLabel = stringResource(R.string.action_delete),
             onConfirm = {
                 confirmDelete = false
                 onDelete()

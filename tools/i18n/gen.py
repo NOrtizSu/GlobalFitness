@@ -1,10 +1,14 @@
-"""Generates Android string resources from the i18n sources.
+"""Generates the Android string resources (app/src/main/res/values*/strings.xml) from the sources.
 
-master.txt  : `key = English ||| Spanish` (plurals: `key{one} = ...`), `!key = text` non-translatable,
-              `# comment` lines become XML comments in the English file.
-<locale>.txt: `key = text` / `key{cat} = text` for every translatable key.
+src/master/*.txt : `key = English ||| Spanish` (plurals: `key{one} = ...`), `!key = text` for
+                   non-translatable strings, `# comment` lines become XML comments in values/.
+src/<locale>/*.txt (or src/<locale>.txt): `key = text` / `key{cat} = text` for every translatable key.
 
-Usage: python gen.py <res_dir> [--check]
+Texts are written unescaped (apostrophes and quotes as they are, `\\n` for a line break, `%%` for a
+literal percent sign in strings with `%1$s` placeholders). The script checks that every locale has
+every key, the same placeholders and the plural categories its language needs, and escapes the XML.
+
+Usage: python tools/i18n/gen.py app/src/main/res [--check]
 """
 import os
 import re
@@ -212,7 +216,9 @@ def main():
     for loc, folder in LOCALES.items():
         if loc == 'es':
             continue
-        path = os.path.join(SRC, f'{loc}.txt')
+        path = os.path.join(SRC, loc)
+        if not os.path.isdir(path):
+            path = os.path.join(SRC, f'{loc}.txt')
         if not os.path.exists(path):
             errors.append(f'{loc}: missing file')
             continue

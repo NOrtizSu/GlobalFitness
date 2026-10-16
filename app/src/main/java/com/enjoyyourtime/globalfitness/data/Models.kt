@@ -8,9 +8,9 @@ import java.time.LocalDate
 import java.time.Period
 import java.time.ZoneId
 
-enum class Sex(val code: String, val label: String) {
-    MALE("M", "Hombre"),
-    FEMALE("F", "Mujer");
+enum class Sex(val code: String) {
+    MALE("M"),
+    FEMALE("F");
 
     companion object {
         fun fromCode(code: String?): Sex = if (code.equals("F", ignoreCase = true)) FEMALE else MALE

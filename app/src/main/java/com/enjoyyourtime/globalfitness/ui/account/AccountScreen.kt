@@ -56,16 +56,19 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.enjoyyourtime.globalfitness.GlobalFitnessApp
+import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.account.AccountUser
 import com.enjoyyourtime.globalfitness.ads.AdSuppression
 import com.enjoyyourtime.globalfitness.cloud.CloudSyncStatus
 import com.enjoyyourtime.globalfitness.cloud.ConflictChoice
 import com.enjoyyourtime.globalfitness.ui.Fmt
+import com.enjoyyourtime.globalfitness.ui.asString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.HttpURLConnection
@@ -79,12 +82,13 @@ fun AccountScreen(onBack: () -> Unit, vm: AccountViewModel = viewModel(factory =
     val busy by vm.busy.collectAsStateWithLifecycle()
     val message by vm.message.collectAsStateWithLifecycle()
     val activity = LocalActivity.current
+    val context = LocalContext.current
     val snackbar = remember { SnackbarHostState() }
 
     SuppressInterstitials(AdSuppression.ACCOUNT_SCREEN)
     LaunchedEffect(message) {
         message?.let {
-            snackbar.showSnackbar(it, withDismissAction = true)
+            snackbar.showSnackbar(it.resolve(context), withDismissAction = true)
             vm.consumeMessage()
         }
     }
@@ -92,10 +96,10 @@ fun AccountScreen(onBack: () -> Unit, vm: AccountViewModel = viewModel(factory =
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Cuenta y copia en la nube") },
+                title = { Text(stringResource(R.string.profile_account_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.action_back))
                     }
                 },
             )
@@ -137,17 +141,17 @@ private fun SignedOut(busy: Boolean, onSignIn: () -> Unit) {
             modifier = Modifier.size(56.dp),
             tint = MaterialTheme.colorScheme.primary,
         )
-        Text("Copia de seguridad en la nube", style = MaterialTheme.typography.headlineSmall)
+        Text(stringResource(R.string.account_backup_title), style = MaterialTheme.typography.headlineSmall)
         Text(
-            "Guarda tus datos en la nube y recupéralos si cambias de móvil o reinstalas la app.",
+            stringResource(R.string.account_backup_text),
             style = MaterialTheme.typography.bodyLarge,
         )
-        Benefit("Tu perfil, tus ajustes y tus mediciones se guardan en tu cuenta, en servidores de Google en la UE (Madrid).")
-        Benefit("Se sincroniza sola cuando hay conexión; sin conexión todo sigue funcionando.")
-        Benefit("Es opcional: sin cuenta, la app funciona igual y los datos se quedan solo en este teléfono.")
-        Benefit("Puedes borrar tus datos de la nube y la cuenta cuando quieras.")
+        Benefit(stringResource(R.string.account_benefit_where))
+        Benefit(stringResource(R.string.account_benefit_sync))
+        Benefit(stringResource(R.string.account_benefit_optional))
+        Benefit(stringResource(R.string.account_benefit_delete))
         Text(
-            "Nunca se suben los datos de Health Connect ni la clave de la pulsera.",
+            stringResource(R.string.account_never_uploaded),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -156,7 +160,7 @@ private fun SignedOut(busy: Boolean, onSignIn: () -> Unit) {
                 CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp)
                 Spacer(Modifier.width(8.dp))
             }
-            Text("Iniciar sesión con Google")
+            Text(stringResource(R.string.account_sign_in_google))
         }
     }
 }
@@ -194,7 +198,7 @@ private fun SignedIn(
             AccountPhoto(user.photoUrl, 48.dp)
             Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f)) {
-                Text(user.name ?: "Cuenta de Google", style = MaterialTheme.typography.titleMedium)
+                Text(user.name ?: stringResource(R.string.account_google_account), style = MaterialTheme.typography.titleMedium)
                 user.email?.let {
                     Text(it, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
@@ -205,8 +209,7 @@ private fun SignedIn(
     status.conflict?.let { ConflictCard(it, enabled = !working, onResolve = onResolve) }
     if (status.deletionPending && !status.deleting) {
         Text(
-            "El borrado de tus datos de la nube no terminó y la sincronización está en pausa. Vuelve a pulsar " +
-                "«Borrar mis datos de la nube y la cuenta» para completarlo, o cierra sesión.",
+            stringResource(R.string.account_deletion_pending, stringResource(R.string.account_delete_button)),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.error,
         )
@@ -214,18 +217,18 @@ private fun SignedIn(
 
     OutlinedCard(Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text("Sincronización", style = MaterialTheme.typography.titleSmall)
+            Text(stringResource(R.string.hc_sync_title), style = MaterialTheme.typography.titleSmall)
             SyncStatusLine(status)
             FilledTonalButton(onClick = onSync, enabled = !status.syncing && !working && !status.deletionPending) {
                 Icon(Icons.Filled.Refresh, contentDescription = null)
                 Spacer(Modifier.width(8.dp))
-                Text("Sincronizar ahora")
+                Text(stringResource(R.string.hc_sync_now))
             }
         }
     }
 
     OutlinedButton(onClick = { confirmSignOut = true }, enabled = !working, modifier = Modifier.fillMaxWidth()) {
-        Text("Cerrar sesión")
+        Text(stringResource(R.string.account_sign_out))
     }
     TextButton(
         onClick = { confirmDelete = true },
@@ -237,34 +240,28 @@ private fun SignedIn(
             CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp, color = MaterialTheme.colorScheme.error)
             Spacer(Modifier.width(8.dp))
         }
-        Text("Borrar mis datos de la nube y la cuenta")
+        Text(stringResource(R.string.account_delete_button))
     }
 
     if (confirmSignOut) {
         AlertDialog(
             onDismissRequest = { confirmSignOut = false },
-            title = { Text("¿Cerrar sesión?") },
-            text = { Text("Tus datos se quedan en este teléfono, pero dejarán de copiarse en la nube hasta que vuelvas a iniciar sesión.") },
+            title = { Text(stringResource(R.string.account_sign_out_title)) },
+            text = { Text(stringResource(R.string.account_sign_out_text)) },
             confirmButton = {
                 TextButton(onClick = {
                     confirmSignOut = false
                     onSignOut()
-                }) { Text("Cerrar sesión") }
+                }) { Text(stringResource(R.string.account_sign_out)) }
             },
-            dismissButton = { TextButton(onClick = { confirmSignOut = false }) { Text("Cancelar") } },
+            dismissButton = { TextButton(onClick = { confirmSignOut = false }) { Text(stringResource(R.string.action_cancel)) } },
         )
     }
     if (confirmDelete) {
         AlertDialog(
             onDismissRequest = { confirmDelete = false },
-            title = { Text("¿Borrar tus datos de la nube y tu cuenta?") },
-            text = {
-                Text(
-                    "Se borrarán para siempre tu copia en la nube (perfil, mediciones y básculas) y tu cuenta de " +
-                        "GlobalFitness. Los datos de este teléfono no se borran.\n\n" +
-                        "Por seguridad, Google te pedirá que elijas y confirmes la cuenta.",
-                )
-            },
+            title = { Text(stringResource(R.string.account_delete_title)) },
+            text = { Text(stringResource(R.string.account_delete_text)) },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -272,9 +269,9 @@ private fun SignedIn(
                         onDelete()
                     },
                     colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error),
-                ) { Text("Borrar definitivamente") }
+                ) { Text(stringResource(R.string.account_delete_confirm)) }
             },
-            dismissButton = { TextButton(onClick = { confirmDelete = false }) { Text("Cancelar") } },
+            dismissButton = { TextButton(onClick = { confirmDelete = false }) { Text(stringResource(R.string.action_cancel)) } },
         )
     }
 }
@@ -286,27 +283,28 @@ private fun SyncStatusLine(status: CloudSyncStatus) {
         status.syncing -> Row(verticalAlignment = Alignment.CenterVertically) {
             CircularProgressIndicator(Modifier.size(16.dp), strokeWidth = 2.dp)
             Spacer(Modifier.width(8.dp))
-            Text("Sincronizando…", style = MaterialTheme.typography.bodyMedium)
+            Text(stringResource(R.string.hc_syncing), style = MaterialTheme.typography.bodyMedium)
         }
         else -> Text(
-            status.lastSyncAt?.let { "Última sincronización: ${Fmt.dateTime(it)}" } ?: "Aún no se ha sincronizado.",
+            status.lastSyncAt?.let { stringResource(R.string.account_last_sync, Fmt.dateTime(it)) } ?: stringResource(R.string.account_never_synced),
             style = MaterialTheme.typography.bodyMedium,
             color = muted,
         )
     }
     if (status.pendingUpload) {
         Text(
-            "Hay cambios guardados que se subirán cuando haya conexión.",
+            stringResource(R.string.account_pending_upload),
             style = MaterialTheme.typography.bodySmall,
             color = muted,
         )
     }
-    status.error?.let { error ->
+    status.error?.let { notice ->
+        val error = notice.asString()
         Row(verticalAlignment = Alignment.Top) {
             Icon(Icons.Filled.Warning, contentDescription = null, tint = MaterialTheme.colorScheme.error, modifier = Modifier.size(18.dp))
             Spacer(Modifier.width(8.dp))
             Text(
-                if (status.retrying) "$error (reintentando)" else error,
+                if (status.retrying) stringResource(R.string.account_error_retrying, error) else error,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.error,
             )

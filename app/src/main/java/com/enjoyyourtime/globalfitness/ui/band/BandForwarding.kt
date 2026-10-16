@@ -23,9 +23,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
+import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.band.BandNotificationListener
 import com.enjoyyourtime.globalfitness.band.SeenApp
 
@@ -48,18 +50,17 @@ fun ForwardingCard(
     OutlinedCard(Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("Reenviar notificaciones del teléfono", style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
+                Text(stringResource(R.string.forwarding_switch), style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
                 Switch(checked = enabled, onCheckedChange = onEnabled)
             }
             Text(
-                "Solo mientras la pulsera está conectada en modo directo y solo de las apps que marques. " +
-                    "El resto del tiempo es Mi Fitness quien envía las notificaciones. El contenido nunca se guarda.",
+                stringResource(R.string.forwarding_text),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             if (!accessGranted) {
                 Text(
-                    "Hace falta el acceso a notificaciones de Android para leerlas.",
+                    stringResource(R.string.forwarding_access_needed),
                     style = MaterialTheme.typography.bodyMedium,
                 )
                 OutlinedButton(onClick = {
@@ -74,20 +75,20 @@ fun ForwardingCard(
                     }
                     runCatching { context.startActivity(intent) }
                         .onFailure { runCatching { context.startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)) } }
-                }) { Text("Dar acceso a notificaciones") }
+                }) { Text(stringResource(R.string.forwarding_grant_access)) }
             } else if (enabled && !connected) {
                 Text(
-                    "Activo: se reenviarán cuando conectes la pulsera.",
+                    stringResource(R.string.forwarding_active_pending),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
 
             if (accessGranted) {
-                Text("Apps", style = MaterialTheme.typography.titleSmall)
+                Text(stringResource(R.string.forwarding_apps), style = MaterialTheme.typography.titleSmall)
                 if (seenApps.isEmpty()) {
                     Text(
-                        "Las apps aparecerán aquí cuando publiquen una notificación.",
+                        stringResource(R.string.forwarding_apps_empty),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )

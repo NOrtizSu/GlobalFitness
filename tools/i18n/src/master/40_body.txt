@@ -1,0 +1,55 @@
+# Body
+range_1m = 1M ||| 1M
+range_3m = 3M ||| 3M
+range_6m = 6M ||| 6M
+range_1y = 1Y ||| 1A
+range_all = All ||| Todo
+body_empty_text = Step on the scale barefoot with the app open, or add your weight manually with the button below. Here you will see how your weight and body composition change over time. ||| Súbete a la báscula descalzo y con la app abierta, o añade tu peso a mano con el botón de abajo. Aquí verás la evolución de tu peso y tu composición corporal.
+body_period_summary = Period summary ||| Resumen del periodo
+body_stat_current = Current ||| Actual
+body_stat_change = Change ||| Cambio
+body_stat_min = Min ||| Mín
+body_stat_max = Max ||| Máx
+body_stat_average = Average ||| Media
+body_stat_rate = Rate ||| Ritmo
+body_rate_value = %1$s/week ||| %1$s/sem
+body_stat_projection = Goal projection ||| Proyección al objetivo
+body_projection_no_goal = No goal ||| Sin objetivo
+body_projection_reached = Reached ||| Alcanzado
+body_projection_no_trend = No trend ||| Sin tendencia
+body_projection_eta = ~ %1$s ||| ~ %1$s
+body_rate_hint = The rate needs at least 3 measurements spanning 7 days within the last 28. ||| El ritmo necesita al menos 3 mediciones que abarquen 7 días dentro de los últimos 28.
+body_history = History ||| Historial
+body_normal_range = Normal range ||| Rango normal
+body_normal_range_bmi = Normal range (BMI %1$s–%2$s) ||| Rango normal (IMC %1$s–%2$s)
+body_goal_line = Goal %1$s ||| Objetivo %1$s
+body_chart_title_unit = %1$s (%2$s) ||| %1$s (%2$s)
+body_chart_needs_composition = This metric needs body composition. Step on barefoot with dry feet. ||| Esta métrica necesita la composición corporal. Súbete descalzo y con los pies secos.
+body_chart_no_measurements = No measurements yet. ||| Todavía no hay mediciones.
+body_chart_none_in_period = No measurements in this period. Try a longer period. ||| Sin mediciones en este periodo. Prueba con un periodo más largo.
+body_chart_single = Only one measurement in this period (%1$s, %2$s). At least 2 are needed to draw the trend. ||| Solo hay una medición en este periodo (%1$s, %2$s). Se necesitan al menos 2 para dibujar la tendencia.
+body_current_composition = Current composition ||| Composición actual
+body_row_fat = Fat %1$s ||| Grasa %1$s
+body_row_no_composition = No composition ||| Sin composición
+source_manual = Manual ||| Manual
+source_scale = Scale ||| Báscula
+comp_source_device = Composition measured by the scale ||| Composición medida por la báscula
+comp_source_formula = Composition calculated (%1$s formula) ||| Composición calculada (fórmula %1$s)
+comp_fat = Fat ||| Grasa
+metric_impedance = Impedance ||| Impedancia
+
+# Charts
+chart_trend_desc{one} = %1$s chart with %2$d measurement, from %3$s to %4$s ||| Gráfico de %1$s con %2$d medición, de %3$s a %4$s
+chart_trend_desc{other} = %1$s chart with %2$d measurements, from %3$s to %4$s ||| Gráfico de %1$s con %2$d mediciones, de %3$s a %4$s
+chart_avg_7d_value = 7-day average: %1$s ||| Media 7 días: %1$s
+chart_legend_measurements = Measurements ||| Mediciones
+chart_legend_avg_7d = 7-day average ||| Media 7 días
+chart_composition_desc = Composition: %1$s ||| Composición: %1$s
+chart_composition_item = %1$s %2$s ||| %1$s %2$s
+
+# Measurement dialogs
+manual_weight_only = Weight only: body composition needs the scale. ||| Solo el peso: la composición corporal necesita la báscula.
+manual_weight_range = Enter a weight between %1$s and %2$s ||| Introduce un peso entre %1$s y %2$s
+manual_date_future = The date can't be in the future. ||| La fecha no puede estar en el futuro.
+delete_measurement_title = Delete measurement? ||| ¿Eliminar medición?
+delete_measurement_text = The %1$s measurement from %2$s will be deleted. This can't be undone. ||| Se borrará la medición de %1$s del %2$s. No se puede deshacer.

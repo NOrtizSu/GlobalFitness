@@ -16,12 +16,18 @@ import com.enjoyyourtime.globalfitness.scale.GattScaleDriver
 import com.enjoyyourtime.globalfitness.scale.MatchConfidence
 import com.enjoyyourtime.globalfitness.scale.ScaleCapabilities
 import com.enjoyyourtime.globalfitness.scale.ScaleConfigStore
+import com.enjoyyourtime.globalfitness.scale.ScaleNotice
 import com.enjoyyourtime.globalfitness.scale.ScaleRegistry
 import com.enjoyyourtime.globalfitness.scale.ScaleSample
 import com.enjoyyourtime.globalfitness.scale.ScaleTestSupport
 import com.enjoyyourtime.globalfitness.scale.SessionStatus
 import com.enjoyyourtime.globalfitness.scale.drivers.AllDrivers
 import com.enjoyyourtime.globalfitness.scale.drivers.MiScale2Driver
+import java.util.UUID
+import java.util.concurrent.CopyOnWriteArrayList
+import java.util.concurrent.Executors
+import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicLong
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.asCoroutineDispatcher
@@ -42,11 +48,6 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
 import org.junit.Test
-import java.util.UUID
-import java.util.concurrent.CopyOnWriteArrayList
-import java.util.concurrent.Executors
-import java.util.concurrent.atomic.AtomicInteger
-import java.util.concurrent.atomic.AtomicLong
 
 /**
  * End to end over fakes: advertisement stream -> detector -> auto-configuration -> driver session
@@ -276,7 +277,7 @@ class ScaleMonitorIntegrationTest {
         override val notifications: Flow<GattNotification> = emptyFlow()
 
         override suspend fun connect() {
-            if (failConnect) throw GattException("boom")
+            if (failConnect) throw GattException(ScaleNotice(ScaleNotice.Kind.CONNECT_FAILED))
             connected.value = true
         }
 

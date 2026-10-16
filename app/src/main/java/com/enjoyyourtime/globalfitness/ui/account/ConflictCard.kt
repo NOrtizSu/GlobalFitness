@@ -19,7 +19,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.cloud.ConflictChoice
 import com.enjoyyourtime.globalfitness.cloud.ConflictKind
 import com.enjoyyourtime.globalfitness.cloud.SyncConflict
@@ -28,7 +31,7 @@ import com.enjoyyourtime.globalfitness.cloud.SyncConflict
 private data class Option(val label: String, val confirm: String?, val choice: ConflictChoice, val destructive: Boolean)
 
 /**
- * The sync is paused until the user decides. "Cancelar" only collapses the options: nothing is
+ * The sync is paused until the user decides. "Cancel" only collapses the options: nothing is
  * synced (or deleted) until a choice is made.
  */
 @Composable
@@ -38,32 +41,29 @@ internal fun ConflictCard(conflict: SyncConflict, enabled: Boolean, onResolve: (
 
     val (title, body, options) = when (conflict.kind) {
         ConflictKind.DIFFERENT_DATA -> Triple(
-            "Tu copia en la nube tiene otros datos",
-            "Este teléfono y tu copia en la nube tienen mediciones distintas (de otro móvil o de otro perfil). " +
-                "Para no mezclar datos de personas distintas no se juntan solas: elige qué datos conservar.",
+            stringResource(R.string.conflict_different_title),
+            stringResource(R.string.conflict_different_text),
             listOf(
                 Option(
-                    "Restaurar la copia de la nube en este móvil",
-                    "Los datos de este teléfono se sustituirán por los de la nube. Las mediciones que solo estén en este " +
-                        "teléfono se borrarán.",
+                    stringResource(R.string.conflict_restore_cloud),
+                    stringResource(R.string.conflict_restore_cloud_confirm),
                     ConflictChoice.RESTORE_CLOUD,
                     destructive = true,
                 ),
                 Option(
-                    "Sustituir la copia de la nube por los datos de este móvil",
-                    "Tu copia en la nube se sustituirá por los datos de este teléfono. Las mediciones que solo estén en la " +
-                        "nube se borrarán.",
+                    stringResource(R.string.conflict_replace_cloud),
+                    stringResource(R.string.conflict_replace_cloud_confirm),
                     ConflictChoice.REPLACE_CLOUD,
                     destructive = true,
                 ),
             ),
         )
         ConflictKind.MASS_DELETE -> Triple(
-            "Has borrado ${conflict.count} mediciones en este teléfono",
-            "¿Las borramos también de tu copia en la nube?",
+            pluralStringResource(R.plurals.conflict_mass_delete_title, conflict.count, conflict.count),
+            stringResource(R.string.conflict_mass_delete_text),
             listOf(
-                Option("Borrar también de la nube", null, ConflictChoice.CONFIRM_DELETIONS, destructive = true),
-                Option("Recuperarlas desde la nube", null, ConflictChoice.UNDO_DELETIONS, destructive = false),
+                Option(stringResource(R.string.conflict_delete_cloud_too), null, ConflictChoice.CONFIRM_DELETIONS, destructive = true),
+                Option(stringResource(R.string.conflict_recover_from_cloud), null, ConflictChoice.UNDO_DELETIONS, destructive = false),
             ),
         )
     }
@@ -76,11 +76,11 @@ internal fun ConflictCard(conflict: SyncConflict, enabled: Boolean, onResolve: (
             Text(title, style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onErrorContainer)
             if (collapsed) {
                 Text(
-                    "Sincronización en pausa hasta que elijas qué datos conservar.",
+                    stringResource(R.string.conflict_paused),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onErrorContainer,
                 )
-                OutlinedButton(onClick = { collapsed = false }, enabled = enabled) { Text("Elegir qué datos conservar") }
+                OutlinedButton(onClick = { collapsed = false }, enabled = enabled) { Text(stringResource(R.string.conflict_choose)) }
             } else {
                 Text(body, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onErrorContainer)
                 for (option in options) {
@@ -91,7 +91,7 @@ internal fun ConflictCard(conflict: SyncConflict, enabled: Boolean, onResolve: (
                     ) { Text(option.label) }
                 }
                 TextButton(onClick = { collapsed = true }, enabled = enabled, modifier = Modifier.fillMaxWidth()) {
-                    Text("Cancelar")
+                    Text(stringResource(R.string.action_cancel))
                 }
             }
         }
@@ -113,9 +113,9 @@ internal fun ConflictCard(conflict: SyncConflict, enabled: Boolean, onResolve: (
                     } else {
                         ButtonDefaults.textButtonColors()
                     },
-                ) { Text("Continuar") }
+                ) { Text(stringResource(R.string.action_continue)) }
             },
-            dismissButton = { TextButton(onClick = { confirming = null }) { Text("Cancelar") } },
+            dismissButton = { TextButton(onClick = { confirming = null }) { Text(stringResource(R.string.action_cancel)) } },
         )
     }
 }

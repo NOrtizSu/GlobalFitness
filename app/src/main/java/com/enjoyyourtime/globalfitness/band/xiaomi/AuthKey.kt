@@ -19,7 +19,7 @@ class AuthKey private constructor(private val bytes: ByteArray) {
 
     override fun hashCode(): Int = bytes.contentHashCode()
 
-    override fun toString(): String = "AuthKey(oculta)"
+    override fun toString(): String = "AuthKey(hidden)"
 
     companion object {
         const val HEX_LENGTH = 32
@@ -27,17 +27,9 @@ class AuthKey private constructor(private val bytes: ByteArray) {
         fun parse(input: String): AuthKeyResult {
             var text = input.filterNot { it.isWhitespace() }
             if (text.startsWith("0x") || text.startsWith("0X")) text = text.substring(2)
-            if (text.isEmpty()) return AuthKeyResult.Invalid("Introduce la clave de autenticación.")
-            if (text.any { Character.digit(it, 16) < 0 }) {
-                return AuthKeyResult.Invalid(
-                    "La clave solo puede contener dígitos hexadecimales (0-9 y a-f), con el prefijo 0x opcional.",
-                )
-            }
-            if (text.length != HEX_LENGTH) {
-                return AuthKeyResult.Invalid(
-                    "La clave debe tener $HEX_LENGTH caracteres hexadecimales (tiene ${text.length}).",
-                )
-            }
+            if (text.isEmpty()) return AuthKeyResult.Invalid(AuthKeyError.EMPTY)
+            if (text.any { Character.digit(it, 16) < 0 }) return AuthKeyResult.Invalid(AuthKeyError.NOT_HEX)
+            if (text.length != HEX_LENGTH) return AuthKeyResult.Invalid(AuthKeyError.WRONG_LENGTH, text.length)
             val bytes = ByteArray(HEX_LENGTH / 2) { i ->
                 ((Character.digit(text[2 * i], 16) shl 4) or Character.digit(text[2 * i + 1], 16)).toByte()
             }
@@ -46,7 +38,12 @@ class AuthKey private constructor(private val bytes: ByteArray) {
     }
 }
 
+/** Why an auth key was rejected (the UI words it). */
+enum class AuthKeyError { EMPTY, NOT_HEX, WRONG_LENGTH }
+
 sealed interface AuthKeyResult {
     data class Valid(val key: AuthKey) : AuthKeyResult
-    data class Invalid(val message: String) : AuthKeyResult
+
+    /** [length]: the number of hex characters entered, for [AuthKeyError.WRONG_LENGTH]. */
+    data class Invalid(val error: AuthKeyError, val length: Int = 0) : AuthKeyResult
 }

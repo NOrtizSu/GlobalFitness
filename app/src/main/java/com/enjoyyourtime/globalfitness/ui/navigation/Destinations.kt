@@ -13,7 +13,7 @@ import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.ui.components.AppIcons
 
 /** The five sections of the bottom navigation bar. */
-enum class TopLevel(val route: String, @StringRes val label: Int, val selectedIcon: ImageVector, val icon: ImageVector) {
+enum class TopLevel(val route: String, @param:StringRes val label: Int, val selectedIcon: ImageVector, val icon: ImageVector) {
     TODAY("hoy", R.string.nav_today, Icons.Filled.Home, Icons.Outlined.Home),
     BODY("cuerpo", R.string.nav_body, AppIcons.Scale, AppIcons.Scale),
     ACTIVITY("actividad", R.string.nav_activity, Icons.Filled.Favorite, Icons.Outlined.FavoriteBorder),

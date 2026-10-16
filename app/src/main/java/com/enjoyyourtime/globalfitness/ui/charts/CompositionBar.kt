@@ -15,9 +15,11 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.ui.Fmt
 import com.enjoyyourtime.globalfitness.ui.components.Dot
 import com.enjoyyourtime.globalfitness.ui.theme.ChartTheme
@@ -25,24 +27,25 @@ import com.enjoyyourtime.globalfitness.ui.theme.TabularNumbers
 
 private data class Segment(val label: String, val kg: Double, val color: Color)
 
-/** Horizontal stacked bar Grasa / Músculo / Hueso (kg) for one measurement. */
+/** Horizontal stacked bar fat / muscle / bone (kg) for one measurement. */
 @Composable
 fun CompositionBar(fatKg: Double, muscleKg: Double, boneKg: Double, weightKg: Double, modifier: Modifier = Modifier) {
     val colors = ChartTheme.colors
     val segments = listOf(
-        Segment("Grasa", fatKg, colors.series2),
-        Segment("Músculo", muscleKg, colors.series1),
-        Segment("Hueso", boneKg, colors.series3),
+        Segment(stringResource(R.string.comp_fat), fatKg, colors.series2),
+        Segment(stringResource(R.string.metric_muscle), muscleKg, colors.series1),
+        Segment(stringResource(R.string.metric_bone), boneKg, colors.series3),
     )
     val total = segments.sumOf { it.kg }.takeIf { it > 0 } ?: 1.0
-    val description = segments.joinToString(", ") { "${it.label} ${Fmt.num(it.kg, 1)} kg" }
+    val items = segments.map { stringResource(R.string.chart_composition_item, it.label, Fmt.kg(it.kg, 1)) }
+    val description = stringResource(R.string.chart_composition_desc, Fmt.list(items))
 
     Column(modifier, verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Canvas(
             Modifier
                 .fillMaxWidth()
                 .height(16.dp)
-                .semantics { contentDescription = "Composición: $description" },
+                .semantics { contentDescription = description },
         ) {
             val gap = 2.dp.toPx()
             val radius = 4.dp.toPx()
@@ -72,7 +75,7 @@ fun CompositionBar(fatKg: Double, muscleKg: Double, boneKg: Double, weightKg: Do
                 Dot(s.color)
                 Text(s.label, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
                 Text(
-                    "${Fmt.num(s.kg, 1)} kg · ${Fmt.num(s.kg / weightKg * 100, 1)} %",
+                    "${Fmt.kg(s.kg, 1)} · ${Fmt.percent(s.kg / weightKg * 100, 1)}",
                     style = MaterialTheme.typography.bodyMedium.merge(TabularNumbers),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )

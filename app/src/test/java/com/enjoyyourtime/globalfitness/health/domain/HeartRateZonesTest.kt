@@ -15,7 +15,7 @@ class HeartRateZonesTest {
         val zones = HeartRateZones.zones(40)
         assertEquals(listOf(90, 108, 126, 144, 162), zones.map { it.minBpm })
         assertEquals(listOf(108, 126, 144, 162, null), zones.map { it.maxBpm })
-        assertEquals(listOf("Muy suave", "Suave", "Moderada", "Intensa", "Máxima"), zones.map { it.label })
+        assertEquals(listOf(1, 2, 3, 4, 5), zones.map { it.index })
     }
 
     @Test

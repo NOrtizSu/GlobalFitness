@@ -1,11 +1,14 @@
 package com.enjoyyourtime.globalfitness.cloud
 
+import com.enjoyyourtime.globalfitness.R
+import com.enjoyyourtime.globalfitness.UiText
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.FirebaseFirestoreException.Code
 import java.io.IOException
+import java.util.Locale
 
-/** Spanish messages for cloud errors and whether retrying later can help. */
+/** User-facing messages for cloud errors and whether retrying later can help. */
 object CloudErrors {
     private val RETRYABLE = setOf(
         Code.UNAVAILABLE,
@@ -21,16 +24,16 @@ object CloudErrors {
         else -> false
     }
 
-    fun message(e: Throwable): String = when {
+    fun message(e: Throwable): UiText = when {
         e is FirebaseFirestoreException -> when (e.code) {
-            Code.UNAVAILABLE, Code.DEADLINE_EXCEEDED -> "Sin conexión con la nube. Se reintentará automáticamente."
-            Code.PERMISSION_DENIED -> "La nube ha rechazado el acceso. Cierra sesión y vuelve a iniciarla."
-            Code.UNAUTHENTICATED -> "La sesión ha caducado. Vuelve a iniciar sesión."
-            Code.RESOURCE_EXHAUSTED -> "La nube está saturada. Se reintentará más tarde."
-            else -> "Error de la nube (${e.code.name.lowercase()}). Inténtalo de nuevo más tarde."
+            Code.UNAVAILABLE, Code.DEADLINE_EXCEEDED -> UiText.res(R.string.cloud_error_offline_retry)
+            Code.PERMISSION_DENIED -> UiText.res(R.string.cloud_error_permission_denied)
+            Code.UNAUTHENTICATED -> UiText.res(R.string.cloud_error_session_expired)
+            Code.RESOURCE_EXHAUSTED -> UiText.res(R.string.cloud_error_busy)
+            else -> UiText.res(R.string.cloud_error_code, e.code.name.lowercase(Locale.ROOT))
         }
-        e is FirebaseNetworkException || e is IOException -> "Sin conexión a Internet. Se reintentará automáticamente."
-        e is CloudTimeoutException -> "La nube no ha respondido a tiempo. Comprueba la conexión e inténtalo de nuevo."
-        else -> "Error al sincronizar: ${e.message ?: e.javaClass.simpleName}"
+        e is FirebaseNetworkException || e is IOException -> UiText.res(R.string.cloud_error_no_internet)
+        e is CloudTimeoutException -> UiText.res(R.string.cloud_error_timeout)
+        else -> UiText.res(R.string.cloud_error_sync, e.message ?: e.javaClass.simpleName)
     }
 }

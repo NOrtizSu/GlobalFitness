@@ -1,0 +1,26 @@
+# Remove ads (Google Play Billing)
+remove_ads_headline = GlobalFitness without ads ||| GlobalFitness sin anuncios
+remove_ads_benefit_no_ads = No banners or full-screen ads. ||| Sin banners ni anuncios a pantalla completa.
+remove_ads_benefit_one_time = One-time payment: no subscription. ||| Pago único: sin suscripción.
+remove_ads_benefit_restore = Restored on your other phones with the same Google Play account. ||| Se restaura en tus otros móviles con la misma cuenta de Google Play.
+remove_ads_benefit_support = You help maintain and improve the app. ||| Ayudas a mantener y mejorar la app.
+remove_ads_owned = Purchase active: you won't see ads. Thank you for your support! ||| Compra activa: no verás anuncios. ¡Gracias por tu apoyo!
+remove_ads_buy = Buy ||| Comprar
+remove_ads_buy_price = Buy for %1$s ||| Comprar por %1$s
+remove_ads_restore = Restore purchases ||| Restaurar compras
+remove_ads_simulate = Simulate premium ||| Simular premium
+remove_ads_simulate_text = Debug builds only: hides the ads without buying. ||| Solo en compilaciones de depuración: oculta los anuncios sin comprar.
+remove_ads_loading_price = Checking the price on Google Play… ||| Consultando el precio en Google Play…
+billing_open_failed = Could not open the Google Play purchase. Try again. ||| No se pudo abrir la compra de Google Play. Inténtalo de nuevo.
+billing_thanks = Thank you for your support! You won't see ads anymore. ||| ¡Gracias por tu apoyo! Ya no verás anuncios.
+billing_already_owned_restoring = You had already bought "Remove ads". Restoring the purchase… ||| Ya habías comprado «Quitar anuncios». Restaurando la compra…
+billing_restored = Purchase restored: you won't see ads. ||| Compra restaurada: no verás anuncios.
+billing_nothing_to_restore = There is no "Remove ads" purchase in this Google Play account. ||| No hay ninguna compra de «Quitar anuncios» en esta cuenta de Google Play.
+billing_unavailable = "Remove ads" is not available on Google Play right now. ||| «Quitar anuncios» no está disponible ahora mismo en Google Play.
+billing_pending = Payment pending. The ads will disappear as soon as Google Play confirms the payment. ||| Pago pendiente. Los anuncios desaparecerán en cuanto Google Play confirme el pago.
+billing_error_not_allowed = Google Play does not allow purchases on this device or with this account. ||| Google Play no permite compras en este dispositivo o con esta cuenta.
+billing_error_connection = Could not connect to Google Play. Check the connection and try again. ||| No se pudo conectar con Google Play. Comprueba la conexión e inténtalo de nuevo.
+billing_error_install_from_play = Google Play rejected the purchase. Install the app from Google Play to be able to buy. ||| Google Play ha rechazado la compra. Instala la app desde Google Play para poder comprar.
+billing_error_not_supported = Your version of Google Play does not support this purchase. ||| Tu versión de Google Play no admite esta compra.
+billing_error_already_owned = You already have "Remove ads". ||| Ya tienes «Quitar anuncios».
+billing_error_code = Google Play error (%1$d). Try again. ||| Error de Google Play (%1$d). Inténtalo de nuevo.

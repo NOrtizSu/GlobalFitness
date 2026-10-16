@@ -35,16 +35,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.enjoyyourtime.globalfitness.BuildConfig
 import com.enjoyyourtime.globalfitness.GlobalFitnessApp
+import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.ads.AdSuppression
 import com.enjoyyourtime.globalfitness.billing.Ownership
 import com.enjoyyourtime.globalfitness.billing.ProductState
 import com.enjoyyourtime.globalfitness.ui.account.SuppressInterstitials
+import com.enjoyyourtime.globalfitness.ui.asString
 
-/** One-time purchase "Quitar anuncios". No ads are shown on this screen. */
+/** One-time purchase "Remove ads". No ads are shown on this screen. */
 @Composable
 fun RemoveAdsScreen(onBack: () -> Unit) {
     val billing = (LocalContext.current.applicationContext as GlobalFitnessApp).container.billing
@@ -56,10 +59,10 @@ fun RemoveAdsScreen(onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Quitar anuncios") },
+                title = { Text(stringResource(R.string.remove_ads_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.action_back))
                     }
                 },
             )
@@ -74,18 +77,16 @@ fun RemoveAdsScreen(onBack: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Icon(Icons.Filled.Star, contentDescription = null, modifier = Modifier.size(48.dp), tint = MaterialTheme.colorScheme.primary)
-            Text("GlobalFitness sin anuncios", style = MaterialTheme.typography.headlineSmall)
-            Benefit("Sin banners ni anuncios a pantalla completa.")
-            Benefit("Pago único: sin suscripción.")
-            Benefit("Se restaura en tus otros móviles con la misma cuenta de Google Play.")
-            Benefit("Ayudas a mantener y mejorar la app.")
+            Text(stringResource(R.string.remove_ads_headline), style = MaterialTheme.typography.headlineSmall)
+            Benefit(stringResource(R.string.remove_ads_benefit_no_ads))
+            Benefit(stringResource(R.string.remove_ads_benefit_one_time))
+            Benefit(stringResource(R.string.remove_ads_benefit_restore))
+            Benefit(stringResource(R.string.remove_ads_benefit_support))
 
             val ownedForReal = state.ownership == Ownership.OWNED
             when {
-                ownedForReal -> StatusCard("Compra activa: no verás anuncios. ¡Gracias por tu apoyo!")
-                state.ownership == Ownership.PENDING -> StatusCard(
-                    "Pago pendiente. Los anuncios desaparecerán en cuanto Google Play confirme el pago.",
-                )
+                ownedForReal -> StatusCard(stringResource(R.string.remove_ads_owned))
+                state.ownership == Ownership.PENDING -> StatusCard(stringResource(R.string.billing_pending))
                 else -> PriceLine(state.product)
             }
 
@@ -100,23 +101,23 @@ fun RemoveAdsScreen(onBack: () -> Unit) {
                         CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp)
                         Spacer(Modifier.width(8.dp))
                     }
-                    Text(if (price != null) "Comprar por $price" else "Comprar")
+                    Text(if (price != null) stringResource(R.string.remove_ads_buy_price, price) else stringResource(R.string.remove_ads_buy))
                 }
             }
             OutlinedButton(onClick = billing::restore, enabled = !state.busy, modifier = Modifier.fillMaxWidth()) {
-                Text("Restaurar compras")
+                Text(stringResource(R.string.remove_ads_restore))
             }
             state.message?.let {
-                Text(it, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(it.asString(), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
 
             if (BuildConfig.DEBUG) {
                 OutlinedCard(Modifier.fillMaxWidth()) {
                     Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
                         Column(Modifier.weight(1f)) {
-                            Text("Simular premium", style = MaterialTheme.typography.titleSmall)
+                            Text(stringResource(R.string.remove_ads_simulate), style = MaterialTheme.typography.titleSmall)
                             Text(
-                                "Solo en compilaciones de depuración: oculta los anuncios sin comprar.",
+                                stringResource(R.string.remove_ads_simulate_text),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
@@ -151,11 +152,11 @@ private fun PriceLine(product: ProductState) {
         ProductState.Loading -> Row(verticalAlignment = Alignment.CenterVertically) {
             CircularProgressIndicator(Modifier.size(16.dp), strokeWidth = 2.dp)
             Spacer(Modifier.width(8.dp))
-            Text("Consultando el precio en Google Play…", style = MaterialTheme.typography.bodyMedium)
+            Text(stringResource(R.string.remove_ads_loading_price), style = MaterialTheme.typography.bodyMedium)
         }
         is ProductState.Available -> Text(product.price, style = MaterialTheme.typography.headlineMedium)
         is ProductState.Unavailable -> Text(
-            product.message,
+            product.message.asString(),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.error,
         )

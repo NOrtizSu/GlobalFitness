@@ -21,6 +21,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
@@ -30,6 +32,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.band.BandConnectionState
 import com.enjoyyourtime.globalfitness.ble.LiveScale
 import com.enjoyyourtime.globalfitness.ble.ScanDebugInfo
@@ -47,7 +50,7 @@ import com.enjoyyourtime.globalfitness.ui.components.TabPage
 import com.enjoyyourtime.globalfitness.ui.health.HealthConnectionCard
 import com.enjoyyourtime.globalfitness.ui.health.HealthViewModel
 
-/** "Dispositivos": scales, the experimental direct band mode, Health Connect and BLE diagnostics. */
+/** Devices: scales, the experimental direct band mode, Health Connect and BLE diagnostics. */
 @Composable
 fun DevicesScreen(
     mainVm: MainViewModel,
@@ -65,6 +68,7 @@ fun DevicesScreen(
     val dialogs = remember { ScaleDialogs() }
     var diagnosticsOpen by rememberSaveable { mutableStateOf(false) }
     val snackbar = LocalAppSnackbar.current
+    val context = LocalContext.current
 
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     LaunchedEffect(lifecycle) {
@@ -73,18 +77,18 @@ fun DevicesScreen(
     LaunchedEffect(Unit) {
         scalesVm.events.collect {
             snackbar.currentSnackbarData?.dismiss()
-            snackbar.showSnackbar(it, withDismissAction = true)
+            snackbar.showSnackbar(it.resolve(context), withDismissAction = true)
         }
     }
 
-    TabPage(title = "Dispositivos") {
-        item { SectionTitle("Básculas") }
+    TabPage(title = stringResource(R.string.nav_devices)) {
+        item { SectionTitle(stringResource(R.string.devices_scales)) }
         scaleDevicesSection(
             scales, dialogs, onUse = scalesVm::useDetected, onSaveConfig = scalesVm::setConfig,
             onAcceptSuggestion = scalesVm::acceptSuggestion, onDeclineSuggestion = scalesVm::declineSuggestion,
         )
 
-        item { SectionTitle("Pulsera") }
+        item { SectionTitle(stringResource(R.string.devices_band)) }
         item { BandCard(band, onOpenBand) }
 
         item { SectionTitle("Health Connect") }
@@ -122,7 +126,7 @@ private fun BandCard(band: BandSummary?, onOpen: () -> Unit) {
                 Column(Modifier.weight(1f)) {
                     Text(band?.name ?: "Xiaomi Smart Band 9", style = MaterialTheme.typography.titleMedium)
                     Text(
-                        bandStatusText(band),
+                        bandStatus(band),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -130,31 +134,34 @@ private fun BandCard(band: BandSummary?, onOpen: () -> Unit) {
                 ExperimentalBadge()
             }
             Text(
-                "Modo directo por Bluetooth, sin Mi Fitness: pulso en directo, buscar la pulsera, alarmas y " +
-                    "notificaciones. Mientras está abierto ocupa la pulsera y Mi Fitness no puede sincronizar.",
+                stringResource(R.string.devices_band_text),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             FilledTonalButton(onClick = onOpen, modifier = Modifier.heightIn(min = 48.dp)) {
-                Text("Abrir modo directo (experimental)")
+                Text(stringResource(R.string.devices_band_open))
             }
         }
     }
 }
 
-/** One line about the direct band mode (Hoy and Dispositivos). */
-fun bandStatusText(band: BandSummary?): String {
-    if (band == null) return "Sin configurar"
-    if (!band.hasKey) return "Falta la clave de autenticación"
+/** One line about the direct band mode (Today and Devices); [withMode] adds "Direct mode · ". */
+@Composable
+fun bandStatus(band: BandSummary?, withMode: Boolean = true): String {
+    if (band == null) return stringResource(R.string.band_status_not_set_up)
+    if (!band.hasKey) return stringResource(R.string.band_status_no_key)
     val state = band.state
-    val connection = when (state.connection) {
-        BandConnectionState.DISCONNECTED -> "Desconectada"
-        BandConnectionState.CONNECTING -> "Conectando…"
-        BandConnectionState.AUTHENTICATING -> "Autenticando…"
-        BandConnectionState.READY -> "Conectada"
-    }
-    val battery = state.batteryLevel?.takeIf { state.connection == BandConnectionState.READY }?.let { " · batería $it %" }.orEmpty()
-    return "Modo directo · $connection$battery"
+    val connection = stringResource(
+        when (state.connection) {
+            BandConnectionState.DISCONNECTED -> R.string.band_status_disconnected
+            BandConnectionState.CONNECTING -> R.string.band_status_connecting
+            BandConnectionState.AUTHENTICATING -> R.string.band_status_authenticating
+            BandConnectionState.READY -> R.string.band_status_connected
+        },
+    )
+    val withBattery = state.batteryLevel?.takeIf { state.connection == BandConnectionState.READY }
+        ?.let { stringResource(R.string.band_status_battery, connection, Fmt.percent(it.toDouble())) } ?: connection
+    return if (withMode) stringResource(R.string.band_status_direct_mode, withBattery) else withBattery
 }
 
 @Composable
@@ -165,61 +172,80 @@ private fun DiagnosticsCard(
     live: LiveScale,
     debug: ScanDebugInfo?,
 ) {
+    val expandedState = stringResource(if (open) R.string.diag_expanded else R.string.diag_collapsed)
     AppCard(onClick = onToggle, modifier = Modifier.padding(top = 8.dp)) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.semantics { stateDescription = if (open) "Desplegado" else "Plegado" },
+                modifier = Modifier.semantics { stateDescription = expandedState },
             ) {
-                Text("Diagnóstico BLE", style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
+                Text(stringResource(R.string.diag_title), style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
                 Icon(if (open) AppIcons.ExpandLess else AppIcons.ExpandMore, contentDescription = null)
             }
             if (!open) return@Column
-            InfoRow("Estado", scanStatusText(scanStatus))
-            InfoRow("Medición en curso", liveText(live))
+            InfoRow(stringResource(R.string.diag_status), scanStatusText(scanStatus))
+            InfoRow(stringResource(R.string.diag_live), liveText(live))
             if (debug == null) {
                 Text(
-                    "Aún no se ha recibido ningún anuncio de Mi Scale (0x181B).",
+                    stringResource(R.string.diag_no_advertisement),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 return@Column
             }
-            InfoRow("Recibido", Fmt.dateTime(debug.receivedAtMillis) + ":" + String.format(Fmt.LOCALE, "%02d", (debug.receivedAtMillis / 1000) % 60))
-            InfoRow("Dirección", debug.address + if (debug.ignoredByPin) " (ignorada)" else "")
-            InfoRow("Nombre", debug.deviceName ?: "—")
-            InfoRow("RSSI", "${debug.rssi} dBm")
-            Text("Trama", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            InfoRow(stringResource(R.string.diag_received), Fmt.dayMonthYear(debug.receivedAtMillis) + ", " + Fmt.timeWithSeconds(debug.receivedAtMillis))
+            InfoRow(
+                stringResource(R.string.diag_address),
+                if (debug.ignoredByPin) stringResource(R.string.diag_address_ignored, debug.address) else debug.address,
+            )
+            InfoRow(stringResource(R.string.diag_name), debug.deviceName ?: "—")
+            InfoRow("RSSI", stringResource(R.string.value_dbm, Fmt.count(debug.rssi.toLong())))
+            Text(stringResource(R.string.diag_frame), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Text(debug.rawHex, style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Monospace, modifier = Modifier.fillMaxWidth())
             val f = debug.frame
             if (f == null) {
-                InfoRow("Decodificación", "Longitud no válida (13 bytes)")
+                InfoRow(stringResource(R.string.diag_decoding), stringResource(R.string.diag_invalid_length))
             } else {
-                InfoRow("Peso", "${Fmt.num(f.weightKg, 3)} kg (bruto ${f.rawWeight}, ${f.unit.label})")
-                InfoRow("Estable", if (f.stabilized) "sí" else "no")
-                InfoRow("Carga retirada", if (f.loadRemoved) "sí" else "no")
-                InfoRow("Impedancia", if (f.hasImpedance) (f.impedance?.let { "$it Ω" } ?: "no válida") else "no")
-                InfoRow("Hora báscula", f.scaleTimeKey)
+                val yes = stringResource(R.string.common_yes)
+                val no = stringResource(R.string.common_no)
+                InfoRow(stringResource(R.string.metric_weight), stringResource(R.string.diag_weight_raw, Fmt.kg(f.weightKg, 3), f.rawWeight.toString(), f.unit.label))
+                InfoRow(stringResource(R.string.diag_stable), if (f.stabilized) yes else no)
+                InfoRow(stringResource(R.string.diag_load_removed), if (f.loadRemoved) yes else no)
+                InfoRow(
+                    stringResource(R.string.metric_impedance),
+                    if (f.hasImpedance) {
+                        f.impedance?.let { stringResource(R.string.value_ohm, Fmt.count(it.toLong())) } ?: stringResource(R.string.diag_invalid)
+                    } else {
+                        no
+                    },
+                )
+                InfoRow(stringResource(R.string.diag_scale_time), f.scaleTimeKey)
             }
         }
     }
 }
 
+@Composable
 private fun scanStatusText(s: ScanStatus): String = when (s) {
-    ScanStatus.Stopped -> "Detenido"
-    ScanStatus.NoBluetoothLe -> "Sin Bluetooth LE"
-    ScanStatus.MissingPermission -> "Falta permiso"
-    ScanStatus.BluetoothOff -> "Bluetooth apagado"
-    ScanStatus.Starting -> "Iniciando escaneo…"
-    is ScanStatus.Scanning -> if (s.locationOff) "Escaneando (ubicación apagada)" else "Escaneando"
-    is ScanStatus.Failed -> "Error ${s.code}: ${s.message}"
+    ScanStatus.Stopped -> stringResource(R.string.diag_scan_stopped)
+    ScanStatus.NoBluetoothLe -> stringResource(R.string.chip_no_ble)
+    ScanStatus.MissingPermission -> stringResource(R.string.diag_scan_permission)
+    ScanStatus.BluetoothOff -> stringResource(R.string.chip_bluetooth_off)
+    ScanStatus.Starting -> stringResource(R.string.diag_scan_starting)
+    is ScanStatus.Scanning -> stringResource(if (s.locationOff) R.string.diag_scanning_location_off else R.string.diag_scanning)
+    is ScanStatus.Failed -> stringResource(R.string.diag_scan_error, s.code, stringResource(scanErrorRes(s.code), s.code))
 }
 
+@Composable
 private fun liveText(l: LiveScale): String = when (l) {
-    LiveScale.Idle -> "En espera"
-    is LiveScale.Connecting -> "Conectando con ${l.scaleName}"
-    is LiveScale.Measuring -> "Midiendo ${Fmt.kg(l.weightKg)}"
-    is LiveScale.Stabilized -> "Estable ${Fmt.kg(l.weightKg)}, esperando impedancia"
-    is LiveScale.Saved -> "Guardada ${Fmt.kg(l.weightKg)}" + (l.impedance?.let { " · $it Ω" } ?: " · sin impedancia")
-    is LiveScale.SaveFailed -> "Error al guardar ${Fmt.kg(l.weightKg)}"
+    LiveScale.Idle -> stringResource(R.string.diag_live_idle)
+    is LiveScale.Connecting -> stringResource(R.string.live_connecting, l.scaleName)
+    is LiveScale.Measuring -> stringResource(R.string.diag_live_measuring, Fmt.kg(l.weightKg))
+    is LiveScale.Stabilized -> stringResource(R.string.diag_live_stable, Fmt.kg(l.weightKg))
+    is LiveScale.Saved -> {
+        val impedance = l.impedance?.let { stringResource(R.string.value_ohm, Fmt.count(it.toLong())) }
+            ?: stringResource(R.string.diag_live_no_impedance)
+        stringResource(R.string.diag_live_saved, Fmt.kg(l.weightKg), impedance)
+    }
+    is LiveScale.SaveFailed -> stringResource(R.string.live_save_failed, Fmt.kg(l.weightKg))
 }

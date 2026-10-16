@@ -8,6 +8,7 @@ import android.database.SQLException
 import android.os.Build
 import android.text.format.DateFormat
 import android.util.Log
+import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.band.xiaomi.AlarmSpec
 import com.enjoyyourtime.globalfitness.band.xiaomi.AuthKey
 import com.enjoyyourtime.globalfitness.band.xiaomi.BandException
@@ -41,7 +42,7 @@ class BandManager(private val context: Context, private val scope: CoroutineScop
     val heartRate: StateFlow<List<HeartRateSample>> = controller.heartRate
 
     /** Short user-facing confirmations and errors (snackbar). */
-    val messages: SharedFlow<String> = controller.messages
+    val messages: SharedFlow<BandMessage> = controller.messages
 
     init {
         store.loadAuthKey()?.let { log.registerSecret(it.toHex()) }
@@ -52,19 +53,19 @@ class BandManager(private val context: Context, private val scope: CoroutineScop
     fun saveAuthKey(key: AuthKey) {
         log.registerSecret(key.toHex())
         store.saveAuthKey(key)
-        log.add("Clave de autenticación guardada")
+        log.add("Authentication key saved")
     }
 
     fun clearAuthKey() {
         controller.disconnect()
         store.clearAuthKey()
-        log.add("Clave de autenticación borrada")
+        log.add("Authentication key deleted")
     }
 
     fun selectBand(candidate: BandCandidate) {
         if (store.selected.value?.address != candidate.address) controller.disconnect()
         store.selectBand(candidate.address, candidate.name)
-        log.add("Pulsera elegida: ${candidate.name} (${candidate.address})")
+        log.add("Band selected: ${candidate.name} (${candidate.address})")
     }
 
     /** Heart rate recorded in direct mode (band.db) between [fromMs] and [toMs]. Blocking: call on IO. */
@@ -97,7 +98,7 @@ class BandManager(private val context: Context, private val scope: CoroutineScop
 
     fun deleteAlarm(id: Int) = controller.deleteAlarm(id)
 
-    fun sendTestNotification() = controller.sendTestNotification()
+    fun sendTestNotification() = controller.sendTestNotification(context.getString(R.string.band_test_notification_body))
 
     fun setSyncTimeOnConnect(enabled: Boolean) = store.setSyncTimeOnConnect(enabled)
 

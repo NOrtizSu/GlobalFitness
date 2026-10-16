@@ -71,7 +71,7 @@ object XiaomiCrypto {
 
     /** Inverse of [aesCcmEncrypt]; throws [GeneralSecurityException] when the tag does not match. */
     fun aesCcmDecrypt(key: ByteArray, nonce: ByteArray, ciphertext: ByteArray, tagLength: Int = CCM_TAG_LENGTH): ByteArray {
-        if (ciphertext.size < tagLength) throw GeneralSecurityException("CCM: datos más cortos que la etiqueta")
+        if (ciphertext.size < tagLength) throw GeneralSecurityException("CCM: data shorter than the tag")
         val aes = ecb(key)
         val lengthBytes = 15 - nonce.size
         val dataLength = ciphertext.size - tagLength
@@ -81,7 +81,7 @@ object XiaomiCrypto {
         val s0 = aes.doFinal(counterBlock(nonce, lengthBytes, 0))
         val received = ByteArray(tagLength) { (ciphertext[dataLength + it].toInt() xor s0[it].toInt()).toByte() }
         val expected = cbcMac(aes, nonce, plaintext, tagLength, lengthBytes)
-        if (!MessageDigest.isEqual(received, expected)) throw GeneralSecurityException("CCM: etiqueta de autenticación incorrecta")
+        if (!MessageDigest.isEqual(received, expected)) throw GeneralSecurityException("CCM: wrong authentication tag")
         return plaintext
     }
 

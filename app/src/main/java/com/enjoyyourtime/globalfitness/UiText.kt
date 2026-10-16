@@ -10,9 +10,9 @@ import androidx.annotation.StringRes
  * Arguments may themselves be [UiText]s.
  */
 sealed interface UiText {
-    data class Res(@StringRes val id: Int, val args: List<Any> = emptyList()) : UiText
+    data class Res(@param:StringRes val id: Int, val args: List<Any> = emptyList()) : UiText
 
-    data class Plural(@PluralsRes val id: Int, val count: Int, val args: List<Any> = listOf(count)) : UiText
+    data class Plural(@param:PluralsRes val id: Int, val count: Int, val args: List<Any> = listOf(count)) : UiText
 
     /** Text that needs no translation (a name, a server message). */
     data class Raw(val text: String) : UiText

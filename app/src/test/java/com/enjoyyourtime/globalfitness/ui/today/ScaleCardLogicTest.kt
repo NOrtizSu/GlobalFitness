@@ -26,7 +26,7 @@ class ScaleCardLogicTest {
     fun shownForProblemsWeighingsAndSessions() {
         assertTrue(scaleCardVisible(ScanStatus.MissingPermission, LiveScale.Idle, null))
         assertTrue(scaleCardVisible(ScanStatus.BluetoothOff, LiveScale.Idle, null))
-        assertTrue(scaleCardVisible(ScanStatus.Failed(2, "x"), LiveScale.Idle, null))
+        assertTrue(scaleCardVisible(ScanStatus.Failed(2), LiveScale.Idle, null))
         assertTrue(scaleCardVisible(ScanStatus.Scanning(locationOff = true), LiveScale.Idle, null))
         assertTrue(scaleCardVisible(ScanStatus.Scanning(locationOff = false), LiveScale.Measuring(70.0), null))
         assertTrue(scaleCardVisible(ScanStatus.Scanning(locationOff = false), LiveScale.Idle, session("a", SessionStatus.CONNECTING, 0)))
