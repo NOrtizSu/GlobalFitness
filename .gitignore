@@ -16,3 +16,7 @@
 
 # Agent worktrees
 /.claude/worktrees/
+
+# Firebase CLI
+firebase-debug.log*
+.firebase/

@@ -69,6 +69,28 @@ Requisitos: JDK 17 y Android SDK (plataforma 36). No hace falta Android Studio.
 
 El APK queda en `app\build\outputs\apk\debug\app-debug.apk`.
 
+### Versión de publicación (Google Play)
+
+```bat
+gradlew assembleRelease bundleRelease
+```
+
+- **Firma**: la clave de subida (*upload key*) está fuera del repositorio. `app/build.gradle.kts` lee
+  `GLOBALFITNESS_UPLOAD_STORE_FILE`, `GLOBALFITNESS_UPLOAD_STORE_PASSWORD`, `GLOBALFITNESS_UPLOAD_KEY_ALIAS`
+  y `GLOBALFITNESS_UPLOAD_KEY_PASSWORD` de `%USERPROFILE%\.gradle\gradle.properties`; si faltan, la
+  compilación de release sale **sin firmar** (con un aviso de Gradle).
+- **R8**: la release se minimiza y reduce recursos (`isMinifyEnabled`, `isShrinkResources`); las reglas
+  propias están en `app/proguard-rules.pro`. El `.aab` ya lleva el `mapping.txt` de R8, con el que Play
+  traduce los informes de fallos (para el APK está en `app/build/outputs/mapping/release/`).
+- **Versiones**: `versionName` y el número de compilación están en `gradle.properties`
+  (`globalfitness.versionName`, `globalfitness.buildNumber`); `versionCode = 1000 + buildNumber`. Sube
+  `buildNumber` en 1 para cada subida a Play (también con `-Pglobalfitness.buildNumber=N`) y etiqueta el
+  commit publicado (`v1.0.0`, …). Primera versión: 1.0.0 (versionCode 1001).
+- Salidas: `app\build\outputs\bundle\release\app-release.aab` (para Play) y
+  `app\build\outputs\apk\release\app-release.apk`; se copian a `dist\` (ignorado por git).
+
+Pasos de publicación: [`docs/play-release.md`](docs/play-release.md).
+
 ## Instalar
 
 ```bat
@@ -90,9 +112,16 @@ Connect de Google Play).
   propiedades de Gradle (`-P…` o `~/.gradle/gradle.properties`) o en `local.properties`. Configura el
   mensaje de consentimiento (UMP) en la consola de AdMob.
 - **Google Play**: crea en Play Console el producto de compra única `remove_ads` («Quitar anuncios») y
-  completa las declaraciones de *Seguridad de los datos* y de Health Connect.
-- **Política de privacidad**: `docs/privacy-policy.md` es un **borrador** pendiente de revisión legal; se
-  incluye en la app (*Perfil → Política de privacidad*) y hay que publicarlo en una URL pública.
+  completa las declaraciones de *Seguridad de los datos* y de Health Connect (pasos en
+  `docs/play-release.md`). Con la firma de apps de Play, añade también en Firebase las huellas de la
+  clave de firma de Play.
+- **Páginas públicas** (Firebase Hosting, `hosting/public/`): inicio, política de privacidad
+  (`privacy.html`), borrado de cuenta (`delete-account.html`, la URL que pide Play) y código fuente
+  (`source.html`). Prueba local con `firebase emulators:start --only hosting` y publicación con
+  `firebase deploy --only hosting` → `https://globalfitness-app.web.app/`.
+- **Política de privacidad**: `docs/privacy-policy.md` es la fuente (en español e inglés); `privacy.html`
+  debe mantenerse igual. La app abre la versión web (*Perfil → Política de privacidad*) y, sin conexión,
+  la copia incluida en la app. Faltan los datos del responsable (marcados `[COMPLETAR: …]`).
 
 ## Herramientas de depuración
 

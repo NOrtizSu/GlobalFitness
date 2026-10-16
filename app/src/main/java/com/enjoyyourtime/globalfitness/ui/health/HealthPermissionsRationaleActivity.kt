@@ -15,14 +15,17 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.enjoyyourtime.globalfitness.R
+import com.enjoyyourtime.globalfitness.ui.profile.PRIVACY_POLICY_URL
 import com.enjoyyourtime.globalfitness.ui.theme.GlobalFitnessTheme
 
 /**
@@ -44,6 +47,7 @@ class HealthPermissionsRationaleActivity : ComponentActivity() {
 
 @Composable
 private fun RationaleScreen(onClose: () -> Unit) {
+    val uriHandler = LocalUriHandler.current
     Scaffold(topBar = { TopAppBar(title = { Text(stringResource(R.string.health_rationale_title)) }) }) { padding ->
         Column(
             Modifier
@@ -58,6 +62,9 @@ private fun RationaleScreen(onClose: () -> Unit) {
             Paragraph(stringResource(R.string.health_rationale_write))
             Paragraph(stringResource(R.string.health_rationale_storage))
             Paragraph(stringResource(R.string.health_rationale_revoke))
+            OutlinedButton(onClick = { runCatching { uriHandler.openUri(PRIVACY_POLICY_URL) } }) {
+                Text(stringResource(R.string.health_rationale_full_policy))
+            }
             Button(onClick = onClose) { Text(stringResource(R.string.action_got_it)) }
         }
     }

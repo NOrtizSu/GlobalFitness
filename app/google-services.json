@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "1064750272721-t1m09b1e2luodv63ruvl8j4qbec5562t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.enjoyyourtime.globalfitness",
+            "certificate_hash": "9f14d6bc8c396abe776815fe6d51259511a2a873"
+          }
+        },
+        {
           "client_id": "1064750272721-19ltopivqkq78r71miapsj77hq27qcqr.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -1,16 +1,13 @@
 # Política de privacidad de GlobalFitness
 
-> **BORRADOR PENDIENTE DE REVISIÓN.** Este texto es un primer borrador técnico, no asesoramiento
-> legal. Antes de publicarlo (ficha de Google Play, sitio web) hay que revisarlo, completar los
-> datos del responsable y comprobar que coincide con la versión publicada de la app y con la
-> declaración de «Seguridad de los datos» de Google Play.
-
-Última actualización: _pendiente_ · Contacto: **enjoyyourtime.online@gmail.com**
+Última actualización: 15 de octubre de 2026 · Contacto: **enjoyyourtime.online@gmail.com** ·
+Versión web: [globalfitness-app.web.app/privacy.html](https://globalfitness-app.web.app/privacy.html)
 
 ## 1. Quién es el responsable
 
-GlobalFitness es una app para Android publicada por **Enjoy Your Time** (_completar nombre legal,
-NIF y dirección_). Para cualquier cuestión sobre privacidad escribe a
+GlobalFitness es una app para Android publicada por **Enjoy Your Time**. Responsable del
+tratamiento: **[COMPLETAR: nombre legal y NIF del titular]**, con domicilio en
+**[COMPLETAR: dirección postal]**. Para cualquier cuestión sobre privacidad escribe a
 **enjoyyourtime.online@gmail.com**.
 
 ## 2. Resumen
@@ -31,7 +28,8 @@ NIF y dirección_). Para cualquier cuestión sobre privacidad escribe a
   otras estimaciones.
 - **Ajustes** de la app y **básculas configuradas** (modelo, nombre y opciones).
 - **Pulsera Xiaomi Smart Band**: la clave de emparejamiento de la pulsera se guarda solo en el
-  teléfono y **nunca sale de él** (ni a la nube ni a la copia de seguridad de Android).
+  teléfono y **nunca sale de él** (ni a la nube ni a la copia de seguridad de Android). El pulso
+  que registras en el modo directo (fecha, hora y pulsaciones) también se guarda solo en el teléfono.
 
 Estos datos se quedan en el teléfono hasta que los borres o desinstales la app.
 
@@ -42,6 +40,12 @@ anterior, Android exige el permiso de ubicación para buscar dispositivos Blueto
 usa tu ubicación** para nada más y no la guarda. Las direcciones Bluetooth de tus dispositivos
 se guardan solo en el teléfono.
 
+**Reenvío de notificaciones (opcional).** Si activas el reenvío de notificaciones a la pulsera y
+concedes a la app el acceso a las notificaciones, la app lee el nombre de la app, el título y el
+texto de las notificaciones de las apps que elijas y los envía por Bluetooth a tu pulsera, solo
+mientras está conectada en modo directo. Ese contenido **no se guarda, no se registra y no sale
+del teléfono** salvo hacia tu pulsera. Puedes retirar el acceso en los ajustes de Android.
+
 ## 5. Health Connect
 
 Si lo autorizas, la app **lee y escribe** en Health Connect los tipos de datos que concedas en la
@@ -49,7 +53,7 @@ pantalla de permisos de Android (por ejemplo peso, composición corporal o frecu
 Puedes retirar el permiso en cualquier momento desde los ajustes de Health Connect.
 
 - Los datos de Health Connect se usan **solo para mostrarte tu progreso y sincronizar tus
-  mediciones** con otras apps que tú elijas.
+  mediciones** con otras apps que tú elijas. Lo que se lee se guarda en una caché en el teléfono.
 - **No se suben** a la copia en la nube de GlobalFitness, **no se usan para publicidad**, no se
   venden y no se comparten con terceros.
 - El uso de la información recibida de Health Connect cumple la política de permisos de Health
@@ -76,9 +80,11 @@ Si inicias sesión con Google (mediante Firebase Authentication):
   sesión y puedes retirar en cualquier momento.
 - **Cuánto tiempo**: mientras mantengas la cuenta. Si cierras sesión, la copia se conserva en la
   nube (puedes volver a iniciar sesión para recuperarla).
-- **Cómo borrarla**: en la app, **Cuenta y copia en la nube → «Borrar mis datos de la nube y la
-  cuenta»**. Se borran de forma definitiva tu copia en Firestore y tu cuenta de Firebase; los datos
-  de tu teléfono no se tocan. También puedes pedirlo por correo a enjoyyourtime.online@gmail.com.
+- **Cómo borrarla**: en la app, **Perfil → Cuenta y copia en la nube → «Borrar mis datos de la nube
+  y la cuenta»**. Se borran de forma definitiva tu copia en Firestore y tu cuenta de Firebase; los
+  datos de tu teléfono no se tocan. También puedes pedirlo por correo a
+  enjoyyourtime.online@gmail.com. Instrucciones completas:
+  [globalfitness-app.web.app/delete-account.html](https://globalfitness-app.web.app/delete-account.html)
 
 ## 7. Publicidad (Google AdMob)
 
@@ -90,7 +96,7 @@ interacción con los anuncios, según la
 
 - En el Espacio Económico Europeo y el Reino Unido usamos la **Plataforma de Mensajes de Usuario
   (UMP) de Google** para pedir tu consentimiento antes de mostrar anuncios. Puedes cambiar tu
-  decisión en **Perfiles → «Opciones de privacidad de anuncios»**.
+  decisión en **Perfil → «Opciones de privacidad de anuncios»**.
 - **Nunca enviamos a los anuncios tus datos de salud o corporales** (peso, composición corporal,
   frecuencia cardiaca, perfil…): las solicitudes de anuncios no llevan segmentación ni palabras
   clave de la app.
@@ -135,11 +141,10 @@ importante, te avisaremos en la app.
 
 # GlobalFitness Privacy Policy (English)
 
-> **DRAFT FOR REVIEW.** Technical first draft, not legal advice. Review it, complete the
-> controller details and check it against the published app and the Google Play Data safety form
-> before publishing.
+Last updated: 15 October 2026 · Contact: **enjoyyourtime.online@gmail.com**
 
-Contact: **enjoyyourtime.online@gmail.com**
+**Controller.** GlobalFitness is published by **Enjoy Your Time**. Data controller:
+**[COMPLETE: legal name and tax ID of the owner]**, **[COMPLETE: postal address]**.
 
 **Summary.** The app works **without an account** and keeps everything **on your phone** by default.
 **Cloud backup is optional** (Google sign-in) and can be deleted, together with the account, from
@@ -152,13 +157,19 @@ configured scales. The Xiaomi Smart Band pairing key stays on the phone only and
 included in Android backups.
 
 **Bluetooth:** used to read your scale and band. On Android 11 and lower the location permission is
-required by Android to scan for Bluetooth devices; location is not used for anything else.
+required by Android to scan for Bluetooth devices; location is not used for anything else. Heart rate
+recorded in direct band mode stays on the phone.
+
+**Notification forwarding (optional):** if you enable it and grant notification access, the app reads
+the app name, title and text of notifications from the apps you choose and sends them over Bluetooth
+to your band, only while it is connected in direct mode. That content is not stored, logged or sent
+anywhere else.
 
 **Health Connect:** with your permission the app reads and writes the data types you grant (e.g.
 weight, body composition, heart rate). This data is only used to show your progress and sync with
-apps you choose; it is **not uploaded to the GlobalFitness cloud backup, not used for ads, not sold
-and not shared**. Use of information received from Health Connect follows the Health Connect
-Permissions policy, including the Limited Use requirements.
+apps you choose, and is cached on the phone; it is **not uploaded to the GlobalFitness cloud backup,
+not used for ads, not sold and not shared**. Use of information received from Health Connect follows
+the Health Connect Permissions policy, including the Limited Use requirements.
 
 **Optional Google account and cloud backup:** Firebase Authentication (user id, email, name, profile
 photo) and Google Cloud Firestore in the **EU (europe-southwest1, Madrid)** store your profile (with a
@@ -166,13 +177,14 @@ random dataset id), measurements (incl. scale-reported body composition and scal
 configured scales (model, name, user slot), plus an informational `premium` flag if you bought
 "remove ads". Never uploaded: band key, scale bind keys / PINs / pairing keys, Bluetooth addresses,
 Health Connect data, device-specific settings. Legal basis: your explicit consent (GDPR art. 6(1)(a) and 9(2)(a)).
-Kept until you delete it: **Account & cloud backup → "Borrar mis datos de la nube y la cuenta"**
-permanently deletes the cloud copy and the Firebase account (phone data is kept), or email us.
+Kept until you delete it: **Perfil → Cuenta y copia en la nube → "Borrar mis datos de la nube y la
+cuenta"** permanently deletes the cloud copy and the Firebase account (phone data is kept), or email
+us; see [globalfitness-app.web.app/delete-account.html](https://globalfitness-app.web.app/delete-account.html).
 
 **Ads (Google AdMob):** Google may process device identifiers (such as the advertising ID), IP
 address and ad interaction data under the [Google Privacy Policy](https://policies.google.com/privacy).
 In the EEA/UK we ask for consent with Google's User Messaging Platform; you can change it under
-Perfiles → "Opciones de privacidad de anuncios". Ad requests never include health or body data or
+Perfil → "Opciones de privacidad de anuncios". Ad requests never include health or body data or
 any targeting from the app. No ads are shown on the sign-in, purchase or consent screens.
 
 **Google Play Billing:** purchases are processed by Google Play; we only receive the purchase state
