@@ -24,6 +24,7 @@ import com.enjoyyourtime.globalfitness.domain.RecordOutcome
 import com.enjoyyourtime.globalfitness.scale.GattSession
 import com.enjoyyourtime.globalfitness.scale.ScaleContext
 import com.enjoyyourtime.globalfitness.scale.drivers.AllDrivers
+import com.enjoyyourtime.globalfitness.wearable.WearableManager
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +32,9 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 /** Manual dependency container (no DI library). */
@@ -67,9 +70,28 @@ class AppContainer(context: Context) {
             // No interstitials while the band streams live heart rate.
             appScope.launch {
                 manager.state.map { it.liveActive }.distinctUntilChanged()
-                    .collect { adSuppression.set(AdSuppression.BAND_LIVE_HEART_RATE, it) }
+                    .collect { setLiveHeartRate(LIVE_HR_BAND, it) }
             }
         }
+    }
+
+    /** Wearables of any supported family (Xiaomi, Huami / Zepp OS, standard BLE, PineTime, Bangle.js). */
+    val wearables by lazy {
+        WearableManager(context.applicationContext, appScope).also { manager ->
+            // No interstitials while any wearable streams live heart rate.
+            appScope.launch {
+                manager.liveHeartRateActive.collect { setLiveHeartRate(LIVE_HR_WEARABLES, it) }
+            }
+            appScope.launch { scanner.advertisements.collect { manager.onAdvertisement(it) } }
+        }
+    }
+
+    /** Sources streaming live heart rate; ads stay suppressed while any of them is. */
+    private val liveHeartRateSources = MutableStateFlow<Set<String>>(emptySet())
+
+    private fun setLiveHeartRate(source: String, active: Boolean) {
+        liveHeartRateSources.update { if (active) it + source else it - source }
+        adSuppression.set(AdSuppression.BAND_LIVE_HEART_RATE, liveHeartRateSources.value.isNotEmpty())
     }
     val health = HealthModule(context, repository, scaleRegistry, appScope)
     // ---- Optional Google account + cloud backup, ads and the "Quitar anuncios" purchase --------
@@ -95,6 +117,8 @@ class AppContainer(context: Context) {
 
     private companion object {
         val BUSY_SESSION_STATES = setOf(SessionStatus.CONNECTING, SessionStatus.CONNECTED, SessionStatus.MEASURING)
+        const val LIVE_HR_BAND = "band"
+        const val LIVE_HR_WEARABLES = "wearables"
     }
 }
 

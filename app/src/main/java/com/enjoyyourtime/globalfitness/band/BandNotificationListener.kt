@@ -8,6 +8,7 @@ import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import androidx.core.app.NotificationManagerCompat
 import com.enjoyyourtime.globalfitness.GlobalFitnessApp
+import com.enjoyyourtime.globalfitness.wearable.WearableManager
 
 /**
  * Optional phone → band notification forwarding. Android only binds it after the user grants
@@ -18,13 +19,18 @@ class BandNotificationListener : NotificationListenerService() {
     private val band: BandManager
         get() = (application as GlobalFitnessApp).container.band
 
+    private val wearables: WearableManager
+        get() = (application as GlobalFitnessApp).container.wearables
+
     override fun onNotificationPosted(sbn: StatusBarNotification) {
         val notification = toPhoneNotification(sbn) ?: return
         band.onPhoneNotification(notification)
+        wearables.onPhoneNotification(notification)
     }
 
     override fun onNotificationRemoved(sbn: StatusBarNotification) {
         band.onPhoneNotificationRemoved(sbn.key)
+        wearables.onPhoneNotificationRemoved(sbn.key)
     }
 
     private fun toPhoneNotification(sbn: StatusBarNotification): PhoneNotification? {
