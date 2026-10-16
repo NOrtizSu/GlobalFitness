@@ -9,6 +9,7 @@ literal percent sign in strings with `%1$s` placeholders). The script checks tha
 every key, the same placeholders and the plural categories its language needs, and escapes the XML.
 
 Usage: python tools/i18n/gen.py app/src/main/res [--check]
+       python tools/i18n/gen.py --only <locale>   (validates one locale, writes nothing)
 """
 import os
 import re
@@ -171,7 +172,8 @@ def render(entries, order, lang, pick, items=None):
 
 
 def main():
-    res = sys.argv[1]
+    only = sys.argv[sys.argv.index('--only') + 1] if '--only' in sys.argv else None
+    res = None if only else sys.argv[1]
     master, order, items = parse(os.path.join(SRC, 'master'), master=True)
     errors = []
 
@@ -208,13 +210,14 @@ def main():
             if got != ref and not (e['plural'] and cat == 'one' and set(got) <= set(ref)):
                 errors.append(f'es: {key}{{{cat}}}: placeholders {got} != {ref}')
 
-    write_xml(os.path.join(res, 'values', 'strings.xml'), render(master, order, 'en', en_pick, items))
-    write_xml(os.path.join(res, 'values-es', 'strings.xml'), render(master, order, 'es', es_pick))
+    if res:
+        write_xml(os.path.join(res, 'values', 'strings.xml'), render(master, order, 'en', en_pick, items))
+        write_xml(os.path.join(res, 'values-es', 'strings.xml'), render(master, order, 'es', es_pick))
 
     translatable = [k for k in order if not master[k]['nt']]
     done = ['en', 'es']
     for loc, folder in LOCALES.items():
-        if loc == 'es':
+        if loc == 'es' or (only and loc != only):
             continue
         path = os.path.join(SRC, loc)
         if not os.path.isdir(path):
@@ -241,6 +244,8 @@ def main():
             ref = placeholders(en_ref(k))
             for cat, v in t['forms'].items():
                 check_format(k, v, loc)
+                if not v.strip() or '|||' in v:
+                    errors.append(f'{loc}: {k}{{{cat}}}: empty or contains |||')
                 got = placeholders(v)
                 if got != ref and not (e['plural'] and set(got) <= set(ref)):
                     errors.append(f'{loc}: {k}{{{cat}}}: placeholders {got} != {ref}')
@@ -255,7 +260,8 @@ def main():
             forms = tr[key]['forms']
             return forms[cat] if cat in forms else forms['other']
 
-        write_xml(os.path.join(res, f'values-{folder}', 'strings.xml'), render(master, order, loc, pick))
+        if res:
+            write_xml(os.path.join(res, f'values-{folder}', 'strings.xml'), render(master, order, loc, pick))
         done.append(loc)
 
     n_str = sum(1 for k in order if not master[k]['plural'])
@@ -265,7 +271,7 @@ def main():
         print('\n'.join(errors[:80]))
         if len(errors) > 80:
             print(f'... {len(errors) - 80} more')
-        if '--check' in sys.argv:
+        if '--check' in sys.argv or only:
             sys.exit(1)
 
 
