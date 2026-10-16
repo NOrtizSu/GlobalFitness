@@ -26,13 +26,8 @@ enum class PointKind(val code: String) {
     BODY_FAT("body_fat"),
 }
 
-enum class SleepStage(val label: String) {
-    AWAKE("Despierto"),
-    LIGHT("Ligero"),
-    DEEP("Profundo"),
-    REM("REM"),
-    UNKNOWN("Sin fase"),
-}
+/** Sleep stages; [UNKNOWN] is asleep without a specific stage. Names are mapped to resources by [labelRes]. */
+enum class SleepStage { AWAKE, LIGHT, DEEP, REM, UNKNOWN }
 
 data class SleepStageInterval(val start: Long, val end: Long, val stage: SleepStage)
 

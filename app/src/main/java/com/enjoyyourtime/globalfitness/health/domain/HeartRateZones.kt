@@ -4,19 +4,17 @@ import com.enjoyyourtime.globalfitness.health.HrSample
 import kotlin.math.roundToInt
 
 /** Zone [index] covers [minBpm, maxBpm) ; the top zone has no upper bound (maxBpm = null). */
-data class HrZone(val index: Int, val label: String, val minBpm: Int, val maxBpm: Int?)
+data class HrZone(val index: Int, val minBpm: Int, val maxBpm: Int?)
 
 data class HrStats(val avg: Int, val min: Int, val max: Int, val count: Int)
 
 /**
  * Heart-rate zones as a percentage of the estimated maximum (220 − age):
- * Z1 50–60 % "Muy suave", Z2 60–70 % "Suave", Z3 70–80 % "Moderada", Z4 80–90 % "Intensa",
- * Z5 ≥ 90 % "Máxima". Below 50 % is zone 0 ("Reposo").
+ * Z1 50–60 % "very light", Z2 60–70 % "light", Z3 70–80 % "moderate", Z4 80–90 % "hard",
+ * Z5 ≥ 90 % "maximum". Below 50 % is zone 0 ("rest"). Names are mapped to resources by the UI.
  */
 object HeartRateZones {
     private val PERCENTS = intArrayOf(50, 60, 70, 80, 90)
-    private val LABELS = arrayOf("Muy suave", "Suave", "Moderada", "Intensa", "Máxima")
-    const val REST_LABEL = "Reposo"
 
     /** Samples further apart than this are not joined when measuring time in zones. */
     const val MAX_SAMPLE_GAP_MS = 5 * 60_000L
@@ -27,7 +25,7 @@ object HeartRateZones {
         val max = maxHeartRate(age)
         val bounds = PERCENTS.map { (max * it / 100.0).roundToInt() }
         return bounds.indices.map { i ->
-            HrZone(index = i + 1, label = LABELS[i], minBpm = bounds[i], maxBpm = bounds.getOrNull(i + 1))
+            HrZone(index = i + 1, minBpm = bounds[i], maxBpm = bounds.getOrNull(i + 1))
         }
     }
 

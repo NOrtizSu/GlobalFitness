@@ -1,6 +1,7 @@
 package com.enjoyyourtime.globalfitness.ui.health
 
 import androidx.activity.result.contract.ActivityResultContract
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
@@ -44,16 +45,20 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.ZoneId
 
-enum class DayRange(val label: String, val days: Int) {
-    D7("7 días", 7),
-    D30("30 días", 30),
-    D90("90 días", 90),
+enum class DayRange(val days: Int) {
+    D7(7),
+    D30(30),
+    D90(90),
 }
 
 data class ExerciseItem(
     val session: ExerciseSession,
-    val name: String,
-    val source: String,
+    /** The workout's own title, if the source app gave one. */
+    val title: String?,
+    /** Name of the Health Connect exercise type. */
+    @param:StringRes val typeName: Int,
+    /** Source app name; null when unknown. */
+    val source: String?,
     val heartRate: HrStats?,
     /** Milliseconds per HR zone 0..5 (empty without samples or profile age). */
     val zoneMs: List<Long>,
@@ -84,6 +89,17 @@ data class HealthDashboard(
     val spo2: List<TimedValue>,
     val spo2Start: Long,
     val spo2End: Long,
+    /** Heart-rate variability (RMSSD, ms) and respiratory rate of the last 30 days, oldest first. */
+    val hrv: List<TimedValue>,
+    val respiratoryRate: List<TimedValue>,
+    /** Start / end of the 30-day window of [hrv] and [respiratoryRate]. */
+    val vitalsStart: Long,
+    val vitalsEnd: Long,
+    /** Body fat % written by other apps in the last 90 days, oldest first. */
+    val externalBodyFat: List<TimedValue>,
+    val bodyFatStart: Long,
+    /** Source app of each origin package shown in the vitals cards. */
+    val originNames: Map<String, String>,
     val exercises: List<ExerciseItem>,
     val sources: List<String>,
     val externalWeight: TimedValue?,
@@ -91,7 +107,12 @@ data class HealthDashboard(
 ) {
     val hasData: Boolean
         get() = daily.isNotEmpty() || hrRanges.isNotEmpty() || nights.isNotEmpty() || spo2.isNotEmpty() ||
-            exercises.isNotEmpty() || todaySummary.restingHr != null
+            exercises.isNotEmpty() || todaySummary.restingHr != null || hrv.isNotEmpty() || respiratoryRate.isNotEmpty()
+
+    /** Names of the apps that wrote [values], most frequent first. */
+    fun sourcesOf(values: List<TimedValue>): List<String> =
+        values.groupingBy { it.origin }.eachCount().entries.sortedByDescending { it.value }
+            .mapNotNull { originNames[it.key] }.distinct()
 }
 
 data class HealthUiState(
@@ -233,13 +254,21 @@ class HealthViewModel(
         val nights = SleepAnalysis.nights(cache.loadSleep(startOf(today.minusDays(TREND_DAYS - 1L)), endOfToday), zone)
         val spo2Start = startOf(today.minusDays(SPO2_DAYS - 1L))
         val spo2 = cache.loadPoints(PointKind.SPO2, spo2Start, endOfToday)
+        val vitalsStart = startOf(today.minusDays(VITALS_DAYS - 1L))
+        val hrv = cache.loadPoints(PointKind.HRV, vitalsStart, endOfToday)
+        val respiratory = cache.loadPoints(PointKind.RESPIRATORY_RATE, vitalsStart, endOfToday)
+        val bodyFatStart = startOf(today.minusDays(BODY_FAT_DAYS - 1L))
+        val bodyFat = cache.loadPoints(PointKind.BODY_FAT, bodyFatStart, endOfToday)
+        val originNames = (hrv + respiratory + bodyFat).map { it.origin }.distinct()
+            .mapNotNull { origin -> health.gateway.originName(origin)?.let { origin to it } }.toMap()
         val age = profile?.ageAt(now, zone)
 
         val exercises = cache.loadExercises(startOf(today.minusDays(EXERCISE_DAYS - 1L)), endOfToday).map { e ->
             val samples = if (e.start >= hr30Start) hr30.filter { it.time in e.start..e.end } else cache.loadHr(e.start, e.end + 1)
             ExerciseItem(
                 session = e,
-                name = e.title?.takeIf { it.isNotBlank() } ?: HealthMappings.exerciseName(e.type),
+                title = e.title?.takeIf { it.isNotBlank() },
+                typeName = HealthMappings.exerciseName(e.type),
                 source = health.gateway.originName(e.origin),
                 heartRate = HeartRateZones.stats(samples, e.start, e.end),
                 zoneMs = if (age != null && samples.isNotEmpty()) HeartRateZones.timeInZones(samples, e.start, e.end, age).toList() else emptyList(),
@@ -275,8 +304,15 @@ class HealthViewModel(
             spo2 = spo2,
             spo2Start = spo2Start,
             spo2End = minOf(now, endOfToday),
+            hrv = hrv,
+            respiratoryRate = respiratory,
+            vitalsStart = vitalsStart,
+            vitalsEnd = minOf(now, endOfToday),
+            externalBodyFat = bodyFat,
+            bodyFatStart = bodyFatStart,
+            originNames = originNames,
             exercises = exercises,
-            sources = cache.origins().map { health.gateway.originName(it) }.distinct(),
+            sources = cache.origins().mapNotNull { health.gateway.originName(it) }.distinct(),
             externalWeight = externalWeight,
             externalWeightSource = externalWeight?.let { health.gateway.originName(it.origin) },
         )
@@ -290,6 +326,8 @@ class HealthViewModel(
         private const val SLEEP_DAYS = 30
         private const val SPO2_DAYS = 14
         private const val EXERCISE_DAYS = 90
+        private const val VITALS_DAYS = 30
+        private const val BODY_FAT_DAYS = 90
 
         val Factory = viewModelFactory {
             initializer {

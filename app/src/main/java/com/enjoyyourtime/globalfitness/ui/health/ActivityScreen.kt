@@ -2,6 +2,7 @@
 
 package com.enjoyyourtime.globalfitness.ui.health
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
@@ -40,18 +41,24 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.enjoyyourtime.globalfitness.domain.Classification
+import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.health.HcAvailability
 import com.enjoyyourtime.globalfitness.health.HealthDataType
-import com.enjoyyourtime.globalfitness.health.HealthMappings
 import com.enjoyyourtime.globalfitness.health.HealthPermissions
 import com.enjoyyourtime.globalfitness.health.SleepStage
+import com.enjoyyourtime.globalfitness.health.TimedValue
 import com.enjoyyourtime.globalfitness.health.domain.HealthStats
 import com.enjoyyourtime.globalfitness.health.domain.HeartRateZones
+import com.enjoyyourtime.globalfitness.health.domain.SleepQuality
+import com.enjoyyourtime.globalfitness.health.domain.SleepRating
+import com.enjoyyourtime.globalfitness.health.labelRes
 import com.enjoyyourtime.globalfitness.ui.Fmt
+import com.enjoyyourtime.globalfitness.ui.asString
 import com.enjoyyourtime.globalfitness.ui.components.AppCard
 import com.enjoyyourtime.globalfitness.ui.components.Dot
 import com.enjoyyourtime.globalfitness.ui.components.SectionTitle
@@ -64,11 +71,14 @@ import java.time.ZoneId
 import kotlin.math.roundToInt
 
 private const val SLEEP_CHART_NIGHTS = 14
+private const val SPO2_DAYS = 14
+private const val VITALS_DAYS = 30
+private const val BODY_FAT_DAYS = 90
 
 /**
- * "Actividad": what the band or watch wrote to Health Connect (today, steps, heart rate, sleep,
- * SpO2, workouts) plus the sync status. Connection and permissions live in Dispositivos and the
- * scale export switch in Perfil.
+ * Activity: what the band or watch wrote to Health Connect (today, steps, heart rate, sleep,
+ * SpO2, heart-rate variability, respiratory rate, workouts, body fat from other apps) plus the
+ * sync status. Connection and permissions live in Devices and the scale export switch in Profile.
  */
 @Composable
 fun ActivityScreen(vm: HealthViewModel, onConnect: () -> Unit) {
@@ -77,7 +87,7 @@ fun ActivityScreen(vm: HealthViewModel, onConnect: () -> Unit) {
     val detail by vm.detail.collectAsStateWithLifecycle()
     var stepsRange by rememberSaveable { mutableStateOf(DayRange.D30) }
 
-    TabPage(title = "Actividad") {
+    TabPage(title = stringResource(R.string.nav_activity)) {
         val available = state.availability == HcAvailability.AVAILABLE
         if (!available || !state.canRead) {
             item {
@@ -96,16 +106,19 @@ fun ActivityScreen(vm: HealthViewModel, onConnect: () -> Unit) {
         if (!d.hasData && !state.sync.running) item { NoDataCard() }
         // Partial grants: each section is shown only when its data type is readable.
         val readable = HealthPermissions.readableTypes(state.granted)
-        item { SectionTitle("Hoy") }
+        item { SectionTitle(stringResource(R.string.nav_today)) }
         item { TodayGrid(d) }
         if (HealthDataType.STEPS in readable) item { StepsCard(d, stepsRange) { stepsRange = it } }
         if (HealthDataType.HEART_RATE in readable || d.hrDayBand.isNotEmpty()) item { HeartRateCard(d, onDay = vm::selectHrDay) }
+        if (HealthDataType.HEART_RATE_VARIABILITY in readable) item { HrvCard(d) }
         if (HealthDataType.SLEEP in readable) item { SleepCard(d) }
         if (HealthDataType.OXYGEN_SATURATION in readable) item { Spo2Card(d) }
+        if (HealthDataType.RESPIRATORY_RATE in readable) item { RespiratoryRateCard(d) }
+        if (HealthDataType.BODY_FAT in readable) item { ExternalBodyFatCard(d) }
         if (HealthDataType.EXERCISE in readable) {
-            item { SectionTitle("Entrenamientos (90 días)") }
+            item { SectionTitle(stringResource(R.string.health_workouts_title)) }
             if (d.exercises.isEmpty()) {
-                item { EmptyText("Sin entrenamientos registrados.") }
+                item { EmptyText(stringResource(R.string.health_workouts_none)) }
             } else {
                 items(d.exercises, key = { it.session.id }) { ExerciseRow(it, onClick = { vm.openExercise(it) }) }
             }
@@ -135,42 +148,36 @@ fun HealthConnectionCard(
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             if (showTitle) Text("Health Connect", style = MaterialTheme.typography.titleMedium)
             when (state.availability) {
-                HcAvailability.NOT_SUPPORTED -> BodyText(
-                    "Health Connect no está disponible en este dispositivo (necesita Android 9 o superior).",
-                )
+                HcAvailability.NOT_SUPPORTED -> BodyText(stringResource(R.string.hc_not_supported))
                 HcAvailability.NOT_INSTALLED -> {
-                    BodyText("Instala Health Connect desde Google Play para traer los datos de la pulsera y guardar los de la báscula.")
-                    Button(onClick = onOpenPlayStore) { Text("Instalar Health Connect") }
+                    BodyText(stringResource(R.string.hc_install_text))
+                    Button(onClick = onOpenPlayStore) { Text(stringResource(R.string.action_install_health_connect)) }
                 }
                 HcAvailability.UPDATE_REQUIRED -> {
-                    BodyText("Tu versión de Health Connect es antigua. Actualízala desde Google Play para continuar.")
-                    Button(onClick = onOpenPlayStore) { Text("Actualizar Health Connect") }
+                    BodyText(stringResource(R.string.hc_update_text))
+                    Button(onClick = onOpenPlayStore) { Text(stringResource(R.string.action_update_health_connect)) }
                 }
                 HcAvailability.AVAILABLE -> when {
                     state.granted.isEmpty() -> {
-                        BodyText(
-                            "Conecta Health Connect para ver aquí los pasos, el pulso, el sueño, el oxígeno en sangre y los " +
-                                "entrenamientos de tu pulsera (Mi Fitness u otra app), y para guardar en Health Connect las " +
-                                "mediciones de la báscula. Los datos se quedan en el teléfono.",
-                        )
-                        Button(onClick = onConnect) { Text("Conectar Health Connect") }
+                        BodyText(stringResource(R.string.hc_connect_text))
+                        Button(onClick = onConnect) { Text(stringResource(R.string.action_connect_health_connect)) }
                     }
                     else -> {
                         StatusLine(
-                            if (state.allDataGranted) "Conectado" else "Conectado con permisos parciales",
+                            stringResource(if (state.allDataGranted) R.string.hc_connected else R.string.hc_connected_partial),
                             good = state.allDataGranted,
                         )
                         val missing = HealthPermissions.missingWearableTypes(state.granted)
                         if (missing.isNotEmpty()) {
-                            BodyText("Sin permiso de lectura: " + missing.joinToString(", ") { it.label.lowercase(Fmt.LOCALE) } + ".")
+                            BodyText(stringResource(R.string.hc_missing_read, Fmt.list(missing.map { stringResource(it.labelRes) })))
                         }
-                        if (!state.canExport) BodyText("Sin permiso para escribir el peso: las mediciones de la báscula no se envían.")
+                        if (!state.canExport) BodyText(stringResource(R.string.hc_missing_write_weight))
                         if (state.historyAvailable && !HealthPermissions.historyGranted(state.granted)) {
-                            BodyText("Permite «Acceder a datos anteriores» para importar hasta 1 año (ahora: últimos 30 días).")
+                            BodyText(stringResource(R.string.hc_history_hint))
                         }
                         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            if (!state.allGranted) FilledTonalButton(onClick = onConnect) { Text("Revisar permisos") }
-                            OutlinedButton(onClick = onOpenSettings) { Text("Abrir Health Connect") }
+                            if (!state.allGranted) FilledTonalButton(onClick = onConnect) { Text(stringResource(R.string.hc_review_permissions)) }
+                            OutlinedButton(onClick = onOpenSettings) { Text(stringResource(R.string.hc_open)) }
                         }
                     }
                 }
@@ -195,12 +202,12 @@ private fun SyncCard(state: HealthUiState, onSync: () -> Unit) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(Modifier.weight(1f)) {
-                    Text("Sincronización", style = MaterialTheme.typography.titleSmall)
+                    Text(stringResource(R.string.hc_sync_title), style = MaterialTheme.typography.titleSmall)
                     Text(
                         when {
-                            sync.running -> "Sincronizando…"
-                            sync.lastSyncAt != null -> "Última: ${Fmt.relative(sync.lastSyncAt)}"
-                            else -> "Todavía no se ha sincronizado"
+                            sync.running -> stringResource(R.string.hc_syncing)
+                            sync.lastSyncAt != null -> stringResource(R.string.hc_last_sync, Fmt.relative(sync.lastSyncAt))
+                            else -> stringResource(R.string.hc_never_synced)
                         },
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -209,11 +216,11 @@ private fun SyncCard(state: HealthUiState, onSync: () -> Unit) {
                 FilledTonalButton(onClick = onSync, enabled = !sync.running) {
                     Icon(Icons.Filled.Refresh, contentDescription = null)
                     Spacer(Modifier.width(6.dp))
-                    Text("Sincronizar ahora")
+                    Text(stringResource(R.string.hc_sync_now))
                 }
             }
             if (sync.running) LinearProgressIndicator(Modifier.fillMaxWidth())
-            sync.error?.let { Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error) }
+            sync.error?.let { Text(it.asString(), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error) }
         }
     }
 }
@@ -222,11 +229,8 @@ private fun SyncCard(state: HealthUiState, onSync: () -> Unit) {
 private fun NoDataCard() {
     AppCard {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            Text("Aún no hay datos de la pulsera", style = MaterialTheme.typography.titleSmall)
-            BodyText(
-                "Health Connect no tiene datos de actividad, pulso o sueño. Comprueba que Mi Fitness escribe en " +
-                    "Health Connect (instrucciones al final) y sincroniza la pulsera en Mi Fitness.",
-            )
+            Text(stringResource(R.string.health_no_band_data_title), style = MaterialTheme.typography.titleSmall)
+            BodyText(stringResource(R.string.health_no_band_data_text))
         }
     }
 }
@@ -235,11 +239,11 @@ private fun NoDataCard() {
 private fun MiFitnessHelpCard() {
     AppCard {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            Text("Conectar la Xiaomi Smart Band con Mi Fitness", style = MaterialTheme.typography.titleSmall)
-            BodyText("1. En Mi Fitness: Perfil → Datos de terceros (o «Aplicaciones de terceros») → Health Connect, y activa la sincronización.")
-            BodyText("2. En Health Connect → Permisos de apps → Mi Fitness: permite que escriba pasos, pulso, sueño, oxígeno en sangre y ejercicio.")
-            BodyText("3. Sincroniza la pulsera en Mi Fitness y pulsa aquí «Sincronizar ahora».")
-            BodyText("Sirve igual cualquier otra app de pulsera o reloj que escriba en Health Connect.")
+            Text(stringResource(R.string.mifitness_help_title), style = MaterialTheme.typography.titleSmall)
+            BodyText(stringResource(R.string.mifitness_help_step1))
+            BodyText(stringResource(R.string.mifitness_help_step2))
+            BodyText(stringResource(R.string.mifitness_help_step3))
+            BodyText(stringResource(R.string.mifitness_help_other_apps))
         }
     }
 }
@@ -255,46 +259,47 @@ private fun TodayGrid(d: HealthDashboard) {
     val tiles = listOf<@Composable (Modifier) -> Unit>(
         { m ->
             Tile(
-                "Pasos",
+                stringResource(R.string.today_steps),
                 t.steps?.let { HealthFormat.count(it) } ?: "—",
-                d.stepsAvg7?.let { "Media 7 días: ${HealthFormat.count(it.average.roundToInt().toLong())}" },
+                d.stepsAvg7?.let { stringResource(R.string.health_avg_7_days, HealthFormat.count(it.average.roundToInt().toLong())) },
                 m,
             )
         },
         { m ->
             Tile(
-                "Calorías activas",
+                stringResource(R.string.hc_type_active_calories),
                 t.activeKcal?.let { HealthFormat.kcal(it) } ?: "—",
-                t.totalKcal?.let { "Totales: ${HealthFormat.kcal(it)}" },
+                t.totalKcal?.let { stringResource(R.string.health_total_kcal, HealthFormat.kcal(it)) },
                 m,
             )
         },
-        { m -> Tile("Distancia", t.distanceM?.let { HealthFormat.km(it) } ?: "—", null, m) },
+        { m -> Tile(stringResource(R.string.hc_type_distance), t.distanceM?.let { HealthFormat.km(it) } ?: "—", null, m) },
         { m ->
             Tile(
-                "Pulso en reposo",
+                stringResource(R.string.hc_type_resting_heart_rate),
                 t.restingHr?.let { HealthFormat.bpm(it) } ?: "—",
                 restingAvg?.let { avg ->
-                    val change = d.restingTrend.change?.let { " (${Fmt.signed(it, 0)} vs. semana anterior)" }.orEmpty()
-                    "Media 7 días: ${HealthFormat.bpm(avg.average.roundToInt())}$change"
+                    val average = HealthFormat.bpm(avg.average.roundToInt())
+                    d.restingTrend.change?.let { stringResource(R.string.health_avg_7_days_vs_previous, average, Fmt.signed(it, 0)) }
+                        ?: stringResource(R.string.health_avg_7_days, average)
                 },
                 m,
             )
         },
         { m ->
             Tile(
-                "Sueño de anoche",
+                stringResource(R.string.health_last_night_sleep),
                 night?.let { HealthFormat.minutes(it.asleepMinutes) } ?: "—",
-                d.sleepAvg7?.let { "Media 7 días: ${HealthFormat.minutes(it.average.roundToInt())}" },
+                d.sleepAvg7?.let { stringResource(R.string.health_avg_7_days, HealthFormat.minutes(it.average.roundToInt())) },
                 m,
-                chip = quality?.let { Classification("${it.label} · ${it.score}/100", it.status) },
+                chip = quality,
             )
         },
         { m ->
             Tile(
-                "Oxígeno en sangre",
+                stringResource(R.string.hc_type_blood_oxygen),
                 t.spo2Avg?.let { HealthFormat.percent(it) } ?: "—",
-                t.spo2Min?.let { "Mínimo: ${HealthFormat.percent(it)}" },
+                t.spo2Min?.let { stringResource(R.string.health_minimum_value, HealthFormat.percent(it)) },
                 m,
             )
         },
@@ -308,13 +313,26 @@ private fun TodayGrid(d: HealthDashboard) {
     }
 }
 
+@StringRes
+private fun SleepRating.labelRes(): Int = when (this) {
+    SleepRating.GOOD -> R.string.sleep_quality_good
+    SleepRating.FAIR -> R.string.sleep_quality_fair
+    SleepRating.POOR -> R.string.sleep_quality_poor
+}
+
+/** "Good · 85/100". */
 @Composable
-private fun Tile(label: String, value: String, sub: String?, modifier: Modifier, chip: Classification? = null) {
+private fun SleepQualityChip(q: SleepQuality) {
+    StatusChip(stringResource(R.string.sleep_quality_chip, stringResource(q.rating.labelRes()), Fmt.count(q.score.toLong())), q.status)
+}
+
+@Composable
+private fun Tile(label: String, value: String, sub: String?, modifier: Modifier, chip: SleepQuality? = null) {
     AppCard(modifier) {
         Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
             Text(label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Text(value, style = MaterialTheme.typography.titleLarge.merge(TabularNumbers), fontWeight = FontWeight.SemiBold)
-            chip?.let { StatusChip(it) }
+            chip?.let { SleepQualityChip(it) }
             sub?.let { Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
         }
     }
@@ -326,7 +344,7 @@ private fun Tile(label: String, value: String, sub: String?, modifier: Modifier,
 private fun StepsCard(d: HealthDashboard, range: DayRange, onRange: (DayRange) -> Unit) {
     val series = HealthStats.filledSeries(d.daily.mapNotNull { (date, a) -> a.steps?.let { date to it } }.toMap(), d.today, range.days)
     val withData = series.mapNotNull { it.second }
-    ChartCard("Pasos diarios") {
+    ChartCard(stringResource(R.string.health_daily_steps)) {
         SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
             DayRange.entries.forEachIndexed { i, r ->
                 SegmentedButton(
@@ -334,21 +352,28 @@ private fun StepsCard(d: HealthDashboard, range: DayRange, onRange: (DayRange) -
                     onClick = { onRange(r) },
                     shape = SegmentedButtonDefaults.itemShape(i, DayRange.entries.size),
                     icon = {},
-                    label = { Text(r.label) },
+                    label = { Text(pluralStringResource(R.plurals.common_days, r.days, r.days)) },
                 )
             }
         }
         Spacer(Modifier.height(12.dp))
         if (withData.isEmpty()) {
-            EmptyText("Sin pasos en este periodo.")
+            EmptyText(stringResource(R.string.health_steps_none))
         } else {
             StepsBarChart(series, HealthViewModel.STEPS_GOAL)
             val reached = withData.count { it >= HealthViewModel.STEPS_GOAL }
-            SmallText(
-                "Media: ${HealthFormat.count(withData.average().roundToInt().toLong())} pasos/día · " +
-                    "objetivo de ${HealthFormat.count(HealthViewModel.STEPS_GOAL)} cumplido $reached de ${withData.size} días" +
-                    (d.stepsAvg30?.let { " · media 30 días: ${HealthFormat.count(it.average.roundToInt().toLong())}" } ?: ""),
+            val parts = listOfNotNull(
+                stringResource(R.string.health_steps_average, HealthFormat.count(withData.average().roundToInt().toLong())),
+                pluralStringResource(
+                    R.plurals.health_steps_goal_met,
+                    withData.size,
+                    HealthFormat.count(HealthViewModel.STEPS_GOAL),
+                    reached,
+                    withData.size,
+                ),
+                d.stepsAvg30?.let { stringResource(R.string.health_avg_30_days, HealthFormat.count(it.average.roundToInt().toLong())) },
             )
+            SmallText(parts.joinToString(" · "))
         }
     }
 }
@@ -357,10 +382,10 @@ private fun StepsCard(d: HealthDashboard, range: DayRange, onRange: (DayRange) -
 
 @Composable
 private fun HeartRateCard(d: HealthDashboard, onDay: (LocalDate) -> Unit) {
-    ChartCard("Pulso") {
+    ChartCard(stringResource(R.string.health_heart_rate)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             IconButton(onClick = { onDay(d.hrDay.minusDays(1)) }) {
-                Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = "Día anterior")
+                Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = stringResource(R.string.health_previous_day))
             }
             Text(
                 HealthFormat.relativeDay(d.hrDay, d.today),
@@ -368,33 +393,36 @@ private fun HeartRateCard(d: HealthDashboard, onDay: (LocalDate) -> Unit) {
                 modifier = Modifier.weight(1f),
             )
             IconButton(onClick = { onDay(d.hrDay.plusDays(1)) }, enabled = d.hrDay < d.today) {
-                Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = "Día siguiente")
+                Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = stringResource(R.string.health_next_day))
             }
         }
         val (start, end) = HealthStats.dayBounds(d.hrDay, ZoneId.systemDefault())
         if (d.hrDaySamples.isEmpty()) {
-            EmptyText("Sin datos de pulso en Health Connect este día.")
+            EmptyText(stringResource(R.string.health_hr_day_none))
         } else {
             HeartRateDayChart(d.hrDaySamples, d.hrDayResting, start, end)
             val stats = HeartRateZones.stats(d.hrDaySamples, start, end - 1)
             if (stats != null) {
-                SmallText(
-                    "Media ${HealthFormat.bpm(stats.avg)} · mín ${stats.min} · máx ${stats.max}" +
-                        (d.hrDayResting?.let { " · en reposo $it lpm" } ?: ""),
+                val base = stringResource(
+                    R.string.health_hr_day_stats,
+                    HealthFormat.bpm(stats.avg),
+                    Fmt.count(stats.min.toLong()),
+                    Fmt.count(stats.max.toLong()),
                 )
+                SmallText(d.hrDayResting?.let { stringResource(R.string.health_hr_day_stats_resting, base, HealthFormat.bpm(it)) } ?: base)
             }
         }
         if (d.hrDayBand.isNotEmpty()) {
             Spacer(Modifier.height(16.dp))
-            Text("Pulsera · modo directo", style = MaterialTheme.typography.titleSmall)
-            SmallText("Pulso en directo registrado por la app con la pulsera conectada (no está en Health Connect).")
+            Text(stringResource(R.string.health_band_direct_title), style = MaterialTheme.typography.titleSmall)
+            SmallText(stringResource(R.string.health_band_direct_text))
             Spacer(Modifier.height(8.dp))
             HeartRateDayChart(d.hrDayBand, null, start, end)
         }
         Spacer(Modifier.height(16.dp))
-        Text("Últimos 30 días", style = MaterialTheme.typography.titleSmall)
+        Text(stringResource(R.string.health_last_30_days), style = MaterialTheme.typography.titleSmall)
         Spacer(Modifier.height(8.dp))
-        if (d.hrRanges.isEmpty()) EmptyText("Sin datos de pulso.") else HeartRateRangeChart(d.hrDays, d.hrRanges)
+        if (d.hrRanges.isEmpty()) EmptyText(stringResource(R.string.health_no_hr_data)) else HeartRateRangeChart(d.hrDays, d.hrRanges)
     }
 }
 
@@ -402,129 +430,263 @@ private fun HeartRateCard(d: HealthDashboard, onDay: (LocalDate) -> Unit) {
 
 @Composable
 private fun SleepCard(d: HealthDashboard) {
-    ChartCard("Sueño") {
+    ChartCard(stringResource(R.string.today_sleep)) {
         val night = d.lastNight
         if (night == null) {
-            EmptyText("Sin datos de sueño de anoche.")
+            EmptyText(stringResource(R.string.health_sleep_last_night_none))
         } else {
             Text(
-                "Anoche · ${Fmt.time(night.start)}–${Fmt.time(night.end)}",
+                stringResource(R.string.health_last_night_range, Fmt.time(night.start), Fmt.time(night.end)),
                 style = MaterialTheme.typography.titleSmall,
             )
             Spacer(Modifier.height(4.dp))
             d.lastNightQuality?.let { q ->
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    StatusChip(Classification("${q.label} · ${q.score}/100", q.status))
+                    SleepQualityChip(q)
                     Text(
-                        "Dormido ${HealthFormat.minutes(night.asleepMinutes)}",
+                        stringResource(R.string.health_asleep_value, HealthFormat.minutes(night.asleepMinutes)),
                         style = MaterialTheme.typography.bodyMedium.merge(TabularNumbers),
                     )
                 }
-                val restorative = q.restorativeShare?.let { "profundo + REM ${Fmt.num(it * 100, 0)} % (meta ≥ 40 %)" }
                 SmallText(
-                    "Calidad = duración (objetivo 7–9 h, hasta 60 puntos) + sueño reparador (profundo + REM, hasta 40). " +
-                        (restorative?.replaceFirstChar { it.uppercase(Fmt.LOCALE) }?.plus(".") ?: "Sin fases: solo cuenta la duración."),
+                    stringResource(R.string.sleep_quality_explained) + " " +
+                        (
+                            q.restorativeShare?.let { stringResource(R.string.sleep_quality_restorative, Fmt.percent(it * 100), Fmt.percent(40.0)) }
+                                ?: stringResource(R.string.sleep_quality_no_stages)
+                            ),
                 )
             }
             Spacer(Modifier.height(8.dp))
             if (night.hasStages || night.awakeMinutes > 0) Hypnogram(night)
             val parts = SleepStage.entries.filter { night.minutesOf(it) > 0 }
-                .joinToString(" · ") { "${it.label} ${HealthFormat.minutes(night.minutesOf(it))}" }
-            SmallText(parts + (night.efficiencyPercent?.let { " · eficiencia ${Fmt.num(it, 0)} %" } ?: ""))
+                .map { stringResource(R.string.chart_composition_item, stringResource(it.labelRes), HealthFormat.minutes(night.minutesOf(it))) } +
+                listOfNotNull(night.efficiencyPercent?.let { stringResource(R.string.health_sleep_efficiency, Fmt.percent(it)) })
+            SmallText(parts.joinToString(" · "))
         }
         Spacer(Modifier.height(16.dp))
-        Text("Últimas $SLEEP_CHART_NIGHTS noches", style = MaterialTheme.typography.titleSmall)
+        Text(pluralStringResource(R.plurals.health_last_nights, SLEEP_CHART_NIGHTS, SLEEP_CHART_NIGHTS), style = MaterialTheme.typography.titleSmall)
         Spacer(Modifier.height(8.dp))
         val nights = HealthStats.filledSeries(d.nights, d.today, SLEEP_CHART_NIGHTS)
         if (nights.all { it.second == null }) {
-            EmptyText("Sin datos de sueño.")
+            EmptyText(stringResource(R.string.health_sleep_none))
         } else {
             SleepStackedChart(nights)
-            d.sleepAvg7?.let { SmallText("Media 7 noches: ${HealthFormat.minutes(it.average.roundToInt())} dormido") }
+            d.sleepAvg7?.let { SmallText(stringResource(R.string.health_sleep_avg_7_nights, HealthFormat.minutes(it.average.roundToInt()))) }
         }
     }
 }
 
-// ---- SpO2 -----------------------------------------------------------------------------------
+// ---- Readings: SpO2, HRV, respiratory rate, body fat from other apps -------------------------
 
 @Composable
 private fun Spo2Card(d: HealthDashboard) {
-    ChartCard("Oxígeno en sangre (14 días)") {
+    ChartCard(pluralStringResource(R.plurals.health_spo2_title, SPO2_DAYS, SPO2_DAYS)) {
         if (d.spo2.isEmpty()) {
-            EmptyText("Sin lecturas de SpO₂.")
+            EmptyText(stringResource(R.string.health_spo2_none))
         } else {
             Spo2Chart(d.spo2, d.spo2Start, d.spo2End)
             val values = d.spo2.map { it.value }
-            SmallText("Media ${HealthFormat.percent(values.average())} · mínimo ${HealthFormat.percent(values.min())} · ${values.size} lecturas")
+            SmallText(
+                pluralStringResource(
+                    R.plurals.health_spo2_summary,
+                    values.size,
+                    HealthFormat.percent(values.average()),
+                    HealthFormat.percent(values.min()),
+                    values.size,
+                ),
+            )
+            SourceText(d, d.spo2)
         }
     }
+}
+
+/** Heart-rate variability (RMSSD) from the band or watch: higher usually means better recovery. */
+@Composable
+private fun HrvCard(d: HealthDashboard) {
+    val ms = { v: Double -> Fmt.string(R.string.value_ms, Fmt.num(v, 0)) }
+    ReadingsCard(
+        title = pluralStringResource(R.plurals.health_hrv_title, VITALS_DAYS, VITALS_DAYS),
+        points = d.hrv,
+        xStart = d.vitalsStart,
+        xEnd = d.vitalsEnd,
+        format = ms,
+        axisFormat = { v, decimals -> Fmt.num(v, decimals) },
+        description = { stringResource(R.string.chart_readings_desc, stringResource(R.string.hc_type_hrv), it) },
+        empty = stringResource(R.string.health_hrv_none),
+        explanation = stringResource(R.string.health_hrv_explained),
+        dashboard = d,
+    )
+}
+
+@Composable
+private fun RespiratoryRateCard(d: HealthDashboard) {
+    val rate = { v: Double -> Fmt.string(R.string.value_breaths_per_minute, Fmt.num(v, 1)) }
+    ReadingsCard(
+        title = pluralStringResource(R.plurals.health_respiratory_title, VITALS_DAYS, VITALS_DAYS),
+        points = d.respiratoryRate,
+        xStart = d.vitalsStart,
+        xEnd = d.vitalsEnd,
+        format = rate,
+        axisFormat = { v, decimals -> Fmt.num(v, decimals) },
+        description = { stringResource(R.string.chart_readings_desc, stringResource(R.string.hc_type_respiratory_rate), it) },
+        empty = stringResource(R.string.health_respiratory_none),
+        explanation = stringResource(R.string.health_respiratory_explained),
+        dashboard = d,
+    )
+}
+
+/** Body fat that other apps (another scale's app, a manual log) wrote to Health Connect. */
+@Composable
+private fun ExternalBodyFatCard(d: HealthDashboard) {
+    ReadingsCard(
+        title = pluralStringResource(R.plurals.health_body_fat_other_title, BODY_FAT_DAYS, BODY_FAT_DAYS),
+        points = d.externalBodyFat,
+        xStart = d.bodyFatStart,
+        xEnd = d.vitalsEnd,
+        format = { Fmt.percent(it, 1) },
+        axisFormat = { v, decimals -> Fmt.percent(v, decimals) },
+        description = { stringResource(R.string.chart_readings_desc, stringResource(R.string.hc_type_body_fat), it) },
+        empty = stringResource(R.string.health_body_fat_other_none),
+        explanation = stringResource(R.string.health_body_fat_other_explained),
+        dashboard = d,
+    )
+}
+
+/**
+ * A card with a value read from Health Connect over time: the chart, latest value, average and
+ * number of readings, the source apps, and an explanation; or an empty state.
+ */
+@Composable
+private fun ReadingsCard(
+    title: String,
+    points: List<TimedValue>,
+    xStart: Long,
+    xEnd: Long,
+    format: (Double) -> String,
+    axisFormat: (Double, Int) -> String,
+    description: @Composable (String) -> String,
+    empty: String,
+    explanation: String,
+    dashboard: HealthDashboard,
+) {
+    ChartCard(title) {
+        if (points.isEmpty()) {
+            EmptyText(empty)
+        } else {
+            val latest = points.last()
+            val summary = pluralStringResource(
+                R.plurals.health_readings_summary,
+                points.size,
+                format(points.map { it.value }.average()),
+                points.size,
+            )
+            ReadingsChart(
+                points = points,
+                xStart = xStart,
+                xEnd = xEnd,
+                format = format,
+                axisFormat = axisFormat,
+                description = description(summary),
+            )
+            Text(
+                stringResource(R.string.health_latest_value, format(latest.value), Fmt.relative(latest.time)),
+                style = MaterialTheme.typography.titleSmall.merge(TabularNumbers),
+                modifier = Modifier.padding(top = 8.dp),
+            )
+            SmallText(summary)
+            SourceText(dashboard, points)
+        }
+        SmallText(explanation)
+    }
+}
+
+/** "Source: Mi Fitness" for the apps that wrote [points]. */
+@Composable
+private fun SourceText(d: HealthDashboard, points: List<TimedValue>) {
+    val names = d.sourcesOf(points)
+    SmallText(stringResource(R.string.health_source, if (names.isEmpty()) stringResource(R.string.health_source_unknown) else Fmt.list(names)))
 }
 
 // ---- Exercise -------------------------------------------------------------------------------
 
 @Composable
+private fun ExerciseItem.displayName(): String = title ?: stringResource(typeName)
+
+@Composable
 private fun ExerciseRow(item: ExerciseItem, onClick: () -> Unit) {
     val e = item.session
-    AppCard(onClick = onClick, onClickLabel = "Ver detalles") {
+    AppCard(onClick = onClick, onClickLabel = stringResource(R.string.health_view_details)) {
         Column(Modifier.padding(horizontal = 16.dp, vertical = 12.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(item.name, style = MaterialTheme.typography.titleSmall, modifier = Modifier.weight(1f))
+                Text(item.displayName(), style = MaterialTheme.typography.titleSmall, modifier = Modifier.weight(1f))
                 Text(
                     HealthFormat.minutes(((e.end - e.start) / 60_000L).toInt()),
                     style = MaterialTheme.typography.titleSmall.merge(TabularNumbers),
                 )
             }
-            val parts = buildList {
-                add(Fmt.relative(e.start))
-                e.activeKcal?.let { add(HealthFormat.kcal(it)) }
-                e.distanceM?.takeIf { it > 0 }?.let { add(HealthFormat.km(it)) }
-                item.heartRate?.let { add("${it.avg} lpm de media") }
-            }
+            val parts = listOfNotNull(
+                Fmt.relative(e.start),
+                e.activeKcal?.let { HealthFormat.kcal(it) },
+                e.distanceM?.takeIf { it > 0 }?.let { HealthFormat.km(it) },
+                item.heartRate?.let { stringResource(R.string.health_average_hr, HealthFormat.bpm(it.avg)) },
+            )
             SmallText(parts.joinToString(" · "))
-            SmallText("Fuente: ${item.source}")
+            SmallText(stringResource(R.string.health_source, item.source ?: stringResource(R.string.health_source_unknown)))
         }
     }
+}
+
+@StringRes
+private fun zoneNameRes(index: Int): Int = when (index) {
+    1 -> R.string.hr_zone_very_light
+    2 -> R.string.hr_zone_light
+    3 -> R.string.hr_zone_moderate
+    4 -> R.string.hr_zone_hard
+    else -> R.string.hr_zone_maximum
 }
 
 @Composable
 private fun ExerciseDetailDialog(item: ExerciseItem, age: Int?, onDismiss: () -> Unit) {
     val e = item.session
+    val name = item.displayName()
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(item.name) },
+        title = { Text(name) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                DetailRow("Inicio", Fmt.dateTime(e.start))
-                DetailRow("Fin", Fmt.dateTime(e.end))
-                DetailRow("Duración", HealthFormat.minutes(((e.end - e.start) / 60_000L).toInt()))
-                e.title?.takeIf { it.isNotBlank() && it != item.name }?.let { DetailRow("Título", it) }
-                DetailRow("Tipo", HealthMappings.exerciseName(e.type))
-                DetailRow("Calorías activas", e.activeKcal?.let { HealthFormat.kcal(it) } ?: "—")
-                DetailRow("Distancia", e.distanceM?.takeIf { it > 0 }?.let { HealthFormat.km(it) } ?: "—")
-                DetailRow("Pulso medio", item.heartRate?.let { HealthFormat.bpm(it.avg) } ?: "—")
-                DetailRow("Pulso máximo", item.heartRate?.let { HealthFormat.bpm(it.max) } ?: "—")
-                DetailRow("Fuente", item.source)
+                DetailRow(stringResource(R.string.health_start), Fmt.dateTime(e.start))
+                DetailRow(stringResource(R.string.health_end), Fmt.dateTime(e.end))
+                DetailRow(stringResource(R.string.health_duration), HealthFormat.minutes(((e.end - e.start) / 60_000L).toInt()))
+                val typeName = stringResource(item.typeName)
+                item.title?.takeIf { it != typeName }?.let { DetailRow(stringResource(R.string.health_title), it) }
+                DetailRow(stringResource(R.string.health_type), typeName)
+                DetailRow(stringResource(R.string.hc_type_active_calories), e.activeKcal?.let { HealthFormat.kcal(it) } ?: "—")
+                DetailRow(stringResource(R.string.hc_type_distance), e.distanceM?.takeIf { it > 0 }?.let { HealthFormat.km(it) } ?: "—")
+                DetailRow(stringResource(R.string.health_average_hr_label), item.heartRate?.let { HealthFormat.bpm(it.avg) } ?: "—")
+                DetailRow(stringResource(R.string.health_max_hr_label), item.heartRate?.let { HealthFormat.bpm(it.max) } ?: "—")
+                DetailRow(stringResource(R.string.health_source_label), item.source ?: stringResource(R.string.health_source_unknown))
                 if (age != null && item.zoneMs.any { it > 0 }) {
                     Spacer(Modifier.height(4.dp))
                     Text(
-                        "Zonas de pulso (máx. estimado ${HeartRateZones.maxHeartRate(age)} lpm = 220 − $age)",
+                        stringResource(R.string.hr_zones_title, HealthFormat.bpm(HeartRateZones.maxHeartRate(age)), Fmt.count(age.toLong())),
                         style = MaterialTheme.typography.titleSmall,
                     )
                     val zones = HeartRateZones.zones(age)
                     val total = item.zoneMs.sum().coerceAtLeast(1L)
                     item.zoneMs.forEachIndexed { index, ms ->
                         val label = if (index == 0) {
-                            "${HeartRateZones.REST_LABEL} (< ${zones.first().minBpm})"
+                            stringResource(R.string.hr_zone_rest, Fmt.count(zones.first().minBpm.toLong()))
                         } else {
                             val z = zones[index - 1]
-                            "Z$index ${z.label} (${z.minBpm}${z.maxBpm?.let { "–${it - 1}" } ?: "+"})"
+                            val range = z.maxBpm?.let { "${Fmt.count(z.minBpm.toLong())}–${Fmt.count(it - 1L)}" } ?: "${Fmt.count(z.minBpm.toLong())}+"
+                            stringResource(R.string.hr_zone_label, Fmt.count(index.toLong()), stringResource(zoneNameRes(index)), range)
                         }
-                        DetailRow(label, "${HealthFormat.minutes((ms / 60_000L).toInt())} · ${Fmt.num(ms * 100.0 / total, 0)} %")
+                        DetailRow(label, "${HealthFormat.minutes((ms / 60_000L).toInt())} · ${Fmt.percent(ms * 100.0 / total)}")
                     }
                 }
             }
         },
-        confirmButton = { TextButton(onClick = onDismiss) { Text("Cerrar") } },
+        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_close)) } },
     )
 }
 
@@ -543,17 +705,24 @@ private fun SourcesCard(d: HealthDashboard) {
     if (d.sources.isEmpty() && d.externalWeight == null) return
     AppCard {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text("Fuentes", style = MaterialTheme.typography.titleSmall)
-            if (d.sources.isNotEmpty()) BodyText(d.sources.joinToString(", "))
+            Text(stringResource(R.string.health_sources_title), style = MaterialTheme.typography.titleSmall)
+            if (d.sources.isNotEmpty()) BodyText(Fmt.list(d.sources))
             d.externalWeight?.let { w ->
-                BodyText("Último peso de otra app: ${Fmt.kg(w.value, 1)} (${d.externalWeightSource}, ${Fmt.dayMonth(w.time)})")
+                BodyText(
+                    stringResource(
+                        R.string.health_external_weight,
+                        Fmt.kg(w.value, 1),
+                        d.externalWeightSource ?: stringResource(R.string.health_source_unknown),
+                        Fmt.dayMonth(w.time),
+                    ),
+                )
             }
-            SmallText("Los totales diarios los calcula Health Connect sin duplicar datos de varias apps.")
+            SmallText(stringResource(R.string.health_sources_dedup))
         }
     }
 }
 
-/** "Enviar mediciones de la báscula a Health Connect" switch and the history export. */
+/** "Send scale measurements to Health Connect" switch and the history export. */
 @Composable
 fun HealthExportCard(state: HealthUiState, onToggle: (Boolean) -> Unit, onExportHistory: () -> Unit, onRequestPermissions: () -> Unit) {
     val export = state.export
@@ -561,32 +730,29 @@ fun HealthExportCard(state: HealthUiState, onToggle: (Boolean) -> Unit, onExport
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    "Enviar mediciones de la báscula a Health Connect",
+                    stringResource(R.string.hc_export_title),
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.weight(1f),
                 )
                 Switch(checked = state.exportEnabled, onCheckedChange = onToggle, enabled = state.canExport)
             }
-            BodyText(
-                "Cada medición nueva se guarda como peso, grasa corporal, masa ósea, masa magra, metabolismo basal y " +
-                    "agua corporal (los valores que tenga). Si borras una medición, también se borra de Health Connect.",
-            )
+            BodyText(stringResource(R.string.hc_export_text))
             if (!state.canExport) {
-                BodyText("Falta el permiso para escribir el peso en Health Connect.")
-                FilledTonalButton(onClick = onRequestPermissions) { Text("Conceder permiso") }
+                BodyText(stringResource(R.string.hc_export_missing_permission))
+                FilledTonalButton(onClick = onRequestPermissions) { Text(stringResource(R.string.action_grant_permission)) }
             } else {
                 SmallText(
-                    when (export.exportedCount) {
-                        0 -> "Ninguna medición en Health Connect todavía."
-                        1 -> "1 medición en Health Connect."
-                        else -> "${export.exportedCount} mediciones en Health Connect."
+                    if (export.exportedCount == 0) {
+                        stringResource(R.string.hc_export_count_none)
+                    } else {
+                        pluralStringResource(R.plurals.hc_export_count, export.exportedCount, export.exportedCount)
                     },
                 )
-                OutlinedButton(onClick = onExportHistory, enabled = !export.running) { Text("Exportar historial a Health Connect") }
+                OutlinedButton(onClick = onExportHistory, enabled = !export.running) { Text(stringResource(R.string.hc_export_history)) }
                 if (export.running) LinearProgressIndicator(Modifier.fillMaxWidth())
             }
-            export.message?.let { SmallText(it) }
-            export.error?.let { Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error) }
+            export.message?.let { SmallText(it.asString()) }
+            export.error?.let { Text(it.asString(), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error) }
         }
     }
 }

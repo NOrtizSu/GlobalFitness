@@ -17,6 +17,8 @@ import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.health.connect.client.units.Mass
 import androidx.health.connect.client.units.Percentage
 import androidx.health.connect.client.units.Power
+import com.enjoyyourtime.globalfitness.R
+import com.enjoyyourtime.globalfitness.UiText
 import com.enjoyyourtime.globalfitness.data.Measurement
 import com.enjoyyourtime.globalfitness.data.Repository
 import com.enjoyyourtime.globalfitness.scale.ScaleRegistry
@@ -43,9 +45,9 @@ data class ExportState(
     val running: Boolean = false,
     /** Measurements currently written to Health Connect. */
     val exportedCount: Int = 0,
-    /** Spanish result of the last history export / error. */
-    val message: String? = null,
-    val error: String? = null,
+    /** Result of the last history export / error. */
+    val message: UiText? = null,
+    val error: UiText? = null,
 )
 
 /**
@@ -90,29 +92,27 @@ class ScaleExporter(
         }
     }
 
-    /** Switch "Enviar mediciones…"; turning it on only sends measurements taken from now on. */
+    /** Switch "Send scale measurements…"; turning it on only sends measurements taken from now on. */
     fun setEnabled(enabled: Boolean) {
         if (enabled) settings.setExportAfterId(repository.measurements.value.maxOfOrNull { it.id } ?: 0L)
         settings.setExportChoice(enabled)
     }
 
-    /** "Exportar historial a Health Connect" (also sweeps legacy records again). */
+    /** "Export history to Health Connect" (also sweeps legacy records again). */
     suspend fun exportHistory() {
         _state.update { it.copy(running = true, message = null, error = null) }
         val result = runCatchingReconcile(backfill = true)
         _state.update { it.copy(running = false, message = result?.let(::historyMessage) ?: it.message) }
     }
 
-    private fun historyMessage(result: Reconciled): String {
+    private fun historyMessage(result: Reconciled): UiText {
         val written = when (result.written) {
-            0 -> "El historial ya estaba en Health Connect"
-            1 -> "Exportada 1 medición"
-            else -> "Exportadas ${result.written} mediciones"
+            0 -> UiText.res(R.string.hc_export_already_done)
+            else -> UiText.plural(R.plurals.msg_csv_exported, result.written)
         }
         return when (result.legacyDeleted) {
             0 -> written
-            1 -> "$written · 1 registro antiguo eliminado"
-            else -> "$written · ${result.legacyDeleted} registros antiguos eliminados"
+            else -> UiText.Joined(listOf(written, UiText.plural(R.plurals.hc_export_legacy_deleted, result.legacyDeleted)), " · ")
         }
     }
 
@@ -122,7 +122,7 @@ class ScaleExporter(
         throw e
     } catch (e: Exception) {
         Log.w(TAG, "Health Connect export failed", e)
-        _state.update { it.copy(running = false, error = "No se pudo escribir en Health Connect: ${HealthSync.describe(e)}") }
+        _state.update { it.copy(running = false, error = UiText.res(R.string.hc_export_failed, HealthSync.describe(e))) }
         null
     }
 
