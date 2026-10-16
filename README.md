@@ -121,7 +121,7 @@ Connect de Google Play).
   `firebase deploy --only hosting` → `https://globalfitness-app.web.app/`.
 - **Política de privacidad**: `docs/privacy-policy.md` es la fuente (en español e inglés); `privacy.html`
   debe mantenerse igual. La app abre la versión web (*Perfil → Política de privacidad*) y, sin conexión,
-  la copia incluida en la app. Faltan los datos del responsable (marcados `[COMPLETAR: …]`).
+  la copia incluida en la app.
 
 ## Herramientas de depuración
 

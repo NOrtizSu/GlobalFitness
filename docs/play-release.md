@@ -18,9 +18,9 @@ Datos fijos:
 
 ## 0. Antes de empezar
 
-1. **Datos del responsable**: completa en `docs/privacy-policy.md` y `hosting/public/privacy.html` los
-   huecos `[COMPLETAR: nombre legal y NIF del titular]` y `[COMPLETAR: dirección postal]` (y los
-   `[COMPLETE: …]` de la versión inglesa). Los dos ficheros deben decir lo mismo.
+1. **Datos del responsable**: `docs/privacy-policy.md` y `hosting/public/privacy.html` identifican al
+   responsable como *Enjoy Your Time* con el email de contacto (decisión del titular: sin NIF ni
+   dirección). Los dos ficheros deben decir lo mismo.
 2. **Publica las páginas**: `firebase deploy --only hosting --project globalfitness-app` y comprueba que
    abren `privacy.html`, `delete-account.html` y `source.html`. (El botón «Google Play» de `index.html`
    apunta a la ficha `details?id=com.enjoyyourtime.globalfitness`, que solo funciona cuando la app es
