@@ -150,14 +150,16 @@ class WearableController(
     private var initJob: Job? = null
     private var idleJob: Job? = null
     private var leaveJob: Job? = null
-    private var uiVisible = false
+    private var visibleScreens = 0
+    private val uiVisible: Boolean get() = visibleScreens > 0
     private var sessionSteps = 0
 
     // ---- screen lifecycle ----
 
+    /** Each visible screen of this device calls this once, and [onUiHidden] once when it stops being visible. */
     fun onUiVisible() {
         scope.launch {
-            uiVisible = true
+            visibleScreens++
             leaveJob?.cancel()
             leaveJob = null
         }
@@ -165,7 +167,9 @@ class WearableController(
 
     fun onUiHidden() {
         scope.launch {
-            uiVisible = false
+            visibleScreens = (visibleScreens - 1).coerceAtLeast(0)
+            // Another screen of this device (e.g. opened twice) still shows it.
+            if (uiVisible) return@launch
             if (_state.value.connection == WearableConnection.DISCONNECTED) return@launch
             leaveJob?.cancel()
             leaveJob = scope.launch {

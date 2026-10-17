@@ -340,6 +340,21 @@ class WearableControllerTest {
     }
 
     @Test
+    fun aSecondScreenOfTheDeviceKeepsTheConnection() = runTest {
+        val session = FakeSession()
+        val c = controller(FakePlatform(session))
+        c.onUiVisible()
+        c.onUiVisible() // the same device opened twice
+        c.connect()
+        c.awaitState { it.connection == WearableConnection.READY }
+        c.onUiHidden()
+        delay(timing.leaveGraceMs * 3)
+        assertEquals(WearableConnection.READY, c.state.value.connection)
+        c.onUiHidden()
+        c.awaitState { it.connection == WearableConnection.DISCONNECTED }
+    }
+
+    @Test
     fun linkLossIsReported() = runTest {
         val session = FakeSession()
         val messages = Collections.synchronizedList(mutableListOf<WearableMessage>())
