@@ -31,11 +31,34 @@ class XiaomiFeatures(
     private val channel: XiaomiCommandChannel,
     private val emit: (WearableEvent) -> Unit,
     private val log: (String) -> Unit,
+    private val clock: () -> Long = System::currentTimeMillis,
     private val launch: (suspend () -> Unit) -> Unit,
 ) {
     /** True while the realtime stats stream is wanted (Gadgetbridge failsafe stops unwanted ones). */
     var liveActive = false
         private set
+
+    private var batteryRequestPending = false
+    private var lastBatteryRequestMs: Long? = null
+
+    /**
+     * Battery level after a device state push (2/79). Pushes can come in bursts (worn / charging
+     * changes), so at most one request is in flight and they are spaced [BATTERY_REQUEST_INTERVAL_MS].
+     */
+    private fun requestBatterySoon() {
+        val now = clock()
+        val last = lastBatteryRequestMs
+        if (batteryRequestPending || (last != null && now - last < BATTERY_REQUEST_INTERVAL_MS)) return
+        batteryRequestPending = true
+        lastBatteryRequestMs = now
+        launch {
+            try {
+                handleCommand(channel.request(XiaomiCommands.getBattery()))
+            } finally {
+                batteryRequestPending = false
+            }
+        }
+    }
 
     suspend fun refreshStatus(includeInfo: Boolean) {
         val requests = buildList {
@@ -146,7 +169,7 @@ class XiaomiFeatures(
             }
             XiaomiCommands.SYSTEM_DEVICE_STATE_GET -> {
                 if (!system.hasBasicDeviceState()) {
-                    launch { handleCommand(channel.request(XiaomiCommands.getBattery())) }
+                    requestBatterySoon()
                     return
                 }
                 val state = system.basicDeviceState
@@ -172,7 +195,7 @@ class XiaomiFeatures(
                         ),
                     )
                 }
-                launch { handleCommand(channel.request(XiaomiCommands.getBattery())) }
+                requestBatterySoon()
             }
             XiaomiCommands.SYSTEM_FIND_WATCH ->
                 if (system.hasFindDevice() && system.findDevice == XiaomiCommands.FIND_STOP) emit(WearableEvent.FindStopped)
@@ -201,5 +224,9 @@ class XiaomiFeatures(
         1 -> true
         2, 3 -> false
         else -> null
+    }
+
+    companion object {
+        const val BATTERY_REQUEST_INTERVAL_MS = 10_000L
     }
 }
