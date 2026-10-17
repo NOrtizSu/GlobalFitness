@@ -4,6 +4,7 @@ package com.enjoyyourtime.globalfitness.wearable.huami
 import com.enjoyyourtime.globalfitness.band.xiaomi.AlarmSpec
 import com.enjoyyourtime.globalfitness.band.xiaomi.BandNotification
 import com.enjoyyourtime.globalfitness.wearable.AuthKeyKind
+import com.enjoyyourtime.globalfitness.wearable.ConfiguredWearable
 import com.enjoyyourtime.globalfitness.wearable.GattWearableSession
 import com.enjoyyourtime.globalfitness.wearable.KeyCheck
 import com.enjoyyourtime.globalfitness.wearable.KeyHelp
@@ -164,8 +165,9 @@ class HuamiSession(env: WearableSessionEnv, private val model: HuamiModel) : Gat
         }
         reply = expect(HuamiUuids.AUTH) { HuamiProtocol.parseAuth(it) != null }
         write(authService, HuamiUuids.AUTH, HuamiProtocol.encryptedRandom(random, key, model.authFlags, model.cryptFlags))
-        // Gadgetbridge writes the time right after the encrypted number.
-        writeTime(env.clock(), TimeZone.getDefault())
+        // Gadgetbridge writes the time right after the encrypted number (not needed to authenticate):
+        // only when the user keeps "Sync time on connect" on.
+        if (env.config[ConfiguredWearable.CONFIG_SYNC_TIME] != "0") writeTime(env.clock(), TimeZone.getDefault())
         when (HuamiProtocol.parseAuth(await(reply, env.timeouts.auth))) {
             HuamiProtocol.AuthReply.Success -> Unit
             HuamiProtocol.AuthReply.WrongKey -> throw WearableException(WearableFailure.WRONG_KEY)

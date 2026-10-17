@@ -3,6 +3,7 @@ package com.enjoyyourtime.globalfitness.wearable.huami
 import com.enjoyyourtime.globalfitness.band.xiaomi.AlarmSpec
 import com.enjoyyourtime.globalfitness.band.xiaomi.BandNotification
 import com.enjoyyourtime.globalfitness.scale.MapDriverStore
+import com.enjoyyourtime.globalfitness.wearable.ConfiguredWearable
 import com.enjoyyourtime.globalfitness.wearable.FakeGattDevice
 import com.enjoyyourtime.globalfitness.wearable.FakeLinks
 import com.enjoyyourtime.globalfitness.wearable.WearableEvent
@@ -84,6 +85,17 @@ class HuamiSessionTest {
 
     private suspend fun waitFor(condition: () -> Boolean) = withTimeout(5_000) {
         while (!condition()) delay(10)
+    }
+
+    @Test
+    fun syncTimeOffSkipsTheTimeWrittenDuringAuthentication() = runTest {
+        val device = band()
+        val env = testEnv(scope, FakeLinks(device), keyHex, config = mapOf(ConfiguredWearable.CONFIG_SYNC_TIME to "0"))
+        val session = HuamiSession(env, model("xiaomi_mi_band_5"))
+        session.open()
+        assertEquals(2, device.writesTo(HuamiUuids.AUTH).size)
+        assertTrue(device.writesTo(StandardUuids.CURRENT_TIME).isEmpty())
+        session.close()
     }
 
     @Test
