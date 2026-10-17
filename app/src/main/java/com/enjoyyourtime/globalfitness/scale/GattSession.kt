@@ -57,8 +57,8 @@ class GattSession(
     private val _notifications = Channel<GattNotification>(Channel.UNLIMITED)
     override val notifications: Flow<GattNotification> = _notifications.receiveAsFlow()
 
-    @Volatile private var failureText: String? = null
-    override val failure: String? get() = failureText
+    @Volatile private var failureNotice: ScaleNotice? = null
+    override val failure: ScaleNotice? get() = failureNotice
 
     private class Result(val status: Int, val value: ByteArray? = null, val mtu: Int = 0)
 
@@ -78,7 +78,7 @@ class GattSession(
                 connectWaiter?.complete(Unit)
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED || status != BluetoothGatt.GATT_SUCCESS) {
                 _connected.value = false
-                val error = GattException(errorText(status))
+                val error = GattException(errorNotice(status))
                 connectWaiter?.completeExceptionally(error)
                 servicesWaiter?.completeExceptionally(error)
                 pending?.deferred?.completeExceptionally(error)
@@ -89,7 +89,7 @@ class GattSession(
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 servicesWaiter?.complete(Unit)
             } else {
-                servicesWaiter?.completeExceptionally(GattException("No se pudieron leer los servicios ($status)"))
+                servicesWaiter?.completeExceptionally(GattException(ScaleNotice(ScaleNotice.Kind.SERVICES_READ_FAILED, listOf(status))))
             }
         }
 
@@ -144,21 +144,21 @@ class GattSession(
             PackageManager.PERMISSION_GRANTED
 
     override suspend fun connect() {
-        if (!hasConnectPermission()) throw GattException("Falta el permiso de dispositivos cercanos")
-        val adapter = manager?.adapter ?: throw GattException("Bluetooth no disponible")
-        if (!adapter.isEnabled) throw GattException("Bluetooth desactivado")
+        if (!hasConnectPermission()) throw GattException(ScaleNotice(ScaleNotice.Kind.MISSING_NEARBY_PERMISSION))
+        val adapter = manager?.adapter ?: throw GattException(ScaleNotice(ScaleNotice.Kind.BLUETOOTH_UNAVAILABLE))
+        if (!adapter.isEnabled) throw GattException(ScaleNotice(ScaleNotice.Kind.BLUETOOTH_OFF))
         val device: BluetoothDevice = try {
             adapter.getRemoteDevice(address)
         } catch (e: IllegalArgumentException) {
-            throw GattException("Dirección no válida: $address")
+            throw GattException(ScaleNotice(ScaleNotice.Kind.INVALID_ADDRESS, listOf(address)))
         }
         val waiter = CompletableDeferred<Unit>()
         connectWaiter = waiter
         val g = try {
             device.connectGatt(context, false, callback, BluetoothDevice.TRANSPORT_LE)
         } catch (e: SecurityException) {
-            throw GattException("Falta el permiso de dispositivos cercanos")
-        } ?: throw GattException("Android no pudo iniciar la conexión")
+            throw GattException(ScaleNotice(ScaleNotice.Kind.MISSING_NEARBY_PERMISSION))
+        } ?: throw GattException(ScaleNotice(ScaleNotice.Kind.CONNECT_NOT_STARTED))
         gatt = g
         try {
             waiter.await()
@@ -168,11 +168,11 @@ class GattSession(
     }
 
     override suspend fun discoverServices() {
-        val g = gatt ?: throw GattException("No conectado")
+        val g = gatt ?: throw GattException(ScaleNotice(ScaleNotice.Kind.NOT_CONNECTED))
         val waiter = CompletableDeferred<Unit>()
         servicesWaiter = waiter
         try {
-            if (!g.discoverServices()) throw GattException("No se pudieron buscar los servicios")
+            if (!g.discoverServices()) throw GattException(ScaleNotice(ScaleNotice.Kind.SERVICE_DISCOVERY_FAILED))
             waiter.await()
         } finally {
             servicesWaiter = null
@@ -212,9 +212,9 @@ class GattSession(
             }
         }
         if (timedOut) {
-            failureText = "La báscula dejó de responder"
+            failureNotice = ScaleNotice(ScaleNotice.Kind.SCALE_STOPPED_RESPONDING)
             close()
-            throw GattException("La báscula dejó de responder")
+            throw GattException(ScaleNotice(ScaleNotice.Kind.SCALE_STOPPED_RESPONDING))
         }
         return result
     }
@@ -316,7 +316,7 @@ class GattSession(
         _connected.value = false
         val g = gatt ?: return
         gatt = null
-        val error = GattException("Conexión cerrada")
+        val error = GattException(ScaleNotice(ScaleNotice.Kind.CONNECTION_CLOSED))
         connectWaiter?.completeExceptionally(error)
         servicesWaiter?.completeExceptionally(error)
         pending?.deferred?.completeExceptionally(error)
@@ -334,14 +334,14 @@ class GattSession(
     companion object {
         val CCCD: UUID = Bytes.uuid16(0x2902)
 
-        fun errorText(status: Int): String = when (status) {
-            BluetoothGatt.GATT_SUCCESS -> "La báscula se desconectó"
-            8 -> "Se perdió la conexión con la báscula (fuera de alcance)"
-            19 -> "La báscula cerró la conexión"
-            22 -> "Conexión cancelada por el teléfono"
-            62 -> "No se pudo establecer la conexión"
-            133 -> "Error de conexión Bluetooth (133). Reintentando en la próxima medición"
-            else -> "Error de conexión Bluetooth ($status)"
+        fun errorNotice(status: Int): ScaleNotice = when (status) {
+            BluetoothGatt.GATT_SUCCESS -> ScaleNotice(ScaleNotice.Kind.SCALE_DISCONNECTED)
+            8 -> ScaleNotice(ScaleNotice.Kind.CONNECTION_LOST_OUT_OF_RANGE)
+            19 -> ScaleNotice(ScaleNotice.Kind.SCALE_CLOSED_CONNECTION)
+            22 -> ScaleNotice(ScaleNotice.Kind.PHONE_CANCELLED_CONNECTION)
+            62 -> ScaleNotice(ScaleNotice.Kind.CONNECTION_NOT_ESTABLISHED)
+            133 -> ScaleNotice(ScaleNotice.Kind.GATT_ERROR_133)
+            else -> ScaleNotice(ScaleNotice.Kind.GATT_ERROR, listOf(status))
         }
     }
 }

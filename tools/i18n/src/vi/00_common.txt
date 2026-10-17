@@ -1,0 +1,102 @@
+# App
+band_notification_listener_label = GlobalFitness: chuyển tiếp đến vòng đeo tay
+
+# Common actions
+action_cancel = Hủy
+action_ok = OK
+action_save = Lưu
+action_delete = Xóa
+action_retry = Thử lại
+action_got_it = Đã hiểu
+action_close = Đóng
+action_back = Quay lại
+action_continue = Tiếp tục
+action_open_settings = Mở cài đặt
+action_grant_permission = Cấp quyền
+action_turn_on_bluetooth = Bật Bluetooth
+action_turn_on_location = Bật vị trí
+action_connect_health_connect = Kết nối Health Connect
+action_install_health_connect = Cài đặt Health Connect
+action_update_health_connect = Cập nhật Health Connect
+action_add_manual_weight = Thêm cân nặng thủ công
+common_no_data = Không có dữ liệu
+common_not_enough_data = Chưa đủ dữ liệu
+common_time = Thời gian
+common_experimental = Thử nghiệm
+common_required_mark = %1$s *
+common_error_detail = %1$s: %2$s
+
+# Units and values
+unit_kg = kg
+unit_kcal = kcal
+unit_percent = %
+unit_years = tuổi
+value_kg = %1$s kg
+value_kcal = %1$s kcal
+value_percent = %1$s%%
+value_years{other} = %1$s tuổi
+value_ohm = %1$s Ω
+
+# Relative dates
+time_today = Hôm nay
+time_yesterday = Hôm qua
+time_today_at = Hôm nay, %1$s
+time_yesterday_at = Hôm qua, %1$s
+
+# Navigation
+nav_today = Hôm nay
+nav_body = Cơ thể
+nav_activity = Hoạt động
+nav_devices = Thiết bị
+nav_profile = Hồ sơ
+
+# Body metrics
+metric_weight = Cân nặng
+metric_bmi = BMI
+metric_fat_percent = Mỡ cơ thể
+metric_fat_mass = Khối lượng mỡ
+metric_muscle = Khối lượng cơ
+metric_skeletal_muscle = Cơ xương
+metric_water = Nước trong cơ thể
+metric_bone = Khối lượng xương
+metric_visceral = Mỡ nội tạng
+metric_bmr = Trao đổi chất cơ bản
+metric_metabolic_age = Tuổi trao đổi chất
+metric_protein = Protein
+metric_ideal_weight = Cân nặng lý tưởng
+
+# Classification chips
+class_low = Thấp
+class_very_low = Rất thấp
+class_normal = Bình thường
+class_high = Cao
+class_very_high = Rất cao
+class_overweight = Thừa cân
+class_obese = Béo phì
+class_excellent = Xuất sắc
+class_optimal = Tối ưu
+class_younger = Trẻ hơn
+class_older_than_age = Cao hơn tuổi thật
+class_in_range = Trong phạm vi
+class_out_of_range = Ngoài phạm vi
+
+# Body types
+body_type = Kiểu cơ thể
+body_type_obese = Béo phì
+body_type_overweight = Thừa cân
+body_type_solid = Đậm người
+body_type_lack_exercise = Thiếu vận động
+body_type_balanced = Cân đối
+body_type_balanced_muscular = Cân đối cơ bắp
+body_type_skinny = Gầy
+body_type_balanced_skinny = Gầy cân đối
+body_type_skinny_muscular = Gầy cơ bắp
+
+# Health Connect rationale (shown by Health Connect)
+health_rationale_title = Quyền riêng tư của dữ liệu sức khỏe
+health_rationale_intro = GlobalFitness dùng Health Connect cho hai việc:
+health_rationale_read = • Đọc dữ liệu từ vòng đeo tay hoặc đồng hồ của bạn (ví dụ Xiaomi Smart Band qua Mi Fitness): số bước, quãng đường, lượng calo, nhịp tim, nhịp tim lúc nghỉ, biến thiên nhịp tim, giấc ngủ, oxy trong máu, nhịp thở và buổi tập. Ứng dụng cũng đọc cân nặng và mỡ cơ thể do các ứng dụng khác ghi lại. Khi có quyền truy cập dữ liệu trước đây, ứng dụng nhập dữ liệu tối đa một năm.
+health_rationale_write = • Ghi kết quả đo từ cân của bạn: cân nặng, mỡ cơ thể, khối lượng xương, khối lượng nạc, trao đổi chất cơ bản và nước trong cơ thể. Nếu bạn xóa một kết quả đo trong ứng dụng, kết quả đó cũng bị xóa khỏi Health Connect.
+health_rationale_storage = Dữ liệu đọc từ Health Connect chỉ được lưu trên điện thoại này: không được tải lên bản sao lưu đám mây tùy chọn, không dùng cho quảng cáo và không chia sẻ với bất kỳ ai. Ứng dụng chỉ dùng dữ liệu này để hiển thị bản tóm tắt và biểu đồ cho bạn.
+health_rationale_revoke = Bạn có thể thu hồi bất kỳ quyền nào vào bất cứ lúc nào trong Health Connect; ứng dụng sẽ ngừng đọc loại dữ liệu đó và xóa bản sao cục bộ trong lần đồng bộ hóa tiếp theo.
+health_rationale_full_policy = Toàn bộ chính sách quyền riêng tư

@@ -14,6 +14,10 @@ import androidx.compose.material3.TimeInput
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import com.enjoyyourtime.globalfitness.R
+import android.text.format.DateFormat
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
@@ -32,7 +36,7 @@ fun ConfirmDialog(
         title = { Text(title) },
         text = { Text(text) },
         confirmButton = { TextButton(onClick = onConfirm) { Text(confirmLabel, color = MaterialTheme.colorScheme.error) } },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancelar") } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_cancel)) } },
     )
 }
 
@@ -63,9 +67,9 @@ fun DatePickerModal(
                     onDismiss()
                 },
                 enabled = state.selectedDateMillis != null,
-            ) { Text("Aceptar") }
+            ) { Text(stringResource(R.string.action_ok)) }
         },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancelar") } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_cancel)) } },
     ) {
         DatePicker(state = state)
     }
@@ -73,17 +77,17 @@ fun DatePickerModal(
 
 @Composable
 fun TimeInputDialog(initial: LocalTime, onPick: (LocalTime) -> Unit, onDismiss: () -> Unit) {
-    val state = rememberTimePickerState(initialHour = initial.hour, initialMinute = initial.minute, is24Hour = true)
+    val state = rememberTimePickerState(initialHour = initial.hour, initialMinute = initial.minute, is24Hour = DateFormat.is24HourFormat(LocalContext.current))
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Hora") },
+        title = { Text(stringResource(R.string.common_time)) },
         text = { TimeInput(state = state) },
         confirmButton = {
             TextButton(onClick = {
                 onPick(LocalTime.of(state.hour, state.minute))
                 onDismiss()
-            }) { Text("Aceptar") }
+            }) { Text(stringResource(R.string.action_ok)) }
         },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancelar") } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_cancel)) } },
     )
 }

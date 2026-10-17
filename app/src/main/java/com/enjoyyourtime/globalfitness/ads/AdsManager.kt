@@ -4,6 +4,8 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import android.util.Log
+import com.enjoyyourtime.globalfitness.R
+import com.enjoyyourtime.globalfitness.UiText
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.ProcessLifecycleOwner
@@ -134,11 +136,11 @@ class AdsManager(
         scope.launch { scaleBusy.collect { suppression.set(AdSuppression.SCALE_MEASUREMENT, it) } }
     }
 
-    /** Re-opens the consent choices ("Opciones de privacidad de anuncios"). */
-    fun showPrivacyOptions(activity: Activity, onDone: (error: String?) -> Unit) {
+    /** Re-opens the consent choices ("Ad privacy options"). */
+    fun showPrivacyOptions(activity: Activity, onDone: (error: UiText?) -> Unit) {
         UserMessagingPlatform.showPrivacyOptionsForm(activity) { formError ->
             refreshConsentState()
-            onDone(formError?.let { "No se pudieron abrir las opciones de privacidad: ${it.message}" })
+            onDone(formError?.let { UiText.res(R.string.ads_privacy_options_failed, it.message.orEmpty()) })
         }
     }
 

@@ -1,0 +1,26 @@
+# Remove ads (Google Play Billing)
+remove_ads_headline = Reklamsız GlobalFitness
+remove_ads_benefit_no_ads = Banner veya tam ekran reklam yok.
+remove_ads_benefit_one_time = Tek seferlik ödeme: abonelik yok.
+remove_ads_benefit_restore = Aynı Google Play hesabıyla diğer telefonlarınızda geri yüklenir.
+remove_ads_benefit_support = Uygulamanın sürdürülmesine ve geliştirilmesine yardımcı olursunuz.
+remove_ads_owned = Satın alma etkin: reklam görmeyeceksiniz. Desteğiniz için teşekkürler!
+remove_ads_buy = Satın al
+remove_ads_buy_price = %1$s karşılığında satın al
+remove_ads_restore = Satın alımları geri yükle
+remove_ads_simulate = Premium'u simüle et
+remove_ads_simulate_text = Yalnızca hata ayıklama derlemelerinde: satın almadan reklamları gizler.
+remove_ads_loading_price = Google Play'de fiyat kontrol ediliyor…
+billing_open_failed = Google Play satın alma ekranı açılamadı. Tekrar deneyin.
+billing_thanks = Desteğiniz için teşekkürler! Artık reklam görmeyeceksiniz.
+billing_already_owned_restoring = “Reklamları kaldır” ürününü zaten satın almıştınız. Satın alma geri yükleniyor…
+billing_restored = Satın alma geri yüklendi: reklam görmeyeceksiniz.
+billing_nothing_to_restore = Bu Google Play hesabında “Reklamları kaldır” satın alımı yok.
+billing_unavailable = “Reklamları kaldır” şu anda Google Play'de kullanılamıyor.
+billing_pending = Ödeme beklemede. Google Play ödemeyi onaylar onaylamaz reklamlar kaybolacak.
+billing_error_not_allowed = Google Play bu cihazda veya bu hesapla satın almaya izin vermiyor.
+billing_error_connection = Google Play'e bağlanılamadı. Bağlantıyı kontrol edip tekrar deneyin.
+billing_error_install_from_play = Google Play satın almayı reddetti. Satın alabilmek için uygulamayı Google Play'den yükleyin.
+billing_error_not_supported = Google Play sürümünüz bu satın almayı desteklemiyor.
+billing_error_already_owned = “Reklamları kaldır” ürününe zaten sahipsiniz.
+billing_error_code = Google Play hatası (%1$d). Tekrar deneyin.

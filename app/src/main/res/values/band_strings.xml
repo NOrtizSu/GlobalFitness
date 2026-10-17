@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Shown by Android in the notification access settings. -->
-    <string name="band_notification_listener_label">GlobalFitness: reenvío a la pulsera</string>
-</resources>

@@ -1,0 +1,26 @@
+# Remove ads (Google Play Billing)
+remove_ads_headline = 広告なしの GlobalFitness
+remove_ads_benefit_no_ads = バナー広告や全画面広告は表示されません。
+remove_ads_benefit_one_time = 1 回限りのお支払い：定期購入ではありません。
+remove_ads_benefit_restore = 同じ Google Play アカウントを使えば、他のスマートフォンでも復元されます。
+remove_ads_benefit_support = アプリの維持と改善を支援できます。
+remove_ads_owned = 購入済み：広告は表示されません。ご支援ありがとうございます！
+remove_ads_buy = 購入
+remove_ads_buy_price = %1$s で購入
+remove_ads_restore = 購入を復元
+remove_ads_simulate = プレミアムをシミュレート
+remove_ads_simulate_text = デバッグビルドのみ：購入せずに広告を非表示にします。
+remove_ads_loading_price = Google Play で価格を確認しています…
+billing_open_failed = Google Play の購入画面を開けませんでした。もう一度お試しください。
+billing_thanks = ご支援ありがとうございます！今後、広告は表示されません。
+billing_already_owned_restoring = 「広告を削除」はすでに購入済みです。購入を復元しています…
+billing_restored = 購入を復元しました：広告は表示されません。
+billing_nothing_to_restore = この Google Play アカウントには「広告を削除」の購入がありません。
+billing_unavailable = 現在、Google Play で「広告を削除」を利用できません。
+billing_pending = お支払いが保留中です。Google Play でお支払いが確認され次第、広告は表示されなくなります。
+billing_error_not_allowed = このデバイスまたはこのアカウントでは、Google Play での購入が許可されていません。
+billing_error_connection = Google Play に接続できませんでした。接続を確認して、もう一度お試しください。
+billing_error_install_from_play = Google Play が購入を拒否しました。購入するには、Google Play からアプリをインストールしてください。
+billing_error_not_supported = お使いの Google Play のバージョンは、この購入に対応していません。
+billing_error_already_owned = 「広告を削除」はすでに購入済みです。
+billing_error_code = Google Play エラー（%1$d）。もう一度お試しください。

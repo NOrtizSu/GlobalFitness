@@ -33,16 +33,20 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.data.Profile
 import com.enjoyyourtime.globalfitness.data.ProfileDraft
 import com.enjoyyourtime.globalfitness.data.Sex
 import com.enjoyyourtime.globalfitness.ui.Fmt
+import com.enjoyyourtime.globalfitness.ui.labelRes
 import com.enjoyyourtime.globalfitness.ui.components.DatePickerModal
 import java.time.LocalDate
 import java.time.Period
@@ -87,55 +91,62 @@ fun ProfileForm(
         OutlinedTextField(
             value = name,
             onValueChange = { name = it.take(30) },
-            label = { Text("Nombre") },
+            label = { Text(stringResource(R.string.profile_name)) },
             singleLine = true,
             isError = attempted && !nameOk,
-            supportingText = { if (attempted && !nameOk) Text("Escribe un nombre") },
+            supportingText = { if (attempted && !nameOk) Text(stringResource(R.string.profile_name_error)) },
             keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words, imeAction = ImeAction.Next),
             modifier = Modifier.fillMaxWidth(),
         )
-        Text("Sexo", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(stringResource(R.string.profile_sex), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
         SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
             Sex.entries.forEachIndexed { i, s ->
                 SegmentedButton(
                     selected = sex == s,
                     onClick = { sex = s },
                     shape = SegmentedButtonDefaults.itemShape(i, Sex.entries.size),
-                    label = { Text(s.label) },
+                    label = { Text(stringResource(s.labelRes)) },
                 )
             }
         }
-        Text("Fecha de nacimiento", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(stringResource(R.string.profile_birth_date), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
         OutlinedButton(onClick = { showDatePicker = true }, modifier = Modifier.fillMaxWidth()) {
             Icon(Icons.Filled.DateRange, contentDescription = null)
             Spacer(Modifier.width(8.dp))
             Text(
-                birthDate?.let { "${Fmt.date(it)} (${Period.between(it, LocalDate.now()).years} años)" } ?: "Elegir fecha",
+                birthDate?.let {
+                    val years = Period.between(it, LocalDate.now()).years
+                    stringResource(R.string.profile_birth_date_age, Fmt.date(it), pluralStringResource(R.plurals.value_years, years, Fmt.count(years.toLong())))
+                } ?: stringResource(R.string.profile_pick_date),
                 modifier = Modifier.weight(1f),
             )
         }
         if (attempted && !birthOk) {
-            Text("Elige una fecha de nacimiento válida", color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
+            Text(stringResource(R.string.profile_birth_date_error), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
         }
         OutlinedTextField(
             value = heightText,
-            onValueChange = { heightText = it.filter { ch -> ch.isDigit() || ch == ',' || ch == '.' }.take(5) },
-            label = { Text("Altura") },
-            suffix = { Text("cm") },
+            onValueChange = { heightText = it.filter { ch -> ch.isDigit() || ch == ',' || ch == '.' || ch == '٫' }.take(5) },
+            label = { Text(stringResource(R.string.profile_height)) },
+            suffix = { Text(stringResource(R.string.unit_cm)) },
             singleLine = true,
             isError = attempted && !heightOk,
-            supportingText = { if (attempted && !heightOk) Text("Entre 80 y 250 cm") },
+            supportingText = {
+                if (attempted && !heightOk) Text(stringResource(R.string.profile_height_error, Fmt.count(80), Fmt.count(250)))
+            },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Next),
             modifier = Modifier.fillMaxWidth(),
         )
         OutlinedTextField(
             value = targetText,
-            onValueChange = { targetText = it.filter { ch -> ch.isDigit() || ch == ',' || ch == '.' }.take(5) },
-            label = { Text("Peso objetivo (opcional)") },
-            suffix = { Text("kg") },
+            onValueChange = { targetText = it.filter { ch -> ch.isDigit() || ch == ',' || ch == '.' || ch == '٫' }.take(5) },
+            label = { Text(stringResource(R.string.profile_target_weight)) },
+            suffix = { Text(stringResource(R.string.unit_kg)) },
             singleLine = true,
             isError = !targetOk,
-            supportingText = { if (!targetOk) Text("Entre 20 y 300 kg, o déjalo vacío") },
+            supportingText = {
+                if (!targetOk) Text(stringResource(R.string.profile_target_weight_error, Fmt.count(20), Fmt.count(300)))
+            },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Done),
             modifier = Modifier.fillMaxWidth(),
         )
@@ -147,7 +158,7 @@ fun ProfileForm(
             Button(onClick = { submit() }, modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp)) { Text(submitLabel) }
         } else {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)) {
-                TextButton(onClick = onCancel) { Text("Cancelar") }
+                TextButton(onClick = onCancel) { Text(stringResource(R.string.action_cancel)) }
                 Button(onClick = { submit() }) { Text(submitLabel) }
             }
         }
@@ -179,10 +190,13 @@ fun ProfileDialog(initial: Profile?, onSubmit: (ProfileDraft) -> Unit, onDismiss
                     .padding(24.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-                Text(if (initial == null) "Nuevo perfil" else "Editar perfil", style = MaterialTheme.typography.headlineSmall)
+                Text(
+                    stringResource(if (initial == null) R.string.profile_new else R.string.profile_edit),
+                    style = MaterialTheme.typography.headlineSmall,
+                )
                 ProfileForm(
                     initial = initial,
-                    submitLabel = "Guardar",
+                    submitLabel = stringResource(R.string.action_save),
                     onSubmit = onSubmit,
                     onCancel = onDismiss,
                 )

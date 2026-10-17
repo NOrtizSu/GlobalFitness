@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.update
 data class BandLogLine(val timeMs: Long, val text: String)
 
 /**
- * In-app diagnostics for the "Diagnóstico" panel. Nothing written here contains the auth key, and as a
+ * In-app diagnostics for the "Diagnostics" panel (English: meant for bug reports). Nothing written here contains the auth key, and as a
  * second line of defence every line is scrubbed of the registered secrets before it is stored.
  */
 class BandLog(private val capacity: Int = 300, private val clock: () -> Long = System::currentTimeMillis) {
@@ -32,7 +32,7 @@ class BandLog(private val capacity: Int = 300, private val clock: () -> Long = S
     }
 
     companion object {
-        const val REDACTED = "[clave oculta]"
+        const val REDACTED = "[key hidden]"
 
         fun redact(text: String, secrets: Set<String>): String =
             secrets.fold(text) { acc, secret -> acc.replace(secret, REDACTED, ignoreCase = true) }

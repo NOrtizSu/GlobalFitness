@@ -21,7 +21,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.enjoyyourtime.globalfitness.R
 
 private const val GB_SERVER_PAIRING = "https://gadgetbridge.org/basics/pairing/huami-xiaomi-server/"
 private const val GB_XIAOMI_DEVICES = "https://gadgetbridge.org/gadgets/wearables/xiaomi/"
@@ -34,9 +36,9 @@ fun BandKeyHelpScreen(onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("La clave de autenticación") },
+                title = { Text(stringResource(R.string.band_help_title)) },
                 navigationIcon = {
-                    IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver") }
+                    IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.action_back)) }
                 },
             )
         },
@@ -49,52 +51,30 @@ fun BandKeyHelpScreen(onBack: () -> Unit) {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            Heading("¿Qué es?")
-            Paragraph(
-                "Es una clave secreta de 32 caracteres hexadecimales (16 bytes) que comparten tu pulsera y tu cuenta Xiaomi. " +
-                    "Los servidores de Xiaomi la generan cuando vinculas la pulsera en Mi Fitness. La pulsera la usa para " +
-                    "comprobar que el teléfono que se conecta está autorizado y para cifrar la comunicación. " +
-                    "No se puede generar en el teléfono: hay que obtenerla de Mi Fitness o de tu cuenta Xiaomi.",
-            )
+            Heading(stringResource(R.string.band_help_what_title))
+            Paragraph(stringResource(R.string.band_help_what_text))
 
-            Heading("Importante")
-            Bullet("Si desvinculas la pulsera en Mi Fitness (o la restableces de fábrica), la clave deja de valer. Tras volver a vincularla tendrás que obtener la nueva.")
-            Bullet("No compartas la clave: quien la tenga puede conectarse a tu pulsera.")
-            Bullet("Esta app la guarda solo en su almacenamiento privado, fuera de las copias de seguridad, y nunca la muestra en el diagnóstico.")
+            Heading(stringResource(R.string.band_help_important_title))
+            Bullet(stringResource(R.string.band_help_important_unpair))
+            Bullet(stringResource(R.string.band_help_important_share))
+            Bullet(stringResource(R.string.band_help_important_storage))
 
-            Heading("Cómo obtenerla")
-            Paragraph("Estos son los métodos que documenta el proyecto Gadgetbridge. La app no extrae la clave por ti.")
-            Bullet(
-                "Registros de Mi Fitness (sin root): Mi Fitness (antes Xiaomi Wear, paquete com.xiaomi.wearable) guarda archivos de " +
-                    "registro en el almacenamiento del teléfono, en Android/data/com.xiaomi.wearable/files/log/ " +
-                    "(en la variante Mi Health: Android/data/com.mi.health/files/log/). " +
-                    "Busca en ellos (por ejemplo en XiaomiFit.device.log) los campos «encryptKey», «authKey», «token» o " +
-                    "«huamiAuthKey» seguidos de 32 caracteres hexadecimales. Si hay varios, prueba primero el más cercano al final del archivo. " +
-                    "En Android 11 y posteriores esas carpetas suelen ser accesibles solo conectando el teléfono a un ordenador (MTP o adb).",
-            )
-            Bullet(
-                "Teléfono con root: cierra Mi Fitness y consulta su base de datos «device_db»; la clave está en el atributo " +
-                    "«auth_key» o «encrypt_key» del JSON «detail».",
-            )
-            Bullet(
-                "Herramienta de terceros «Xiaomi Cloud Tokens Extractor»: inicia sesión con tu cuenta Xiaomi en un ordenador y " +
-                    "muestra las claves de tus dispositivos. Es software de terceros: úsalo bajo tu responsabilidad.",
-            )
+            Heading(stringResource(R.string.band_help_how_title))
+            Paragraph(stringResource(R.string.band_help_how_text))
+            Bullet(stringResource(R.string.band_help_how_logs))
+            Bullet(stringResource(R.string.band_help_how_root))
+            Bullet(stringResource(R.string.band_help_how_extractor))
 
-            Heading("Introducirla")
-            Paragraph("Pégala en el campo «Clave de autenticación», con o sin el prefijo 0x. Se ignoran espacios y saltos de línea.")
+            Heading(stringResource(R.string.band_help_enter_title))
+            Paragraph(stringResource(R.string.band_help_enter_text))
 
-            Heading("Antes de conectar")
-            Paragraph(
-                "La pulsera solo admite una conexión. Si Mi Fitness está conectado a ella, detén Mi Fitness temporalmente: " +
-                    "Ajustes → Aplicaciones → Mi Fitness → Forzar detención. Al terminar, abre Mi Fitness otra vez para que siga " +
-                    "sincronizando con Health Connect. Esta app nunca cierra ni modifica Mi Fitness por su cuenta.",
-            )
+            Heading(stringResource(R.string.band_help_before_title))
+            Paragraph(stringResource(R.string.band_help_before_text))
 
-            Heading("Más información")
-            TextButton(onClick = { runCatching { uri.openUri(GB_SERVER_PAIRING) } }) { Text("Gadgetbridge: obtener la clave (servidor Huami/Xiaomi)") }
-            TextButton(onClick = { runCatching { uri.openUri(GB_XIAOMI_DEVICES) } }) { Text("Gadgetbridge: dispositivos Xiaomi") }
-            TextButton(onClick = { runCatching { uri.openUri(CLOUD_TOKENS_EXTRACTOR) } }) { Text("Xiaomi Cloud Tokens Extractor (terceros)") }
+            Heading(stringResource(R.string.band_help_more_title))
+            TextButton(onClick = { runCatching { uri.openUri(GB_SERVER_PAIRING) } }) { Text(stringResource(R.string.band_help_link_server)) }
+            TextButton(onClick = { runCatching { uri.openUri(GB_XIAOMI_DEVICES) } }) { Text(stringResource(R.string.band_help_link_devices)) }
+            TextButton(onClick = { runCatching { uri.openUri(CLOUD_TOKENS_EXTRACTOR) } }) { Text(stringResource(R.string.band_help_link_extractor)) }
         }
     }
 }

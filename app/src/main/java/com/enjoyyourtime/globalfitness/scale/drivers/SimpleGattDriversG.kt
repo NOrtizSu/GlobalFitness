@@ -9,6 +9,7 @@ import com.enjoyyourtime.globalfitness.scale.GattProtocol
 import com.enjoyyourtime.globalfitness.scale.GattScaleDriver
 import com.enjoyyourtime.globalfitness.scale.MatchConfidence
 import com.enjoyyourtime.globalfitness.scale.ScaleCapabilities
+import com.enjoyyourtime.globalfitness.scale.ScaleNotice
 import com.enjoyyourtime.globalfitness.scale.ScaleSample
 import com.enjoyyourtime.globalfitness.scale.ScaleUnit
 import com.enjoyyourtime.globalfitness.scale.uuid16
@@ -47,7 +48,7 @@ class EtekcityESF551Driver : GattScaleDriver() {
         override fun onConnected() {
             writeTo(svc, chrCmd, unitCommand(user.unit), withResponse = false)
             setNotifyOn(svc, chrNotify)
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         private var weightOnly: Cancellable? = null
@@ -143,7 +144,7 @@ class CustomOpenScaleDriver : GattScaleDriver() {
                     writeTo(svc, chr, byteArrayOf('9'.code.toByte()))
                     requestDisconnect()
                 }
-                'D' -> parseRecord(line.substring(3))?.let { publish(it) } ?: userInfo("Registro de la báscula no válido")
+                'D' -> parseRecord(line.substring(3))?.let { publish(it) } ?: userInfo(ScaleNotice.Kind.INVALID_RECORD)
                 else -> Unit
             }
         }
@@ -227,7 +228,7 @@ class HoffenBbs8107Driver : GattScaleDriver() {
                         phase = 2
                     }
                     2 -> {
-                        userInfo("Súbete a la báscula")
+                        userInfo(ScaleNotice.Kind.STEP_ON)
                         phase = 3
                     }
                     4 -> {
@@ -338,7 +339,7 @@ class SenssunDriver : GattScaleDriver() {
                 0xAA, 0xA0 -> {
                     if (!prompted) {
                         prompted = true
-                        userInfo("Súbete a la báscula")
+                        userInfo(ScaleNotice.Kind.STEP_ON)
                     }
                     if (stable) return
                     stable = Bytes.u8(f, 5) == 0xAA
@@ -351,7 +352,7 @@ class SenssunDriver : GattScaleDriver() {
                     }
                 }
                 0xBE -> {
-                    userInfo("La báscula no pudo medir la grasa corporal")
+                    userInfo(ScaleNotice.Kind.FAT_MEASUREMENT_FAILED)
                     requestDisconnect()
                 }
                 0xB0 -> {
@@ -529,7 +530,7 @@ class HuaweiAh100Driver : GattScaleDriver() {
             auth = HuaweiFaa0.authToken(user.appUserId)
             mac = HuaweiFaa0.macBytes(env.address)
             setNotifyOn(HuaweiFaa0.SERVICE, HuaweiFaa0.CHAR_RX)
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {
@@ -635,7 +636,7 @@ class HuaweiCh100sDriver : GattScaleDriver() {
             auth = HuaweiFaa0.authToken(user.appUserId)
             mac = HuaweiFaa0.macBytes(env.address)
             setNotifyOn(HuaweiFaa0.SERVICE, HuaweiFaa0.CHAR_RX)
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {

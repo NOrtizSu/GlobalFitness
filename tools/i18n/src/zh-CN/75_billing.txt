@@ -1,0 +1,26 @@
+# Remove ads (Google Play Billing)
+remove_ads_headline = 无广告版 GlobalFitness
+remove_ads_benefit_no_ads = 没有横幅广告或全屏广告。
+remove_ads_benefit_one_time = 一次性付款：无需订阅。
+remove_ads_benefit_restore = 在使用同一 Google Play 账号的其他手机上也可恢复。
+remove_ads_benefit_support = 你将帮助维护和改进应用。
+remove_ads_owned = 购买已生效：你将不会看到广告。感谢你的支持！
+remove_ads_buy = 购买
+remove_ads_buy_price = 以 %1$s 购买
+remove_ads_restore = 恢复购买
+remove_ads_simulate = 模拟高级版
+remove_ads_simulate_text = 仅限调试版本：无需购买即可隐藏广告。
+remove_ads_loading_price = 正在 Google Play 上查询价格…
+billing_open_failed = 无法打开 Google Play 购买页面。请重试。
+billing_thanks = 感谢你的支持！你将不会再看到广告。
+billing_already_owned_restoring = 你已经购买过“移除广告”。正在恢复购买…
+billing_restored = 购买已恢复：你将不会看到广告。
+billing_nothing_to_restore = 此 Google Play 账号中没有“移除广告”的购买记录。
+billing_unavailable = Google Play 目前无法提供“移除广告”。
+billing_pending = 付款待处理。Google Play 确认付款后，广告将立即消失。
+billing_error_not_allowed = Google Play 不允许在此设备上或使用此账号进行购买。
+billing_error_connection = 无法连接到 Google Play。请检查网络连接后重试。
+billing_error_install_from_play = Google Play 拒绝了此次购买。请从 Google Play 安装应用后再购买。
+billing_error_not_supported = 你的 Google Play 版本不支持此次购买。
+billing_error_already_owned = 你已拥有“移除广告”。
+billing_error_code = Google Play 错误（%1$d）。请重试。

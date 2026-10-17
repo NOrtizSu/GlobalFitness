@@ -13,6 +13,7 @@ import androidx.credentials.exceptions.GetCredentialCancellationException
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.credentials.exceptions.NoCredentialException
 import com.enjoyyourtime.globalfitness.R
+import com.enjoyyourtime.globalfitness.UiText
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
@@ -37,7 +38,7 @@ data class AccountUser(
 sealed interface AuthResult {
     data object Success : AuthResult
     data object Cancelled : AuthResult
-    data class Failure(val message: String) : AuthResult
+    data class Failure(val message: UiText) : AuthResult
 }
 
 /**
@@ -83,7 +84,7 @@ class AccountManager(context: Context) {
      * the account explicitly (no auto-select), and it must be the signed-in one.
      */
     suspend fun reauthenticate(activity: Activity): AuthResult {
-        val current = auth.currentUser ?: return AuthResult.Failure("No hay ninguna sesión iniciada.")
+        val current = auth.currentUser ?: return AuthResult.Failure(UiText.res(R.string.auth_error_not_signed_in))
         val authorizedOnly = GetGoogleIdOption.Builder()
             .setServerClientId(webClientId)
             .setFilterByAuthorizedAccounts(true)
@@ -110,7 +111,7 @@ class AccountManager(context: Context) {
 
     /** Deletes the Firebase user. Call [reauthenticate] first. */
     suspend fun deleteUser(): AuthResult {
-        val current = auth.currentUser ?: return AuthResult.Failure("No hay ninguna sesión iniciada.")
+        val current = auth.currentUser ?: return AuthResult.Failure(UiText.res(R.string.auth_error_not_signed_in))
         return try {
             current.delete().await()
             clearCredentials()
@@ -149,7 +150,7 @@ class AccountManager(context: Context) {
             if (credential is CustomCredential && credential.type in GOOGLE_TOKEN_TYPES) {
                 TokenResult.Token(GoogleIdTokenCredential.createFrom(credential.data).idToken)
             } else {
-                TokenResult.Error(AuthResult.Failure("Google ha devuelto un tipo de credencial no admitido."))
+                TokenResult.Error(AuthResult.Failure(UiText.res(R.string.auth_error_unsupported_credential)))
             }
         } catch (e: CancellationException) {
             throw e
@@ -162,7 +163,7 @@ class AccountManager(context: Context) {
             TokenResult.Error(AuthResult.Failure(AuthErrors.credential(e)))
         } catch (e: GoogleIdTokenParsingException) {
             Log.w(TAG, "Invalid Google ID token", e)
-            TokenResult.Error(AuthResult.Failure("La respuesta de Google no es válida. Inténtalo de nuevo."))
+            TokenResult.Error(AuthResult.Failure(UiText.res(R.string.auth_error_invalid_response)))
         }
     }
 

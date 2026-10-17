@@ -26,6 +26,8 @@ import androidx.health.connect.client.request.AggregateRequest
 import androidx.health.connect.client.request.ChangesTokenRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
+import com.enjoyyourtime.globalfitness.R
+import com.enjoyyourtime.globalfitness.UiText
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -48,8 +50,8 @@ import kotlin.reflect.KClass
 data class SyncState(
     val running: Boolean = false,
     val lastSyncAt: Long? = null,
-    /** Spanish message of the last failed sync (null after a clean one). */
-    val error: String? = null,
+    /** Message of the last failed sync (null after a clean one). */
+    val error: UiText? = null,
 )
 
 /**
@@ -85,7 +87,7 @@ class HealthSync(
         requestSync()
     }
 
-    /** "Sincronizar ahora". */
+    /** "Sync now". */
     fun requestSync(): Job = scope.launch { sync() }
 
     /** Runs one sync; returns false when skipped (already running / unavailable) or failed. */
@@ -94,7 +96,7 @@ class HealthSync(
         try {
             lastAttemptAt = clock()
             if (gateway.client() == null) {
-                _state.update { it.copy(running = false, error = "Health Connect no está disponible en este dispositivo.") }
+                _state.update { it.copy(running = false, error = UiText.res(R.string.hc_not_available)) }
                 return false
             }
             val granted = gateway.refresh()
@@ -113,7 +115,7 @@ class HealthSync(
             _state.value = SyncState(
                 running = false,
                 lastSyncAt = now,
-                error = errors.takeIf { it.isNotEmpty() }?.let { "No se pudo sincronizar: " + it.joinToString("; ") },
+                error = errors.takeIf { it.isNotEmpty() }?.let { UiText.res(R.string.hc_sync_failed, UiText.Joined(it, "; ")) },
             )
             return errors.isEmpty()
         } catch (e: CancellationException) {
@@ -121,7 +123,7 @@ class HealthSync(
             throw e
         } catch (e: Exception) {
             Log.w(TAG, "Sync failed", e)
-            _state.update { it.copy(running = false, error = "No se pudo sincronizar: ${describe(e)}") }
+            _state.update { it.copy(running = false, error = UiText.res(R.string.hc_sync_failed, describe(e))) }
             return false
         } finally {
             mutex.unlock()
@@ -132,10 +134,10 @@ class HealthSync(
         val today: LocalDate = Instant.ofEpochMilli(now).atZone(zone).toLocalDate()
     }
 
-    private suspend fun runAll(client: HealthConnectClient, granted: Set<String>): List<String> {
+    private suspend fun runAll(client: HealthConnectClient, granted: Set<String>): List<UiText> {
         val run = Run(client, granted, clock(), zone())
         val windowDays = HealthPermissions.importWindowDays(granted)
-        val errors = mutableListOf<String>()
+        val errors = mutableListOf<UiText>()
         forgetUnreadable(granted)
 
         for (spec in activitySpecs) {
@@ -150,14 +152,14 @@ class HealthSync(
         return errors
     }
 
-    private suspend fun guarded(type: HealthDataType, errors: MutableList<String>, block: suspend () -> Unit) {
+    private suspend fun guarded(type: HealthDataType, errors: MutableList<UiText>, block: suspend () -> Unit) {
         try {
             block()
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
             Log.w(TAG, "Sync of $type failed", e)
-            errors += "${type.label} (${describe(e)})"
+            errors += UiText.res(R.string.hc_sync_type_error, UiText.res(type.labelRes), describe(e))
         }
     }
 
@@ -501,17 +503,17 @@ class HealthSync(
         private const val RETENTION_DAYS = 400L
         private const val EXERCISE_TOTALS_DAYS = 90L
 
-        /** Short Spanish reason for a Health Connect failure. */
-        fun describe(e: Throwable): String {
+        /** Short reason for a Health Connect failure. */
+        fun describe(e: Throwable): UiText {
             val message = e.message.orEmpty()
             return when {
                 message.contains("quota", ignoreCase = true) || message.contains("rate limit", ignoreCase = true) ->
-                    "límite de peticiones de Health Connect, inténtalo en unos minutos"
-                message.contains("background", ignoreCase = true) -> "la app pasó a segundo plano"
-                e is SecurityException -> "permiso retirado"
-                e is RemoteException || e is IOException -> "Health Connect no respondió"
-                message.isNotBlank() -> message
-                else -> e.javaClass.simpleName
+                    UiText.res(R.string.hc_error_rate_limit)
+                message.contains("background", ignoreCase = true) -> UiText.res(R.string.hc_error_background)
+                e is SecurityException -> UiText.res(R.string.hc_error_permission_revoked)
+                e is RemoteException || e is IOException -> UiText.res(R.string.hc_error_no_response)
+                message.isNotBlank() -> UiText.raw(message)
+                else -> UiText.raw(e.javaClass.simpleName)
             }
         }
     }

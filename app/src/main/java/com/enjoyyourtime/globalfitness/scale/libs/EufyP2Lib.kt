@@ -21,7 +21,7 @@ object EufyP2Lib {
 
     fun keyFromMac(mac: String): ByteArray {
         val clean = mac.replace(":", "").replace("-", "").uppercase()
-        require(Regex("^[0-9A-F]{12}$").matches(clean)) { "Eufy: dirección MAC no válida" }
+        require(Regex("^[0-9A-F]{12}$").matches(clean)) { "Eufy: invalid MAC address" }
         return MessageDigest.getInstance("MD5").digest(clean.toByteArray(Charsets.UTF_8))
     }
 

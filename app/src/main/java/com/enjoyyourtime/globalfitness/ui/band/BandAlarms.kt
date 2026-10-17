@@ -39,24 +39,36 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import android.text.format.DateFormat
+import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.band.xiaomi.AlarmRepeat
 import com.enjoyyourtime.globalfitness.band.xiaomi.AlarmSpec
 import com.enjoyyourtime.globalfitness.band.xiaomi.BandAlarm
+import com.enjoyyourtime.globalfitness.ui.Fmt
 import com.enjoyyourtime.globalfitness.ui.theme.TabularNumbers
+import java.time.DayOfWeek
+import java.time.LocalTime
+import java.time.format.TextStyle
 
 /** Monday = 1 ... Sunday = 64, as the band stores the weekly flags. */
-private val DAYS = listOf("L" to 1, "M" to 2, "X" to 4, "J" to 8, "V" to 16, "S" to 32, "D" to 64)
+private val DAYS = DayOfWeek.entries.mapIndexed { i, day -> day to (1 shl i) }
 
+private fun dayLabel(day: DayOfWeek): String = day.getDisplayName(TextStyle.SHORT, Fmt.locale)
+
+@Composable
 fun repeatLabel(repeat: AlarmRepeat): String = when (repeat) {
-    AlarmRepeat.Once -> "Una vez"
-    AlarmRepeat.Daily -> "Todos los días"
+    AlarmRepeat.Once -> stringResource(R.string.alarm_once)
+    AlarmRepeat.Daily -> stringResource(R.string.alarm_daily)
     is AlarmRepeat.Weekly -> when (repeat.days) {
-        31 -> "De lunes a viernes"
-        96 -> "Fines de semana"
-        else -> DAYS.filter { repeat.days and it.second != 0 }.joinToString(" ") { it.first }
+        31 -> stringResource(R.string.alarm_weekdays)
+        96 -> stringResource(R.string.alarm_weekends)
+        else -> DAYS.filter { repeat.days and it.second != 0 }.joinToString(" ") { dayLabel(it.first) }
     }
-    is AlarmRepeat.Other -> "Repetición configurada en la pulsera"
+    is AlarmRepeat.Other -> stringResource(R.string.alarm_band_repeat)
 }
 
 private fun daysOf(repeat: AlarmRepeat): Int = when (repeat) {
@@ -65,7 +77,7 @@ private fun daysOf(repeat: AlarmRepeat): Int = when (repeat) {
     else -> 0
 }
 
-private fun timeLabel(hour: Int, minute: Int) = "%02d:%02d".format(java.util.Locale.ROOT, hour, minute)
+private fun timeLabel(hour: Int, minute: Int) = Fmt.time(LocalTime.of(hour, minute))
 
 @Composable
 fun AlarmsCard(
@@ -84,9 +96,9 @@ fun AlarmsCard(
                 val count = alarms?.size
                 Text(
                     when {
-                        count == null -> "Alarmas guardadas en la pulsera"
-                        maxAlarms != null -> "$count de $maxAlarms alarmas"
-                        else -> "$count alarmas"
+                        count == null -> stringResource(R.string.alarm_saved_on_band)
+                        maxAlarms != null -> pluralStringResource(R.plurals.alarm_count_of_max, maxAlarms, count, maxAlarms)
+                        else -> pluralStringResource(R.plurals.alarm_count, count, count)
                     },
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.weight(1f),
@@ -98,15 +110,15 @@ fun AlarmsCard(
                 AlarmRow(alarm, onEdit = { onEdit(alarm) }, onToggle = { onToggle(alarm, it) }, onDelete = { onDelete(alarm) })
             }
             if (alarms != null && alarms.isEmpty()) {
-                Text("No hay alarmas en la pulsera.", style = MaterialTheme.typography.bodySmall)
+                Text(stringResource(R.string.alarm_none), style = MaterialTheme.typography.bodySmall)
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 val full = maxAlarms != null && alarms != null && alarms.size >= maxAlarms
-                FilledTonalButton(onClick = onAdd, enabled = !busy && !full) { Text("Nueva alarma") }
-                TextButton(onClick = onRefresh, enabled = !busy) { Text("Volver a leer") }
+                FilledTonalButton(onClick = onAdd, enabled = !busy && !full) { Text(stringResource(R.string.alarm_new)) }
+                TextButton(onClick = onRefresh, enabled = !busy) { Text(stringResource(R.string.alarm_reload)) }
             }
             Text(
-                "Los cambios se envían a la pulsera y la lista se vuelve a leer de ella, así ves lo que realmente guardó.",
+                stringResource(R.string.alarm_sync_text),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -123,39 +135,44 @@ private fun AlarmRow(alarm: BandAlarm, onEdit: () -> Unit, onToggle: (Boolean) -
                 style = MaterialTheme.typography.headlineSmall.merge(TabularNumbers),
                 color = if (alarm.spec.enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant,
             )
-            val smart = if (alarm.spec.smart) " · inteligente" else ""
-            Text(repeatLabel(alarm.spec.repeat) + smart, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            val repeat = repeatLabel(alarm.spec.repeat)
+            Text(if (alarm.spec.smart) stringResource(R.string.alarm_repeat_smart, repeat) else repeat, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
         Switch(checked = alarm.spec.enabled, onCheckedChange = onToggle)
-        IconButton(onClick = onEdit) { Icon(Icons.Filled.Edit, contentDescription = "Editar alarma de las ${timeLabel(alarm.spec.hour, alarm.spec.minute)}") }
-        IconButton(onClick = onDelete) { Icon(Icons.Filled.Delete, contentDescription = "Borrar alarma de las ${timeLabel(alarm.spec.hour, alarm.spec.minute)}") }
+        val time = timeLabel(alarm.spec.hour, alarm.spec.minute)
+        IconButton(onClick = onEdit) { Icon(Icons.Filled.Edit, contentDescription = stringResource(R.string.alarm_edit_at, time)) }
+        IconButton(onClick = onDelete) { Icon(Icons.Filled.Delete, contentDescription = stringResource(R.string.alarm_delete_at, time)) }
     }
 }
 
 @Composable
 fun AlarmEditorDialog(initial: AlarmSpec?, isNew: Boolean, onSave: (AlarmSpec) -> Unit, onDismiss: () -> Unit) {
     val start = initial ?: AlarmSpec(hour = 7, minute = 0)
-    val time = rememberTimePickerState(initialHour = start.hour, initialMinute = start.minute, is24Hour = true)
+    val time = rememberTimePickerState(
+        initialHour = start.hour,
+        initialMinute = start.minute,
+        is24Hour = DateFormat.is24HourFormat(LocalContext.current),
+    )
     var days by remember { mutableIntStateOf(daysOf(start.repeat)) }
     var smart by remember { mutableStateOf(start.smart) }
     var daysEdited by remember { mutableStateOf(false) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(if (isNew) "Nueva alarma" else "Editar alarma") },
+        title = { Text(stringResource(if (isNew) R.string.alarm_new else R.string.alarm_edit)) },
         text = {
             Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 TimePicker(state = time)
-                Text("Repetir", style = MaterialTheme.typography.titleSmall)
+                Text(stringResource(R.string.alarm_repeat), style = MaterialTheme.typography.titleSmall)
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    DAYS.forEach { (label, flag) ->
+                    DAYS.forEach { (day, flag) ->
                         FilterChip(
                             selected = days and flag != 0,
                             onClick = {
                                 days = days xor flag
                                 daysEdited = true
                             },
-                            label = { Text(label) },
+                            label = { Text(dayLabel(day)) },
                         )
                     }
                 }
@@ -163,9 +180,9 @@ fun AlarmEditorDialog(initial: AlarmSpec?, isNew: Boolean, onSave: (AlarmSpec) -
                 Text(repeatLabel(repeat), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Column(Modifier.weight(1f)) {
-                        Text("Despertador inteligente", style = MaterialTheme.typography.bodyMedium)
+                        Text(stringResource(R.string.alarm_smart), style = MaterialTheme.typography.bodyMedium)
                         Text(
-                            "La pulsera puede despertarte un poco antes, en sueño ligero.",
+                            stringResource(R.string.alarm_smart_text),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -180,8 +197,8 @@ fun AlarmEditorDialog(initial: AlarmSpec?, isNew: Boolean, onSave: (AlarmSpec) -
                 val repeat = if (!daysEdited && start.repeat is AlarmRepeat.Other) start.repeat else AlarmRepeat.fromDays(days)
                 // Saving from the editor (re)activates the alarm, as clock apps do.
                 onSave(start.copy(hour = time.hour, minute = time.minute, smart = smart, repeat = repeat, enabled = true))
-            }) { Text("Guardar") }
+            }) { Text(stringResource(R.string.action_save)) }
         },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancelar") } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_cancel)) } },
     )
 }

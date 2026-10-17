@@ -5,11 +5,13 @@ import com.enjoyyourtime.globalfitness.scale.ActivityLevel
 import com.enjoyyourtime.globalfitness.scale.AdvertisementInfo
 import com.enjoyyourtime.globalfitness.scale.Bytes
 import com.enjoyyourtime.globalfitness.scale.Cancellable
+import com.enjoyyourtime.globalfitness.scale.DriverNameNote
 import com.enjoyyourtime.globalfitness.scale.FormulaLib
 import com.enjoyyourtime.globalfitness.scale.GattProtocol
 import com.enjoyyourtime.globalfitness.scale.GattScaleDriver
 import com.enjoyyourtime.globalfitness.scale.MatchConfidence
 import com.enjoyyourtime.globalfitness.scale.ScaleCapabilities
+import com.enjoyyourtime.globalfitness.scale.ScaleNotice
 import com.enjoyyourtime.globalfitness.scale.ScaleSample
 import com.enjoyyourtime.globalfitness.scale.ScaleUnit
 import com.enjoyyourtime.globalfitness.scale.libs.RenphoEs26bbLib
@@ -46,7 +48,7 @@ class ActiveEraBF06Driver : GattScaleDriver() {
         override fun onConnected() {
             setNotifyOn(svc, chrNotify)
             writeTo(svc, chrWrite, configPacket())
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         private fun configPacket(): ByteArray {
@@ -373,7 +375,7 @@ class RenphoWBE28Driver : GattScaleDriver() {
             readFrom(svcBodyComp, uuid16(0x2A9B))
             setNotifyOn(svcWeight, uuid16(0x2A9D))
             setNotifyOn(svcBodyComp, uuid16(0x2A9C))
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {
@@ -390,7 +392,8 @@ class RenphoWBE28Driver : GattScaleDriver() {
  */
 class QnDriver : GattScaleDriver() {
     override val id = "qn_scale"
-    override val displayName = "QN / Yolanda / RENPHO / FITINDEX (conexión)"
+    override val displayName = "QN / Yolanda / RENPHO / FITINDEX"
+    override val nameNote = DriverNameNote.CONNECTION
     override val brand = "QN / RENPHO / FITINDEX"
     override val capabilities = ScaleCapabilities(impedance = true)
     override val formulaLib = FormulaLib.TRISA
@@ -434,7 +437,7 @@ class QnDriver : GattScaleDriver() {
             if (hasCharacteristic(svcT1, chrT1Notify)) setNotifyOn(svcT1, chrT1Notify)
             if (hasCharacteristic(svcT1, chrT1Indicate)) setNotifyOn(svcT1, chrT1Indicate)
             if (hasCharacteristic(svcT2, chrT2Notify)) setNotifyOn(svcT2, chrT2Notify)
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onDisconnected() {

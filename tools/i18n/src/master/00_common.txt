@@ -1,0 +1,104 @@
+# App
+!app_name = GlobalFitness
+band_notification_listener_label = GlobalFitness: forwarding to your band ||| GlobalFitness: reenvío a la pulsera
+
+# Common actions
+action_cancel = Cancel ||| Cancelar
+action_ok = OK ||| Aceptar
+action_save = Save ||| Guardar
+action_delete = Delete ||| Eliminar
+action_retry = Retry ||| Reintentar
+action_got_it = Got it ||| Entendido
+action_close = Close ||| Cerrar
+action_back = Back ||| Atrás
+action_continue = Continue ||| Continuar
+action_open_settings = Open settings ||| Abrir ajustes
+action_grant_permission = Grant permission ||| Conceder permiso
+action_turn_on_bluetooth = Turn on Bluetooth ||| Activar Bluetooth
+action_turn_on_location = Turn on location ||| Activar ubicación
+action_connect_health_connect = Connect Health Connect ||| Conectar Health Connect
+action_install_health_connect = Install Health Connect ||| Instalar Health Connect
+action_update_health_connect = Update Health Connect ||| Actualizar Health Connect
+action_add_manual_weight = Add weight manually ||| Añadir peso manual
+common_no_data = No data ||| Sin datos
+common_not_enough_data = Not enough data ||| Faltan datos
+common_time = Time ||| Hora
+common_experimental = Experimental ||| Experimental
+common_required_mark = %1$s * ||| %1$s *
+common_error_detail = %1$s: %2$s ||| %1$s: %2$s
+
+# Units and values
+unit_kg = kg ||| kg
+unit_kcal = kcal ||| kcal
+unit_percent = % ||| %
+unit_years = years ||| años
+value_kg = %1$s kg ||| %1$s kg
+value_kcal = %1$s kcal ||| %1$s kcal
+value_percent = %1$s%% ||| %1$s %%
+value_years{one} = %1$s year ||| %1$s año
+value_years{other} = %1$s years ||| %1$s años
+value_ohm = %1$s Ω ||| %1$s Ω
+
+# Relative dates
+time_today = Today ||| Hoy
+time_yesterday = Yesterday ||| Ayer
+time_today_at = Today, %1$s ||| Hoy, %1$s
+time_yesterday_at = Yesterday, %1$s ||| Ayer, %1$s
+
+# Navigation
+nav_today = Today ||| Hoy
+nav_body = Body ||| Cuerpo
+nav_activity = Activity ||| Actividad
+nav_devices = Devices ||| Dispositivos
+nav_profile = Profile ||| Perfil
+
+# Body metrics
+metric_weight = Weight ||| Peso
+metric_bmi = BMI ||| IMC
+metric_fat_percent = Body fat ||| Grasa
+metric_fat_mass = Fat mass ||| Masa grasa
+metric_muscle = Muscle ||| Músculo
+metric_skeletal_muscle = Skeletal muscle ||| Músculo esquelético
+metric_water = Water ||| Agua
+metric_bone = Bone ||| Hueso
+metric_visceral = Visceral fat ||| Grasa visceral
+metric_bmr = Basal metabolic rate ||| Metabolismo basal
+metric_metabolic_age = Metabolic age ||| Edad metabólica
+metric_protein = Protein ||| Proteína
+metric_ideal_weight = Ideal weight ||| Peso ideal
+
+# Classification chips
+class_low = Low ||| Bajo
+class_very_low = Very low ||| Muy bajo
+class_normal = Normal ||| Normal
+class_high = High ||| Alto
+class_very_high = Very high ||| Muy alto
+class_overweight = Overweight ||| Sobrepeso
+class_obese = Obese ||| Obesidad
+class_excellent = Excellent ||| Excelente
+class_optimal = Optimal ||| Óptimo
+class_younger = Younger ||| Más joven
+class_older_than_age = Older than your age ||| Mayor que tu edad
+class_in_range = In range ||| En rango
+class_out_of_range = Out of range ||| Fuera de rango
+
+# Body types
+body_type = Body type ||| Tipo de cuerpo
+body_type_obese = Obese ||| Obeso
+body_type_overweight = Overweight ||| Sobrepeso
+body_type_solid = Solidly built ||| Corpulento
+body_type_lack_exercise = Lacks exercise ||| Falta de ejercicio
+body_type_balanced = Balanced ||| Equilibrado
+body_type_balanced_muscular = Balanced muscular ||| Equilibrado musculoso
+body_type_skinny = Skinny ||| Delgado
+body_type_balanced_skinny = Balanced skinny ||| Delgado equilibrado
+body_type_skinny_muscular = Skinny muscular ||| Delgado musculoso
+
+# Health Connect rationale (shown by Health Connect)
+health_rationale_title = Health data privacy ||| Privacidad de los datos de salud
+health_rationale_intro = GlobalFitness uses Health Connect for two things: ||| GlobalFitness usa Health Connect para dos cosas:
+health_rationale_read = • Reading the data from your band or watch (for example the Xiaomi Smart Band through Mi Fitness): steps, distance, calories, heart rate, resting heart rate, heart rate variability, sleep, blood oxygen, respiratory rate and workouts. It also reads the weight and body fat recorded by other apps. With the past-data permission it imports up to one year. ||| • Leer los datos de tu pulsera o reloj (por ejemplo, la Xiaomi Smart Band a través de Mi Fitness): pasos, distancia, calorías, pulso, pulso en reposo, variabilidad del pulso, sueño, oxígeno en sangre, frecuencia respiratoria y entrenamientos. También lee el peso y la grasa corporal que registren otras apps. Con el permiso de datos anteriores importa hasta un año.
+health_rationale_write = • Writing your scale measurements: weight, body fat, bone mass, lean mass, basal metabolic rate and body water. If you delete a measurement in the app, it is also deleted from Health Connect. ||| • Escribir las mediciones de tu báscula: peso, grasa corporal, masa ósea, masa magra, metabolismo basal y agua corporal. Si borras una medición en la app, también se borra de Health Connect.
+health_rationale_storage = Data read from Health Connect is stored only on this phone: it is not uploaded to the optional cloud backup, not used for advertising and not shared with anyone. The app uses it only to show you summaries and charts. ||| Los datos leídos de Health Connect se guardan solo en este teléfono: no se suben a la copia en la nube opcional, no se usan para publicidad y no se comparten con nadie. La app los usa únicamente para mostrarte resúmenes y gráficos.
+health_rationale_revoke = You can revoke any permission at any time in Health Connect; the app stops reading that type of data and deletes its local copy on the next sync. ||| Puedes retirar cualquier permiso cuando quieras desde Health Connect; la app deja de leer ese tipo de dato y borra su copia local en la siguiente sincronización.
+health_rationale_full_policy = Full privacy policy ||| Política de privacidad completa

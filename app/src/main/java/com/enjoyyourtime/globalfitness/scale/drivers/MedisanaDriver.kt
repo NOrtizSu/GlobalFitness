@@ -8,6 +8,7 @@ import com.enjoyyourtime.globalfitness.scale.GattProtocol
 import com.enjoyyourtime.globalfitness.scale.GattScaleDriver
 import com.enjoyyourtime.globalfitness.scale.MatchConfidence
 import com.enjoyyourtime.globalfitness.scale.ScaleCapabilities
+import com.enjoyyourtime.globalfitness.scale.ScaleNotice
 import com.enjoyyourtime.globalfitness.scale.ScaleSample
 import com.enjoyyourtime.globalfitness.scale.uuid16
 import java.util.Locale
@@ -56,7 +57,7 @@ class MedisanaBs44xDriver : GattScaleDriver() {
             val nowSec = env.wallClock() / 1000
             val ts = if (epochMode == EpochMode.FROM_2010) nowSec - EPOCH_2010 else nowSec
             writeTo(SERVICE, chrCmd, byteArrayOf(0x02) + Bytes.toInt32Le(ts))
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         /** The app user's person number on the scale (configured slot, 1 by default). */

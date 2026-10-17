@@ -1,0 +1,26 @@
+# Remove ads (Google Play Billing)
+remove_ads_headline = GlobalFitness bez reklam
+remove_ads_benefit_no_ads = Bez banerów i reklam pełnoekranowych.
+remove_ads_benefit_one_time = Jednorazowa płatność: bez subskrypcji.
+remove_ads_benefit_restore = Zakup jest przywracany na Twoich innych telefonach z tym samym kontem Google Play.
+remove_ads_benefit_support = Pomagasz utrzymywać i ulepszać aplikację.
+remove_ads_owned = Zakup aktywny: nie zobaczysz reklam. Dziękujemy za wsparcie!
+remove_ads_buy = Kup
+remove_ads_buy_price = Kup za %1$s
+remove_ads_restore = Przywróć zakupy
+remove_ads_simulate = Symuluj premium
+remove_ads_simulate_text = Tylko w kompilacjach debugowania: ukrywa reklamy bez zakupu.
+remove_ads_loading_price = Sprawdzanie ceny w Google Play…
+billing_open_failed = Nie udało się otworzyć zakupu w Google Play. Spróbuj ponownie.
+billing_thanks = Dziękujemy za wsparcie! Nie zobaczysz już reklam.
+billing_already_owned_restoring = Masz już zakup „Usuń reklamy”. Przywracanie zakupu…
+billing_restored = Zakup przywrócony: nie zobaczysz reklam.
+billing_nothing_to_restore = Na tym koncie Google Play nie ma zakupu „Usuń reklamy”.
+billing_unavailable = Zakup „Usuń reklamy” jest teraz niedostępny w Google Play.
+billing_pending = Płatność oczekuje. Reklamy znikną, gdy tylko Google Play potwierdzi płatność.
+billing_error_not_allowed = Google Play nie zezwala na zakupy na tym urządzeniu lub na tym koncie.
+billing_error_connection = Nie udało się połączyć z Google Play. Sprawdź połączenie i spróbuj ponownie.
+billing_error_install_from_play = Google Play odrzucił zakup. Zainstaluj aplikację z Google Play, aby móc dokonywać zakupów.
+billing_error_not_supported = Twoja wersja Google Play nie obsługuje tego zakupu.
+billing_error_already_owned = Masz już zakup „Usuń reklamy”.
+billing_error_code = Błąd Google Play (%1$d). Spróbuj ponownie.

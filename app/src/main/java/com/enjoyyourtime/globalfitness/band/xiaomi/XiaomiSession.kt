@@ -35,37 +35,27 @@ interface BandLink {
     fun close()
 }
 
-/** Why a connection attempt or session ended, with the Spanish text shown to the user. */
-enum class BandFailure(val message: String) {
-    BLUETOOTH_UNAVAILABLE("Este teléfono no tiene Bluetooth."),
-    BLUETOOTH_OFF("El Bluetooth está desactivado. Actívalo y vuelve a intentarlo."),
-    MISSING_PERMISSION("Falta el permiso «Dispositivos cercanos» (Bluetooth). Concédelo para conectar con la pulsera."),
-    NO_KEY("Primero guarda la clave de autenticación de la pulsera."),
-    NO_DEVICE("Primero elige tu pulsera en la lista."),
-    NOT_FOUND(
-        "No se encontró la pulsera. Comprueba que esté encendida, cerca y emparejada con este teléfono " +
-            "(aparece en Ajustes → Bluetooth si Mi Fitness la vinculó).",
-    ),
-    CONNECT_FAILED(
-        "No se pudo abrir la conexión con la pulsera. Si Mi Fitness está conectado a ella, la pulsera está ocupada: " +
-            "detén temporalmente Mi Fitness (Ajustes → Aplicaciones → Mi Fitness → Forzar detención) y vuelve a intentarlo. " +
-            "Comprueba también que la pulsera esté cerca y con batería.",
-    ),
-    NO_RESPONSE(
-        "La pulsera no responde. Probablemente esté ocupada con Mi Fitness: detén temporalmente Mi Fitness " +
-            "(Ajustes → Aplicaciones → Mi Fitness → Forzar detención) y vuelve a intentarlo.",
-    ),
-    WRONG_KEY(
-        "Clave de autenticación incorrecta: la pulsera no la reconoce. Comprueba que copiaste la clave actual; " +
-            "si desvinculaste la pulsera en Mi Fitness, la clave cambió y necesitas la nueva.",
-    ),
-    AUTH_REJECTED("La pulsera rechazó la autenticación. Revisa la clave y vuelve a intentarlo."),
-    LINK_LOST("Se perdió la conexión con la pulsera."),
-    REQUEST_TIMEOUT("La pulsera no respondió a tiempo."),
-    CLOSED("Desconectado."),
+/**
+ * Why a connection attempt or session ended. [logText] is the English diagnostics text; the band
+ * screen shows a translated explanation for each value.
+ */
+enum class BandFailure(val logText: String) {
+    BLUETOOTH_UNAVAILABLE("This phone has no Bluetooth"),
+    BLUETOOTH_OFF("Bluetooth is off"),
+    MISSING_PERMISSION("Nearby devices permission missing"),
+    NO_KEY("No authentication key saved"),
+    NO_DEVICE("No band selected"),
+    NOT_FOUND("Band not found"),
+    CONNECT_FAILED("Could not open the connection"),
+    NO_RESPONSE("The band does not respond"),
+    WRONG_KEY("Wrong authentication key"),
+    AUTH_REJECTED("The band rejected the authentication"),
+    LINK_LOST("Connection lost"),
+    REQUEST_TIMEOUT("The band did not answer in time"),
+    CLOSED("Disconnected"),
 }
 
-class BandException(val failure: BandFailure, message: String = failure.message, cause: Throwable? = null) :
+class BandException(val failure: BandFailure, message: String = failure.logText, cause: Throwable? = null) :
     Exception(message, cause)
 
 /**
@@ -145,30 +135,30 @@ class XiaomiSession(
     suspend fun handshake() = withContext(serial) {
         startReader()
 
-        log("Pidiendo la versión del protocolo SPP")
+        log("Requesting the SPP protocol version")
         writeRaw(SppPacketV1.versionRequest())
         val version = withTimeoutOrNull(timeouts.version) { versionReply.await() }
         if (version == null) {
             versionHandled = true
-            log("Sin respuesta de versión: se usa SPP v1")
+            log("No version reply: using SPP v1")
         }
 
         val current = protocol
         if (current is SppProtocolV2) {
-            log("Iniciando sesión SPP v2")
+            log("Starting SPP v2 session")
             writeRaw(current.sessionConfigFrame())
             withTimeoutOrNull(timeouts.sessionConfig) { sessionStarted.await() }
                 ?: throw fail(BandException(BandFailure.NO_RESPONSE))
         }
 
-        log("Autenticando (paso 1/2)")
+        log("Authenticating (step 1/2)")
         writeCommand(auth.startHandshake())
         val nonceReply = awaitAuthReply()
         if (nonceReply.subtype == XiaomiCommands.AUTH_NONCE && nonceReply.auth.hasDeviceVerify()) {
             when (val result = auth.handleWatchNonce(nonceReply.auth.deviceVerify, companion)) {
                 XiaomiAuth.WatchNonceResult.WrongKey -> throw fail(BandException(BandFailure.WRONG_KEY))
                 is XiaomiAuth.WatchNonceResult.Confirm -> {
-                    log("Autenticando (paso 2/2)")
+                    log("Authenticating (step 2/2)")
                     confirmSent = true
                     writeCommand(result.command)
                 }
@@ -176,12 +166,12 @@ class XiaomiSession(
             // The reader already switched to encrypted mode when the 1/27 arrived (see onCommandBytes).
             val confirm = awaitAuthReply()
             if (confirm.subtype != XiaomiCommands.AUTH_CONFIRM) throw fail(BandException(BandFailure.AUTH_REJECTED))
-            log("Autenticada: comunicación cifrada (${protocol.label})")
+            log("Authenticated: encrypted communication (${protocol.label})")
         } else if (nonceReply.subtype == XiaomiCommands.AUTH_SEND_USERID && nonceReply.auth.status == 1) {
             auth.onAuthenticated(encrypted = false)
-            log("Autenticada: comunicación sin cifrar")
+            log("Authenticated: unencrypted communication")
         } else {
-            log("Respuesta de autenticación inesperada ${nonceReply.type}/${nonceReply.subtype}")
+            log("Unexpected authentication reply ${nonceReply.type}/${nonceReply.subtype}")
             throw fail(BandException(BandFailure.AUTH_REJECTED))
         }
     }
@@ -252,7 +242,7 @@ class XiaomiSession(
                 onChannelPayload(frame.packet.channel, payload)
             }
             is SppFrame.V2 -> onV2Packet(frame.packet)
-            SppFrame.Corrupt -> log("Trama SPP v2 descartada (checksum incorrecto)")
+            SppFrame.Corrupt -> log("SPP v2 frame dropped (bad checksum)")
         }
     }
 
@@ -260,7 +250,7 @@ class XiaomiSession(
         val v2 = protocol as? SppProtocolV2 ?: return
         when (packet) {
             is SppPacketV2.SessionConfig -> {
-                log("Sesión SPP v2 aceptada por la pulsera")
+                log("SPP v2 session accepted by the band")
                 sessionStarted.complete(Unit)
             }
             is SppPacketV2.Data -> {
@@ -274,7 +264,7 @@ class XiaomiSession(
                 val result = v2.onNack(packet.sequenceNumber)
                 if (result.progress) onAckProgress()
                 if (result.resend.isNotEmpty()) {
-                    log("La pulsera pide reenviar desde el paquete ${packet.sequenceNumber}")
+                    log("The band asks to resend from packet ${packet.sequenceNumber}")
                     resend(result.resend)
                 }
             }
@@ -284,10 +274,10 @@ class XiaomiSession(
     private inline fun decryptOrNull(block: () -> ByteArray): ByteArray? = try {
         block()
     } catch (e: GeneralSecurityException) {
-        log("Paquete descartado: no se pudo descifrar")
+        log("Packet dropped: could not decrypt")
         null
     } catch (e: IllegalArgumentException) {
-        log("Paquete descartado: datos cifrados no válidos")
+        log("Packet dropped: invalid encrypted data")
         null
     }
 
@@ -295,14 +285,14 @@ class XiaomiSession(
         when (channel) {
             SppChannel.Version -> onVersion(payload)
             SppChannel.ProtobufCommand, SppChannel.Authentication -> onCommandBytes(payload)
-            else -> log("Paquete del canal $channel ignorado (${payload.size} bytes)")
+            else -> log("Packet on channel $channel ignored (${payload.size} bytes)")
         }
     }
 
     private fun onVersion(payload: ByteArray) {
         if (versionHandled) return
         versionHandled = true
-        log("Versión SPP de la pulsera: ${XiaomiCrypto.toHex(payload).ifEmpty { "(vacía)" }}")
+        log("Band SPP version: ${XiaomiCrypto.toHex(payload).ifEmpty { "(empty)" }}")
         // Gadgetbridge XiaomiSppSupport.handleVersionPacket: version 2 or higher switches to SPP V2.
         if (payload.isNotEmpty() && payload[0] >= 2) protocol = SppProtocolV2(auth)
         versionReply.complete(payload)
@@ -312,7 +302,7 @@ class XiaomiSession(
         val command = try {
             XiaomiProto.Command.parseFrom(bytes)
         } catch (e: Exception) {
-            log("Comando de la pulsera ilegible (${bytes.size} bytes)")
+            log("Unreadable band command (${bytes.size} bytes)")
             return
         }
         if (command.type != XiaomiCommands.TYPE_HEALTH || command.subtype != XiaomiCommands.HEALTH_REALTIME_STATS_EVENT) {
@@ -415,11 +405,11 @@ class XiaomiSession(
         }
         timeoutsWithoutAck++
         if (timeoutsWithoutAck >= SppProtocolV2.MAX_TIMEOUTS_WITHOUT_ACK) {
-            log("Sin confirmación tras $timeoutsWithoutAck reintentos: se cierra la conexión")
-            fail(BandException(BandFailure.LINK_LOST, "La pulsera dejó de confirmar los datos enviados."))
+            log("No acknowledgement after $timeoutsWithoutAck retries: closing the connection")
+            fail(BandException(BandFailure.LINK_LOST, "The band stopped acknowledging the data sent"))
             return
         }
-        log("Sin confirmación del paquete ${v2.window.oldestUnacked()}: reenviando")
+        log("No acknowledgement of packet ${v2.window.oldestUnacked()}: resending")
         resend(v2.window.unackedFrames())
     }
 
@@ -433,7 +423,7 @@ class XiaomiSession(
     private fun fail(reason: BandException): BandException {
         closeReason?.let { return it }
         closeReason = reason
-        if (reason.failure != BandFailure.CLOSED) log("Sesión terminada: ${reason.message}")
+        if (reason.failure != BandFailure.CLOSED) log("Session ended: ${reason.message}")
         link.close()
         versionReply.completeExceptionally(reason)
         sessionStarted.completeExceptionally(reason)

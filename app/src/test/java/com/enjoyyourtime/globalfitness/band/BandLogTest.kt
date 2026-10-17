@@ -15,7 +15,7 @@ class BandLogTest {
         val line = log.lines.value.single()
         assertEquals(5L, line.timeMs)
         assertFalse(line.text.contains(key, ignoreCase = true))
-        assertEquals("clave=[clave oculta] / [clave oculta]", line.text)
+        assertEquals("clave=${BandLog.REDACTED} / ${BandLog.REDACTED}", line.text)
     }
 
     @Test

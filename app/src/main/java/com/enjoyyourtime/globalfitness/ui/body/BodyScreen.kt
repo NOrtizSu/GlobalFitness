@@ -1,5 +1,6 @@
 package com.enjoyyourtime.globalfitness.ui.body
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,11 +38,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
+import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.data.MeasurementSource
 import com.enjoyyourtime.globalfitness.domain.Metric
 import com.enjoyyourtime.globalfitness.domain.Projection
@@ -50,6 +53,7 @@ import com.enjoyyourtime.globalfitness.domain.Trends
 import com.enjoyyourtime.globalfitness.ui.Entry
 import com.enjoyyourtime.globalfitness.ui.Fmt
 import com.enjoyyourtime.globalfitness.ui.MainUiState
+import com.enjoyyourtime.globalfitness.ui.label
 import com.enjoyyourtime.globalfitness.ui.charts.ChartBand
 import com.enjoyyourtime.globalfitness.ui.charts.ChartTarget
 import com.enjoyyourtime.globalfitness.ui.charts.CompositionBar
@@ -67,21 +71,21 @@ import java.time.Instant
 import java.time.YearMonth
 import java.time.ZoneId
 
-enum class ChartRange(val label: String, val days: Int?) {
-    M1("1M", 30),
-    M3("3M", 91),
-    M6("6M", 182),
-    Y1("1A", 365),
-    ALL("Todo", null),
+enum class ChartRange(@param:StringRes val label: Int, val days: Int?) {
+    M1(R.string.range_1m, 30),
+    M3(R.string.range_3m, 91),
+    M6(R.string.range_6m, 182),
+    Y1(R.string.range_1y, 365),
+    ALL(R.string.range_all, null),
 }
 
 /** Space above each top-level block (the list itself has no spacing, history rows sit 2 dp apart). */
 private val BlockGap = 12.dp
 
 /**
- * "Cuerpo": metric trend chart with range, period stats, projection and composition, then the
+ * Body: metric trend chart with range, period stats, projection and composition, then the
  * history grouped by month. Tapping a row opens its detail sheet (with delete). [listState] is
- * hoisted so the "Añadir peso manual" button can shrink while the page is scrolled.
+ * hoisted so the "Add weight manually" button can shrink while the page is scrolled.
  */
 @Composable
 fun BodyScreen(
@@ -137,13 +141,12 @@ fun BodyScreen(
             .toList()
     }
 
-    TabPage(title = "Cuerpo", listState = listState, bottomPadding = 104.dp, itemSpacing = 0.dp) {
+    TabPage(title = stringResource(R.string.nav_body), listState = listState, bottomPadding = 104.dp, itemSpacing = 0.dp) {
         if (entries.isEmpty()) {
             block("empty") {
                 NoticeCard(
-                    title = "Aún no hay mediciones",
-                    text = "Súbete a la báscula descalzo y con la app abierta, o añade tu peso a mano con el botón de abajo. " +
-                        "Aquí verás la evolución de tu peso y tu composición corporal.",
+                    title = stringResource(R.string.body_no_measurements_title),
+                    text = stringResource(R.string.body_empty_text),
                     icon = AppIcons.Scale,
                 )
             }
@@ -157,7 +160,7 @@ fun BodyScreen(
                 modifier = Modifier.fullBleed(16.dp),
             ) {
                 items(chipMetrics) { m ->
-                    FilterChip(selected = m == metric, onClick = { onMetric(m) }, label = { Text(m.label) })
+                    FilterChip(selected = m == metric, onClick = { onMetric(m) }, label = { Text(m.label()) })
                 }
             }
         }
@@ -169,7 +172,7 @@ fun BodyScreen(
                         onClick = { onRange(r) },
                         shape = SegmentedButtonDefaults.itemShape(i, ChartRange.entries.size),
                         icon = {},
-                        label = { Text(r.label) },
+                        label = { Text(stringResource(r.label)) },
                     )
                 }
             }
@@ -189,27 +192,34 @@ fun BodyScreen(
         }
         val stats = Trends.rangeStats(points)
         if (stats != null) {
-            block("stats-title") { SectionTitle("Resumen del periodo") }
-            val tiles = buildList {
-                add("Actual" to Fmt.metric(metric, stats.current))
-                add("Cambio" to Fmt.withUnit(Fmt.signed(stats.change, metric.decimals), metric.unit))
-                add("Mín" to Fmt.metric(metric, stats.min))
-                add("Máx" to Fmt.metric(metric, stats.max))
-                add("Media" to Fmt.metric(metric, stats.average))
+            block("stats-title") { SectionTitle(stringResource(R.string.body_period_summary)) }
+            val rate = if (metric == Metric.WEIGHT) Trends.slopePerWeek(allPoints, now) else null
+            val tiles = listOfNotNull(
+                Fmt.string(R.string.body_stat_current) to Fmt.metric(metric, stats.current),
+                Fmt.string(R.string.body_stat_change) to Fmt.withUnit(metric, Fmt.signed(stats.change, metric.decimals), stats.change),
+                Fmt.string(R.string.body_stat_min) to Fmt.metric(metric, stats.min),
+                Fmt.string(R.string.body_stat_max) to Fmt.metric(metric, stats.max),
+                Fmt.string(R.string.body_stat_average) to Fmt.metric(metric, stats.average),
                 if (metric == Metric.WEIGHT) {
-                    val rate = Trends.slopePerWeek(allPoints, now)
-                    add("Ritmo" to (rate?.let { "${Fmt.signed(it, 2)} kg/sem" } ?: "Faltan datos"))
+                    Fmt.string(R.string.body_stat_rate) to (
+                        rate?.let { Fmt.string(R.string.body_rate_value, Fmt.string(R.string.value_kg, Fmt.signed(it, 2))) }
+                            ?: Fmt.string(R.string.common_not_enough_data)
+                        )
+                } else {
+                    null
+                },
+                if (metric == Metric.WEIGHT) {
                     val current = allAverage.lastOrNull()?.v ?: stats.current
-                    add(
-                        "Proyección al objetivo" to when (val p = Trends.projection(current, profile.targetWeightKg, rate, now)) {
-                            Projection.NoTarget -> "Sin objetivo"
-                            Projection.Reached -> "Alcanzado"
-                            Projection.NoTrend -> "Sin tendencia"
-                            is Projection.Eta -> "~ ${Fmt.dayMonthYear(p.epochMillis)}"
-                        },
-                    )
-                }
-            }
+                    Fmt.string(R.string.body_stat_projection) to when (val p = Trends.projection(current, profile.targetWeightKg, rate, now)) {
+                        Projection.NoTarget -> Fmt.string(R.string.body_projection_no_goal)
+                        Projection.Reached -> Fmt.string(R.string.body_projection_reached)
+                        Projection.NoTrend -> Fmt.string(R.string.body_projection_no_trend)
+                        is Projection.Eta -> Fmt.string(R.string.body_projection_eta, Fmt.dayMonthYear(p.epochMillis))
+                    }
+                } else {
+                    null
+                },
+            )
             tiles.chunked(2).forEachIndexed { index, row ->
                 block("stats-$index", gap = if (index == 0) 4.dp else 8.dp) {
                     Row(Modifier.height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -218,10 +228,10 @@ fun BodyScreen(
                     }
                 }
             }
-            if (metric == Metric.WEIGHT && Trends.slopePerWeek(allPoints, now) == null) {
+            if (metric == Metric.WEIGHT && rate == null) {
                 block("rate-hint", gap = 6.dp) {
                     Text(
-                        "El ritmo necesita al menos 3 mediciones que abarquen 7 días dentro de los últimos 28.",
+                        stringResource(R.string.body_rate_hint),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(horizontal = 4.dp),
@@ -234,11 +244,11 @@ fun BodyScreen(
             block("composition") { CompositionCard(withComposition) }
         }
 
-        block("history-title") { SectionTitle("Historial") }
+        block("history-title") { SectionTitle(stringResource(R.string.body_history)) }
         months.forEach { (month, list) ->
             item(key = "m-$month") {
                 Text(
-                    Fmt.monthYear(list.first().measurement.timestamp) + " · ${list.size}",
+                    Fmt.monthYear(list.first().measurement.timestamp) + " · " + Fmt.count(list.size.toLong()),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
@@ -252,7 +262,7 @@ fun BodyScreen(
         }
         block("disclaimer") {
             Text(
-                "Estimaciones de la báscula o calculadas con fórmulas publicadas. No son un diagnóstico médico.",
+                stringResource(R.string.common_disclaimer),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(horizontal = 4.dp),
@@ -288,14 +298,19 @@ private fun ChartCard(
     xEnd: Long,
     targetWeightKg: Double?,
 ) {
-    val band = latest?.let { e -> metric.normalRange(e.composition) }?.let {
-        ChartBand(it, if (metric == Metric.WEIGHT) "Rango normal (IMC 18,5–24,9)" else "Rango normal")
+    val bandLabel = if (metric == Metric.WEIGHT) {
+        stringResource(R.string.body_normal_range_bmi, Fmt.num(18.5, 1), Fmt.num(24.9, 1))
+    } else {
+        stringResource(R.string.body_normal_range)
     }
-    val target = if (metric == Metric.WEIGHT) targetWeightKg?.let { ChartTarget(it, "Objetivo ${Fmt.num(it, 1)} kg") } else null
+    val band = latest?.let { e -> metric.normalRange(e.composition) }?.let { ChartBand(it, bandLabel) }
+    val goalLabel = targetWeightKg?.let { stringResource(R.string.body_goal_line, Fmt.kg(it, 1)) }
+    val target = if (metric == Metric.WEIGHT) targetWeightKg?.let { ChartTarget(it, goalLabel.orEmpty()) } else null
+    val metricLabel = metric.label()
     AppCard {
         Column(Modifier.padding(16.dp)) {
             Text(
-                Fmt.withUnit(metric.label, if (metric.unit.isEmpty()) "" else "(${metric.unit})"),
+                Fmt.unit(metric)?.let { stringResource(R.string.body_chart_title_unit, metricLabel, it) } ?: metricLabel,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -314,25 +329,21 @@ private fun ChartCard(
             Spacer(Modifier.height(12.dp))
             when {
                 allPoints.isEmpty() -> EmptyChart(
-                    if (metric.needsImpedance && entries.isNotEmpty()) {
-                        "Esta métrica necesita la composición corporal. Súbete descalzo y con los pies secos."
-                    } else {
-                        "Todavía no hay mediciones."
-                    },
+                    stringResource(
+                        if (metric.needsImpedance && entries.isNotEmpty()) R.string.body_chart_needs_composition else R.string.body_chart_no_measurements,
+                    ),
                 )
-                points.isEmpty() -> EmptyChart("Sin mediciones en este periodo. Prueba con un periodo más largo.")
+                points.isEmpty() -> EmptyChart(stringResource(R.string.body_chart_none_in_period))
                 points.size < 2 -> EmptyChart(
-                    "Solo hay una medición en este periodo (${Fmt.metric(metric, points[0].v)}, ${Fmt.dayMonth(points[0].t)}). " +
-                        "Se necesitan al menos 2 para dibujar la tendencia.",
+                    stringResource(R.string.body_chart_single, Fmt.metric(metric, points[0].v), Fmt.dayMonth(points[0].t)),
                 )
                 else -> TrendChart(
                     points = points,
                     average = average,
                     xStart = xStart,
                     xEnd = xEnd,
-                    valueDecimals = metric.decimals,
-                    unit = metric.unit,
-                    metricLabel = metric.label,
+                    formatValue = { Fmt.metric(metric, it) },
+                    metricLabel = metricLabel,
                     band = band,
                     target = target,
                 )
@@ -366,7 +377,7 @@ private fun CompositionCard(entry: Entry) {
     val c = entry.composition
     AppCard {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Text("Composición actual", style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.body_current_composition), style = MaterialTheme.typography.titleMedium)
             Text(
                 listOfNotNull(
                     "${Fmt.relative(entry.measurement.timestamp)} · ${Fmt.kg(c.weightKg)}",
@@ -408,7 +419,7 @@ private fun HistoryRow(entry: Entry, index: Int, count: Int, onClick: () -> Unit
             Column(Modifier.weight(1f)) {
                 Text(Fmt.dayTime(m.timestamp), style = MaterialTheme.typography.bodyLarge)
                 Text(
-                    if (m.source == MeasurementSource.MANUAL) "Manual" else "Báscula",
+                    stringResource(if (m.source == MeasurementSource.MANUAL) R.string.source_manual else R.string.source_scale),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -416,7 +427,7 @@ private fun HistoryRow(entry: Entry, index: Int, count: Int, onClick: () -> Unit
             Column(horizontalAlignment = Alignment.End) {
                 Text(Fmt.kg(m.weightKg), style = MaterialTheme.typography.titleMedium.merge(TabularNumbers))
                 Text(
-                    if (fat != null) "Grasa ${Fmt.num(fat, 1)} %" else "Sin composición",
+                    if (fat != null) stringResource(R.string.body_row_fat, Fmt.percent(fat, 1)) else stringResource(R.string.body_row_no_composition),
                     style = MaterialTheme.typography.bodySmall.merge(TabularNumbers),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )

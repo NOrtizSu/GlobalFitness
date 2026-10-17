@@ -143,13 +143,13 @@ class ScaleDetectorTest {
 
     @Test
     fun configFieldValidation() {
-        val key = ConfigField(ConfigField.KEY_BINDKEY, "k", "", ConfigKind.HEX_KEY_32, required = true)
-        assertEquals("Obligatorio", key.validate(""))
+        val key = ConfigField(ConfigField.KEY_BINDKEY, ConfigKind.HEX_KEY_32, required = true)
+        assertEquals(ConfigError.REQUIRED, key.validate(""))
         assertEquals(null, key.validate("00112233445566778899aabbccddeeff"))
-        assertTrue(key.validate("0011") != null)
+        assertEquals(ConfigError.HEX_KEY_32, key.validate("0011"))
         val slot = ConfigField.userSlot(maxSlot = 8)
         assertEquals(null, slot.validate("3"))
-        assertTrue(slot.validate("9") != null)
+        assertEquals(ConfigError.USER_SLOT_RANGE, slot.validate("9"))
         assertEquals(null, slot.validate(""))
     }
 }

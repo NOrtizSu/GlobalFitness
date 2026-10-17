@@ -5,9 +5,12 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.enjoyyourtime.globalfitness.GlobalFitnessApp
+import com.enjoyyourtime.globalfitness.R
+import com.enjoyyourtime.globalfitness.UiText
 import com.enjoyyourtime.globalfitness.band.BandCandidate
 import com.enjoyyourtime.globalfitness.band.BandLogLine
 import com.enjoyyourtime.globalfitness.band.BandManager
+import com.enjoyyourtime.globalfitness.band.BandMessage
 import com.enjoyyourtime.globalfitness.band.BandState
 import com.enjoyyourtime.globalfitness.band.HeartRateSample
 import com.enjoyyourtime.globalfitness.band.SeenApp
@@ -29,7 +32,7 @@ class BandViewModel(private val manager: BandManager) : ViewModel() {
     val state: StateFlow<BandState> = manager.state
     val heartRate: StateFlow<List<HeartRateSample>> = manager.heartRate
     val log: StateFlow<List<BandLogLine>> = manager.log.lines
-    val messages: SharedFlow<String> = manager.messages
+    val messages: SharedFlow<BandMessage> = manager.messages
 
     val hasKey: StateFlow<Boolean> = manager.store.hasAuthKey
     val selected: StateFlow<SelectedBand?> = manager.store.selected
@@ -44,8 +47,8 @@ class BandViewModel(private val manager: BandManager) : ViewModel() {
     private val _keyInput = MutableStateFlow("")
     val keyInput: StateFlow<String> = _keyInput.asStateFlow()
 
-    private val _keyError = MutableStateFlow<String?>(null)
-    val keyError: StateFlow<String?> = _keyError.asStateFlow()
+    private val _keyError = MutableStateFlow<UiText?>(null)
+    val keyError: StateFlow<UiText?> = _keyError.asStateFlow()
 
     fun onKeyInput(text: String) {
         _keyInput.value = text
@@ -55,7 +58,7 @@ class BandViewModel(private val manager: BandManager) : ViewModel() {
     /** Validates and stores the typed key; returns true when it was saved. */
     fun saveKey(): Boolean = when (val result = AuthKey.parse(_keyInput.value)) {
         is AuthKeyResult.Invalid -> {
-            _keyError.value = result.message
+            _keyError.value = result.error.toUiText(result.length)
             false
         }
         is AuthKeyResult.Valid -> try {
@@ -64,7 +67,7 @@ class BandViewModel(private val manager: BandManager) : ViewModel() {
             _keyError.value = null
             true
         } catch (e: IOException) {
-            _keyError.value = "No se pudo guardar la clave en el teléfono."
+            _keyError.value = UiText.res(R.string.band_key_save_failed)
             false
         }
     }

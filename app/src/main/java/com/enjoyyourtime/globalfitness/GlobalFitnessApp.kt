@@ -24,6 +24,7 @@ import com.enjoyyourtime.globalfitness.domain.RecordOutcome
 import com.enjoyyourtime.globalfitness.scale.GattSession
 import com.enjoyyourtime.globalfitness.scale.ScaleContext
 import com.enjoyyourtime.globalfitness.scale.drivers.AllDrivers
+import com.enjoyyourtime.globalfitness.ui.Fmt
 import com.enjoyyourtime.globalfitness.wearable.WearableManager
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -128,6 +129,7 @@ class GlobalFitnessApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        Fmt.init(this)
         container = AppContainer(this)
         registerActivityLifecycleCallbacks(container.health)
     }

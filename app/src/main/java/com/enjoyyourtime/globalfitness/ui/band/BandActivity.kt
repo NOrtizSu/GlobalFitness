@@ -2,7 +2,6 @@ package com.enjoyyourtime.globalfitness.ui.band
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -20,9 +19,9 @@ import com.enjoyyourtime.globalfitness.ui.theme.GlobalFitnessTheme
 class BandActivity : ComponentActivity() {
     private val viewModel: BandViewModel by viewModels { BandViewModel.Factory }
 
-    override fun attachBaseContext(newBase: Context) {
-        val config = Configuration(newBase.resources.configuration).apply { setLocale(Fmt.LOCALE) }
-        super.attachBaseContext(newBase.createConfigurationContext(config))
+    override fun onStart() {
+        super.onStart()
+        Fmt.init(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

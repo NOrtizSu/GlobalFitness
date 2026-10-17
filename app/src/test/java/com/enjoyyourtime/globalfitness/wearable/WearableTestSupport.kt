@@ -8,6 +8,7 @@ import com.enjoyyourtime.globalfitness.scale.GattException
 import com.enjoyyourtime.globalfitness.scale.GattLink
 import com.enjoyyourtime.globalfitness.scale.GattNotification
 import com.enjoyyourtime.globalfitness.scale.MapDriverStore
+import com.enjoyyourtime.globalfitness.scale.ScaleNotice
 import java.util.Collections
 import java.util.UUID
 import kotlinx.coroutines.CoroutineScope
@@ -66,7 +67,7 @@ class FakeGattDevice(
     fun writesTo(characteristic: UUID): List<String> = writes.toList().filter { it.characteristic == characteristic }.map { it.value.hex() }
 
     override suspend fun connect() {
-        if (failConnect) throw GattException("boom")
+        if (failConnect) throw GattException(ScaleNotice(ScaleNotice.Kind.CONNECT_FAILED))
         connected.value = true
     }
 

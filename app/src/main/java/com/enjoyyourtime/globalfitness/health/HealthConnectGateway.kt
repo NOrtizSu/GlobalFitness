@@ -136,7 +136,7 @@ class HealthConnectGateway(private val context: Context) {
     }
 
     /** Friendly name of a source app; uses the installed label when the package is visible. */
-    fun originName(packageName: String): String =
+    fun originName(packageName: String): String? =
         HealthMappings.originName(packageName, context.packageName) { pkg ->
             try {
                 val pm = context.packageManager

@@ -1,0 +1,26 @@
+# Remove ads (Google Play Billing)
+remove_ads_headline = GlobalFitness sans publicités
+remove_ads_benefit_no_ads = Ni bannières ni publicités en plein écran.
+remove_ads_benefit_one_time = Paiement unique : sans abonnement.
+remove_ads_benefit_restore = Restauré sur vos autres téléphones avec le même compte Google Play.
+remove_ads_benefit_support = Vous contribuez à maintenir et à améliorer l'application.
+remove_ads_owned = Achat actif : vous ne verrez plus de publicités. Merci de votre soutien !
+remove_ads_buy = Acheter
+remove_ads_buy_price = Acheter pour %1$s
+remove_ads_restore = Restaurer les achats
+remove_ads_simulate = Simuler Premium
+remove_ads_simulate_text = Uniquement dans les versions de débogage : masque les publicités sans achat.
+remove_ads_loading_price = Consultation du prix sur Google Play…
+billing_open_failed = Impossible d'ouvrir l'achat Google Play. Réessayez.
+billing_thanks = Merci de votre soutien ! Vous ne verrez plus de publicités.
+billing_already_owned_restoring = Vous aviez déjà acheté « Supprimer les publicités ». Restauration de l'achat…
+billing_restored = Achat restauré : vous ne verrez plus de publicités.
+billing_nothing_to_restore = Aucun achat « Supprimer les publicités » n'existe sur ce compte Google Play.
+billing_unavailable = « Supprimer les publicités » n'est pas disponible sur Google Play pour le moment.
+billing_pending = Paiement en attente. Les publicités disparaîtront dès que Google Play aura confirmé le paiement.
+billing_error_not_allowed = Google Play n'autorise pas les achats sur cet appareil ou avec ce compte.
+billing_error_connection = Impossible de se connecter à Google Play. Vérifiez la connexion, puis réessayez.
+billing_error_install_from_play = Google Play a refusé l'achat. Installez l'application depuis Google Play pour pouvoir acheter.
+billing_error_not_supported = Votre version de Google Play ne prend pas en charge cet achat.
+billing_error_already_owned = Vous avez déjà « Supprimer les publicités ».
+billing_error_code = Erreur Google Play (%1$d). Réessayez.

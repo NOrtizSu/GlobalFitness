@@ -41,9 +41,12 @@ data class NightSleep(
     }
 }
 
+/** Sleep quality bands: ≥ 80 good, 60–79 fair, < 60 could be better. */
+enum class SleepRating { GOOD, FAIR, POOR }
+
 data class SleepQuality(
     val score: Int,
-    val label: String,
+    val rating: SleepRating,
     val status: Status,
     val durationPoints: Int,
     /** Null when the night has no stage data. */
@@ -132,7 +135,7 @@ object SleepAnalysis {
      *   A share of 40 % or more scores 40; below that it is proportional (20 % → 20 points).
      * - Without stage data only the duration counts, rescaled to 100.
      *
-     * Labels: ≥ 80 "Bueno", 60–79 "Aceptable", < 60 "Mejorable".
+     * Ratings: ≥ 80 good, 60–79 fair, < 60 poor ("could be better").
      */
     fun quality(night: NightSleep): SleepQuality {
         val hours = night.asleepMinutes / 60.0
@@ -153,12 +156,12 @@ object SleepAnalysis {
         } else {
             (durationFraction * 100).roundToInt()
         }
-        val (label, status) = when {
-            score >= 80 -> "Bueno" to Status.GOOD
-            score >= 60 -> "Aceptable" to Status.WARNING
-            else -> "Mejorable" to Status.SERIOUS
+        val (rating, status) = when {
+            score >= 80 -> SleepRating.GOOD to Status.GOOD
+            score >= 60 -> SleepRating.FAIR to Status.WARNING
+            else -> SleepRating.POOR to Status.SERIOUS
         }
-        return SleepQuality(score, label, status, durationPoints, restorativePoints, share)
+        return SleepQuality(score, rating, status, durationPoints, restorativePoints, share)
     }
 
     const val TARGET_MIN_HOURS = 7.0

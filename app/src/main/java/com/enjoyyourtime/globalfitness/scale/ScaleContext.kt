@@ -118,6 +118,6 @@ class DriverEnv(
     val address: String?,
     val wallClock: () -> Long = System::currentTimeMillis,
     val elapsedClock: () -> Long = { System.nanoTime() / 1_000_000 },
-    /** Spanish user-facing messages (e.g. "Configura la clave"). */
-    val messages: (String) -> Unit = {},
+    /** User-facing messages (e.g. "set the bind key"), shown by the UI. */
+    val messages: (ScaleNotice) -> Unit = {},
 )

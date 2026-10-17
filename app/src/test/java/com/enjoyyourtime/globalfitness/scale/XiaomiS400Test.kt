@@ -85,7 +85,7 @@ class XiaomiS400Test {
         val driver = XiaomiS400Driver()
         val clock = ScaleTestSupport.Clock()
         val store = MapDriverStore()
-        val messages = mutableListOf<String>()
+        val messages = mutableListOf<ScaleNotice>()
         val env = ScaleTestSupport.env(driver.id, clock, store = store, messages = messages)
         val session = driver.newSession(env)
         fun advert(payload: ByteArray) = ScaleTestSupport.adv(serviceData = mapOf(Bytes.uuid16(0xFE95) to payload))

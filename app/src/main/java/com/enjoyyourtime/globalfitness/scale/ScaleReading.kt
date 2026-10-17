@@ -79,21 +79,21 @@ data class DeviceComposition(
 enum class FormulaLib(val id: String, val label: String) {
     MI_SCALE("MI_SCALE", "Xiaomi Mi Fit"),
     S400("S400", "Xiaomi S400"),
-    STANDARD_IMPEDANCE("STANDARD_IMPEDANCE", "Impedancia estándar (Sun 2003)"),
+    STANDARD_IMPEDANCE("STANDARD_IMPEDANCE", "Standard impedance (Sun 2003)"),
     YUNMAI("YUNMAI", "Yunmai"),
     TRISA("TRISA", "Trisa"),
     /** Trisa formulas fed with the impedance derived from the stored raw resistance. */
-    TRISA_RESISTANCE("TRISA_R", "Trisa (resistencia)"),
+    TRISA_RESISTANCE("TRISA_R", "Trisa (resistance)"),
     SOEHNLE("SOEHNLE", "Soehnle"),
     OKOK_V2("OKOK_V2", "OKOK"),
-    WLA25("WLA25", "Fitdays WLA25 (10 impedancias)"),
+    WLA25("WLA25", "Fitdays WLA25 (10 impedances)"),
     WLA07("WLA07", "icomon WLA07"),
     RENPHO_ES26BB("RENPHO_ES26BB", "RENPHO ES-26BB"),
     ONE_BYONE("ONE_BYONE", "1byone / Eufy"),
-    ONE_BYONE_NEW("ONE_BYONE_NEW", "1byone (nuevo)"),
+    ONE_BYONE_NEW("ONE_BYONE_NEW", "1byone (new)"),
     AFU_B1("AFU_B1", "AFU-BH-TZ-B1"),
     ETEKCITY("ETEKCITY", "Chipsea / Etekcity"),
-    KEEP_S3("KEEP_S3", "Keep S3 (doble frecuencia)"),
+    KEEP_S3("KEEP_S3", "Keep S3 (dual frequency)"),
     ;
 
     companion object {

@@ -11,6 +11,7 @@ import com.enjoyyourtime.globalfitness.scale.GattProtocol
 import com.enjoyyourtime.globalfitness.scale.GattScaleDriver
 import com.enjoyyourtime.globalfitness.scale.MatchConfidence
 import com.enjoyyourtime.globalfitness.scale.ScaleCapabilities
+import com.enjoyyourtime.globalfitness.scale.ScaleNotice
 import com.enjoyyourtime.globalfitness.scale.ScaleSample
 import com.enjoyyourtime.globalfitness.scale.ScaleUnit
 import com.enjoyyourtime.globalfitness.scale.libs.KeepS3BodyComposition
@@ -46,7 +47,7 @@ internal fun transtekSlotName(frame: ByteArray, nameLength: Int): String =
 
 internal fun transtekSlotOccupied(frame: ByteArray): Boolean = (2 until frame.size).any { i -> Bytes.u8(frame, i) != 0x00 && Bytes.u8(frame, i) != 0x20 }
 
-private const val TRANSTEK_FULL = "La báscula no tiene usuarios libres: elige tu usuario (1-8) en la configuración de la báscula"
+private val TRANSTEK_FULL = ScaleNotice.Kind.NO_FREE_USERS_CHOOSE_SLOT
 
 /**
  * 1BODY CONNECT / X-LINE (Transtek, service 7892): password pairing, XOR challenge, user slot
@@ -102,14 +103,14 @@ class BodyConnectDriver : GattScaleDriver() {
                             val pw = Bytes.fromSignedInt32Le(data, 1)
                             password = pw
                             settingsPutString(KEY_PASSWORD, pw.toString())
-                            userInfo("Báscula emparejada")
+                            userInfo(ScaleNotice.Kind.PAIRED)
                             pairing = true
                             cmdInt(0x21, SecureRandom().nextInt(Int.MAX_VALUE - 1) + 1)
                         }
                         0xA1 -> if (data.size >= 5) {
                             val pw = password
                             if (pw == null) {
-                                userInfo("Báscula no emparejada: pon la báscula en modo emparejamiento")
+                                userInfo(ScaleNotice.Kind.NOT_PAIRED_PAIRING_MODE)
                                 requestDisconnect()
                                 return
                             }
@@ -267,7 +268,7 @@ class WeightGurusA3Driver : GattScaleDriver() {
                     val pw = data.copyOfRange(1, 5)
                     password = pw
                     settingsPutString(KEY_PASSWORD, Bytes.toHex(pw))
-                    userInfo("Báscula emparejada")
+                    userInfo(ScaleNotice.Kind.PAIRED)
                     pairing = true
                     cmd(0x21, Bytes.toInt32Le((SecureRandom().nextInt(Int.MAX_VALUE - 1) + 1).toLong()))
                     // The scale should close the link after setup; force it if it does not.
@@ -276,7 +277,7 @@ class WeightGurusA3Driver : GattScaleDriver() {
                 0xA1 -> if (data.size >= 5) {
                     val pw = password
                     if (pw == null) {
-                        userInfo("Báscula no emparejada: pon la báscula en modo emparejamiento")
+                        userInfo(ScaleNotice.Kind.NOT_PAIRED_PAIRING_MODE)
                         requestDisconnect()
                         return
                     }
@@ -489,7 +490,7 @@ class PicoocDriver : GattScaleDriver() {
 
         override fun onConnected() {
             setNotifyOn(svc, chrNotify)
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onDisconnected() {
@@ -541,7 +542,7 @@ class PicoocDriver : GattScaleDriver() {
                     send(ack(prefix, op))
                     armSettle()
                 }
-                OP_LOW_BATTERY -> userInfo("Batería de la báscula baja")
+                OP_LOW_BATTERY -> userInfo(ScaleNotice.Kind.LOW_BATTERY)
                 OP_HISTORY, OP_HISTORY_DONE, OP_MULTI_FREQ_BIA, OP_BALANCE_TEST -> send(ack(prefix, op))
             }
         }
@@ -676,7 +677,7 @@ class OmronWlcDriver : GattScaleDriver() {
         override fun onConnected() {
             val resolved = modelFor(advertisedName.orEmpty())
             if (resolved == null || !hasCharacteristic(SERVICE, CHR_UNLOCK)) {
-                userInfo("Modelo Omron no reconocido")
+                userInfo(ScaleNotice.Kind.OMRON_UNKNOWN_MODEL)
                 requestDisconnect()
                 return
             }
@@ -687,7 +688,7 @@ class OmronWlcDriver : GattScaleDriver() {
             pairingKey = settingsGetString(KEY_PAIRING)?.takeIf { it.length == OmronWlpFrame.KEY_SIZE * 2 && Bytes.isHex(it) }?.let { Bytes.fromHex(it) }
             val key = pairingKey
             if (key == null) {
-                userInfo("Mantén pulsado el botón de emparejamiento de la Omron")
+                userInfo(ScaleNotice.Kind.OMRON_HOLD_PAIRING_BUTTON)
                 phase = Phase.ENTERING_KEY_PROGRAMMING
                 unlockChannel(OmronWlpFrame.enterKeyProgramming())
             } else {
@@ -721,7 +722,7 @@ class OmronWlcDriver : GattScaleDriver() {
                 Phase.UNLOCKING -> if (ack == OmronWlpFrame.ACK_UNLOCKED) {
                     openSession()
                 } else {
-                    userInfo("Mantén pulsado el botón de emparejamiento de la Omron")
+                    userInfo(ScaleNotice.Kind.OMRON_HOLD_PAIRING_BUTTON)
                     pairingKey = null
                     phase = Phase.ENTERING_KEY_PROGRAMMING
                     unlockChannel(OmronWlpFrame.enterKeyProgramming())
@@ -732,14 +733,14 @@ class OmronWlcDriver : GattScaleDriver() {
                     phase = Phase.WRITING_KEY
                     unlockChannel(OmronWlpFrame.writeKey(key))
                 } else {
-                    fail("La Omron no está en modo emparejamiento")
+                    fail(ScaleNotice.Kind.OMRON_NOT_IN_PAIRING_MODE)
                 }
                 Phase.WRITING_KEY -> if (ack == OmronWlpFrame.ACK_KEY_WRITTEN) {
                     pairingKey?.let { settingsPutString(KEY_PAIRING, Bytes.toHex(it)) }
-                    userInfo("Omron emparejada")
+                    userInfo(ScaleNotice.Kind.OMRON_PAIRED)
                     openSession()
                 } else {
-                    fail("No se pudo emparejar la Omron")
+                    fail(ScaleNotice.Kind.OMRON_PAIRING_FAILED)
                 }
                 else -> Unit
             }
@@ -753,12 +754,12 @@ class OmronWlcDriver : GattScaleDriver() {
         private fun onResponse(r: OmronWlpFrame.Response) {
             when (phase) {
                 Phase.STARTING_SESSION -> if (r.type != OmronWlpFrame.TYPE_START) {
-                    fail("La Omron rechazó la sesión")
+                    fail(ScaleNotice.Kind.OMRON_SESSION_REJECTED)
                 } else {
                     phase = Phase.READING_SLOT
                     readEeprom(profile.recordAddress(slot, 0), profile.recordSize * profile.recordsPerSlot)
                 }
-                Phase.READING_SLOT -> if (r.type != OmronWlpFrame.TYPE_READ) fail("Error leyendo la memoria de la Omron") else consumeChunk(r.data)
+                Phase.READING_SLOT -> if (r.type != OmronWlpFrame.TYPE_READ) fail(ScaleNotice.Kind.OMRON_MEMORY_READ_ERROR) else consumeChunk(r.data)
                 Phase.ENDING_SESSION -> {
                     phase = Phase.FINISHED
                     watchdog?.cancel()
@@ -816,10 +817,10 @@ class OmronWlcDriver : GattScaleDriver() {
                 })
             }
             if (fresh.isEmpty()) {
-                userInfo("No hay mediciones nuevas en la Omron")
+                userInfo(ScaleNotice.Kind.OMRON_NO_NEW_MEASUREMENTS)
             } else {
                 settingsPutString(lastKey, fresh.last().timestampMillis.toString())
-                userInfo("Mediciones leídas de la Omron: ${fresh.size}")
+                userInfo(ScaleNotice.Kind.OMRON_MEASUREMENTS_READ, fresh.size)
             }
         }
 
@@ -852,14 +853,14 @@ class OmronWlcDriver : GattScaleDriver() {
             watchdog?.cancel()
             watchdog = schedule(RESPONSE_TIMEOUT_MS) {
                 if (phase != Phase.FINISHED) {
-                    userInfo("La Omron dejó de responder")
+                    userInfo(ScaleNotice.Kind.OMRON_STOPPED_RESPONDING)
                     requestDisconnect()
                 }
             }
         }
 
-        private fun fail(message: String) {
-            userInfo(message)
+        private fun fail(kind: ScaleNotice.Kind) {
+            userInfo(kind)
             phase = Phase.FINISHED
             watchdog?.cancel()
             requestDisconnect()
@@ -973,7 +974,7 @@ class KeepS3Driver : GattScaleDriver() {
                 else -> byteArrayOf()
             }
             request(op, payload)
-            if (op == KeepS3Protocol.OP_MEASUREMENT_CONTROL) userInfo("Súbete a la báscula")
+            if (op == KeepS3Protocol.OP_MEASUREMENT_CONTROL) userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {

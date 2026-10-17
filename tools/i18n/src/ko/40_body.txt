@@ -1,0 +1,54 @@
+# Body
+range_1m = 1개월
+range_3m = 3개월
+range_6m = 6개월
+range_1y = 1년
+range_all = 전체
+body_empty_text = 앱을 연 상태에서 맨발로 체중계에 올라가거나, 아래 버튼으로 체중을 직접 입력하세요. 시간에 따른 체중과 체성분의 변화를 여기에서 볼 수 있습니다.
+body_period_summary = 기간 요약
+body_stat_current = 현재
+body_stat_change = 변화
+body_stat_min = 최저
+body_stat_max = 최고
+body_stat_average = 평균
+body_stat_rate = 변화 속도
+body_rate_value = 주당 %1$s
+body_stat_projection = 목표 도달 예상
+body_projection_no_goal = 목표 없음
+body_projection_reached = 달성
+body_projection_no_trend = 추세 없음
+body_projection_eta = 약 %1$s
+body_rate_hint = 변화 속도를 계산하려면 최근 28일 동안 7일 이상에 걸친 측정 기록이 3개 이상 필요합니다.
+body_history = 기록
+body_normal_range = 정상 범위
+body_normal_range_bmi = 정상 범위(BMI %1$s–%2$s)
+body_goal_line = 목표 %1$s
+body_chart_title_unit = %1$s(%2$s)
+body_chart_needs_composition = 이 항목에는 체성분 데이터가 필요합니다. 물기 없는 맨발로 체중계에 올라가세요.
+body_chart_no_measurements = 아직 측정 기록이 없습니다.
+body_chart_none_in_period = 이 기간에 측정 기록이 없습니다. 더 긴 기간을 선택해 보세요.
+body_chart_single = 이 기간에 측정 기록이 1개뿐입니다(%1$s, %2$s). 추세를 표시하려면 2개 이상 필요합니다.
+body_current_composition = 현재 체성분
+body_row_fat = 체지방률 %1$s
+body_row_no_composition = 체성분 없음
+source_manual = 직접 입력
+source_scale = 체중계
+comp_source_device = 체중계에서 측정한 체성분
+comp_source_formula = 계산된 체성분(%1$s 공식)
+comp_fat = 체지방
+metric_impedance = 임피던스
+
+# Charts
+chart_trend_desc{other} = %1$s 차트: 측정 기록 %2$d개, %3$s부터 %4$s까지
+chart_avg_7d_value = 7일 평균: %1$s
+chart_legend_measurements = 측정값
+chart_legend_avg_7d = 7일 평균
+chart_composition_desc = 체성분: %1$s
+chart_composition_item = %1$s %2$s
+
+# Measurement dialogs
+manual_weight_only = 체중만 입력: 체성분은 체중계로만 측정할 수 있습니다.
+manual_weight_range = %1$s~%2$s 사이의 체중을 입력하세요
+manual_date_future = 미래 날짜는 선택할 수 없습니다.
+delete_measurement_title = 측정 기록을 삭제할까요?
+delete_measurement_text = %2$s의 %1$s 측정 기록이 삭제됩니다. 이 작업은 되돌릴 수 없습니다.

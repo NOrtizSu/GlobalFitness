@@ -23,8 +23,13 @@ import com.android.billingclient.api.acknowledgePurchase
 import com.android.billingclient.api.queryProductDetails
 import com.android.billingclient.api.queryPurchasesAsync
 import com.enjoyyourtime.globalfitness.BuildConfig
+import com.enjoyyourtime.globalfitness.R
+import com.enjoyyourtime.globalfitness.UiText
 import com.enjoyyourtime.globalfitness.ads.AdSuppression
 import com.enjoyyourtime.globalfitness.cloud.RetryPolicy
+import java.lang.ref.WeakReference
+import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.coroutines.resume
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -36,17 +41,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import java.lang.ref.WeakReference
-import java.util.concurrent.atomic.AtomicBoolean
-import kotlin.coroutines.resume
 
 sealed interface ProductState {
     data object Loading : ProductState
     data class Available(val price: String) : ProductState
-    data class Unavailable(val message: String) : ProductState
+    data class Unavailable(val message: UiText) : ProductState
 }
 
-/** What the "Quitar anuncios" screen shows. */
+/** What the "Remove ads" screen shows. */
 data class PremiumUiState(
     val product: ProductState = ProductState.Loading,
     val ownership: Ownership = Ownership.UNKNOWN,
@@ -54,11 +56,11 @@ data class PremiumUiState(
     val simulated: Boolean = false,
     val busy: Boolean = false,
     /** Spanish feedback of the last action, if any. */
-    val message: String? = null,
+    val message: UiText? = null,
 )
 
 /**
- * One-time, non-consumable purchase "Quitar anuncios" (product `remove_ads`) with Google Play
+ * One-time, non-consumable purchase "Remove ads" (product `remove_ads`) with Google Play
  * Billing. Google Play is the source of truth: purchases are restored with queryPurchasesAsync on
  * start / resume, and the last answer is cached so offline users stay ad-free.
  */
@@ -123,7 +125,7 @@ class BillingRepository(
         }
     }
 
-    /** "Restaurar compras". */
+    /** "Restore purchases". */
     fun restore() {
         scope.launch {
             _ui.update { it.copy(busy = true, message = null) }
@@ -167,7 +169,7 @@ class BillingRepository(
             } catch (e: Exception) {
                 Log.w(TAG, "Purchase flow failed", e)
                 suppression.set(AdSuppression.PURCHASE, false)
-                _ui.update { it.copy(message = "No se pudo abrir la compra de Google Play. Inténtalo de nuevo.") }
+                _ui.update { it.copy(message = UiText.res(R.string.billing_open_failed)) }
             } finally {
                 _ui.update { it.copy(busy = false) }
             }
@@ -187,7 +189,7 @@ class BillingRepository(
                 val list = purchases.orEmpty()
                 handlePurchases(list, authoritative = false)
                 val message = when (_ui.value.ownership) {
-                    Ownership.OWNED -> "¡Gracias por tu apoyo! Ya no verás anuncios."
+                    Ownership.OWNED -> UiText.res(R.string.billing_thanks)
                     Ownership.PENDING -> PENDING_MESSAGE
                     else -> null
                 }
@@ -195,7 +197,7 @@ class BillingRepository(
             }
             BillingResponseCode.USER_CANCELED -> Unit
             BillingResponseCode.ITEM_ALREADY_OWNED -> {
-                _ui.update { it.copy(message = "Ya habías comprado «Quitar anuncios». Restaurando la compra…") }
+                _ui.update { it.copy(message = UiText.res(R.string.billing_already_owned_restoring)) }
                 scope.launch { queryPurchases(userInitiated = false) }
             }
             else -> _ui.update { it.copy(message = BillingMessages.forCode(result.responseCode)) }
@@ -242,9 +244,9 @@ class BillingRepository(
         handlePurchases(result.purchasesList, authoritative = true)
         if (userInitiated) {
             val message = when (entitlement.ownership) {
-                Ownership.OWNED -> "Compra restaurada: no verás anuncios."
+                Ownership.OWNED -> UiText.res(R.string.billing_restored)
                 Ownership.PENDING -> PENDING_MESSAGE
-                else -> "No hay ninguna compra de «Quitar anuncios» en esta cuenta de Google Play."
+                else -> UiText.res(R.string.billing_nothing_to_restore)
             }
             _ui.update { it.copy(message = message) }
         }
@@ -288,7 +290,7 @@ class BillingRepository(
         _ui.update { it.copy(ownership = next.ownership, isPremium = next.isPremium, simulated = next.simulated) }
     }
 
-    /** Connects to Play with retry/backoff. Reports a Spanish message in the UI state when it gives up. */
+    /** Connects to Play with retry/backoff. Reports a message in the UI state when it gives up. */
     private suspend fun connect(): Boolean = connectMutex.withLock {
         if (client.isReady) return@withLock true
         var attempts = 0
@@ -347,28 +349,25 @@ class BillingRepository(
         const val PREFS = "billing_cache"
         const val KEY_PREMIUM = "remove_ads_owned"
         const val KEY_SIMULATED = "debug_simulated_premium"
-        const val UNAVAILABLE_MESSAGE = "«Quitar anuncios» no está disponible ahora mismo en Google Play."
-        const val PENDING_MESSAGE =
-            "Pago pendiente. Los anuncios desaparecerán en cuanto Google Play confirme el pago."
+        val UNAVAILABLE_MESSAGE: UiText = UiText.res(R.string.billing_unavailable)
+        val PENDING_MESSAGE: UiText = UiText.res(R.string.billing_pending)
 
         /** Longest wait for Google Play before ads may be shown to a user not known to be premium. */
         const val ENTITLEMENT_WAIT_MS = 5_000L
     }
 }
 
-/** Spanish messages for Play Billing response codes. */
+/** User-facing messages for Play Billing response codes. */
 internal object BillingMessages {
-    fun forCode(code: Int): String = when (code) {
-        BillingResponseCode.BILLING_UNAVAILABLE ->
-            "Google Play no permite compras en este dispositivo o con esta cuenta."
+    fun forCode(code: Int): UiText = when (code) {
+        BillingResponseCode.BILLING_UNAVAILABLE -> UiText.res(R.string.billing_error_not_allowed)
         BillingResponseCode.SERVICE_UNAVAILABLE, BillingResponseCode.NETWORK_ERROR,
-        BillingResponseCode.SERVICE_DISCONNECTED ->
-            "No se pudo conectar con Google Play. Comprueba la conexión e inténtalo de nuevo."
-        BillingResponseCode.ITEM_UNAVAILABLE -> "«Quitar anuncios» no está disponible ahora mismo en Google Play."
-        BillingResponseCode.DEVELOPER_ERROR ->
-            "Google Play ha rechazado la compra. Instala la app desde Google Play para poder comprar."
-        BillingResponseCode.FEATURE_NOT_SUPPORTED -> "Tu versión de Google Play no admite esta compra."
-        BillingResponseCode.ITEM_ALREADY_OWNED -> "Ya tienes «Quitar anuncios»."
-        else -> "Error de Google Play ($code). Inténtalo de nuevo."
+        BillingResponseCode.SERVICE_DISCONNECTED,
+        -> UiText.res(R.string.billing_error_connection)
+        BillingResponseCode.ITEM_UNAVAILABLE -> UiText.res(R.string.billing_unavailable)
+        BillingResponseCode.DEVELOPER_ERROR -> UiText.res(R.string.billing_error_install_from_play)
+        BillingResponseCode.FEATURE_NOT_SUPPORTED -> UiText.res(R.string.billing_error_not_supported)
+        BillingResponseCode.ITEM_ALREADY_OWNED -> UiText.res(R.string.billing_error_already_owned)
+        else -> UiText.res(R.string.billing_error_code, code)
     }
 }

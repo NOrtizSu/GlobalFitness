@@ -7,6 +7,7 @@ import com.enjoyyourtime.globalfitness.scale.ConfiguredScale
 import com.enjoyyourtime.globalfitness.scale.DetectedScale
 import com.enjoyyourtime.globalfitness.scale.DetectionResult
 import com.enjoyyourtime.globalfitness.scale.DriverEnv
+import com.enjoyyourtime.globalfitness.scale.DriverNameNote
 import com.enjoyyourtime.globalfitness.scale.DriverStore
 import com.enjoyyourtime.globalfitness.scale.GattLink
 import com.enjoyyourtime.globalfitness.scale.GattScaleDriver
@@ -18,6 +19,7 @@ import com.enjoyyourtime.globalfitness.scale.ScaleConfigStore
 import com.enjoyyourtime.globalfitness.scale.ScaleContext
 import com.enjoyyourtime.globalfitness.scale.ScaleDetector
 import com.enjoyyourtime.globalfitness.scale.ScaleEvent
+import com.enjoyyourtime.globalfitness.scale.ScaleNotice
 import com.enjoyyourtime.globalfitness.scale.ScaleReading
 import com.enjoyyourtime.globalfitness.scale.ScaleRegistry
 import com.enjoyyourtime.globalfitness.scale.SessionStatus
@@ -59,7 +61,7 @@ sealed interface LiveScale {
     ) : LiveScale
 
     /** The weighing was complete but could not be stored. */
-    data class SaveFailed(val weightKg: Double, val message: String) : LiveScale
+    data class SaveFailed(val weightKg: Double, val notice: ScaleNotice) : LiveScale
 }
 
 /** Live status of a GATT scale session, for the devices screen. */
@@ -67,7 +69,7 @@ data class GattSessionInfo(
     val configId: String,
     val scaleName: String,
     val status: SessionStatus,
-    val detail: String? = null,
+    val detail: ScaleNotice? = null,
     val weightKg: Double? = null,
     val atMillis: Long,
 )
@@ -80,6 +82,8 @@ data class ScaleSuggestion(
     val address: String,
     val deviceName: String?,
     val verified: Boolean,
+    /** Generic words of the driver name, translated by the UI. */
+    val nameNote: DriverNameNote? = null,
 )
 
 /**
@@ -122,15 +126,15 @@ class ScaleMonitor(
     /** Persisted results, for snackbars. */
     val outcomes: SharedFlow<RecordOutcome> = _outcomes.asSharedFlow()
 
-    private val _errors = MutableSharedFlow<String>(extraBufferCapacity = 4)
+    private val _errors = MutableSharedFlow<ScaleNotice>(extraBufferCapacity = 4)
 
-    /** Spanish error messages when a measurement could not be stored. */
-    val errors: SharedFlow<String> = _errors.asSharedFlow()
+    /** Errors when a measurement could not be stored. */
+    val errors: SharedFlow<ScaleNotice> = _errors.asSharedFlow()
 
-    private val _messages = MutableSharedFlow<String>(extraBufferCapacity = 8)
+    private val _messages = MutableSharedFlow<ScaleNotice>(extraBufferCapacity = 8)
 
-    /** Spanish informational messages (auto-configuration, missing bind key, ...). */
-    val messages: SharedFlow<String> = _messages.asSharedFlow()
+    /** Informational messages (auto-configuration, missing bind key, ...). */
+    val messages: SharedFlow<ScaleNotice> = _messages.asSharedFlow()
 
     private val _detected = MutableStateFlow<List<DetectedScale>>(emptyList())
 
@@ -161,7 +165,7 @@ class ScaleMonitor(
     private sealed interface KeyResult {
         data class Stored(val outcome: RecordOutcome) : KeyResult
         data object NothingStored : KeyResult
-        data class Error(val message: String) : KeyResult
+        data class Error(val notice: ScaleNotice) : KeyResult
     }
 
     private class PassiveEntry(val configId: String, val driverId: String, val address: String, val session: PassiveSession) {
@@ -271,8 +275,8 @@ class ScaleMonitor(
         )
         settings.updateConfiguredScales { list -> if (list.isEmpty()) list + scale else list }
         publishDetected(force = true)
-        val extra = if (result.driver.capabilities.needsConfig) " Completa su configuración en Dispositivos." else ""
-        _messages.tryEmit("Báscula detectada y configurada: ${result.driver.displayName}.$extra")
+        val kind = if (result.driver.capabilities.needsConfig) ScaleNotice.Kind.AUTO_CONFIGURED_NEEDS_SETUP else ScaleNotice.Kind.AUTO_CONFIGURED
+        _messages.tryEmit(ScaleNotice(kind, listOf(result.driver.displayName)))
     }
 
     private fun suggest(result: DetectionResult.Suggest) {
@@ -284,6 +288,7 @@ class ScaleMonitor(
             address = result.address.uppercase(Locale.ROOT),
             deviceName = result.name,
             verified = result.driver.verified,
+            nameNote = result.driver.nameNote,
         )
         publishDetected(force = true)
     }
@@ -301,8 +306,8 @@ class ScaleMonitor(
                     list + ConfiguredScale(UUID.randomUUID().toString(), driver.id, s.address, driver.displayName, addedAt = wallClock())
                 }
             }
-            val extra = if (driver.capabilities.needsConfig) " Completa su configuración." else " Súbete a la báscula para que la app se conecte."
-            _messages.tryEmit("Báscula añadida: ${driver.displayName}.$extra")
+            val kind = if (driver.capabilities.needsConfig) ScaleNotice.Kind.ADDED_NEEDS_SETUP else ScaleNotice.Kind.ADDED_STEP_ON
+            _messages.tryEmit(ScaleNotice(kind, listOf(driver.displayName)))
         }
     }
 
@@ -411,14 +416,14 @@ class ScaleMonitor(
                                 updateSession(cs, SessionStatus.SAVED, null, event.reading.weightKg)
                             }
                         }
-                        is ScaleEvent.Message -> _messages.tryEmit(event.text)
+                        is ScaleEvent.Message -> _messages.tryEmit(event.notice)
                     }
                 }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
                 linkFailed = true
-                updateSession(cs, SessionStatus.FAILED, e.message)
+                updateSession(cs, SessionStatus.FAILED, ScaleNotice(ScaleNotice.Kind.CONNECT_FAILED_DETAIL, listOf(e.message ?: e.javaClass.simpleName)))
             } finally {
                 _gattConnecting.value = false
                 val end = elapsedClock()
@@ -439,7 +444,7 @@ class ScaleMonitor(
         }
     }
 
-    private fun updateSession(cs: ConfiguredScale, status: SessionStatus, detail: String?, weight: Double? = null) {
+    private fun updateSession(cs: ConfiguredScale, status: SessionStatus, detail: ScaleNotice?, weight: Double? = null) {
         val previous = _sessions.value[cs.id]
         _sessions.value = _sessions.value + (
             cs.id to GattSessionInfo(
@@ -473,9 +478,9 @@ class ScaleMonitor(
                 } catch (e: CancellationException) {
                     throw e
                 } catch (e: Exception) {
-                    val message = "No se pudo guardar la medición: ${e.message ?: e.javaClass.simpleName}"
-                    _errors.tryEmit(message)
-                    KeyResult.Error(message)
+                    val notice = ScaleNotice(ScaleNotice.Kind.SAVE_FAILED, listOf(e.message ?: e.javaClass.simpleName))
+                    _errors.tryEmit(notice)
+                    KeyResult.Error(notice)
                 }
             }
             if (result is KeyResult.Stored) {
@@ -501,7 +506,7 @@ class ScaleMonitor(
             profileName = contextProvider().name.takeIf { it.isNotBlank() },
             alreadyStored = result.outcome is RecordOutcome.Duplicate,
         )
-        is KeyResult.Error -> LiveScale.SaveFailed(r.weightKg, result.message)
+        is KeyResult.Error -> LiveScale.SaveFailed(r.weightKg, result.notice)
         // Nothing stored (deleted by the user, or an upgrade of a deleted row): never claim "Guardado".
         KeyResult.NothingStored -> LiveScale.Idle
     }

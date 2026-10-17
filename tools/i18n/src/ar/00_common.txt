@@ -1,0 +1,107 @@
+# App
+band_notification_listener_label = GlobalFitness: إعادة التوجيه إلى السوار
+
+# Common actions
+action_cancel = إلغاء
+action_ok = موافق
+action_save = حفظ
+action_delete = حذف
+action_retry = إعادة المحاولة
+action_got_it = فهمت
+action_close = إغلاق
+action_back = رجوع
+action_continue = متابعة
+action_open_settings = فتح الإعدادات
+action_grant_permission = منح الإذن
+action_turn_on_bluetooth = تشغيل Bluetooth
+action_turn_on_location = تشغيل الموقع
+action_connect_health_connect = ربط Health Connect
+action_install_health_connect = تثبيت Health Connect
+action_update_health_connect = تحديث Health Connect
+action_add_manual_weight = إضافة الوزن يدويًا
+common_no_data = لا توجد بيانات
+common_not_enough_data = البيانات غير كافية
+common_time = الوقت
+common_experimental = تجريبي
+common_required_mark = %1$s *
+common_error_detail = %1$s: %2$s
+
+# Units and values
+unit_kg = كغ
+unit_kcal = سعرة حرارية
+unit_percent = %
+unit_years = سنة
+value_kg = %1$s كغ
+value_kcal = %1$s سعرة حرارية
+value_percent = %1$s%%
+value_years{zero} = %1$s سنة
+value_years{one} = سنة واحدة
+value_years{two} = سنتان
+value_years{few} = %1$s سنوات
+value_years{many} = %1$s سنة
+value_years{other} = %1$s سنة
+value_ohm = %1$s Ω
+
+# Relative dates
+time_today = اليوم
+time_yesterday = أمس
+time_today_at = اليوم، %1$s
+time_yesterday_at = أمس، %1$s
+
+# Navigation
+nav_today = اليوم
+nav_body = الجسم
+nav_activity = النشاط
+nav_devices = الأجهزة
+nav_profile = الملف الشخصي
+
+# Body metrics
+metric_weight = الوزن
+metric_bmi = مؤشر كتلة الجسم
+metric_fat_percent = دهون الجسم
+metric_fat_mass = كتلة الدهون
+metric_muscle = العضلات
+metric_skeletal_muscle = العضلات الهيكلية
+metric_water = ماء الجسم
+metric_bone = كتلة العظام
+metric_visceral = الدهون الحشوية
+metric_bmr = معدل الأيض الأساسي
+metric_metabolic_age = العمر الأيضي
+metric_protein = البروتين
+metric_ideal_weight = الوزن المثالي
+
+# Classification chips
+class_low = منخفض
+class_very_low = منخفض جدًا
+class_normal = طبيعي
+class_high = مرتفع
+class_very_high = مرتفع جدًا
+class_overweight = زيادة الوزن
+class_obese = سمنة
+class_excellent = ممتاز
+class_optimal = مثالي
+class_younger = أصغر سنًا
+class_older_than_age = أكبر من عمرك
+class_in_range = ضمن النطاق
+class_out_of_range = خارج النطاق
+
+# Body types
+body_type = نوع الجسم
+body_type_obese = بدين
+body_type_overweight = زيادة الوزن
+body_type_solid = قوي البنية
+body_type_lack_exercise = قلة التمارين
+body_type_balanced = متوازن
+body_type_balanced_muscular = متوازن وعضلي
+body_type_skinny = نحيف
+body_type_balanced_skinny = نحيف متوازن
+body_type_skinny_muscular = نحيف وعضلي
+
+# Health Connect rationale (shown by Health Connect)
+health_rationale_title = خصوصية بيانات الصحة
+health_rationale_intro = يستخدم تطبيق GlobalFitness خدمة Health Connect لغرضين:
+health_rationale_read = • قراءة البيانات من سوارك أو ساعتك (مثل Xiaomi Smart Band عبر Mi Fitness): الخطوات والمسافة والسعرات الحرارية ومعدل ضربات القلب ومعدل ضربات القلب أثناء الراحة وتقلب معدل ضربات القلب والنوم والأكسجين في الدم ومعدل التنفس والتمارين. كما يقرأ الوزن ودهون الجسم التي تسجلها تطبيقات أخرى. ومع إذن الوصول إلى البيانات السابقة يستورد ما يصل إلى سنة واحدة.
+health_rationale_write = • كتابة قياسات ميزانك: الوزن ودهون الجسم وكتلة العظام والكتلة الخالية من الدهون ومعدل الأيض الأساسي وماء الجسم. إذا حذفت قياسًا في التطبيق فسيُحذف أيضًا من Health Connect.
+health_rationale_storage = تُحفظ البيانات المقروءة من Health Connect على هذا الهاتف فقط: فلا تُرفع إلى النسخ الاحتياطي السحابي الاختياري ولا تُستخدم للإعلانات ولا تُشارك مع أي جهة. ويستخدمها التطبيق فقط لعرض الملخصات والرسوم البيانية لك.
+health_rationale_revoke = يمكنك إلغاء أي إذن في أي وقت من Health Connect؛ فيتوقف التطبيق عن قراءة هذا النوع من البيانات ويحذف نسخته المحلية عند المزامنة التالية.
+health_rationale_full_policy = سياسة الخصوصية الكاملة

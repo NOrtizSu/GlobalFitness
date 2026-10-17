@@ -12,6 +12,7 @@ import com.enjoyyourtime.globalfitness.scale.MatchConfidence
 import com.enjoyyourtime.globalfitness.scale.PassiveScaleDriver
 import com.enjoyyourtime.globalfitness.scale.PassiveSession
 import com.enjoyyourtime.globalfitness.scale.ScaleCapabilities
+import com.enjoyyourtime.globalfitness.scale.ScaleNotice
 import com.enjoyyourtime.globalfitness.scale.ScaleReading
 import com.enjoyyourtime.globalfitness.scale.ScaleSample
 import com.enjoyyourtime.globalfitness.scale.libs.S400Aggregator
@@ -32,20 +33,8 @@ class XiaomiS400Driver : PassiveScaleDriver() {
     override val capabilities = ScaleCapabilities(
         impedance = true,
         config = listOf(
-            ConfigField(
-                key = ConfigField.KEY_BINDKEY,
-                label = "Bind key (clave BLE)",
-                help = "Clave de 32 caracteres hexadecimales de la nube de Xiaomi (p. ej. con Xiaomi Cloud Tokens Extractor).",
-                kind = ConfigKind.HEX_KEY_32,
-                required = true,
-            ),
-            ConfigField(
-                key = KEY_PROFILE,
-                label = "Perfil en la báscula",
-                help = "Número de perfil de la báscula que es el tuyo (si la usan varias personas). Vacío: todos.",
-                kind = ConfigKind.USER_SLOT,
-                maxSlot = 255,
-            ),
+            ConfigField.bindKey(),
+            ConfigField(key = KEY_PROFILE, kind = ConfigKind.USER_SLOT, maxSlot = 255),
         ),
     )
     override val formulaLib = FormulaLib.S400
@@ -84,7 +73,7 @@ class XiaomiS400Driver : PassiveScaleDriver() {
             if (!S400Decryptor.isValidBindKey(bindKey)) {
                 if (!warned) {
                     warned = true
-                    env.messages("Báscula S400 detectada: configura su bind key en Básculas para leerla.")
+                    env.messages(ScaleNotice(ScaleNotice.Kind.BIND_KEY_NEEDED, listOf("S400")))
                 }
                 return emptyList()
             }
@@ -102,7 +91,7 @@ class XiaomiS400Driver : PassiveScaleDriver() {
             keyFailures++
             if (keyFailures >= KEY_FAILURES_BEFORE_HINT && !keyWarned) {
                 keyWarned = true
-                env.messages("La bind key de la S400 no descifra sus datos: revísala en Básculas.")
+                env.messages(ScaleNotice(ScaleNotice.Kind.BIND_KEY_WRONG, listOf("S400")))
             }
         }
 
@@ -182,7 +171,7 @@ class XiaomiS400Driver : PassiveScaleDriver() {
     companion object {
         const val MIBEACON_SERVICE = 0xFE95
         const val PRODUCT_ID = 0x3BD5
-        const val KEY_PROFILE = "s400_profile"
+        const val KEY_PROFILE = ConfigField.KEY_SCALE_PROFILE
         private const val REBROADCAST_WINDOW_MS = 60_000L
         private const val KEY_FAILURES_BEFORE_HINT = 10
     }

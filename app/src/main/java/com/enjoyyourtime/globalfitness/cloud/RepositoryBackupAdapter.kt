@@ -97,8 +97,8 @@ class RepositoryBackupAdapter(
         val ready = withTimeoutOrNull(LOAD_TIMEOUT_MS) {
             combine(repository.loaded, repository.loadError) { loaded, error -> loaded || error != null }.first { it }
         }
-        repository.loadError.value?.let { throw IllegalStateException("No se pudo abrir la base de datos del teléfono: $it") }
-        if (ready == null) throw IllegalStateException("La base de datos del teléfono no termina de cargar.")
+        repository.loadError.value?.let { throw IllegalStateException("Could not open the phone database: $it") }
+        if (ready == null) throw IllegalStateException("The phone database did not finish loading.")
     }
 
     private suspend fun applyProfile(record: ProfileRecord) {

@@ -8,6 +8,7 @@ import com.enjoyyourtime.globalfitness.scale.GattProtocol
 import com.enjoyyourtime.globalfitness.scale.GattScaleDriver
 import com.enjoyyourtime.globalfitness.scale.MatchConfidence
 import com.enjoyyourtime.globalfitness.scale.ScaleCapabilities
+import com.enjoyyourtime.globalfitness.scale.ScaleNotice
 import com.enjoyyourtime.globalfitness.scale.ScaleSample
 import com.enjoyyourtime.globalfitness.scale.libs.SoehnleLib
 import com.enjoyyourtime.globalfitness.scale.libs.TrisaBodyAnalyzeLib
@@ -94,7 +95,7 @@ class SoehnleDriver : GattScaleDriver() {
             when (characteristic) {
                 chrSoehnleA -> handleMeasurement(data)
                 chrUcp -> handleUcp(data)
-                chrBattery -> if (Bytes.u8(data, 0) <= 10) userInfo("Batería de la báscula baja")
+                chrBattery -> if (Bytes.u8(data, 0) <= 10) userInfo(ScaleNotice.Kind.LOW_BATTERY)
             }
         }
 
@@ -111,16 +112,16 @@ class SoehnleDriver : GattScaleDriver() {
                     writeTo(svcUserData, chrAge, byteArrayOf(user.ageAt(env.wallClock()).toByte()))
                     writeTo(svcUserData, chrGender, byteArrayOf(if (user.isMale) 0x00 else 0x01))
                     writeTo(svcUserData, chrHeight, Bytes.toInt16Le(user.heightCm.toInt()))
-                    userInfo("Usuario creado en la báscula: súbete para la medición de referencia")
+                    userInfo(ScaleNotice.Kind.USER_CREATED_STEP_ON)
                 } else {
-                    userInfo("La báscula no pudo crear el usuario (¿sin huecos libres?)")
+                    userInfo(ScaleNotice.Kind.USER_CREATE_FAILED)
                 }
                 0x02 -> if (value[2] != 0x01.toByte()) {
                     settingsRemove(KEY_INDEX)
                     if (registrations++ < MAX_REGISTRATIONS) {
                         writeTo(svcUserData, chrUcp, byteArrayOf(0x01, 0x00, 0x00))
                     } else {
-                        userInfo("La báscula rechazó el usuario: vuelve a intentarlo más tarde")
+                        userInfo(ScaleNotice.Kind.USER_REJECTED_RETRY_LATER)
                     }
                 }
             }
@@ -202,14 +203,14 @@ class TrisaBodyAnalyzeDriver : GattScaleDriver() {
             when (data[0]) {
                 UPLOAD_PASSWORD -> {
                     settingsPutInt(KEY_PASSWORD, Bytes.fromSignedInt32Le(data, 1))
-                    userInfo("Trisa emparejada. Súbete de nuevo para medir")
+                    userInfo(ScaleNotice.Kind.TRISA_PAIRED_STEP_ON_AGAIN)
                     writeCommand(CMD_BROADCAST_ID, 0)
                     requestDisconnect()
                 }
                 UPLOAD_CHALLENGE -> {
                     val stored = env.store.getString(KEY_PASSWORD)?.toIntOrNull()
                     if (stored == null) {
-                        userInfo("Trisa no emparejada: pulsa el botón de emparejamiento de la báscula")
+                        userInfo(ScaleNotice.Kind.TRISA_NOT_PAIRED)
                         requestDisconnect()
                         return
                     }

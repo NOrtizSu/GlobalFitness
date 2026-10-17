@@ -1,0 +1,55 @@
+# Body
+range_1m = 1M
+range_3m = 3M
+range_6m = 6M
+range_1y = 1Y
+range_all = सभी
+body_empty_text = ऐप खुला रखकर नंगे पैर स्केल पर खड़े हों, या नीचे दिए गए बटन से अपना वज़न मैन्युअल रूप से जोड़ें। यहां आप देख पाएंगे कि समय के साथ आपका वज़न और शारीरिक संरचना कैसे बदलते हैं।
+body_period_summary = अवधि का सारांश
+body_stat_current = मौजूदा
+body_stat_change = बदलाव
+body_stat_min = न्यूनतम
+body_stat_max = अधिकतम
+body_stat_average = औसत
+body_stat_rate = दर
+body_rate_value = %1$s/हफ़्ता
+body_stat_projection = लक्ष्य का अनुमान
+body_projection_no_goal = कोई लक्ष्य नहीं
+body_projection_reached = लक्ष्य पूरा
+body_projection_no_trend = कोई रुझान नहीं
+body_projection_eta = ~ %1$s
+body_rate_hint = दर के लिए पिछले 28 दिनों में कम से कम 3 माप चाहिए, जो कम से कम 7 दिनों में फैले हों।
+body_history = इतिहास
+body_normal_range = सामान्य सीमा
+body_normal_range_bmi = सामान्य सीमा (BMI %1$s–%2$s)
+body_goal_line = लक्ष्य %1$s
+body_chart_title_unit = %1$s (%2$s)
+body_chart_needs_composition = इस मेट्रिक के लिए शारीरिक संरचना ज़रूरी है। नंगे और सूखे पैरों से स्केल पर खड़े हों।
+body_chart_no_measurements = अभी तक कोई माप नहीं।
+body_chart_none_in_period = इस अवधि में कोई माप नहीं। लंबी अवधि चुनकर देखें।
+body_chart_single = इस अवधि में सिर्फ़ एक माप है (%1$s, %2$s)। रुझान दिखाने के लिए कम से कम 2 माप चाहिए।
+body_current_composition = मौजूदा शारीरिक संरचना
+body_row_fat = वसा %1$s
+body_row_no_composition = शारीरिक संरचना नहीं
+source_manual = मैन्युअल
+source_scale = स्केल
+comp_source_device = शारीरिक संरचना स्केल ने मापी
+comp_source_formula = शारीरिक संरचना की गणना की गई (%1$s फ़ॉर्मूला)
+comp_fat = वसा
+metric_impedance = इम्पीडेंस
+
+# Charts
+chart_trend_desc{one} = %1$s का चार्ट, %2$d माप के साथ, %3$s से %4$s तक
+chart_trend_desc{other} = %1$s का चार्ट, %2$d माप के साथ, %3$s से %4$s तक
+chart_avg_7d_value = 7 दिन का औसत: %1$s
+chart_legend_measurements = माप
+chart_legend_avg_7d = 7 दिन का औसत
+chart_composition_desc = शारीरिक संरचना: %1$s
+chart_composition_item = %1$s %2$s
+
+# Measurement dialogs
+manual_weight_only = सिर्फ़ वज़न: शारीरिक संरचना के लिए स्केल ज़रूरी है।
+manual_weight_range = %1$s और %2$s के बीच वज़न डालें
+manual_date_future = तारीख भविष्य की नहीं हो सकती।
+delete_measurement_title = माप मिटाएं?
+delete_measurement_text = %2$s का %1$s वाला माप मिटा दिया जाएगा। इसे पहले जैसा नहीं किया जा सकेगा।

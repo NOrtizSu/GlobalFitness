@@ -200,7 +200,7 @@ class BandControllerTest {
         // The band answers "stop" with 2/18 value 1, the same value as a "found it" press.
         val band = responsiveBand { cmd -> if (cmd.type == 2 && cmd.subtype == 18 && cmd.system.findDevice == 1) listOf(findWatchReply(1)) else emptyList() }
         val controller = BandController(scope, log, FakePlatform(band, key), timing)
-        val messages = Collections.synchronizedList(mutableListOf<String>())
+        val messages = Collections.synchronizedList(mutableListOf<BandMessage>())
         val collector = launch(Dispatchers.Default) { controller.messages.collect { messages += it } }
         delay(50)
         controller.connect()
@@ -210,7 +210,7 @@ class BandControllerTest {
         controller.awaitState { it.finding }
         band.push(findWatchReply(1)) // "found it" pressed on the band
         controller.awaitState { !it.finding }
-        waitUntil { messages.contains(BandController.FOUND_MESSAGE) }
+        waitUntil { messages.contains(BandMessage.Found) }
 
         controller.findDevice(true)
         controller.awaitState { it.finding }
@@ -218,7 +218,7 @@ class BandControllerTest {
         controller.awaitState { !it.finding }
         waitUntil { sent(band, 2, 18) == 3 }
         delay(300)
-        assertEquals(1, messages.count { it == BandController.FOUND_MESSAGE })
+        assertEquals(1, messages.count { it == BandMessage.Found })
         collector.cancel()
     }
 

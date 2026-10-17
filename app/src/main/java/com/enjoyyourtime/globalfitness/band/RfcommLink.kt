@@ -30,7 +30,7 @@ class RfcommLink private constructor(private val socket: BluetoothSocket) : Band
 
     override suspend fun read(): ByteArray = withContext(Dispatchers.IO) {
         val n = input.read(buffer)
-        if (n < 0) throw IOException("Fin de la conexión")
+        if (n < 0) throw IOException("End of the connection")
         buffer.copyOf(n)
     }
 
@@ -88,7 +88,7 @@ class RfcommLink private constructor(private val socket: BluetoothSocket) : Band
                         }
                     }
                     withContext(Dispatchers.IO) { socket.connect() }
-                    if (!state.compareAndSet(CONNECTING, CONNECTED)) throw IOException("Tiempo de conexión agotado")
+                    if (!state.compareAndSet(CONNECTING, CONNECTED)) throw IOException("Connection timed out")
                     watchdog.cancel()
                 }
             } catch (e: IOException) {

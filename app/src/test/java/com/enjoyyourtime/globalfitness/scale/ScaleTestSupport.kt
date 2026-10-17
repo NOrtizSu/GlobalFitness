@@ -51,7 +51,7 @@ object ScaleTestSupport {
         ctx: ScaleContext = ctx(),
         store: DriverStore = MapDriverStore(),
         address: String? = ADDRESS,
-        messages: MutableList<String> = mutableListOf(),
+        messages: MutableList<ScaleNotice> = mutableListOf(),
     ) = DriverEnv(
         ctx = ctx,
         store = store,
@@ -83,7 +83,7 @@ class FakeGattIo(
     val ops = mutableListOf<Op>()
     val readings = mutableListOf<ScaleReading>()
     val lives = mutableListOf<Double>()
-    val messages = mutableListOf<String>()
+    val messages = mutableListOf<ScaleNotice>()
     private val timers = mutableListOf<Pair<Long, () -> Unit>>()
 
     val writes: List<Op.Write> get() = ops.filterIsInstance<Op.Write>()
@@ -138,8 +138,8 @@ class FakeGattIo(
         lives += weightKg
     }
 
-    override fun message(text: String) {
-        messages += text
+    override fun message(notice: ScaleNotice) {
+        messages += notice
     }
 
     fun clearOps() = ops.clear()

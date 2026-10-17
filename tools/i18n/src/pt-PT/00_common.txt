@@ -1,0 +1,104 @@
+# App
+band_notification_listener_label = GlobalFitness: reencaminhamento para a pulseira
+
+# Common actions
+action_cancel = Cancelar
+action_ok = OK
+action_save = Guardar
+action_delete = Eliminar
+action_retry = Tentar novamente
+action_got_it = Compreendi
+action_close = Fechar
+action_back = Voltar
+action_continue = Continuar
+action_open_settings = Abrir definições
+action_grant_permission = Conceder autorização
+action_turn_on_bluetooth = Ativar Bluetooth
+action_turn_on_location = Ativar localização
+action_connect_health_connect = Ligar ao Health Connect
+action_install_health_connect = Instalar Health Connect
+action_update_health_connect = Atualizar Health Connect
+action_add_manual_weight = Adicionar peso manualmente
+common_no_data = Sem dados
+common_not_enough_data = Dados insuficientes
+common_time = Hora
+common_experimental = Experimental
+common_required_mark = %1$s *
+common_error_detail = %1$s: %2$s
+
+# Units and values
+unit_kg = kg
+unit_kcal = kcal
+unit_percent = %
+unit_years = anos
+value_kg = %1$s kg
+value_kcal = %1$s kcal
+value_percent = %1$s%%
+value_years{one} = %1$s ano
+value_years{many} = %1$s anos
+value_years{other} = %1$s anos
+value_ohm = %1$s Ω
+
+# Relative dates
+time_today = Hoje
+time_yesterday = Ontem
+time_today_at = Hoje, %1$s
+time_yesterday_at = Ontem, %1$s
+
+# Navigation
+nav_today = Hoje
+nav_body = Corpo
+nav_activity = Atividade
+nav_devices = Dispositivos
+nav_profile = Perfil
+
+# Body metrics
+metric_weight = Peso
+metric_bmi = IMC
+metric_fat_percent = Gordura corporal
+metric_fat_mass = Massa gorda
+metric_muscle = Massa muscular
+metric_skeletal_muscle = Músculo esquelético
+metric_water = Água corporal
+metric_bone = Massa óssea
+metric_visceral = Gordura visceral
+metric_bmr = Metabolismo basal
+metric_metabolic_age = Idade metabólica
+metric_protein = Proteína
+metric_ideal_weight = Peso ideal
+
+# Classification chips
+class_low = Baixo
+class_very_low = Muito baixo
+class_normal = Normal
+class_high = Alto
+class_very_high = Muito alto
+class_overweight = Excesso de peso
+class_obese = Obesidade
+class_excellent = Excelente
+class_optimal = Ótimo
+class_younger = Mais jovem
+class_older_than_age = Acima da sua idade
+class_in_range = Dentro do intervalo
+class_out_of_range = Fora do intervalo
+
+# Body types
+body_type = Tipo de corpo
+body_type_obese = Obeso
+body_type_overweight = Excesso de peso
+body_type_solid = Corpulento
+body_type_lack_exercise = Falta de exercício
+body_type_balanced = Equilibrado
+body_type_balanced_muscular = Equilibrado musculado
+body_type_skinny = Magro
+body_type_balanced_skinny = Magro equilibrado
+body_type_skinny_muscular = Magro musculado
+
+# Health Connect rationale (shown by Health Connect)
+health_rationale_title = Privacidade dos dados de saúde
+health_rationale_intro = O GlobalFitness utiliza o Health Connect para duas coisas:
+health_rationale_read = • Ler os dados da sua pulseira ou relógio (por exemplo, a Xiaomi Smart Band através do Mi Fitness): passos, distância, calorias, frequência cardíaca, frequência cardíaca em repouso, variabilidade da frequência cardíaca, sono, oxigénio no sangue, frequência respiratória e treinos. Também lê o peso e a gordura corporal registados por outras apps. Com a autorização de dados anteriores, importa até um ano.
+health_rationale_write = • Escrever as medições da sua balança: peso, gordura corporal, massa óssea, massa magra, metabolismo basal e água corporal. Se eliminar uma medição na app, esta também é eliminada do Health Connect.
+health_rationale_storage = Os dados lidos do Health Connect são guardados apenas neste telemóvel: não são carregados para a cópia de segurança na nuvem opcional, não são utilizados para publicidade e não são partilhados com ninguém. A app utiliza-os apenas para lhe mostrar resumos e gráficos.
+health_rationale_revoke = Pode revogar qualquer autorização a qualquer momento no Health Connect; a app deixa de ler esse tipo de dados e elimina a respetiva cópia local na sincronização seguinte.
+health_rationale_full_policy = Política de privacidade completa

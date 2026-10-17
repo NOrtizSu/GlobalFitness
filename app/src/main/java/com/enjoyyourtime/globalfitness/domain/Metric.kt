@@ -1,28 +1,29 @@
 package com.enjoyyourtime.globalfitness.domain
 
-/** Metrics shown in tiles and charts. */
+enum class MetricUnit { KG, PERCENT, KCAL, YEARS, NONE }
+
+/** Metrics shown in tiles and charts (names are mapped to string resources by the UI). */
 enum class Metric(
-    val label: String,
-    val unit: String,
+    val unit: MetricUnit,
     val decimals: Int,
     val needsImpedance: Boolean,
     val chartable: Boolean = true,
     /** Listed only when a measurement has a value (few scales or formula libraries estimate it). */
     val optional: Boolean = false,
 ) {
-    WEIGHT("Peso", "kg", 2, needsImpedance = false),
-    BMI("IMC", "", 1, needsImpedance = false),
-    FAT_PERCENT("Grasa", "%", 1, needsImpedance = true),
-    FAT_MASS("Masa grasa", "kg", 1, needsImpedance = true),
-    MUSCLE("Músculo", "kg", 1, needsImpedance = true),
-    SKELETAL_MUSCLE("Músculo esquelético", "%", 1, needsImpedance = true, optional = true),
-    WATER("Agua", "%", 1, needsImpedance = true),
-    BONE("Hueso", "kg", 2, needsImpedance = true),
-    VISCERAL("Grasa visceral", "", 1, needsImpedance = false),
-    BMR("Metabolismo basal", "kcal", 0, needsImpedance = false),
-    METABOLIC_AGE("Edad metabólica", "años", 0, needsImpedance = true),
-    PROTEIN("Proteína", "%", 1, needsImpedance = true),
-    IDEAL_WEIGHT("Peso ideal", "kg", 1, needsImpedance = false, chartable = false);
+    WEIGHT(MetricUnit.KG, 2, needsImpedance = false),
+    BMI(MetricUnit.NONE, 1, needsImpedance = false),
+    FAT_PERCENT(MetricUnit.PERCENT, 1, needsImpedance = true),
+    FAT_MASS(MetricUnit.KG, 1, needsImpedance = true),
+    MUSCLE(MetricUnit.KG, 1, needsImpedance = true),
+    SKELETAL_MUSCLE(MetricUnit.PERCENT, 1, needsImpedance = true, optional = true),
+    WATER(MetricUnit.PERCENT, 1, needsImpedance = true),
+    BONE(MetricUnit.KG, 2, needsImpedance = true),
+    VISCERAL(MetricUnit.NONE, 1, needsImpedance = false),
+    BMR(MetricUnit.KCAL, 0, needsImpedance = false),
+    METABOLIC_AGE(MetricUnit.YEARS, 0, needsImpedance = true),
+    PROTEIN(MetricUnit.PERCENT, 1, needsImpedance = true),
+    IDEAL_WEIGHT(MetricUnit.KG, 1, needsImpedance = false, chartable = false);
 
     fun extract(c: BodyComposition): Double? = when (this) {
         WEIGHT -> c.weightKg

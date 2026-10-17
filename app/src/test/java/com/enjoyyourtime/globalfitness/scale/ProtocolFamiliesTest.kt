@@ -195,12 +195,12 @@ class ProtocolFamiliesTest {
         val frame = hex("5859e2515b") + mac + sealed.copyOfRange(0, sealed.size - 4) + ext + sealed.copyOfRange(sealed.size - 4, sealed.size)
 
         val driver = XiaomiS800Driver()
-        val messages = mutableListOf<String>()
+        val messages = mutableListOf<ScaleNotice>()
         val noKey = ScaleTestSupport.env(driver.id, messages = messages)
         val a = adv(serviceData = mapOf(uuid16(0xFE95) to frame))
         assertEquals(MatchConfidence.HIGH, driver.match(a))
         assertTrue(driver.newSession(noKey).parseAdvertisement(a, noKey).isEmpty())
-        assertEquals(1, messages.size)
+        assertEquals(listOf(ScaleNotice(ScaleNotice.Kind.BIND_KEY_NEEDED, listOf("S800"))), messages)
 
         val env = ScaleTestSupport.env(driver.id, store = MapDriverStore(mapOf(ConfigField.KEY_BINDKEY to Bytes.toHex(key))))
         assertEquals(82.40, driver.newSession(env).parseAdvertisement(a, env).single().weightKg, 1e-2)

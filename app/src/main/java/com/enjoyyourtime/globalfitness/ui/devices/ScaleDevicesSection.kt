@@ -39,8 +39,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import com.enjoyyourtime.globalfitness.R
+import com.enjoyyourtime.globalfitness.UiText
 import com.enjoyyourtime.globalfitness.ble.ScaleSuggestion
 import com.enjoyyourtime.globalfitness.scale.ConfigField
 import com.enjoyyourtime.globalfitness.scale.ConfigKind
@@ -49,6 +53,7 @@ import com.enjoyyourtime.globalfitness.scale.MatchConfidence
 import com.enjoyyourtime.globalfitness.scale.ScaleDriver
 import com.enjoyyourtime.globalfitness.scale.SessionStatus
 import com.enjoyyourtime.globalfitness.ui.Fmt
+import com.enjoyyourtime.globalfitness.ui.asString
 import com.enjoyyourtime.globalfitness.ui.components.AppCard
 import com.enjoyyourtime.globalfitness.ui.components.AppIcons
 import com.enjoyyourtime.globalfitness.ui.components.ExperimentalBadge
@@ -67,7 +72,7 @@ fun LazyListScope.scaleDevicesSection(
     state: ScaleDevicesUiState,
     dialogs: ScaleDialogs,
     onUse: (DetectedScaleItem, ScaleDriver) -> Unit,
-    onSaveConfig: (scaleId: String, key: String, value: String) -> String?,
+    onSaveConfig: (scaleId: String, key: String, value: String) -> UiText?,
     onAcceptSuggestion: () -> Unit = {},
     onDeclineSuggestion: () -> Unit = {},
 ) {
@@ -77,8 +82,7 @@ fun LazyListScope.scaleDevicesSection(
     if (state.configured.isEmpty()) {
         item(key = "scales-empty") {
             Text(
-                "Ninguna todavía. Súbete a tu báscula con la app abierta: si se reconoce sin dudas se " +
-                    "configura sola. También puedes elegirla en el catálogo.",
+                stringResource(R.string.scales_none),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(horizontal = 4.dp),
@@ -97,12 +101,12 @@ fun LazyListScope.scaleDevicesSection(
         FilledTonalButton(onClick = { dialogs.catalogOpen = true }, modifier = Modifier.heightIn(min = 48.dp)) {
             Icon(Icons.Filled.Add, contentDescription = null)
             Spacer(Modifier.width(8.dp))
-            Text("Añadir desde el catálogo")
+            Text(stringResource(R.string.scales_add_from_catalog))
         }
     }
     item(key = "scales-detected-title") {
         Text(
-            "Detectadas cerca",
+            stringResource(R.string.scales_detected_nearby),
             style = MaterialTheme.typography.titleSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(start = 4.dp, top = 8.dp),
@@ -114,7 +118,7 @@ fun LazyListScope.scaleDevicesSection(
                 CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp)
                 Spacer(Modifier.width(12.dp))
                 Text(
-                    "Buscando básculas… súbete a la báscula para despertarla.",
+                    stringResource(R.string.scales_searching),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -166,20 +170,20 @@ fun ScaleDialogsHost(state: ScaleDevicesUiState, dialogs: ScaleDialogs, vm: Scal
     dialogs.removing?.let { item ->
         AlertDialog(
             onDismissRequest = { dialogs.removing = null },
-            title = { Text("¿Quitar ${item.scale.name}?") },
-            text = { Text("Las mediciones guardadas se conservan. No se volverá a configurar sola.") },
+            title = { Text(stringResource(R.string.scales_remove_title, item.scale.name)) },
+            text = { Text(stringResource(R.string.scales_remove_text)) },
             confirmButton = {
                 TextButton(onClick = {
                     vm.remove(item.scale.id)
                     dialogs.removing = null
-                }) { Text("Quitar", color = MaterialTheme.colorScheme.error) }
+                }) { Text(stringResource(R.string.scales_remove), color = MaterialTheme.colorScheme.error) }
             },
-            dismissButton = { TextButton(onClick = { dialogs.removing = null }) { Text("Cancelar") } },
+            dismissButton = { TextButton(onClick = { dialogs.removing = null }) { Text(stringResource(R.string.action_cancel)) } },
         )
     }
 }
 
-/** "¿Es tu báscula?": a recognised scale that needs a connection waits for the user's OK (also on Hoy). */
+/** "Is this your scale?": a recognised scale that needs a connection waits for the user's OK (also on Today). */
 @Composable
 internal fun ScaleSuggestionCard(s: ScaleSuggestion, onAccept: () -> Unit, onDecline: () -> Unit) {
     AppCard {
@@ -188,24 +192,24 @@ internal fun ScaleSuggestionCard(s: ScaleSuggestion, onAccept: () -> Unit, onDec
                 Icon(AppIcons.Scale, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
                 Spacer(Modifier.width(12.dp))
                 Column(Modifier.weight(1f)) {
-                    Text("¿Es tu báscula?", style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.scales_suggestion_title), style = MaterialTheme.typography.titleMedium)
                     Text(
-                        "${s.brand} · ${s.driverName}",
+                        "${brandLabel(s.brand)} · ${driverTitle(s.driverName, s.nameNote)}",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
-                    Text("${s.deviceName ?: "Sin nombre"} · ${s.address}", style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Monospace)
+                    Text("${s.deviceName ?: stringResource(R.string.scales_no_name)} · ${s.address}", style = MaterialTheme.typography.bodySmall, fontFamily = FontFamily.Monospace)
                 }
             }
             if (!s.verified) ExperimentalBadge()
             Text(
-                "Para leerla, la app se conecta a la báscula (y puede guardar tu perfil en ella). Confírmalo solo si es la tuya.",
+                stringResource(R.string.scales_suggestion_text),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                FilledTonalButton(onClick = onAccept) { Text("Sí, es la mía") }
-                OutlinedButton(onClick = onDecline) { Text("No") }
+                FilledTonalButton(onClick = onAccept) { Text(stringResource(R.string.scales_suggestion_yes)) }
+                OutlinedButton(onClick = onDecline) { Text(stringResource(R.string.scales_suggestion_no)) }
             }
         }
     }
@@ -216,7 +220,7 @@ private fun ConfiguredScaleCard(
     item: ConfiguredScaleItem,
     onRename: () -> Unit,
     onRemove: () -> Unit,
-    onSaveConfig: (String, String) -> String?,
+    onSaveConfig: (String, String) -> UiText?,
 ) {
     val driver = item.driver
     AppCard {
@@ -227,20 +231,20 @@ private fun ConfiguredScaleCard(
                 Column(Modifier.weight(1f)) {
                     Text(item.scale.name, style = MaterialTheme.typography.titleMedium)
                     Text(
-                        driver?.let { "${it.brand} · ${it.displayName}" } ?: "Modelo desconocido (${item.scale.driverId})",
+                        driver?.let { "${it.brandLabel()} · ${it.title()}" } ?: stringResource(R.string.scales_unknown_model, item.scale.driverId),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
-                IconButton(onClick = onRename) { Icon(Icons.Filled.Edit, contentDescription = "Renombrar ${item.scale.name}") }
-                IconButton(onClick = onRemove) { Icon(Icons.Filled.Delete, contentDescription = "Quitar ${item.scale.name}") }
+                IconButton(onClick = onRename) { Icon(Icons.Filled.Edit, contentDescription = stringResource(R.string.scales_rename_named, item.scale.name)) }
+                IconButton(onClick = onRemove) { Icon(Icons.Filled.Delete, contentDescription = stringResource(R.string.scales_remove_named, item.scale.name)) }
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                 if (driver?.verified != true) ExperimentalBadge()
                 Text(
                     when (driver?.link) {
-                        LinkKind.GATT -> "Conexión Bluetooth"
-                        LinkKind.PASSIVE -> "Lectura de anuncios"
+                        LinkKind.GATT -> stringResource(R.string.scales_link_gatt)
+                        LinkKind.PASSIVE -> stringResource(R.string.scales_link_passive)
                         null -> ""
                     },
                     style = MaterialTheme.typography.labelMedium,
@@ -248,19 +252,19 @@ private fun ConfiguredScaleCard(
                 )
             }
             Text(
-                item.scale.address?.let { "Dispositivo $it" } ?: "Cualquier dispositivo compatible (se vinculará al primero que se lea)",
+                item.scale.address?.let { stringResource(R.string.scales_device_address, it) } ?: stringResource(R.string.scales_any_device_pending),
                 style = MaterialTheme.typography.bodySmall,
                 fontFamily = if (item.scale.address != null) FontFamily.Monospace else null,
             )
             Text(
-                item.lastSeenMillis?.let { "Vista: ${Fmt.relative(it)}" } ?: "Aún no vista en esta sesión",
+                item.lastSeenMillis?.let { stringResource(R.string.scales_last_seen, Fmt.relative(it)) } ?: stringResource(R.string.scales_not_seen),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             item.session?.let { SessionLine(it.status, it.detail, it.weightKg) }
             if (item.missingConfig.isNotEmpty()) {
                 Text(
-                    "Falta configurar: ${item.missingConfig.joinToString()}",
+                    stringResource(R.string.scales_missing_config, Fmt.list(item.missingConfig.map { stringResource(it) })),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.error,
                 )
@@ -273,14 +277,18 @@ private fun ConfiguredScaleCard(
 }
 
 @Composable
-private fun SessionLine(status: SessionStatus, detail: String?, weightKg: Double?) {
+private fun SessionLine(status: SessionStatus, detail: com.enjoyyourtime.globalfitness.scale.ScaleNotice?, weightKg: Double?) {
+    val detailText = detail?.text()
     val text = when (status) {
-        SessionStatus.CONNECTING -> "Conectando…"
-        SessionStatus.CONNECTED -> "Conectada, esperando datos…"
-        SessionStatus.MEASURING -> "Midiendo…" + (weightKg?.let { " ${Fmt.kg(it)}" } ?: "")
-        SessionStatus.SAVED -> "Guardado" + (weightKg?.let { " ${Fmt.kg(it)}" } ?: "")
-        SessionStatus.DONE -> "Sesión terminada" + (detail?.let { ": $it" } ?: "")
-        SessionStatus.FAILED -> "Error: " + (detail ?: "no se pudo leer la báscula")
+        SessionStatus.CONNECTING -> stringResource(R.string.scales_session_connecting)
+        SessionStatus.CONNECTED -> stringResource(R.string.scales_session_connected)
+        SessionStatus.MEASURING -> weightKg?.let { stringResource(R.string.scales_session_measuring_weight, Fmt.kg(it)) }
+            ?: stringResource(R.string.scales_session_measuring)
+        SessionStatus.SAVED -> weightKg?.let { stringResource(R.string.scales_session_saved_weight, Fmt.kg(it)) }
+            ?: stringResource(R.string.scales_session_saved)
+        SessionStatus.DONE -> detailText?.let { stringResource(R.string.scales_session_done_detail, it) }
+            ?: stringResource(R.string.scales_session_done)
+        SessionStatus.FAILED -> stringResource(R.string.scales_session_failed, detailText ?: stringResource(R.string.scales_session_read_failed))
     }
     val busy = status == SessionStatus.CONNECTING || status == SessionStatus.CONNECTED || status == SessionStatus.MEASURING
     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -297,9 +305,9 @@ private fun SessionLine(status: SessionStatus, detail: String?, weightKg: Double
 }
 
 @Composable
-private fun ConfigFieldEditor(field: ConfigField, current: String, onSave: (String) -> String?) {
+private fun ConfigFieldEditor(field: ConfigField, current: String, onSave: (String) -> UiText?) {
     var value by remember(current) { mutableStateOf(current) }
-    var error by remember(current) { mutableStateOf<String?>(null) }
+    var error by remember(current) { mutableStateOf<UiText?>(null) }
     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
         OutlinedTextField(
             value = value,
@@ -312,8 +320,11 @@ private fun ConfigFieldEditor(field: ConfigField, current: String, onSave: (Stri
                 }
                 error = null
             },
-            label = { Text(field.label + if (field.required) " *" else "") },
-            supportingText = { Text(error ?: field.help) },
+            label = {
+                val label = stringResource(field.labelRes())
+                Text(if (field.required) stringResource(R.string.common_required_mark, label) else label)
+            },
+            supportingText = { Text(error?.asString() ?: field.help()) },
             isError = error != null,
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
@@ -324,7 +335,7 @@ private fun ConfigFieldEditor(field: ConfigField, current: String, onSave: (Stri
             },
         )
         if (value != current) {
-            OutlinedButton(onClick = { error = onSave(value) }) { Text("Guardar") }
+            OutlinedButton(onClick = { error = onSave(value) }) { Text(stringResource(R.string.action_save)) }
         }
     }
 }
@@ -337,9 +348,10 @@ private fun DetectedScaleCard(item: DetectedScaleItem, onUse: (ScaleDriver) -> U
                 Icon(AppIcons.Bluetooth, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
                 Spacer(Modifier.width(12.dp))
                 Column(Modifier.weight(1f)) {
-                    Text(item.driver.displayName, style = MaterialTheme.typography.titleSmall)
+                    Text(item.driver.title(), style = MaterialTheme.typography.titleSmall)
                     Text(
-                        "${item.driver.brand} · ${item.name ?: "sin nombre"} · ${item.rssi} dBm",
+                        "${item.driver.brandLabel()} · ${item.name ?: stringResource(R.string.scales_no_name)} · " +
+                            stringResource(R.string.value_dbm, Fmt.count(item.rssi.toLong())),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -349,25 +361,25 @@ private fun DetectedScaleCard(item: DetectedScaleItem, onUse: (ScaleDriver) -> U
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                 if (!item.driver.verified) ExperimentalBadge()
                 Text(
-                    "Coincidencia " + confidenceLabel(item.confidence),
+                    stringResource(confidenceLabel(item.confidence)),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
             if (item.alternatives.isNotEmpty()) {
                 Text(
-                    "También podría ser: " + item.alternatives.joinToString { it.displayName },
+                    stringResource(R.string.scales_could_also_be, Fmt.list(item.alternatives.map { it.title() })),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
             if (item.alreadyConfigured) {
-                Text("Ya configurada", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.primary)
+                Text(stringResource(R.string.scales_already_set_up), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.primary)
             } else {
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    FilledTonalButton(onClick = { onUse(item.driver) }) { Text("Usar esta") }
+                    FilledTonalButton(onClick = { onUse(item.driver) }) { Text(stringResource(R.string.scales_use_this)) }
                     item.alternatives.take(2).forEach { alt ->
-                        AssistChip(onClick = { onUse(alt) }, label = { Text(alt.displayName) })
+                        AssistChip(onClick = { onUse(alt) }, label = { Text(alt.title()) })
                     }
                 }
             }
@@ -375,10 +387,10 @@ private fun DetectedScaleCard(item: DetectedScaleItem, onUse: (ScaleDriver) -> U
     }
 }
 
-private fun confidenceLabel(c: MatchConfidence): String = when (c) {
-    MatchConfidence.HIGH -> "alta"
-    MatchConfidence.MEDIUM -> "media"
-    MatchConfidence.LOW -> "baja"
+private fun confidenceLabel(c: MatchConfidence): Int = when (c) {
+    MatchConfidence.HIGH -> R.string.scales_match_high
+    MatchConfidence.MEDIUM -> R.string.scales_match_medium
+    MatchConfidence.LOW -> R.string.scales_match_low
 }
 
 @Composable
@@ -391,33 +403,34 @@ private fun CatalogDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Catálogo de básculas") },
+        title = { Text(stringResource(R.string.scales_catalog_title)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedTextField(
                     value = query,
                     onValueChange = onQuery,
                     leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
-                    placeholder = { Text("Marca o modelo") },
+                    placeholder = { Text(stringResource(R.string.scales_catalog_search)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                 )
-                Text("${drivers.size} modelos", style = MaterialTheme.typography.labelMedium)
+                Text(pluralStringResource(R.plurals.scales_catalog_count, drivers.size, drivers.size), style = MaterialTheme.typography.labelMedium)
                 LazyColumn(Modifier.heightIn(max = 420.dp)) {
                     items(drivers, key = { it.id }) { d ->
                         Column(
                             Modifier
                                 .fillMaxWidth()
                                 .heightIn(min = 48.dp)
-                                .clickable(onClickLabel = "Elegir") { onPick(d) }
+                                .clickable(onClickLabel = stringResource(R.string.scales_catalog_choose)) { onPick(d) }
                                 .padding(vertical = 8.dp),
                         ) {
                             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                Text(d.displayName, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
+                                Text(d.title(), style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
                                 if (!d.verified) ExperimentalBadge()
                             }
                             Text(
-                                d.brand + " · " + if (d.link == LinkKind.GATT) "conexión Bluetooth" else "lectura de anuncios",
+                                d.brandLabel() + " · " +
+                                    stringResource(if (d.link == LinkKind.GATT) R.string.scales_link_gatt else R.string.scales_link_passive),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
@@ -427,7 +440,7 @@ private fun CatalogDialog(
                 }
             }
         },
-        confirmButton = { TextButton(onClick = onDismiss) { Text("Cerrar") } },
+        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_close)) } },
     )
 }
 
@@ -440,29 +453,31 @@ private fun BindDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(driver.displayName) },
+        title = { Text(driver.title()) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text("¿Qué dispositivo usar?", style = MaterialTheme.typography.bodyMedium)
+                Text(stringResource(R.string.scales_bind_question), style = MaterialTheme.typography.bodyMedium)
                 candidates.forEach { c ->
                     OutlinedButton(onClick = { onBind(c.address) }, modifier = Modifier.fillMaxWidth()) {
-                        Text("${c.name ?: "Sin nombre"} · ${c.address} · ${c.rssi} dBm")
+                        Text(
+                            "${c.name ?: stringResource(R.string.scales_no_name)} · ${c.address} · " +
+                                stringResource(R.string.value_dbm, Fmt.count(c.rssi.toLong())),
+                        )
                     }
                 }
                 if (candidates.isEmpty()) {
                     Text(
-                        "No hay ninguna cerca ahora mismo. Puedes elegir cualquier dispositivo compatible: " +
-                            "quedará vinculada a la primera que se reconozca con seguridad y dé una medición.",
+                        stringResource(R.string.scales_bind_none_nearby),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
                 FilledTonalButton(onClick = { onBind(null) }, modifier = Modifier.fillMaxWidth()) {
-                    Text("Cualquier dispositivo compatible")
+                    Text(stringResource(R.string.scales_any_device))
                 }
             }
         },
-        confirmButton = { TextButton(onClick = onDismiss) { Text("Cancelar") } },
+        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_cancel)) } },
     )
 }
 
@@ -471,11 +486,11 @@ private fun RenameDialog(initial: String, onSave: (String) -> Unit, onDismiss: (
     var name by remember { mutableStateOf(initial) }
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Nombre de la báscula") },
+        title = { Text(stringResource(R.string.scales_rename_title)) },
         text = {
             OutlinedTextField(value = name, onValueChange = { name = it.take(40) }, singleLine = true, modifier = Modifier.fillMaxWidth())
         },
-        confirmButton = { TextButton(onClick = { onSave(name) }, enabled = name.isNotBlank()) { Text("Guardar") } },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancelar") } },
+        confirmButton = { TextButton(onClick = { onSave(name) }, enabled = name.isNotBlank()) { Text(stringResource(R.string.action_save)) } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_cancel)) } },
     )
 }

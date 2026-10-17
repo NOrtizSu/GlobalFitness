@@ -1,0 +1,54 @@
+# Body
+range_1m = 1B
+range_3m = 3B
+range_6m = 6B
+range_1y = 1T
+range_all = Semua
+body_empty_text = Naik ke timbangan tanpa alas kaki saat aplikasi terbuka, atau tambahkan berat badan Anda secara manual dengan tombol di bawah. Di sini Anda akan melihat perubahan berat badan dan komposisi tubuh Anda dari waktu ke waktu.
+body_period_summary = Ringkasan periode
+body_stat_current = Saat ini
+body_stat_change = Perubahan
+body_stat_min = Min
+body_stat_max = Maks
+body_stat_average = Rata-rata
+body_stat_rate = Laju
+body_rate_value = %1$s/minggu
+body_stat_projection = Proyeksi target
+body_projection_no_goal = Tanpa target
+body_projection_reached = Tercapai
+body_projection_no_trend = Tanpa tren
+body_projection_eta = ~ %1$s
+body_rate_hint = Laju memerlukan minimal 3 pengukuran yang mencakup 7 hari dalam 28 hari terakhir.
+body_history = Riwayat
+body_normal_range = Rentang normal
+body_normal_range_bmi = Rentang normal (IMT %1$s–%2$s)
+body_goal_line = Target %1$s
+body_chart_title_unit = %1$s (%2$s)
+body_chart_needs_composition = Metrik ini memerlukan komposisi tubuh. Naik ke timbangan tanpa alas kaki dengan kaki kering.
+body_chart_no_measurements = Belum ada pengukuran.
+body_chart_none_in_period = Tidak ada pengukuran dalam periode ini. Coba periode yang lebih panjang.
+body_chart_single = Hanya ada satu pengukuran dalam periode ini (%1$s, %2$s). Diperlukan minimal 2 pengukuran untuk menggambar tren.
+body_current_composition = Komposisi saat ini
+body_row_fat = Lemak %1$s
+body_row_no_composition = Tanpa komposisi
+source_manual = Manual
+source_scale = Timbangan
+comp_source_device = Komposisi diukur oleh timbangan
+comp_source_formula = Komposisi dihitung (rumus %1$s)
+comp_fat = Lemak
+metric_impedance = Impedansi
+
+# Charts
+chart_trend_desc{other} = Grafik %1$s dengan %2$d pengukuran, dari %3$s hingga %4$s
+chart_avg_7d_value = Rata-rata 7 hari: %1$s
+chart_legend_measurements = Pengukuran
+chart_legend_avg_7d = Rata-rata 7 hari
+chart_composition_desc = Komposisi: %1$s
+chart_composition_item = %1$s %2$s
+
+# Measurement dialogs
+manual_weight_only = Hanya berat badan: komposisi tubuh memerlukan timbangan.
+manual_weight_range = Masukkan berat badan antara %1$s dan %2$s
+manual_date_future = Tanggal tidak boleh di masa mendatang.
+delete_measurement_title = Hapus pengukuran?
+delete_measurement_text = Pengukuran %1$s pada %2$s akan dihapus. Tindakan ini tidak dapat diurungkan.

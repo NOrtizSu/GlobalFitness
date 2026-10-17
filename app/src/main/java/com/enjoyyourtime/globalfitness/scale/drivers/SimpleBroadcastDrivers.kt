@@ -4,7 +4,9 @@ package com.enjoyyourtime.globalfitness.scale.drivers
 import com.enjoyyourtime.globalfitness.scale.AdvertisementInfo
 import com.enjoyyourtime.globalfitness.scale.Bytes
 import com.enjoyyourtime.globalfitness.scale.DriverEnv
+import com.enjoyyourtime.globalfitness.scale.DriverNameNote
 import com.enjoyyourtime.globalfitness.scale.FormulaLib
+import com.enjoyyourtime.globalfitness.scale.GENERIC_BRAND
 import com.enjoyyourtime.globalfitness.scale.LiveState
 import com.enjoyyourtime.globalfitness.scale.MatchConfidence
 import com.enjoyyourtime.globalfitness.scale.PassiveScaleDriver
@@ -21,8 +23,9 @@ import java.util.Locale
  */
 class AaaBroadcastDriver : PassiveScaleDriver() {
     override val id = "aaa_broadcast"
-    override val displayName = "Báscula AAA002 / AAA007 / AAA013"
-    override val brand = "Genérica (AAA)"
+    override val displayName = "AAA002 / AAA007 / AAA013"
+    override val nameNote = DriverNameNote.SCALE
+    override val brand = GENERIC_BRAND
     override val capabilities = ScaleCapabilities()
     override val keywords = listOf("AAA002", "AAA007", "AAA013")
 
@@ -245,8 +248,9 @@ class SinocareDriver : PassiveScaleDriver() {
  */
 class ScaleupDriver : PassiveScaleDriver() {
     override val id = "scaleup"
-    override val displayName = "Scale Up (anuncio 0xD0/0xE0)"
-    override val brand = "Genérica (Scale Up)"
+    override val displayName = "Scale Up"
+    override val nameNote = DriverNameNote.D0_E0_BROADCAST
+    override val brand = GENERIC_BRAND
     override val capabilities = ScaleCapabilities()
 
     override fun match(adv: AdvertisementInfo): MatchConfidence? {

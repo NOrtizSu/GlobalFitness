@@ -31,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
@@ -38,8 +39,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.band.BandCandidate
 import com.enjoyyourtime.globalfitness.band.SelectedBand
+import com.enjoyyourtime.globalfitness.ui.Fmt
 
 @Composable
 fun AuthKeyCard(
@@ -58,21 +61,21 @@ fun AuthKeyCard(
     OutlinedCard(Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             if (hasKey && !editing) {
-                Text("Clave guardada en el teléfono (oculta).", style = MaterialTheme.typography.bodyMedium)
+                Text(stringResource(R.string.band_key_saved), style = MaterialTheme.typography.bodyMedium)
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    OutlinedButton(onClick = { editing = true }) { Text("Cambiar") }
-                    TextButton(onClick = onClear) { Text("Borrar") }
+                    OutlinedButton(onClick = { editing = true }) { Text(stringResource(R.string.band_key_change)) }
+                    TextButton(onClick = onClear) { Text(stringResource(R.string.action_delete)) }
                 }
             } else {
                 Text(
-                    "Pega la clave de 32 caracteres hexadecimales de tu pulsera (con o sin «0x»).",
+                    stringResource(R.string.band_key_paste),
                     style = MaterialTheme.typography.bodyMedium,
                 )
                 OutlinedTextField(
                     value = input,
                     onValueChange = onInput,
                     modifier = Modifier.fillMaxWidth(),
-                    label = { Text("Clave de autenticación") },
+                    label = { Text(stringResource(R.string.band_key_title)) },
                     singleLine = true,
                     isError = error != null,
                     supportingText = error?.let { { Text(it) } },
@@ -85,20 +88,22 @@ fun AuthKeyCard(
                     ),
                     keyboardActions = KeyboardActions(onDone = { if (onSave()) editing = false }),
                     trailingIcon = {
-                        TextButton(onClick = { visible = !visible }) { Text(if (visible) "Ocultar" else "Mostrar") }
+                        TextButton(onClick = { visible = !visible }) {
+                            Text(stringResource(if (visible) R.string.band_log_hide else R.string.band_key_show))
+                        }
                     },
                 )
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Button(onClick = { if (onSave()) editing = false }, enabled = input.isNotBlank()) { Text("Guardar clave") }
-                    if (hasKey) TextButton(onClick = { editing = false; onInput("") }) { Text("Cancelar") }
+                    Button(onClick = { if (onSave()) editing = false }, enabled = input.isNotBlank()) { Text(stringResource(R.string.band_key_save)) }
+                    if (hasKey) TextButton(onClick = { editing = false; onInput("") }) { Text(stringResource(R.string.action_cancel)) }
                 }
                 Text(
-                    "Se guarda solo en el almacenamiento privado de la app, fuera de las copias de seguridad, y nunca aparece en el diagnóstico.",
+                    stringResource(R.string.band_key_storage),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
-            TextButton(onClick = onHelp, modifier = Modifier.padding(start = 0.dp)) { Text("¿Qué es la clave y cómo la obtengo?") }
+            TextButton(onClick = onHelp, modifier = Modifier.padding(start = 0.dp)) { Text(stringResource(R.string.band_key_help)) }
         }
     }
 }
@@ -128,11 +133,11 @@ fun DevicePickerCard(
     OutlinedCard(Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(
-                if (selected != null) "Elegida: ${selected.name}" else "Elige tu Xiaomi Smart Band 9.",
+                if (selected != null) stringResource(R.string.band_selected, selected.name) else stringResource(R.string.band_choose),
                 style = MaterialTheme.typography.bodyMedium,
             )
             Text(
-                "Aparecen las pulseras emparejadas con este teléfono (Mi Fitness la empareja) y las que se detecten cerca.",
+                stringResource(R.string.band_picker_text),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -140,15 +145,15 @@ fun DevicePickerCard(
                 if (scanning) {
                     CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp)
                     Spacer(Modifier.width(8.dp))
-                    Text("Buscando…", style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
-                    TextButton(onClick = onStopScan) { Text("Parar") }
+                    Text(stringResource(R.string.band_searching), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
+                    TextButton(onClick = onStopScan) { Text(stringResource(R.string.band_stop)) }
                 } else {
-                    OutlinedButton(onClick = onScan, enabled = canScan) { Text("Buscar pulseras cercanas") }
+                    OutlinedButton(onClick = onScan, enabled = canScan) { Text(stringResource(R.string.band_scan_nearby)) }
                 }
             }
             if (candidates.isEmpty()) {
                 Text(
-                    "No hay ninguna pulsera Xiaomi emparejada ni detectada todavía.",
+                    stringResource(R.string.band_none_found),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -173,15 +178,15 @@ private fun CandidateRow(candidate: BandCandidate, selected: Boolean, onSelect: 
         RadioButton(selected = selected, onClick = null)
         Column(Modifier.weight(1f)) {
             Text(candidate.name, style = MaterialTheme.typography.bodyLarge)
-            val details = buildList {
-                add(candidate.address)
-                if (candidate.bonded) add("emparejada")
-                candidate.rssi?.let { add("$it dBm") }
-            }
+            val details = listOfNotNull(
+                candidate.address,
+                if (candidate.bonded) stringResource(R.string.band_bonded) else null,
+                candidate.rssi?.let { stringResource(R.string.value_dbm, Fmt.count(it.toLong())) },
+            )
             Text(details.joinToString(" · "), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             if (!candidate.isBand9) {
                 Text(
-                    "No es una Smart Band 9: este modo solo está adaptado a ese modelo y puede no funcionar.",
+                    stringResource(R.string.band_not_band9),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.error,
                 )

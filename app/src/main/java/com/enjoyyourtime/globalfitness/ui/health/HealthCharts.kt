@@ -44,12 +44,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.health.HrSample
 import com.enjoyyourtime.globalfitness.health.SleepStage
 import com.enjoyyourtime.globalfitness.health.TimedValue
 import com.enjoyyourtime.globalfitness.health.domain.DailyHrRange
 import com.enjoyyourtime.globalfitness.health.domain.NightSleep
 import com.enjoyyourtime.globalfitness.health.domain.SleepAnalysis
+import com.enjoyyourtime.globalfitness.health.labelRes
 import com.enjoyyourtime.globalfitness.ui.Fmt
 import com.enjoyyourtime.globalfitness.ui.charts.AxisMath
 import com.enjoyyourtime.globalfitness.ui.charts.AxisTicks
@@ -261,10 +264,14 @@ fun StepsBarChart(days: List<Pair<LocalDate, Long?>>, goal: Long, modifier: Modi
     val tickIdx = remember(days.size) { dayTickIndices(days.size) }
     val xLabels = remember(days, tickIdx, text) { tickIdx.map { text.measurer.measure(HealthFormat.dayMonth(days[it].first), text.label) } }
     val xLabelHeight = remember(text) { text.measurer.measure("0", text.label).size.height.toFloat() }
-    val goalLabel = remember(goal, text) { text.measurer.measure("Objetivo ${HealthFormat.count(goal)}", text.label) }
+    val goalText = stringResource(R.string.chart_goal, HealthFormat.count(goal))
+    val goalLabel = remember(goalText, text) { text.measurer.measure(goalText, text.label) }
     val withData = days.mapNotNull { it.second }
-    val description = "Pasos diarios de ${days.size} días" +
-        if (withData.isNotEmpty()) ", media ${HealthFormat.count(withData.average().toLong())}" else ""
+    val description = if (withData.isNotEmpty()) {
+        Fmt.plural(R.plurals.chart_steps_desc_avg, days.size, days.size, HealthFormat.count(withData.average().toLong()))
+    } else {
+        Fmt.plural(R.plurals.chart_steps_desc, days.size, days.size)
+    }
 
     Canvas(
         modifier
@@ -306,10 +313,15 @@ fun StepsBarChart(days: List<Pair<LocalDate, Long?>>, goal: Long, modifier: Modi
         val steps = sel.second
         val lines = buildList {
             add(text.measurer.measure(HealthFormat.weekdayDayMonth(sel.first), text.label))
-            add(text.measurer.measure(if (steps == null) "Sin datos" else HealthFormat.steps(steps), text.value))
+            add(text.measurer.measure(if (steps == null) Fmt.string(R.string.common_no_data) else HealthFormat.steps(steps), text.value))
             if (steps != null) {
                 val pct = steps * 100.0 / goal
-                add(text.measurer.measure(if (steps >= goal) "Objetivo cumplido" else "${Fmt.num(pct, 0)} % del objetivo", text.body))
+                add(
+                    text.measurer.measure(
+                        if (steps >= goal) Fmt.string(R.string.chart_goal_reached) else Fmt.string(R.string.chart_goal_percent, Fmt.percent(pct)),
+                        text.body,
+                    ),
+                )
             }
         }
         drawTooltip(lines, Offset(sx, yOf((steps ?: 0L).toDouble())), tooltipBg, tooltipBorder)
@@ -342,22 +354,29 @@ fun HeartRateDayChart(
     val yLabels = remember(ticks, text) { yTicksLabels(text, ticks) }
     val xTimes = remember(dayStart, dayEnd) { AxisMath.timeTicks(dayStart, dayEnd, 5) }
     val xLabels = remember(xTimes, text) {
-        xTimes.mapIndexed { i, t -> text.measurer.measure(if (i == xTimes.lastIndex) "24:00" else Fmt.time(t), text.label) }
+        // The end of the day reads "24:00" on a 24-hour clock (the next day's "00:00" otherwise).
+        xTimes.mapIndexed { i, t ->
+            text.measurer.measure(if (i == xTimes.lastIndex && Fmt.hour24 != false) "24:00" else Fmt.time(t), text.label)
+        }
     }
     val xLabelHeight = remember(text) { text.measurer.measure("0", text.label).size.height.toFloat() }
     val span = (dayEnd - dayStart).coerceAtLeast(1L)
-    val description = if (samples.isEmpty()) {
-        "Sin datos de pulso este día"
-    } else {
-        "Pulso del día: de ${samples.minOf { it.bpm }} a ${samples.maxOf { it.bpm }} lpm" +
-            (restingHr?.let { ", en reposo $it lpm" } ?: "")
+    val description = when {
+        samples.isEmpty() -> stringResource(R.string.chart_hr_day_none)
+        restingHr != null -> stringResource(
+            R.string.chart_hr_day_desc_resting,
+            HealthFormat.bpm(samples.minOf { it.bpm }),
+            HealthFormat.bpm(samples.maxOf { it.bpm }),
+            HealthFormat.bpm(restingHr),
+        )
+        else -> stringResource(R.string.chart_hr_day_desc, HealthFormat.bpm(samples.minOf { it.bpm }), HealthFormat.bpm(samples.maxOf { it.bpm }))
     }
 
     Column(modifier) {
         ChartLegend(
             buildList {
-                add(LegendItem("Pulso", colors.series1, LegendKind.LINE))
-                if (restingHr != null) add(LegendItem("En reposo", colors.series2, LegendKind.DASHED))
+                add(LegendItem(stringResource(R.string.health_heart_rate), colors.series1, LegendKind.LINE))
+                if (restingHr != null) add(LegendItem(stringResource(R.string.chart_resting), colors.series2, LegendKind.DASHED))
             },
         )
         Canvas(
@@ -400,7 +419,7 @@ fun HeartRateDayChart(
             val lines = buildList {
                 add(text.measurer.measure(Fmt.time(sel.time), text.label))
                 add(text.measurer.measure(HealthFormat.bpm(sel.bpm), text.value))
-                restingHr?.let { add(text.measurer.measure("En reposo: ${HealthFormat.bpm(it)}", text.body)) }
+                restingHr?.let { add(text.measurer.measure(Fmt.string(R.string.chart_resting_value, HealthFormat.bpm(it)), text.body)) }
             }
             drawTooltip(lines, c, tooltipBg, tooltipBorder)
         }
@@ -441,16 +460,22 @@ fun HeartRateRangeChart(days: List<LocalDate>, ranges: List<DailyHrRange>, modif
     val xLabels = remember(days, tickIdx, text) { tickIdx.map { text.measurer.measure(HealthFormat.dayMonth(days[it]), text.label) } }
     val xLabelHeight = remember(text) { text.measurer.measure("0", text.label).size.height.toFloat() }
     val description = if (ranges.isEmpty()) {
-        "Sin datos de pulso"
+        stringResource(R.string.health_no_hr_data)
     } else {
-        "Rango diario de pulso en ${ranges.size} días, entre ${ranges.minOf { it.min }} y ${ranges.maxOf { it.max }} lpm"
+        Fmt.plural(
+            R.plurals.chart_hr_range_desc,
+            ranges.size,
+            ranges.size,
+            HealthFormat.bpm(ranges.minOf { it.min }),
+            HealthFormat.bpm(ranges.maxOf { it.max }),
+        )
     }
 
     Column(modifier) {
         ChartLegend(
             listOf(
-                LegendItem("Mín–máx del día", colors.series1.copy(alpha = 0.35f), LegendKind.BOX),
-                LegendItem("Media", colors.series1, LegendKind.DOT),
+                LegendItem(stringResource(R.string.chart_hr_day_range), colors.series1.copy(alpha = 0.35f), LegendKind.BOX),
+                LegendItem(stringResource(R.string.body_stat_average), colors.series1, LegendKind.DOT),
             ),
         )
         Canvas(
@@ -493,10 +518,10 @@ fun HeartRateRangeChart(days: List<LocalDate>, ranges: List<DailyHrRange>, modif
             val lines = buildList {
                 add(text.measurer.measure(HealthFormat.weekdayDayMonth(day), text.label))
                 if (r == null) {
-                    add(text.measurer.measure("Sin datos", text.value))
+                    add(text.measurer.measure(Fmt.string(R.string.common_no_data), text.value))
                 } else {
-                    add(text.measurer.measure("${r.min}–${r.max} lpm", text.value))
-                    add(text.measurer.measure("Media: ${HealthFormat.bpm(r.avg)}", text.body))
+                    add(text.measurer.measure(Fmt.string(R.string.value_bpm, "${Fmt.count(r.min.toLong())}–${Fmt.count(r.max.toLong())}"), text.value))
+                    add(text.measurer.measure(Fmt.string(R.string.chart_average_value, HealthFormat.bpm(r.avg)), text.body))
                 }
             }
             drawTooltip(lines, Offset(cx, r?.let { yOf(it.avg.toDouble()) } ?: plot.bottom), tooltipBg, tooltipBorder)
@@ -522,13 +547,14 @@ fun Hypnogram(night: NightSleep, modifier: Modifier = Modifier, height: Dp = 180
     }
     var selected by remember(stages) { mutableStateOf<Int?>(null) }
     val plot = remember { Plot() }
-    val rowLabels = remember(rows, text) { rows.map { text.measurer.measure(it.label, text.label) } }
+    val rowLabels = remember(rows, text) { rows.map { text.measurer.measure(Fmt.string(it.labelRes), text.label) } }
     val xTimes = remember(session) { AxisMath.timeTicks(session.start, session.end, 4) }
     val xLabels = remember(xTimes, text) { xTimes.map { text.measurer.measure(Fmt.time(it), text.label) } }
     val xLabelHeight = remember(text) { text.measurer.measure("0", text.label).size.height.toFloat() }
     val span = (session.end - session.start).coerceAtLeast(1L)
-    val description = "Hipnograma de ${Fmt.time(session.start)} a ${Fmt.time(session.end)}: " +
-        SleepStage.entries.filter { night.minutesOf(it) > 0 }.joinToString(", ") { "${it.label} ${HealthFormat.minutes(night.minutesOf(it))}" }
+    val stageItems = SleepStage.entries.filter { night.minutesOf(it) > 0 }
+        .map { stringResource(R.string.chart_composition_item, stringResource(it.labelRes), HealthFormat.minutes(night.minutesOf(it))) }
+    val description = stringResource(R.string.chart_hypnogram_desc, Fmt.time(session.start), Fmt.time(session.end), Fmt.list(stageItems))
 
     Canvas(
         modifier
@@ -575,7 +601,7 @@ fun Hypnogram(night: NightSleep, modifier: Modifier = Modifier, height: Dp = 180
         val minutes = ((sel.end - sel.start) / 60_000L).toInt()
         val lines = listOf(
             text.measurer.measure("${Fmt.time(sel.start)}–${Fmt.time(sel.end)}", text.label),
-            text.measurer.measure(sel.stage.label, text.value),
+            text.measurer.measure(Fmt.string(sel.stage.labelRes), text.value),
             text.measurer.measure(HealthFormat.minutes(minutes), text.body),
         )
         drawTooltip(lines, anchor, tooltipBg, tooltipBorder)
@@ -603,18 +629,22 @@ fun SleepStackedChart(nights: List<Pair<LocalDate, NightSleep?>>, modifier: Modi
     val ticks = remember(maxHours) { AxisMath.niceTicks(0.0, maxHours) }
     val yLabels = remember(ticks, text) {
         val decimals = AxisMath.decimalsFor(ticks.step)
-        ticks.values.map { text.measurer.measure("${Fmt.num(it, decimals)} h", text.label) }
+        ticks.values.map { text.measurer.measure(HealthFormat.hours(it, decimals), text.label) }
     }
     val tickIdx = remember(nights.size) { dayTickIndices(nights.size) }
     val xLabels = remember(nights, tickIdx, text) { tickIdx.map { text.measurer.measure(HealthFormat.dayMonth(nights[it].first), text.label) } }
     val xLabelHeight = remember(text) { text.measurer.measure("0", text.label).size.height.toFloat() }
-    val bandLabel = remember(text) { text.measurer.measure("Objetivo 7–9 h", text.label) }
+    val bandText = stringResource(R.string.chart_sleep_target, HealthFormat.hours(SleepAnalysis.TARGET_MIN_HOURS, 0), HealthFormat.hours(SleepAnalysis.TARGET_MAX_HOURS, 0))
+    val bandLabel = remember(bandText, text) { text.measurer.measure(bandText, text.label) }
     val withData = nights.mapNotNull { it.second }
-    val description = "Sueño por noche en ${nights.size} noches" +
-        if (withData.isNotEmpty()) ", media ${HealthFormat.minutes(withData.map { it.asleepMinutes }.average().toInt())}" else ""
+    val description = if (withData.isNotEmpty()) {
+        Fmt.plural(R.plurals.chart_sleep_desc_avg, nights.size, nights.size, HealthFormat.minutes(withData.map { it.asleepMinutes }.average().toInt()))
+    } else {
+        Fmt.plural(R.plurals.chart_sleep_desc, nights.size, nights.size)
+    }
 
     Column(modifier) {
-        if (present.size >= 2) ChartLegend(present.map { LegendItem(it.label, colors.stage(it), LegendKind.BOX) })
+        if (present.size >= 2) ChartLegend(present.map { LegendItem(stringResource(it.labelRes), colors.stage(it), LegendKind.BOX) })
         Canvas(
             Modifier
                 .fillMaxWidth()
@@ -655,14 +685,14 @@ fun SleepStackedChart(nights: List<Pair<LocalDate, NightSleep?>>, modifier: Modi
             val (date, night) = nights.getOrNull(index) ?: return@Canvas
             val cx = plot.left + slot * (index + 0.5f)
             val lines = buildList {
-                add(text.measurer.measure("Noche del ${HealthFormat.weekdayDayMonth(date)}", text.label))
+                add(text.measurer.measure(Fmt.string(R.string.chart_night_of, HealthFormat.weekdayDayMonth(date)), text.label))
                 if (night == null) {
-                    add(text.measurer.measure("Sin datos", text.value))
+                    add(text.measurer.measure(Fmt.string(R.string.common_no_data), text.value))
                 } else {
-                    add(text.measurer.measure("Dormido ${HealthFormat.minutes(night.asleepMinutes)}", text.value))
+                    add(text.measurer.measure(Fmt.string(R.string.health_asleep_value, HealthFormat.minutes(night.asleepMinutes)), text.value))
                     for (stage in STACK_ORDER.reversed()) {
                         val m = night.minutesOf(stage)
-                        if (m > 0) add(text.measurer.measure("${stage.label}: ${HealthFormat.minutes(m)}", text.body))
+                        if (m > 0) add(text.measurer.measure(Fmt.string(R.string.chart_label_value, Fmt.string(stage.labelRes), HealthFormat.minutes(m)), text.body))
                     }
                 }
             }
@@ -672,11 +702,54 @@ fun SleepStackedChart(nights: List<Pair<LocalDate, NightSleep?>>, modifier: Modi
     }
 }
 
-// ---- SpO2 -------------------------------------------------------------------------------
+// ---- Readings over time (SpO2, HRV, respiratory rate, body fat) -------------------------
 
 /** Blood-oxygen readings as dots, with a dashed 95 % reference line. */
 @Composable
-fun Spo2Chart(points: List<TimedValue>, xStart: Long, xEnd: Long, modifier: Modifier = Modifier, height: Dp = 180.dp) {
+fun Spo2Chart(points: List<TimedValue>, xStart: Long, xEnd: Long, modifier: Modifier = Modifier) {
+    val description = if (points.isEmpty()) {
+        stringResource(R.string.chart_spo2_none)
+    } else {
+        Fmt.plural(
+            R.plurals.chart_spo2_desc,
+            points.size,
+            points.size,
+            Fmt.percent(points.minOf { it.value }),
+            Fmt.percent(points.maxOf { it.value }),
+        )
+    }
+    ReadingsChart(
+        points = points,
+        xStart = xStart,
+        xEnd = xEnd,
+        format = { HealthFormat.percent(it) },
+        axisFormat = { v, decimals -> Fmt.percent(v, decimals) },
+        description = description,
+        floor = 90.0,
+        ceiling = 100.0,
+        reference = 95.0,
+        modifier = modifier,
+    )
+}
+
+/**
+ * Readings over time as dots (value range from the data, widened to [floor] / [ceiling] when set),
+ * with an optional dashed [reference] line. Press or drag for the reading's date and value.
+ */
+@Composable
+fun ReadingsChart(
+    points: List<TimedValue>,
+    xStart: Long,
+    xEnd: Long,
+    format: (Double) -> String,
+    axisFormat: (Double, Int) -> String,
+    description: String,
+    modifier: Modifier = Modifier,
+    floor: Double? = null,
+    ceiling: Double? = null,
+    reference: Double? = null,
+    height: Dp = 180.dp,
+) {
     val colors = ChartTheme.colors
     val text = rememberChartText()
     val surface = ChartTheme.surface
@@ -684,21 +757,19 @@ fun Spo2Chart(points: List<TimedValue>, xStart: Long, xEnd: Long, modifier: Modi
     val tooltipBorder = MaterialTheme.colorScheme.outlineVariant
     var selected by remember(points) { mutableStateOf<Int?>(null) }
     val plot = remember { Plot() }
-    val ticks = remember(points) { AxisMath.niceTicks(minOf(points.minOfOrNull { it.value } ?: 90.0, 90.0), 100.0) }
+    val ticks = remember(points, floor, ceiling, reference) {
+        val values = points.map { it.value } + listOfNotNull(floor, ceiling, reference)
+        if (values.isEmpty()) AxisMath.niceTicks(0.0, 1.0) else AxisMath.niceTicks(values.min(), values.max())
+    }
     val yLabels = remember(ticks, text) {
         val decimals = AxisMath.decimalsFor(ticks.step)
-        ticks.values.map { text.measurer.measure("${Fmt.num(it, decimals)} %", text.label) }
+        ticks.values.map { text.measurer.measure(axisFormat(it, decimals), text.label) }
     }
     val xTimes = remember(xStart, xEnd) { AxisMath.timeTicks(xStart, xEnd, 4) }
     val xLabels = remember(xTimes, text) { xTimes.map { text.measurer.measure(Fmt.dayMonth(it), text.label) } }
     val xLabelHeight = remember(text) { text.measurer.measure("0", text.label).size.height.toFloat() }
-    val refLabel = remember(text) { text.measurer.measure("95 %", text.label) }
+    val refLabel = remember(reference, text) { reference?.let { text.measurer.measure(format(it), text.label) } }
     val span = (xEnd - xStart).coerceAtLeast(1L)
-    val description = if (points.isEmpty()) {
-        "Sin lecturas de oxígeno en sangre"
-    } else {
-        "${points.size} lecturas de oxígeno en sangre, de ${Fmt.num(points.minOf { it.value }, 0)} a ${Fmt.num(points.maxOf { it.value }, 0)} %"
-    }
 
     Canvas(
         modifier
@@ -717,8 +788,8 @@ fun Spo2Chart(points: List<TimedValue>, xStart: Long, xEnd: Long, modifier: Modi
         fun xOf(t: Long) = plot.left + ((t - xStart).toDouble() / span).toFloat() * plot.width
         fun yOf(v: Double) = plot.bottom - ((v - ticks.min) / range).toFloat() * (plot.bottom - plot.top)
         drawXLabels(plot, xTimes.map { xOf(it) }, xLabels, colors)
-        val ry = yOf(95.0)
-        dashedHorizontal(plot, ry, colors.mutedInk)
+        val ry = reference?.let { yOf(it) }
+        if (ry != null) dashedHorizontal(plot, ry, colors.mutedInk)
         clipRect(plot.left, plot.top - 6.dp.toPx(), plot.right, plot.bottom) {
             val dot = colors.series1.copy(alpha = 0.6f)
             for (p in points) {
@@ -727,14 +798,14 @@ fun Spo2Chart(points: List<TimedValue>, xStart: Long, xEnd: Long, modifier: Modi
                 drawCircle(dot, 3.5.dp.toPx(), c)
             }
         }
-        drawLabelChip(refLabel, Offset(plot.left + 6.dp.toPx(), ry + 3.dp.toPx()), surface)
+        if (refLabel != null && ry != null) drawLabelChip(refLabel, Offset(plot.left + 6.dp.toPx(), ry + 3.dp.toPx()), surface)
         val sel = selected?.let { points.getOrNull(it) } ?: return@Canvas
         val c = Offset(xOf(sel.time), yOf(sel.value))
         drawCircle(surface, 7.dp.toPx(), c)
         drawCircle(colors.series1, 5.dp.toPx(), c)
         val lines = listOf(
             text.measurer.measure(Fmt.dateTime(sel.time), text.label),
-            text.measurer.measure(HealthFormat.percent(sel.value), text.value),
+            text.measurer.measure(format(sel.value), text.value),
         )
         drawTooltip(lines, c, tooltipBg, tooltipBorder)
     }

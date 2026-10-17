@@ -4,11 +4,13 @@ package com.enjoyyourtime.globalfitness.scale.drivers
 import com.enjoyyourtime.globalfitness.scale.AdvertisementInfo
 import com.enjoyyourtime.globalfitness.scale.Bytes
 import com.enjoyyourtime.globalfitness.scale.Cancellable
+import com.enjoyyourtime.globalfitness.scale.DriverNameNote
 import com.enjoyyourtime.globalfitness.scale.FormulaLib
 import com.enjoyyourtime.globalfitness.scale.GattProtocol
 import com.enjoyyourtime.globalfitness.scale.GattScaleDriver
 import com.enjoyyourtime.globalfitness.scale.MatchConfidence
 import com.enjoyyourtime.globalfitness.scale.ScaleCapabilities
+import com.enjoyyourtime.globalfitness.scale.ScaleNotice
 import com.enjoyyourtime.globalfitness.scale.ScaleSample
 import com.enjoyyourtime.globalfitness.scale.ScaleUnit
 import com.enjoyyourtime.globalfitness.scale.libs.StandardImpedanceLib
@@ -65,7 +67,7 @@ class FitTrackDaraDriver : GattScaleDriver() {
         override fun onConnected() {
             setNotifyOn(svc, chrData)
             icomonHandshake({ writeTo(svc, chrCfg, it, withResponse = false) }, user.isMale, user.ageAt(env.wallClock()).coerceIn(0, 255), user.heightCm.toInt().coerceIn(0, 255), user.unit.ordinal, env.wallClock())
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onDisconnected() {
@@ -161,7 +163,7 @@ class HumeDara2Driver : GattScaleDriver() {
         override fun onConnected() {
             writeTo(svc, chrWrite, ExcelvanCF36xDriver.userConfig(user.isMale, user.activityLevel, user.heightCm, user.ageAt(env.wallClock()), user.unit))
             setNotifyOn(svc, chrNotify)
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {
@@ -224,7 +226,7 @@ class RelaxmedicDriver : GattScaleDriver() {
             setNotifyOn(svc, chrLive)
             setNotifyOn(svc, chrResult)
             sendUserProfile()
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {
@@ -399,7 +401,7 @@ class DrTrustSSW532Driver : GattScaleDriver() {
                 }
                 0x01 -> {
                     sendUserProfile()
-                    userInfo("Súbete a la báscula")
+                    userInfo(ScaleNotice.Kind.STEP_ON)
                     state = State.MEASURING
                 }
             }
@@ -579,7 +581,7 @@ class TaylorBIADriver : GattScaleDriver() {
                     writeTo(svc, chrCfg, profile)
                 }
             }
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onDisconnected() {
@@ -714,7 +716,8 @@ class TaylorBIADriver : GattScaleDriver() {
  */
 class MgbDriver : GattScaleDriver() {
     override val id = "mgb_swan_icomon"
-    override val displayName = "SWAN / Icomon (protocolo MGB)"
+    override val displayName = "SWAN / Icomon"
+    override val nameNote = DriverNameNote.MGB_PROTOCOL
     override val brand = "SWAN / Icomon"
     override val capabilities = ScaleCapabilities(impedance = true, deviceComposition = true)
     override val formulaLib = FormulaLib.STANDARD_IMPEDANCE
@@ -744,7 +747,7 @@ class MgbDriver : GattScaleDriver() {
             setNotifyOn(svc, chrCtrl)
             val now = env.wallClock()
             icomonHandshake({ writeTo(svc, chrCfg, it) }, user.isMale, user.ageAt(now), user.heightCm.toInt().coerceAtLeast(0), user.unit.ordinal, now)
-            userInfo("Súbete a la báscula")
+            userInfo(ScaleNotice.Kind.STEP_ON)
         }
 
         override fun onNotification(characteristic: UUID, data: ByteArray) {

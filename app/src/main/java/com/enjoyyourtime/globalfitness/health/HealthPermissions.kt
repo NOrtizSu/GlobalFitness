@@ -5,24 +5,24 @@ package com.enjoyyourtime.globalfitness.health
  * names (`android.permission.health.*`), kept here as plain strings so the permission-set logic
  * stays pure Kotlin. They must match the `<uses-permission>` entries in the manifest.
  */
-enum class HealthDataType(val label: String, val readPermission: String?, val writePermission: String?) {
-    STEPS("Pasos", read("STEPS"), null),
-    DISTANCE("Distancia", read("DISTANCE"), null),
-    ACTIVE_CALORIES("Calorías activas", read("ACTIVE_CALORIES_BURNED"), null),
-    TOTAL_CALORIES("Calorías totales", read("TOTAL_CALORIES_BURNED"), null),
-    HEART_RATE("Pulso", read("HEART_RATE"), null),
-    RESTING_HEART_RATE("Pulso en reposo", read("RESTING_HEART_RATE"), null),
-    HEART_RATE_VARIABILITY("Variabilidad del pulso", read("HEART_RATE_VARIABILITY"), null),
-    SLEEP("Sueño", read("SLEEP"), null),
-    OXYGEN_SATURATION("Oxígeno en sangre", read("OXYGEN_SATURATION"), null),
-    EXERCISE("Ejercicio", read("EXERCISE"), null),
-    RESPIRATORY_RATE("Frecuencia respiratoria", read("RESPIRATORY_RATE"), null),
-    WEIGHT("Peso", read("WEIGHT"), write("WEIGHT")),
-    BODY_FAT("Grasa corporal", read("BODY_FAT"), write("BODY_FAT")),
-    BONE_MASS("Masa ósea", null, write("BONE_MASS")),
-    LEAN_BODY_MASS("Masa magra", null, write("LEAN_BODY_MASS")),
-    BASAL_METABOLIC_RATE("Metabolismo basal", null, write("BASAL_METABOLIC_RATE")),
-    BODY_WATER_MASS("Agua corporal", null, write("BODY_WATER_MASS")),
+enum class HealthDataType(val readPermission: String?, val writePermission: String?) {
+    STEPS(read("STEPS"), null),
+    DISTANCE(read("DISTANCE"), null),
+    ACTIVE_CALORIES(read("ACTIVE_CALORIES_BURNED"), null),
+    TOTAL_CALORIES(read("TOTAL_CALORIES_BURNED"), null),
+    HEART_RATE(read("HEART_RATE"), null),
+    RESTING_HEART_RATE(read("RESTING_HEART_RATE"), null),
+    HEART_RATE_VARIABILITY(read("HEART_RATE_VARIABILITY"), null),
+    SLEEP(read("SLEEP"), null),
+    OXYGEN_SATURATION(read("OXYGEN_SATURATION"), null),
+    EXERCISE(read("EXERCISE"), null),
+    RESPIRATORY_RATE(read("RESPIRATORY_RATE"), null),
+    WEIGHT(read("WEIGHT"), write("WEIGHT")),
+    BODY_FAT(read("BODY_FAT"), write("BODY_FAT")),
+    BONE_MASS(null, write("BONE_MASS")),
+    LEAN_BODY_MASS(null, write("LEAN_BODY_MASS")),
+    BASAL_METABOLIC_RATE(null, write("BASAL_METABOLIC_RATE")),
+    BODY_WATER_MASS(null, write("BODY_WATER_MASS")),
 }
 
 private fun read(name: String) = "android.permission.health.READ_$name"
@@ -88,6 +88,6 @@ object HealthPermissions {
     /** True when every requested permission is granted. */
     fun allGranted(granted: Set<String>, historyAvailable: Boolean): Boolean = missing(granted, historyAvailable).isEmpty()
 
-    /** Wearable types the user has not allowed, for the "faltan permisos" hint. */
+    /** Wearable types the user has not allowed, for the "missing permissions" hint. */
     fun missingWearableTypes(granted: Set<String>): List<HealthDataType> = wearableTypes.filterNot { canRead(granted, it) }
 }

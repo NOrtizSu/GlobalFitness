@@ -35,6 +35,25 @@ fun releaseAdmobId(key: String): String {
     return admobTestIds.getValue(key)
 }
 
+// Release signing with the Play upload key. The keystore and its passwords never live in the repo: they
+// are Gradle properties (~/.gradle/gradle.properties, see docs/play-release.md). Without them the
+// release build is left unsigned.
+val uploadKey = listOf(
+    "GLOBALFITNESS_UPLOAD_STORE_FILE",
+    "GLOBALFITNESS_UPLOAD_STORE_PASSWORD",
+    "GLOBALFITNESS_UPLOAD_KEY_ALIAS",
+    "GLOBALFITNESS_UPLOAD_KEY_PASSWORD",
+).associateWith { key -> providers.gradleProperty(key).orNull?.trim()?.takeIf { it.isNotEmpty() } }
+val uploadStoreFile = uploadKey["GLOBALFITNESS_UPLOAD_STORE_FILE"]?.let { file(it) }
+val hasUploadKey = uploadKey.values.all { it != null } && uploadStoreFile?.isFile == true
+if (!hasUploadKey && !onlyDebugTasks) {
+    logger.warn("WARNING: the GLOBALFITNESS_UPLOAD_* signing properties are missing or the keystore does not exist; the release build is UNSIGNED.")
+}
+
+// versionCode = 1000 + build number (gradle.properties); bump the build number for every Play upload.
+val appVersionName = providers.gradleProperty("globalfitness.versionName").get()
+val appBuildNumber = providers.gradleProperty("globalfitness.buildNumber").get().toInt()
+
 android {
     namespace = "com.enjoyyourtime.globalfitness"
     compileSdk = 36
@@ -43,8 +62,19 @@ android {
         applicationId = "com.enjoyyourtime.globalfitness"
         minSdk = 26
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 1000 + appBuildNumber
+        versionName = appVersionName
+    }
+
+    signingConfigs {
+        if (hasUploadKey) {
+            create("release") {
+                storeFile = uploadStoreFile
+                storePassword = uploadKey.getValue("GLOBALFITNESS_UPLOAD_STORE_PASSWORD")
+                keyAlias = uploadKey.getValue("GLOBALFITNESS_UPLOAD_KEY_ALIAS")
+                keyPassword = uploadKey.getValue("GLOBALFITNESS_UPLOAD_KEY_PASSWORD")
+            }
+        }
     }
 
     buildTypes {
@@ -54,7 +84,10 @@ android {
             buildConfigField("String", "ADMOB_INTERSTITIAL_ID", "\"${admobTestIds.getValue("ADMOB_INTERSTITIAL_ID")}\"")
         }
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.findByName("release")
             manifestPlaceholders["admobAppId"] = releaseAdmobId("ADMOB_APP_ID")
             buildConfigField("String", "ADMOB_BANNER_ID", "\"${releaseAdmobId("ADMOB_BANNER_ID")}\"")
             buildConfigField("String", "ADMOB_INTERSTITIAL_ID", "\"${releaseAdmobId("ADMOB_INTERSTITIAL_ID")}\"")
@@ -75,7 +108,8 @@ android {
         unitTests.isReturnDefaultValues = true
     }
 
-    // The UI is forced to Spanish at runtime; keep all languages in any bundle build.
+    // Users can pick the app language in the system settings (Android 13+, res/xml/locales_config.xml):
+    // keep every language in the base APK so the chosen one is always installed.
     bundle {
         language {
             enableSplit = false
@@ -105,10 +139,13 @@ protobuf {
     }
 }
 
-/** Ships docs/privacy-policy.md as an app asset, shown in Perfil → Política de privacidad. */
+/**
+ * Ships the privacy policy as app assets, shown in Profile → Privacy policy: docs/privacy-policy.md
+ * (Spanish) and docs/privacy-policy.en.md (English, for every other language), same file names.
+ */
 abstract class PrivacyPolicyAssetTask : DefaultTask() {
-    @get:InputFile
-    abstract val policy: RegularFileProperty
+    @get:InputFiles
+    abstract val policies: ConfigurableFileCollection
 
     @get:OutputDirectory
     abstract val outputDir: DirectoryProperty
@@ -118,12 +155,12 @@ abstract class PrivacyPolicyAssetTask : DefaultTask() {
         val out = outputDir.get().asFile
         out.deleteRecursively()
         out.mkdirs()
-        policy.get().asFile.copyTo(out.resolve("privacy-policy.md"))
+        policies.files.forEach { it.copyTo(out.resolve(it.name)) }
     }
 }
 
 val privacyPolicyAssets = tasks.register<PrivacyPolicyAssetTask>("privacyPolicyAssets") {
-    policy.set(rootProject.layout.projectDirectory.file("docs/privacy-policy.md"))
+    policies.from(rootProject.layout.projectDirectory.files("docs/privacy-policy.md", "docs/privacy-policy.en.md"))
     outputDir.set(layout.buildDirectory.dir("generated/privacyPolicyAssets"))
 }
 

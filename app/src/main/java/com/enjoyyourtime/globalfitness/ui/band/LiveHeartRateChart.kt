@@ -12,13 +12,16 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.band.HeartRateSample
+import com.enjoyyourtime.globalfitness.ui.Fmt
 import com.enjoyyourtime.globalfitness.ui.charts.AxisMath
 import com.enjoyyourtime.globalfitness.ui.theme.ChartTheme
 import com.enjoyyourtime.globalfitness.ui.theme.TabularNumbers
@@ -33,8 +36,14 @@ fun LiveHeartRateChart(samples: List<HeartRateSample>, modifier: Modifier = Modi
     val ticks = remember(samples) {
         AxisMath.niceTicks(samples.minOf { it.bpm } - 10.0, samples.maxOf { it.bpm } + 10.0, 4)
     }
-    val yLabels = remember(ticks, labelStyle, textMeasurer) { ticks.values.map { textMeasurer.measure(it.toInt().toString(), labelStyle) } }
-    val description = "Pulso en vivo: ${samples.size} lecturas, de ${samples.minOf { it.bpm }} a ${samples.maxOf { it.bpm }} latidos por minuto"
+    val yLabels = remember(ticks, labelStyle, textMeasurer) { ticks.values.map { textMeasurer.measure(Fmt.count(it.toLong()), labelStyle) } }
+    val description = pluralStringResource(
+        R.plurals.band_live_chart_desc,
+        samples.size,
+        samples.size,
+        Fmt.string(R.string.value_bpm, Fmt.count(samples.minOf { it.bpm }.toLong())),
+        Fmt.string(R.string.value_bpm, Fmt.count(samples.maxOf { it.bpm }.toLong())),
+    )
 
     Canvas(
         modifier

@@ -7,6 +7,7 @@ import com.enjoyyourtime.globalfitness.ble.MiScaleParser
 import com.enjoyyourtime.globalfitness.scale.AdvertisementInfo
 import com.enjoyyourtime.globalfitness.scale.CompositionSource
 import com.enjoyyourtime.globalfitness.scale.DriverEnv
+import com.enjoyyourtime.globalfitness.scale.DriverNameNote
 import com.enjoyyourtime.globalfitness.scale.FormulaLib
 import com.enjoyyourtime.globalfitness.scale.LiveState
 import com.enjoyyourtime.globalfitness.scale.MatchConfidence
@@ -107,7 +108,8 @@ class MiScale2Driver : PassiveScaleDriver() {
 // Protocol ported from openScale (GPL-3.0), https://github.com/oliexdev/openScale
 class MiScale1Driver : PassiveScaleDriver() {
     override val id = "xiaomi_mi_scale_1"
-    override val displayName = "Xiaomi Mi Smart Scale (1ª gen.)"
+    override val displayName = "Xiaomi Mi Smart Scale"
+    override val nameNote = DriverNameNote.FIRST_GENERATION
     override val brand = "Xiaomi"
     override val capabilities = ScaleCapabilities()
     override val keywords = listOf("XMTZC01HM", "XMTZC04HM", "MI_SCALE", "MI SCALE", "Mi Scale v1")

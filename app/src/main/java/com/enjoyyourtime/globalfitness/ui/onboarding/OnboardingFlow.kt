@@ -53,16 +53,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.enjoyyourtime.globalfitness.R
+import com.enjoyyourtime.globalfitness.UiText
 import com.enjoyyourtime.globalfitness.ble.ScaleScanner
 import com.enjoyyourtime.globalfitness.ble.ScanStatus
 import com.enjoyyourtime.globalfitness.data.ProfileDraft
 import com.enjoyyourtime.globalfitness.health.HcAvailability
 import com.enjoyyourtime.globalfitness.ui.BleAccess
 import com.enjoyyourtime.globalfitness.ui.MainViewModel
+import com.enjoyyourtime.globalfitness.ui.asString
 import com.enjoyyourtime.globalfitness.ui.account.AccountAction
 import com.enjoyyourtime.globalfitness.ui.account.AccountViewModel
 import com.enjoyyourtime.globalfitness.ui.account.ConflictCard
@@ -75,7 +79,7 @@ enum class OnboardingStep { WELCOME, RESTORE, PROFILE, PERMISSIONS, DONE }
 
 /**
  * First launch: welcome → optional Google sign-in to restore a cloud copy (skips the profile
- * form when a profile arrives) or "Continuar sin cuenta" → profile → permissions → done.
+ * form when a profile arrives) or "Continue without an account" → profile → permissions → done.
  * No ads are shown here.
  */
 @Composable
@@ -106,7 +110,7 @@ fun OnboardingFlow(
 
     LaunchedEffect(message) {
         message?.let {
-            snackbar.showSnackbar(it, withDismissAction = true)
+            snackbar.showSnackbar(it.resolve(context), withDismissAction = true)
             accountVm.consumeMessage()
         }
     }
@@ -233,67 +237,61 @@ private fun Hero(icon: ImageVector, title: String, text: String) {
 private fun Welcome(onSignIn: () -> Unit, onSkip: () -> Unit) {
     Hero(
         icon = AppIcons.Logo,
-        title = "Bienvenido a GlobalFitness",
-        text = "Tu peso y tu composición corporal desde tu báscula Bluetooth, junto a los pasos, el sueño y el pulso " +
-            "de tu pulsera. Sin cuenta: tus datos se quedan en el teléfono.",
+        title = stringResource(R.string.onboarding_welcome_title),
+        text = stringResource(R.string.onboarding_welcome_text),
     )
     Surface(color = MaterialTheme.colorScheme.surfaceContainerLow, shape = MaterialTheme.shapes.large) {
         Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(AppIcons.Cloud, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
                 Spacer(Modifier.width(12.dp))
-                Text("¿Ya tienes una copia en la nube?", style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.onboarding_restore_question), style = MaterialTheme.typography.titleMedium)
             }
             Text(
-                "Inicia sesión con Google para restaurarla: recuperarás tu perfil y tu historial.",
+                stringResource(R.string.onboarding_restore_text),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             FilledTonalButton(onClick = onSignIn, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
-                Text("Iniciar sesión con Google")
+                Text(stringResource(R.string.account_sign_in_google))
             }
         }
     }
-    Button(onClick = onSkip, modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp)) { Text("Continuar sin cuenta") }
+    Button(onClick = onSkip, modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp)) { Text(stringResource(R.string.onboarding_continue_without_account)) }
 }
 
 @Composable
 private fun Restore(
     signingIn: Boolean,
     working: Boolean,
-    error: String?,
+    error: UiText?,
     conflict: @Composable () -> Unit,
     onRetry: () -> Unit,
     onSkip: () -> Unit,
 ) {
     Hero(
         icon = AppIcons.Cloud,
-        title = if (signingIn) "Iniciando sesión…" else "Restaurando tu copia…",
-        text = if (signingIn) {
-            "Elige tu cuenta de Google en la ventana del sistema."
-        } else {
-            "Estamos trayendo tu perfil y tu historial desde la nube. Solo tarda unos segundos."
-        },
+        title = stringResource(if (signingIn) R.string.onboarding_signing_in else R.string.onboarding_restoring),
+        text = stringResource(if (signingIn) R.string.onboarding_signing_in_text else R.string.onboarding_restoring_text),
     )
     if (signingIn || working) CircularProgressIndicator(Modifier.size(40.dp))
-    if (error != null) Text(error, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.error)
+    if (error != null) Text(error.asString(), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.error)
     if (!signingIn && !working) {
-        OutlinedButton(onClick = onRetry, modifier = Modifier.heightIn(min = 48.dp)) { Text("Reintentar") }
+        OutlinedButton(onClick = onRetry, modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.action_retry)) }
     }
     conflict()
-    TextButton(onClick = onSkip, modifier = Modifier.heightIn(min = 48.dp)) { Text("Continuar sin restaurar") }
+    TextButton(onClick = onSkip, modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.onboarding_continue_without_restoring)) }
 }
 
 @Composable
 private fun ProfileStep(nothingToRestore: Boolean, onCreate: (ProfileDraft) -> Unit) {
-    Text("Tu perfil", style = MaterialTheme.typography.headlineMedium, modifier = Modifier.semantics { heading() })
+    Text(stringResource(R.string.onboarding_profile_title), style = MaterialTheme.typography.headlineMedium, modifier = Modifier.semantics { heading() })
     Text(
-        (if (nothingToRestore) "Tu cuenta aún no tiene ninguna copia en la nube. " else "") +
-            "Con tu sexo, edad y altura se calcula la composición corporal a partir de la báscula.",
+        stringResource(if (nothingToRestore) R.string.onboarding_profile_text_no_backup else R.string.onboarding_profile_text),
         style = MaterialTheme.typography.bodyLarge,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
     )
-    ProfileForm(initial = null, submitLabel = "Continuar", onSubmit = onCreate, onCancel = null)
+    ProfileForm(initial = null, submitLabel = stringResource(R.string.action_continue), onSubmit = onCreate, onCancel = null)
 }
 
 @Composable
@@ -307,34 +305,34 @@ private fun Permissions(
     onInstallHealth: () -> Unit,
     onContinue: () -> Unit,
 ) {
-    Text("Permisos", style = MaterialTheme.typography.headlineMedium, modifier = Modifier.semantics { heading() })
+    Text(stringResource(R.string.onboarding_permissions_title), style = MaterialTheme.typography.headlineMedium, modifier = Modifier.semantics { heading() })
     Text(
-        "Puedes cambiarlos cuando quieras en Dispositivos.",
+        stringResource(R.string.onboarding_permissions_text),
         style = MaterialTheme.typography.bodyLarge,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
     )
     PermissionCard(
         icon = AppIcons.Bluetooth,
-        title = "Dispositivos cercanos (Bluetooth)",
-        text = "Para leer tu báscula y conectar con tu pulsera. No se usa tu ubicación.",
+        title = stringResource(R.string.onboarding_bluetooth_title),
+        text = stringResource(R.string.onboarding_bluetooth_text),
         done = bluetoothAvailable && bluetoothGranted,
-        action = if (bluetoothAvailable) "Permitir" else null,
+        action = if (bluetoothAvailable) stringResource(R.string.onboarding_allow) else null,
         onAction = onBluetooth,
     )
     PermissionCard(
         icon = Icons.Filled.Favorite,
-        title = "Health Connect (opcional)",
-        text = "Para ver los pasos, el sueño y el pulso de tu pulsera o reloj, y guardar allí tus mediciones.",
+        title = stringResource(R.string.onboarding_hc_title),
+        text = stringResource(R.string.onboarding_hc_text),
         done = healthConnected,
         action = when (healthAvailability) {
-            HcAvailability.AVAILABLE -> "Conectar"
-            HcAvailability.NOT_INSTALLED -> "Instalar"
-            HcAvailability.UPDATE_REQUIRED -> "Actualizar"
+            HcAvailability.AVAILABLE -> stringResource(R.string.onboarding_connect)
+            HcAvailability.NOT_INSTALLED -> stringResource(R.string.onboarding_install)
+            HcAvailability.UPDATE_REQUIRED -> stringResource(R.string.onboarding_update)
             HcAvailability.NOT_SUPPORTED -> null
         },
         onAction = if (healthAvailability == HcAvailability.AVAILABLE) onHealth else onInstallHealth,
     )
-    Button(onClick = onContinue, modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp)) { Text("Continuar") }
+    Button(onClick = onContinue, modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp)) { Text(stringResource(R.string.action_continue)) }
 }
 
 @Composable
@@ -357,10 +355,10 @@ private fun PermissionCard(
                     done -> Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(Icons.Filled.CheckCircle, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
                         Spacer(Modifier.width(8.dp))
-                        Text("Concedido", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
+                        Text(stringResource(R.string.onboarding_granted), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
                     }
                     action != null -> FilledTonalButton(onClick = onAction, modifier = Modifier.heightIn(min = 48.dp)) { Text(action) }
-                    else -> Text("No disponible en este teléfono", style = MaterialTheme.typography.labelLarge)
+                    else -> Text(stringResource(R.string.onboarding_not_available), style = MaterialTheme.typography.labelLarge)
                 }
             }
         }
@@ -371,9 +369,8 @@ private fun PermissionCard(
 private fun Done(name: String?, onStart: () -> Unit) {
     Hero(
         icon = Icons.Filled.CheckCircle,
-        title = name?.let { "Todo listo, $it" } ?: "Todo listo",
-        text = "Súbete a tu báscula descalzo y con la app abierta: si es compatible se configura sola. " +
-            "Puedes elegir tu modelo y ver la pulsera en Dispositivos.",
+        title = name?.let { stringResource(R.string.onboarding_done_title_name, it) } ?: stringResource(R.string.onboarding_done_title),
+        text = stringResource(R.string.onboarding_done_text),
     )
-    Button(onClick = onStart, modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp)) { Text("Empezar") }
+    Button(onClick = onStart, modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp)) { Text(stringResource(R.string.onboarding_start)) }
 }

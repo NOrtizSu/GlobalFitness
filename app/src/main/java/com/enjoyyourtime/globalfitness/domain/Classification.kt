@@ -4,18 +4,26 @@ import com.enjoyyourtime.globalfitness.data.Sex
 
 enum class Status { GOOD, WARNING, SERIOUS, CRITICAL }
 
-data class Classification(val label: String, val status: Status)
+/** Classification chip text; the UI maps it to a string resource. */
+enum class Level {
+    VERY_LOW, LOW, NORMAL, HIGH, VERY_HIGH, OVERWEIGHT, OBESE, EXCELLENT, OPTIMAL, YOUNGER, OLDER_THAN_AGE, IN_RANGE, OUT_OF_RANGE,
+}
 
-data class BodyType(val index: Int, val name: String, val description: String)
+data class Classification(val level: Level, val status: Status)
+
+/** Mi Fit body types, by index: fat level (high, normal, low) x 3 + muscle level (low, normal, high). */
+enum class BodyType {
+    OBESE, OVERWEIGHT, SOLIDLY_BUILT, LACKS_EXERCISE, BALANCED, BALANCED_MUSCULAR, SKINNY, BALANCED_SKINNY, SKINNY_MUSCULAR,
+}
 
 /** Reference bands (Mi Fit style) used for status chips and the "normal range" chart bands. */
 object Classifier {
 
     fun bmi(bmi: Double): Classification = when {
-        bmi < 18.5 -> Classification("Bajo", Status.WARNING)
-        bmi < 25.0 -> Classification("Normal", Status.GOOD)
-        bmi < 30.0 -> Classification("Sobrepeso", Status.WARNING)
-        else -> Classification("Obesidad", Status.CRITICAL)
+        bmi < 18.5 -> Classification(Level.LOW, Status.WARNING)
+        bmi < 25.0 -> Classification(Level.NORMAL, Status.GOOD)
+        bmi < 30.0 -> Classification(Level.OVERWEIGHT, Status.WARNING)
+        else -> Classification(Level.OBESE, Status.CRITICAL)
     }
 
     /** Fat % thresholds [t0, t1, t2, t3] by sex and age. */
@@ -36,11 +44,11 @@ object Classifier {
     fun fat(fatPercent: Double, sex: Sex, age: Int): Classification {
         val t = fatThresholds(sex, age)
         return when {
-            fatPercent < t[0] -> Classification("Muy bajo", Status.WARNING)
-            fatPercent < t[1] -> Classification("Bajo", Status.GOOD)
-            fatPercent < t[2] -> Classification("Normal", Status.GOOD)
-            fatPercent < t[3] -> Classification("Alto", Status.WARNING)
-            else -> Classification("Muy alto", Status.CRITICAL)
+            fatPercent < t[0] -> Classification(Level.VERY_LOW, Status.WARNING)
+            fatPercent < t[1] -> Classification(Level.LOW, Status.GOOD)
+            fatPercent < t[2] -> Classification(Level.NORMAL, Status.GOOD)
+            fatPercent < t[3] -> Classification(Level.HIGH, Status.WARNING)
+            else -> Classification(Level.VERY_HIGH, Status.CRITICAL)
         }
     }
 
@@ -63,9 +71,9 @@ object Classifier {
     fun muscle(muscleKg: Double, sex: Sex, heightCm: Double): Classification {
         val r = muscleRange(sex, heightCm)
         return when {
-            muscleKg < r.start -> Classification("Bajo", Status.WARNING)
-            muscleKg <= r.endInclusive -> Classification("Normal", Status.GOOD)
-            else -> Classification("Excelente", Status.GOOD)
+            muscleKg < r.start -> Classification(Level.LOW, Status.WARNING)
+            muscleKg <= r.endInclusive -> Classification(Level.NORMAL, Status.GOOD)
+            else -> Classification(Level.EXCELLENT, Status.GOOD)
         }
     }
 
@@ -76,9 +84,9 @@ object Classifier {
     fun skeletalMuscle(percent: Double, sex: Sex): Classification {
         val r = skeletalMuscleRange(sex)
         return when {
-            percent < r.start -> Classification("Bajo", Status.WARNING)
-            percent <= r.endInclusive -> Classification("Normal", Status.GOOD)
-            else -> Classification("Alto", Status.GOOD)
+            percent < r.start -> Classification(Level.LOW, Status.WARNING)
+            percent <= r.endInclusive -> Classification(Level.NORMAL, Status.GOOD)
+            else -> Classification(Level.HIGH, Status.GOOD)
         }
     }
 
@@ -88,9 +96,9 @@ object Classifier {
     fun water(waterPercent: Double, sex: Sex): Classification {
         val r = waterRange(sex)
         return when {
-            waterPercent < r.start -> Classification("Bajo", Status.WARNING)
-            waterPercent <= r.endInclusive -> Classification("Normal", Status.GOOD)
-            else -> Classification("Alto", Status.GOOD)
+            waterPercent < r.start -> Classification(Level.LOW, Status.WARNING)
+            waterPercent <= r.endInclusive -> Classification(Level.NORMAL, Status.GOOD)
+            else -> Classification(Level.HIGH, Status.GOOD)
         }
     }
 
@@ -119,16 +127,16 @@ object Classifier {
     fun bone(boneKg: Double, sex: Sex, weightKg: Double): Classification {
         val r = boneRange(sex, weightKg)
         return when {
-            boneKg < r.start -> Classification("Bajo", Status.WARNING)
-            boneKg <= r.endInclusive -> Classification("Normal", Status.GOOD)
-            else -> Classification("Alto", Status.GOOD)
+            boneKg < r.start -> Classification(Level.LOW, Status.WARNING)
+            boneKg <= r.endInclusive -> Classification(Level.NORMAL, Status.GOOD)
+            else -> Classification(Level.HIGH, Status.GOOD)
         }
     }
 
     fun visceral(value: Double): Classification = when {
-        value < 10 -> Classification("Normal", Status.GOOD)
-        value < 15 -> Classification("Alto", Status.WARNING)
-        else -> Classification("Muy alto", Status.CRITICAL)
+        value < 10 -> Classification(Level.NORMAL, Status.GOOD)
+        value < 15 -> Classification(Level.HIGH, Status.WARNING)
+        else -> Classification(Level.VERY_HIGH, Status.CRITICAL)
     }
 
     fun bmrCoefficient(sex: Sex, age: Int): Double {
@@ -145,47 +153,32 @@ object Classifier {
 
     fun bmr(bmr: Double, weightKg: Double, sex: Sex, age: Int): Classification =
         if (bmr >= weightKg * bmrCoefficient(sex, age)) {
-            Classification("Óptimo", Status.GOOD)
+            Classification(Level.OPTIMAL, Status.GOOD)
         } else {
-            Classification("Bajo", Status.WARNING)
+            Classification(Level.LOW, Status.WARNING)
         }
 
     fun protein(proteinPercent: Double): Classification = when {
-        proteinPercent < 16 -> Classification("Bajo", Status.WARNING)
-        proteinPercent <= 20 -> Classification("Normal", Status.GOOD)
-        else -> Classification("Excelente", Status.GOOD)
+        proteinPercent < 16 -> Classification(Level.LOW, Status.WARNING)
+        proteinPercent <= 20 -> Classification(Level.NORMAL, Status.GOOD)
+        else -> Classification(Level.EXCELLENT, Status.GOOD)
     }
 
     fun metabolicAge(metabolicAge: Double, realAge: Int): Classification =
         if (metabolicAge <= realAge) {
-            Classification("Más joven", Status.GOOD)
+            Classification(Level.YOUNGER, Status.GOOD)
         } else {
-            Classification("Mayor que tu edad", Status.WARNING)
+            Classification(Level.OLDER_THAN_AGE, Status.WARNING)
         }
 
     fun idealWeight(weightKg: Double, healthyMin: Double, healthyMax: Double): Classification =
         if (weightKg in healthyMin..healthyMax) {
-            Classification("En rango", Status.GOOD)
+            Classification(Level.IN_RANGE, Status.GOOD)
         } else {
-            Classification("Fuera de rango", Status.WARNING)
+            Classification(Level.OUT_OF_RANGE, Status.WARNING)
         }
 
-    private val BODY_TYPES = listOf(
-        "Obeso" to "Grasa alta y poca masa muscular.",
-        "Sobrepeso" to "Grasa alta con masa muscular normal.",
-        "Corpulento" to "Grasa alta con mucha masa muscular.",
-        "Falta de ejercicio" to "Grasa normal y poca masa muscular.",
-        "Equilibrado" to "Grasa y músculo dentro de lo normal.",
-        "Equilibrado musculoso" to "Grasa normal con mucha masa muscular.",
-        "Delgado" to "Grasa baja y poca masa muscular.",
-        "Delgado equilibrado" to "Grasa baja con masa muscular normal.",
-        "Delgado musculoso" to "Grasa baja con mucha masa muscular.",
-    )
-
-    fun bodyTypeByIndex(index: Int): BodyType {
-        val (name, description) = BODY_TYPES[index.coerceIn(0, 8)]
-        return BodyType(index.coerceIn(0, 8), name, description)
-    }
+    fun bodyTypeByIndex(index: Int): BodyType = BodyType.entries[index.coerceIn(0, 8)]
 
     /** Body type (0..8) or null without impedance. */
     fun bodyType(c: BodyComposition): BodyType? {

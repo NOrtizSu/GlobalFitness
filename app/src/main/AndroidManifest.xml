@@ -64,10 +64,14 @@
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:localeConfig="@xml/locales_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GlobalFitness"
+        tools:ignore="UnusedTranslation"
         tools:targetApi="33">
+        <!-- UnusedTranslation: locales_config names Indonesian "id", as Android expects, while its
+             resources live in the legacy folder values-in; lint does not match the two. -->
         <!-- Test id in debug builds; release reads ADMOB_APP_ID (see app/build.gradle.kts). -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"

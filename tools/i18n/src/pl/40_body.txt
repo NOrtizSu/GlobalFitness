@@ -1,0 +1,57 @@
+# Body
+range_1m = 1M
+range_3m = 3M
+range_6m = 6M
+range_1y = 1R
+range_all = Całość
+body_empty_text = Stań na wadze boso przy otwartej aplikacji albo dodaj wagę ręcznie przyciskiem poniżej. Tutaj zobaczysz, jak z czasem zmieniają się Twoja waga i skład ciała.
+body_period_summary = Podsumowanie okresu
+body_stat_current = Aktualnie
+body_stat_change = Zmiana
+body_stat_min = Min.
+body_stat_max = Maks.
+body_stat_average = Średnia
+body_stat_rate = Tempo
+body_rate_value = %1$s/tydz.
+body_stat_projection = Prognoza celu
+body_projection_no_goal = Brak celu
+body_projection_reached = Osiągnięto
+body_projection_no_trend = Brak trendu
+body_projection_eta = ~ %1$s
+body_rate_hint = Do obliczenia tempa potrzeba co najmniej 3 pomiarów obejmujących 7 dni w ciągu ostatnich 28.
+body_history = Historia
+body_normal_range = Zakres normy
+body_normal_range_bmi = Zakres normy (BMI %1$s–%2$s)
+body_goal_line = Cel %1$s
+body_chart_title_unit = %1$s (%2$s)
+body_chart_needs_composition = Ten wskaźnik wymaga składu ciała. Stań na wadze boso i z suchymi stopami.
+body_chart_no_measurements = Brak pomiarów.
+body_chart_none_in_period = Brak pomiarów w tym okresie. Wybierz dłuższy okres.
+body_chart_single = W tym okresie jest tylko jeden pomiar (%1$s, %2$s). Do narysowania trendu potrzebne są co najmniej 2.
+body_current_composition = Obecny skład ciała
+body_row_fat = Tłuszcz %1$s
+body_row_no_composition = Brak składu ciała
+source_manual = Ręcznie
+source_scale = Waga
+comp_source_device = Skład ciała zmierzony przez wagę
+comp_source_formula = Skład ciała obliczony (wzór %1$s)
+comp_fat = Tłuszcz
+metric_impedance = Impedancja
+
+# Charts
+chart_trend_desc{one} = Wykres (%1$s): %2$d pomiar, od %3$s do %4$s
+chart_trend_desc{few} = Wykres (%1$s): %2$d pomiary, od %3$s do %4$s
+chart_trend_desc{many} = Wykres (%1$s): %2$d pomiarów, od %3$s do %4$s
+chart_trend_desc{other} = Wykres (%1$s): %2$d pomiaru, od %3$s do %4$s
+chart_avg_7d_value = Średnia z 7 dni: %1$s
+chart_legend_measurements = Pomiary
+chart_legend_avg_7d = Średnia z 7 dni
+chart_composition_desc = Skład ciała: %1$s
+chart_composition_item = %1$s %2$s
+
+# Measurement dialogs
+manual_weight_only = Tylko waga: skład ciała wymaga pomiaru na wadze.
+manual_weight_range = Wpisz wagę od %1$s do %2$s
+manual_date_future = Data nie może być z przyszłości.
+delete_measurement_title = Usunąć pomiar?
+delete_measurement_text = Pomiar %1$s z %2$s zostanie usunięty. Tej operacji nie można cofnąć.
