@@ -1,0 +1,68 @@
+<en-US>
+• The hour labels of the heart-rate chart no longer overlap in languages with long time formats.
+• Small text fixes in several languages.
+</en-US>
+<es-ES>
+• Las horas del gráfico de pulso ya no se superponen en idiomas con formatos de hora largos.
+• Pequeñas correcciones de texto en varios idiomas.
+</es-ES>
+<pt-BR>
+• Os horários do gráfico de frequência cardíaca não se sobrepõem mais em idiomas com formatos de hora longos.
+• Pequenas correções de texto em vários idiomas.
+</pt-BR>
+<pt-PT>
+• As horas do gráfico do ritmo cardíaco já não se sobrepõem em idiomas com formatos de hora longos.
+• Pequenas correções de texto em vários idiomas.
+</pt-PT>
+<fr-FR>
+• Les heures du graphique de fréquence cardiaque ne se chevauchent plus dans les langues aux formats d'heure longs.
+• Petites corrections de texte dans plusieurs langues.
+</fr-FR>
+<de-DE>
+• Die Uhrzeiten im Herzfrequenzdiagramm überlappen sich in Sprachen mit langen Zeitformaten nicht mehr.
+• Kleine Textkorrekturen in mehreren Sprachen.
+</de-DE>
+<it-IT>
+• Gli orari del grafico del battito cardiaco non si sovrappongono più nelle lingue con formati orari lunghi.
+• Piccole correzioni dei testi in diverse lingue.
+</it-IT>
+<ru-RU>
+• Подписи времени на графике пульса больше не накладываются друг на друга в языках с длинным форматом времени.
+• Небольшие исправления текста на нескольких языках.
+</ru-RU>
+<zh-CN>
+• 修复了心率图表在部分语言中时间标签重叠的问题。
+• 修正了多种语言中的少量文字。
+</zh-CN>
+<ja-JP>
+• 一部の言語で心拍数グラフの時刻ラベルが重なる問題を修正しました。
+• 複数の言語で細かな表記を修正しました。
+</ja-JP>
+<ko-KR>
+• 심박수 차트의 시간 표시가 겹치던 문제를 수정했습니다.
+• 여러 언어의 문구를 일부 수정했습니다.
+</ko-KR>
+<tr-TR>
+• Nabız grafiğindeki saat etiketleri, uzun saat biçimine sahip dillerde artık üst üste binmiyor.
+• Birkaç dilde küçük metin düzeltmeleri.
+</tr-TR>
+<pl-PL>
+• Godziny na wykresie tętna nie nachodzą już na siebie w językach z długim formatem czasu.
+• Drobne poprawki tekstów w kilku językach.
+</pl-PL>
+<hi-IN>
+• लंबे समय प्रारूप वाली भाषाओं में हृदय गति चार्ट के समय लेबल अब एक-दूसरे पर नहीं चढ़ते।
+• कई भाषाओं में छोटे टेक्स्ट सुधार।
+</hi-IN>
+<ar>
+• لم تعد تسميات الوقت في مخطط نبض القلب تتداخل في اللغات ذات تنسيقات الوقت الطويلة.
+• تصحيحات نصية بسيطة في عدة لغات.
+</ar>
+<id>
+• Label jam pada grafik detak jantung tidak lagi bertumpuk dalam bahasa dengan format waktu panjang.
+• Perbaikan teks kecil dalam beberapa bahasa.
+</id>
+<vi>
+• Nhãn giờ trên biểu đồ nhịp tim không còn chồng lên nhau ở các ngôn ngữ có định dạng giờ dài.
+• Sửa một số văn bản nhỏ ở nhiều ngôn ngữ.
+</vi>
