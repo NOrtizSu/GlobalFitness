@@ -53,6 +53,23 @@ object AxisMath {
         return 3
     }
 
+    /**
+     * Indices of the axis labels to draw so that none touches the previous one: each label starts at
+     * [starts] and is [widths] wide (sorted left to right), with at least [gap] between two. A label
+     * that would overlap is skipped; the last one is kept over the inner ones before it.
+     */
+    fun nonOverlapping(starts: List<Float>, widths: List<Float>, gap: Float): List<Int> {
+        fun overlaps(a: Int, b: Int) = starts[b] < starts[a] + widths[a] + gap
+        val shown = mutableListOf<Int>()
+        for (i in starts.indices) {
+            if (i == starts.lastIndex) {
+                while (shown.size > 1 && overlaps(shown.last(), i)) shown.removeAt(shown.lastIndex)
+            }
+            if (shown.isEmpty() || !overlaps(shown.last(), i)) shown += i
+        }
+        return shown
+    }
+
     /** [count] evenly spaced timestamps from [start] to [end] (inclusive). */
     fun timeTicks(start: Long, end: Long, count: Int = 4): List<Long> {
         if (end <= start) return listOf(start)

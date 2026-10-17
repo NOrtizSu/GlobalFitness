@@ -38,7 +38,7 @@ diag_live_no_impedance = tanpa impedansi
 
 # Scales section
 scales_none = Belum ada. Naik ke timbangan Anda saat aplikasi terbuka: jika dikenali dengan pasti, timbangan akan disiapkan secara otomatis. Anda juga dapat memilihnya dari katalog.
-scales_add_from_catalog = Tambah dari katalog
+scales_add_from_catalog = Tambahkan dari katalog
 scales_detected_nearby = Terdeteksi di sekitar
 scales_searching = Mencari timbangan… naik ke timbangan untuk mengaktifkannya.
 scales_remove_title = Hapus %1$s?

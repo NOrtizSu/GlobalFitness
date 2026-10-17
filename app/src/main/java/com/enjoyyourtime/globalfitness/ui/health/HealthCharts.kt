@@ -169,18 +169,23 @@ private fun DrawScope.drawYAxis(plot: Plot, ticks: AxisTicks, labels: List<TextL
     drawLine(colors.axis, Offset(plot.left, plot.bottom), Offset(plot.right, plot.bottom), strokeWidth = 1.dp.toPx())
 }
 
-/** X labels at [xs]; the first is left-aligned, the last right-aligned, others centered. */
+/**
+ * X labels at [xs]; the first is left-aligned, the last right-aligned, others centered. Every tick is
+ * drawn, but a label that would overlap its neighbour (long localized texts) is left out.
+ */
 private fun DrawScope.drawXLabels(plot: Plot, xs: List<Float>, labels: List<TextLayoutResult>, colors: ChartColors) {
-    xs.forEachIndexed { i, x ->
-        val layout = labels[i]
-        val w = layout.size.width.toFloat()
-        val lx = when (i) {
+    val widths = labels.map { it.size.width.toFloat() }
+    val starts = xs.mapIndexed { i, x ->
+        val w = widths[i]
+        when (i) {
             0 -> x - if (xs.size == 1) w / 2f else 0f
             xs.lastIndex -> x - w
             else -> x - w / 2f
         }.coerceIn(0f, (size.width - w).coerceAtLeast(0f))
-        drawLine(colors.axis, Offset(x, plot.bottom), Offset(x, plot.bottom + 3.dp.toPx()), strokeWidth = 1f)
-        drawText(layout, topLeft = Offset(lx, plot.bottom + 5.dp.toPx()))
+    }
+    xs.forEach { x -> drawLine(colors.axis, Offset(x, plot.bottom), Offset(x, plot.bottom + 3.dp.toPx()), strokeWidth = 1f) }
+    for (i in AxisMath.nonOverlapping(starts, widths, 8.dp.toPx())) {
+        drawText(labels[i], topLeft = Offset(starts[i], plot.bottom + 5.dp.toPx()))
     }
 }
 
@@ -356,7 +361,7 @@ fun HeartRateDayChart(
     val xLabels = remember(xTimes, text) {
         // The end of the day reads "24:00" on a 24-hour clock (the next day's "00:00" otherwise).
         xTimes.mapIndexed { i, t ->
-            text.measurer.measure(if (i == xTimes.lastIndex && Fmt.hour24 != false) "24:00" else Fmt.time(t), text.label)
+            text.measurer.measure(if (i == xTimes.lastIndex && Fmt.hour24 != false) "24:00" else Fmt.axisTime(t), text.label)
         }
     }
     val xLabelHeight = remember(text) { text.measurer.measure("0", text.label).size.height.toFloat() }

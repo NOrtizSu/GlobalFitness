@@ -830,7 +830,7 @@
     <string name="diag_live_saved">Disimpan %1$s · %2$s</string>
     <string name="diag_live_no_impedance">tanpa impedansi</string>
     <string name="scales_none">Belum ada. Naik ke timbangan Anda saat aplikasi terbuka: jika dikenali dengan pasti, timbangan akan disiapkan secara otomatis. Anda juga dapat memilihnya dari katalog.</string>
-    <string name="scales_add_from_catalog">Tambah dari katalog</string>
+    <string name="scales_add_from_catalog">Tambahkan dari katalog</string>
     <string name="scales_detected_nearby">Terdeteksi di sekitar</string>
     <string name="scales_searching">Mencari timbangan… naik ke timbangan untuk mengaktifkannya.</string>
     <string name="scales_remove_title">Hapus %1$s?</string>

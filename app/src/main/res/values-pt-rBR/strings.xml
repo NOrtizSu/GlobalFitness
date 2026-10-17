@@ -1031,7 +1031,7 @@
     <string name="forwarding_apps_empty">Os apps vão aparecer aqui quando publicarem uma notificação.</string>
     <string name="devices_wearables">Pulseiras e relógios</string>
     <string name="wearables_none">Nenhuma pulseira ou relógio configurado ainda. Aproxime o seu ou adicione-o pelo catálogo.</string>
-    <string name="wearables_add_from_catalog">Adicionar pelo catálogo</string>
+    <string name="wearables_add_from_catalog">Adicionar do catálogo</string>
     <string name="wearables_detected">Detectados e pareados</string>
     <string name="wearables_detected_none">Nada reconhecido ainda. Os dispositivos pareados com este celular aparecem aqui quando a permissão de dispositivos por perto é concedida; os outros, quando estão ligados e por perto.</string>
     <string name="wearables_paired">pareado</string>
