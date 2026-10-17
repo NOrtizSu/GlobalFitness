@@ -46,7 +46,7 @@ time_yesterday_at = 昨日 %1$s
 # Navigation
 nav_today = 今日
 nav_body = からだ
-nav_activity = アクティビティ
+nav_activity = 活動
 nav_devices = デバイス
 nav_profile = プロフィール
 

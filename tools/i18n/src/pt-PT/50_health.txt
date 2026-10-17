@@ -142,7 +142,7 @@ hc_export_history = Exportar histórico para o Health Connect
 # Health Connect connection card
 hc_not_supported = O Health Connect não está disponível neste dispositivo (requer o Android 9 ou posterior).
 hc_install_text = Instale o Health Connect a partir do Google Play para importar os dados da pulseira e guardar os da balança.
-hc_update_text = A sua versão do Health Connect está desatualizada. Atualize-a a partir do Google Play para continuar.
+hc_update_text = A sua versão do Health Connect está desatualizada. Atualize-a através do Google Play para continuar.
 hc_connect_text = Ligue o Health Connect para ver aqui os passos, a frequência cardíaca, o sono, o oxigénio no sangue e os treinos da sua pulseira (Mi Fitness ou outra app) e para guardar no Health Connect as medições da balança. Os dados ficam no telemóvel.
 hc_connected = Ligado
 hc_connected_partial = Ligado com autorizações parciais
