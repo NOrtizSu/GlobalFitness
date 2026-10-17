@@ -108,7 +108,8 @@ state is stored on the phone so you stay ad-free even without a connection.
 
 If Android backup is on, the system may store an encrypted copy of the app's database and settings in
 your Google Drive account and restore it when you reinstall or change phones. **Excluded** are the
-band key and the Health Connect cache. You can turn it off in the Android settings.
+bands and watches set up in the app (with their keys, settings and the heart rate recorded in
+direct mode) and the Health Connect cache. You can turn it off in the Android settings.
 
 ## 10. Who the data is shared with
 

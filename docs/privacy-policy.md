@@ -111,8 +111,8 @@ El estado se guarda en el teléfono para que sigas sin anuncios aunque no tengas
 
 Si tienes activada la copia de seguridad de Android, el sistema puede guardar una copia cifrada
 de la base de datos y de los ajustes de la app en tu cuenta de Google Drive, y restaurarla al
-reinstalar o cambiar de móvil. **Quedan excluidas** la clave de la pulsera y la caché de Health
-Connect. Puedes desactivarla en los ajustes de Android.
+reinstalar o cambiar de móvil. **Quedan excluidas** las pulseras y relojes configurados (con sus claves, ajustes
+y el pulso registrado en modo directo) y la caché de Health Connect. Puedes desactivarla en los ajustes de Android.
 
 ## 10. Con quién se comparten los datos
 

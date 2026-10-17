@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Android Auto Backup / device-to-device transfer (API 31+). Same policy as backup_rules.xml:
-    back up the app databases and normal preferences, but never the Xiaomi Band auth key
-    (band_prefs), the onboarding flag, the Health Connect cache (health.db) or Firestore's local cache.
+    back up the app databases and normal preferences, but never the bands and watches set up on this
+    phone (band_prefs, wearable_prefs: Bluetooth addresses, settings, names of notifying apps; their
+    auth keys live in noBackupFilesDir), their recorded live heart rate (band.db), the onboarding
+    flag, the Health Connect cache (health.db) or Firestore's local cache.
 -->
 <data-extraction-rules>
     <cloud-backup>
         <exclude domain="sharedpref" path="band_prefs.xml" />
+        <exclude domain="sharedpref" path="wearable_prefs.xml" />
         <exclude domain="sharedpref" path="onboarding.xml" />
+        <exclude domain="database" path="band.db" />
+        <exclude domain="database" path="band.db-journal" />
+        <exclude domain="database" path="band.db-wal" />
+        <exclude domain="database" path="band.db-shm" />
         <exclude domain="database" path="health.db" />
         <exclude domain="database" path="health.db-journal" />
         <exclude domain="database" path="health.db-wal" />
@@ -19,7 +26,12 @@
     </cloud-backup>
     <device-transfer>
         <exclude domain="sharedpref" path="band_prefs.xml" />
+        <exclude domain="sharedpref" path="wearable_prefs.xml" />
         <exclude domain="sharedpref" path="onboarding.xml" />
+        <exclude domain="database" path="band.db" />
+        <exclude domain="database" path="band.db-journal" />
+        <exclude domain="database" path="band.db-wal" />
+        <exclude domain="database" path="band.db-shm" />
         <exclude domain="database" path="health.db" />
         <exclude domain="database" path="health.db-journal" />
         <exclude domain="database" path="health.db-wal" />

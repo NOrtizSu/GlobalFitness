@@ -295,8 +295,9 @@ class WearableManager(
     // ---- notification forwarding (from the notification listener) ----
 
     fun onPhoneNotification(n: PhoneNotification) {
-        settings.recordSeenApp(n.packageName, n.appName)
         val enabled = settings.forwardingEnabled.value
+        // The app list the user ticks from; nothing about notifications is kept while forwarding is off.
+        if (enabled) settings.recordSeenApp(n.packageName, n.appName)
         val allowed = settings.allowedPackages.value
         controllers.values.forEach { it.onPhoneNotification(n, enabled, allowed) }
     }
