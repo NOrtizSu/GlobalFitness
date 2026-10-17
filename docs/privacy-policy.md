@@ -5,9 +5,8 @@ Versión web: [globalfitness-app.web.app/privacy.html](https://globalfitness-app
 
 ## 1. Quién es el responsable
 
-GlobalFitness es una app para Android publicada por **Enjoy Your Time**. Responsable del
-tratamiento: **[COMPLETAR: nombre legal y NIF del titular]**, con domicilio en
-**[COMPLETAR: dirección postal]**. Para cualquier cuestión sobre privacidad escribe a
+GlobalFitness es una app para Android publicada por **Enjoy Your Time**, que es el responsable
+del tratamiento. Para cualquier cuestión sobre privacidad escribe a
 **enjoyyourtime.online@gmail.com**.
 
 ## 2. Resumen
@@ -143,8 +142,8 @@ importante, te avisaremos en la app.
 
 Last updated: 15 October 2026 · Contact: **enjoyyourtime.online@gmail.com**
 
-**Controller.** GlobalFitness is published by **Enjoy Your Time**. Data controller:
-**[COMPLETE: legal name and tax ID of the owner]**, **[COMPLETE: postal address]**.
+**Controller.** GlobalFitness is published by **Enjoy Your Time**, the data controller. Contact:
+**enjoyyourtime.online@gmail.com**.
 
 **Summary.** The app works **without an account** and keeps everything **on your phone** by default.
 **Cloud backup is optional** (Google sign-in) and can be deleted, together with the account, from

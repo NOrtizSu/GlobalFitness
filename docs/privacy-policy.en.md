@@ -8,10 +8,8 @@ Spanish version prevails.
 
 ## 1. Who is responsible
 
-GlobalFitness is an Android app published by **Enjoy Your Time**. Data controller:
-**[COMPLETE: legal name and tax ID of the owner]**, with address at
-**[COMPLETE: postal address]**. For any privacy question, write to
-**enjoyyourtime.online@gmail.com**.
+GlobalFitness is an Android app published by **Enjoy Your Time**, which is the data controller.
+For any privacy question, write to **enjoyyourtime.online@gmail.com**.
 
 ## 2. Summary
 

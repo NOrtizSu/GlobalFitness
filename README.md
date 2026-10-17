@@ -123,8 +123,7 @@ Connect de Google Play).
 - **Política de privacidad**: `docs/privacy-policy.md` es la fuente (en español e inglés); `privacy.html`
   debe mantenerse igual. `docs/privacy-policy.en.md` es la traducción completa al inglés. En español la
   app abre la versión web (*Perfil → Política de privacidad*) y, sin conexión, la copia incluida en la
-  app; en los demás idiomas muestra la copia en inglés incluida en la app. Faltan los datos del
-  responsable (marcados `[COMPLETAR: …]`).
+  app; en los demás idiomas muestra la copia en inglés incluida en la app.
 
 ## Herramientas de depuración
 
