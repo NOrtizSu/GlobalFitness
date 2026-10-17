@@ -138,6 +138,27 @@ class XiaomiCommandsTest {
     }
 
     @Test
+    fun dropsAlarmsWithImpossibleTimes() {
+        fun info(id: Int, hour: Int, minute: Int) = XiaomiProto.AlarmInfo.newBuilder()
+            .setId(id)
+            .setAlarmDetails(
+                XiaomiProto.AlarmDetails.newBuilder()
+                    .setTime(XiaomiProto.HourMinute.newBuilder().setHour(hour).setMinute(minute))
+                    .setRepeatMode(0)
+                    .setEnabled(true)
+                    .setSmart(2),
+            )
+        val alarms = XiaomiProto.Alarms.newBuilder()
+            .addAlarm(info(1, 24, 0))
+            .addAlarm(info(2, 7, 60))
+            .addAlarm(info(3, -1, 0)) // uint32 0xFFFFFFFF
+            .addAlarm(info(4, 23, 59))
+            .addAlarm(info(5, 0, 0))
+            .build()
+        assertEquals(listOf(5, 4), XiaomiCommands.parseAlarms(alarms).map { it.id })
+    }
+
+    @Test
     fun notificationFields() {
         val whenMillis = ZonedDateTime.of(2026, 3, 4, 5, 6, 7, 0, ZoneId.of("UTC")).toInstant().toEpochMilli()
         val command = XiaomiCommands.notification(

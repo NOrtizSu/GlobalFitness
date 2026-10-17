@@ -200,9 +200,13 @@ object XiaomiCommands {
         return details
     }
 
-    /** XiaomiScheduleService.handleAlarms: band ids start at 1. */
-    fun parseAlarms(alarms: XiaomiProto.Alarms): List<BandAlarm> = alarms.alarmList.map { info ->
+    /**
+     * XiaomiScheduleService.handleAlarms: band ids start at 1. Hour and minute are uint32 on the wire,
+     * so an alarm with an impossible time is dropped instead of reaching the UI.
+     */
+    fun parseAlarms(alarms: XiaomiProto.Alarms): List<BandAlarm> = alarms.alarmList.mapNotNull { info ->
         val d = info.alarmDetails
+        if (d.time.hour !in 0..23 || d.time.minute !in 0..59) return@mapNotNull null
         val repeat = when (d.repeatMode) {
             REPEAT_ONCE -> AlarmRepeat.Once
             REPEAT_DAILY -> AlarmRepeat.Daily

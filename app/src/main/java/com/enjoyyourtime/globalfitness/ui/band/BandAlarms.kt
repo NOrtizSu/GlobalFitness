@@ -77,7 +77,8 @@ private fun daysOf(repeat: AlarmRepeat): Int = when (repeat) {
     else -> 0
 }
 
-private fun timeLabel(hour: Int, minute: Int) = Fmt.time(LocalTime.of(hour, minute))
+/** Never throws: device data is parsed defensively, but a bad time must not crash the screen. */
+private fun timeLabel(hour: Int, minute: Int) = Fmt.time(LocalTime.of(hour.coerceIn(0, 23), minute.coerceIn(0, 59)))
 
 @Composable
 fun AlarmsCard(
@@ -160,8 +161,8 @@ fun AlarmEditorDialog(
 ) {
     val start = initial ?: AlarmSpec(hour = 7, minute = 0)
     val time = rememberTimePickerState(
-        initialHour = start.hour,
-        initialMinute = start.minute,
+        initialHour = start.hour.coerceIn(0, 23),
+        initialMinute = start.minute.coerceIn(0, 59),
         is24Hour = DateFormat.is24HourFormat(LocalContext.current),
     )
     var days by remember { mutableIntStateOf(daysOf(start.repeat)) }
