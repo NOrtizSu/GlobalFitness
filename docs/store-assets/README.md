@@ -49,9 +49,8 @@ falls back to the default-language graphics until its own are uploaded.
   figures on screen.
 * Ads: the debug build's "Simulate premium" switch was on, so no test-ad banner appears. The ad consent dialog was declined.
 * The scale and band names in the screenshots are the app's own text (model names), not logos.
-* `07-devices`: en-US and es-ES were taken before the "Bands & watches" section existed and still show the old "Band"
-  card (Xiaomi Smart Band 9, "Experimental"); the other 15 locales show the current section (no band set up yet, "Add
-  from the catalog"). Re-capture en-US / es-ES `07-devices` if the listings should match.
+* `07-devices` shows the "Bands & watches" section with no band set up yet ("Add from the catalog") in every locale;
+  en-US and es-ES were re-captured for it with the same setup (their other screenshots are unchanged).
 
 ## Icon
 
