@@ -1,0 +1,75 @@
+<!doctype html>
+<!--
+  Google Play feature graphic (1024x500). Render with headless Chrome, e.g.:
+    chrome --headless=new --hide-scrollbars --force-device-scale-factor=1 --window-size=1024,500 \
+           --virtual-time-budget=5000 --screenshot=feature-graphic-1024x500.png "file:///.../feature-graphic.html"
+  Spanish variant: add ?lang=es to the URL. Uses the real app screenshots in ../screenshots-20x9 and ../icon-512.png.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>GlobalFitness feature graphic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<style>
+  :root {
+    --blue-0: #3E8CE6;
+    --blue-1: #2A78D6;
+    --blue-2: #1C5DB2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1024px; height: 500px; overflow: hidden; background: var(--blue-1); }
+  body {
+    position: relative;
+    font-family: "Roboto", "Segoe UI", system-ui, sans-serif;
+    color: #fff;
+    background: linear-gradient(135deg, var(--blue-0) 0%, var(--blue-1) 50%, var(--blue-2) 100%);
+  }
+  /* soft Material-style tonal shapes */
+  .shape { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.08); }
+  .s1 { width: 520px; height: 520px; left: 520px; top: -230px; }
+  .s2 { width: 360px; height: 360px; left: -140px; top: 330px; background: rgba(255, 255, 255, 0.06); }
+
+  .copy { position: absolute; left: 64px; top: 0; height: 500px; width: 520px; display: flex; flex-direction: column; justify-content: center; }
+  .brand { display: flex; align-items: center; gap: 22px; }
+  .brand img { width: 96px; height: 96px; border-radius: 22px; box-shadow: 0 8px 24px rgba(8, 36, 84, 0.35); }
+  .brand h1 { font-size: 62px; line-height: 1; font-weight: 700; letter-spacing: -0.5px; }
+  .tagline { margin-top: 34px; font-size: 34px; line-height: 1.28; font-weight: 500; max-width: 480px; text-wrap: balance; color: rgba(255, 255, 255, 0.96); }
+
+  .phone {
+    position: absolute; width: 236px; height: 540px; padding: 8px; border-radius: 36px;
+    background: #17181c; box-shadow: 0 18px 40px rgba(6, 28, 66, 0.45), inset 0 0 0 1.5px #3a3c44;
+  }
+  .phone .screen { width: 100%; height: 100%; border-radius: 29px; overflow: hidden; background: #fff; position: relative; }
+  .phone .screen img { display: block; width: 220px; height: auto; }
+  .back  { left: 592px; top: 92px; }
+  .front { left: 772px; top: 34px; }
+</style>
+</head>
+<body>
+  <div class="shape s1"></div>
+  <div class="shape s2"></div>
+
+  <div class="copy">
+    <div class="brand">
+      <img src="../icon-512.png" alt="">
+      <h1>GlobalFitness</h1>
+    </div>
+    <p class="tagline" id="tagline">Smart scales, bands &amp; health — in one app</p>
+  </div>
+
+  <div class="phone back"><div class="screen"><img id="shotBack" alt=""></div></div>
+  <div class="phone front"><div class="screen"><img id="shotFront" alt=""></div></div>
+
+  <script>
+    const es = new URLSearchParams(location.search).get("lang") === "es";
+    const loc = es ? "es-ES" : "en-US";
+    document.documentElement.lang = es ? "es" : "en";
+    document.getElementById("tagline").textContent = es
+      ? "Básculas, pulseras y salud en una sola app"
+      : "Smart scales, bands & health — in one app";
+    document.getElementById("shotBack").src = "../screenshots-20x9/" + loc + "/02-body.png";
+    document.getElementById("shotFront").src = "../screenshots-20x9/" + loc + "/01-today.png";
+  </script>
+</body>
+</html>

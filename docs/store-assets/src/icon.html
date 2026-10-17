@@ -1,0 +1,14 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;padding:0;background:transparent}svg{display:block}</style></head><body>
+<!-- Launcher icon (ic_launcher_background + ic_launcher_foreground vector drawables) rendered as a full-bleed 512x512 square.
+     The 108 dp adaptive canvas is cropped to its central 72 dp so the glyph has the same proportions as on a launcher.
+     chrome --headless=new --hide-scrollbars --force-device-scale-factor=1 --default-background-color=00000000 --window-size=512,512 --screenshot=icon-512.png icon.html
+     Then convert to RGBA (32-bit): Image.open(...).convert("RGBA").save(...) -->
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="18 18 72 72">
+<defs><linearGradient id="g" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="108" y2="108">
+<stop offset="0" stop-color="#3E8CE6"/><stop offset="0.5" stop-color="#2A78D6"/><stop offset="1" stop-color="#1C5DB2"/></linearGradient></defs>
+<rect x="0" y="0" width="108" height="108" fill="url(#g)"/>
+<g transform="translate(54 54) scale(0.88) translate(-54 -54)" fill="none" stroke="#fff" stroke-width="4.8">
+<path d="M41,30.5 L67,30.5 A10.5,10.5 0 0 1 77.5,41 L77.5,67 A10.5,10.5 0 0 1 67,77.5 L41,77.5 A10.5,10.5 0 0 1 30.5,67 L30.5,41 A10.5,10.5 0 0 1 41,30.5 Z"/>
+<path d="M49,39.5 L59,39.5" stroke-linecap="round"/>
+<path d="M39,58 L46.5,58 L50.3,50 L55.8,66 L60.4,54 L62.8,58 L69,58" stroke-linecap="round" stroke-linejoin="round"/>
+</g></svg></body></html>
