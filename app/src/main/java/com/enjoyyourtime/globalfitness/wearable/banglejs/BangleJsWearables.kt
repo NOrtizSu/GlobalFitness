@@ -121,7 +121,7 @@ class BangleJsSession(env: WearableSessionEnv) : GattWearableSession(env, reques
     override suspend fun loadAlarms(): WearableAlarms = WearableAlarms(alarms.list(), BangleJs.MAX_ALARMS)
 
     override suspend fun saveAlarm(id: Int?, spec: AlarmSpec) = withContext(serial) {
-        alarms.put(id, spec) ?: throw WearableException(WearableFailure.NOT_SUPPORTED, "all alarm slots used")
+        alarms.put(id, spec) ?: throw WearableException(WearableFailure.ALARM_SLOTS_FULL, "all alarm slots used")
         send(BangleJs.alarms(alarms.list()))
     }
 

@@ -4,6 +4,7 @@ package com.enjoyyourtime.globalfitness.ui.wearables
 
 import android.content.ClipboardManager
 import android.content.Context
+import android.os.Build
 import android.view.WindowManager
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +20,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -71,7 +73,34 @@ fun WearableKeyWizardScreen(viewModel: WearableViewModel, driver: WearableDriver
     val vendor = driver.vendorApp.orEmpty()
     val userId = driver.authKey == AuthKeyKind.NUMERIC_USER_ID
     var visible by remember { mutableStateOf(false) }
+    var pasted by remember { mutableStateOf(false) }
+    var offerClearClipboard by remember { mutableStateOf(false) }
     SecureWindow()
+
+    fun save() {
+        if (!viewModel.saveKey()) return
+        // A pasted key is still in the clipboard: offer to clear it (possible since Android 9).
+        if (pasted && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) offerClearClipboard = true else onDone()
+    }
+
+    if (offerClearClipboard) {
+        val finish = {
+            offerClearClipboard = false
+            onDone()
+        }
+        AlertDialog(
+            onDismissRequest = finish,
+            title = { Text(stringResource(R.string.wearable_clipboard_clear_title)) },
+            text = { Text(stringResource(R.string.wearable_clipboard_clear_text)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    clearClipboard(context)
+                    finish()
+                }) { Text(stringResource(R.string.wearable_clipboard_clear)) }
+            },
+            dismissButton = { TextButton(onClick = finish) { Text(stringResource(R.string.wearable_clipboard_keep)) } },
+        )
+    }
 
     Scaffold(
         topBar = {
@@ -119,6 +148,8 @@ fun WearableKeyWizardScreen(viewModel: WearableViewModel, driver: WearableDriver
             Step(stringResource(R.string.wearable_wizard_step_important))
             Bullet(stringResource(R.string.wearable_wizard_unpair, vendor))
             Bullet(stringResource(R.string.wearable_wizard_share))
+            // The user-id models authenticate in plaintext and their link is not encrypted.
+            if (userId) Bullet(stringResource(R.string.wearable_wizard_plaintext))
             Bullet(stringResource(R.string.band_help_important_storage))
 
             Step(stringResource(R.string.wearable_wizard_step_enter))
@@ -138,7 +169,7 @@ fun WearableKeyWizardScreen(viewModel: WearableViewModel, driver: WearableDriver
                     autoCorrectEnabled = false,
                     imeAction = ImeAction.Done,
                 ),
-                keyboardActions = KeyboardActions(onDone = { if (viewModel.saveKey()) onDone() }),
+                keyboardActions = KeyboardActions(onDone = { save() }),
                 trailingIcon = {
                     TextButton(onClick = { visible = !visible }) {
                         Text(stringResource(if (visible) R.string.band_log_hide else R.string.band_key_show))
@@ -146,19 +177,32 @@ fun WearableKeyWizardScreen(viewModel: WearableViewModel, driver: WearableDriver
                 },
             )
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                OutlinedButton(onClick = { viewModel.paste(readClipboard(context)) }) { Text(stringResource(R.string.wearable_wizard_paste)) }
-                Button(onClick = { if (viewModel.saveKey()) onDone() }, enabled = input.isNotBlank()) { Text(stringResource(R.string.band_key_save)) }
+                OutlinedButton(onClick = { if (viewModel.paste(readClipboard(context))) pasted = true }) { Text(stringResource(R.string.wearable_wizard_paste)) }
+                Button(onClick = { save() }, enabled = input.isNotBlank()) { Text(stringResource(R.string.band_key_save)) }
             }
         }
     }
 }
 
-/** The clipboard's text, read only when the user taps "Paste" (never kept or logged). */
+/**
+ * The clipboard's plain text, read only when the user taps "Paste" (never kept or logged). Only the
+ * item's text: no coerceToText, which could resolve a content URI or intent on the main thread.
+ */
 private fun readClipboard(context: Context): String? = try {
     val clipboard = context.getSystemService(ClipboardManager::class.java)
-    clipboard?.primaryClip?.takeIf { it.itemCount > 0 }?.getItemAt(0)?.coerceToText(context)?.toString()
+    clipboard?.primaryClip?.takeIf { it.itemCount > 0 }?.getItemAt(0)?.text?.toString()
 } catch (e: SecurityException) {
     null
+}
+
+/** Empties the clipboard after a pasted key was saved (API 28+; the user is asked first). */
+private fun clearClipboard(context: Context) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) return
+    try {
+        context.getSystemService(ClipboardManager::class.java)?.clearPrimaryClip()
+    } catch (e: SecurityException) {
+        // Nothing else to do: the user can clear it from the keyboard.
+    }
 }
 
 /** FLAG_SECURE on the window while this composable is in the composition. */

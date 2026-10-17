@@ -1068,6 +1068,7 @@
     <string name="wearable_failure_not_supported">Bu cihaz bu özelliği desteklemiyor.</string>
     <string name="wearable_failure_busy">Cihaz başka bir uygulamaya bağlı (neredeyse kesinlikle %1$s) ve yalnızca tek bir bağlantıyı kabul ediyor. %1$s uygulamasını geçici olarak durdurun (Ayarlar → Uygulamalar → %1$s → Zorla durdur) ve tekrar deneyin. İşiniz bitince senkronizasyonu sürdürmesi için %1$s uygulamasını açın.</string>
     <string name="wearable_failure_busy_plain">Cihaz başka bir uygulamaya bağlı ve yalnızca tek bir bağlantıyı kabul ediyor. O uygulamayı kapatıp tekrar deneyin.</string>
+    <string name="wearable_failure_alarm_slots_full">Cihazda boş alarm yeri kalmadı. Önce bir alarmı silin.</string>
     <string name="wearable_key_user_id_title">Xiaomi hesabı kullanıcı kimliği</string>
     <string name="wearable_key_missing">Bu cihaz, eşleme sırasında %1$s uygulamasının ayarladığı kimlik doğrulama anahtarına ihtiyaç duyar.</string>
     <string name="wearable_key_setup">Anahtarı ayarla</string>
@@ -1090,6 +1091,11 @@
     <string name="wearable_key_error_empty_user_id">Kullanıcı kimliğini girin.</string>
     <string name="wearable_key_error_not_numeric">Kullanıcı kimliği yalnızca rakam içerebilir.</string>
     <string name="wearable_key_error_too_long">Kullanıcı kimliği çok uzun.</string>
+    <string name="wearable_wizard_plaintext">Bu modelin bağlantısı şifrelenmez: yakındaki, uygun donanıma sahip biri cihaz ile telefon arasında gidip gelenleri okuyabilir.</string>
+    <string name="wearable_clipboard_clear_title">Anahtar kaydedildi</string>
+    <string name="wearable_clipboard_clear_text">Anahtar hâlâ panoda ve diğer uygulamalar onu okuyabilir. Pano temizlensin mi?</string>
+    <string name="wearable_clipboard_clear">Panoyu temizle</string>
+    <string name="wearable_clipboard_keep">Bırak</string>
     <string name="health_wearable_live_title">%1$s · doğrudan mod</string>
     <string name="health_wearable_live_text">Cihaz bağlıyken uygulamanın kaydettiği canlı nabız (Health Connect\'te değil).</string>
 </resources>

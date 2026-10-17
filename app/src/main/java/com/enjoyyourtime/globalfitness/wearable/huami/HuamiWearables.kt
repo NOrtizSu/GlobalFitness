@@ -322,7 +322,7 @@ class HuamiSession(env: WearableSessionEnv, private val model: HuamiModel) : Gat
 
     override suspend fun saveAlarm(id: Int?, spec: AlarmSpec) = withContext(serial) {
         val config = serviceOf(HuamiUuids.CONFIGURATION) ?: throw WearableException(WearableFailure.NOT_SUPPORTED)
-        val alarm = alarms.put(id, spec) ?: throw WearableException(WearableFailure.NOT_SUPPORTED, "all alarm slots used")
+        val alarm = alarms.put(id, spec) ?: throw WearableException(WearableFailure.ALARM_SLOTS_FULL, "all alarm slots used")
         write(config, HuamiUuids.CONFIGURATION, HuamiProtocol.alarm(alarm.id - 1, alarm.spec))
         Unit
     }

@@ -77,6 +77,7 @@ wearable_failure_timeout = डिवाइस ने समय पर जवा�
 wearable_failure_not_supported = यह डिवाइस यह सुविधा नहीं देता।
 wearable_failure_busy = डिवाइस किसी दूसरे ऐप (लगभग पक्का %1$s) से कनेक्ट है और सिर्फ़ एक कनेक्शन स्वीकार करता है। %1$s को कुछ समय के लिए रोकें (सेटिंग → ऐप्लिकेशन → %1$s → ज़बरदस्ती रोकें) और फिर से कोशिश करें। काम पूरा होने पर %1$s खोलें, ताकि वह सिंक करता रहे।
 wearable_failure_busy_plain = डिवाइस किसी दूसरे ऐप से कनेक्ट है और सिर्फ़ एक कनेक्शन स्वीकार करता है। उस ऐप को बंद करें और फिर से कोशिश करें।
+wearable_failure_alarm_slots_full = डिवाइस में अलार्म के लिए कोई खाली जगह नहीं है। पहले कोई अलार्म हटाएं।
 
 # Wearable key card and key wizard (no vendor sign-in: the key is always entered by the user)
 wearable_key_user_id_title = Xiaomi खाते का यूज़र आईडी
@@ -101,6 +102,11 @@ wearable_wizard_clipboard_empty = क्लिपबोर्ड में अ�
 wearable_key_error_empty_user_id = यूज़र आईडी डालें।
 wearable_key_error_not_numeric = यूज़र आईडी में सिर्फ़ अंक हो सकते हैं।
 wearable_key_error_too_long = यूज़र आईडी बहुत लंबा है।
+wearable_wizard_plaintext = इस मॉडल का कनेक्शन एन्क्रिप्ट नहीं होता: सही उपकरण वाला कोई आस-पास का व्यक्ति डिवाइस और फ़ोन के बीच होने वाला लेन-देन पढ़ सकता है।
+wearable_clipboard_clear_title = कुंजी सेव हो गई
+wearable_clipboard_clear_text = कुंजी अब भी क्लिपबोर्ड में है, जहां दूसरे ऐप उसे पढ़ सकते हैं। क्लिपबोर्ड खाली करें?
+wearable_clipboard_clear = क्लिपबोर्ड खाली करें
+wearable_clipboard_keep = रहने दें
 
 # Activity: live heart rate recorded in direct mode, per device
 health_wearable_live_title = %1$s · डायरेक्ट मोड

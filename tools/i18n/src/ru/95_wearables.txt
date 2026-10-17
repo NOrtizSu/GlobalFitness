@@ -77,6 +77,7 @@ wearable_failure_timeout = Устройство не ответило вовре
 wearable_failure_not_supported = Это устройство не поддерживает эту функцию.
 wearable_failure_busy = Устройство подключено к другому приложению (почти наверняка к %1$s) и поддерживает только одно соединение. Временно остановите %1$s (Настройки → Приложения → %1$s → Остановить) и повторите попытку. Закончив, откройте %1$s, чтобы он продолжил синхронизацию.
 wearable_failure_busy_plain = Устройство подключено к другому приложению и поддерживает только одно соединение. Закройте это приложение и повторите попытку.
+wearable_failure_alarm_slots_full = На устройстве не осталось свободных мест для будильников. Сначала удалите один из них.
 
 # Wearable key card and key wizard (no vendor sign-in: the key is always entered by the user)
 wearable_key_user_id_title = ID пользователя аккаунта Xiaomi
@@ -101,6 +102,11 @@ wearable_wizard_clipboard_empty = В буфере обмена нет ключа
 wearable_key_error_empty_user_id = Введите ID пользователя.
 wearable_key_error_not_numeric = ID пользователя может содержать только цифры.
 wearable_key_error_too_long = ID пользователя слишком длинный.
+wearable_wizard_plaintext = Соединение этой модели не шифруется: человек поблизости с подходящим оборудованием может прочитать, чем обмениваются устройство и телефон.
+wearable_clipboard_clear_title = Ключ сохранён
+wearable_clipboard_clear_text = Ключ всё ещё в буфере обмена, где его могут прочитать другие приложения. Очистить буфер обмена?
+wearable_clipboard_clear = Очистить буфер
+wearable_clipboard_keep = Оставить
 
 # Activity: live heart rate recorded in direct mode, per device
 health_wearable_live_title = %1$s · прямой режим

@@ -1035,6 +1035,7 @@
     <string name="wearable_failure_not_supported">Thiết bị này không hỗ trợ tính năng đó.</string>
     <string name="wearable_failure_busy">Thiết bị đang kết nối với một ứng dụng khác (gần như chắc chắn là %1$s) và chỉ cho phép một kết nối. Hãy tạm dừng %1$s (Cài đặt → Ứng dụng → %1$s → Buộc dừng) rồi thử lại. Khi xong, hãy mở %1$s để ứng dụng tiếp tục đồng bộ hóa.</string>
     <string name="wearable_failure_busy_plain">Thiết bị đang kết nối với một ứng dụng khác và chỉ cho phép một kết nối. Hãy đóng ứng dụng đó rồi thử lại.</string>
+    <string name="wearable_failure_alarm_slots_full">Thiết bị không còn chỗ trống cho báo thức. Hãy xóa một báo thức trước.</string>
     <string name="wearable_key_user_id_title">ID người dùng của tài khoản Xiaomi</string>
     <string name="wearable_key_missing">Thiết bị này cần khóa xác thực mà %1$s đã thiết lập khi ghép nối.</string>
     <string name="wearable_key_setup">Thiết lập khóa</string>
@@ -1057,6 +1058,11 @@
     <string name="wearable_key_error_empty_user_id">Hãy nhập ID người dùng.</string>
     <string name="wearable_key_error_not_numeric">ID người dùng chỉ được chứa chữ số.</string>
     <string name="wearable_key_error_too_long">ID người dùng quá dài.</string>
+    <string name="wearable_wizard_plaintext">Kết nối của mẫu này không được mã hóa: người ở gần có thiết bị phù hợp có thể đọc những gì thiết bị và điện thoại trao đổi.</string>
+    <string name="wearable_clipboard_clear_title">Đã lưu khóa</string>
+    <string name="wearable_clipboard_clear_text">Khóa vẫn còn trong bảng nhớ tạm, nơi các ứng dụng khác có thể đọc được. Xóa bảng nhớ tạm?</string>
+    <string name="wearable_clipboard_clear">Xóa bảng nhớ tạm</string>
+    <string name="wearable_clipboard_keep">Giữ lại</string>
     <string name="health_wearable_live_title">%1$s · chế độ trực tiếp</string>
     <string name="health_wearable_live_text">Nhịp tim thời gian thực do ứng dụng ghi lại khi thiết bị được kết nối (không có trong Health Connect).</string>
 </resources>

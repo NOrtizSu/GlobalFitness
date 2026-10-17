@@ -1035,6 +1035,7 @@
     <string name="wearable_failure_not_supported">このデバイスはその機能に対応していません。</string>
     <string name="wearable_failure_busy">デバイスは別のアプリ（ほぼ確実に %1$s）に接続されており、同時に 1 つの接続しか受け付けません。%1$s を一時的に停止して（設定 → アプリ → %1$s → 強制停止）、もう一度お試しください。終わったら、同期を続けられるよう %1$s を開いてください。</string>
     <string name="wearable_failure_busy_plain">デバイスは別のアプリに接続されており、同時に 1 つの接続しか受け付けません。そのアプリを閉じてから、もう一度お試しください。</string>
+    <string name="wearable_failure_alarm_slots_full">デバイスのアラーム枠に空きがありません。先にアラームを 1 つ削除してください。</string>
     <string name="wearable_key_user_id_title">Xiaomi アカウントのユーザー ID</string>
     <string name="wearable_key_missing">このデバイスには、ペア設定時に %1$s が設定した認証キーが必要です。</string>
     <string name="wearable_key_setup">キーを設定</string>
@@ -1057,6 +1058,11 @@
     <string name="wearable_key_error_empty_user_id">ユーザー ID を入力してください。</string>
     <string name="wearable_key_error_not_numeric">ユーザー ID には数字のみを使用できます。</string>
     <string name="wearable_key_error_too_long">ユーザー ID が長すぎます。</string>
+    <string name="wearable_wizard_plaintext">このモデルの通信は暗号化されていません。適切な機器を持つ近くの人が、デバイスとスマートフォンのやり取りを読み取れる可能性があります。</string>
+    <string name="wearable_clipboard_clear_title">キーを保存しました</string>
+    <string name="wearable_clipboard_clear_text">キーはまだクリップボードにあり、ほかのアプリから読み取れます。クリップボードを消去しますか？</string>
+    <string name="wearable_clipboard_clear">クリップボードを消去</string>
+    <string name="wearable_clipboard_keep">そのままにする</string>
     <string name="health_wearable_live_title">%1$s · ダイレクトモード</string>
     <string name="health_wearable_live_text">デバイスの接続中にアプリが記録したリアルタイム心拍数です（Health Connect には含まれません）。</string>
 </resources>

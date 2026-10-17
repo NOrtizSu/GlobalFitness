@@ -122,8 +122,12 @@ class WearableControllerTest {
             return WearableAlarms(listOf(BandAlarm(1, AlarmSpec(7, 0))), 5)
         }
 
+        @Volatile
+        var saveAlarmFailure: WearableFailure? = null
+
         override suspend fun saveAlarm(id: Int?, spec: AlarmSpec) {
             calls += "save($id)"
+            saveAlarmFailure?.let { throw WearableException(it) }
         }
 
         override suspend fun deleteAlarm(id: Int) {
@@ -275,6 +279,24 @@ class WearableControllerTest {
         c.onPhoneNotification(PhoneNotification("k", "com.x", "X", "T", "B", 0), forwardingEnabled = true, allowedPackages = setOf("com.x"))
         delay(100)
         assertFalse(session.calls.any { it.startsWith("notify") })
+    }
+
+    @Test
+    fun fullAlarmSlotsAreReportedNotSwallowed() = runTest {
+        val session = FakeSession()
+        val c = controller(FakePlatform(session))
+        val messages = Collections.synchronizedList(mutableListOf<WearableMessage>())
+        scope.launch { c.messages.collect { messages += it } }
+        c.connect()
+        c.awaitState { it.alarms != null }
+        session.saveAlarmFailure = WearableFailure.ALARM_SLOTS_FULL
+        c.saveAlarm(null, AlarmSpec(6, 0))
+        waitUntil { messages.contains(WearableMessage.ActionFailed(WearableAction.SAVE_ALARM, WearableFailure.ALARM_SLOTS_FULL)) }
+        // A device that does not answer is still tolerated: the list is read back.
+        session.saveAlarmFailure = WearableFailure.REQUEST_TIMEOUT
+        val loads = session.calls.count { it == "alarms" }
+        c.saveAlarm(null, AlarmSpec(7, 0))
+        waitUntil { session.calls.count { it == "alarms" } > loads }
     }
 
     @Test

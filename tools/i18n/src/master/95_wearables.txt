@@ -77,6 +77,7 @@ wearable_failure_timeout = The device did not answer in time. ||| El dispositivo
 wearable_failure_not_supported = This device does not support that. ||| Este dispositivo no admite esa función.
 wearable_failure_busy = The device is connected to another app (almost certainly %1$s) and accepts only one connection. Stop %1$s temporarily (Settings → Apps → %1$s → Force stop) and try again. When you are done, open %1$s so it keeps syncing. ||| El dispositivo está conectado a otra app (casi seguro %1$s) y solo admite una conexión. Detén temporalmente %1$s (Ajustes → Aplicaciones → %1$s → Forzar detención) y vuelve a intentarlo. Al terminar, abre %1$s para que siga sincronizando.
 wearable_failure_busy_plain = The device is connected to another app and accepts only one connection. Close that app and try again. ||| El dispositivo está conectado a otra app y solo admite una conexión. Cierra esa app y vuelve a intentarlo.
+wearable_failure_alarm_slots_full = The device has no free alarm slot. Delete an alarm first. ||| El dispositivo ya no admite más alarmas. Elimina una primero.
 
 # Wearable key card and key wizard (no vendor sign-in: the key is always entered by the user)
 wearable_key_user_id_title = Xiaomi account user ID ||| ID de usuario de la cuenta Xiaomi
@@ -101,6 +102,11 @@ wearable_wizard_clipboard_empty = The clipboard does not contain a key in the ex
 wearable_key_error_empty_user_id = Enter the user ID. ||| Introduce el ID de usuario.
 wearable_key_error_not_numeric = The user ID can only contain digits. ||| El ID de usuario solo puede contener dígitos.
 wearable_key_error_too_long = The user ID is too long. ||| El ID de usuario es demasiado largo.
+wearable_wizard_plaintext = This model's connection is not encrypted: someone nearby with the right equipment could read what the device and the phone exchange. ||| La conexión de este modelo no está cifrada: alguien cercano con el equipo adecuado podría leer lo que se intercambian el dispositivo y el teléfono.
+wearable_clipboard_clear_title = Key saved ||| Clave guardada
+wearable_clipboard_clear_text = The key is still in the clipboard, where other apps can read it. Clear the clipboard? ||| La clave sigue en el portapapeles, donde otras apps pueden leerla. ¿Vaciar el portapapeles?
+wearable_clipboard_clear = Clear clipboard ||| Vaciar portapapeles
+wearable_clipboard_keep = Leave it ||| Dejarla
 
 # Activity: live heart rate recorded in direct mode, per device
 health_wearable_live_title = %1$s · direct mode ||| %1$s · modo directo

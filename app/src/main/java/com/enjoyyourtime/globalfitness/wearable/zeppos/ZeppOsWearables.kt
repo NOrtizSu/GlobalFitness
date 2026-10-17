@@ -428,7 +428,7 @@ class ZeppOsSession(
 
     override suspend fun saveAlarm(id: Int?, spec: AlarmSpec) = withContext(serial) {
         val target = id ?: (1..ZeppOsProtocol.MAX_ALARMS).firstOrNull { c -> lastAlarms.none { it.id == c } }
-            ?: throw WearableException(WearableFailure.NOT_SUPPORTED, "all alarm slots used")
+            ?: throw WearableException(WearableFailure.ALARM_SLOTS_FULL, "all alarm slots used")
         send(ZeppOsProtocol.ALARMS, ZeppOsProtocol.saveAlarm(target - 1, spec))
     }
 

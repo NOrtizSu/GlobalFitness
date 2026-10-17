@@ -1134,6 +1134,7 @@
     <string name="wearable_failure_not_supported">To urządzenie nie obsługuje tej funkcji.</string>
     <string name="wearable_failure_busy">Urządzenie jest połączone z inną aplikacją (niemal na pewno z aplikacją %1$s) i obsługuje tylko jedno połączenie. Tymczasowo zatrzymaj aplikację %1$s (Ustawienia → Aplikacje → %1$s → Wymuś zatrzymanie) i spróbuj ponownie. Gdy skończysz, otwórz aplikację %1$s, aby dalej się synchronizowała.</string>
     <string name="wearable_failure_busy_plain">Urządzenie jest połączone z inną aplikacją i obsługuje tylko jedno połączenie. Zamknij tamtą aplikację i spróbuj ponownie.</string>
+    <string name="wearable_failure_alarm_slots_full">Urządzenie nie ma już wolnych miejsc na alarmy. Najpierw usuń jeden alarm.</string>
     <string name="wearable_key_user_id_title">Identyfikator użytkownika konta Xiaomi</string>
     <string name="wearable_key_missing">To urządzenie wymaga klucza uwierzytelniania, który aplikacja %1$s skonfigurowała podczas parowania.</string>
     <string name="wearable_key_setup">Skonfiguruj klucz</string>
@@ -1156,6 +1157,11 @@
     <string name="wearable_key_error_empty_user_id">Wpisz identyfikator użytkownika.</string>
     <string name="wearable_key_error_not_numeric">Identyfikator użytkownika może zawierać tylko cyfry.</string>
     <string name="wearable_key_error_too_long">Identyfikator użytkownika jest za długi.</string>
+    <string name="wearable_wizard_plaintext">Połączenie tego modelu nie jest szyfrowane: osoba w pobliżu z odpowiednim sprzętem mogłaby odczytać, co wymieniają urządzenie i telefon.</string>
+    <string name="wearable_clipboard_clear_title">Klucz zapisany</string>
+    <string name="wearable_clipboard_clear_text">Klucz nadal jest w schowku, gdzie inne aplikacje mogą go odczytać. Wyczyścić schowek?</string>
+    <string name="wearable_clipboard_clear">Wyczyść schowek</string>
+    <string name="wearable_clipboard_keep">Zostaw</string>
     <string name="health_wearable_live_title">%1$s · tryb bezpośredni</string>
     <string name="health_wearable_live_text">Tętno na żywo zapisane przez aplikację przy połączonym urządzeniu (nie w Health Connect).</string>
 </resources>

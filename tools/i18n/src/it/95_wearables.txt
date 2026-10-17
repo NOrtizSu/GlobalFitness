@@ -77,6 +77,7 @@ wearable_failure_timeout = Il dispositivo non ha risposto in tempo.
 wearable_failure_not_supported = Questo dispositivo non supporta questa funzione.
 wearable_failure_busy = Il dispositivo è connesso a un'altra app (quasi certamente %1$s) e accetta una sola connessione. Interrompi temporaneamente %1$s (Impostazioni → App → %1$s → Forza interruzione) e riprova. Al termine, apri %1$s in modo che continui a sincronizzare.
 wearable_failure_busy_plain = Il dispositivo è connesso a un'altra app e accetta una sola connessione. Chiudi quell'app e riprova.
+wearable_failure_alarm_slots_full = Il dispositivo non ha più posti liberi per le sveglie. Elimina prima una sveglia.
 
 # Wearable key card and key wizard (no vendor sign-in: the key is always entered by the user)
 wearable_key_user_id_title = ID utente dell'account Xiaomi
@@ -101,6 +102,11 @@ wearable_wizard_clipboard_empty = Gli appunti non contengono una chiave nel form
 wearable_key_error_empty_user_id = Inserisci l'ID utente.
 wearable_key_error_not_numeric = L'ID utente può contenere solo cifre.
 wearable_key_error_too_long = L'ID utente è troppo lungo.
+wearable_wizard_plaintext = Il collegamento di questo modello non è cifrato: chi si trova nelle vicinanze con l'attrezzatura adatta potrebbe leggere ciò che si scambiano il dispositivo e il telefono.
+wearable_clipboard_clear_title = Chiave salvata
+wearable_clipboard_clear_text = La chiave è ancora negli appunti, dove altre app possono leggerla. Svuotare gli appunti?
+wearable_clipboard_clear = Svuota appunti
+wearable_clipboard_keep = Lasciala
 
 # Activity: live heart rate recorded in direct mode, per device
 health_wearable_live_title = %1$s · modalità diretta

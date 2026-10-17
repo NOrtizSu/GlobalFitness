@@ -1101,6 +1101,7 @@
     <string name="wearable_failure_not_supported">Cet appareil ne prend pas en charge cette fonction.</string>
     <string name="wearable_failure_busy">L\'appareil est connecté à une autre application (presque certainement %1$s) et n\'accepte qu\'une seule connexion. Arrêtez temporairement %1$s (Paramètres → Applications → %1$s → Forcer l\'arrêt), puis réessayez. Une fois terminé, ouvrez %1$s pour qu\'il continue de se synchroniser.</string>
     <string name="wearable_failure_busy_plain">L\'appareil est connecté à une autre application et n\'accepte qu\'une seule connexion. Fermez cette application et réessayez.</string>
+    <string name="wearable_failure_alarm_slots_full">L\'appareil n\'a plus d\'emplacement libre pour les alarmes. Supprimez d\'abord une alarme.</string>
     <string name="wearable_key_user_id_title">ID utilisateur du compte Xiaomi</string>
     <string name="wearable_key_missing">Cet appareil a besoin de la clé d\'authentification que %1$s a configurée lors de l\'association.</string>
     <string name="wearable_key_setup">Configurer la clé</string>
@@ -1123,6 +1124,11 @@
     <string name="wearable_key_error_empty_user_id">Saisissez l\'ID utilisateur.</string>
     <string name="wearable_key_error_not_numeric">L\'ID utilisateur ne peut contenir que des chiffres.</string>
     <string name="wearable_key_error_too_long">L\'ID utilisateur est trop long.</string>
+    <string name="wearable_wizard_plaintext">La liaison de ce modèle n\'est pas chiffrée : une personne à proximité disposant du bon matériel pourrait lire ce qu\'échangent l\'appareil et le téléphone.</string>
+    <string name="wearable_clipboard_clear_title">Clé enregistrée</string>
+    <string name="wearable_clipboard_clear_text">La clé est toujours dans le presse-papiers, où d\'autres applications peuvent la lire. Vider le presse-papiers ?</string>
+    <string name="wearable_clipboard_clear">Vider le presse-papiers</string>
+    <string name="wearable_clipboard_keep">La laisser</string>
     <string name="health_wearable_live_title">%1$s · mode direct</string>
     <string name="health_wearable_live_text">Fréquence cardiaque en direct enregistrée par l\'application avec l\'appareil connecté (pas dans Health Connect).</string>
 </resources>

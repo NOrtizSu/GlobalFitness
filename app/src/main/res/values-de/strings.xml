@@ -1068,6 +1068,7 @@
     <string name="wearable_failure_not_supported">Dieses Gerät unterstützt das nicht.</string>
     <string name="wearable_failure_busy">Das Gerät ist mit einer anderen App verbunden (fast sicher %1$s) und akzeptiert nur eine Verbindung. Beende %1$s vorübergehend (Einstellungen → Apps → %1$s → Beenden erzwingen) und versuche es erneut. Öffne danach %1$s, damit es weiter synchronisiert.</string>
     <string name="wearable_failure_busy_plain">Das Gerät ist mit einer anderen App verbunden und akzeptiert nur eine Verbindung. Schließe diese App und versuche es erneut.</string>
+    <string name="wearable_failure_alarm_slots_full">Das Gerät hat keinen freien Weckerplatz mehr. Lösche zuerst einen Wecker.</string>
     <string name="wearable_key_user_id_title">Benutzer-ID des Xiaomi-Kontos</string>
     <string name="wearable_key_missing">Dieses Gerät braucht den Authentifizierungsschlüssel, den %1$s beim Koppeln eingerichtet hat.</string>
     <string name="wearable_key_setup">Schlüssel einrichten</string>
@@ -1090,6 +1091,11 @@
     <string name="wearable_key_error_empty_user_id">Gib die Benutzer-ID ein.</string>
     <string name="wearable_key_error_not_numeric">Die Benutzer-ID darf nur Ziffern enthalten.</string>
     <string name="wearable_key_error_too_long">Die Benutzer-ID ist zu lang.</string>
+    <string name="wearable_wizard_plaintext">Die Verbindung dieses Modells ist nicht verschlüsselt: Jemand in der Nähe mit der passenden Ausrüstung könnte mitlesen, was Gerät und Smartphone austauschen.</string>
+    <string name="wearable_clipboard_clear_title">Schlüssel gespeichert</string>
+    <string name="wearable_clipboard_clear_text">Der Schlüssel ist noch in der Zwischenablage, wo andere Apps ihn lesen können. Zwischenablage leeren?</string>
+    <string name="wearable_clipboard_clear">Zwischenablage leeren</string>
+    <string name="wearable_clipboard_keep">Behalten</string>
     <string name="health_wearable_live_title">%1$s · Direktmodus</string>
     <string name="health_wearable_live_text">Live-Herzfrequenz, die die App bei verbundenem Gerät aufgezeichnet hat (nicht in Health Connect).</string>
 </resources>

@@ -1101,6 +1101,7 @@
     <string name="wearable_failure_not_supported">Questo dispositivo non supporta questa funzione.</string>
     <string name="wearable_failure_busy">Il dispositivo è connesso a un\'altra app (quasi certamente %1$s) e accetta una sola connessione. Interrompi temporaneamente %1$s (Impostazioni → App → %1$s → Forza interruzione) e riprova. Al termine, apri %1$s in modo che continui a sincronizzare.</string>
     <string name="wearable_failure_busy_plain">Il dispositivo è connesso a un\'altra app e accetta una sola connessione. Chiudi quell\'app e riprova.</string>
+    <string name="wearable_failure_alarm_slots_full">Il dispositivo non ha più posti liberi per le sveglie. Elimina prima una sveglia.</string>
     <string name="wearable_key_user_id_title">ID utente dell\'account Xiaomi</string>
     <string name="wearable_key_missing">Questo dispositivo ha bisogno della chiave di autenticazione che %1$s ha configurato durante l\'associazione.</string>
     <string name="wearable_key_setup">Configura la chiave</string>
@@ -1123,6 +1124,11 @@
     <string name="wearable_key_error_empty_user_id">Inserisci l\'ID utente.</string>
     <string name="wearable_key_error_not_numeric">L\'ID utente può contenere solo cifre.</string>
     <string name="wearable_key_error_too_long">L\'ID utente è troppo lungo.</string>
+    <string name="wearable_wizard_plaintext">Il collegamento di questo modello non è cifrato: chi si trova nelle vicinanze con l\'attrezzatura adatta potrebbe leggere ciò che si scambiano il dispositivo e il telefono.</string>
+    <string name="wearable_clipboard_clear_title">Chiave salvata</string>
+    <string name="wearable_clipboard_clear_text">La chiave è ancora negli appunti, dove altre app possono leggerla. Svuotare gli appunti?</string>
+    <string name="wearable_clipboard_clear">Svuota appunti</string>
+    <string name="wearable_clipboard_keep">Lasciala</string>
     <string name="health_wearable_live_title">%1$s · modalità diretta</string>
     <string name="health_wearable_live_text">Frequenza cardiaca in tempo reale registrata dall\'app con il dispositivo connesso (non in Health Connect).</string>
 </resources>

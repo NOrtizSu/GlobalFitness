@@ -35,6 +35,9 @@ enum class WearableFailure {
 
     /** The driver does not implement this function. */
     NOT_SUPPORTED,
+
+    /** Every alarm slot of the device is in use: one must be deleted first. */
+    ALARM_SLOTS_FULL,
     CLOSED,
 }
 

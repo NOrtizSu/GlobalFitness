@@ -1114,6 +1114,7 @@
     <string name="wearable_failure_not_supported">This device does not support that.</string>
     <string name="wearable_failure_busy">The device is connected to another app (almost certainly %1$s) and accepts only one connection. Stop %1$s temporarily (Settings → Apps → %1$s → Force stop) and try again. When you are done, open %1$s so it keeps syncing.</string>
     <string name="wearable_failure_busy_plain">The device is connected to another app and accepts only one connection. Close that app and try again.</string>
+    <string name="wearable_failure_alarm_slots_full">The device has no free alarm slot. Delete an alarm first.</string>
     <!-- Wearable key card and key wizard (no vendor sign-in: the key is always entered by the user) -->
     <string name="wearable_key_user_id_title">Xiaomi account user ID</string>
     <string name="wearable_key_missing">This device needs the authentication key that %1$s set up when it was paired.</string>
@@ -1137,6 +1138,11 @@
     <string name="wearable_key_error_empty_user_id">Enter the user ID.</string>
     <string name="wearable_key_error_not_numeric">The user ID can only contain digits.</string>
     <string name="wearable_key_error_too_long">The user ID is too long.</string>
+    <string name="wearable_wizard_plaintext">This model\'s connection is not encrypted: someone nearby with the right equipment could read what the device and the phone exchange.</string>
+    <string name="wearable_clipboard_clear_title">Key saved</string>
+    <string name="wearable_clipboard_clear_text">The key is still in the clipboard, where other apps can read it. Clear the clipboard?</string>
+    <string name="wearable_clipboard_clear">Clear clipboard</string>
+    <string name="wearable_clipboard_keep">Leave it</string>
     <!-- Activity: live heart rate recorded in direct mode, per device -->
     <string name="health_wearable_live_title">%1$s · direct mode</string>
     <string name="health_wearable_live_text">Live heart rate recorded by the app with the device connected (not in Health Connect).</string>

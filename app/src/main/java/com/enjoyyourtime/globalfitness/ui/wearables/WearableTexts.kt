@@ -47,6 +47,7 @@ fun failureText(failure: WearableFailure, busy: Boolean, vendor: String?): UiTex
         WearableFailure.LINK_LOST -> UiText.res(R.string.wearable_failure_link_lost)
         WearableFailure.REQUEST_TIMEOUT -> UiText.res(R.string.wearable_failure_timeout)
         WearableFailure.NOT_SUPPORTED -> UiText.res(R.string.wearable_failure_not_supported)
+        WearableFailure.ALARM_SLOTS_FULL -> UiText.res(R.string.wearable_failure_alarm_slots_full)
         WearableFailure.CLOSED -> UiText.res(R.string.wearable_status_not_connected)
     }
 }

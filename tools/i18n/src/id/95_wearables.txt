@@ -77,6 +77,7 @@ wearable_failure_timeout = Perangkat tidak menjawab tepat waktu.
 wearable_failure_not_supported = Perangkat ini tidak mendukung fitur tersebut.
 wearable_failure_busy = Perangkat terhubung ke aplikasi lain (hampir pasti %1$s) dan hanya menerima satu koneksi. Hentikan %1$s untuk sementara (Setelan → Aplikasi → %1$s → Paksa berhenti), lalu coba lagi. Setelah selesai, buka %1$s agar tetap menyinkronkan.
 wearable_failure_busy_plain = Perangkat terhubung ke aplikasi lain dan hanya menerima satu koneksi. Tutup aplikasi tersebut, lalu coba lagi.
+wearable_failure_alarm_slots_full = Perangkat tidak punya slot alarm yang kosong. Hapus satu alarm terlebih dahulu.
 
 # Wearable key card and key wizard (no vendor sign-in: the key is always entered by the user)
 wearable_key_user_id_title = ID pengguna akun Xiaomi
@@ -101,6 +102,11 @@ wearable_wizard_clipboard_empty = Papan klip tidak berisi kunci dengan format ya
 wearable_key_error_empty_user_id = Masukkan ID pengguna.
 wearable_key_error_not_numeric = ID pengguna hanya boleh berisi angka.
 wearable_key_error_too_long = ID pengguna terlalu panjang.
+wearable_wizard_plaintext = Koneksi model ini tidak dienkripsi: orang di sekitar yang memiliki peralatan yang tepat dapat membaca apa yang dipertukarkan perangkat dan ponsel.
+wearable_clipboard_clear_title = Kunci disimpan
+wearable_clipboard_clear_text = Kunci masih ada di papan klip, tempat aplikasi lain dapat membacanya. Kosongkan papan klip?
+wearable_clipboard_clear = Kosongkan papan klip
+wearable_clipboard_keep = Biarkan
 
 # Activity: live heart rate recorded in direct mode, per device
 health_wearable_live_title = %1$s · mode langsung

@@ -1200,6 +1200,7 @@
     <string name="wearable_failure_not_supported">لا يدعم هذا الجهاز هذه الميزة.</string>
     <string name="wearable_failure_busy">الجهاز متصل بتطبيق آخر (على الأرجح %1$s) ولا يقبل إلا اتصالًا واحدًا. أوقف %1$s مؤقتًا (الإعدادات ← التطبيقات ← %1$s ← فرض الإيقاف) ثم أعد المحاولة. وعند الانتهاء، افتح %1$s ليواصل المزامنة.</string>
     <string name="wearable_failure_busy_plain">الجهاز متصل بتطبيق آخر ولا يقبل إلا اتصالًا واحدًا. أغلق ذلك التطبيق ثم أعد المحاولة.</string>
+    <string name="wearable_failure_alarm_slots_full">لم يعد في الجهاز مكان شاغر للمنبّهات. احذف منبّهًا أولًا.</string>
     <string name="wearable_key_user_id_title">معرّف المستخدم في حساب Xiaomi</string>
     <string name="wearable_key_missing">يحتاج هذا الجهاز إلى مفتاح المصادقة الذي أعدّه %1$s عند إقرانه.</string>
     <string name="wearable_key_setup">إعداد المفتاح</string>
@@ -1222,6 +1223,11 @@
     <string name="wearable_key_error_empty_user_id">أدخل معرّف المستخدم.</string>
     <string name="wearable_key_error_not_numeric">لا يمكن أن يحتوي معرّف المستخدم إلا على أرقام.</string>
     <string name="wearable_key_error_too_long">معرّف المستخدم طويل جدًا.</string>
+    <string name="wearable_wizard_plaintext">اتصال هذا الطراز غير مشفّر: يمكن لشخص قريب يملك المعدات المناسبة قراءة ما يتبادله الجهاز والهاتف.</string>
+    <string name="wearable_clipboard_clear_title">تم حفظ المفتاح</string>
+    <string name="wearable_clipboard_clear_text">لا يزال المفتاح في الحافظة، حيث يمكن للتطبيقات الأخرى قراءته. هل تريد مسح الحافظة؟</string>
+    <string name="wearable_clipboard_clear">مسح الحافظة</string>
+    <string name="wearable_clipboard_keep">إبقاؤه</string>
     <string name="health_wearable_live_title">%1$s · الوضع المباشر</string>
     <string name="health_wearable_live_text">معدل ضربات القلب المباشر الذي سجّله التطبيق أثناء اتصال الجهاز (ليس في Health Connect).</string>
 </resources>

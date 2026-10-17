@@ -1101,6 +1101,7 @@
     <string name="wearable_failure_not_supported">Este dispositivo no admite esa función.</string>
     <string name="wearable_failure_busy">El dispositivo está conectado a otra app (casi seguro %1$s) y solo admite una conexión. Detén temporalmente %1$s (Ajustes → Aplicaciones → %1$s → Forzar detención) y vuelve a intentarlo. Al terminar, abre %1$s para que siga sincronizando.</string>
     <string name="wearable_failure_busy_plain">El dispositivo está conectado a otra app y solo admite una conexión. Cierra esa app y vuelve a intentarlo.</string>
+    <string name="wearable_failure_alarm_slots_full">El dispositivo ya no admite más alarmas. Elimina una primero.</string>
     <string name="wearable_key_user_id_title">ID de usuario de la cuenta Xiaomi</string>
     <string name="wearable_key_missing">Este dispositivo necesita la clave de autenticación que %1$s configuró al vincularlo.</string>
     <string name="wearable_key_setup">Configurar la clave</string>
@@ -1123,6 +1124,11 @@
     <string name="wearable_key_error_empty_user_id">Introduce el ID de usuario.</string>
     <string name="wearable_key_error_not_numeric">El ID de usuario solo puede contener dígitos.</string>
     <string name="wearable_key_error_too_long">El ID de usuario es demasiado largo.</string>
+    <string name="wearable_wizard_plaintext">La conexión de este modelo no está cifrada: alguien cercano con el equipo adecuado podría leer lo que se intercambian el dispositivo y el teléfono.</string>
+    <string name="wearable_clipboard_clear_title">Clave guardada</string>
+    <string name="wearable_clipboard_clear_text">La clave sigue en el portapapeles, donde otras apps pueden leerla. ¿Vaciar el portapapeles?</string>
+    <string name="wearable_clipboard_clear">Vaciar portapapeles</string>
+    <string name="wearable_clipboard_keep">Dejarla</string>
     <string name="health_wearable_live_title">%1$s · modo directo</string>
     <string name="health_wearable_live_text">Pulso en directo registrado por la app con el dispositivo conectado (no en Health Connect).</string>
 </resources>
