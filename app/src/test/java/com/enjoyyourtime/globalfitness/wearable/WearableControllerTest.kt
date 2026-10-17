@@ -66,6 +66,10 @@ class WearableControllerTest {
         @Volatile
         var openGate: CompletableDeferred<Unit>? = null
 
+        /** Thrown from open() as is, e.g. a driver bug. */
+        @Volatile
+        var openThrows: Exception? = null
+
         fun push(e: WearableEvent) {
             channel.trySend(e)
         }
@@ -77,6 +81,7 @@ class WearableControllerTest {
         override suspend fun open() {
             calls += "open"
             openGate?.await()
+            openThrows?.let { throw it }
             openFailure?.let { throw WearableException(it) }
         }
 
@@ -165,6 +170,23 @@ class WearableControllerTest {
         assertEquals("1.0", ready.info?.firmware)
         assertEquals(5, ready.maxAlarms)
         assertEquals(listOf("open", "time", "refresh(true)", "alarms"), session.calls.take(4))
+    }
+
+    @Test
+    fun unexpectedErrorWhileOpeningClosesTheSession() = runTest {
+        val session = FakeSession().apply { openThrows = IllegalStateException("driver bug") }
+        val platform = FakePlatform(session)
+        val c = controller(platform)
+        c.connect()
+        val failed = c.awaitState { it.failure != null }
+        assertEquals(WearableFailure.CONNECT_FAILED, failed.failure)
+        assertEquals(WearableConnection.DISCONNECTED, failed.connection)
+        assertTrue(session.calls.contains("close"))
+        assertFalse(session.isOpen)
+        // A later attempt starts a fresh connection.
+        platform.session = FakeSession()
+        c.connect()
+        c.awaitState { it.connection == WearableConnection.READY }
     }
 
     @Test

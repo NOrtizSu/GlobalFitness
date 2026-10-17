@@ -209,6 +209,10 @@ class WearableController(
         } catch (e: WearableException) {
             onFailure(e.failure, device.address)
             return
+        } catch (e: Exception) {
+            log("Error creating the session: ${e.javaClass.simpleName}")
+            onFailure(WearableFailure.CONNECT_FAILED, device.address)
+            return
         }
         session = newSession
         try {
@@ -223,6 +227,14 @@ class WearableController(
         } catch (e: WearableException) {
             if (session === newSession) session = null
             onFailure(e.failure, device.address)
+            return
+        } catch (e: Exception) {
+            // A driver bug or a platform surprise (SecurityException, a malformed frame...) must not
+            // leave a half-open session holding the device: close it and report a failed connection.
+            log("Error while connecting: ${e.javaClass.simpleName}")
+            newSession.close()
+            if (session === newSession) session = null
+            onFailure(WearableFailure.CONNECT_FAILED, device.address)
             return
         }
         _state.update { it.copy(connection = WearableConnection.READY, protocol = newSession.label) }
