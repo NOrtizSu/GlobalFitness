@@ -186,4 +186,17 @@ class XiaomiCommandsTest {
         assertEquals(42, dismiss.notification.notificationDismiss.getNotificationId(0).id)
         assertEquals("com.example.chat", dismiss.notification.notificationDismiss.getNotificationId(0).`package`)
     }
+
+    @Test
+    fun longNotificationTextsAreTruncated() {
+        val long = XiaomiCommands.notification(BandNotification(1, "p", "App", "t".repeat(2000), "b".repeat(5000), 0L))
+            .notification.notification2.notification3
+        assertEquals(XiaomiCommands.MAX_NOTIFICATION_TEXT, long.title.length)
+        assertEquals(XiaomiCommands.MAX_NOTIFICATION_TEXT, long.body.length)
+        // An emoji (surrogate pair) straddling the limit is dropped whole, never cut in half.
+        val emoji = "a".repeat(XiaomiCommands.MAX_NOTIFICATION_TEXT - 1) + "😀" + "tail"
+        val cut = XiaomiCommands.truncate(emoji, XiaomiCommands.MAX_NOTIFICATION_TEXT)
+        assertEquals("a".repeat(XiaomiCommands.MAX_NOTIFICATION_TEXT - 1), cut)
+        assertEquals("short", XiaomiCommands.truncate("short", XiaomiCommands.MAX_NOTIFICATION_TEXT))
+    }
 }

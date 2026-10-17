@@ -227,6 +227,16 @@ object XiaomiCommands {
 
     // ---- Notifications ----
 
+    /** Longest title or body sent (characters), as the Zepp OS driver: long texts would only slow the link. */
+    const val MAX_NOTIFICATION_TEXT = 512
+
+    /** [s] cut to [max] chars without splitting a surrogate pair. */
+    internal fun truncate(s: String, max: Int): String {
+        if (s.length <= max) return s
+        val end = if (Character.isHighSurrogate(s[max - 1])) max - 1 else max
+        return s.substring(0, end)
+    }
+
     /** XiaomiNotificationService.onNotification (7/0). */
     fun notification(n: BandNotification, timeZone: TimeZone = TimeZone.getDefault()): XiaomiProto.Command {
         val format = SimpleDateFormat("yyyyMMdd'T'HHmmss", Locale.ROOT).apply { this.timeZone = timeZone }
@@ -237,8 +247,8 @@ object XiaomiCommands {
             .setPackage(n.packageName)
             // The band does not show a notification without an app name.
             .setAppName(n.appName.ifEmpty { "UNKNOWN" })
-        if (n.title.isNotEmpty()) n3.setTitle(n.title)
-        n3.setBody(n.body)
+        if (n.title.isNotEmpty()) n3.setTitle(truncate(n.title, MAX_NOTIFICATION_TEXT))
+        n3.setBody(truncate(n.body, MAX_NOTIFICATION_TEXT))
         return XiaomiProto.Command.newBuilder()
             .setType(TYPE_NOTIFICATION)
             .setSubtype(NOTIFICATION_SEND)
