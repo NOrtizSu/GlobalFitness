@@ -305,17 +305,25 @@ class WearableManager(
 
     // ---- the original Smart Band 9 mode ----
 
-    /** Moves the band, key and settings chosen in the original direct band mode here, once. */
+    /**
+     * Moves the band, key and settings chosen in the original direct band mode here, once. Every step
+     * is idempotent, so an import interrupted by a write error simply runs again on the next start:
+     * the device is added only if missing, the key is copied only if this store has none for that
+     * address, and the old key file is deleted only once the copy exists.
+     */
     private fun importLegacyBand() {
         if (settings.legacyBandImported) return
         try {
             val old = BandStore(context)
             val selected = old.selected.value
-            if (selected != null && settings.configured.value.none { it.matchesAddress(selected.address) }) {
-                val device = LegacyBandImport.configuredFor(registry, selected.address, selected.name, old.syncTimeOnConnect.value, System.currentTimeMillis())
-                settings.updateConfigured { it + device }
-                old.loadAuthKey()?.let { key -> keys.save(device.address, key.toHex()) }
-                log.add("Imported the band of the original direct mode (${device.address})")
+            if (selected != null) {
+                if (settings.configured.value.none { it.matchesAddress(selected.address) }) {
+                    val device = LegacyBandImport.configuredFor(registry, selected.address, selected.name, old.syncTimeOnConnect.value, System.currentTimeMillis())
+                    settings.updateConfigured { it + device }
+                    log.add("Imported the band of the original direct mode (${device.address})")
+                }
+                if (!keys.has(selected.address)) old.loadAuthKey()?.let { key -> keys.save(selected.address, key.toHex()) }
+                if (keys.has(selected.address)) old.clearAuthKey()
             }
             if (old.forwardingEnabled.value) settings.setForwardingEnabled(true)
             if (old.allowedPackages.value.isNotEmpty()) settings.setPackagesAllowed(settings.allowedPackages.value + old.allowedPackages.value)
