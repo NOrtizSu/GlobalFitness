@@ -31,8 +31,9 @@ HEALTH CONNECT
 
 VÒNG ĐEO TAY VÀ ĐỒNG HỒ
 • Hoạt động với mọi vòng đeo tay hoặc đồng hồ có ứng dụng ghi dữ liệu vào Health Connect, gồm vòng đeo tay Xiaomi và Redmi qua Mi Fitness cũng như thiết bị Amazfit / Zepp.
-• Chế độ trực tiếp thử nghiệm cho Xiaomi Smart Band 9: nhịp tim thời gian thực, tìm vòng đeo tay, báo thức và chuyển tiếp thông báo, không cần Mi Fitness.
-• Hỗ trợ thiết bị đo nhịp tim Bluetooth tiêu chuẩn và các đồng hồ mã nguồn mở như PineTime và Bangle.js đang được phát triển.
+• Hỗ trợ trực tiếp 158 mẫu, tất cả gắn nhãn “Thử nghiệm” vì chưa được kiểm tra với mọi thiết bị thật: vòng đeo tay và đồng hồ Xiaomi và Redmi (Smart Band 7 Pro đến 11, Redmi Smart Band/Watch, Xiaomi Watch S1/S3/S4…), Amazfit / Zepp và Mi Band 2 đến 7, thiết bị đo nhịp tim Bluetooth tiêu chuẩn (như đai ngực), PineTime / InfiniTime và Bangle.js.
+• Khi thiết bị hỗ trợ: nhịp tim thời gian thực, tìm thiết bị, đồng bộ giờ, báo thức, chuyển tiếp thông báo và pin.
+• Thiết bị Xiaomi và Amazfit cần khóa xác thực, bạn lấy từ ứng dụng hoặc tài khoản của nhà sản xuất theo hướng dẫn trong ứng dụng. GlobalFitness không bao giờ đăng nhập vào tài khoản của nhà sản xuất, và ứng dụng của nhà sản xuất vẫn có thể tiếp tục hoạt động.
 
 DỮ LIỆU CỦA BẠN, QUYẾT ĐỊNH CỦA BẠN
 • Không cần tài khoản: theo mặc định mọi thứ đều nằm trên điện thoại của bạn.

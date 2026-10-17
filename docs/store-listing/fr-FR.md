@@ -14,9 +14,9 @@ GlobalFitness réunit votre balance Bluetooth et votre bracelet connecté dans u
 
 BALANCES CONNECTÉES
 • Compatible avec 66 modèles de balances Bluetooth de marques comme Xiaomi, Renpho, Eufy, Yunmai, Beurer, Sanitas, Etekcity, Omron et d'autres.
-• Détection automatique : montez sur votre balance, l'application ouverte, et elle est reconnue. Les balances qui nécessitent une connexion ne sont configurées qu'après votre confirmation qu'elles vous appartiennent.
+• Détection automatique : montez sur votre balance, l'application ouverte, et elle est reconnue. Les balances qui nécessitent une connexion ne sont configurées qu'une fois confirmé qu'elles sont à vous.
 • La Xiaomi Mi Body Composition Scale 2 est entièrement prise en charge et testée avec du matériel réel. Les autres modèles portent la mention « Expérimental » : ils suivent des protocoles publiés, mais n'ont pas encore tous été testés avec une balance réelle.
-• Les balances qui ne mesurent que le poids fonctionnent aussi, et vous pouvez toujours ajouter votre poids manuellement.
+• Les balances qui ne mesurent que le poids fonctionnent aussi, et vous pouvez toujours saisir votre poids.
 
 COMPOSITION CORPORELLE
 • IMC, graisse corporelle, masse grasse, masse musculaire, muscle squelettique (lorsque la balance le fournit), eau corporelle, masse osseuse, graisse viscérale, métabolisme de base, âge métabolique, protéines, poids idéal et morphologie.
@@ -25,14 +25,15 @@ COMPOSITION CORPORELLE
 • Historique regroupé par mois, avec le détail de chaque mesure.
 
 HEALTH CONNECT
-• Consultez les pas, la distance, les calories, la fréquence cardiaque, la fréquence cardiaque au repos, la variabilité de la fréquence cardiaque, les phases du sommeil, l'oxygène sanguin (SpO2), la fréquence respiratoire et les entraînements que des applications comme Mi Fitness, Zepp ou Samsung Health écrivent dans Health Connect.
+• Consultez les pas, la distance, les calories, la fréquence cardiaque, au repos et sa variabilité, les phases du sommeil, l'oxygène sanguin (SpO2), la fréquence respiratoire et les entraînements que des applications comme Mi Fitness, Zepp ou Samsung Health écrivent dans Health Connect.
 • En option, envoyez les mesures de votre balance vers Health Connect pour que d'autres applications puissent les utiliser.
 • Les données lues depuis Health Connect restent sur votre téléphone : elles ne sont jamais envoyées ni utilisées à des fins publicitaires.
 
 BRACELETS ET MONTRES CONNECTÉS
 • Fonctionne avec tout bracelet ou montre dont l'application écrit dans Health Connect, y compris les bracelets Xiaomi et Redmi via Mi Fitness et les appareils Amazfit / Zepp.
-• Mode direct expérimental pour la Xiaomi Smart Band 9 : fréquence cardiaque en direct, recherche du bracelet, alarmes et transfert des notifications, sans Mi Fitness.
-• La prise en charge des appareils Bluetooth standard de fréquence cardiaque et des montres ouvertes comme la PineTime et la Bangle.js est en développement.
+• Prise en charge directe expérimentale de 158 modèles : bracelets et montres Xiaomi et Redmi, Amazfit / Zepp, Mi Band 2 à 7, ceintures cardio Bluetooth, PineTime, Bangle.js.
+• Selon l'appareil : pouls en direct, recherche, heure, alarmes, notifications, batterie.
+• Xiaomi et Amazfit exigent la clé d'authentification (guide intégré). GlobalFitness ne se connecte jamais à votre compte fabricant.
 
 VOS DONNÉES, VOTRE CHOIX
 • Aucun compte requis : par défaut, tout reste sur votre téléphone.

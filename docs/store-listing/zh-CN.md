@@ -31,8 +31,9 @@ Health Connect
 
 智能手环和手表
 • 适用于任何会向 Health Connect 写入数据的手环或手表应用，包括通过 Mi Fitness 连接的 Xiaomi 和 Redmi 手环，以及 Amazfit / Zepp 设备。
-• Xiaomi Smart Band 9 的实验性直连模式：实时心率、查找手环、闹钟和通知转发，无需 Mi Fitness。
-• 对标准 Bluetooth 心率设备以及 PineTime、Bangle.js 等开放式手表的支持正在开发中。
+• 直连支持 158 款型号，均标记为“实验性”（尚未在每一款真实设备上测试）：Xiaomi 和 Redmi 手环及手表（Smart Band 7 Pro 至 11、Redmi Smart Band/Watch、Xiaomi Watch S1/S3/S4 等）、Amazfit / Zepp 以及 Mi Band 2 至 7、标准 Bluetooth 心率设备（如胸带）、PineTime / InfiniTime 和 Bangle.js。
+• 设备支持时可用：实时心率、查找设备、时间同步、闹钟、通知转发和电量。
+• Xiaomi 和 Amazfit 设备需要认证密钥，可按应用内指南从厂商的应用或账号中获取。GlobalFitness 绝不会登录厂商账号，厂商的应用也可以继续使用。
 
 你的数据，由你做主
 • 无需账号：默认情况下，所有数据都保留在你的手机上。

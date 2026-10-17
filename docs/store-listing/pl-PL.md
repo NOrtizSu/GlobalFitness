@@ -31,8 +31,9 @@ HEALTH CONNECT
 
 OPASKI I ZEGARKI
 • Działa z każdą opaską lub zegarkiem, których aplikacja zapisuje dane w Health Connect, w tym z opaskami Xiaomi i Redmi przez Mi Fitness oraz urządzeniami Amazfit / Zepp.
-• Eksperymentalny tryb bezpośredni dla Xiaomi Smart Band 9: tętno na żywo, szukanie opaski, alarmy i przekazywanie powiadomień, bez Mi Fitness.
-• Obsługa standardowych urządzeń Bluetooth do pomiaru tętna oraz otwartych zegarków, takich jak PineTime i Bangle.js, jest w trakcie tworzenia.
+• Bezpośrednia obsługa 158 modeli, wszystkie oznaczone jako „Eksperymentalne”, bo nie przetestowano ich jeszcze na każdym prawdziwym urządzeniu: opaski i zegarki Xiaomi oraz Redmi (Smart Band od 7 Pro do 11, Redmi Smart Band/Watch, Xiaomi Watch S1/S3/S4…), Amazfit / Zepp i Mi Band od 2 do 7, standardowe urządzenia Bluetooth do pomiaru tętna (np. paski piersiowe), PineTime / InfiniTime i Bangle.js.
+• Jeśli urządzenie to obsługuje: tętno na żywo, szukanie urządzenia, synchronizacja czasu, alarmy, przekazywanie powiadomień i bateria.
+• Urządzenia Xiaomi i Amazfit wymagają klucza uwierzytelniania z aplikacji lub konta producenta (według przewodnika w aplikacji). GlobalFitness nigdy nie loguje się na konta producentów, a aplikacja producenta może dalej działać.
 
 TWOJE DANE, TWOJA DECYZJA
 • Konto nie jest potrzebne: domyślnie wszystko zostaje na Twoim telefonie.

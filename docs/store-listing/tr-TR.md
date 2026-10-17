@@ -31,8 +31,9 @@ HEALTH CONNECT
 
 AKILLI BİLEKLİKLER VE SAATLER
 • Uygulaması Health Connect'e veri yazan her bileklik veya saatle çalışır; Mi Fitness üzerinden Xiaomi ve Redmi bilekliklerini ve Amazfit / Zepp cihazlarını da kapsar.
-• Xiaomi Smart Band 9 için deneysel doğrudan mod: Mi Fitness olmadan canlı nabız, bilekliği bulma, alarmlar ve bildirim iletimi.
-• Standart Bluetooth nabız cihazları ile PineTime ve Bangle.js gibi açık saatler için destek geliştirme aşamasındadır.
+• 158 model için doğrudan destek; hepsi henüz her gerçek cihazla test edilmediği için “Deneysel” olarak işaretlenmiştir: Xiaomi ve Redmi bileklikleri ile saatleri (Smart Band 7 Pro'dan 11'e, Redmi Smart Band/Watch, Xiaomi Watch S1/S3/S4…), Amazfit / Zepp ve Mi Band 2'den 7'ye, standart Bluetooth nabız cihazları (ör. göğüs bantları), PineTime / InfiniTime ve Bangle.js.
+• Cihaz destekliyorsa: canlı nabız, cihazı bulma, saat eşitleme, alarmlar, bildirim iletimi ve pil.
+• Xiaomi ve Amazfit cihazları kimlik doğrulama anahtarına ihtiyaç duyar; bu anahtarı uygulamadaki rehberi izleyerek üreticinin uygulamasından veya hesabından alırsınız. GlobalFitness üretici hesaplarına asla giriş yapmaz, üreticinin uygulaması da çalışmaya devam edebilir.
 
 VERİLERİNİZ, SİZİN SEÇİMİNİZ
 • Hesap gerekmez: varsayılan olarak her şey telefonunuzda kalır.
