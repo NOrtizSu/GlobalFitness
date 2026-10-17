@@ -1,0 +1,102 @@
+# App
+band_notification_listener_label = GlobalFitness: meneruskan ke gelang Anda
+
+# Common actions
+action_cancel = Batal
+action_ok = OK
+action_save = Simpan
+action_delete = Hapus
+action_retry = Coba lagi
+action_got_it = Mengerti
+action_close = Tutup
+action_back = Kembali
+action_continue = Lanjutkan
+action_open_settings = Buka setelan
+action_grant_permission = Berikan izin
+action_turn_on_bluetooth = Aktifkan Bluetooth
+action_turn_on_location = Aktifkan lokasi
+action_connect_health_connect = Hubungkan Health Connect
+action_install_health_connect = Instal Health Connect
+action_update_health_connect = Perbarui Health Connect
+action_add_manual_weight = Tambah berat badan manual
+common_no_data = Tidak ada data
+common_not_enough_data = Data belum cukup
+common_time = Waktu
+common_experimental = Eksperimental
+common_required_mark = %1$s *
+common_error_detail = %1$s: %2$s
+
+# Units and values
+unit_kg = kg
+unit_kcal = kkal
+unit_percent = %
+unit_years = tahun
+value_kg = %1$s kg
+value_kcal = %1$s kkal
+value_percent = %1$s%%
+value_years{other} = %1$s tahun
+value_ohm = %1$s Ω
+
+# Relative dates
+time_today = Hari ini
+time_yesterday = Kemarin
+time_today_at = Hari ini, %1$s
+time_yesterday_at = Kemarin, %1$s
+
+# Navigation
+nav_today = Hari ini
+nav_body = Tubuh
+nav_activity = Aktivitas
+nav_devices = Perangkat
+nav_profile = Profil
+
+# Body metrics
+metric_weight = Berat badan
+metric_bmi = IMT
+metric_fat_percent = Lemak tubuh
+metric_fat_mass = Massa lemak
+metric_muscle = Massa otot
+metric_skeletal_muscle = Otot rangka
+metric_water = Air tubuh
+metric_bone = Massa tulang
+metric_visceral = Lemak viseral
+metric_bmr = Metabolisme basal
+metric_metabolic_age = Usia metabolik
+metric_protein = Protein
+metric_ideal_weight = Berat badan ideal
+
+# Classification chips
+class_low = Rendah
+class_very_low = Sangat rendah
+class_normal = Normal
+class_high = Tinggi
+class_very_high = Sangat tinggi
+class_overweight = Berat berlebih
+class_obese = Obesitas
+class_excellent = Sangat baik
+class_optimal = Optimal
+class_younger = Lebih muda
+class_older_than_age = Lebih tua dari usia Anda
+class_in_range = Dalam rentang
+class_out_of_range = Di luar rentang
+
+# Body types
+body_type = Tipe tubuh
+body_type_obese = Obesitas
+body_type_overweight = Berat berlebih
+body_type_solid = Kekar
+body_type_lack_exercise = Kurang olahraga
+body_type_balanced = Seimbang
+body_type_balanced_muscular = Seimbang berotot
+body_type_skinny = Kurus
+body_type_balanced_skinny = Kurus seimbang
+body_type_skinny_muscular = Kurus berotot
+
+# Health Connect rationale (shown by Health Connect)
+health_rationale_title = Privasi data kesehatan
+health_rationale_intro = GlobalFitness menggunakan Health Connect untuk dua hal:
+health_rationale_read = • Membaca data dari gelang atau jam tangan Anda (misalnya Xiaomi Smart Band melalui Mi Fitness): langkah, jarak, kalori, detak jantung, detak jantung istirahat, variabilitas detak jantung, tidur, oksigen darah, laju pernapasan, dan latihan. Aplikasi ini juga membaca berat badan dan lemak tubuh yang dicatat oleh aplikasi lain. Dengan izin data sebelumnya, aplikasi dapat mengimpor data hingga satu tahun.
+health_rationale_write = • Menulis pengukuran timbangan Anda: berat badan, lemak tubuh, massa tulang, massa tubuh tanpa lemak, metabolisme basal, dan air tubuh. Jika Anda menghapus pengukuran di aplikasi, pengukuran tersebut juga dihapus dari Health Connect.
+health_rationale_storage = Data yang dibaca dari Health Connect hanya disimpan di ponsel ini: data tersebut tidak diunggah ke cadangan cloud opsional, tidak digunakan untuk iklan, dan tidak dibagikan kepada siapa pun. Aplikasi hanya menggunakannya untuk menampilkan ringkasan dan grafik kepada Anda.
+health_rationale_revoke = Anda dapat mencabut izin apa pun kapan saja di Health Connect; aplikasi akan berhenti membaca jenis data tersebut dan menghapus salinan lokalnya pada sinkronisasi berikutnya.
+health_rationale_full_policy = Kebijakan privasi lengkap

@@ -1,0 +1,21 @@
+# Snackbar messages
+msg_measurement_saved = Pengukuran disimpan
+msg_impedance_added = Impedansi ditambahkan ke pengukuran
+msg_profile_create_failed = Tidak dapat membuat profil
+msg_profile_save_failed = Tidak dapat menyimpan profil
+msg_profile_updated = Profil diperbarui
+msg_measurement_delete_failed = Tidak dapat menghapus pengukuran
+msg_measurement_deleted = Pengukuran dihapus
+msg_measurement_save_failed = Tidak dapat menyimpan pengukuran
+msg_weight_added = Berat badan ditambahkan
+msg_file_open_failed = Tidak dapat membuka file
+msg_csv_export_failed = Gagal mengekspor
+msg_csv_import_failed = Gagal mengimpor
+msg_csv_exported{other} = %1$d pengukuran diekspor
+msg_csv_no_rows = Tidak ada pengukuran valid di file CSV
+msg_csv_imported{other} = %1$d pengukuran diimpor
+msg_csv_duplicates{other} = %1$d duplikat dilewati
+msg_csv_invalid_rows{other} = %1$d baris tidak valid
+msg_csv_other_profiles{other} = %1$d milik orang lain dilewati
+msg_csv_profile_created = profil dibuat
+ads_privacy_options_failed = Tidak dapat membuka opsi privasi iklan: %1$s

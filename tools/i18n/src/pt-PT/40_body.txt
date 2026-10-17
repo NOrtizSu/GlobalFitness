@@ -1,0 +1,56 @@
+# Body
+range_1m = 1M
+range_3m = 3M
+range_6m = 6M
+range_1y = 1A
+range_all = Tudo
+body_empty_text = Suba para a balança descalço e com a app aberta ou adicione o seu peso manualmente com o botão abaixo. Aqui verá a evolução do seu peso e da sua composição corporal.
+body_period_summary = Resumo do período
+body_stat_current = Atual
+body_stat_change = Variação
+body_stat_min = Mín.
+body_stat_max = Máx.
+body_stat_average = Média
+body_stat_rate = Ritmo
+body_rate_value = %1$s/sem.
+body_stat_projection = Projeção do objetivo
+body_projection_no_goal = Sem objetivo
+body_projection_reached = Atingido
+body_projection_no_trend = Sem tendência
+body_projection_eta = ~ %1$s
+body_rate_hint = O ritmo precisa de pelo menos 3 medições que abranjam 7 dias dentro dos últimos 28.
+body_history = Histórico
+body_normal_range = Intervalo normal
+body_normal_range_bmi = Intervalo normal (IMC %1$s–%2$s)
+body_goal_line = Objetivo %1$s
+body_chart_title_unit = %1$s (%2$s)
+body_chart_needs_composition = Esta métrica precisa da composição corporal. Suba descalço e com os pés secos.
+body_chart_no_measurements = Ainda não há medições.
+body_chart_none_in_period = Sem medições neste período. Experimente um período mais longo.
+body_chart_single = Só há uma medição neste período (%1$s, %2$s). São necessárias pelo menos 2 para desenhar a tendência.
+body_current_composition = Composição atual
+body_row_fat = Gordura %1$s
+body_row_no_composition = Sem composição
+source_manual = Manual
+source_scale = Balança
+comp_source_device = Composição medida pela balança
+comp_source_formula = Composição calculada (fórmula %1$s)
+comp_fat = Gordura
+metric_impedance = Impedância
+
+# Charts
+chart_trend_desc{one} = Gráfico de %1$s com %2$d medição, de %3$s a %4$s
+chart_trend_desc{many} = Gráfico de %1$s com %2$d medições, de %3$s a %4$s
+chart_trend_desc{other} = Gráfico de %1$s com %2$d medições, de %3$s a %4$s
+chart_avg_7d_value = Média de 7 dias: %1$s
+chart_legend_measurements = Medições
+chart_legend_avg_7d = Média de 7 dias
+chart_composition_desc = Composição: %1$s
+chart_composition_item = %1$s %2$s
+
+# Measurement dialogs
+manual_weight_only = Apenas o peso: a composição corporal precisa da balança.
+manual_weight_range = Introduza um peso entre %1$s e %2$s
+manual_date_future = A data não pode ser no futuro.
+delete_measurement_title = Eliminar medição?
+delete_measurement_text = A medição de %1$s de %2$s será eliminada. Esta ação não pode ser anulada.

@@ -1,0 +1,102 @@
+# App
+band_notification_listener_label = GlobalFitness：バンドへの通知転送
+
+# Common actions
+action_cancel = キャンセル
+action_ok = OK
+action_save = 保存
+action_delete = 削除
+action_retry = 再試行
+action_got_it = OK
+action_close = 閉じる
+action_back = 戻る
+action_continue = 続行
+action_open_settings = 設定を開く
+action_grant_permission = 権限を許可
+action_turn_on_bluetooth = Bluetooth をオンにする
+action_turn_on_location = 位置情報をオンにする
+action_connect_health_connect = Health Connect に接続
+action_install_health_connect = Health Connect をインストール
+action_update_health_connect = Health Connect を更新
+action_add_manual_weight = 体重を手動で追加
+common_no_data = データなし
+common_not_enough_data = データ不足
+common_time = 時刻
+common_experimental = 試験運用版
+common_required_mark = %1$s *
+common_error_detail = %1$s：%2$s
+
+# Units and values
+unit_kg = kg
+unit_kcal = kcal
+unit_percent = %
+unit_years = 歳
+value_kg = %1$s kg
+value_kcal = %1$s kcal
+value_percent = %1$s%%
+value_years{other} = %1$s 歳
+value_ohm = %1$s Ω
+
+# Relative dates
+time_today = 今日
+time_yesterday = 昨日
+time_today_at = 今日 %1$s
+time_yesterday_at = 昨日 %1$s
+
+# Navigation
+nav_today = 今日
+nav_body = からだ
+nav_activity = アクティビティ
+nav_devices = デバイス
+nav_profile = プロフィール
+
+# Body metrics
+metric_weight = 体重
+metric_bmi = BMI
+metric_fat_percent = 体脂肪率
+metric_fat_mass = 脂肪量
+metric_muscle = 筋肉量
+metric_skeletal_muscle = 骨格筋率
+metric_water = 体水分率
+metric_bone = 骨量
+metric_visceral = 内臓脂肪
+metric_bmr = 基礎代謝
+metric_metabolic_age = 体内年齢
+metric_protein = タンパク質
+metric_ideal_weight = 理想体重
+
+# Classification chips
+class_low = 低い
+class_very_low = 非常に低い
+class_normal = 標準
+class_high = 高い
+class_very_high = 非常に高い
+class_overweight = 過体重
+class_obese = 肥満
+class_excellent = とても良い
+class_optimal = 最適
+class_younger = 実年齢より若い
+class_older_than_age = 実年齢より上
+class_in_range = 範囲内
+class_out_of_range = 範囲外
+
+# Body types
+body_type = 体型
+body_type_obese = 肥満型
+body_type_overweight = 過体重型
+body_type_solid = 固太り型
+body_type_lack_exercise = 運動不足型
+body_type_balanced = 標準型
+body_type_balanced_muscular = 標準筋肉型
+body_type_skinny = やせ型
+body_type_balanced_skinny = 標準やせ型
+body_type_skinny_muscular = やせ筋肉型
+
+# Health Connect rationale (shown by Health Connect)
+health_rationale_title = 健康データのプライバシー
+health_rationale_intro = GlobalFitness は Health Connect を次の 2 つの目的で使用します。
+health_rationale_read = • バンドやウォッチ（Mi Fitness 経由の Xiaomi Smart Band など）のデータの読み取り：歩数、距離、消費カロリー、心拍数、安静時心拍数、心拍変動、睡眠、血中酸素、呼吸数、ワークアウト。他のアプリが記録した体重と体脂肪率も読み取ります。過去のデータへのアクセス権限がある場合は、最大 1 年分をインポートします。
+health_rationale_write = • 体重計の測定データの書き込み：体重、体脂肪率、骨量、除脂肪体重、基礎代謝、体水分量。アプリで測定データを削除すると、Health Connect からも削除されます。
+health_rationale_storage = Health Connect から読み取ったデータは、このスマートフォンにのみ保存されます。任意のクラウドバックアップにはアップロードされず、広告に使用されることも、誰かと共有されることもありません。アプリはこのデータを概要とグラフの表示にのみ使用します。
+health_rationale_revoke = 権限は Health Connect でいつでも取り消せます。取り消すと、アプリはその種類のデータの読み取りを停止し、次回の同期時にローカルのコピーを削除します。
+health_rationale_full_policy = プライバシーポリシー全文

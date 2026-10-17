@@ -1,0 +1,104 @@
+# App
+band_notification_listener_label = GlobalFitness : transfert vers votre bracelet
+
+# Common actions
+action_cancel = Annuler
+action_ok = OK
+action_save = Enregistrer
+action_delete = Supprimer
+action_retry = Réessayer
+action_got_it = J'ai compris
+action_close = Fermer
+action_back = Retour
+action_continue = Continuer
+action_open_settings = Ouvrir les paramètres
+action_grant_permission = Accorder l'autorisation
+action_turn_on_bluetooth = Activer le Bluetooth
+action_turn_on_location = Activer la localisation
+action_connect_health_connect = Connecter Health Connect
+action_install_health_connect = Installer Health Connect
+action_update_health_connect = Mettre à jour Health Connect
+action_add_manual_weight = Saisir le poids manuellement
+common_no_data = Aucune donnée
+common_not_enough_data = Données insuffisantes
+common_time = Heure
+common_experimental = Expérimental
+common_required_mark = %1$s *
+common_error_detail = %1$s : %2$s
+
+# Units and values
+unit_kg = kg
+unit_kcal = kcal
+unit_percent = %
+unit_years = ans
+value_kg = %1$s kg
+value_kcal = %1$s kcal
+value_percent = %1$s %%
+value_years{one} = %1$s an
+value_years{many} = %1$s ans
+value_years{other} = %1$s ans
+value_ohm = %1$s Ω
+
+# Relative dates
+time_today = Aujourd'hui
+time_yesterday = Hier
+time_today_at = Aujourd'hui, %1$s
+time_yesterday_at = Hier, %1$s
+
+# Navigation
+nav_today = Aujourd'hui
+nav_body = Corps
+nav_activity = Activité
+nav_devices = Appareils
+nav_profile = Profil
+
+# Body metrics
+metric_weight = Poids
+metric_bmi = IMC
+metric_fat_percent = Graisse corporelle
+metric_fat_mass = Masse grasse
+metric_muscle = Masse musculaire
+metric_skeletal_muscle = Muscle squelettique
+metric_water = Eau corporelle
+metric_bone = Masse osseuse
+metric_visceral = Graisse viscérale
+metric_bmr = Métabolisme de base
+metric_metabolic_age = Âge métabolique
+metric_protein = Protéines
+metric_ideal_weight = Poids idéal
+
+# Classification chips
+class_low = Faible
+class_very_low = Très faible
+class_normal = Normal
+class_high = Élevé
+class_very_high = Très élevé
+class_overweight = Surpoids
+class_obese = Obésité
+class_excellent = Excellent
+class_optimal = Optimal
+class_younger = Plus jeune
+class_older_than_age = Supérieur à votre âge
+class_in_range = Dans la plage
+class_out_of_range = Hors plage
+
+# Body types
+body_type = Morphologie
+body_type_obese = Obèse
+body_type_overweight = Surpoids
+body_type_solid = Corpulent
+body_type_lack_exercise = Manque d'exercice
+body_type_balanced = Équilibré
+body_type_balanced_muscular = Équilibré musclé
+body_type_skinny = Mince
+body_type_balanced_skinny = Mince équilibré
+body_type_skinny_muscular = Mince musclé
+
+# Health Connect rationale (shown by Health Connect)
+health_rationale_title = Confidentialité des données de santé
+health_rationale_intro = GlobalFitness utilise Health Connect pour deux choses :
+health_rationale_read = • Lire les données de votre bracelet ou de votre montre (par exemple la Xiaomi Smart Band via Mi Fitness) : pas, distance, calories, fréquence cardiaque, fréquence cardiaque au repos, variabilité de la fréquence cardiaque, sommeil, oxygène sanguin, fréquence respiratoire et entraînements. L'application lit aussi le poids et la graisse corporelle enregistrés par d'autres applications. Avec l'autorisation d'accès aux données passées, elle importe jusqu'à un an d'historique.
+health_rationale_write = • Écrire les mesures de votre balance : poids, graisse corporelle, masse osseuse, masse maigre, métabolisme de base et eau corporelle. Si vous supprimez une mesure dans l'application, elle est aussi supprimée de Health Connect.
+health_rationale_storage = Les données lues depuis Health Connect sont stockées uniquement sur ce téléphone : elles ne sont pas envoyées vers la sauvegarde facultative dans le cloud, ne sont pas utilisées à des fins publicitaires et ne sont partagées avec personne. L'application les utilise uniquement pour vous afficher des résumés et des graphiques.
+health_rationale_revoke = Vous pouvez révoquer n'importe quelle autorisation à tout moment dans Health Connect ; l'application cesse alors de lire ce type de données et supprime sa copie locale lors de la synchronisation suivante.
+health_rationale_full_policy = Politique de confidentialité complète

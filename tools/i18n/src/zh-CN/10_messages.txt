@@ -1,0 +1,21 @@
+# Snackbar messages
+msg_measurement_saved = 测量记录已保存
+msg_impedance_added = 已将阻抗添加到测量记录
+msg_profile_create_failed = 无法创建个人资料
+msg_profile_save_failed = 无法保存个人资料
+msg_profile_updated = 个人资料已更新
+msg_measurement_delete_failed = 无法删除测量记录
+msg_measurement_deleted = 测量记录已删除
+msg_measurement_save_failed = 无法保存测量记录
+msg_weight_added = 体重已添加
+msg_file_open_failed = 无法打开文件
+msg_csv_export_failed = 导出失败
+msg_csv_import_failed = 导入失败
+msg_csv_exported{other} = 已导出 %1$d 条测量记录
+msg_csv_no_rows = CSV 中未找到有效的测量记录
+msg_csv_imported{other} = 已导入 %1$d 条测量记录
+msg_csv_duplicates{other} = 已跳过 %1$d 条重复记录
+msg_csv_invalid_rows{other} = %1$d 行无效
+msg_csv_other_profiles{other} = 已跳过 %1$d 条其他人的记录
+msg_csv_profile_created = 已创建个人资料
+ads_privacy_options_failed = 无法打开隐私选项：%1$s

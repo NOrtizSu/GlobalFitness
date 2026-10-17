@@ -1,0 +1,21 @@
+# Snackbar messages
+msg_measurement_saved = 측정 기록을 저장했습니다
+msg_impedance_added = 측정 기록에 임피던스를 추가했습니다
+msg_profile_create_failed = 프로필을 만들 수 없습니다
+msg_profile_save_failed = 프로필을 저장할 수 없습니다
+msg_profile_updated = 프로필을 업데이트했습니다
+msg_measurement_delete_failed = 측정 기록을 삭제할 수 없습니다
+msg_measurement_deleted = 측정 기록을 삭제했습니다
+msg_measurement_save_failed = 측정 기록을 저장할 수 없습니다
+msg_weight_added = 체중을 추가했습니다
+msg_file_open_failed = 파일을 열 수 없습니다
+msg_csv_export_failed = 내보내기 실패
+msg_csv_import_failed = 가져오기 실패
+msg_csv_exported{other} = 측정 기록 %1$d개를 내보냈습니다
+msg_csv_no_rows = CSV에서 유효한 측정 기록을 찾을 수 없습니다
+msg_csv_imported{other} = 측정 기록 %1$d개 가져옴
+msg_csv_duplicates{other} = 중복 %1$d개 건너뜀
+msg_csv_invalid_rows{other} = 잘못된 행 %1$d개
+msg_csv_other_profiles{other} = 다른 사람의 기록 %1$d개 건너뜀
+msg_csv_profile_created = 프로필 생성됨
+ads_privacy_options_failed = 개인정보 보호 옵션을 열 수 없습니다: %1$s

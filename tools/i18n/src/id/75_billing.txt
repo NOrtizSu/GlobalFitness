@@ -1,0 +1,26 @@
+# Remove ads (Google Play Billing)
+remove_ads_headline = GlobalFitness tanpa iklan
+remove_ads_benefit_no_ads = Tanpa banner atau iklan layar penuh.
+remove_ads_benefit_one_time = Pembayaran sekali: tanpa langganan.
+remove_ads_benefit_restore = Dipulihkan di ponsel Anda yang lain dengan akun Google Play yang sama.
+remove_ads_benefit_support = Anda membantu memelihara dan meningkatkan aplikasi.
+remove_ads_owned = Pembelian aktif: Anda tidak akan melihat iklan. Terima kasih atas dukungan Anda!
+remove_ads_buy = Beli
+remove_ads_buy_price = Beli seharga %1$s
+remove_ads_restore = Pulihkan pembelian
+remove_ads_simulate = Simulasikan premium
+remove_ads_simulate_text = Hanya build debug: menyembunyikan iklan tanpa membeli.
+remove_ads_loading_price = Memeriksa harga di Google Play…
+billing_open_failed = Tidak dapat membuka pembelian Google Play. Coba lagi.
+billing_thanks = Terima kasih atas dukungan Anda! Anda tidak akan melihat iklan lagi.
+billing_already_owned_restoring = Anda sudah pernah membeli “Hapus iklan”. Memulihkan pembelian…
+billing_restored = Pembelian dipulihkan: Anda tidak akan melihat iklan.
+billing_nothing_to_restore = Tidak ada pembelian “Hapus iklan” di akun Google Play ini.
+billing_unavailable = “Hapus iklan” saat ini tidak tersedia di Google Play.
+billing_pending = Pembayaran tertunda. Iklan akan hilang segera setelah Google Play mengonfirmasi pembayaran.
+billing_error_not_allowed = Google Play tidak mengizinkan pembelian di perangkat ini atau dengan akun ini.
+billing_error_connection = Tidak dapat terhubung ke Google Play. Periksa koneksi, lalu coba lagi.
+billing_error_install_from_play = Google Play menolak pembelian. Instal aplikasi dari Google Play agar dapat membeli.
+billing_error_not_supported = Versi Google Play Anda tidak mendukung pembelian ini.
+billing_error_already_owned = Anda sudah memiliki “Hapus iklan”.
+billing_error_code = Kesalahan Google Play (%1$d). Coba lagi.

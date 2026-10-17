@@ -1,0 +1,26 @@
+# Remove ads (Google Play Billing)
+remove_ads_headline = GlobalFitness không quảng cáo
+remove_ads_benefit_no_ads = Không có biểu ngữ hay quảng cáo toàn màn hình.
+remove_ads_benefit_one_time = Thanh toán một lần: không thuê bao.
+remove_ads_benefit_restore = Được khôi phục trên các điện thoại khác của bạn có cùng tài khoản Google Play.
+remove_ads_benefit_support = Bạn giúp duy trì và cải thiện ứng dụng.
+remove_ads_owned = Giao dịch mua đang có hiệu lực: bạn sẽ không thấy quảng cáo. Cảm ơn bạn đã ủng hộ!
+remove_ads_buy = Mua
+remove_ads_buy_price = Mua với giá %1$s
+remove_ads_restore = Khôi phục giao dịch mua
+remove_ads_simulate = Mô phỏng premium
+remove_ads_simulate_text = Chỉ dành cho bản dựng gỡ lỗi: ẩn quảng cáo mà không cần mua.
+remove_ads_loading_price = Đang kiểm tra giá trên Google Play…
+billing_open_failed = Không thể mở giao dịch mua trên Google Play. Hãy thử lại.
+billing_thanks = Cảm ơn bạn đã ủng hộ! Bạn sẽ không còn thấy quảng cáo nữa.
+billing_already_owned_restoring = Bạn đã mua “Xóa quảng cáo” trước đây. Đang khôi phục giao dịch mua…
+billing_restored = Đã khôi phục giao dịch mua: bạn sẽ không thấy quảng cáo.
+billing_nothing_to_restore = Tài khoản Google Play này không có giao dịch mua “Xóa quảng cáo” nào.
+billing_unavailable = “Xóa quảng cáo” hiện không khả dụng trên Google Play.
+billing_pending = Thanh toán đang chờ xử lý. Quảng cáo sẽ biến mất ngay khi Google Play xác nhận thanh toán.
+billing_error_not_allowed = Google Play không cho phép mua hàng trên thiết bị này hoặc bằng tài khoản này.
+billing_error_connection = Không thể kết nối với Google Play. Hãy kiểm tra kết nối rồi thử lại.
+billing_error_install_from_play = Google Play đã từ chối giao dịch mua. Hãy cài đặt ứng dụng từ Google Play để có thể mua.
+billing_error_not_supported = Phiên bản Google Play của bạn không hỗ trợ giao dịch mua này.
+billing_error_already_owned = Bạn đã có “Xóa quảng cáo”.
+billing_error_code = Lỗi Google Play (%1$d). Hãy thử lại.

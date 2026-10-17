@@ -1,0 +1,54 @@
+# Body
+range_1m = 1か月
+range_3m = 3か月
+range_6m = 6か月
+range_1y = 1年
+range_all = すべて
+body_empty_text = アプリを開いた状態で素足で体重計に乗るか、下のボタンから体重を手動で追加してください。ここで体重と体組成の推移を確認できます。
+body_period_summary = 期間の概要
+body_stat_current = 現在
+body_stat_change = 変化
+body_stat_min = 最小
+body_stat_max = 最大
+body_stat_average = 平均
+body_stat_rate = ペース
+body_rate_value = %1$s/週
+body_stat_projection = 目標達成の予測
+body_projection_no_goal = 目標なし
+body_projection_reached = 達成
+body_projection_no_trend = 傾向なし
+body_projection_eta = %1$s 頃
+body_rate_hint = ペースの算出には、直近 28 日以内で 7 日間以上にわたる 3 件以上の測定データが必要です。
+body_history = 履歴
+body_normal_range = 標準範囲
+body_normal_range_bmi = 標準範囲（BMI %1$s～%2$s）
+body_goal_line = 目標 %1$s
+body_chart_title_unit = %1$s（%2$s）
+body_chart_needs_composition = この指標には体組成データが必要です。素足で、足が乾いた状態で乗ってください。
+body_chart_no_measurements = まだ測定データがありません。
+body_chart_none_in_period = この期間の測定データはありません。期間を長くしてみてください。
+body_chart_single = この期間の測定データは 1 件のみです（%1$s、%2$s）。推移を表示するには 2 件以上必要です。
+body_current_composition = 現在の体組成
+body_row_fat = 体脂肪率 %1$s
+body_row_no_composition = 体組成なし
+source_manual = 手動
+source_scale = 体重計
+comp_source_device = 体重計で測定した体組成
+comp_source_formula = 計算による体組成（%1$s の計算式）
+comp_fat = 脂肪
+metric_impedance = インピーダンス
+
+# Charts
+chart_trend_desc{other} = %1$s のグラフ：%3$s～%4$s の測定データ %2$d 件
+chart_avg_7d_value = 7 日間の平均：%1$s
+chart_legend_measurements = 測定データ
+chart_legend_avg_7d = 7 日間の平均
+chart_composition_desc = 体組成：%1$s
+chart_composition_item = %1$s %2$s
+
+# Measurement dialogs
+manual_weight_only = 体重のみ：体組成には体重計が必要です。
+manual_weight_range = %1$s～%2$s の範囲で体重を入力してください
+manual_date_future = 未来の日付は指定できません。
+delete_measurement_title = 測定データを削除しますか？
+delete_measurement_text = %2$s の測定データ（%1$s）が削除されます。この操作は元に戻せません。

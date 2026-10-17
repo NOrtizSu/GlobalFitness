@@ -1,0 +1,26 @@
+# Remove ads (Google Play Billing)
+remove_ads_headline = GlobalFitness ohne Werbung
+remove_ads_benefit_no_ads = Keine Banner und keine Vollbildwerbung.
+remove_ads_benefit_one_time = Einmalzahlung: kein Abo.
+remove_ads_benefit_restore = Wird auf deinen anderen Smartphones mit demselben Google Play-Konto wiederhergestellt.
+remove_ads_benefit_support = Du hilfst, die App zu pflegen und zu verbessern.
+remove_ads_owned = Kauf aktiv: Du siehst keine Werbung. Danke für deine Unterstützung!
+remove_ads_buy = Kaufen
+remove_ads_buy_price = Für %1$s kaufen
+remove_ads_restore = Käufe wiederherstellen
+remove_ads_simulate = Premium simulieren
+remove_ads_simulate_text = Nur in Debug-Builds: blendet die Werbung ohne Kauf aus.
+remove_ads_loading_price = Preis wird bei Google Play abgefragt…
+billing_open_failed = Der Kauf bei Google Play konnte nicht geöffnet werden. Versuche es erneut.
+billing_thanks = Danke für deine Unterstützung! Du siehst ab jetzt keine Werbung mehr.
+billing_already_owned_restoring = Du hattest „Werbung entfernen“ bereits gekauft. Kauf wird wiederhergestellt…
+billing_restored = Kauf wiederhergestellt: Du siehst keine Werbung.
+billing_nothing_to_restore = In diesem Google Play-Konto gibt es keinen Kauf von „Werbung entfernen“.
+billing_unavailable = „Werbung entfernen“ ist bei Google Play gerade nicht verfügbar.
+billing_pending = Zahlung ausstehend. Die Werbung verschwindet, sobald Google Play die Zahlung bestätigt.
+billing_error_not_allowed = Google Play erlaubt keine Käufe auf diesem Gerät oder mit diesem Konto.
+billing_error_connection = Keine Verbindung zu Google Play möglich. Prüfe die Verbindung und versuche es erneut.
+billing_error_install_from_play = Google Play hat den Kauf abgelehnt. Installiere die App über Google Play, um kaufen zu können.
+billing_error_not_supported = Deine Version von Google Play unterstützt diesen Kauf nicht.
+billing_error_already_owned = Du hast „Werbung entfernen“ bereits.
+billing_error_code = Google Play-Fehler (%1$d). Versuche es erneut.

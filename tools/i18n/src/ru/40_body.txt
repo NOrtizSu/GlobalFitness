@@ -1,0 +1,57 @@
+# Body
+range_1m = 1М
+range_3m = 3М
+range_6m = 6М
+range_1y = 1Г
+range_all = Всё
+body_empty_text = Встаньте на весы босиком, когда приложение открыто, или добавьте вес вручную кнопкой ниже. Здесь будет видно, как со временем меняются ваш вес и состав тела.
+body_period_summary = Итоги за период
+body_stat_current = Сейчас
+body_stat_change = Изменение
+body_stat_min = Мин.
+body_stat_max = Макс.
+body_stat_average = Среднее
+body_stat_rate = Темп
+body_rate_value = %1$s/нед.
+body_stat_projection = Прогноз до цели
+body_projection_no_goal = Нет цели
+body_projection_reached = Достигнута
+body_projection_no_trend = Нет тренда
+body_projection_eta = ~ %1$s
+body_rate_hint = Для расчёта темпа нужно не менее 3 измерений, охватывающих 7 дней, за последние 28 дней.
+body_history = История
+body_normal_range = Диапазон нормы
+body_normal_range_bmi = Диапазон нормы (ИМТ %1$s–%2$s)
+body_goal_line = Цель %1$s
+body_chart_title_unit = %1$s (%2$s)
+body_chart_needs_composition = Для этого показателя нужен состав тела. Вставайте на весы босиком и с сухими ступнями.
+body_chart_no_measurements = Измерений пока нет.
+body_chart_none_in_period = За этот период нет измерений. Выберите более длинный период.
+body_chart_single = За этот период только одно измерение (%1$s, %2$s). Чтобы построить график динамики, нужно не менее 2.
+body_current_composition = Текущий состав тела
+body_row_fat = Жир %1$s
+body_row_no_composition = Без состава тела
+source_manual = Вручную
+source_scale = Весы
+comp_source_device = Состав тела измерен весами
+comp_source_formula = Состав тела рассчитан (формула %1$s)
+comp_fat = Жир
+metric_impedance = Импеданс
+
+# Charts
+chart_trend_desc{one} = График «%1$s»: %2$d измерение, от %3$s до %4$s
+chart_trend_desc{few} = График «%1$s»: %2$d измерения, от %3$s до %4$s
+chart_trend_desc{many} = График «%1$s»: %2$d измерений, от %3$s до %4$s
+chart_trend_desc{other} = График «%1$s»: %2$d измерения, от %3$s до %4$s
+chart_avg_7d_value = Среднее за 7 дней: %1$s
+chart_legend_measurements = Измерения
+chart_legend_avg_7d = Среднее за 7 дней
+chart_composition_desc = Состав: %1$s
+chart_composition_item = %1$s %2$s
+
+# Measurement dialogs
+manual_weight_only = Только вес: для определения состава тела нужны весы.
+manual_weight_range = Введите вес от %1$s до %2$s
+manual_date_future = Дата не может быть в будущем.
+delete_measurement_title = Удалить измерение?
+delete_measurement_text = Измерение %1$s от %2$s будет удалено. Это действие нельзя отменить.

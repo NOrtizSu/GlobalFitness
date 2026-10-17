@@ -1,0 +1,103 @@
+# App
+band_notification_listener_label = GlobalFitness: bilekliğinize iletim
+
+# Common actions
+action_cancel = İptal
+action_ok = Tamam
+action_save = Kaydet
+action_delete = Sil
+action_retry = Yeniden dene
+action_got_it = Anladım
+action_close = Kapat
+action_back = Geri
+action_continue = Devam
+action_open_settings = Ayarları aç
+action_grant_permission = İzin ver
+action_turn_on_bluetooth = Bluetooth'u aç
+action_turn_on_location = Konumu aç
+action_connect_health_connect = Health Connect'i bağla
+action_install_health_connect = Health Connect'i yükle
+action_update_health_connect = Health Connect'i güncelle
+action_add_manual_weight = Elle kilo ekle
+common_no_data = Veri yok
+common_not_enough_data = Yeterli veri yok
+common_time = Saat
+common_experimental = Deneysel
+common_required_mark = %1$s *
+common_error_detail = %1$s: %2$s
+
+# Units and values
+unit_kg = kg
+unit_kcal = kcal
+unit_percent = %
+unit_years = yaş
+value_kg = %1$s kg
+value_kcal = %1$s kcal
+value_percent = %%%1$s
+value_years{one} = %1$s yaş
+value_years{other} = %1$s yaş
+value_ohm = %1$s Ω
+
+# Relative dates
+time_today = Bugün
+time_yesterday = Dün
+time_today_at = Bugün, %1$s
+time_yesterday_at = Dün, %1$s
+
+# Navigation
+nav_today = Bugün
+nav_body = Vücut
+nav_activity = Aktivite
+nav_devices = Cihazlar
+nav_profile = Profil
+
+# Body metrics
+metric_weight = Kilo
+metric_bmi = VKİ
+metric_fat_percent = Vücut yağı
+metric_fat_mass = Yağ kütlesi
+metric_muscle = Kas
+metric_skeletal_muscle = İskelet kası
+metric_water = Su
+metric_bone = Kemik
+metric_visceral = Viseral yağ
+metric_bmr = Bazal metabolizma hızı
+metric_metabolic_age = Metabolik yaş
+metric_protein = Protein
+metric_ideal_weight = İdeal kilo
+
+# Classification chips
+class_low = Düşük
+class_very_low = Çok düşük
+class_normal = Normal
+class_high = Yüksek
+class_very_high = Çok yüksek
+class_overweight = Fazla kilolu
+class_obese = Obez
+class_excellent = Mükemmel
+class_optimal = Optimal
+class_younger = Daha genç
+class_older_than_age = Yaşınızdan büyük
+class_in_range = Aralıkta
+class_out_of_range = Aralık dışında
+
+# Body types
+body_type = Vücut tipi
+body_type_obese = Obez
+body_type_overweight = Fazla kilolu
+body_type_solid = İri yapılı
+body_type_lack_exercise = Egzersiz eksikliği
+body_type_balanced = Dengeli
+body_type_balanced_muscular = Dengeli kaslı
+body_type_skinny = Zayıf
+body_type_balanced_skinny = Dengeli zayıf
+body_type_skinny_muscular = Zayıf kaslı
+
+# Health Connect rationale (shown by Health Connect)
+health_rationale_title = Sağlık verilerinin gizliliği
+health_rationale_intro = GlobalFitness, Health Connect'i iki amaçla kullanır:
+health_rationale_read = • Bilekliğinizden veya saatinizden gelen verileri okumak (örneğin Mi Fitness üzerinden Xiaomi Smart Band): adımlar, mesafe, kaloriler, nabız, dinlenme nabzı, nabız değişkenliği, uyku, kan oksijeni, solunum hızı ve antrenmanlar. Diğer uygulamaların kaydettiği kilo ve vücut yağı verilerini de okur. Geçmiş veri izniyle bir yıla kadar geriye dönük veri içe aktarır.
+health_rationale_write = • Tartı ölçümlerinizi yazmak: kilo, vücut yağı, kemik kütlesi, yağsız vücut kütlesi, bazal metabolizma hızı ve vücut suyu. Uygulamada bir ölçümü silerseniz Health Connect'ten de silinir.
+health_rationale_storage = Health Connect'ten okunan veriler yalnızca bu telefonda saklanır: isteğe bağlı bulut yedeğine yüklenmez, reklam için kullanılmaz ve kimseyle paylaşılmaz. Uygulama bu verileri yalnızca size özetler ve grafikler göstermek için kullanır.
+health_rationale_revoke = Herhangi bir izni istediğiniz zaman Health Connect'ten geri alabilirsiniz; uygulama o veri türünü okumayı bırakır ve bir sonraki senkronizasyonda yerel kopyasını siler.
+health_rationale_full_policy = Gizlilik politikasının tamamı
