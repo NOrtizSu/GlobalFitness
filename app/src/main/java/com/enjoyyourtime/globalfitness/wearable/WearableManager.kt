@@ -116,6 +116,14 @@ class WearableManager(
         }
         .stateIn(scope, SharingStarted.Eagerly, emptyList())
 
+    /**
+     * True while any wearable is connecting or connected. The app pauses the scale scan meanwhile:
+     * on several chipsets a running low-latency scan makes connections fail (status 133) or drop.
+     */
+    val linkActive: StateFlow<Boolean> = summaries
+        .map { list -> list.any { it.state.connection != WearableConnection.DISCONNECTED } }
+        .stateIn(scope, SharingStarted.Eagerly, false)
+
     // ---- configured devices ----
 
     fun driverFor(device: ConfiguredWearable): WearableDriver? = registry.find(device.driverId)
@@ -390,6 +398,8 @@ class WearableManager(
             }
         }
 
+        // The scale scan is paused through [linkActive], which turns true with the CONNECTING state
+        // the controller sets right after this call (as the scale monitor does with gattConnecting).
         override fun beforeConnect() = Unit
 
         override fun testNotification(nowMillis: Long): BandNotification = BandNotification(

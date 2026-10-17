@@ -29,6 +29,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
@@ -44,6 +45,9 @@ class AppContainer(context: Context) {
     val database = AppDatabase(context)
     val repository = Repository(database, appScope, preferredProfileId = { settings.selectedProfileId.value })
     val scanner = ScaleScanner(context, settings, appScope)
+
+    /** Mirrors [WearableManager.linkActive] once the wearables exist (none can be connected before). */
+    private val wearableLinkActive = MutableStateFlow(false)
     val recorder = MeasurementRecorder(repository)
     val scaleRegistry = AllDrivers.registry()
     val scaleMonitor = ScaleMonitor(
@@ -59,7 +63,10 @@ class AppContainer(context: Context) {
         scope = appScope,
         wallClock = System::currentTimeMillis,
         elapsedClock = SystemClock::elapsedRealtime,
-    ).also { monitor -> appScope.launch { monitor.gattConnecting.collect { scanner.setPaused(it) } } }
+    ).also { monitor ->
+        // A running scan disturbs connection setup: paused while a scale or a wearable connects or is connected.
+        appScope.launch { combine(monitor.gattConnecting, wearableLinkActive) { scale, wearable -> scale || wearable }.collect { scanner.setPaused(it) } }
+    }
 
     /**
      * Experimental direct mode for bands and watches of every supported family (Xiaomi, Huami /
@@ -72,6 +79,7 @@ class AppContainer(context: Context) {
                 manager.liveHeartRateActive.collect { adSuppression.set(AdSuppression.BAND_LIVE_HEART_RATE, it) }
             }
             appScope.launch { scanner.advertisements.collect { manager.onAdvertisement(it) } }
+            appScope.launch { manager.linkActive.collect { wearableLinkActive.value = it } }
         }
     }
     val health = HealthModule(context, repository, scaleRegistry, appScope)
