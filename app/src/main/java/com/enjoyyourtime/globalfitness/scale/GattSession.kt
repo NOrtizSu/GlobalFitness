@@ -50,6 +50,9 @@ class GattSession(
     @Volatile private var servicesWaiter: CompletableDeferred<Unit>? = null
     @Volatile private var closed = false
 
+    /** Guards [gatt] + [closed] together: close() can race with connect() storing a new gatt. */
+    private val gattLock = Any()
+
     private val _connected = MutableStateFlow(false)
     override val isConnected: StateFlow<Boolean> = _connected.asStateFlow()
 
@@ -152,6 +155,7 @@ class GattSession(
         } catch (e: IllegalArgumentException) {
             throw GattException(ScaleNotice(ScaleNotice.Kind.INVALID_ADDRESS, listOf(address)))
         }
+        if (closed) throw GattException(ScaleNotice(ScaleNotice.Kind.CONNECTION_CLOSED))
         val waiter = CompletableDeferred<Unit>()
         connectWaiter = waiter
         val g = try {
@@ -159,7 +163,16 @@ class GattSession(
         } catch (e: SecurityException) {
             throw GattException(ScaleNotice(ScaleNotice.Kind.MISSING_NEARBY_PERMISSION))
         } ?: throw GattException(ScaleNotice(ScaleNotice.Kind.CONNECT_NOT_STARTED))
-        gatt = g
+        // close() may have run (on another thread) while connectGatt was starting: it could not see
+        // this gatt then, so release it here instead of leaving a connection nobody owns.
+        val closedMeanwhile = synchronized(gattLock) {
+            if (!closed) gatt = g
+            closed
+        }
+        if (closedMeanwhile) {
+            release(g)
+            throw GattException(ScaleNotice(ScaleNotice.Kind.CONNECTION_CLOSED))
+        }
         try {
             waiter.await()
         } finally {
@@ -311,16 +324,22 @@ class GattSession(
         }
 
     override fun close() {
-        if (closed) return
-        closed = true
+        val g = synchronized(gattLock) {
+            if (closed) return
+            closed = true
+            gatt.also { gatt = null }
+        }
         _connected.value = false
-        val g = gatt ?: return
-        gatt = null
+        // Wake every waiter even when connect() has not stored its gatt yet (it then releases it).
         val error = GattException(ScaleNotice(ScaleNotice.Kind.CONNECTION_CLOSED))
         connectWaiter?.completeExceptionally(error)
         servicesWaiter?.completeExceptionally(error)
         pending?.deferred?.completeExceptionally(error)
         _notifications.close()
+        if (g != null) release(g)
+    }
+
+    private fun release(g: BluetoothGatt) {
         try {
             g.disconnect()
         } catch (_: SecurityException) {
