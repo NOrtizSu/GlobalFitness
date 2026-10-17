@@ -31,7 +31,7 @@ HEALTH CONNECT
 
 GELANG DAN JAM TANGAN PINTAR
 • Berfungsi dengan gelang atau jam tangan apa pun yang aplikasinya menulis ke Health Connect, termasuk gelang Xiaomi dan Redmi melalui Mi Fitness serta perangkat Amazfit / Zepp.
-• Dukungan langsung untuk 158 model, semuanya “Eksperimental” (belum diuji dengan setiap perangkat sungguhan): gelang dan jam tangan Xiaomi dan Redmi (Smart Band 7 Pro hingga 11, Redmi Smart Band/Watch, Xiaomi Watch S1/S3/S4…), Amazfit / Zepp dan Mi Band 2 hingga 7, perangkat detak jantung Bluetooth (mis. chest strap), PineTime / InfiniTime, dan Bangle.js.
+• Dukungan langsung untuk 110 model, semuanya “Eksperimental” (belum diuji dengan setiap perangkat sungguhan): gelang dan jam tangan Xiaomi dan Redmi (Smart Band 7 Pro hingga 11, Redmi Smart Band/Watch, Xiaomi Watch S1/S3/S4…), Amazfit / Zepp dan Mi Band 2 hingga 7, perangkat detak jantung Bluetooth (mis. chest strap), PineTime / InfiniTime, dan Bangle.js.
 • Jika didukung: detak jantung real-time, cari perangkat, sinkronisasi waktu, alarm, penerusan notifikasi, dan baterai.
 • Perangkat Xiaomi dan Amazfit memerlukan kunci autentikasi dari aplikasi atau akun produsen (ikuti panduan di aplikasi). GlobalFitness tidak pernah masuk ke akun produsen, dan aplikasi produsen tetap bisa berjalan.
 

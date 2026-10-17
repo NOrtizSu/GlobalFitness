@@ -31,7 +31,7 @@ GlobalFitness는 Bluetooth 체중계와 피트니스 밴드의 데이터를 하�
 
 ■ 스마트 밴드와 워치
 • 앱이 Health Connect에 데이터를 기록하는 밴드나 워치라면 사용할 수 있습니다. Mi Fitness를 통한 Xiaomi 및 Redmi 밴드와 Amazfit / Zepp 기기도 포함됩니다.
-• 158개 모델 직접 지원, 모두 ‘실험 단계’ 표시(아직 모든 실제 기기로 테스트하지 못했습니다): Xiaomi 및 Redmi 밴드와 워치(Smart Band 7 Pro~11, Redmi Smart Band/Watch, Xiaomi Watch S1/S3/S4 등), Amazfit / Zepp 및 Mi Band 2~7, 표준 Bluetooth 심박 기기(체스트 스트랩 등), PineTime / InfiniTime, Bangle.js.
+• 110개 모델 직접 지원, 모두 ‘실험 단계’ 표시(아직 모든 실제 기기로 테스트하지 못했습니다): Xiaomi 및 Redmi 밴드와 워치(Smart Band 7 Pro~11, Redmi Smart Band/Watch, Xiaomi Watch S1/S3/S4 등), Amazfit / Zepp 및 Mi Band 2~7, 표준 Bluetooth 심박 기기(체스트 스트랩 등), PineTime / InfiniTime, Bangle.js.
 • 기기가 지원하는 경우 실시간 심박수, 기기 찾기, 시간 동기화, 알람, 알림 전달, 배터리를 사용할 수 있습니다.
 • Xiaomi 및 Amazfit 기기에는 인증 키가 필요하며, 앱 안의 안내에 따라 제조사 앱이나 계정에서 얻을 수 있습니다. GlobalFitness는 제조사 계정에 로그인하지 않으며, 제조사 앱도 계속 사용할 수 있습니다.
 

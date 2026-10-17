@@ -203,6 +203,8 @@ class WearableCatalogTest {
         assertEquals(32, families[WearableFamily.XIAOMI])
         assertTrue(families.getValue(WearableFamily.HUAMI) >= 30)
         assertTrue(families.getValue(WearableFamily.ZEPP_OS) >= 38)
+        // docs/store-listing/*.md state this number ("Direct support for 110 models"): update them with it.
+        assertEquals(110, registry.drivers.size)
         assertEquals(WearableTransport.CLASSIC_SPP, registry.find("xiaomi_smart_band_9")!!.transport)
         assertEquals(WearableTransport.BLE_GATT, registry.find("xiaomi_smart_band_8")!!.transport)
         assertEquals(WearableTransport.BLE_UART, registry.find("banglejs")!!.transport)

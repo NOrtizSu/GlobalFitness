@@ -31,7 +31,7 @@ GlobalFitness は、Bluetooth 体重計とフィットネスバンドのデー�
 
 【バンドとウォッチ】
 • アプリが Health Connect にデータを書き込むバンドやウォッチであれば利用できます。Mi Fitness 経由の Xiaomi・Redmi バンドや、Amazfit / Zepp デバイスにも対応しています。
-• 158 機種にダイレクト対応（すべて「試験運用版」。すべての実機ではまだテストされていません）：Xiaomi・Redmi のバンドとウォッチ（Smart Band 7 Pro〜11、Redmi Smart Band/Watch、Xiaomi Watch S1/S3/S4 など）、Amazfit / Zepp と Mi Band 2〜7、標準的な Bluetooth 心拍デバイス（チェストストラップなど）、PineTime / InfiniTime、Bangle.js。
+• 110 機種にダイレクト対応（すべて「試験運用版」。すべての実機ではまだテストされていません）：Xiaomi・Redmi のバンドとウォッチ（Smart Band 7 Pro〜11、Redmi Smart Band/Watch、Xiaomi Watch S1/S3/S4 など）、Amazfit / Zepp と Mi Band 2〜7、標準的な Bluetooth 心拍デバイス（チェストストラップなど）、PineTime / InfiniTime、Bangle.js。
 • デバイスが対応していれば、リアルタイム心拍数、デバイスを探す、時刻の同期、アラーム、通知の転送、バッテリー残量を利用できます。
 • Xiaomi と Amazfit のデバイスには認証キーが必要です。アプリ内のガイドに従い、メーカーのアプリまたはアカウントから取得してください。GlobalFitness がメーカーのアカウントにログインすることはなく、メーカーのアプリも引き続き使えます。
 

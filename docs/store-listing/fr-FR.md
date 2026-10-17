@@ -31,7 +31,7 @@ HEALTH CONNECT
 
 BRACELETS ET MONTRES CONNECTÉS
 • Fonctionne avec tout bracelet ou montre dont l'application écrit dans Health Connect, y compris les bracelets Xiaomi et Redmi via Mi Fitness et les appareils Amazfit / Zepp.
-• Prise en charge directe expérimentale de 158 modèles : bracelets et montres Xiaomi et Redmi, Amazfit / Zepp, Mi Band 2 à 7, ceintures cardio Bluetooth, PineTime, Bangle.js.
+• Prise en charge directe expérimentale de 110 modèles : bracelets et montres Xiaomi et Redmi, Amazfit / Zepp, Mi Band 2 à 7, ceintures cardio Bluetooth, PineTime, Bangle.js.
 • Selon l'appareil : pouls en direct, recherche, heure, alarmes, notifications, batterie.
 • Xiaomi et Amazfit exigent la clé d'authentification (guide intégré). GlobalFitness ne se connecte jamais à votre compte fabricant.
 

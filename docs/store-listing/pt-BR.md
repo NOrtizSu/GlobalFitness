@@ -31,7 +31,7 @@ HEALTH CONNECT
 
 PULSEIRAS E RELÓGIOS INTELIGENTES
 • Funciona com qualquer pulseira ou relógio cujo app grave no Health Connect, incluindo as pulseiras Xiaomi e Redmi pelo Mi Fitness e os dispositivos Amazfit / Zepp.
-• Suporte direto a 158 modelos, todos “Experimental” (ainda não testados com todos os dispositivos reais): pulseiras e relógios Xiaomi e Redmi (Smart Band 7 Pro a 11, Redmi Smart Band/Watch, Xiaomi Watch S1/S3/S4…), Amazfit / Zepp e Mi Band 2 a 7, dispositivos Bluetooth de frequência cardíaca (como cintas peitorais), PineTime / InfiniTime e Bangle.js.
+• Suporte direto a 110 modelos, todos “Experimental” (ainda não testados com todos os dispositivos reais): pulseiras e relógios Xiaomi e Redmi (Smart Band 7 Pro a 11, Redmi Smart Band/Watch, Xiaomi Watch S1/S3/S4…), Amazfit / Zepp e Mi Band 2 a 7, dispositivos Bluetooth de frequência cardíaca (como cintas peitorais), PineTime / InfiniTime e Bangle.js.
 • Se suportado: frequência cardíaca em tempo real, encontrar o dispositivo, sincronizar a hora, alarmes, encaminhar notificações e bateria.
 • Xiaomi e Amazfit precisam da chave de autenticação, obtida no app ou na conta do fabricante (guia no app). O GlobalFitness nunca entra em contas de fabricantes, e o app do fabricante continua funcionando.
 
