@@ -16,6 +16,7 @@ object EcdhB163 {
     private const val BITVEC_NBITS = CURVE_DEGREE + BITVEC_MARGIN
     private const val NWORDS = (BITVEC_NBITS + 31) / 32
     private const val NBYTES = 4 * NWORDS
+    private const val MAX_INV_STEPS = 400
 
     private val POLYNOMIAL = words(0x000000c9, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000008)
     private val COEFF_B = words(0x4a3205fd, 0x512f7874, 0x1481eb10, 0xb8c953ca, 0x0a601907, 0x00000002)
@@ -124,7 +125,10 @@ object EcdhB163 {
         }
     }
 
-    /** z := 1 / x. */
+    /**
+     * z := 1 / x. Each step lowers deg(u) + deg(v) (at most 164 + 162), so a reduced non-zero x needs
+     * well under [MAX_INV_STEPS]; anything else (zero, or not reduced) would loop forever and throws.
+     */
     private fun inv(z: IntArray, x: IntArray) {
         val u = IntArray(NWORDS)
         val v = IntArray(NWORDS)
@@ -134,7 +138,9 @@ object EcdhB163 {
         copy(v, POLYNOMIAL)
         setZero(g)
         setOne(z)
+        var steps = 0
         while (!isOne(u)) {
+            if (++steps > MAX_INV_STEPS) throw ArithmeticException("no inverse in GF(2^163)")
             var i = degree(u) - degree(v)
             if (i < 0) {
                 swap(u, v)
@@ -276,15 +282,25 @@ object EcdhB163 {
         }
     }
 
-    /** Shared point (48 bytes, X then Y) or null when [othersPublic] is not a valid curve point. */
+    /**
+     * Shared point (48 bytes, X then Y) or null when [othersPublic] is not a valid curve point: its
+     * coordinates must be reduced field elements (no bit at or above 163), X must not be zero (no inverse) and
+     * the point must lie on the curve. The input comes from the device, so it is never trusted.
+     */
     fun generateShared(privateKey: ByteArray, othersPublic: ByteArray): ByteArray? {
         if (privateKey.size < PRIVATE_KEY_SIZE || othersPublic.size < PUBLIC_KEY_SIZE) return null
         val k = toWords(privateKey, 0)
         val x = toWords(othersPublic, 0)
         val y = toWords(othersPublic, NBYTES)
-        if (pointIsZero(x, y) || !onCurve(x, y)) return null
+        // degree() is the highest set bit + 1: a reduced element uses bits 0..162, so degree <= 163.
+        if (degree(x) > CURVE_DEGREE || degree(y) > CURVE_DEGREE || isZero(x)) return null
+        if (!onCurve(x, y)) return null
         clampScalar(k)
-        pointMul(x, y, k)
+        try {
+            pointMul(x, y, k)
+        } catch (_: ArithmeticException) {
+            return null
+        }
         return ByteArray(PUBLIC_KEY_SIZE).also {
             toBytes(it, x, 0)
             toBytes(it, y, NBYTES)

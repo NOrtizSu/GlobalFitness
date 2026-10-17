@@ -75,4 +75,26 @@ class EcdhB163Test {
         assertNull(EcdhB163.generateShared(k, ByteArray(10)))
         assertFalse(EcdhB163.onCurve(IntArray(6), IntArray(6)))
     }
+
+    /** Hostile device keys must be refused quickly, never loop in the field inversion. */
+    @Test(timeout = 10_000)
+    fun rejectsUnreducedOrZeroCoordinates() {
+        val k = privateKey()
+        val pub = EcdhB163.generatePublic(privateKey())!!
+        // Same field element plus the reduction polynomial (x^163 + x^7 + x^6 + x^3 + 1): degree 163.
+        val unreducedX = pub.copyOf().also {
+            it[0] = (it[0].toInt() xor 0xc9).toByte()
+            it[20] = (it[20].toInt() xor 0x08).toByte()
+        }
+        assertNull(EcdhB163.generateShared(k, unreducedX))
+        val unreducedY = pub.copyOf().also {
+            it[24] = (it[24].toInt() xor 0xc9).toByte()
+            it[44] = (it[44].toInt() xor 0x08).toByte()
+        }
+        assertNull(EcdhB163.generateShared(k, unreducedY))
+        val allOnes = ByteArray(48) { 0xff.toByte() }
+        assertNull(EcdhB163.generateShared(k, allOnes))
+        // X = 0 has no inverse.
+        assertNull(EcdhB163.generateShared(k, ByteArray(48).also { it[24] = 1 }))
+    }
 }
