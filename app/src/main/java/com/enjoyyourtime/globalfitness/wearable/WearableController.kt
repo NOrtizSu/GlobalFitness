@@ -117,7 +117,7 @@ data class WearableTiming(
  * disconnect, the driver's functions and the timers that hand the device back to its vendor app
  * (most accept a single connection): the link closes after [WearableTiming.idleTimeoutMs] without
  * user actions (live heart rate on a visible screen keeps it), [WearableTiming.leaveGraceMs] after
- * leaving the screen, or on request. Same behaviour as the Smart Band 9 [com.enjoyyourtime.globalfitness.band.BandController].
+ * leaving the screen, or on request. It replaces the former Smart Band 9-only controller with the same behaviour.
  *
  * [scope] must be single-threaded (the main thread in the app): all mutable state is only touched
  * from coroutines on it.

@@ -39,6 +39,8 @@ fun ForwardingCard(
     connected: Boolean,
     onEnabled: (Boolean) -> Unit,
     onAllowed: (String, Boolean) -> Unit,
+    text: String = stringResource(R.string.forwarding_text),
+    pendingText: String = stringResource(R.string.forwarding_active_pending),
 ) {
     val context = LocalContext.current
     var accessGranted by remember { mutableStateOf(BandNotificationListener.isAccessGranted(context)) }
@@ -54,7 +56,7 @@ fun ForwardingCard(
                 Switch(checked = enabled, onCheckedChange = onEnabled)
             }
             Text(
-                stringResource(R.string.forwarding_text),
+                text,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -78,7 +80,7 @@ fun ForwardingCard(
                 }) { Text(stringResource(R.string.forwarding_grant_access)) }
             } else if (enabled && !connected) {
                 Text(
-                    stringResource(R.string.forwarding_active_pending),
+                    pendingText,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )

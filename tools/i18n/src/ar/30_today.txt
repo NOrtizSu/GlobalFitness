@@ -54,7 +54,6 @@ chip_cloud_error = السحابة: خطأ
 chip_cloud_pending = السحابة: بانتظار الرفع
 chip_cloud_synced = السحابة: %1$s
 chip_cloud_connected = السحابة: متصلة
-chip_band = السوار: %1$s
 today_no_measurements_text = اصعد على الميزان حافي القدمين والتطبيق مفتوح: سيظهر القياس هنا. وإذا كان ميزانك غير مدعوم، فأضف وزنك يدويًا.
 today_view_weight_trend = عرض تطور الوزن
 today_weekly_change_none = التغيّر الأسبوعي: البيانات غير كافية

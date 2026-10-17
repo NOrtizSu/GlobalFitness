@@ -188,7 +188,6 @@ health_hr_day_none = В Health Connect нет данных о пульсе за 
 health_hr_day_stats = Среднее %1$s · мин. %2$s · макс. %3$s
 health_hr_day_stats_resting = %1$s · в покое %2$s
 health_band_direct_title = Браслет · прямой режим
-health_band_direct_text = Пульс в реальном времени, записанный приложением при подключённом браслете (не в Health Connect).
 health_last_30_days = Последние 30 дней
 health_no_hr_data = Нет данных о пульсе.
 health_sleep_last_night_none = Нет данных о сне за прошлую ночь.

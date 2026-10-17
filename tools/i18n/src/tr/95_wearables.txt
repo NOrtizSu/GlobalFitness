@@ -1,0 +1,107 @@
+# Devices → Bands & watches (any supported family; the diagnostics log stays in English on purpose)
+devices_wearables = Bileklikler ve saatler
+wearables_none = Henüz ayarlanmış bir bileklik veya saat yok. Cihazınızı yaklaştırın ya da katalogdan ekleyin.
+wearables_add_from_catalog = Katalogdan ekle
+wearables_detected = Algılananlar ve eşlenenler
+wearables_detected_none = Henüz hiçbir cihaz tanınmadı. Bu telefonla eşlenmiş cihazlar, yakındaki cihazlar izni verildiğinde burada görünür; diğerleri ise açık ve yakında olduklarında.
+wearables_paired = eşlendi
+wearables_use_this = Ayarla
+wearables_already_set_up = Zaten ayarlı
+wearables_open = Aç
+wearables_remove_text = Cihazın anahtarı ve ayarları telefondan silinir; kaydedilen nabız korunur. Cihaz bir daha önerilmez.
+wearables_removed = Kaldırıldı: %1$s
+wearables_added = Eklendi: %1$s
+wearables_suggestion_title = Bu sizin bilekliğiniz veya saatiniz mi?
+wearables_suggestion_text = Uygulama cihaza yalnızca onu doğrudan modda açtığınızda bağlanır. Yalnızca sizinse onaylayın.
+wearables_suggestion_text_key = Uygulama cihaza yalnızca onu doğrudan modda açtığınızda bağlanır ve cihazın kendi uygulamasındaki kimlik doğrulama anahtarına ihtiyaç duyar. Yalnızca sizinse onaylayın.
+wearables_suggestion_yes = Evet, ayarla
+wearables_catalog_title = Bileklik ve saat kataloğu
+wearables_needs_key = %1$s anahtarı gerekir
+wearables_no_key_needed = anahtar gerekmez
+wearables_bind_question = Bu cihazlardan hangisi?
+wearables_bind_none = Algılanan veya eşlenen cihazların hiçbiri bu modele benzemiyor. Cihazı açın, yakında tutun ve kendi uygulamasının onu bu telefonla eşlediğini kontrol edin.
+wearables_bind_others = Algılanan diğer cihazlar
+chip_wearable = %1$s: %2$s
+
+# Wearable status
+wearable_status_not_connected = Bağlı değil
+wearable_status_connected = Bağlı
+wearable_status_unknown_model = Model bu sürümde desteklenmiyor
+wearable_connected_protocol = Bağlı (%1$s)
+
+# Wearable screen
+wearable_intro = Uygulama, %1$s uygulamasına uğramadan cihazla doğrudan Bluetooth üzerinden (Gadgetbridge gibi) iletişim kurar. Çoğu cihaz yalnızca tek bir bağlantıyı kabul eder. Bu yüzden uygulama yalnızca “Bağla” düğmesine dokunduğunuzda bağlanır; 2 dakika kullanılmazsa veya bu ekrandan çıktığınızda bağlantıyı keser, böylece %1$s yeniden senkronize edebilir.
+wearable_intro_plain = Uygulama, cihazla doğrudan Bluetooth üzerinden (Gadgetbridge gibi) iletişim kurar. Yalnızca “Bağla” düğmesine dokunduğunuzda bağlanır; 2 dakika kullanılmazsa veya bu ekrandan çıktığınızda bağlantıyı keser.
+wearable_experimental = Deneysel: henüz bu modelin gerçek bir cihazıyla test edilmedi.
+wearable_doc_link = Gadgetbridge'in bu cihazla ilgili notları
+wearable_permission_text = Cihaza bağlanmak için yakındaki cihazlar izni gerekir.
+wearable_transport_ble = Bluetooth LE
+wearable_transport_classic = Klasik Bluetooth
+wearable_transport_uart = Bluetooth LE (UART)
+wearable_hardware = Donanım
+wearable_vendor_settings = %1$s ayarları
+wearable_cannot_connect_hint = Bağlanabilmek için kimlik doğrulama anahtarını kaydedin.
+wearable_released = Cihaz yeniden serbest. %1$s uygulamasını durdurduysanız, senkronizasyonu sürdürmesi için yeniden açın.
+wearable_find = Cihazı bul
+wearable_finding_text = Cihaz çalıyor veya titreşiyor. Cihazın üzerinden durdurun ya da “%1$s” düğmesine dokunun.
+wearable_time_synced = Saat senkronize edildi
+wearable_connect_first = Önce cihazı bağlayın
+wearable_found = Cihaz, onu bulduğunuzu bildirdi
+wearable_find_phone = %1$s telefonu arıyor
+wearable_waiting_data = Cihazdan veri bekleniyor…
+wearable_measuring_hint = Ölçülüyor… cihazın cildinize sıkıca oturmasını sağlayın.
+wearable_rr_interval = Atımlar arası aralık
+wearable_steps_session = Bağlandıktan sonraki adımlar
+wearable_alarms_section = Cihazdaki alarmlar
+wearable_alarms_none = Cihazda alarm yok.
+wearable_alarms_read_back = Değişiklikler cihaza gönderilir ve liste cihazdan yeniden okunur; böylece cihazın gerçekte neyi kaydettiğini görürsünüz.
+wearable_alarms_local = Bu cihaz alarmlarını bildiremiyor: liste, uygulamanın cihaza gönderdiklerini gösterir. Doğrudan cihazda oluşturulan alarmlar burada görünmez.
+wearable_forwarding_text = Yalnızca cihaz doğrudan modda bağlıyken ve yalnızca işaretlediğiniz uygulamalardan. Geri kalan zamanda bildirimleri %1$s gönderir. İçerik hiçbir zaman saklanmaz.
+wearable_forwarding_text_plain = Yalnızca cihaz doğrudan modda bağlıyken ve yalnızca işaretlediğiniz uygulamalardan. İçerik hiçbir zaman saklanmaz.
+wearable_forwarding_pending = Açık: cihaz bağlıyken iletilecekler.
+
+# Wearable connection failures
+wearable_failure_permission = Yakındaki cihazlar (Bluetooth) izni eksik. Bağlanmak için bu izni verin.
+wearable_failure_no_key = Önce cihazın kimlik doğrulama anahtarını kaydedin.
+wearable_failure_unknown = Bu cihaz artık ayarlı değil veya uygulamanın bu sürümü cihazın modelini desteklemiyor.
+wearable_failure_not_found = Cihaz bulunamadı. Açık, yakında ve bu telefonla eşlenmiş olduğunu kontrol edin.
+wearable_failure_connect = Bağlantı açılamadı. Cihazın açık, yakında ve şarjlı olduğunu kontrol edin. %1$s cihaza bağlıysa cihaz meşguldür: %1$s uygulamasını geçici olarak durdurun (Ayarlar → Uygulamalar → %1$s → Zorla durdur) ve tekrar deneyin.
+wearable_failure_connect_plain = Bağlantı açılamadı. Cihazın açık, yakında ve şarjlı olduğunu ve başka bir uygulamanın ona bağlı olmadığını kontrol edin.
+wearable_failure_unsupported = Bağlandı, ancak cihaz bu modelde olması gereken Bluetooth hizmetlerini sunmuyor. Farklı bir model veya farklı bir yazılım sürümü olabilir.
+wearable_failure_no_response = Cihaz yanıt vermiyor. Muhtemelen %1$s ile meşgul: %1$s uygulamasını geçici olarak durdurun (Ayarlar → Uygulamalar → %1$s → Zorla durdur) ve tekrar deneyin.
+wearable_failure_no_response_plain = Cihaz yanıt vermiyor. Yaklaştırıp tekrar deneyin.
+wearable_failure_wrong_key = Kimlik doğrulama anahtarı yanlış: cihaz onu tanımıyor. Güncel anahtarı kopyaladığınızı kontrol edin; cihazın eşlemesini %1$s uygulamasında kaldırdıysanız anahtar değişmiştir ve yenisine ihtiyacınız vardır.
+wearable_failure_auth_rejected = Cihaz kimlik doğrulamayı reddetti. Anahtarı kontrol edip tekrar deneyin.
+wearable_failure_link_lost = Cihazla bağlantı kesildi.
+wearable_failure_timeout = Cihaz zamanında yanıt vermedi.
+wearable_failure_not_supported = Bu cihaz bu özelliği desteklemiyor.
+wearable_failure_busy = Cihaz başka bir uygulamaya bağlı (neredeyse kesinlikle %1$s) ve yalnızca tek bir bağlantıyı kabul ediyor. %1$s uygulamasını geçici olarak durdurun (Ayarlar → Uygulamalar → %1$s → Zorla durdur) ve tekrar deneyin. İşiniz bitince senkronizasyonu sürdürmesi için %1$s uygulamasını açın.
+wearable_failure_busy_plain = Cihaz başka bir uygulamaya bağlı ve yalnızca tek bir bağlantıyı kabul ediyor. O uygulamayı kapatıp tekrar deneyin.
+
+# Wearable key card and key wizard (no vendor sign-in: the key is always entered by the user)
+wearable_key_user_id_title = Xiaomi hesabı kullanıcı kimliği
+wearable_key_missing = Bu cihaz, eşleme sırasında %1$s uygulamasının ayarladığı kimlik doğrulama anahtarına ihtiyaç duyar.
+wearable_key_setup = Anahtarı ayarla
+wearable_xiaomi_device_id = Cihaz kimliği (Wear OS)
+wearable_xiaomi_device_id_help = Yalnızca Xiaomi Watch 5 gibi Wear OS saatler için: Gadgetbridge kılavuzunda nasıl bulunacağı açıklanan eşlikçi cihaz kimliği.
+wearable_wizard_step_what = 1. Nedir
+wearable_wizard_what_hex = Cihazınız ile %1$s hesabınızın paylaştığı, 32 onaltılık karakterden (16 bayt) oluşan gizli bir anahtar. Cihazı %1$s uygulamasında eşlediğinizde oluşturulur; cihaz bu anahtarla telefonun bağlanıp bağlanamayacağını kontrol eder ve bağlantıyı şifreler. Telefonda oluşturulamaz.
+wearable_wizard_what_user_id = Bu eski model onaltılık anahtar kullanmaz: %1$s uygulamasında eşlendiği Xiaomi hesabının sayısal kullanıcı kimliğiyle kimlik doğrular.
+wearable_wizard_step_where = 2. Nereden alınır
+wearable_wizard_where = Anahtar %1$s uygulamasından veya üreticideki hesabınızdan gelir. Gadgetbridge projesi, her cihaz ailesi için anahtarın nasıl alınacağını belgeler. Bu uygulama hesabınızda asla oturum açmaz ve anahtarı sizin yerinize asla almaz.
+wearable_wizard_link_device = Gadgetbridge: %1$s
+wearable_wizard_step_important = 3. Bilmeniz gerekenler
+wearable_wizard_unpair = Cihazın eşlemesini %1$s uygulamasında kaldırır veya cihazı sıfırlarsanız anahtar geçersiz olur ve yenisine ihtiyacınız olur.
+wearable_wizard_share = Anahtarı paylaşmayın: ona sahip olan herkes cihazınıza bağlanabilir.
+wearable_wizard_step_enter = 4. Girin
+wearable_key_paste_hex = 32 karakterlik onaltılık anahtarı yapıştırın (“0x” ile veya olmadan); boşluklar ve satır sonları yok sayılır.
+wearable_key_paste_user_id = Sayısal kullanıcı kimliğini girin (yalnızca rakam).
+wearable_wizard_paste = Panodan yapıştır
+wearable_wizard_clipboard_empty = Panoda beklenen biçimde bir anahtar yok.
+wearable_key_error_empty_user_id = Kullanıcı kimliğini girin.
+wearable_key_error_not_numeric = Kullanıcı kimliği yalnızca rakam içerebilir.
+wearable_key_error_too_long = Kullanıcı kimliği çok uzun.
+
+# Activity: live heart rate recorded in direct mode, per device
+health_wearable_live_title = %1$s · doğrudan mod
+health_wearable_live_text = Cihaz bağlıyken uygulamanın kaydettiği canlı nabız (Health Connect'te değil).

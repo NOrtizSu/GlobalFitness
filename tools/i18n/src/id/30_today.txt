@@ -44,7 +44,6 @@ chip_cloud_error = Cloud: kesalahan
 chip_cloud_pending = Cloud: menunggu unggahan
 chip_cloud_synced = Cloud: %1$s
 chip_cloud_connected = Cloud: terhubung
-chip_band = Gelang: %1$s
 today_no_measurements_text = Naik ke timbangan tanpa alas kaki saat aplikasi terbuka: pengukuran akan muncul di sini. Jika timbangan Anda tidak didukung, tambahkan berat badan Anda secara manual.
 today_view_weight_trend = Lihat tren berat badan
 today_weekly_change_none = Perubahan mingguan: data belum cukup

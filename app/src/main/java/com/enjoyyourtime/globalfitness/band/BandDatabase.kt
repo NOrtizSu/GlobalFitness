@@ -6,6 +6,9 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import androidx.core.database.sqlite.transaction
 
+/** A stored sample and the device / driver that recorded it (null for rows of the original band mode). */
+data class RecordedHeartRate(val sample: HeartRateSample, val deviceAddress: String?, val driverId: String?)
+
 /** The band.db schema and its additive migrations (plain SQL, unit-tested). */
 object BandDbSchema {
     const val VERSION = 2
@@ -73,6 +76,25 @@ class BandDatabase(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, 
         ).use { c ->
             buildList {
                 while (c.moveToNext()) add(HeartRateSample(c.getLong(0), c.getInt(1), c.getString(2)))
+            }
+        }
+
+    /** As [heartRateSamples] with the device that recorded each sample. */
+    fun heartRateSamplesWithDevice(fromMs: Long, toMs: Long): List<RecordedHeartRate> =
+        readableDatabase.rawQuery(
+            "SELECT timestamp, bpm, source, device_address, driver FROM hr_samples WHERE timestamp BETWEEN ? AND ? ORDER BY timestamp",
+            arrayOf(fromMs.toString(), toMs.toString()),
+        ).use { c ->
+            buildList {
+                while (c.moveToNext()) {
+                    add(
+                        RecordedHeartRate(
+                            HeartRateSample(c.getLong(0), c.getInt(1), c.getString(2)),
+                            deviceAddress = if (c.isNull(3)) null else c.getString(3),
+                            driverId = if (c.isNull(4)) null else c.getString(4),
+                        ),
+                    )
+                }
             }
         }
 

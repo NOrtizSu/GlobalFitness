@@ -180,7 +180,6 @@ health_hr_day_none = No heart rate data in Health Connect for this day. ||| Sin 
 health_hr_day_stats = Average %1$s · min %2$s · max %3$s ||| Media %1$s · mín %2$s · máx %3$s
 health_hr_day_stats_resting = %1$s · resting %2$s ||| %1$s · en reposo %2$s
 health_band_direct_title = Band · direct mode ||| Pulsera · modo directo
-health_band_direct_text = Live heart rate recorded by the app with the band connected (not in Health Connect). ||| Pulso en directo registrado por la app con la pulsera conectada (no está en Health Connect).
 health_last_30_days = Last 30 days ||| Últimos 30 días
 health_no_hr_data = No heart rate data. ||| Sin datos de pulso.
 health_sleep_last_night_none = No sleep data for last night. ||| Sin datos de sueño de anoche.

@@ -44,7 +44,6 @@ chip_cloud_error = 클라우드: 오류
 chip_cloud_pending = 클라우드: 업로드 대기 중
 chip_cloud_synced = 클라우드: %1$s
 chip_cloud_connected = 클라우드: 연결됨
-chip_band = 밴드: %1$s
 today_no_measurements_text = 앱을 연 상태에서 맨발로 체중계에 올라가세요. 측정 결과가 여기에 표시됩니다. 지원되지 않는 체중계라면 체중을 직접 입력하세요.
 today_view_weight_trend = 체중 추세 보기
 today_weekly_change_none = 주간 변화: 데이터 부족

@@ -48,7 +48,6 @@ chip_cloud_error = Cloud: errore
 chip_cloud_pending = Cloud: caricamento in attesa
 chip_cloud_synced = Cloud: %1$s
 chip_cloud_connected = Cloud: connesso
-chip_band = Smartband: %1$s
 today_no_measurements_text = Sali sulla bilancia a piedi nudi con l'app aperta: la misurazione apparirà qui. Se la tua bilancia non è supportata, aggiungi il peso manualmente.
 today_view_weight_trend = Vedi andamento del peso
 today_weekly_change_none = Variazione settimanale: dati insufficienti

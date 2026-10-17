@@ -50,7 +50,6 @@ chip_cloud_error = Chmura: błąd
 chip_cloud_pending = Chmura: czeka na wysłanie
 chip_cloud_synced = Chmura: %1$s
 chip_cloud_connected = Chmura: połączono
-chip_band = Opaska: %1$s
 today_no_measurements_text = Stań na wadze boso przy otwartej aplikacji: pomiar pojawi się tutaj. Jeśli Twoje urządzenie nie jest obsługiwane, dodaj wagę ręcznie.
 today_view_weight_trend = Pokaż trend wagi
 today_weekly_change_none = Zmiana tygodniowa: za mało danych

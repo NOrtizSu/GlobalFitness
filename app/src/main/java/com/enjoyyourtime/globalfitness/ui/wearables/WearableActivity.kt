@@ -1,4 +1,4 @@
-package com.enjoyyourtime.globalfitness.ui.band
+package com.enjoyyourtime.globalfitness.ui.wearables
 
 import android.content.Context
 import android.content.Intent
@@ -13,11 +13,12 @@ import com.enjoyyourtime.globalfitness.ui.Fmt
 import com.enjoyyourtime.globalfitness.ui.theme.GlobalFitnessTheme
 
 /**
- * Hosts the experimental direct band screen. Being visible is what keeps the on-demand connection
- * alive: leaving it releases the band for Mi Fitness after a short grace period.
+ * Hosts the experimental direct mode of one configured band or watch. Being visible is what keeps
+ * the on-demand connection alive: leaving it releases the device for its vendor app after a short
+ * grace period.
  */
-class BandActivity : ComponentActivity() {
-    private val viewModel: BandViewModel by viewModels { BandViewModel.Factory }
+class WearableActivity : ComponentActivity() {
+    private val viewModel: WearableViewModel by viewModels { WearableViewModel.Factory }
 
     override fun onStart() {
         super.onStart()
@@ -38,12 +39,13 @@ class BandActivity : ComponentActivity() {
         )
         setContent {
             GlobalFitnessTheme {
-                BandScreen(viewModel = viewModel, onBack = ::finish)
+                WearableScreen(viewModel = viewModel, onBack = ::finish)
             }
         }
     }
 
     companion object {
-        fun intent(context: Context) = Intent(context, BandActivity::class.java)
+        fun intent(context: Context, deviceId: String) =
+            Intent(context, WearableActivity::class.java).putExtra(WearableViewModel.EXTRA_DEVICE_ID, deviceId)
     }
 }

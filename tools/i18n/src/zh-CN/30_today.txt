@@ -44,7 +44,6 @@ chip_cloud_error = 云端：出错
 chip_cloud_pending = 云端：等待上传
 chip_cloud_synced = 云端：%1$s
 chip_cloud_connected = 云端：已连接
-chip_band = 手环：%1$s
 today_no_measurements_text = 打开应用，赤脚站上体重秤：测量结果会显示在这里。如果你的体重秤不受支持，请手动添加体重。
 today_view_weight_trend = 查看体重趋势
 today_weekly_change_none = 每周变化：数据不足

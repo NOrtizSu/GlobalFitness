@@ -180,7 +180,6 @@ health_hr_day_none = Health Connect'te bu gün için nabız verisi yok.
 health_hr_day_stats = Ortalama %1$s · min %2$s · maks %3$s
 health_hr_day_stats_resting = %1$s · dinlenme %2$s
 health_band_direct_title = Bileklik · doğrudan mod
-health_band_direct_text = Bileklik bağlıyken uygulamanın kaydettiği canlı nabız (Health Connect'te değil).
 health_last_30_days = Son 30 gün
 health_no_hr_data = Nabız verisi yok.
 health_sleep_last_night_none = Dün gece için uyku verisi yok.

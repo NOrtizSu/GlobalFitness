@@ -44,7 +44,6 @@ chip_cloud_error = Đám mây: lỗi
 chip_cloud_pending = Đám mây: chờ tải lên
 chip_cloud_synced = Đám mây: %1$s
 chip_cloud_connected = Đám mây: đã kết nối
-chip_band = Vòng đeo tay: %1$s
 today_no_measurements_text = Hãy bước lên cân bằng chân trần khi đang mở ứng dụng: kết quả đo sẽ xuất hiện tại đây. Nếu cân của bạn không được hỗ trợ, hãy thêm cân nặng thủ công.
 today_view_weight_trend = Xem xu hướng cân nặng
 today_weekly_change_none = Thay đổi trong tuần: chưa đủ dữ liệu

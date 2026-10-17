@@ -10,9 +10,11 @@ import android.os.Build
 import android.os.SystemClock
 import android.text.format.DateFormat
 import android.util.Log
+import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.band.BandDatabase
 import com.enjoyyourtime.globalfitness.band.BandLog
 import com.enjoyyourtime.globalfitness.band.BandPermissions
+import com.enjoyyourtime.globalfitness.band.BandStore
 import com.enjoyyourtime.globalfitness.band.HeartRateSample
 import com.enjoyyourtime.globalfitness.band.PhoneNotification
 import com.enjoyyourtime.globalfitness.band.RfcommLink
@@ -24,16 +26,35 @@ import com.enjoyyourtime.globalfitness.scale.AdvertisementInfo
 import com.enjoyyourtime.globalfitness.scale.GattLink
 import com.enjoyyourtime.globalfitness.scale.GattSession
 import com.enjoyyourtime.globalfitness.wearable.xiaomi.toWearable
+import java.io.IOException
 import java.util.Locale
 import java.util.UUID
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+
+/** A configured wearable with what the lists and the Today chip show about it. */
+data class WearableSummary(
+    val device: ConfiguredWearable,
+    /** Null when the driver no longer exists in this version. */
+    val driver: WearableDriver?,
+    val hasKey: Boolean,
+    val state: WearableState,
+) {
+    val needsKey: Boolean get() = driver?.needsAuthKey == true && !hasKey
+}
 
 /**
  * Android wiring of the wearables: the driver registry, detection (advertisements and bonded
@@ -42,14 +63,11 @@ import kotlinx.coroutines.launch
  *
  * [scope] is the app scope (main thread), as [WearableController] requires.
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 class WearableManager(
     private val context: Context,
     private val scope: CoroutineScope,
     val registry: WearableRegistry = AllWearables.registry(),
-    /** The localized test notification (supplied by the UI layer). */
-    private val testNotification: (Long) -> BandNotification = { now ->
-        BandNotification(TEST_NOTIFICATION_ID, context.packageName, APP_NAME, APP_NAME, "", now)
-    },
 ) {
     val log = BandLog()
     val keys = WearableKeyStore(context)
@@ -77,12 +95,32 @@ class WearableManager(
     val configured: StateFlow<List<ConfiguredWearable>> get() = settings.configured
 
     init {
+        importLegacyBand()
         keys.keyedAddresses.value.forEach { address -> keys.load(address)?.let { log.registerSecret(it) } }
     }
+
+    /** Every configured wearable with its key status and connection state, in setup order. */
+    val summaries: StateFlow<List<WearableSummary>> = settings.configured
+        .flatMapLatest { list ->
+            if (list.isEmpty()) {
+                flowOf(emptyList())
+            } else {
+                val states = list.map { device -> controller(device)?.state ?: flowOf(WearableState()) }
+                combine(states) { array -> list.zip(array.toList()) }
+            }
+        }
+        .combine(keys.keyedAddresses) { pairs, keyed ->
+            pairs.map { (device, state) ->
+                WearableSummary(device, registry.find(device.driverId), WearableKeyStore.normalize(device.address) in keyed, state)
+            }
+        }
+        .stateIn(scope, SharingStarted.Eagerly, emptyList())
 
     // ---- configured devices ----
 
     fun driverFor(device: ConfiguredWearable): WearableDriver? = registry.find(device.driverId)
+
+    fun device(id: String): ConfiguredWearable? = settings.configured.value.firstOrNull { it.id == id }
 
     /** Adds (or replaces, same address) a configured wearable. */
     fun addDevice(driver: WearableDriver, address: String, name: String, fromSuggestion: Boolean): ConfiguredWearable {
@@ -90,24 +128,42 @@ class WearableManager(
             id = UUID.randomUUID().toString(),
             driverId = driver.id,
             address = address.uppercase(Locale.ROOT),
-            name = name,
+            name = name.trim().ifEmpty { driver.displayName }.take(MAX_NAME),
             addedAt = System.currentTimeMillis(),
             fromSuggestion = fromSuggestion,
         )
+        settings.configured.value.filter { it.matchesAddress(address) }.forEach { dropController(it.id) }
         settings.updateConfigured { list -> list.filterNot { it.matchesAddress(address) } + device }
+        settings.undismiss(address)
         _suggestion.update { if (it?.address.equals(address, ignoreCase = true)) null else it }
         log.add("Wearable added: ${driver.id} (${device.address})")
         return device
     }
 
-    fun updateDevice(device: ConfiguredWearable) = settings.updateConfigured { list -> list.map { if (it.id == device.id) device else it } }
+    fun rename(id: String, name: String) {
+        val clean = name.trim().take(MAX_NAME)
+        if (clean.isEmpty()) return
+        settings.updateConfigured { list -> list.map { if (it.id == id) it.copy(name = clean) else it } }
+    }
+
+    fun setSyncTimeOnConnect(id: String, enabled: Boolean) {
+        settings.updateConfigured { list ->
+            list.map {
+                if (it.id != id) it else it.copy(config = if (enabled) it.config - ConfiguredWearable.CONFIG_SYNC_TIME else it.config + (ConfiguredWearable.CONFIG_SYNC_TIME to "0"))
+            }
+        }
+    }
+
+    fun setConfigValue(id: String, key: String, value: String?) {
+        settings.updateConfigured { list ->
+            list.map { if (it.id != id) it else it.copy(config = if (value.isNullOrBlank()) it.config - key else it.config + (key to value.trim())) }
+        }
+    }
 
     /** Removes the device, its key and its stored state; it is not suggested again. */
     fun removeDevice(id: String) {
-        val device = settings.configured.value.firstOrNull { it.id == id } ?: return
-        controllers.remove(id)?.disconnect()
-        stateWatchers.remove(id)?.cancel()
-        setLive(id, false)
+        val device = device(id) ?: return
+        dropController(id)
         settings.updateConfigured { list -> list.filterNot { it.id == id } }
         settings.clearDriverStore(id)
         keys.clear(device.address)
@@ -116,7 +172,7 @@ class WearableManager(
         log.add("Wearable removed (${device.address})")
     }
 
-    /** Validates and stores the key of [device]; the key is never logged. */
+    /** Validates and stores the key of [device]; the key is never logged. Throws [IOException] when it cannot be written. */
     fun saveKey(device: ConfiguredWearable, input: String): KeyCheck {
         val driver = driverFor(device) ?: return KeyCheck.Invalid(KeyProblem.EMPTY)
         val check = WearableKeys.validate(driver.authKey, input)
@@ -134,12 +190,14 @@ class WearableManager(
         log.add("Key deleted for ${device.address}")
     }
 
-    /** The controller of a configured device (created on first use). */
+    /**
+     * The controller of a configured device (one per device id, kept while its driver and address
+     * stay the same, so renaming or changing a setting never drops the connection).
+     */
     fun controller(device: ConfiguredWearable): WearableController? {
-        controllers[device.id]?.let { if (it.device == device) return it }
+        controllers[device.id]?.let { if (it.driver.id == device.driverId && it.device.matchesAddress(device.address)) return it }
         val driver = driverFor(device) ?: return null
-        controllers.remove(device.id)?.disconnect()
-        stateWatchers.remove(device.id)?.cancel()
+        dropController(device.id)
         val controller = WearableController(scope, log::add, AndroidPlatform(), device, driver)
         controllers[device.id] = controller
         stateWatchers[device.id] = scope.launch {
@@ -148,13 +206,29 @@ class WearableManager(
         return controller
     }
 
+    private fun dropController(id: String) {
+        controllers.remove(id)?.disconnect()
+        stateWatchers.remove(id)?.cancel()
+        setLive(id, false)
+    }
+
     private fun setLive(id: String, active: Boolean) {
         liveIds.update { if (active) it + id else it - id }
         _liveHeartRateActive.value = liveIds.value.isNotEmpty()
     }
 
-    /** Recorded heart rate (band.db) between [fromMs] and [toMs]. Blocking: call on IO. */
-    fun recordedHeartRate(fromMs: Long, toMs: Long): List<HeartRateSample> = database.heartRateSamples(fromMs, toMs)
+    /** Live heart rate recorded in band.db between [fromMs] and [toMs], per device. Blocking: call on IO. */
+    fun recordedHeartRateByDevice(fromMs: Long, toMs: Long): List<DeviceHeartRate> =
+        WearableHeartRate.groupByDevice(database.heartRateSamplesWithDevice(fromMs, toMs), settings.configured.value)
+
+    // ---- notification forwarding settings ----
+
+    fun setForwardingEnabled(enabled: Boolean) {
+        settings.setForwardingEnabled(enabled)
+        if (!enabled) controllers.values.forEach { it.clearForwarded() }
+    }
+
+    fun setPackageAllowed(packageName: String, allowed: Boolean) = settings.setPackageAllowed(packageName, allowed)
 
     // ---- detection ----
 
@@ -190,9 +264,23 @@ class WearableManager(
         }
     }
 
-    fun dismissSuggestion(address: String) {
-        settings.dismiss(address)
-        _suggestion.update { if (it?.address.equals(address, ignoreCase = true)) null else it }
+    /** Re-reads the detected list so stale devices drop out. */
+    fun refreshDetected() {
+        _detected.value = detector.detected(SystemClock.elapsedRealtime())
+    }
+
+    /** "Yes, it's mine": sets up the suggested device and returns it. */
+    fun acceptSuggestion(): ConfiguredWearable? {
+        val s = _suggestion.value ?: return null
+        _suggestion.value = null
+        return addDevice(s.driver, s.address, s.name ?: s.driver.displayName, fromSuggestion = true)
+    }
+
+    /** "No": not offered again. */
+    fun declineSuggestion() {
+        val s = _suggestion.value ?: return
+        settings.dismiss(s.address)
+        _suggestion.value = null
     }
 
     private fun onSighting(sighting: WearableSighting) {
@@ -207,12 +295,37 @@ class WearableManager(
     // ---- notification forwarding (from the notification listener) ----
 
     fun onPhoneNotification(n: PhoneNotification) {
+        settings.recordSeenApp(n.packageName, n.appName)
         val enabled = settings.forwardingEnabled.value
         val allowed = settings.allowedPackages.value
         controllers.values.forEach { it.onPhoneNotification(n, enabled, allowed) }
     }
 
     fun onPhoneNotificationRemoved(key: String) = controllers.values.forEach { it.onPhoneNotificationRemoved(key) }
+
+    // ---- the original Smart Band 9 mode ----
+
+    /** Moves the band, key and settings chosen in the original direct band mode here, once. */
+    private fun importLegacyBand() {
+        if (settings.legacyBandImported) return
+        try {
+            val old = BandStore(context)
+            val selected = old.selected.value
+            if (selected != null && settings.configured.value.none { it.matchesAddress(selected.address) }) {
+                val device = LegacyBandImport.configuredFor(registry, selected.address, selected.name, old.syncTimeOnConnect.value, System.currentTimeMillis())
+                settings.updateConfigured { it + device }
+                old.loadAuthKey()?.let { key -> keys.save(device.address, key.toHex()) }
+                log.add("Imported the band of the original direct mode (${device.address})")
+            }
+            if (old.forwardingEnabled.value) settings.setForwardingEnabled(true)
+            if (old.allowedPackages.value.isNotEmpty()) settings.setPackagesAllowed(settings.allowedPackages.value + old.allowedPackages.value)
+            if (old.seenApps.value.isNotEmpty()) settings.setSeenApps(settings.seenApps.value + old.seenApps.value)
+        } catch (e: IOException) {
+            Log.w(TAG, "Could not import the original band settings", e)
+            return
+        }
+        settings.markLegacyBandImported()
+    }
 
     // ---- platform ----
 
@@ -226,20 +339,22 @@ class WearableManager(
 
         override fun authKey(address: String): String? = keys.load(address)
 
-        override fun createSession(driver: WearableDriver, device: ConfiguredWearable, authKey: String?): WearableSession =
-            driver.createSession(
+        override fun createSession(driver: WearableDriver, device: ConfiguredWearable, authKey: String?): WearableSession {
+            val current = device(device.id) ?: device
+            return driver.createSession(
                 WearableSessionEnv(
-                    address = device.address,
-                    name = device.name,
+                    address = current.address,
+                    name = current.name,
                     authKey = authKey,
-                    config = device.config,
-                    store = settings.driverStore(device.id),
+                    config = current.config,
+                    store = settings.driverStore(current.id),
                     companion = companionInfo(),
                     scope = scope,
                     links = links,
                     log = log::add,
                 ),
             )
+        }
 
         @SuppressLint("MissingPermission") // checked with BandPermissions.hasConnect
         override fun isBusyElsewhere(address: String): Boolean {
@@ -251,7 +366,8 @@ class WearableManager(
             }
         }
 
-        override fun syncTimeOnConnect(device: ConfiguredWearable): Boolean = device.config[ConfiguredWearable.CONFIG_SYNC_TIME] != "0"
+        override fun syncTimeOnConnect(device: ConfiguredWearable): Boolean =
+            (device(device.id) ?: device).config[ConfiguredWearable.CONFIG_SYNC_TIME] != "0"
 
         override fun is24HourFormat(): Boolean = DateFormat.is24HourFormat(context)
 
@@ -267,7 +383,14 @@ class WearableManager(
 
         override fun beforeConnect() = Unit
 
-        override fun testNotification(nowMillis: Long): BandNotification = testNotification.invoke(nowMillis)
+        override fun testNotification(nowMillis: Long): BandNotification = BandNotification(
+            id = TEST_NOTIFICATION_ID,
+            packageName = context.packageName,
+            appName = APP_NAME,
+            title = APP_NAME,
+            body = context.getString(R.string.band_test_notification_body),
+            whenMillis = nowMillis,
+        )
     }
 
     private fun companionInfo(): CompanionInfo {
@@ -293,5 +416,6 @@ class WearableManager(
         const val APP_NAME = "GlobalFitness"
         const val TEST_NOTIFICATION_ID = 0x6766
         const val SPP_CONNECT_TIMEOUT_MS = 15_000L
+        const val MAX_NAME = 40
     }
 }

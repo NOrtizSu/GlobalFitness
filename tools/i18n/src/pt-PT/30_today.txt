@@ -48,7 +48,6 @@ chip_cloud_error = Nuvem: erro
 chip_cloud_pending = Nuvem: envio pendente
 chip_cloud_synced = Nuvem: %1$s
 chip_cloud_connected = Nuvem: ligada
-chip_band = Pulseira: %1$s
 today_no_measurements_text = Suba para a balança descalço e com a app aberta: a medição aparecerá aqui. Se a sua balança não for compatível, adicione o peso manualmente.
 today_view_weight_trend = Ver evolução do peso
 today_weekly_change_none = Variação semanal: dados insuficientes

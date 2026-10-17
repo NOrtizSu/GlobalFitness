@@ -1,0 +1,107 @@
+# Devices → Bands & watches (any supported family; the diagnostics log stays in English on purpose)
+devices_wearables = 手环和手表
+wearables_none = 还没有设置任何手环或手表。请把你的设备靠近手机，或从目录中添加。
+wearables_add_from_catalog = 从目录中添加
+wearables_detected = 已检测到和已配对
+wearables_detected_none = 尚未识别到任何设备。授予“附近的设备”权限后，与这部手机配对的设备会显示在这里；其他设备会在开机且在附近时显示。
+wearables_paired = 已配对
+wearables_use_this = 设置
+wearables_already_set_up = 已设置
+wearables_open = 打开
+wearables_remove_text = 它的密钥和设置会从手机上删除；已记录的心率会保留。以后不会再推荐它。
+wearables_removed = 已移除：%1$s
+wearables_added = 已添加：%1$s
+wearables_suggestion_title = 这是你的手环或手表吗？
+wearables_suggestion_text = 只有当你在直连模式下打开它时，应用才会连接它。请仅在它属于你时确认。
+wearables_suggestion_text_key = 只有当你在直连模式下打开它时，应用才会连接它，并且需要其配套应用中的认证密钥。请仅在它属于你时确认。
+wearables_suggestion_yes = 是，设置它
+wearables_catalog_title = 手环和手表目录
+wearables_needs_key = 需要 %1$s 中的密钥
+wearables_no_key_needed = 无需密钥
+wearables_bind_question = 是这些设备中的哪一个？
+wearables_bind_none = 检测到或已配对的设备中，没有一个像是这个型号。请开启设备、放在附近，并确认其配套应用已将它与这部手机配对。
+wearables_bind_others = 其他检测到的设备
+chip_wearable = %1$s：%2$s
+
+# Wearable status
+wearable_status_not_connected = 未连接
+wearable_status_connected = 已连接
+wearable_status_unknown_model = 此版本不支持该型号
+wearable_connected_protocol = 已连接（%1$s）
+
+# Wearable screen
+wearable_intro = 应用通过 Bluetooth 与设备直接通信（类似 Gadgetbridge），无需经过 %1$s。大多数设备只接受一个连接，因此只有在你点按“连接”时应用才会连接，并会在闲置 2 分钟后或你离开此界面时断开，以便 %1$s 能够再次同步。
+wearable_intro_plain = 应用通过 Bluetooth 与设备直接通信（类似 Gadgetbridge）。只有在你点按“连接”时才会连接，并会在闲置 2 分钟后或你离开此界面时断开。
+wearable_experimental = 实验性：尚未在此型号的真实设备上测试。
+wearable_doc_link = Gadgetbridge 关于此设备的说明
+wearable_permission_text = 连接设备需要“附近的设备”权限。
+wearable_transport_ble = 低功耗蓝牙
+wearable_transport_classic = 经典蓝牙
+wearable_transport_uart = 低功耗蓝牙（UART）
+wearable_hardware = 硬件
+wearable_vendor_settings = %1$s 设置
+wearable_cannot_connect_hint = 请保存认证密钥后再连接。
+wearable_released = 设备已释放。如果你停止了 %1$s，请重新打开它，使其继续同步。
+wearable_find = 查找设备
+wearable_finding_text = 设备正在响铃或振动。请在设备上停止，或点按“%1$s”。
+wearable_time_synced = 时间已同步
+wearable_connect_first = 请先连接设备
+wearable_found = 设备显示你已找到它
+wearable_find_phone = %1$s 正在查找手机
+wearable_waiting_data = 正在等待设备数据…
+wearable_measuring_hint = 正在测量…请让设备紧贴皮肤。
+wearable_rr_interval = 心跳间期
+wearable_steps_session = 连接以来的步数
+wearable_alarms_section = 设备上的闹钟
+wearable_alarms_none = 设备上没有闹钟。
+wearable_alarms_read_back = 更改会发送到设备，然后从设备重新读取列表，让你看到它实际保存的内容。
+wearable_alarms_local = 此设备无法报告其闹钟：列表显示的是应用发送给它的内容。直接在设备上创建的闹钟不会显示在这里。
+wearable_forwarding_text = 仅在设备以直连模式连接时，且仅转发你勾选的应用。其余时间由 %1$s 发送通知。通知内容绝不会被保存。
+wearable_forwarding_text_plain = 仅在设备以直连模式连接时，且仅转发你勾选的应用。通知内容绝不会被保存。
+wearable_forwarding_pending = 已开启：设备连接期间会转发通知。
+
+# Wearable connection failures
+wearable_failure_permission = 缺少“附近的设备”（Bluetooth）权限。请授予该权限以连接。
+wearable_failure_no_key = 请先保存设备的认证密钥。
+wearable_failure_unknown = 此设备已不再设置，或此版本的应用不支持其型号。
+wearable_failure_not_found = 找不到设备。请确认设备已开机、在附近，并已与这部手机配对。
+wearable_failure_connect = 无法建立连接。请确认设备已开机、在附近且电量充足。如果 %1$s 正连接着该设备，设备会处于占用状态：请暂时停止 %1$s（设置 → 应用 → %1$s → 强行停止），然后重试。
+wearable_failure_connect_plain = 无法建立连接。请确认设备已开机、在附近且电量充足，并且没有其他应用连接着它。
+wearable_failure_unsupported = 已连接，但设备没有提供此型号应有的 Bluetooth 服务。它可能是其他型号或其他固件。
+wearable_failure_no_response = 设备没有响应。它可能正被 %1$s 占用：请暂时停止 %1$s（设置 → 应用 → %1$s → 强行停止），然后重试。
+wearable_failure_no_response_plain = 设备没有响应。请将它靠近手机后重试。
+wearable_failure_wrong_key = 认证密钥错误：设备无法识别。请确认你复制的是当前密钥；如果你在 %1$s 中解绑过设备，密钥已经更改，你需要获取新的密钥。
+wearable_failure_auth_rejected = 设备拒绝了认证。请检查密钥后重试。
+wearable_failure_link_lost = 与设备的连接已断开。
+wearable_failure_timeout = 设备未及时响应。
+wearable_failure_not_supported = 此设备不支持该功能。
+wearable_failure_busy = 设备已连接到另一个应用（几乎可以肯定是 %1$s），且只接受一个连接。请暂时停止 %1$s（设置 → 应用 → %1$s → 强行停止），然后重试。完成后，请打开 %1$s，使其继续同步。
+wearable_failure_busy_plain = 设备已连接到另一个应用，且只接受一个连接。请关闭该应用后重试。
+
+# Wearable key card and key wizard (no vendor sign-in: the key is always entered by the user)
+wearable_key_user_id_title = Xiaomi 账号用户 ID
+wearable_key_missing = 此设备需要 %1$s 在配对时设置的认证密钥。
+wearable_key_setup = 设置密钥
+wearable_xiaomi_device_id = 设备 ID（Wear OS）
+wearable_xiaomi_device_id_help = 仅适用于 Xiaomi Watch 5 等 Wear OS 手表：Gadgetbridge 指南中说明了如何找到的配套设备 ID。
+wearable_wizard_step_what = 1. 这是什么
+wearable_wizard_what_hex = 一个由 32 个十六进制字符（16 字节）组成的密钥，由你的设备和你的 %1$s 账号共享。它在你于 %1$s 中配对设备时生成；设备用它来确认手机是否可以连接，并加密连接。它无法在手机上生成。
+wearable_wizard_what_user_id = 这款较旧的型号不使用十六进制密钥：它使用在 %1$s 中配对时所用 Xiaomi 账号的数字用户 ID 进行认证。
+wearable_wizard_step_where = 2. 从哪里获取
+wearable_wizard_where = 它来自 %1$s 或你在制造商处的账号。Gadgetbridge 项目记录了每个设备系列的获取方法。本应用绝不会登录你的账号，也绝不会替你获取密钥。
+wearable_wizard_link_device = Gadgetbridge：%1$s
+wearable_wizard_step_important = 3. 须知
+wearable_wizard_unpair = 如果你在 %1$s 中解绑设备或将其重置，密钥将失效，你需要获取新的密钥。
+wearable_wizard_share = 请勿分享：任何拥有它的人都可以连接你的设备。
+wearable_wizard_step_enter = 4. 输入密钥
+wearable_key_paste_hex = 粘贴 32 个字符的十六进制密钥（可带或不带“0x”）；空格和换行会被忽略。
+wearable_key_paste_user_id = 输入数字用户 ID（仅限数字）。
+wearable_wizard_paste = 从剪贴板粘贴
+wearable_wizard_clipboard_empty = 剪贴板中没有符合预期格式的密钥。
+wearable_key_error_empty_user_id = 请输入用户 ID。
+wearable_key_error_not_numeric = 用户 ID 只能包含数字。
+wearable_key_error_too_long = 用户 ID 太长。
+
+# Activity: live heart rate recorded in direct mode, per device
+health_wearable_live_title = %1$s · 直连模式
+health_wearable_live_text = 设备连接时由应用记录的实时心率（不在 Health Connect 中）。

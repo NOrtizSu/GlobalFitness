@@ -180,7 +180,6 @@ health_hr_day_none = Keine Herzfrequenzdaten in Health Connect für diesen Tag.
 health_hr_day_stats = Durchschnitt %1$s · Min. %2$s · Max. %3$s
 health_hr_day_stats_resting = %1$s · Ruhepuls %2$s
 health_band_direct_title = Band · Direktmodus
-health_band_direct_text = Live-Herzfrequenz, von der App bei verbundenem Band aufgezeichnet (nicht in Health Connect).
 health_last_30_days = Letzte 30 Tage
 health_no_hr_data = Keine Herzfrequenzdaten.
 health_sleep_last_night_none = Keine Schlafdaten für letzte Nacht.

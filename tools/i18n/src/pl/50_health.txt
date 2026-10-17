@@ -188,7 +188,6 @@ health_hr_day_none = Brak danych o tętnie w Health Connect z tego dnia.
 health_hr_day_stats = Średnio %1$s · min. %2$s · maks. %3$s
 health_hr_day_stats_resting = %1$s · spoczynkowe %2$s
 health_band_direct_title = Opaska · tryb bezpośredni
-health_band_direct_text = Tętno na żywo zarejestrowane przez aplikację przy połączonej opasce (nie ma go w Health Connect).
 health_last_30_days = Ostatnie 30 dni
 health_no_hr_data = Brak danych o tętnie.
 health_sleep_last_night_none = Brak danych o śnie z ostatniej nocy.

@@ -176,7 +176,6 @@ health_hr_day_none = Health Connect 中没有这一天的心率数据。
 health_hr_day_stats = 平均 %1$s · 最低 %2$s · 最高 %3$s
 health_hr_day_stats_resting = %1$s · 静息 %2$s
 health_band_direct_title = 手环 · 直连模式
-health_band_direct_text = 手环连接时由应用记录的实时心率（不在 Health Connect 中）。
 health_last_30_days = 最近 30 天
 health_no_hr_data = 没有心率数据。
 health_sleep_last_night_none = 没有昨晚的睡眠数据。

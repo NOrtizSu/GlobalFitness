@@ -62,7 +62,7 @@ import com.enjoyyourtime.globalfitness.domain.Metric
 import com.enjoyyourtime.globalfitness.ui.account.AccountScreen
 import com.enjoyyourtime.globalfitness.ui.account.AccountViewModel
 import com.enjoyyourtime.globalfitness.ui.ads.AdBanner
-import com.enjoyyourtime.globalfitness.ui.band.BandActivity
+import com.enjoyyourtime.globalfitness.ui.wearables.WearableActivity
 import com.enjoyyourtime.globalfitness.ui.body.BodyScreen
 import com.enjoyyourtime.globalfitness.ui.body.ChartRange
 import com.enjoyyourtime.globalfitness.ui.body.ManualEntryDialog
@@ -184,7 +184,7 @@ private fun MainScaffold(
         if (previous != null && previous != current) activity?.let(vm::onSectionChanged)
     }
 
-    val openBand = { context.startActivity(BandActivity.intent(context)) }
+    val openWearable: (String) -> Unit = { id -> context.startActivity(WearableActivity.intent(context, id)) }
     // The health view model outlives the screens: refresh "today" (and band.db) on every resume.
     LifecycleResumeEffect(Unit) {
         healthVm.onResume()
@@ -239,12 +239,12 @@ private fun MainScaffold(
                 val dashboard by healthVm.dashboard.collectAsStateWithLifecycle()
                 val user by vm.accountUser.collectAsStateWithLifecycle()
                 val cloud by vm.cloudStatus.collectAsStateWithLifecycle()
-                val band by vm.band.collectAsStateWithLifecycle()
+                val wearable by vm.wearable.collectAsStateWithLifecycle()
                 val suggestion by vm.scaleSuggestion.collectAsStateWithLifecycle()
                 val state by vm.uiState.collectAsStateWithLifecycle()
                 TodayScreen(
                     state = state,
-                    status = TodayStatus(scanStatus, live, sessions, health, dashboard, user, cloud, band, suggestion),
+                    status = TodayStatus(scanStatus, live, sessions, health, dashboard, user, cloud, wearable, suggestion),
                     access = access,
                     onRetryScan = vm::refreshScanner,
                     onConnectHealth = connectHealth,
@@ -257,7 +257,7 @@ private fun MainScaffold(
                     onOpenAccount = { navController.openSubPage(Routes.ACCOUNT) },
                     onOpenDevices = { navController.navigateToSection(TopLevel.DEVICES) },
                     onOpenActivity = { navController.navigateToSection(TopLevel.ACTIVITY) },
-                    onOpenBand = openBand,
+                    onOpenBand = { wearable?.let { openWearable(it.device.id) } ?: navController.navigateToSection(TopLevel.DEVICES) },
                     onAcceptSuggestion = vm::acceptScaleSuggestion,
                     onDeclineSuggestion = vm::declineScaleSuggestion,
                 )
@@ -278,7 +278,7 @@ private fun MainScaffold(
                 ActivityScreen(healthVm, onConnect = connectHealth)
             }
             composable(TopLevel.DEVICES.route) {
-                DevicesScreen(vm, healthVm, onConnectHealth = connectHealth, onOpenBand = openBand)
+                DevicesScreen(vm, healthVm, onConnectHealth = connectHealth, onOpenWearable = openWearable)
             }
             composable(TopLevel.PROFILE.route) {
                 ProfileScreen(

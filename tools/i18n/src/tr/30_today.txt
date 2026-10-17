@@ -46,7 +46,6 @@ chip_cloud_error = Bulut: hata
 chip_cloud_pending = Bulut: yükleme bekliyor
 chip_cloud_synced = Bulut: %1$s
 chip_cloud_connected = Bulut: bağlı
-chip_band = Bileklik: %1$s
 today_no_measurements_text = Uygulama açıkken tartıya çıplak ayakla çıkın: ölçüm burada görünecek. Tartınız desteklenmiyorsa kilonuzu elle ekleyin.
 today_view_weight_trend = Kilo trendini gör
 today_weekly_change_none = Haftalık değişim: yeterli veri yok

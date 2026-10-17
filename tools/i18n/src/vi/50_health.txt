@@ -176,7 +176,6 @@ health_hr_day_none = Không có dữ liệu nhịp tim trong Health Connect cho 
 health_hr_day_stats = Trung bình %1$s · thấp nhất %2$s · cao nhất %3$s
 health_hr_day_stats_resting = %1$s · lúc nghỉ %2$s
 health_band_direct_title = Vòng đeo tay · chế độ trực tiếp
-health_band_direct_text = Nhịp tim thời gian thực do ứng dụng ghi lại khi vòng đeo tay được kết nối (không có trong Health Connect).
 health_last_30_days = 30 ngày qua
 health_no_hr_data = Không có dữ liệu nhịp tim.
 health_sleep_last_night_none = Không có dữ liệu giấc ngủ đêm qua.

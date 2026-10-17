@@ -184,7 +184,6 @@ health_hr_day_none = Nessun dato sulla frequenza cardiaca in Health Connect per 
 health_hr_day_stats = Media %1$s · min %2$s · max %3$s
 health_hr_day_stats_resting = %1$s · a riposo %2$s
 health_band_direct_title = Smartband · modalità diretta
-health_band_direct_text = Frequenza cardiaca in tempo reale registrata dall'app con la smartband connessa (non presente in Health Connect).
 health_last_30_days = Ultimi 30 giorni
 health_no_hr_data = Nessun dato sulla frequenza cardiaca.
 health_sleep_last_night_none = Nessun dato sul sonno della notte scorsa.

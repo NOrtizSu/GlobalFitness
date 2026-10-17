@@ -2,6 +2,7 @@ package com.enjoyyourtime.globalfitness.wearable
 
 import android.content.Context
 import androidx.core.content.edit
+import com.enjoyyourtime.globalfitness.band.SeenApp
 import com.enjoyyourtime.globalfitness.scale.DriverStore
 import com.enjoyyourtime.globalfitness.scale.MapDriverStore
 import java.net.URLDecoder
@@ -31,6 +32,16 @@ class WearableConfigStore(context: Context) {
 
     private val _allowedPackages = MutableStateFlow(prefs.getStringSet(KEY_ALLOWED, emptySet()).orEmpty().toSet())
     val allowedPackages: StateFlow<Set<String>> = _allowedPackages.asStateFlow()
+
+    private val _seenApps = MutableStateFlow(readSeenApps())
+
+    /** Apps that posted notifications (label only, never content), for the forwarding allow list. */
+    val seenApps: StateFlow<List<SeenApp>> = _seenApps.asStateFlow()
+
+    /** True once the original Smart Band 9 mode's selection and key were moved here. */
+    val legacyBandImported: Boolean get() = prefs.getBoolean(KEY_LEGACY_IMPORTED, false)
+
+    fun markLegacyBandImported() = prefs.edit { putBoolean(KEY_LEGACY_IMPORTED, true) }
 
     @Synchronized
     fun updateConfigured(transform: (List<ConfiguredWearable>) -> List<ConfiguredWearable>) {
@@ -64,6 +75,40 @@ class WearableConfigStore(context: Context) {
         prefs.edit { putStringSet(KEY_ALLOWED, _allowedPackages.value) }
     }
 
+    @Synchronized
+    fun setPackagesAllowed(packages: Set<String>) {
+        _allowedPackages.value = packages
+        prefs.edit { putStringSet(KEY_ALLOWED, packages) }
+    }
+
+    /** Remembers an app that posted a notification (label only; never the notification content). */
+    @Synchronized
+    fun recordSeenApp(packageName: String, label: String) {
+        val current = _seenApps.value
+        if (current.any { it.packageName == packageName && it.label == label }) return
+        val updated = (current.filterNot { it.packageName == packageName } + SeenApp(packageName, label))
+            .sortedBy { it.label.lowercase(Locale.ROOT) }
+            .takeLast(MAX_SEEN_APPS)
+        prefs.edit { putStringSet(KEY_SEEN, updated.map { it.packageName + SEPARATOR + it.label }.toSet()) }
+        _seenApps.value = updated
+    }
+
+    /** Replaces the remembered apps (import of the original band mode's list). */
+    @Synchronized
+    fun setSeenApps(apps: List<SeenApp>) {
+        val updated = apps.distinctBy { it.packageName }.sortedBy { it.label.lowercase(Locale.ROOT) }.takeLast(MAX_SEEN_APPS)
+        prefs.edit { putStringSet(KEY_SEEN, updated.map { it.packageName + SEPARATOR + it.label }.toSet()) }
+        _seenApps.value = updated
+    }
+
+    private fun readSeenApps(): List<SeenApp> =
+        prefs.getStringSet(KEY_SEEN, emptySet()).orEmpty()
+            .mapNotNull { entry ->
+                val parts = entry.split(SEPARATOR, limit = 2)
+                if (parts.size == 2) SeenApp(parts[0], parts[1]) else null
+            }
+            .sortedBy { it.label.lowercase(Locale.ROOT) }
+
     /** The persisted small store of device [deviceId] (alarm copies...). */
     fun driverStore(deviceId: String): DriverStore {
         val key = KEY_STORE_PREFIX + deviceId
@@ -80,6 +125,10 @@ class WearableConfigStore(context: Context) {
         private const val KEY_FORWARDING = "notification_forwarding"
         private const val KEY_ALLOWED = "forwarding_allowed_packages"
         private const val KEY_STORE_PREFIX = "driver_store_"
+        private const val KEY_SEEN = "forwarding_seen_apps"
+        private const val KEY_LEGACY_IMPORTED = "legacy_band_imported"
+        private const val MAX_SEEN_APPS = 80
+        private const val SEPARATOR = "\t"
 
         fun encodeMap(map: Map<String, String>): String =
             map.entries.joinToString("&") { (k, v) -> URLEncoder.encode(k, "UTF-8") + "=" + URLEncoder.encode(v, "UTF-8") }
