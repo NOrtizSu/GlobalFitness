@@ -1,0 +1,102 @@
+<en-US>
+First release of GlobalFitness:
+• Weight and body composition from 66 Bluetooth scale models.
+• Steps, sleep and heart rate from 110 bands and watches or Health Connect.
+• Optional cloud backup with Google sign-in.
+</en-US>
+<es-ES>
+Primera versión de GlobalFitness:
+• Peso y composición corporal de 66 modelos de básculas Bluetooth.
+• Pasos, sueño y pulso de 110 pulseras y relojes o de Health Connect.
+• Copia en la nube opcional con tu cuenta de Google.
+</es-ES>
+<pt-BR>
+Primeira versão do GlobalFitness:
+• Peso e composição corporal de 66 modelos de balanças Bluetooth.
+• Passos, sono e frequência cardíaca de 110 pulseiras e relógios ou do Health Connect.
+• Backup opcional na nuvem com login do Google.
+</pt-BR>
+<pt-PT>
+Primeira versão da GlobalFitness:
+• Peso e composição corporal de 66 modelos de balanças Bluetooth.
+• Passos, sono e ritmo cardíaco de 110 pulseiras e relógios ou do Health Connect.
+• Cópia de segurança opcional na nuvem com a sua conta Google.
+</pt-PT>
+<fr-FR>
+Première version de GlobalFitness :
+• Poids et composition corporelle avec 66 modèles de balances Bluetooth.
+• Pas, sommeil et fréquence cardiaque de 110 bracelets et montres ou de Health Connect.
+• Sauvegarde cloud facultative avec votre compte Google.
+</fr-FR>
+<de-DE>
+Erste Version von GlobalFitness:
+• Gewicht und Körperzusammensetzung von 66 Bluetooth-Waagenmodellen.
+• Schritte, Schlaf und Herzfrequenz von 110 Fitnessbändern und Uhren oder aus Health Connect.
+• Optionale Cloud-Sicherung mit Google-Anmeldung.
+</de-DE>
+<it-IT>
+Prima versione di GlobalFitness:
+• Peso e composizione corporea da 66 modelli di bilance Bluetooth.
+• Passi, sonno e battito cardiaco da 110 smartband e smartwatch o da Health Connect.
+• Backup facoltativo nel cloud con l'accesso Google.
+</it-IT>
+<ru-RU>
+Первая версия GlobalFitness:
+• Вес и состав тела с 66 моделей Bluetooth-весов.
+• Шаги, сон и пульс со 110 фитнес-браслетов и часов или из Health Connect.
+• Необязательное резервное копирование в облако через вход в Google.
+</ru-RU>
+<zh-CN>
+GlobalFitness 首个版本：
+• 支持 66 款蓝牙体脂秤，记录体重和身体成分。
+• 从 110 款手环和手表或 Health Connect 获取步数、睡眠和心率。
+• 可选使用 Google 账号登录进行云端备份。
+</zh-CN>
+<ja-JP>
+GlobalFitness の最初のバージョンです。
+• 66 機種の Bluetooth 体重計で体重と体組成を記録。
+• 110 機種のバンドやスマートウォッチ、またはヘルスコネクトから歩数・睡眠・心拍数を表示。
+• Google ログインによるクラウド バックアップ（任意）。
+</ja-JP>
+<ko-KR>
+GlobalFitness 첫 버전:
+• 66개 블루투스 체중계 모델로 체중과 체성분 측정.
+• 110개 밴드와 스마트워치 또는 헬스 커넥트의 걸음 수, 수면, 심박수.
+• Google 로그인으로 선택적 클라우드 백업.
+</ko-KR>
+<tr-TR>
+GlobalFitness'ın ilk sürümü:
+• 66 Bluetooth tartı modelinden kilo ve vücut kompozisyonu.
+• 110 bileklik ve saatten veya Health Connect'ten adım, uyku ve nabız.
+• Google ile oturum açarak isteğe bağlı bulut yedekleme.
+</tr-TR>
+<pl-PL>
+Pierwsza wersja GlobalFitness:
+• Waga i skład ciała z 66 modeli wag Bluetooth.
+• Kroki, sen i tętno ze 110 opasek i zegarków lub z Health Connect.
+• Opcjonalna kopia zapasowa w chmurze po zalogowaniu przez Google.
+</pl-PL>
+<hi-IN>
+GlobalFitness का पहला संस्करण:
+• 66 ब्लूटूथ स्केल मॉडल से वज़न और शरीर की संरचना।
+• 110 बैंड और घड़ियों या Health Connect से कदम, नींद और हृदय गति।
+• Google साइन-इन के साथ वैकल्पिक क्लाउड बैकअप।
+</hi-IN>
+<ar>
+الإصدار الأول من GlobalFitness:
+• الوزن وتكوين الجسم من 66 طرازًا من موازين Bluetooth.
+• الخطوات والنوم ونبض القلب من 110 سوار وساعة أو من Health Connect.
+• نسخ احتياطي اختياري في السحابة عبر تسجيل الدخول بحساب Google.
+</ar>
+<id>
+Rilis pertama GlobalFitness:
+• Berat badan dan komposisi tubuh dari 66 model timbangan Bluetooth.
+• Langkah, tidur, dan detak jantung dari 110 gelang dan jam tangan atau Health Connect.
+• Cadangan cloud opsional dengan login Google.
+</id>
+<vi>
+Phiên bản đầu tiên của GlobalFitness:
+• Cân nặng và thành phần cơ thể từ 66 mẫu cân Bluetooth.
+• Bước chân, giấc ngủ và nhịp tim từ 110 vòng đeo tay và đồng hồ hoặc Health Connect.
+• Sao lưu đám mây tùy chọn khi đăng nhập Google.
+</vi>
