@@ -129,4 +129,55 @@ class XiaomiBleChunkerTest {
         assertTrue(c.onNotification(hex("0000ff")).isEmpty())
         assertArrayEquals(hex("00000300"), XiaomiBleChunker.PAYLOAD_ACK)
     }
+
+    @Test
+    fun missingChunkRequestsStopAfterTheCap() {
+        val c = XiaomiBleChunker(encrypted = false, cipher = null)
+        c.onNotification(hex("000000000300")) // 3 chunks announced
+        c.onNotification(hex("0200aa"))
+        repeat(XiaomiBleChunker.MAX_MISSING_REQUESTS) {
+            val out = c.onReceiveTimeout()
+            assertEquals(listOf("00000105" + "0100" + "0300"), writes(out))
+            assertTrue(XiaomiBleChunker.Output.StartTimer in out)
+        }
+        // No progress: the transfer is dropped instead of asking forever.
+        assertEquals(listOf<XiaomiBleChunker.Output>(XiaomiBleChunker.Output.StopTimer), c.onReceiveTimeout())
+        assertFalse(c.receiving)
+        assertTrue(c.onReceiveTimeout().isEmpty())
+
+        // A new chunk resets the count.
+        c.onNotification(hex("000000000200"))
+        c.onNotification(hex("0100aa"))
+        repeat(XiaomiBleChunker.MAX_MISSING_REQUESTS) { c.onReceiveTimeout() }
+        c.onNotification(hex("0200bb")) // arrives at last
+        assertFalse(c.receiving)
+    }
+
+    @Test
+    fun oversizedIncomingTransfersAreRefused() {
+        val c = XiaomiBleChunker(encrypted = false, cipher = null)
+        // More chunks than any real message: not accepted (no start ack).
+        assertTrue(c.onNotification(hex("00000000" + "0110")).isEmpty()) // 4097
+        assertFalse(c.receiving)
+        assertTrue(c.onNotification(hex("00000000" + "ffff")).isEmpty()) // 65535
+        assertFalse(c.receiving)
+        // Allowed count, but more than 1 MB of data: dropped once the limit is crossed.
+        assertEquals(listOf("00000101"), writes(c.onNotification(hex("00000000" + "0010")))) // 4096
+        val chunkData = ByteArray(510)
+        var dropped = false
+        for (i in 1..XiaomiBleChunker.MAX_INCOMING_CHUNKS) {
+            val frame = byteArrayOf((i and 0xff).toByte(), (i shr 8).toByte()) + chunkData
+            val out = c.onNotification(frame)
+            if (!c.receiving) {
+                assertEquals(listOf<XiaomiBleChunker.Output>(XiaomiBleChunker.Output.StopTimer), out)
+                dropped = true
+                break
+            }
+        }
+        assertTrue(dropped)
+        // Chunk numbers are unsigned: 0x8001 is chunk 32769, beyond any accepted count, not -32767.
+        c.onNotification(hex("000000000200"))
+        assertTrue(c.onNotification(hex("0180aa")).isEmpty())
+        assertTrue(c.receiving)
+    }
 }

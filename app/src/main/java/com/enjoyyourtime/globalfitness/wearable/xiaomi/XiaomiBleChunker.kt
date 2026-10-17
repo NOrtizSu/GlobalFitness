@@ -61,6 +61,10 @@ class XiaomiBleChunker(
     private var encryptedIndex = 0
     private var numChunks = 0
     private val receivedChunks = HashMap<Int, ByteArray>()
+    private var receivedBytes = 0
+
+    /** Missing-chunk requests sent since the last chunk arrived (capped: the device may never answer). */
+    private var missingRequests = 0
 
     private class Payload(val plain: ByteArray) {
         var toSend: ByteArray = plain
@@ -83,9 +87,8 @@ class XiaomiBleChunker(
 
     /** As Gadgetbridge's reset(): after authentication the counter restarts at 1 (0 is used by auth). */
     fun reset() {
-        numChunks = 0
+        abandonIncoming()
         encryptedIndex = 1
-        receivedChunks.clear()
         queue.clear()
         waitingAck = false
         sendingChunked = false
@@ -107,9 +110,17 @@ class XiaomiBleChunker(
         return listOf<Output>(Output.Sent(false)) + sendNext()
     }
 
-    /** Missing-chunks timer expired: ask the device to resend what is missing (Gadgetbridge requestMissingChunks). */
+    /**
+     * Missing-chunks timer expired: ask the device to resend what is missing (Gadgetbridge
+     * requestMissingChunks), at most [MAX_MISSING_REQUESTS] times without progress; then the
+     * transfer is abandoned instead of re-arming the timer forever.
+     */
     fun onReceiveTimeout(): List<Output> {
         if (numChunks <= 0) return emptyList()
+        if (++missingRequests > MAX_MISSING_REQUESTS) {
+            abandonIncoming()
+            return listOf(Output.StopTimer)
+        }
         val missing = (1..numChunks).filter { it !in receivedChunks }
         val count = minOf(missing.size, (maxWriteSize - 4) / 2)
         val buf = ByteBuffer.allocate(4 + count * 2).order(ByteOrder.LITTLE_ENDIAN)
@@ -128,7 +139,8 @@ class XiaomiBleChunker(
     }
 
     private fun handle(buf: ByteBuffer): List<Output> {
-        val chunk = buf.getShort().toInt()
+        // Unsigned, as the chunk count: chunks above 32767 must not turn negative.
+        val chunk = buf.getShort().toInt() and 0xffff
         if (chunk != 0) return onChunk(chunk, buf)
         return when (buf.get().toInt()) {
             0 -> onChunkedStart(buf)
@@ -140,15 +152,19 @@ class XiaomiBleChunker(
     }
 
     private fun onChunk(chunk: Int, buf: ByteBuffer): List<Output> {
-        if (chunk < 0 || chunk > numChunks) return emptyList() // exceeds the announced count
+        if (chunk > numChunks) return emptyList() // exceeds the announced count
         val bytes = ByteArray(buf.remaining())
         buf.get(bytes)
-        receivedChunks[chunk] = bytes
+        receivedBytes += bytes.size - (receivedChunks.put(chunk, bytes)?.size ?: 0)
+        missingRequests = 0
+        if (receivedBytes > MAX_INCOMING_BYTES) {
+            abandonIncoming()
+            return listOf(Output.StopTimer)
+        }
         if (receivedChunks.size < numChunks) return listOf(Output.StartTimer)
         val out = mutableListOf<Output>(Output.StopTimer, Output.Write(CHUNK_END_ACK))
         val payload = reassemble()
-        numChunks = 0
-        receivedChunks.clear()
+        abandonIncoming()
         if (payload.isNotEmpty()) {
             // Chunks are always encrypted on encrypted characteristics.
             val plain = if (encrypted) decryptOrNull(payload) else payload
@@ -173,9 +189,19 @@ class XiaomiBleChunker(
     private fun onChunkedStart(buf: ByteBuffer): List<Output> {
         val messageEncrypted = buf.get().toInt()
         if (messageEncrypted != (if (encrypted) 1 else 0)) return emptyList()
-        numChunks = buf.getShort().toInt() and 0xffff
-        receivedChunks.clear()
+        val count = buf.getShort().toInt() and 0xffff
+        abandonIncoming()
+        // No real message is anywhere near this long; refusing it bounds the memory a device can claim.
+        if (count > MAX_INCOMING_CHUNKS) return emptyList()
+        numChunks = count
         return listOf(Output.Write(CHUNK_START_ACK))
+    }
+
+    private fun abandonIncoming() {
+        numChunks = 0
+        receivedChunks.clear()
+        receivedBytes = 0
+        missingRequests = 0
     }
 
     private fun onChunkedAck(buf: ByteBuffer): List<Output> {
@@ -302,6 +328,13 @@ class XiaomiBleChunker(
         val CHUNK_START_ACK = byteArrayOf(0, 0, 1, 1)
         val CHUNK_END_ACK = byteArrayOf(0, 0, 1, 0)
         const val TIMEOUT_MS = 5_000L
+
+        /** Resend requests in a row without a new chunk before an incoming transfer is dropped. */
+        const val MAX_MISSING_REQUESTS = 3
+
+        /** Larger incoming transfers are refused (chunk count) or dropped (bytes). */
+        const val MAX_INCOMING_CHUNKS = 4096
+        const val MAX_INCOMING_BYTES = 1 shl 20
 
         /** MTU 247 - 3, as Gadgetbridge assumes before the MTU exchange completes. */
         const val DEFAULT_MAX_WRITE = 244
