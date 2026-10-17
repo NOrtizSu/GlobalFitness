@@ -1,0 +1,26 @@
+# Remove ads (Google Play Billing)
+remove_ads_headline = विज्ञापनों के बिना GlobalFitness
+remove_ads_benefit_no_ads = कोई बैनर या फ़ुल-स्क्रीन विज्ञापन नहीं।
+remove_ads_benefit_one_time = एक बार का भुगतान: कोई सदस्यता नहीं।
+remove_ads_benefit_restore = यह खरीदारी उसी Google Play खाते वाले आपके दूसरे फ़ोन पर रीस्टोर हो जाती है।
+remove_ads_benefit_support = आप ऐप को बनाए रखने और बेहतर बनाने में मदद करते हैं।
+remove_ads_owned = खरीदारी चालू है: आपको विज्ञापन नहीं दिखेंगे। आपके सहयोग के लिए धन्यवाद!
+remove_ads_buy = खरीदें
+remove_ads_buy_price = %1$s में खरीदें
+remove_ads_restore = खरीदारी रीस्टोर करें
+remove_ads_simulate = प्रीमियम सिमुलेट करें
+remove_ads_simulate_text = सिर्फ़ डीबग बिल्ड में: बिना खरीदे विज्ञापन छिपाता है।
+remove_ads_loading_price = Google Play पर कीमत देखी जा रही है…
+billing_open_failed = Google Play की खरीदारी नहीं खुल सकी। फिर से कोशिश करें।
+billing_thanks = आपके सहयोग के लिए धन्यवाद! अब आपको विज्ञापन नहीं दिखेंगे।
+billing_already_owned_restoring = आप “विज्ञापन हटाएं” पहले ही खरीद चुके थे। खरीदारी रीस्टोर हो रही है…
+billing_restored = खरीदारी रीस्टोर हो गई: आपको विज्ञापन नहीं दिखेंगे।
+billing_nothing_to_restore = इस Google Play खाते में “विज्ञापन हटाएं” की कोई खरीदारी नहीं है।
+billing_unavailable = “विज्ञापन हटाएं” अभी Google Play पर उपलब्ध नहीं है।
+billing_pending = भुगतान लंबित है। Google Play के भुगतान की पुष्टि करते ही विज्ञापन गायब हो जाएंगे।
+billing_error_not_allowed = Google Play इस डिवाइस पर या इस खाते से खरीदारी की अनुमति नहीं देता।
+billing_error_connection = Google Play से कनेक्ट नहीं हो सका। कनेक्शन जांचें और फिर से कोशिश करें।
+billing_error_install_from_play = Google Play ने खरीदारी अस्वीकार कर दी। खरीदने के लिए ऐप को Google Play से इंस्टॉल करें।
+billing_error_not_supported = आपका Google Play वर्शन इस खरीदारी के साथ काम नहीं करता।
+billing_error_already_owned = “विज्ञापन हटाएं” आपके पास पहले से है।
+billing_error_code = Google Play में गड़बड़ी (%1$d)। फिर से कोशिश करें।

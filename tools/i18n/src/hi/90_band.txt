@@ -1,0 +1,86 @@
+# Band (experimental direct mode). Its diagnostics log stays in English on purpose.
+band_test_notification_body = GlobalFitness के डायरेक्ट मोड से टेस्ट सूचना
+band_failure_no_bluetooth = इस फ़ोन में ब्लूटूथ नहीं है।
+band_failure_bluetooth_off = ब्लूटूथ बंद है। इसे चालू करें और फिर से कोशिश करें।
+band_test_notification_sent = टेस्ट सूचना भेजी गई
+band_key_error_empty = प्रमाणीकरण कुंजी डालें।
+band_key_error_not_hex = कुंजी में सिर्फ़ हेक्साडेसिमल अंक (0–9 और a–f) हो सकते हैं, शुरुआत में वैकल्पिक 0x प्रीफ़िक्स के साथ।
+band_key_error_length = कुंजी में %1$s हेक्साडेसिमल वर्ण होने चाहिए (इसमें %2$s हैं)।
+band_key_save_failed = कुंजी फ़ोन पर सेव नहीं की जा सकी।
+band_key_title = प्रमाणीकरण कुंजी
+band_actions = कार्रवाइयां
+band_forwarding_title = सूचना फ़ॉरवर्डिंग
+band_battery = बैटरी
+band_battery_charging = %1$s · चार्ज हो रहा है
+band_worn = कलाई पर
+band_model = मॉडल
+band_firmware = फ़र्मवेयर
+band_serial = सीरियल नंबर
+band_time_synced_at = समय सिंक हुआ
+band_disconnect = डिसकनेक्ट करें
+band_refresh_battery = बैटरी रीफ़्रेश करें
+band_stop_find = ढूंढना बंद करें
+band_sync_time = समय सिंक करें
+band_test_notification = टेस्ट सूचना
+band_sync_time_on_connect = कनेक्ट करते समय समय सिंक करें
+band_live_heart_rate = लाइव हृदय गति
+band_alarms_title = अलार्म
+band_save_alarm = अलार्म सेव करें
+band_delete_alarm = अलार्म मिटाएं
+band_steps_today = आज के कदम
+band_calories = कैलोरी
+band_standing_hours = खड़े रहने के घंटे
+band_live_storage_text = रीडिंग फ़ोन में (band.db) सेव होती हैं, ताकि उन्हें बाद में मिलाया जा सके। जब तक लाइव हृदय गति चालू है और आप इस स्क्रीन पर हैं, निष्क्रिय रहने पर भी कनेक्शन बंद नहीं होता।
+band_diagnostics = डायग्नोस्टिक्स
+band_log_hide = छिपाएं
+band_log_show = दिखाएं (%1$s)
+band_log_text = कनेक्शन लॉग (अंग्रेज़ी में, बग रिपोर्ट के लिए)। इसमें प्रमाणीकरण कुंजी कभी शामिल नहीं होती।
+band_log_empty = अभी तक कोई एंट्री नहीं।
+band_log_clear = लॉग साफ़ करें
+band_live_chart_desc{one} = लाइव हृदय गति: %1$d रीडिंग, %2$s से %3$s तक
+band_live_chart_desc{other} = लाइव हृदय गति: %1$d रीडिंग, %2$s से %3$s तक
+
+# Band key and device picker
+band_key_saved = कुंजी फ़ोन पर सेव है (छिपी हुई)।
+band_key_change = बदलें
+band_key_show = दिखाएं
+band_key_save = कुंजी सेव करें
+
+# Band key help
+band_help_important_storage = यह ऐप इसे सिर्फ़ अपने निजी स्टोरेज में रखता है, बैकअप से बाहर, और डायग्नोस्टिक्स में इसे कभी नहीं दिखाता।
+band_help_how_text = ये वे तरीके हैं, जो Gadgetbridge प्रोजेक्ट में बताए गए हैं। ऐप आपके लिए कुंजी नहीं निकालता।
+band_help_how_logs = Mi Fitness के लॉग (बिना रूट): Mi Fitness (पहले Xiaomi Wear, पैकेज com.xiaomi.wearable) फ़ोन के स्टोरेज में Android/data/com.xiaomi.wearable/files/log/ में लॉग फ़ाइलें लिखता है (Mi Health वेरिएंट में: Android/data/com.mi.health/files/log/)। उनमें (उदाहरण के लिए XiaomiFit.device.log में) “encryptKey”, “authKey”, “token” या “huamiAuthKey” फ़ील्ड खोजें, जिनके बाद 32 हेक्साडेसिमल वर्ण हों। अगर कई मिलें, तो पहले फ़ाइल के अंत के सबसे करीब वाली आज़माएं। Android 11 और उसके बाद के वर्शन पर ये फ़ोल्डर आम तौर पर सिर्फ़ फ़ोन को कंप्यूटर से कनेक्ट करके (MTP या adb) ही खुल पाते हैं।
+band_help_how_root = रूट किया हुआ फ़ोन: Mi Fitness बंद करें और उसका “device_db” डेटाबेस देखें; कुंजी “detail” JSON के “auth_key” या “encrypt_key” एट्रिब्यूट में होती है।
+band_help_link_server = Gadgetbridge: कुंजी हासिल करना (Huami/Xiaomi सर्वर)
+
+# Band alarms
+alarm_once = एक बार
+alarm_daily = रोज़
+alarm_weekdays = सोमवार से शुक्रवार
+alarm_weekends = सप्ताहांत
+alarm_band_repeat = दोहराव बैंड पर सेट है
+alarm_saved_on_band = बैंड पर सेव किए गए अलार्म
+alarm_count_of_max{one} = %2$d में से %1$d अलार्म
+alarm_count_of_max{other} = %2$d में से %1$d अलार्म
+alarm_count{one} = %1$d अलार्म
+alarm_count{other} = %1$d अलार्म
+alarm_none = बैंड पर कोई अलार्म नहीं है।
+alarm_new = नया अलार्म
+alarm_edit = अलार्म में बदलाव करें
+alarm_reload = फिर से पढ़ें
+alarm_sync_text = बदलाव बैंड को भेजे जाते हैं और सूची उसी से वापस पढ़ी जाती है, ताकि आप देख सकें कि उसने असल में क्या सेव किया।
+alarm_repeat_smart = %1$s · स्मार्ट
+alarm_edit_at = %1$s वाले अलार्म में बदलाव करें
+alarm_delete_at = %1$s वाला अलार्म मिटाएं
+alarm_repeat = दोहराएं
+alarm_smart = स्मार्ट अलार्म
+alarm_smart_text = बैंड आपको थोड़ा पहले, हल्की नींद में जगा सकता है।
+
+# Notification forwarding
+forwarding_switch = फ़ोन की सूचनाएं फ़ॉरवर्ड करें
+forwarding_text = सिर्फ़ तब, जब बैंड डायरेक्ट मोड में कनेक्ट हो, और सिर्फ़ उन ऐप से जिन्हें आप चुनें। बाकी समय सूचनाएं Mi Fitness भेजता है। सूचनाओं की सामग्री कभी सेव नहीं की जाती।
+forwarding_access_needed = इन्हें पढ़ने के लिए Android की सूचना एक्सेस ज़रूरी है।
+forwarding_grant_access = सूचना एक्सेस दें
+forwarding_active_pending = चालू है: बैंड कनेक्ट करने पर सूचनाएं फ़ॉरवर्ड की जाएंगी।
+forwarding_apps = ऐप
+forwarding_apps_empty = ऐप तब यहां दिखेंगे, जब वे कोई सूचना भेजेंगे।

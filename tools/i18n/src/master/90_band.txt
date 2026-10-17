@@ -1,0 +1,86 @@
+# Band (experimental direct mode). Its diagnostics log stays in English on purpose.
+band_test_notification_body = Test notification from GlobalFitness direct mode ||| Notificación de prueba del modo directo de GlobalFitness
+band_failure_no_bluetooth = This phone has no Bluetooth. ||| Este teléfono no tiene Bluetooth.
+band_failure_bluetooth_off = Bluetooth is off. Turn it on and try again. ||| El Bluetooth está desactivado. Actívalo y vuelve a intentarlo.
+band_test_notification_sent = Test notification sent ||| Notificación de prueba enviada
+band_key_error_empty = Enter the authentication key. ||| Introduce la clave de autenticación.
+band_key_error_not_hex = The key can only contain hexadecimal digits (0–9 and a–f), with an optional 0x prefix. ||| La clave solo puede contener dígitos hexadecimales (0–9 y a–f), con el prefijo 0x opcional.
+band_key_error_length = The key must have %1$s hexadecimal characters (it has %2$s). ||| La clave debe tener %1$s caracteres hexadecimales (tiene %2$s).
+band_key_save_failed = Could not save the key on the phone. ||| No se pudo guardar la clave en el teléfono.
+band_key_title = Authentication key ||| Clave de autenticación
+band_actions = Actions ||| Acciones
+band_forwarding_title = Notification forwarding ||| Reenvío de notificaciones
+band_battery = Battery ||| Batería
+band_battery_charging = %1$s · charging ||| %1$s · cargando
+band_worn = On the wrist ||| En la muñeca
+band_model = Model ||| Modelo
+band_firmware = Firmware ||| Firmware
+band_serial = Serial number ||| N.º de serie
+band_time_synced_at = Time synced ||| Hora sincronizada
+band_disconnect = Disconnect ||| Desconectar
+band_refresh_battery = Refresh battery ||| Actualizar batería
+band_stop_find = Stop finding ||| Parar búsqueda
+band_sync_time = Sync time ||| Sincronizar hora
+band_test_notification = Test notification ||| Notificación de prueba
+band_sync_time_on_connect = Sync the time when connecting ||| Sincronizar la hora al conectar
+band_live_heart_rate = Live heart rate ||| Pulso en vivo
+band_alarms_title = Alarms ||| Alarmas
+band_save_alarm = Save alarm ||| Guardar alarma
+band_delete_alarm = Delete alarm ||| Borrar alarma
+band_steps_today = Steps today ||| Pasos de hoy
+band_calories = Calories ||| Calorías
+band_standing_hours = Standing hours ||| Horas de pie
+band_live_storage_text = The readings are stored on the phone (band.db) so they can be combined later. While live heart rate is on and you are on this screen, the connection is not closed for inactivity. ||| Las lecturas se guardan en el teléfono (band.db) para poder combinarlas más adelante. Mientras el pulso en vivo está activo y ves esta pantalla, la conexión no se cierra por inactividad.
+band_diagnostics = Diagnostics ||| Diagnóstico
+band_log_hide = Hide ||| Ocultar
+band_log_show = Show (%1$s) ||| Mostrar (%1$s)
+band_log_text = Connection log (in English, for bug reports). It never includes the authentication key. ||| Registro de la conexión (en inglés, para informar de errores). Nunca incluye la clave de autenticación.
+band_log_empty = No entries yet. ||| Sin entradas todavía.
+band_log_clear = Clear log ||| Borrar registro
+band_live_chart_desc{one} = Live heart rate: %1$d reading, from %2$s to %3$s ||| Pulso en vivo: %1$d lectura, de %2$s a %3$s
+band_live_chart_desc{other} = Live heart rate: %1$d readings, from %2$s to %3$s ||| Pulso en vivo: %1$d lecturas, de %2$s a %3$s
+
+# Band key and device picker
+band_key_saved = Key saved on the phone (hidden). ||| Clave guardada en el teléfono (oculta).
+band_key_change = Change ||| Cambiar
+band_key_show = Show ||| Mostrar
+band_key_save = Save key ||| Guardar clave
+
+# Band key help
+band_help_important_storage = This app stores it only in its private storage, outside backups, and never shows it in the diagnostics. ||| Esta app la guarda solo en su almacenamiento privado, fuera de las copias de seguridad, y nunca la muestra en el diagnóstico.
+band_help_how_text = These are the methods documented by the Gadgetbridge project. The app does not extract the key for you. ||| Estos son los métodos que documenta el proyecto Gadgetbridge. La app no extrae la clave por ti.
+band_help_how_logs = Mi Fitness logs (no root): Mi Fitness (formerly Xiaomi Wear, package com.xiaomi.wearable) writes log files to the phone storage, in Android/data/com.xiaomi.wearable/files/log/ (in the Mi Health variant: Android/data/com.mi.health/files/log/). Search them (for example XiaomiFit.device.log) for the fields "encryptKey", "authKey", "token" or "huamiAuthKey" followed by 32 hexadecimal characters. If there are several, try the one closest to the end of the file first. On Android 11 and later those folders are usually accessible only by connecting the phone to a computer (MTP or adb). ||| Registros de Mi Fitness (sin root): Mi Fitness (antes Xiaomi Wear, paquete com.xiaomi.wearable) guarda archivos de registro en el almacenamiento del teléfono, en Android/data/com.xiaomi.wearable/files/log/ (en la variante Mi Health: Android/data/com.mi.health/files/log/). Busca en ellos (por ejemplo en XiaomiFit.device.log) los campos «encryptKey», «authKey», «token» o «huamiAuthKey» seguidos de 32 caracteres hexadecimales. Si hay varios, prueba primero el más cercano al final del archivo. En Android 11 y posteriores esas carpetas suelen ser accesibles solo conectando el teléfono a un ordenador (MTP o adb).
+band_help_how_root = Rooted phone: close Mi Fitness and look in its "device_db" database; the key is in the "auth_key" or "encrypt_key" attribute of the "detail" JSON. ||| Teléfono con root: cierra Mi Fitness y consulta su base de datos «device_db»; la clave está en el atributo «auth_key» o «encrypt_key» del JSON «detail».
+band_help_link_server = Gadgetbridge: getting the key (Huami/Xiaomi server) ||| Gadgetbridge: obtener la clave (servidor Huami/Xiaomi)
+
+# Band alarms
+alarm_once = Once ||| Una vez
+alarm_daily = Every day ||| Todos los días
+alarm_weekdays = Monday to Friday ||| De lunes a viernes
+alarm_weekends = Weekends ||| Fines de semana
+alarm_band_repeat = Repeat set on the band ||| Repetición configurada en la pulsera
+alarm_saved_on_band = Alarms saved on the band ||| Alarmas guardadas en la pulsera
+alarm_count_of_max{one} = %1$d of %2$d alarm ||| %1$d de %2$d alarma
+alarm_count_of_max{other} = %1$d of %2$d alarms ||| %1$d de %2$d alarmas
+alarm_count{one} = %1$d alarm ||| %1$d alarma
+alarm_count{other} = %1$d alarms ||| %1$d alarmas
+alarm_none = There are no alarms on the band. ||| No hay alarmas en la pulsera.
+alarm_new = New alarm ||| Nueva alarma
+alarm_edit = Edit alarm ||| Editar alarma
+alarm_reload = Read again ||| Volver a leer
+alarm_sync_text = Changes are sent to the band and the list is read back from it, so you see what it really saved. ||| Los cambios se envían a la pulsera y la lista se vuelve a leer de ella, así ves lo que realmente guardó.
+alarm_repeat_smart = %1$s · smart ||| %1$s · inteligente
+alarm_edit_at = Edit the %1$s alarm ||| Editar alarma de las %1$s
+alarm_delete_at = Delete the %1$s alarm ||| Borrar alarma de las %1$s
+alarm_repeat = Repeat ||| Repetir
+alarm_smart = Smart alarm ||| Despertador inteligente
+alarm_smart_text = The band can wake you up a little earlier, during light sleep. ||| La pulsera puede despertarte un poco antes, en sueño ligero.
+
+# Notification forwarding
+forwarding_switch = Forward phone notifications ||| Reenviar notificaciones del teléfono
+forwarding_text = Only while the band is connected in direct mode and only from the apps you tick. The rest of the time Mi Fitness sends the notifications. The content is never stored. ||| Solo mientras la pulsera está conectada en modo directo y solo de las apps que marques. El resto del tiempo es Mi Fitness quien envía las notificaciones. El contenido nunca se guarda.
+forwarding_access_needed = Android notification access is needed to read them. ||| Hace falta el acceso a notificaciones de Android para leerlas.
+forwarding_grant_access = Grant notification access ||| Dar acceso a notificaciones
+forwarding_active_pending = On: they will be forwarded when you connect the band. ||| Activo: se reenviarán cuando conectes la pulsera.
+forwarding_apps = Apps ||| Apps
+forwarding_apps_empty = Apps will appear here when they post a notification. ||| Las apps aparecerán aquí cuando publiquen una notificación.

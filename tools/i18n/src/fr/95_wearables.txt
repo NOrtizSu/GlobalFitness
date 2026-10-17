@@ -1,0 +1,113 @@
+# Devices → Bands & watches (any supported family; the diagnostics log stays in English on purpose)
+devices_wearables = Bracelets et montres
+wearables_none = Aucun bracelet ni aucune montre configuré pour l'instant. Approchez le vôtre ou ajoutez-le depuis le catalogue.
+wearables_add_from_catalog = Ajouter depuis le catalogue
+wearables_detected = Détectés et associés
+wearables_detected_none = Aucun appareil reconnu pour l'instant. Les appareils associés à ce téléphone apparaissent ici une fois l'autorisation « Appareils à proximité » accordée ; les autres, lorsqu'ils sont allumés et à proximité.
+wearables_paired = associé
+wearables_use_this = Configurer
+wearables_already_set_up = Déjà configuré
+wearables_open = Ouvrir
+wearables_remove_text = Sa clé et ses réglages sont supprimés du téléphone ; la fréquence cardiaque enregistrée est conservée. Il ne sera plus proposé.
+wearables_removed = Supprimé : %1$s
+wearables_added = Ajouté : %1$s
+wearables_suggestion_title = Est-ce votre bracelet ou votre montre ?
+wearables_suggestion_text = L'application ne s'y connecte que lorsque vous l'ouvrez en mode direct. Ne confirmez que s'il vous appartient.
+wearables_suggestion_text_key = L'application ne s'y connecte que lorsque vous l'ouvrez en mode direct, et elle a besoin de la clé d'authentification de son application. Ne confirmez que s'il vous appartient.
+wearables_suggestion_yes = Oui, le configurer
+wearables_catalog_title = Catalogue des bracelets et montres
+wearables_needs_key = clé de %1$s
+wearables_no_key_needed = aucune clé requise
+wearables_bind_question = Lequel de ces appareils est-ce ?
+wearables_bind_none = Aucun des appareils détectés ou associés ne semble correspondre à ce modèle. Allumez-le, gardez-le à proximité et vérifiez que son application l'a associé à ce téléphone.
+wearables_bind_others = Autres appareils détectés
+chip_wearable = %1$s : %2$s
+
+# Wearable status
+wearable_status_not_connected = Non connecté
+wearable_status_connected = Connecté
+wearable_status_unknown_model = Modèle non pris en charge par cette version
+wearable_connected_protocol = Connecté (%1$s)
+
+# Wearable screen
+wearable_intro = L'application communique directement avec l'appareil par Bluetooth (comme Gadgetbridge), sans %1$s. La plupart des appareils n'acceptent qu'une seule connexion : l'application ne se connecte donc que lorsque vous appuyez sur « Connecter » et se déconnecte après 2 minutes d'inactivité ou lorsque vous quittez cet écran, pour que %1$s puisse de nouveau synchroniser.
+wearable_intro_plain = L'application communique directement avec l'appareil par Bluetooth (comme Gadgetbridge). Elle ne se connecte que lorsque vous appuyez sur « Connecter » et se déconnecte après 2 minutes d'inactivité ou lorsque vous quittez cet écran.
+wearable_experimental = Expérimental : pas encore testé avec un véritable appareil de ce modèle.
+wearable_doc_link = Notes de Gadgetbridge sur cet appareil
+wearable_permission_text = La connexion à l'appareil nécessite l'autorisation « Appareils à proximité ».
+wearable_transport_ble = Bluetooth LE
+wearable_transport_classic = Bluetooth classique
+wearable_transport_uart = Bluetooth LE (UART)
+wearable_hardware = Matériel
+wearable_vendor_settings = Paramètres de %1$s
+wearable_cannot_connect_hint = Enregistrez la clé d'authentification pour pouvoir vous connecter.
+wearable_released = L'appareil est de nouveau libre. Si vous avez arrêté %1$s, rouvrez-le pour qu'il continue de se synchroniser.
+wearable_find = Localiser l'appareil
+wearable_finding_text = L'appareil sonne ou vibre. Arrêtez-le sur l'appareil ou appuyez sur « %1$s ».
+wearable_time_synced = Heure synchronisée
+wearable_connect_first = Connectez d'abord l'appareil
+wearable_found = L'appareil indique que vous l'avez trouvé
+wearable_find_phone = %1$s cherche le téléphone
+wearable_waiting_data = En attente des données de l'appareil…
+wearable_measuring_hint = Mesure en cours… gardez l'appareil bien ajusté contre la peau.
+wearable_rr_interval = Intervalle entre battements
+wearable_steps_session = Pas depuis la connexion
+wearable_alarms_section = Alarmes de l'appareil
+wearable_alarms_none = Aucune alarme sur l'appareil.
+wearable_alarms_read_back = Les modifications sont envoyées à l'appareil, puis la liste y est relue : vous voyez ainsi ce qu'il a réellement enregistré.
+wearable_alarms_local = Cet appareil ne peut pas indiquer ses alarmes : la liste montre ce que l'application lui a envoyé. Les alarmes créées sur l'appareil lui-même n'apparaissent pas ici.
+wearable_forwarding_text = Uniquement lorsque l'appareil est connecté en mode direct et uniquement pour les applications que vous cochez. Le reste du temps, c'est %1$s qui envoie les notifications. Le contenu n'est jamais enregistré.
+wearable_forwarding_text_plain = Uniquement lorsque l'appareil est connecté en mode direct et uniquement pour les applications que vous cochez. Le contenu n'est jamais enregistré.
+wearable_forwarding_pending = Activé : elles seront transférées tant que l'appareil est connecté.
+
+# Wearable connection failures
+wearable_failure_permission = L'autorisation « Appareils à proximité » (Bluetooth) manque. Accordez-la pour vous connecter.
+wearable_failure_no_key = Enregistrez d'abord la clé d'authentification de l'appareil.
+wearable_failure_unknown = Cet appareil n'est plus configuré, ou cette version de l'application ne prend pas en charge son modèle.
+wearable_failure_not_found = Appareil introuvable. Vérifiez qu'il est allumé, à proximité et associé à ce téléphone.
+wearable_failure_connect = Impossible d'ouvrir la connexion. Vérifiez que l'appareil est allumé, à proximité et chargé. Si %1$s y est connecté, l'appareil est occupé : arrêtez temporairement %1$s (Paramètres → Applications → %1$s → Forcer l'arrêt), puis réessayez.
+wearable_failure_connect_plain = Impossible d'ouvrir la connexion. Vérifiez que l'appareil est allumé, à proximité et chargé, et qu'aucune autre application n'y est connectée.
+wearable_failure_unsupported = Connecté, mais l'appareil n'offre pas les services Bluetooth que ce modèle devrait avoir. Il s'agit peut-être d'un autre modèle ou d'un autre firmware.
+wearable_failure_no_response = L'appareil ne répond pas. Il est probablement occupé avec %1$s : arrêtez temporairement %1$s (Paramètres → Applications → %1$s → Forcer l'arrêt), puis réessayez.
+wearable_failure_no_response_plain = L'appareil ne répond pas. Rapprochez-le et réessayez.
+wearable_failure_wrong_key = Clé d'authentification incorrecte : l'appareil ne la reconnaît pas. Vérifiez que vous avez copié la clé actuelle ; si vous avez dissocié l'appareil dans %1$s, la clé a changé et il vous faut la nouvelle.
+wearable_failure_auth_rejected = L'appareil a refusé l'authentification. Vérifiez la clé et réessayez.
+wearable_failure_link_lost = La connexion avec l'appareil a été perdue.
+wearable_failure_timeout = L'appareil n'a pas répondu à temps.
+wearable_failure_not_supported = Cet appareil ne prend pas en charge cette fonction.
+wearable_failure_busy = L'appareil est connecté à une autre application (presque certainement %1$s) et n'accepte qu'une seule connexion. Arrêtez temporairement %1$s (Paramètres → Applications → %1$s → Forcer l'arrêt), puis réessayez. Une fois terminé, ouvrez %1$s pour qu'il continue de se synchroniser.
+wearable_failure_busy_plain = L'appareil est connecté à une autre application et n'accepte qu'une seule connexion. Fermez cette application et réessayez.
+wearable_failure_alarm_slots_full = L'appareil n'a plus d'emplacement libre pour les alarmes. Supprimez d'abord une alarme.
+
+# Wearable key card and key wizard (no vendor sign-in: the key is always entered by the user)
+wearable_key_user_id_title = ID utilisateur du compte Xiaomi
+wearable_key_missing = Cet appareil a besoin de la clé d'authentification que %1$s a configurée lors de l'association.
+wearable_key_setup = Configurer la clé
+wearable_xiaomi_device_id = ID de l'appareil (Wear OS)
+wearable_xiaomi_device_id_help = Uniquement pour les montres Wear OS comme la Xiaomi Watch 5 : l'ID d'appareil associé que le guide de Gadgetbridge explique comment trouver.
+wearable_wizard_step_what = 1. De quoi s'agit-il
+wearable_wizard_what_hex = Une clé secrète de 32 caractères hexadécimaux (16 octets) partagée par votre appareil et votre compte %1$s. Elle est créée lorsque vous associez l'appareil dans %1$s ; l'appareil s'en sert pour vérifier que le téléphone peut se connecter et pour chiffrer la liaison. Elle ne peut pas être générée sur le téléphone.
+wearable_wizard_what_user_id = Cet ancien modèle n'utilise pas de clé hexadécimale : il s'authentifie avec l'ID utilisateur numérique du compte Xiaomi avec lequel il a été associé dans %1$s.
+wearable_wizard_step_where = 2. Où l'obtenir
+wearable_wizard_where = Elle provient de %1$s ou de votre compte chez le fabricant. Le projet Gadgetbridge explique comment l'obtenir pour chaque famille d'appareils. Cette application ne se connecte jamais à votre compte et ne récupère jamais la clé à votre place.
+wearable_wizard_link_device = Gadgetbridge : %1$s
+wearable_wizard_step_important = 3. Bon à savoir
+wearable_wizard_unpair = Si vous dissociez l'appareil dans %1$s ou le réinitialisez, la clé n'est plus valable et il vous faudra la nouvelle.
+wearable_wizard_share = Ne la partagez pas : quiconque la possède peut se connecter à votre appareil.
+wearable_wizard_step_enter = 4. La saisir
+wearable_key_paste_hex = Collez la clé hexadécimale de 32 caractères (avec ou sans « 0x ») ; les espaces et les sauts de ligne sont ignorés.
+wearable_key_paste_user_id = Saisissez l'ID utilisateur numérique (chiffres uniquement).
+wearable_wizard_paste = Coller depuis le presse-papiers
+wearable_wizard_clipboard_empty = Le presse-papiers ne contient pas de clé au format attendu.
+wearable_key_error_empty_user_id = Saisissez l'ID utilisateur.
+wearable_key_error_not_numeric = L'ID utilisateur ne peut contenir que des chiffres.
+wearable_key_error_too_long = L'ID utilisateur est trop long.
+wearable_wizard_plaintext = La liaison de ce modèle n'est pas chiffrée : une personne à proximité disposant du bon matériel pourrait lire ce qu'échangent l'appareil et le téléphone.
+wearable_clipboard_clear_title = Clé enregistrée
+wearable_clipboard_clear_text = La clé est toujours dans le presse-papiers, où d'autres applications peuvent la lire. Vider le presse-papiers ?
+wearable_clipboard_clear = Vider le presse-papiers
+wearable_clipboard_keep = La laisser
+
+# Activity: live heart rate recorded in direct mode, per device
+health_wearable_live_title = %1$s · mode direct
+health_wearable_live_text = Fréquence cardiaque en direct enregistrée par l'application avec l'appareil connecté (pas dans Health Connect).

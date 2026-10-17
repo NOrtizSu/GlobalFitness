@@ -1,0 +1,113 @@
+# Devices → Bands & watches (any supported family; the diagnostics log stays in English on purpose)
+devices_wearables = Vòng đeo tay và đồng hồ
+wearables_none = Chưa thiết lập vòng đeo tay hay đồng hồ nào. Hãy đưa thiết bị của bạn lại gần hoặc thêm từ danh mục.
+wearables_add_from_catalog = Thêm từ danh mục
+wearables_detected = Đã phát hiện và đã ghép nối
+wearables_detected_none = Chưa nhận ra thiết bị nào. Các thiết bị đã ghép nối với điện thoại này sẽ xuất hiện ở đây khi quyền “Thiết bị ở gần” được cấp; các thiết bị khác sẽ xuất hiện khi đang bật và ở gần.
+wearables_paired = đã ghép nối
+wearables_use_this = Thiết lập
+wearables_already_set_up = Đã thiết lập
+wearables_open = Mở
+wearables_remove_text = Khóa và cài đặt của thiết bị sẽ bị xóa khỏi điện thoại; nhịp tim đã ghi vẫn được giữ lại. Thiết bị sẽ không được đề xuất lại.
+wearables_removed = Đã xóa: %1$s
+wearables_added = Đã thêm: %1$s
+wearables_suggestion_title = Đây có phải vòng đeo tay hoặc đồng hồ của bạn không?
+wearables_suggestion_text = Ứng dụng chỉ kết nối với thiết bị khi bạn mở thiết bị ở chế độ trực tiếp. Chỉ xác nhận nếu đó là thiết bị của bạn.
+wearables_suggestion_text_key = Ứng dụng chỉ kết nối với thiết bị khi bạn mở thiết bị ở chế độ trực tiếp và cần khóa xác thực từ ứng dụng của thiết bị. Chỉ xác nhận nếu đó là thiết bị của bạn.
+wearables_suggestion_yes = Có, thiết lập
+wearables_catalog_title = Danh mục vòng đeo tay và đồng hồ
+wearables_needs_key = khóa từ %1$s
+wearables_no_key_needed = không cần khóa
+wearables_bind_question = Đó là thiết bị nào trong số này?
+wearables_bind_none = Không thiết bị nào đã phát hiện hoặc đã ghép nối giống mẫu này. Hãy bật thiết bị, để ở gần và kiểm tra xem ứng dụng của thiết bị đã ghép nối thiết bị với điện thoại này chưa.
+wearables_bind_others = Các thiết bị khác đã phát hiện
+chip_wearable = %1$s: %2$s
+
+# Wearable status
+wearable_status_not_connected = Chưa kết nối
+wearable_status_connected = Đã kết nối
+wearable_status_unknown_model = Phiên bản này không hỗ trợ mẫu này
+wearable_connected_protocol = Đã kết nối (%1$s)
+
+# Wearable screen
+wearable_intro = Ứng dụng giao tiếp trực tiếp với thiết bị qua Bluetooth (như Gadgetbridge), không cần %1$s. Hầu hết thiết bị chỉ cho phép một kết nối, vì vậy ứng dụng chỉ kết nối khi bạn nhấn “Kết nối” và ngắt kết nối sau 2 phút không sử dụng hoặc khi bạn thoát khỏi màn hình này, để %1$s có thể đồng bộ hóa lại.
+wearable_intro_plain = Ứng dụng giao tiếp trực tiếp với thiết bị qua Bluetooth (như Gadgetbridge). Ứng dụng chỉ kết nối khi bạn nhấn “Kết nối” và ngắt kết nối sau 2 phút không sử dụng hoặc khi bạn thoát khỏi màn hình này.
+wearable_experimental = Thử nghiệm: chưa được kiểm tra với thiết bị thật của mẫu này.
+wearable_doc_link = Ghi chú của Gadgetbridge về thiết bị này
+wearable_permission_text = Để kết nối với thiết bị, cần có quyền “Thiết bị ở gần”.
+wearable_transport_ble = Bluetooth LE
+wearable_transport_classic = Bluetooth Classic
+wearable_transport_uart = Bluetooth LE (UART)
+wearable_hardware = Phần cứng
+wearable_vendor_settings = Cài đặt %1$s
+wearable_cannot_connect_hint = Hãy lưu khóa xác thực để có thể kết nối.
+wearable_released = Thiết bị đã được giải phóng. Nếu bạn đã dừng %1$s, hãy mở lại để ứng dụng tiếp tục đồng bộ hóa.
+wearable_find = Tìm thiết bị
+wearable_finding_text = Thiết bị đang đổ chuông hoặc rung. Hãy dừng trên thiết bị hoặc nhấn “%1$s”.
+wearable_time_synced = Đã đồng bộ giờ
+wearable_connect_first = Hãy kết nối thiết bị trước
+wearable_found = Thiết bị báo rằng bạn đã tìm thấy nó
+wearable_find_phone = %1$s đang tìm điện thoại
+wearable_waiting_data = Đang chờ dữ liệu từ thiết bị…
+wearable_measuring_hint = Đang đo… hãy giữ thiết bị áp sát vào da.
+wearable_rr_interval = Khoảng cách giữa các nhịp
+wearable_steps_session = Số bước từ khi kết nối
+wearable_alarms_section = Báo thức trên thiết bị
+wearable_alarms_none = Không có báo thức nào trên thiết bị.
+wearable_alarms_read_back = Các thay đổi được gửi đến thiết bị và danh sách được đọc lại từ thiết bị, để bạn thấy những gì thiết bị thực sự đã lưu.
+wearable_alarms_local = Thiết bị này không thể báo cáo báo thức của nó: danh sách hiển thị những gì ứng dụng đã gửi đến thiết bị. Báo thức tạo trực tiếp trên thiết bị không xuất hiện ở đây.
+wearable_forwarding_text = Chỉ khi thiết bị đang kết nối ở chế độ trực tiếp và chỉ từ các ứng dụng bạn đánh dấu. Thời gian còn lại, %1$s sẽ gửi thông báo. Nội dung không bao giờ được lưu trữ.
+wearable_forwarding_text_plain = Chỉ khi thiết bị đang kết nối ở chế độ trực tiếp và chỉ từ các ứng dụng bạn đánh dấu. Nội dung không bao giờ được lưu trữ.
+wearable_forwarding_pending = Đang bật: thông báo sẽ được chuyển tiếp khi thiết bị đang kết nối.
+
+# Wearable connection failures
+wearable_failure_permission = Thiếu quyền “Thiết bị ở gần” (Bluetooth). Hãy cấp quyền này để kết nối.
+wearable_failure_no_key = Hãy lưu khóa xác thực của thiết bị trước.
+wearable_failure_unknown = Thiết bị này không còn được thiết lập, hoặc phiên bản ứng dụng này không hỗ trợ mẫu thiết bị đó.
+wearable_failure_not_found = Không tìm thấy thiết bị. Hãy kiểm tra xem thiết bị đã bật, ở gần và đã ghép nối với điện thoại này chưa.
+wearable_failure_connect = Không thể mở kết nối. Hãy kiểm tra xem thiết bị đã bật, ở gần và còn pin không. Nếu %1$s đang kết nối với thiết bị, thiết bị đang bận: hãy tạm dừng %1$s (Cài đặt → Ứng dụng → %1$s → Buộc dừng) rồi thử lại.
+wearable_failure_connect_plain = Không thể mở kết nối. Hãy kiểm tra xem thiết bị đã bật, ở gần, còn pin và không có ứng dụng nào khác đang kết nối với thiết bị.
+wearable_failure_unsupported = Đã kết nối, nhưng thiết bị không cung cấp các dịch vụ Bluetooth mà mẫu này phải có. Có thể đây là mẫu khác hoặc firmware khác.
+wearable_failure_no_response = Thiết bị không phản hồi. Có thể thiết bị đang bận với %1$s: hãy tạm dừng %1$s (Cài đặt → Ứng dụng → %1$s → Buộc dừng) rồi thử lại.
+wearable_failure_no_response_plain = Thiết bị không phản hồi. Hãy đưa thiết bị lại gần rồi thử lại.
+wearable_failure_wrong_key = Khóa xác thực không đúng: thiết bị không nhận ra khóa này. Hãy kiểm tra xem bạn đã sao chép đúng khóa hiện tại chưa; nếu bạn đã hủy ghép nối thiết bị trong %1$s, khóa đã thay đổi và bạn cần khóa mới.
+wearable_failure_auth_rejected = Thiết bị đã từ chối xác thực. Hãy kiểm tra khóa rồi thử lại.
+wearable_failure_link_lost = Mất kết nối với thiết bị.
+wearable_failure_timeout = Thiết bị không trả lời kịp thời.
+wearable_failure_not_supported = Thiết bị này không hỗ trợ tính năng đó.
+wearable_failure_busy = Thiết bị đang kết nối với một ứng dụng khác (gần như chắc chắn là %1$s) và chỉ cho phép một kết nối. Hãy tạm dừng %1$s (Cài đặt → Ứng dụng → %1$s → Buộc dừng) rồi thử lại. Khi xong, hãy mở %1$s để ứng dụng tiếp tục đồng bộ hóa.
+wearable_failure_busy_plain = Thiết bị đang kết nối với một ứng dụng khác và chỉ cho phép một kết nối. Hãy đóng ứng dụng đó rồi thử lại.
+wearable_failure_alarm_slots_full = Thiết bị không còn chỗ trống cho báo thức. Hãy xóa một báo thức trước.
+
+# Wearable key card and key wizard (no vendor sign-in: the key is always entered by the user)
+wearable_key_user_id_title = ID người dùng của tài khoản Xiaomi
+wearable_key_missing = Thiết bị này cần khóa xác thực mà %1$s đã thiết lập khi ghép nối.
+wearable_key_setup = Thiết lập khóa
+wearable_xiaomi_device_id = ID thiết bị (Wear OS)
+wearable_xiaomi_device_id_help = Chỉ dành cho đồng hồ Wear OS như Xiaomi Watch 5: ID thiết bị đồng hành mà hướng dẫn của Gadgetbridge giải thích cách tìm.
+wearable_wizard_step_what = 1. Khóa là gì
+wearable_wizard_what_hex = Một khóa bí mật gồm 32 ký tự thập lục phân (16 byte) được chia sẻ giữa thiết bị và tài khoản %1$s của bạn. Khóa được tạo khi bạn ghép nối thiết bị trong %1$s; thiết bị dùng khóa để kiểm tra xem điện thoại có được phép kết nối không và để mã hóa kết nối. Không thể tạo khóa trên điện thoại.
+wearable_wizard_what_user_id = Mẫu cũ này không dùng khóa thập lục phân: thiết bị xác thực bằng ID người dùng dạng số của tài khoản Xiaomi đã dùng để ghép nối trong %1$s.
+wearable_wizard_step_where = 2. Lấy khóa ở đâu
+wearable_wizard_where = Khóa đến từ %1$s hoặc từ tài khoản của bạn với nhà sản xuất. Dự án Gadgetbridge có tài liệu hướng dẫn cách lấy khóa cho từng dòng thiết bị. Ứng dụng này không bao giờ đăng nhập vào tài khoản của bạn và không bao giờ lấy khóa thay bạn.
+wearable_wizard_link_device = Gadgetbridge: %1$s
+wearable_wizard_step_important = 3. Cần lưu ý
+wearable_wizard_unpair = Nếu bạn hủy ghép nối thiết bị trong %1$s hoặc đặt lại thiết bị, khóa sẽ không còn hiệu lực và bạn sẽ cần khóa mới.
+wearable_wizard_share = Đừng chia sẻ khóa: bất kỳ ai có khóa đều có thể kết nối với thiết bị của bạn.
+wearable_wizard_step_enter = 4. Nhập khóa
+wearable_key_paste_hex = Dán khóa thập lục phân gồm 32 ký tự (có hoặc không có “0x”); dấu cách và xuống dòng sẽ được bỏ qua.
+wearable_key_paste_user_id = Nhập ID người dùng dạng số (chỉ chữ số).
+wearable_wizard_paste = Dán từ bảng nhớ tạm
+wearable_wizard_clipboard_empty = Bảng nhớ tạm không chứa khóa đúng định dạng.
+wearable_key_error_empty_user_id = Hãy nhập ID người dùng.
+wearable_key_error_not_numeric = ID người dùng chỉ được chứa chữ số.
+wearable_key_error_too_long = ID người dùng quá dài.
+wearable_wizard_plaintext = Kết nối của mẫu này không được mã hóa: người ở gần có thiết bị phù hợp có thể đọc những gì thiết bị và điện thoại trao đổi.
+wearable_clipboard_clear_title = Đã lưu khóa
+wearable_clipboard_clear_text = Khóa vẫn còn trong bảng nhớ tạm, nơi các ứng dụng khác có thể đọc được. Xóa bảng nhớ tạm?
+wearable_clipboard_clear = Xóa bảng nhớ tạm
+wearable_clipboard_keep = Giữ lại
+
+# Activity: live heart rate recorded in direct mode, per device
+health_wearable_live_title = %1$s · chế độ trực tiếp
+health_wearable_live_text = Nhịp tim thời gian thực do ứng dụng ghi lại khi thiết bị được kết nối (không có trong Health Connect).

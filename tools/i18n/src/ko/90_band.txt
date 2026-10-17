@@ -1,0 +1,83 @@
+# Band (experimental direct mode). Its diagnostics log stays in English on purpose.
+band_test_notification_body = GlobalFitness 직접 연결 모드의 테스트 알림
+band_failure_no_bluetooth = 이 휴대전화에는 Bluetooth가 없습니다.
+band_failure_bluetooth_off = Bluetooth가 꺼져 있습니다. Bluetooth를 켠 후 다시 시도하세요.
+band_test_notification_sent = 테스트 알림을 보냈습니다
+band_key_error_empty = 인증 키를 입력하세요.
+band_key_error_not_hex = 키에는 16진수 숫자(0–9, a–f)만 사용할 수 있으며, 0x 접두사는 선택 사항입니다.
+band_key_error_length = 키는 16진수 %1$s자리여야 합니다(현재 %2$s자리).
+band_key_save_failed = 휴대전화에 키를 저장할 수 없습니다.
+band_key_title = 인증 키
+band_actions = 작업
+band_forwarding_title = 알림 전달
+band_battery = 배터리
+band_battery_charging = %1$s · 충전 중
+band_worn = 착용 중
+band_model = 모델
+band_firmware = 펌웨어
+band_serial = 일련번호
+band_time_synced_at = 시간 동기화됨
+band_disconnect = 연결 해제
+band_refresh_battery = 배터리 새로고침
+band_stop_find = 찾기 중지
+band_sync_time = 시간 동기화
+band_test_notification = 테스트 알림
+band_sync_time_on_connect = 연결 시 시간 동기화
+band_live_heart_rate = 실시간 심박수
+band_alarms_title = 알람
+band_save_alarm = 알람 저장
+band_delete_alarm = 알람 삭제
+band_steps_today = 오늘 걸음 수
+band_calories = 칼로리
+band_standing_hours = 서 있는 시간
+band_live_storage_text = 측정값은 나중에 함께 분석할 수 있도록 휴대전화(band.db)에 저장됩니다. 실시간 심박수가 켜져 있고 이 화면을 보고 있는 동안에는 사용하지 않더라도 연결이 종료되지 않습니다.
+band_diagnostics = 진단
+band_log_hide = 숨기기
+band_log_show = 표시(%1$s)
+band_log_text = 연결 로그(버그 신고용, 영어). 인증 키는 절대 포함되지 않습니다.
+band_log_empty = 아직 항목이 없습니다.
+band_log_clear = 로그 지우기
+band_live_chart_desc{other} = 실시간 심박수: 측정 %1$d회, %2$s부터 %3$s까지
+
+# Band key and device picker
+band_key_saved = 키가 휴대전화에 저장됨(숨김).
+band_key_change = 변경
+band_key_show = 표시
+band_key_save = 키 저장
+
+# Band key help
+band_help_important_storage = 이 앱은 키를 비공개 저장소에만 저장하며, 백업에 포함하지 않고 진단 정보에도 표시하지 않습니다.
+band_help_how_text = 다음은 Gadgetbridge 프로젝트에서 문서화한 방법입니다. 앱이 키를 대신 추출하지는 않습니다.
+band_help_how_logs = Mi Fitness 로그(루팅 불필요): Mi Fitness(이전 명칭 Xiaomi Wear, 패키지 com.xiaomi.wearable)는 휴대전화 저장소의 Android/data/com.xiaomi.wearable/files/log/에 로그 파일을 기록합니다(Mi Health 버전: Android/data/com.mi.health/files/log/). 로그 파일(예: XiaomiFit.device.log)에서 ‘encryptKey’, ‘authKey’, ‘token’ 또는 ‘huamiAuthKey’ 필드 뒤에 오는 16진수 32자리를 찾으세요. 여러 개가 있으면 파일 끝에 가장 가까운 것부터 시도하세요. Android 11 이상에서는 보통 휴대전화를 컴퓨터에 연결해야(MTP 또는 adb) 해당 폴더에 액세스할 수 있습니다.
+band_help_how_root = 루팅된 휴대전화: Mi Fitness를 닫고 ‘device_db’ 데이터베이스를 확인하세요. 키는 ‘detail’ JSON의 ‘auth_key’ 또는 ‘encrypt_key’ 속성에 있습니다.
+band_help_link_server = Gadgetbridge: 키 얻기(Huami/Xiaomi 서버)
+
+# Band alarms
+alarm_once = 한 번
+alarm_daily = 매일
+alarm_weekdays = 월요일~금요일
+alarm_weekends = 주말
+alarm_band_repeat = 밴드에서 설정한 반복
+alarm_saved_on_band = 밴드에 저장된 알람
+alarm_count_of_max{other} = 알람 %1$d/%2$d개
+alarm_count{other} = 알람 %1$d개
+alarm_none = 밴드에 알람이 없습니다.
+alarm_new = 새 알람
+alarm_edit = 알람 편집
+alarm_reload = 다시 읽기
+alarm_sync_text = 변경사항은 밴드로 전송되고 목록을 밴드에서 다시 읽어 오므로, 밴드에 실제로 저장된 내용을 확인할 수 있습니다.
+alarm_repeat_smart = %1$s · 스마트
+alarm_edit_at = %1$s 알람 편집
+alarm_delete_at = %1$s 알람 삭제
+alarm_repeat = 반복
+alarm_smart = 스마트 알람
+alarm_smart_text = 밴드가 얕은 수면 중에 조금 일찍 깨워 줄 수 있습니다.
+
+# Notification forwarding
+forwarding_switch = 휴대전화 알림 전달
+forwarding_text = 밴드가 직접 연결 모드로 연결되어 있을 때만, 선택한 앱의 알림만 전달합니다. 그 외에는 Mi Fitness가 알림을 보냅니다. 알림 내용은 저장되지 않습니다.
+forwarding_access_needed = 알림을 읽으려면 Android 알림 접근 권한이 필요합니다.
+forwarding_grant_access = 알림 접근 허용
+forwarding_active_pending = 켜짐: 밴드를 연결하면 알림이 전달됩니다.
+forwarding_apps = 앱
+forwarding_apps_empty = 앱이 알림을 게시하면 여기에 표시됩니다.

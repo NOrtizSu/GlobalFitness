@@ -1,0 +1,258 @@
+// Protocol ported from Gadgetbridge (AGPL-3.0), https://codeberg.org/Freeyourgadget/Gadgetbridge
+//
+// Trimmed copy of GBProtobufGenerator/src/main/proto/xiaomi.proto and xiaomi/wear_*.proto, merged into
+// one file: only the messages used by the experimental direct band mode are kept. Message names, field
+// numbers, types and labels are unchanged, so the wire format is identical to Gadgetbridge's.
+syntax = "proto2"; // proto2 serializes explicitly set default values on the wire
+
+package xiaomi;
+
+option java_package = "com.enjoyyourtime.globalfitness.band.proto";
+option java_outer_classname = "XiaomiProto";
+
+message Command {
+  required uint32 type = 1;
+  optional uint32 subtype = 2;
+
+  optional Account auth = 3;
+  optional System system = 4;
+  optional Notification notification = 9;
+  optional Health health = 10;
+  optional Schedule schedule = 19;
+
+  optional uint32 status = 100; // 0 on success on some
+}
+
+// ---- wear_common.proto ----
+
+message HourMinute {
+  required uint32 hour = 1;
+  required uint32 minute = 2;
+}
+
+message Date {
+  required uint32 year = 1;
+  required uint32 month = 2;
+  required uint32 day = 3;
+}
+
+message Time {
+  required uint32 hour = 1;
+  required uint32 minute = 2;
+  optional uint32 second = 3;
+  optional uint32 millisecond = 4;
+}
+
+message TimeZone {
+  // offsets are in blocks of 15 min
+  optional sint32 zoneOffset = 1;
+  optional sint32 dstOffset = 2;
+  required string name = 3;
+}
+
+// ---- wear_account.proto ----
+
+message Account {
+  optional string userId = 7;
+  optional uint32 status = 8;
+  // 1, 26
+  optional Auth.AppVerify appVerify = 30;
+  optional Auth.DeviceVerify deviceVerify = 31;
+  // 1, 27
+  optional Auth.AppConfirm appConfirm = 32;
+  optional Auth.DeviceConfirm authStep4 = 33;
+}
+
+message CompanionDevice {
+  required uint32 unknown1 = 1; // device type 0 - needs to be serialized explicitly
+  required float phoneApiLevel = 2;
+  required string phoneName = 3; // phone model
+  required uint32 unknown3 = 4; // 224
+  required string region = 5; // 2-letter, upper case
+}
+
+message Auth {
+  message AppVerify {
+    required bytes nonce = 1;
+    optional string deviceId = 2;
+    optional bool check_dynamic_code = 3;
+  }
+
+  message DeviceVerify {
+    required bytes nonce = 1;
+    required bytes hmac = 2;
+  }
+
+  message AppConfirm {
+    required bytes encryptedNonces = 1;
+    required bytes encryptedDeviceInfo = 2;
+  }
+
+  message DeviceConfirm {
+    required bool unknown1 = 1;
+    optional uint32 device_capability = 2;
+    optional uint32 device_capability_2 = 3;
+  }
+}
+
+// ---- wear_system.proto ----
+
+message System {
+  // 2, 1
+  optional Power power = 2;
+  // 2, 2
+  optional DeviceInfo deviceInfo = 3;
+  // 2, 3
+  optional Clock clock = 4;
+  // 2, 18
+  optional uint32 findDevice = 5; // 0, 1 == "found it" pressed on device
+  // 2, 78
+  optional BasicDeviceState basicDeviceState = 48;
+  // 2, 79
+  optional DeviceState deviceState = 49;
+}
+
+message Power {
+  optional Battery battery = 1;
+}
+
+message Battery {
+  optional uint32 level = 1;
+  optional uint32 state = 2;
+  optional LastCharge lastCharge = 3;
+}
+
+message LastCharge {
+  optional uint32 state = 1; // 2
+  optional uint32 timestampSeconds = 2;
+}
+
+message DeviceInfo {
+  required string serialNumber = 1;
+  required string firmware = 2;
+  optional string unknown3 = 3; // "" ?
+  required string model = 4;
+}
+
+message Clock {
+  required Date date = 1;
+  required Time time = 2;
+  required TimeZone timezone = 3;
+  optional bool isNot24hour = 4;
+}
+
+message DeviceActivityState {
+  optional uint32 activityType = 1;
+  optional uint32 currentActivityState = 2;
+}
+
+message BasicDeviceState {
+  required bool isCharging = 1; // true when connected to charger
+  optional uint32 batteryLevel = 2;
+  required bool isWorn = 3; // true when the device detects it's being worn
+  required bool isUserAsleep = 4; // true when the device detected its user is asleep
+  optional DeviceActivityState activityState = 5;
+}
+
+message DeviceState {
+  optional uint32 chargingState = 1; // 1 charging, 2 not charging
+  optional uint32 wearingState = 2; // 1 wearing, 2 not wearing
+  optional uint32 sleepState = 3; // 1 sleep detected, 2 no sleep detected
+  optional uint32 warningState = 4; // ?
+  optional DeviceActivityState activityState = 5;
+}
+
+// ---- wear_fitness.proto ----
+
+message Health {
+  // 8,45 enable | 8, 46 disable | 8, 47 periodic
+  optional RealTimeStats realTimeStats = 39;
+}
+
+message RealTimeStats {
+  optional uint32 steps = 1;
+  optional uint32 calories = 2;
+  optional uint32 unknown3 = 3; // increases during activity
+  optional uint32 heartRate = 4;
+  optional uint32 unknown5 = 5; // 0 probably moving time
+  optional uint32 standingHours = 6;
+}
+
+// ---- wear_clock.proto ----
+
+message Schedule {
+  // 17, 0 get
+  optional Alarms alarms = 1;
+  // 17, 1
+  optional AlarmDetails createAlarm = 2;
+  // 17, 2 (Gadgetbridge XiaomiScheduleService.CMD_ALARMS_EDIT)
+  optional AlarmInfo editAlarm = 3;
+
+  optional uint32 ackId = 4; // id of created or edited alarm and reminder
+
+  // 17, 4
+  optional AlarmDelete deleteAlarm = 5;
+}
+
+message Alarms {
+  optional uint32 maxAlarms = 2; // 10
+  optional uint32 unknown3 = 3; // 0
+  optional uint32 unknown4 = 4; // 1
+  repeated AlarmInfo alarm = 1;
+}
+
+message AlarmInfo {
+  optional uint32 id = 1; // starts at 1
+  optional AlarmDetails alarmDetails = 2;
+}
+
+message AlarmDetails {
+  optional HourMinute time = 2;
+  optional uint32 repeatMode = 3; // 0 once, 1 daily, 5 weekly
+  optional uint32 repeatFlags = 4; // only if weekly: 31 during week, 1 monday, 2 tuesday, 3 mon tue
+  optional bool enabled = 5;
+  optional uint32 smart = 7; // 1 smart, 2 normal
+}
+
+message AlarmDelete {
+  repeated uint32 id = 1;
+}
+
+// ---- wear_notification.proto ----
+
+message Notification {
+  // 7, 8
+  optional NotificationId openOnPhone = 2;
+  optional Notification2 notification2 = 3;
+  optional NotificationDismiss notificationDismiss = 4;
+  // 7, 6 get | 7, 7 set
+  optional bool screenOnOnNotifications = 7;
+}
+
+message Notification2 {
+  optional Notification3 notification3 = 1;
+}
+
+message Notification3 {
+  optional string package = 1;
+  optional string appName = 2;
+  optional string title = 3;
+  optional string unknown4 = 4;
+  optional string body = 5;
+  optional string timestamp = 6;
+  optional uint32 id = 7;
+  optional bool isCall = 8;
+  optional bool repliesAllowed = 11; // only for calls?
+  optional string key = 12; // "0|<package>|<id 2 complement>|null|12345"
+  optional bool openOnPhone = 13; // 1 to show "Open on phone", needs key
+}
+
+message NotificationDismiss {
+  repeated NotificationId notificationId = 1;
+}
+
+message NotificationId {
+  optional uint32 id = 1;
+  optional string package = 2; // truncated
+  optional string key = 4; // sometimes ""
+}

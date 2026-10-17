@@ -1,0 +1,103 @@
+# App
+band_notification_listener_label = GlobalFitness: आपके बैंड पर फ़ॉरवर्डिंग
+
+# Common actions
+action_cancel = रद्द करें
+action_ok = ठीक है
+action_save = सेव करें
+action_delete = मिटाएं
+action_retry = फिर से कोशिश करें
+action_got_it = समझ गए
+action_close = बंद करें
+action_back = वापस जाएं
+action_continue = जारी रखें
+action_open_settings = सेटिंग खोलें
+action_grant_permission = अनुमति दें
+action_turn_on_bluetooth = ब्लूटूथ चालू करें
+action_turn_on_location = जगह की जानकारी चालू करें
+action_connect_health_connect = Health Connect कनेक्ट करें
+action_install_health_connect = Health Connect इंस्टॉल करें
+action_update_health_connect = Health Connect अपडेट करें
+action_add_manual_weight = मैन्युअल रूप से वज़न जोड़ें
+common_no_data = कोई डेटा नहीं
+common_not_enough_data = पर्याप्त डेटा नहीं
+common_time = समय
+common_experimental = प्रायोगिक
+common_required_mark = %1$s *
+common_error_detail = %1$s: %2$s
+
+# Units and values
+unit_kg = kg
+unit_kcal = kcal
+unit_percent = %
+unit_years = साल
+value_kg = %1$s kg
+value_kcal = %1$s kcal
+value_percent = %1$s%%
+value_years{one} = %1$s साल
+value_years{other} = %1$s साल
+value_ohm = %1$s Ω
+
+# Relative dates
+time_today = आज
+time_yesterday = कल
+time_today_at = आज, %1$s
+time_yesterday_at = कल, %1$s
+
+# Navigation
+nav_today = आज
+nav_body = शरीर
+nav_activity = गतिविधि
+nav_devices = डिवाइस
+nav_profile = प्रोफ़ाइल
+
+# Body metrics
+metric_weight = वज़न
+metric_bmi = BMI
+metric_fat_percent = शरीर में वसा
+metric_fat_mass = वसा द्रव्यमान
+metric_muscle = मांसपेशी
+metric_skeletal_muscle = कंकाल मांसपेशी
+metric_water = पानी
+metric_bone = हड्डी
+metric_visceral = आंत की वसा
+metric_bmr = बेसल मेटाबॉलिक रेट
+metric_metabolic_age = मेटाबॉलिक आयु
+metric_protein = प्रोटीन
+metric_ideal_weight = आदर्श वज़न
+
+# Classification chips
+class_low = कम
+class_very_low = बहुत कम
+class_normal = सामान्य
+class_high = ज़्यादा
+class_very_high = बहुत ज़्यादा
+class_overweight = ज़्यादा वज़न
+class_obese = मोटापा
+class_excellent = उत्कृष्ट
+class_optimal = उत्तम
+class_younger = उम्र से कम
+class_older_than_age = आपकी उम्र से ज़्यादा
+class_in_range = सीमा में
+class_out_of_range = सीमा से बाहर
+
+# Body types
+body_type = शरीर का प्रकार
+body_type_obese = मोटापा
+body_type_overweight = ज़्यादा वज़न
+body_type_solid = मज़बूत कद-काठी
+body_type_lack_exercise = व्यायाम की कमी
+body_type_balanced = संतुलित
+body_type_balanced_muscular = संतुलित मांसल
+body_type_skinny = दुबला
+body_type_balanced_skinny = संतुलित दुबला
+body_type_skinny_muscular = दुबला मांसल
+
+# Health Connect rationale (shown by Health Connect)
+health_rationale_title = स्वास्थ्य डेटा की निजता
+health_rationale_intro = GlobalFitness, Health Connect का इस्तेमाल दो कामों के लिए करता है:
+health_rationale_read = • आपके बैंड या घड़ी का डेटा पढ़ना (उदाहरण के लिए, Mi Fitness के ज़रिए Xiaomi Smart Band): कदम, दूरी, कैलोरी, हृदय गति, आराम की हृदय गति, हृदय गति परिवर्तनशीलता, नींद, रक्त ऑक्सीजन, श्वसन दर और वर्कआउट। यह दूसरे ऐप में दर्ज किया गया वज़न और शरीर में वसा भी पढ़ता है। पुराने डेटा की अनुमति मिलने पर यह एक साल तक का डेटा इंपोर्ट करता है।
+health_rationale_write = • आपके स्केल के माप लिखना: वज़न, शरीर में वसा, हड्डी द्रव्यमान, वसा रहित द्रव्यमान, बेसल मेटाबॉलिक रेट और शरीर में पानी। अगर आप ऐप में कोई माप मिटाते हैं, तो वह Health Connect से भी मिट जाता है।
+health_rationale_storage = Health Connect से पढ़ा गया डेटा सिर्फ़ इसी फ़ोन पर सेव रहता है: इसे वैकल्पिक क्लाउड बैकअप पर अपलोड नहीं किया जाता, विज्ञापन के लिए इस्तेमाल नहीं किया जाता और किसी के साथ शेयर नहीं किया जाता। ऐप इसका इस्तेमाल सिर्फ़ आपको सारांश और चार्ट दिखाने के लिए करता है।
+health_rationale_revoke = आप Health Connect में कभी भी कोई भी अनुमति वापस ले सकते हैं; ऐप उस तरह का डेटा पढ़ना बंद कर देता है और अगले सिंक में उसकी लोकल कॉपी मिटा देता है।
+health_rationale_full_policy = पूरी निजता नीति

@@ -1,0 +1,83 @@
+# Band (experimental direct mode). Its diagnostics log stays in English on purpose.
+band_test_notification_body = Thông báo kiểm tra từ chế độ trực tiếp của GlobalFitness
+band_failure_no_bluetooth = Điện thoại này không có Bluetooth.
+band_failure_bluetooth_off = Bluetooth đang tắt. Hãy bật rồi thử lại.
+band_test_notification_sent = Đã gửi thông báo kiểm tra
+band_key_error_empty = Hãy nhập khóa xác thực.
+band_key_error_not_hex = Khóa chỉ được chứa chữ số thập lục phân (0–9 và a–f), có thể kèm tiền tố 0x.
+band_key_error_length = Khóa phải có %1$s ký tự thập lục phân (hiện có %2$s).
+band_key_save_failed = Không thể lưu khóa trên điện thoại.
+band_key_title = Khóa xác thực
+band_actions = Thao tác
+band_forwarding_title = Chuyển tiếp thông báo
+band_battery = Pin
+band_battery_charging = %1$s · đang sạc
+band_worn = Đang đeo trên cổ tay
+band_model = Mẫu
+band_firmware = Firmware
+band_serial = Số sê-ri
+band_time_synced_at = Giờ đã đồng bộ hóa
+band_disconnect = Ngắt kết nối
+band_refresh_battery = Làm mới pin
+band_stop_find = Dừng tìm
+band_sync_time = Đồng bộ hóa giờ
+band_test_notification = Thông báo kiểm tra
+band_sync_time_on_connect = Đồng bộ hóa giờ khi kết nối
+band_live_heart_rate = Nhịp tim thời gian thực
+band_alarms_title = Báo thức
+band_save_alarm = Lưu báo thức
+band_delete_alarm = Xóa báo thức
+band_steps_today = Số bước hôm nay
+band_calories = Calo
+band_standing_hours = Giờ đứng
+band_live_storage_text = Các số đo được lưu trên điện thoại (band.db) để có thể kết hợp sau này. Khi nhịp tim thời gian thực đang bật và bạn đang ở màn hình này, kết nối sẽ không bị đóng do không hoạt động.
+band_diagnostics = Chẩn đoán
+band_log_hide = Ẩn
+band_log_show = Hiện (%1$s)
+band_log_text = Nhật ký kết nối (bằng tiếng Anh, dùng để báo lỗi). Nhật ký không bao giờ chứa khóa xác thực.
+band_log_empty = Chưa có mục nào.
+band_log_clear = Xóa nhật ký
+band_live_chart_desc{other} = Nhịp tim thời gian thực: %1$d lần đo, từ %2$s đến %3$s
+
+# Band key and device picker
+band_key_saved = Khóa đã được lưu trên điện thoại (đã ẩn).
+band_key_change = Đổi
+band_key_show = Hiện
+band_key_save = Lưu khóa
+
+# Band key help
+band_help_important_storage = Ứng dụng này chỉ lưu khóa trong bộ nhớ riêng, nằm ngoài các bản sao lưu, và không bao giờ hiển thị khóa trong phần chẩn đoán.
+band_help_how_text = Đây là các phương pháp được dự án Gadgetbridge ghi lại. Ứng dụng không trích xuất khóa giúp bạn.
+band_help_how_logs = Nhật ký của Mi Fitness (không cần root): Mi Fitness (trước đây là Xiaomi Wear, gói com.xiaomi.wearable) ghi các tệp nhật ký vào bộ nhớ điện thoại, trong Android/data/com.xiaomi.wearable/files/log/ (với biến thể Mi Health: Android/data/com.mi.health/files/log/). Hãy tìm trong đó (ví dụ trong XiaomiFit.device.log) các trường “encryptKey”, “authKey”, “token” hoặc “huamiAuthKey” theo sau là 32 ký tự thập lục phân. Nếu có nhiều giá trị, hãy thử giá trị gần cuối tệp nhất trước. Trên Android 11 trở lên, các thư mục này thường chỉ truy cập được khi kết nối điện thoại với máy tính (MTP hoặc adb).
+band_help_how_root = Điện thoại đã root: hãy đóng Mi Fitness và xem cơ sở dữ liệu “device_db” của ứng dụng; khóa nằm trong thuộc tính “auth_key” hoặc “encrypt_key” của JSON “detail”.
+band_help_link_server = Gadgetbridge: lấy khóa (máy chủ Huami/Xiaomi)
+
+# Band alarms
+alarm_once = Một lần
+alarm_daily = Hằng ngày
+alarm_weekdays = Thứ Hai đến thứ Sáu
+alarm_weekends = Cuối tuần
+alarm_band_repeat = Lặp lại được đặt trên vòng đeo tay
+alarm_saved_on_band = Báo thức đã lưu trên vòng đeo tay
+alarm_count_of_max{other} = %1$d/%2$d báo thức
+alarm_count{other} = %1$d báo thức
+alarm_none = Vòng đeo tay không có báo thức nào.
+alarm_new = Báo thức mới
+alarm_edit = Sửa báo thức
+alarm_reload = Đọc lại
+alarm_sync_text = Các thay đổi được gửi đến vòng đeo tay và danh sách được đọc lại từ vòng, nên bạn thấy đúng những gì vòng thực sự đã lưu.
+alarm_repeat_smart = %1$s · thông minh
+alarm_edit_at = Sửa báo thức lúc %1$s
+alarm_delete_at = Xóa báo thức lúc %1$s
+alarm_repeat = Lặp lại
+alarm_smart = Báo thức thông minh
+alarm_smart_text = Vòng đeo tay có thể đánh thức bạn sớm hơn một chút, khi bạn đang ngủ nông.
+
+# Notification forwarding
+forwarding_switch = Chuyển tiếp thông báo của điện thoại
+forwarding_text = Chỉ khi vòng đeo tay đang kết nối ở chế độ trực tiếp và chỉ từ các ứng dụng bạn đã chọn. Vào những lúc khác, Mi Fitness sẽ gửi thông báo. Nội dung không bao giờ được lưu.
+forwarding_access_needed = Cần quyền truy cập thông báo của Android để đọc các thông báo.
+forwarding_grant_access = Cấp quyền truy cập thông báo
+forwarding_active_pending = Đã bật: thông báo sẽ được chuyển tiếp khi bạn kết nối vòng đeo tay.
+forwarding_apps = Ứng dụng
+forwarding_apps_empty = Các ứng dụng sẽ xuất hiện tại đây khi chúng đăng thông báo.

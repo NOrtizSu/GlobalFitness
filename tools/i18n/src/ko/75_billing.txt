@@ -1,0 +1,26 @@
+# Remove ads (Google Play Billing)
+remove_ads_headline = 광고 없는 GlobalFitness
+remove_ads_benefit_no_ads = 배너 광고와 전체 화면 광고가 표시되지 않습니다.
+remove_ads_benefit_one_time = 1회 결제: 구독이 아닙니다.
+remove_ads_benefit_restore = 같은 Google Play 계정을 사용하는 다른 휴대전화에서도 복원됩니다.
+remove_ads_benefit_support = 앱 유지 관리와 개선에 도움이 됩니다.
+remove_ads_owned = 구매 활성화됨: 광고가 표시되지 않습니다. 응원해 주셔서 감사합니다!
+remove_ads_buy = 구매
+remove_ads_buy_price = %1$s에 구매
+remove_ads_restore = 구매 복원
+remove_ads_simulate = 프리미엄 시뮬레이션
+remove_ads_simulate_text = 디버그 빌드 전용: 구매하지 않고 광고를 숨깁니다.
+remove_ads_loading_price = Google Play에서 가격을 확인하는 중…
+billing_open_failed = Google Play 구매 화면을 열 수 없습니다. 다시 시도하세요.
+billing_thanks = 응원해 주셔서 감사합니다! 이제 광고가 표시되지 않습니다.
+billing_already_owned_restoring = 이미 ‘광고 제거’를 구매했습니다. 구매를 복원하는 중…
+billing_restored = 구매를 복원했습니다. 광고가 표시되지 않습니다.
+billing_nothing_to_restore = 이 Google Play 계정에 ‘광고 제거’ 구매 내역이 없습니다.
+billing_unavailable = 지금은 Google Play에서 ‘광고 제거’를 사용할 수 없습니다.
+billing_pending = 결제 대기 중입니다. Google Play에서 결제가 확인되면 바로 광고가 사라집니다.
+billing_error_not_allowed = Google Play에서 이 기기 또는 이 계정으로 구매할 수 없습니다.
+billing_error_connection = Google Play에 연결할 수 없습니다. 연결을 확인하고 다시 시도하세요.
+billing_error_install_from_play = Google Play에서 구매를 거부했습니다. 구매하려면 Google Play에서 앱을 설치하세요.
+billing_error_not_supported = 사용 중인 Google Play 버전에서는 이 구매를 지원하지 않습니다.
+billing_error_already_owned = 이미 ‘광고 제거’를 구매했습니다.
+billing_error_code = Google Play 오류(%1$d). 다시 시도하세요.

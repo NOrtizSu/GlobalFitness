@@ -1,0 +1,21 @@
+# Snackbar messages
+msg_measurement_saved = 測定データを保存しました
+msg_impedance_added = 測定データにインピーダンスを追加しました
+msg_profile_create_failed = プロフィールを作成できませんでした
+msg_profile_save_failed = プロフィールを保存できませんでした
+msg_profile_updated = プロフィールを更新しました
+msg_measurement_delete_failed = 測定データを削除できませんでした
+msg_measurement_deleted = 測定データを削除しました
+msg_measurement_save_failed = 測定データを保存できませんでした
+msg_weight_added = 体重を追加しました
+msg_file_open_failed = ファイルを開けませんでした
+msg_csv_export_failed = エクスポートに失敗しました
+msg_csv_import_failed = インポートに失敗しました
+msg_csv_exported{other} = %1$d 件の測定データをエクスポートしました
+msg_csv_no_rows = CSV に有効な測定データが見つかりませんでした
+msg_csv_imported{other} = %1$d 件の測定データをインポートしました
+msg_csv_duplicates{other} = 重複 %1$d 件をスキップ
+msg_csv_invalid_rows{other} = 無効な行 %1$d 件
+msg_csv_other_profiles{other} = 他のユーザーの %1$d 件をスキップ
+msg_csv_profile_created = プロフィールを作成
+ads_privacy_options_failed = プライバシー設定を開けませんでした：%1$s

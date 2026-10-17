@@ -1,0 +1,26 @@
+# Snackbar messages
+msg_measurement_saved = माप सेव किया गया
+msg_impedance_added = माप में इम्पीडेंस जोड़ा गया
+msg_profile_create_failed = प्रोफ़ाइल नहीं बनाई जा सकी
+msg_profile_save_failed = प्रोफ़ाइल सेव नहीं की जा सकी
+msg_profile_updated = प्रोफ़ाइल अपडेट की गई
+msg_measurement_delete_failed = माप नहीं मिटाया जा सका
+msg_measurement_deleted = माप मिटाया गया
+msg_measurement_save_failed = माप सेव नहीं किया जा सका
+msg_weight_added = वज़न जोड़ा गया
+msg_file_open_failed = फ़ाइल नहीं खोली जा सकी
+msg_csv_export_failed = एक्सपोर्ट नहीं हो सका
+msg_csv_import_failed = इंपोर्ट नहीं हो सका
+msg_csv_exported{one} = %1$d माप एक्सपोर्ट किया गया
+msg_csv_exported{other} = %1$d माप एक्सपोर्ट किए गए
+msg_csv_no_rows = CSV में कोई मान्य माप नहीं मिला
+msg_csv_imported{one} = %1$d माप इंपोर्ट किया गया
+msg_csv_imported{other} = %1$d माप इंपोर्ट किए गए
+msg_csv_duplicates{one} = %1$d डुप्लिकेट छोड़ा गया
+msg_csv_duplicates{other} = %1$d डुप्लिकेट छोड़े गए
+msg_csv_invalid_rows{one} = %1$d अमान्य पंक्ति
+msg_csv_invalid_rows{other} = %1$d अमान्य पंक्तियां
+msg_csv_other_profiles{one} = दूसरे लोगों का %1$d माप छोड़ा गया
+msg_csv_other_profiles{other} = दूसरे लोगों के %1$d माप छोड़े गए
+msg_csv_profile_created = प्रोफ़ाइल बनाई गई
+ads_privacy_options_failed = निजता के विकल्प नहीं खोले जा सके: %1$s

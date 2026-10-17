@@ -1,0 +1,55 @@
+# Body
+range_1m = 1A
+range_3m = 3A
+range_6m = 6A
+range_1y = 1Y
+range_all = Tümü
+body_empty_text = Uygulama açıkken tartıya çıplak ayakla çıkın veya aşağıdaki düğmeyle kilonuzu elle ekleyin. Kilonuzun ve vücut kompozisyonunuzun zaman içindeki değişimini burada göreceksiniz.
+body_period_summary = Dönem özeti
+body_stat_current = Güncel
+body_stat_change = Değişim
+body_stat_min = Min
+body_stat_max = Maks
+body_stat_average = Ortalama
+body_stat_rate = Hız
+body_rate_value = %1$s/hafta
+body_stat_projection = Hedef tahmini
+body_projection_no_goal = Hedef yok
+body_projection_reached = Ulaşıldı
+body_projection_no_trend = Trend yok
+body_projection_eta = ~ %1$s
+body_rate_hint = Hız için son 28 gün içinde en az 7 güne yayılan en az 3 ölçüm gerekir.
+body_history = Geçmiş
+body_normal_range = Normal aralık
+body_normal_range_bmi = Normal aralık (VKİ %1$s–%2$s)
+body_goal_line = Hedef %1$s
+body_chart_title_unit = %1$s (%2$s)
+body_chart_needs_composition = Bu değer için vücut kompozisyonu gerekir. Tartıya çıplak ayakla ve ayaklarınız kuruyken çıkın.
+body_chart_no_measurements = Henüz ölçüm yok.
+body_chart_none_in_period = Bu dönemde ölçüm yok. Daha uzun bir dönem deneyin.
+body_chart_single = Bu dönemde yalnızca bir ölçüm var (%1$s, %2$s). Trendi çizmek için en az 2 ölçüm gerekir.
+body_current_composition = Güncel kompozisyon
+body_row_fat = Yağ %1$s
+body_row_no_composition = Kompozisyon yok
+source_manual = Manuel
+source_scale = Tartı
+comp_source_device = Kompozisyon tartı tarafından ölçüldü
+comp_source_formula = Kompozisyon hesaplandı (%1$s formülü)
+comp_fat = Yağ
+metric_impedance = Empedans
+
+# Charts
+chart_trend_desc{one} = %1$s grafiği, %2$d ölçüm, %3$s ile %4$s arası
+chart_trend_desc{other} = %1$s grafiği, %2$d ölçüm, %3$s ile %4$s arası
+chart_avg_7d_value = 7 günlük ortalama: %1$s
+chart_legend_measurements = Ölçümler
+chart_legend_avg_7d = 7 günlük ortalama
+chart_composition_desc = Kompozisyon: %1$s
+chart_composition_item = %1$s %2$s
+
+# Measurement dialogs
+manual_weight_only = Yalnızca kilo: vücut kompozisyonu için tartı gerekir.
+manual_weight_range = %1$s ile %2$s arasında bir kilo girin
+manual_date_future = Tarih gelecekte olamaz.
+delete_measurement_title = Ölçüm silinsin mi?
+delete_measurement_text = %2$s tarihli %1$s ölçümü silinecek. Bu işlem geri alınamaz.

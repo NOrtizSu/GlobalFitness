@@ -1,0 +1,55 @@
+# Body
+range_1m = 1M
+range_3m = 3M
+range_6m = 6M
+range_1y = 1J
+range_all = Alle
+body_empty_text = Stell dich bei geöffneter App barfuß auf die Waage oder trag dein Gewicht über die Schaltfläche unten manuell ein. Hier siehst du, wie sich dein Gewicht und deine Körperzusammensetzung im Lauf der Zeit verändern.
+body_period_summary = Zeitraum im Überblick
+body_stat_current = Aktuell
+body_stat_change = Änderung
+body_stat_min = Min.
+body_stat_max = Max.
+body_stat_average = Durchschnitt
+body_stat_rate = Tempo
+body_rate_value = %1$s/Woche
+body_stat_projection = Zielprognose
+body_projection_no_goal = Kein Ziel
+body_projection_reached = Erreicht
+body_projection_no_trend = Kein Trend
+body_projection_eta = ~ %1$s
+body_rate_hint = Für das Tempo sind mindestens 3 Messungen nötig, die innerhalb der letzten 28 Tage einen Zeitraum von 7 Tagen abdecken.
+body_history = Verlauf
+body_normal_range = Normalbereich
+body_normal_range_bmi = Normalbereich (BMI %1$s–%2$s)
+body_goal_line = Ziel %1$s
+body_chart_title_unit = %1$s (%2$s)
+body_chart_needs_composition = Dieser Wert erfordert die Körperzusammensetzung. Stell dich barfuß und mit trockenen Füßen auf die Waage.
+body_chart_no_measurements = Noch keine Messungen.
+body_chart_none_in_period = Keine Messungen in diesem Zeitraum. Probiere einen längeren Zeitraum.
+body_chart_single = Nur eine Messung in diesem Zeitraum (%1$s, %2$s). Für den Trend sind mindestens 2 nötig.
+body_current_composition = Aktuelle Zusammensetzung
+body_row_fat = Fett %1$s
+body_row_no_composition = Keine Zusammensetzung
+source_manual = Manuell
+source_scale = Waage
+comp_source_device = Zusammensetzung von der Waage gemessen
+comp_source_formula = Zusammensetzung berechnet (Formel %1$s)
+comp_fat = Fett
+metric_impedance = Impedanz
+
+# Charts
+chart_trend_desc{one} = Diagramm für %1$s mit %2$d Messung, von %3$s bis %4$s
+chart_trend_desc{other} = Diagramm für %1$s mit %2$d Messungen, von %3$s bis %4$s
+chart_avg_7d_value = 7-Tage-Durchschnitt: %1$s
+chart_legend_measurements = Messungen
+chart_legend_avg_7d = 7-Tage-Durchschnitt
+chart_composition_desc = Zusammensetzung: %1$s
+chart_composition_item = %1$s %2$s
+
+# Measurement dialogs
+manual_weight_only = Nur Gewicht: Für die Körperzusammensetzung ist die Waage nötig.
+manual_weight_range = Gib ein Gewicht zwischen %1$s und %2$s ein
+manual_date_future = Das Datum darf nicht in der Zukunft liegen.
+delete_measurement_title = Messung löschen?
+delete_measurement_text = Die Messung mit %1$s vom %2$s wird gelöscht. Das kann nicht rückgängig gemacht werden.

@@ -1,0 +1,26 @@
+# Snackbar messages
+msg_measurement_saved = Messung gespeichert
+msg_impedance_added = Impedanz zur Messung hinzugefügt
+msg_profile_create_failed = Profil konnte nicht erstellt werden
+msg_profile_save_failed = Profil konnte nicht gespeichert werden
+msg_profile_updated = Profil aktualisiert
+msg_measurement_delete_failed = Messung konnte nicht gelöscht werden
+msg_measurement_deleted = Messung gelöscht
+msg_measurement_save_failed = Messung konnte nicht gespeichert werden
+msg_weight_added = Gewicht hinzugefügt
+msg_file_open_failed = Datei konnte nicht geöffnet werden
+msg_csv_export_failed = Export fehlgeschlagen
+msg_csv_import_failed = Import fehlgeschlagen
+msg_csv_exported{one} = %1$d Messung exportiert
+msg_csv_exported{other} = %1$d Messungen exportiert
+msg_csv_no_rows = Keine gültigen Messungen in der CSV-Datei gefunden
+msg_csv_imported{one} = %1$d Messung importiert
+msg_csv_imported{other} = %1$d Messungen importiert
+msg_csv_duplicates{one} = %1$d Duplikat übersprungen
+msg_csv_duplicates{other} = %1$d Duplikate übersprungen
+msg_csv_invalid_rows{one} = %1$d ungültige Zeile
+msg_csv_invalid_rows{other} = %1$d ungültige Zeilen
+msg_csv_other_profiles{one} = %1$d von anderen Personen übersprungen
+msg_csv_other_profiles{other} = %1$d von anderen Personen übersprungen
+msg_csv_profile_created = Profil erstellt
+ads_privacy_options_failed = Die Datenschutzoptionen konnten nicht geöffnet werden: %1$s

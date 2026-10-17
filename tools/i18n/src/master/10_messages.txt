@@ -1,0 +1,26 @@
+# Snackbar messages
+msg_measurement_saved = Measurement saved ||| Medición guardada
+msg_impedance_added = Impedance added to the measurement ||| Impedancia añadida a la medición
+msg_profile_create_failed = Could not create the profile ||| No se pudo crear el perfil
+msg_profile_save_failed = Could not save the profile ||| No se pudo guardar el perfil
+msg_profile_updated = Profile updated ||| Perfil actualizado
+msg_measurement_delete_failed = Could not delete the measurement ||| No se pudo eliminar la medición
+msg_measurement_deleted = Measurement deleted ||| Medición eliminada
+msg_measurement_save_failed = Could not save the measurement ||| No se pudo guardar la medición
+msg_weight_added = Weight added ||| Peso añadido
+msg_file_open_failed = Could not open the file ||| No se pudo abrir el archivo
+msg_csv_export_failed = Export failed ||| Error al exportar
+msg_csv_import_failed = Import failed ||| Error al importar
+msg_csv_exported{one} = Exported %1$d measurement ||| Exportada %1$d medición
+msg_csv_exported{other} = Exported %1$d measurements ||| Exportadas %1$d mediciones
+msg_csv_no_rows = No valid measurements found in the CSV ||| No se encontraron mediciones válidas en el CSV
+msg_csv_imported{one} = %1$d measurement imported ||| %1$d medición importada
+msg_csv_imported{other} = %1$d measurements imported ||| %1$d mediciones importadas
+msg_csv_duplicates{one} = %1$d duplicate skipped ||| %1$d duplicada omitida
+msg_csv_duplicates{other} = %1$d duplicates skipped ||| %1$d duplicadas omitidas
+msg_csv_invalid_rows{one} = %1$d invalid row ||| %1$d fila no válida
+msg_csv_invalid_rows{other} = %1$d invalid rows ||| %1$d filas no válidas
+msg_csv_other_profiles{one} = %1$d from other people skipped ||| %1$d de otras personas omitida
+msg_csv_other_profiles{other} = %1$d from other people skipped ||| %1$d de otras personas omitidas
+msg_csv_profile_created = profile created ||| perfil creado
+ads_privacy_options_failed = Could not open the privacy options: %1$s ||| No se pudieron abrir las opciones de privacidad: %1$s

@@ -1,0 +1,26 @@
+# Snackbar messages
+msg_measurement_saved = Ölçüm kaydedildi
+msg_impedance_added = Empedans ölçüme eklendi
+msg_profile_create_failed = Profil oluşturulamadı
+msg_profile_save_failed = Profil kaydedilemedi
+msg_profile_updated = Profil güncellendi
+msg_measurement_delete_failed = Ölçüm silinemedi
+msg_measurement_deleted = Ölçüm silindi
+msg_measurement_save_failed = Ölçüm kaydedilemedi
+msg_weight_added = Kilo eklendi
+msg_file_open_failed = Dosya açılamadı
+msg_csv_export_failed = Dışa aktarma başarısız oldu
+msg_csv_import_failed = İçe aktarma başarısız oldu
+msg_csv_exported{one} = %1$d ölçüm dışa aktarıldı
+msg_csv_exported{other} = %1$d ölçüm dışa aktarıldı
+msg_csv_no_rows = CSV dosyasında geçerli ölçüm bulunamadı
+msg_csv_imported{one} = %1$d ölçüm içe aktarıldı
+msg_csv_imported{other} = %1$d ölçüm içe aktarıldı
+msg_csv_duplicates{one} = %1$d yinelenen ölçüm atlandı
+msg_csv_duplicates{other} = %1$d yinelenen ölçüm atlandı
+msg_csv_invalid_rows{one} = %1$d geçersiz satır
+msg_csv_invalid_rows{other} = %1$d geçersiz satır
+msg_csv_other_profiles{one} = Diğer kişilere ait %1$d ölçüm atlandı
+msg_csv_other_profiles{other} = Diğer kişilere ait %1$d ölçüm atlandı
+msg_csv_profile_created = profil oluşturuldu
+ads_privacy_options_failed = Reklam gizlilik seçenekleri açılamadı: %1$s

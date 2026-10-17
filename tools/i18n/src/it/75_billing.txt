@@ -1,0 +1,26 @@
+# Remove ads (Google Play Billing)
+remove_ads_headline = GlobalFitness senza annunci
+remove_ads_benefit_no_ads = Nessun banner né annuncio a schermo intero.
+remove_ads_benefit_one_time = Pagamento unico: nessun abbonamento.
+remove_ads_benefit_restore = Viene ripristinato sugli altri tuoi telefoni con lo stesso account Google Play.
+remove_ads_benefit_support = Aiuti a mantenere e migliorare l'app.
+remove_ads_owned = Acquisto attivo: non vedrai annunci. Grazie per il tuo supporto!
+remove_ads_buy = Acquista
+remove_ads_buy_price = Acquista a %1$s
+remove_ads_restore = Ripristina acquisti
+remove_ads_simulate = Simula premium
+remove_ads_simulate_text = Solo nelle build di debug: nasconde gli annunci senza acquistare.
+remove_ads_loading_price = Verifica del prezzo su Google Play…
+billing_open_failed = Impossibile aprire l'acquisto di Google Play. Riprova.
+billing_thanks = Grazie per il tuo supporto! Non vedrai più annunci.
+billing_already_owned_restoring = Avevi già acquistato “Rimuovi annunci”. Ripristino dell'acquisto…
+billing_restored = Acquisto ripristinato: non vedrai annunci.
+billing_nothing_to_restore = Non c'è nessun acquisto “Rimuovi annunci” in questo account Google Play.
+billing_unavailable = “Rimuovi annunci” non è disponibile su Google Play al momento.
+billing_pending = Pagamento in sospeso. Gli annunci scompariranno non appena Google Play confermerà il pagamento.
+billing_error_not_allowed = Google Play non consente acquisti su questo dispositivo o con questo account.
+billing_error_connection = Impossibile connettersi a Google Play. Controlla la connessione e riprova.
+billing_error_install_from_play = Google Play ha rifiutato l'acquisto. Installa l'app da Google Play per poter acquistare.
+billing_error_not_supported = La tua versione di Google Play non supporta questo acquisto.
+billing_error_already_owned = Hai già “Rimuovi annunci”.
+billing_error_code = Errore di Google Play (%1$d). Riprova.

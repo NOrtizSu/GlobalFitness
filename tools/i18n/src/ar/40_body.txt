@@ -1,0 +1,59 @@
+# Body
+range_1m = 1M
+range_3m = 3M
+range_6m = 6M
+range_1y = 1Y
+range_all = الكل
+body_empty_text = اصعد على الميزان حافي القدمين والتطبيق مفتوح، أو أضف وزنك يدويًا بالزر أدناه. ستشاهد هنا كيف يتغير وزنك وتكوين جسمك مع الوقت.
+body_period_summary = ملخص الفترة
+body_stat_current = الحالي
+body_stat_change = التغيّر
+body_stat_min = الأدنى
+body_stat_max = الأقصى
+body_stat_average = المتوسط
+body_stat_rate = الوتيرة
+body_rate_value = %1$s/أسبوع
+body_stat_projection = توقع الهدف
+body_projection_no_goal = بلا هدف
+body_projection_reached = تحقق
+body_projection_no_trend = بلا اتجاه
+body_projection_eta = ~ %1$s
+body_rate_hint = تحتاج الوتيرة إلى 3 قياسات على الأقل تغطي 7 أيام ضمن آخر 28 يومًا.
+body_history = السجل
+body_normal_range = النطاق الطبيعي
+body_normal_range_bmi = النطاق الطبيعي (مؤشر كتلة الجسم %1$s–%2$s)
+body_goal_line = الهدف %1$s
+body_chart_title_unit = %1$s (%2$s)
+body_chart_needs_composition = يحتاج هذا المقياس إلى تكوين الجسم. اصعد على الميزان حافي القدمين وقدماك جافتان.
+body_chart_no_measurements = لا توجد قياسات بعد.
+body_chart_none_in_period = لا توجد قياسات في هذه الفترة. جرّب فترة أطول.
+body_chart_single = يوجد قياس واحد فقط في هذه الفترة (%1$s، %2$s). يلزم قياسان على الأقل لرسم الاتجاه.
+body_current_composition = تكوين الجسم الحالي
+body_row_fat = الدهون %1$s
+body_row_no_composition = لا يوجد تكوين للجسم
+source_manual = يدوي
+source_scale = الميزان
+comp_source_device = تكوين الجسم مقيس بواسطة الميزان
+comp_source_formula = تكوين الجسم محسوب (صيغة %1$s)
+comp_fat = الدهون
+metric_impedance = المعاوقة
+
+# Charts
+chart_trend_desc{zero} = رسم %1$s البياني: بلا قياسات، من %3$s إلى %4$s
+chart_trend_desc{one} = رسم %1$s البياني: قياس واحد، من %3$s إلى %4$s
+chart_trend_desc{two} = رسم %1$s البياني: قياسان، من %3$s إلى %4$s
+chart_trend_desc{few} = رسم %1$s البياني: %2$d قياسات، من %3$s إلى %4$s
+chart_trend_desc{many} = رسم %1$s البياني: %2$d قياسًا، من %3$s إلى %4$s
+chart_trend_desc{other} = رسم %1$s البياني: %2$d قياس، من %3$s إلى %4$s
+chart_avg_7d_value = متوسط 7 أيام: %1$s
+chart_legend_measurements = القياسات
+chart_legend_avg_7d = متوسط 7 أيام
+chart_composition_desc = تكوين الجسم: %1$s
+chart_composition_item = %1$s %2$s
+
+# Measurement dialogs
+manual_weight_only = الوزن فقط: يحتاج تكوين الجسم إلى الميزان.
+manual_weight_range = أدخل وزنًا بين %1$s و%2$s
+manual_date_future = لا يمكن أن يكون التاريخ في المستقبل.
+delete_measurement_title = حذف القياس؟
+delete_measurement_text = سيتم حذف قياس %1$s المسجّل في %2$s. لا يمكن التراجع عن هذا الإجراء.

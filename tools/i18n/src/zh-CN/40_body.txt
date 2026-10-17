@@ -1,0 +1,54 @@
+# Body
+range_1m = 1 个月
+range_3m = 3 个月
+range_6m = 6 个月
+range_1y = 1 年
+range_all = 全部
+body_empty_text = 打开应用，赤脚站上体重秤，或使用下方按钮手动添加体重。你可以在这里查看体重和身体成分随时间的变化。
+body_period_summary = 时段概览
+body_stat_current = 当前
+body_stat_change = 变化
+body_stat_min = 最低
+body_stat_max = 最高
+body_stat_average = 平均
+body_stat_rate = 速率
+body_rate_value = %1$s/周
+body_stat_projection = 目标预测
+body_projection_no_goal = 未设目标
+body_projection_reached = 已达成
+body_projection_no_trend = 无趋势
+body_projection_eta = 约 %1$s
+body_rate_hint = 计算速率需要最近 28 天内至少 3 次测量，且时间跨度至少 7 天。
+body_history = 历史记录
+body_normal_range = 正常范围
+body_normal_range_bmi = 正常范围（BMI %1$s–%2$s）
+body_goal_line = 目标 %1$s
+body_chart_title_unit = %1$s（%2$s）
+body_chart_needs_composition = 此指标需要身体成分数据。请赤脚并保持双脚干燥，再站上体重秤。
+body_chart_no_measurements = 暂无测量记录。
+body_chart_none_in_period = 此时段内没有测量记录。请尝试更长的时段。
+body_chart_single = 此时段内只有一条测量记录（%1$s，%2$s）。至少需要 2 条才能绘制趋势。
+body_current_composition = 当前身体成分
+body_row_fat = 体脂率 %1$s
+body_row_no_composition = 无身体成分
+source_manual = 手动
+source_scale = 体重秤
+comp_source_device = 身体成分由体重秤测量
+comp_source_formula = 身体成分为计算值（%1$s 公式）
+comp_fat = 脂肪
+metric_impedance = 阻抗
+
+# Charts
+chart_trend_desc{other} = %1$s 图表，共 %2$d 条测量记录，从 %3$s 到 %4$s
+chart_avg_7d_value = 7 天平均：%1$s
+chart_legend_measurements = 测量记录
+chart_legend_avg_7d = 7 天平均
+chart_composition_desc = 身体成分：%1$s
+chart_composition_item = %1$s %2$s
+
+# Measurement dialogs
+manual_weight_only = 仅记录体重：身体成分需要使用体重秤测量。
+manual_weight_range = 请输入 %1$s 至 %2$s 之间的体重
+manual_date_future = 日期不能晚于当前时间。
+delete_measurement_title = 要删除这条测量记录吗？
+delete_measurement_text = 将删除 %2$s 的 %1$s 测量记录。此操作无法撤消。

@@ -1,0 +1,113 @@
+# Devices → Bands & watches (any supported family; the diagnostics log stays in English on purpose)
+devices_wearables = Gelang dan jam tangan
+wearables_none = Belum ada gelang atau jam tangan yang disiapkan. Dekatkan perangkat Anda atau tambahkan dari katalog.
+wearables_add_from_catalog = Tambahkan dari katalog
+wearables_detected = Terdeteksi dan tersambung
+wearables_detected_none = Belum ada yang dikenali. Perangkat yang disambungkan dengan ponsel ini muncul di sini setelah izin perangkat di sekitar diberikan; perangkat lain muncul saat menyala dan berada di dekat ponsel.
+wearables_paired = tersambung
+wearables_use_this = Siapkan
+wearables_already_set_up = Sudah disiapkan
+wearables_open = Buka
+wearables_remove_text = Kunci dan setelannya dihapus dari ponsel; detak jantung yang tercatat tetap disimpan. Perangkat ini tidak akan disarankan lagi.
+wearables_removed = Dihapus: %1$s
+wearables_added = Ditambahkan: %1$s
+wearables_suggestion_title = Apakah ini gelang atau jam tangan Anda?
+wearables_suggestion_text = Aplikasi hanya terhubung ke perangkat ini saat Anda membukanya dalam mode langsung. Konfirmasi hanya jika perangkat ini milik Anda.
+wearables_suggestion_text_key = Aplikasi hanya terhubung ke perangkat ini saat Anda membukanya dalam mode langsung, dan memerlukan kunci autentikasi dari aplikasinya. Konfirmasi hanya jika perangkat ini milik Anda.
+wearables_suggestion_yes = Ya, siapkan
+wearables_catalog_title = Katalog gelang dan jam tangan
+wearables_needs_key = kunci dari %1$s
+wearables_no_key_needed = tanpa kunci
+wearables_bind_question = Perangkat yang mana?
+wearables_bind_none = Tidak ada perangkat terdeteksi atau tersambung yang tampak seperti model ini. Nyalakan perangkat, dekatkan, dan pastikan aplikasinya telah menyambungkannya dengan ponsel ini.
+wearables_bind_others = Perangkat lain yang terdeteksi
+chip_wearable = %1$s: %2$s
+
+# Wearable status
+wearable_status_not_connected = Tidak terhubung
+wearable_status_connected = Terhubung
+wearable_status_unknown_model = Model tidak didukung oleh versi ini
+wearable_connected_protocol = Terhubung (%1$s)
+
+# Wearable screen
+wearable_intro = Aplikasi berkomunikasi langsung dengan perangkat melalui Bluetooth (seperti Gadgetbridge), tanpa %1$s. Sebagian besar perangkat hanya menerima satu koneksi, jadi aplikasi hanya terhubung saat Anda mengetuk “Hubungkan” dan memutuskan koneksi setelah 2 menit tidak digunakan atau saat Anda keluar dari layar ini, agar %1$s dapat menyinkronkan lagi.
+wearable_intro_plain = Aplikasi berkomunikasi langsung dengan perangkat melalui Bluetooth (seperti Gadgetbridge). Aplikasi hanya terhubung saat Anda mengetuk “Hubungkan” dan memutuskan koneksi setelah 2 menit tidak digunakan atau saat Anda keluar dari layar ini.
+wearable_experimental = Eksperimental: belum diuji dengan perangkat asli model ini.
+wearable_doc_link = Catatan Gadgetbridge tentang perangkat ini
+wearable_permission_text = Untuk terhubung ke perangkat, diperlukan izin perangkat di sekitar.
+wearable_transport_ble = Bluetooth LE
+wearable_transport_classic = Bluetooth Klasik
+wearable_transport_uart = Bluetooth LE (UART)
+wearable_hardware = Perangkat keras
+wearable_vendor_settings = Setelan %1$s
+wearable_cannot_connect_hint = Simpan kunci autentikasi agar dapat terhubung.
+wearable_released = Perangkat kini tersedia lagi. Jika Anda menghentikan %1$s, buka lagi aplikasi tersebut agar tetap menyinkronkan.
+wearable_find = Temukan perangkat
+wearable_finding_text = Perangkat sedang berbunyi atau bergetar. Hentikan di perangkat atau ketuk “%1$s”.
+wearable_time_synced = Waktu disinkronkan
+wearable_connect_first = Hubungkan perangkat terlebih dahulu
+wearable_found = Perangkat menunjukkan bahwa Anda telah menemukannya
+wearable_find_phone = %1$s sedang mencari ponsel
+wearable_waiting_data = Menunggu data dari perangkat…
+wearable_measuring_hint = Mengukur… pastikan perangkat menempel erat di kulit Anda.
+wearable_rr_interval = Interval antardetak
+wearable_steps_session = Langkah sejak terhubung
+wearable_alarms_section = Alarm di perangkat
+wearable_alarms_none = Tidak ada alarm di perangkat.
+wearable_alarms_read_back = Perubahan dikirim ke perangkat lalu daftarnya dibaca ulang dari perangkat, sehingga Anda melihat apa yang benar-benar disimpannya.
+wearable_alarms_local = Perangkat ini tidak dapat melaporkan alarmnya: daftar menampilkan apa yang dikirim aplikasi ke perangkat. Alarm yang dibuat langsung di perangkat tidak muncul di sini.
+wearable_forwarding_text = Hanya saat perangkat terhubung dalam mode langsung dan hanya dari aplikasi yang Anda centang. Di luar waktu itu, %1$s yang mengirim notifikasi. Isinya tidak pernah disimpan.
+wearable_forwarding_text_plain = Hanya saat perangkat terhubung dalam mode langsung dan hanya dari aplikasi yang Anda centang. Isinya tidak pernah disimpan.
+wearable_forwarding_pending = Aktif: notifikasi akan diteruskan selama perangkat terhubung.
+
+# Wearable connection failures
+wearable_failure_permission = Izin perangkat di sekitar (Bluetooth) belum diberikan. Berikan izin tersebut untuk terhubung.
+wearable_failure_no_key = Simpan dulu kunci autentikasi perangkat.
+wearable_failure_unknown = Perangkat ini tidak lagi disiapkan, atau versi aplikasi ini tidak mendukung modelnya.
+wearable_failure_not_found = Perangkat tidak ditemukan. Pastikan perangkat menyala, berada di dekat ponsel, dan disambungkan dengan ponsel ini.
+wearable_failure_connect = Tidak dapat membuka koneksi. Pastikan perangkat menyala, berada di dekat ponsel, dan baterainya terisi. Jika %1$s terhubung ke perangkat, perangkat sedang sibuk: hentikan %1$s untuk sementara (Setelan → Aplikasi → %1$s → Paksa berhenti), lalu coba lagi.
+wearable_failure_connect_plain = Tidak dapat membuka koneksi. Pastikan perangkat menyala, berada di dekat ponsel, baterainya terisi, dan tidak ada aplikasi lain yang terhubung ke perangkat.
+wearable_failure_unsupported = Terhubung, tetapi perangkat tidak menyediakan layanan Bluetooth yang seharusnya dimiliki model ini. Mungkin ini model lain atau firmware lain.
+wearable_failure_no_response = Perangkat tidak merespons. Kemungkinan perangkat sedang sibuk dengan %1$s: hentikan %1$s untuk sementara (Setelan → Aplikasi → %1$s → Paksa berhenti), lalu coba lagi.
+wearable_failure_no_response_plain = Perangkat tidak merespons. Dekatkan perangkat, lalu coba lagi.
+wearable_failure_wrong_key = Kunci autentikasi salah: perangkat tidak mengenalinya. Pastikan Anda menyalin kunci yang terbaru; jika Anda membatalkan penyambungan perangkat di %1$s, kuncinya berubah dan Anda memerlukan kunci yang baru.
+wearable_failure_auth_rejected = Perangkat menolak autentikasi. Periksa kunci, lalu coba lagi.
+wearable_failure_link_lost = Koneksi ke perangkat terputus.
+wearable_failure_timeout = Perangkat tidak menjawab tepat waktu.
+wearable_failure_not_supported = Perangkat ini tidak mendukung fitur tersebut.
+wearable_failure_busy = Perangkat terhubung ke aplikasi lain (hampir pasti %1$s) dan hanya menerima satu koneksi. Hentikan %1$s untuk sementara (Setelan → Aplikasi → %1$s → Paksa berhenti), lalu coba lagi. Setelah selesai, buka %1$s agar tetap menyinkronkan.
+wearable_failure_busy_plain = Perangkat terhubung ke aplikasi lain dan hanya menerima satu koneksi. Tutup aplikasi tersebut, lalu coba lagi.
+wearable_failure_alarm_slots_full = Perangkat tidak punya slot alarm yang kosong. Hapus satu alarm terlebih dahulu.
+
+# Wearable key card and key wizard (no vendor sign-in: the key is always entered by the user)
+wearable_key_user_id_title = ID pengguna akun Xiaomi
+wearable_key_missing = Perangkat ini memerlukan kunci autentikasi yang disiapkan %1$s saat penyambungan.
+wearable_key_setup = Siapkan kunci
+wearable_xiaomi_device_id = ID perangkat (Wear OS)
+wearable_xiaomi_device_id_help = Hanya untuk jam tangan Wear OS seperti Xiaomi Watch 5: ID perangkat pendamping yang cara menemukannya dijelaskan dalam panduan Gadgetbridge.
+wearable_wizard_step_what = 1. Apa itu
+wearable_wizard_what_hex = Kunci rahasia berisi 32 karakter heksadesimal (16 byte) yang dimiliki bersama oleh perangkat Anda dan akun %1$s Anda. Kunci dibuat saat Anda menyambungkan perangkat di %1$s; perangkat menggunakannya untuk memeriksa apakah ponsel boleh terhubung dan untuk mengenkripsi koneksi. Kunci ini tidak dapat dibuat di ponsel.
+wearable_wizard_what_user_id = Model lama ini tidak menggunakan kunci heksadesimal: perangkat melakukan autentikasi dengan ID pengguna numerik dari akun Xiaomi yang digunakan untuk menyambungkannya di %1$s.
+wearable_wizard_step_where = 2. Cara mendapatkannya
+wearable_wizard_where = Kunci berasal dari %1$s atau dari akun Anda di produsen. Proyek Gadgetbridge mendokumentasikan cara mendapatkannya untuk setiap keluarga perangkat. Aplikasi ini tidak pernah login ke akun Anda dan tidak pernah mengambil kunci untuk Anda.
+wearable_wizard_link_device = Gadgetbridge: %1$s
+wearable_wizard_step_important = 3. Perlu diketahui
+wearable_wizard_unpair = Jika Anda membatalkan penyambungan perangkat di %1$s atau meresetnya, kunci tidak akan berfungsi lagi dan Anda akan memerlukan kunci yang baru.
+wearable_wizard_share = Jangan bagikan kunci ini: siapa pun yang memilikinya dapat terhubung ke perangkat Anda.
+wearable_wizard_step_enter = 4. Masukkan kunci
+wearable_key_paste_hex = Tempel kunci heksadesimal 32 karakter (dengan atau tanpa “0x”); spasi dan baris baru diabaikan.
+wearable_key_paste_user_id = Masukkan ID pengguna numerik (hanya angka).
+wearable_wizard_paste = Tempel dari papan klip
+wearable_wizard_clipboard_empty = Papan klip tidak berisi kunci dengan format yang diharapkan.
+wearable_key_error_empty_user_id = Masukkan ID pengguna.
+wearable_key_error_not_numeric = ID pengguna hanya boleh berisi angka.
+wearable_key_error_too_long = ID pengguna terlalu panjang.
+wearable_wizard_plaintext = Koneksi model ini tidak dienkripsi: orang di sekitar yang memiliki peralatan yang tepat dapat membaca apa yang dipertukarkan perangkat dan ponsel.
+wearable_clipboard_clear_title = Kunci disimpan
+wearable_clipboard_clear_text = Kunci masih ada di papan klip, tempat aplikasi lain dapat membacanya. Kosongkan papan klip?
+wearable_clipboard_clear = Kosongkan papan klip
+wearable_clipboard_keep = Biarkan
+
+# Activity: live heart rate recorded in direct mode, per device
+health_wearable_live_title = %1$s · mode langsung
+health_wearable_live_text = Detak jantung real-time yang dicatat oleh aplikasi saat perangkat terhubung (tidak di Health Connect).

@@ -1,0 +1,92 @@
+# Band (experimental direct mode). Its diagnostics log stays in English on purpose.
+band_test_notification_body = Тестовое уведомление из прямого режима GlobalFitness
+band_failure_no_bluetooth = В этом телефоне нет Bluetooth.
+band_failure_bluetooth_off = Bluetooth выключен. Включите его и повторите попытку.
+band_test_notification_sent = Тестовое уведомление отправлено
+band_key_error_empty = Введите ключ аутентификации.
+band_key_error_not_hex = Ключ может содержать только шестнадцатеричные цифры (0–9 и a–f), необязательно с префиксом 0x.
+band_key_error_length = Длина ключа в шестнадцатеричных символах: нужно %1$s, введено %2$s.
+band_key_save_failed = Не удалось сохранить ключ на телефоне.
+band_key_title = Ключ аутентификации
+band_actions = Действия
+band_forwarding_title = Пересылка уведомлений
+band_battery = Батарея
+band_battery_charging = %1$s · заряжается
+band_worn = На запястье
+band_model = Модель
+band_firmware = Прошивка
+band_serial = Серийный номер
+band_time_synced_at = Время синхронизировано
+band_disconnect = Отключить
+band_refresh_battery = Обновить заряд
+band_stop_find = Остановить поиск
+band_sync_time = Синхронизировать время
+band_test_notification = Тестовое уведомление
+band_sync_time_on_connect = Синхронизировать время при подключении
+band_live_heart_rate = Пульс в реальном времени
+band_alarms_title = Будильники
+band_save_alarm = Сохранить будильник
+band_delete_alarm = Удалить будильник
+band_steps_today = Шаги сегодня
+band_calories = Калории
+band_standing_hours = Часы стоя
+band_live_storage_text = Показания сохраняются на телефоне (band.db), чтобы их можно было объединить позже. Пока пульс в реальном времени включён и открыт этот экран, соединение не закрывается из-за неактивности.
+band_diagnostics = Диагностика
+band_log_hide = Скрыть
+band_log_show = Показать (%1$s)
+band_log_text = Журнал соединения (на английском, для сообщений об ошибках). Ключ аутентификации в него никогда не попадает.
+band_log_empty = Записей пока нет.
+band_log_clear = Очистить журнал
+band_live_chart_desc{one} = Пульс в реальном времени: %1$d показание, от %2$s до %3$s
+band_live_chart_desc{few} = Пульс в реальном времени: %1$d показания, от %2$s до %3$s
+band_live_chart_desc{many} = Пульс в реальном времени: %1$d показаний, от %2$s до %3$s
+band_live_chart_desc{other} = Пульс в реальном времени: %1$d показания, от %2$s до %3$s
+
+# Band key and device picker
+band_key_saved = Ключ сохранён на телефоне (скрыт).
+band_key_change = Изменить
+band_key_show = Показать
+band_key_save = Сохранить ключ
+
+# Band key help
+band_help_important_storage = Приложение хранит его только в своём закрытом хранилище, вне резервных копий, и никогда не показывает в диагностике.
+band_help_how_text = Это способы, описанные в проекте Gadgetbridge. Приложение не извлекает ключ за вас.
+band_help_how_logs = Журналы Mi Fitness (без root): Mi Fitness (ранее Xiaomi Wear, пакет com.xiaomi.wearable) записывает файлы журналов в память телефона, в Android/data/com.xiaomi.wearable/files/log/ (в варианте Mi Health: Android/data/com.mi.health/files/log/). Найдите в них (например, в XiaomiFit.device.log) поля «encryptKey», «authKey», «token» или «huamiAuthKey», за которыми следуют 32 шестнадцатеричных символа. Если таких значений несколько, сначала попробуйте то, что ближе к концу файла. В Android 11 и более поздних версиях эти папки обычно доступны только при подключении телефона к компьютеру (MTP или adb).
+band_help_how_root = Телефон с root: закройте Mi Fitness и откройте его базу данных «device_db»; ключ находится в атрибуте «auth_key» или «encrypt_key» JSON-объекта «detail».
+band_help_link_server = Gadgetbridge: получение ключа (сервер Huami/Xiaomi)
+
+# Band alarms
+alarm_once = Один раз
+alarm_daily = Каждый день
+alarm_weekdays = С понедельника по пятницу
+alarm_weekends = По выходным
+alarm_band_repeat = Повтор задан на браслете
+alarm_saved_on_band = Будильники сохранены на браслете
+alarm_count_of_max{one} = %1$d из %2$d будильников
+alarm_count_of_max{few} = %1$d из %2$d будильников
+alarm_count_of_max{many} = %1$d из %2$d будильников
+alarm_count_of_max{other} = %1$d из %2$d будильников
+alarm_count{one} = %1$d будильник
+alarm_count{few} = %1$d будильника
+alarm_count{many} = %1$d будильников
+alarm_count{other} = %1$d будильника
+alarm_none = На браслете нет будильников.
+alarm_new = Новый будильник
+alarm_edit = Изменить будильник
+alarm_reload = Считать заново
+alarm_sync_text = Изменения отправляются на браслет, а список считывается с него обратно, поэтому вы видите то, что браслет действительно сохранил.
+alarm_repeat_smart = %1$s · умный
+alarm_edit_at = Изменить будильник на %1$s
+alarm_delete_at = Удалить будильник на %1$s
+alarm_repeat = Повтор
+alarm_smart = Умный будильник
+alarm_smart_text = Браслет может разбудить вас чуть раньше, в фазе лёгкого сна.
+
+# Notification forwarding
+forwarding_switch = Пересылать уведомления с телефона
+forwarding_text = Только пока браслет подключён в прямом режиме и только от отмеченных вами приложений. В остальное время уведомления отправляет Mi Fitness. Содержимое уведомлений никогда не сохраняется.
+forwarding_access_needed = Для чтения уведомлений нужен доступ к уведомлениям Android.
+forwarding_grant_access = Предоставить доступ к уведомлениям
+forwarding_active_pending = Включено: уведомления будут пересылаться, когда вы подключите браслет.
+forwarding_apps = Приложения
+forwarding_apps_empty = Приложения появятся здесь, когда пришлют уведомление.

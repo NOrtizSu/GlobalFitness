@@ -1,0 +1,89 @@
+# Band (experimental direct mode). Its diagnostics log stays in English on purpose.
+band_test_notification_body = Notifica di prova dalla modalità diretta di GlobalFitness
+band_failure_no_bluetooth = Questo telefono non ha il Bluetooth.
+band_failure_bluetooth_off = Il Bluetooth è disattivato. Attivalo e riprova.
+band_test_notification_sent = Notifica di prova inviata
+band_key_error_empty = Inserisci la chiave di autenticazione.
+band_key_error_not_hex = La chiave può contenere solo cifre esadecimali (0–9 e a–f), con prefisso 0x facoltativo.
+band_key_error_length = La chiave deve avere %1$s caratteri esadecimali (ne ha %2$s).
+band_key_save_failed = Impossibile salvare la chiave sul telefono.
+band_key_title = Chiave di autenticazione
+band_actions = Azioni
+band_forwarding_title = Inoltro delle notifiche
+band_battery = Batteria
+band_battery_charging = %1$s · in carica
+band_worn = Al polso
+band_model = Modello
+band_firmware = Firmware
+band_serial = Numero di serie
+band_time_synced_at = Ora sincronizzata
+band_disconnect = Disconnetti
+band_refresh_battery = Aggiorna batteria
+band_stop_find = Interrompi ricerca
+band_sync_time = Sincronizza l'ora
+band_test_notification = Notifica di prova
+band_sync_time_on_connect = Sincronizza l'ora alla connessione
+band_live_heart_rate = Frequenza cardiaca in tempo reale
+band_alarms_title = Sveglie
+band_save_alarm = Salva sveglia
+band_delete_alarm = Elimina sveglia
+band_steps_today = Passi di oggi
+band_calories = Calorie
+band_standing_hours = Ore in piedi
+band_live_storage_text = Le letture vengono salvate sul telefono (band.db) per poterle combinare in seguito. Finché la frequenza cardiaca in tempo reale è attiva e sei su questa schermata, la connessione non viene chiusa per inattività.
+band_diagnostics = Diagnostica
+band_log_hide = Nascondi
+band_log_show = Mostra (%1$s)
+band_log_text = Registro della connessione (in inglese, per segnalare errori). Non include mai la chiave di autenticazione.
+band_log_empty = Ancora nessuna voce.
+band_log_clear = Cancella registro
+band_live_chart_desc{one} = Frequenza cardiaca in tempo reale: %1$d lettura, da %2$s a %3$s
+band_live_chart_desc{many} = Frequenza cardiaca in tempo reale: %1$d letture, da %2$s a %3$s
+band_live_chart_desc{other} = Frequenza cardiaca in tempo reale: %1$d letture, da %2$s a %3$s
+
+# Band key and device picker
+band_key_saved = Chiave salvata sul telefono (nascosta).
+band_key_change = Cambia
+band_key_show = Mostra
+band_key_save = Salva chiave
+
+# Band key help
+band_help_important_storage = Questa app la salva solo nel suo archivio privato, fuori dai backup, e non la mostra mai nella diagnostica.
+band_help_how_text = Questi sono i metodi documentati dal progetto Gadgetbridge. L'app non estrae la chiave per te.
+band_help_how_logs = Registri di Mi Fitness (senza root): Mi Fitness (in precedenza Xiaomi Wear, pacchetto com.xiaomi.wearable) salva file di registro nella memoria del telefono, in Android/data/com.xiaomi.wearable/files/log/ (nella variante Mi Health: Android/data/com.mi.health/files/log/). Cerca al loro interno (ad esempio in XiaomiFit.device.log) i campi “encryptKey”, “authKey”, “token” o “huamiAuthKey” seguiti da 32 caratteri esadecimali. Se ce ne sono diversi, prova per primo quello più vicino alla fine del file. Da Android 11 in poi quelle cartelle di solito sono accessibili solo collegando il telefono a un computer (MTP o adb).
+band_help_how_root = Telefono con root: chiudi Mi Fitness e consulta il suo database “device_db”; la chiave si trova nell'attributo “auth_key” o “encrypt_key” del JSON “detail”.
+band_help_link_server = Gadgetbridge: ottenere la chiave (server Huami/Xiaomi)
+
+# Band alarms
+alarm_once = Una volta
+alarm_daily = Ogni giorno
+alarm_weekdays = Da lunedì a venerdì
+alarm_weekends = Fine settimana
+alarm_band_repeat = Ripetizione impostata sulla smartband
+alarm_saved_on_band = Sveglie salvate sulla smartband
+alarm_count_of_max{one} = %1$d di %2$d sveglia
+alarm_count_of_max{many} = %1$d di %2$d sveglie
+alarm_count_of_max{other} = %1$d di %2$d sveglie
+alarm_count{one} = %1$d sveglia
+alarm_count{many} = %1$d sveglie
+alarm_count{other} = %1$d sveglie
+alarm_none = Non ci sono sveglie sulla smartband.
+alarm_new = Nuova sveglia
+alarm_edit = Modifica sveglia
+alarm_reload = Rileggi
+alarm_sync_text = Le modifiche vengono inviate alla smartband e l'elenco viene riletto da essa, così vedi ciò che ha davvero salvato.
+alarm_repeat_smart = %1$s · intelligente
+alarm_edit_at = Modifica la sveglia delle %1$s
+alarm_delete_at = Elimina la sveglia delle %1$s
+alarm_repeat = Ripeti
+alarm_smart = Sveglia intelligente
+alarm_smart_text = La smartband può svegliarti un po' prima, durante il sonno leggero.
+
+# Notification forwarding
+forwarding_switch = Inoltra le notifiche del telefono
+forwarding_text = Solo mentre la smartband è connessa in modalità diretta e solo dalle app che selezioni. Nel resto del tempo è Mi Fitness a inviare le notifiche. Il contenuto non viene mai salvato.
+forwarding_access_needed = Per leggerle serve l'accesso alle notifiche di Android.
+forwarding_grant_access = Concedi l'accesso alle notifiche
+forwarding_active_pending = Attivo: verranno inoltrate quando connetti la smartband.
+forwarding_apps = App
+forwarding_apps_empty = Le app compariranno qui quando pubblicano una notifica.

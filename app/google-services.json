@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1064750272721",
+    "project_id": "globalfitness-app",
+    "storage_bucket": "globalfitness-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1064750272721:android:85e513f9844a95e2a2b5f0",
+        "android_client_info": {
+          "package_name": "com.enjoyyourtime.globalfitness"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1064750272721-h2nlsajv8s5ip7nq53n2b1hnpnvlfgbn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.enjoyyourtime.globalfitness",
+            "certificate_hash": "fffc5f38f879da56d66db18684edd6b1d3904005"
+          }
+        },
+        {
+          "client_id": "1064750272721-t1m09b1e2luodv63ruvl8j4qbec5562t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.enjoyyourtime.globalfitness",
+            "certificate_hash": "9f14d6bc8c396abe776815fe6d51259511a2a873"
+          }
+        },
+        {
+          "client_id": "1064750272721-19ltopivqkq78r71miapsj77hq27qcqr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjrmqQpTY5_3gr9X7C8XGlNLZk5rv1TsM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1064750272721-19ltopivqkq78r71miapsj77hq27qcqr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

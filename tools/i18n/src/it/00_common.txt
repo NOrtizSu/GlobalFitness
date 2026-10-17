@@ -1,0 +1,104 @@
+# App
+band_notification_listener_label = GlobalFitness: inoltro alla smartband
+
+# Common actions
+action_cancel = Annulla
+action_ok = OK
+action_save = Salva
+action_delete = Elimina
+action_retry = Riprova
+action_got_it = Ho capito
+action_close = Chiudi
+action_back = Indietro
+action_continue = Continua
+action_open_settings = Apri impostazioni
+action_grant_permission = Concedi autorizzazione
+action_turn_on_bluetooth = Attiva Bluetooth
+action_turn_on_location = Attiva posizione
+action_connect_health_connect = Connetti Health Connect
+action_install_health_connect = Installa Health Connect
+action_update_health_connect = Aggiorna Health Connect
+action_add_manual_weight = Aggiungi peso manualmente
+common_no_data = Nessun dato
+common_not_enough_data = Dati insufficienti
+common_time = Ora
+common_experimental = Sperimentale
+common_required_mark = %1$s *
+common_error_detail = %1$s: %2$s
+
+# Units and values
+unit_kg = kg
+unit_kcal = kcal
+unit_percent = %
+unit_years = anni
+value_kg = %1$s kg
+value_kcal = %1$s kcal
+value_percent = %1$s%%
+value_years{one} = %1$s anno
+value_years{many} = %1$s anni
+value_years{other} = %1$s anni
+value_ohm = %1$s Ω
+
+# Relative dates
+time_today = Oggi
+time_yesterday = Ieri
+time_today_at = Oggi, %1$s
+time_yesterday_at = Ieri, %1$s
+
+# Navigation
+nav_today = Oggi
+nav_body = Corpo
+nav_activity = Attività
+nav_devices = Dispositivi
+nav_profile = Profilo
+
+# Body metrics
+metric_weight = Peso
+metric_bmi = BMI
+metric_fat_percent = Grasso corporeo
+metric_fat_mass = Massa grassa
+metric_muscle = Massa muscolare
+metric_skeletal_muscle = Muscolo scheletrico
+metric_water = Acqua corporea
+metric_bone = Massa ossea
+metric_visceral = Grasso viscerale
+metric_bmr = Metabolismo basale
+metric_metabolic_age = Età metabolica
+metric_protein = Proteine
+metric_ideal_weight = Peso ideale
+
+# Classification chips
+class_low = Basso
+class_very_low = Molto basso
+class_normal = Normale
+class_high = Alto
+class_very_high = Molto alto
+class_overweight = Sovrappeso
+class_obese = Obesità
+class_excellent = Eccellente
+class_optimal = Ottimale
+class_younger = Più giovane
+class_older_than_age = Superiore alla tua età
+class_in_range = Nella norma
+class_out_of_range = Fuori norma
+
+# Body types
+body_type = Tipo di fisico
+body_type_obese = Obeso
+body_type_overweight = Sovrappeso
+body_type_solid = Robusto
+body_type_lack_exercise = Poco allenato
+body_type_balanced = Equilibrato
+body_type_balanced_muscular = Equilibrato muscoloso
+body_type_skinny = Magro
+body_type_balanced_skinny = Magro equilibrato
+body_type_skinny_muscular = Magro muscoloso
+
+# Health Connect rationale (shown by Health Connect)
+health_rationale_title = Privacy dei dati sulla salute
+health_rationale_intro = GlobalFitness usa Health Connect per due cose:
+health_rationale_read = • Leggere i dati della tua smartband o del tuo smartwatch (ad esempio la Xiaomi Smart Band tramite Mi Fitness): passi, distanza, calorie, frequenza cardiaca, frequenza cardiaca a riposo, variabilità della frequenza cardiaca, sonno, ossigeno nel sangue, frequenza respiratoria e allenamenti. Legge anche il peso e il grasso corporeo registrati da altre app. Con l'autorizzazione per i dati passati importa fino a un anno.
+health_rationale_write = • Scrivere le misurazioni della tua bilancia: peso, grasso corporeo, massa ossea, massa magra, metabolismo basale e acqua corporea. Se elimini una misurazione nell'app, viene eliminata anche da Health Connect.
+health_rationale_storage = I dati letti da Health Connect vengono salvati solo su questo telefono: non vengono caricati nel backup sul cloud facoltativo, non vengono usati per la pubblicità e non vengono condivisi con nessuno. L'app li usa solo per mostrarti riepiloghi e grafici.
+health_rationale_revoke = Puoi revocare qualsiasi autorizzazione in qualsiasi momento in Health Connect; l'app smette di leggere quel tipo di dati ed elimina la sua copia locale alla sincronizzazione successiva.
+health_rationale_full_policy = Informativa sulla privacy completa

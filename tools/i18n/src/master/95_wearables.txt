@@ -1,0 +1,113 @@
+# Devices → Bands & watches (any supported family; the diagnostics log stays in English on purpose)
+devices_wearables = Bands & watches ||| Pulseras y relojes
+wearables_none = No band or watch set up yet. Bring yours close, or add it from the catalog. ||| Todavía no hay ninguna pulsera ni reloj configurado. Acerca el tuyo o añádelo desde el catálogo.
+wearables_add_from_catalog = Add from the catalog ||| Añadir desde el catálogo
+wearables_detected = Detected and paired ||| Detectados y emparejados
+wearables_detected_none = Nothing recognised yet. Devices paired with this phone appear here once the "Nearby devices" permission is granted; others when they are on and close. ||| Aún no se ha reconocido ninguno. Los dispositivos emparejados con este teléfono aparecen aquí cuando se concede el permiso «Dispositivos cercanos»; los demás, cuando están encendidos y cerca.
+wearables_paired = paired ||| emparejado
+wearables_use_this = Set up ||| Configurar
+wearables_already_set_up = Already set up ||| Ya configurado
+wearables_open = Open ||| Abrir
+wearables_remove_text = Its key and settings are deleted from the phone; the recorded heart rate is kept. It won't be suggested again. ||| Su clave y sus ajustes se borran del teléfono; el pulso registrado se conserva. No se volverá a sugerir.
+wearables_removed = Removed: %1$s ||| Se quitó: %1$s
+wearables_added = Added: %1$s ||| Se añadió: %1$s
+wearables_suggestion_title = Is this your band or watch? ||| ¿Es tu pulsera o tu reloj?
+wearables_suggestion_text = The app connects to it only when you open it in direct mode. Confirm only if it's yours. ||| La app solo se conecta cuando lo abres en modo directo. Confirma solo si es tuyo.
+wearables_suggestion_text_key = The app connects to it only when you open it in direct mode, and it needs the authentication key from its app. Confirm only if it's yours. ||| La app solo se conecta cuando lo abres en modo directo y necesita la clave de autenticación de su app. Confirma solo si es tuyo.
+wearables_suggestion_yes = Yes, set it up ||| Sí, configurarlo
+wearables_catalog_title = Bands & watches catalog ||| Catálogo de pulseras y relojes
+wearables_needs_key = key from %1$s ||| clave de %1$s
+wearables_no_key_needed = no key needed ||| sin clave
+wearables_bind_question = Which of these devices is it? ||| ¿Cuál de estos dispositivos es?
+wearables_bind_none = None of the detected or paired devices looks like this model. Turn it on, keep it close and check that its app paired it with this phone. ||| Ninguno de los dispositivos detectados o emparejados parece este modelo. Enciéndelo, mantenlo cerca y comprueba que su app lo emparejó con este teléfono.
+wearables_bind_others = Other detected devices ||| Otros dispositivos detectados
+chip_wearable = %1$s: %2$s ||| %1$s: %2$s
+
+# Wearable status
+wearable_status_not_connected = Not connected ||| Sin conexión
+wearable_status_connected = Connected ||| Conectado
+wearable_status_unknown_model = Model not supported by this version ||| Modelo no admitido en esta versión
+wearable_connected_protocol = Connected (%1$s) ||| Conectado (%1$s)
+
+# Wearable screen
+wearable_intro = The app talks to the device directly over Bluetooth (like Gadgetbridge), without %1$s. Most devices accept only one connection, so the app connects only when you tap "Connect" and disconnects after 2 minutes without use or when you leave this screen, so %1$s can sync again. ||| La app habla directamente con el dispositivo por Bluetooth (como Gadgetbridge), sin %1$s. La mayoría solo admite una conexión, por eso la app solo se conecta cuando pulsas «Conectar» y se desconecta tras 2 minutos sin uso o al salir de esta pantalla, para que %1$s pueda volver a sincronizar.
+wearable_intro_plain = The app talks to the device directly over Bluetooth (like Gadgetbridge). It connects only when you tap "Connect" and disconnects after 2 minutes without use or when you leave this screen. ||| La app habla directamente con el dispositivo por Bluetooth (como Gadgetbridge). Solo se conecta cuando pulsas «Conectar» y se desconecta tras 2 minutos sin uso o al salir de esta pantalla.
+wearable_experimental = Experimental: not yet tested with a real device of this model. ||| Experimental: aún no se ha probado con un dispositivo real de este modelo.
+wearable_doc_link = Gadgetbridge notes about this device ||| Notas de Gadgetbridge sobre este dispositivo
+wearable_permission_text = Connecting to the device needs the "Nearby devices" permission. ||| Para conectar con el dispositivo hace falta el permiso «Dispositivos cercanos».
+wearable_transport_ble = Bluetooth LE ||| Bluetooth LE
+wearable_transport_classic = Bluetooth Classic ||| Bluetooth clásico
+wearable_transport_uart = Bluetooth LE (UART) ||| Bluetooth LE (UART)
+wearable_hardware = Hardware ||| Hardware
+wearable_vendor_settings = %1$s settings ||| Ajustes de %1$s
+wearable_cannot_connect_hint = Save the authentication key to be able to connect. ||| Guarda la clave de autenticación para poder conectar.
+wearable_released = The device is free again. If you stopped %1$s, open it again so it keeps syncing. ||| El dispositivo vuelve a estar libre. Si detuviste %1$s, ábrelo de nuevo para que siga sincronizando.
+wearable_find = Find device ||| Buscar dispositivo
+wearable_finding_text = The device is ringing or vibrating. Stop it on the device or tap "%1$s". ||| El dispositivo está sonando o vibrando. Páralo en el dispositivo o pulsa «%1$s».
+wearable_time_synced = Time synced ||| Hora sincronizada
+wearable_connect_first = Connect the device first ||| Conecta primero el dispositivo
+wearable_found = The device says you found it ||| El dispositivo indica que ya lo encontraste
+wearable_find_phone = %1$s is looking for the phone ||| %1$s está buscando el teléfono
+wearable_waiting_data = Waiting for data from the device… ||| Esperando datos del dispositivo…
+wearable_measuring_hint = Measuring… keep the device snug against your skin. ||| Midiendo… mantén el dispositivo ajustado contra la piel.
+wearable_rr_interval = Beat-to-beat interval ||| Intervalo entre latidos
+wearable_steps_session = Steps since connecting ||| Pasos desde que conectaste
+wearable_alarms_section = Alarms on the device ||| Alarmas del dispositivo
+wearable_alarms_none = There are no alarms on the device. ||| No hay alarmas en el dispositivo.
+wearable_alarms_read_back = Changes are sent to the device and the list is read back from it, so you see what it really saved. ||| Los cambios se envían al dispositivo y la lista se vuelve a leer de él, así ves lo que realmente guardó.
+wearable_alarms_local = This device can't report its alarms: the list shows what the app sent to it. Alarms set on the device itself don't appear here. ||| Este dispositivo no puede informar de sus alarmas: la lista muestra lo que la app le envió. Las alarmas creadas en el propio dispositivo no aparecen aquí.
+wearable_forwarding_text = Only while the device is connected in direct mode and only from the apps you tick. The rest of the time %1$s sends the notifications. The content is never stored. ||| Solo mientras el dispositivo está conectado en modo directo y solo de las apps que marques. El resto del tiempo es %1$s quien envía las notificaciones. El contenido nunca se guarda.
+wearable_forwarding_text_plain = Only while the device is connected in direct mode and only from the apps you tick. The content is never stored. ||| Solo mientras el dispositivo está conectado en modo directo y solo de las apps que marques. El contenido nunca se guarda.
+wearable_forwarding_pending = On: they will be forwarded while the device is connected. ||| Activo: se reenviarán mientras el dispositivo esté conectado.
+
+# Wearable connection failures
+wearable_failure_permission = The "Nearby devices" (Bluetooth) permission is missing. Grant it to connect. ||| Falta el permiso «Dispositivos cercanos» (Bluetooth). Concédelo para conectar.
+wearable_failure_no_key = First save the device's authentication key. ||| Primero guarda la clave de autenticación del dispositivo.
+wearable_failure_unknown = This device is no longer set up, or this version of the app does not support its model. ||| Este dispositivo ya no está configurado o esta versión de la app no admite su modelo.
+wearable_failure_not_found = The device was not found. Check that it is on, nearby and paired with this phone. ||| No se encontró el dispositivo. Comprueba que esté encendido, cerca y emparejado con este teléfono.
+wearable_failure_connect = Could not open the connection. Check that the device is on, nearby and charged. If %1$s is connected to it, the device is busy: stop %1$s temporarily (Settings → Apps → %1$s → Force stop) and try again. ||| No se pudo abrir la conexión. Comprueba que el dispositivo esté encendido, cerca y con batería. Si %1$s está conectado a él, el dispositivo está ocupado: detén temporalmente %1$s (Ajustes → Aplicaciones → %1$s → Forzar detención) y vuelve a intentarlo.
+wearable_failure_connect_plain = Could not open the connection. Check that the device is on, nearby and charged, and that no other app is connected to it. ||| No se pudo abrir la conexión. Comprueba que el dispositivo esté encendido, cerca y con batería, y que ninguna otra app esté conectada a él.
+wearable_failure_unsupported = Connected, but the device does not offer the Bluetooth services this model should have. It may be a different model or firmware. ||| Se conectó, pero el dispositivo no ofrece los servicios Bluetooth que debería tener este modelo. Puede ser otro modelo u otro firmware.
+wearable_failure_no_response = The device does not respond. It is probably busy with %1$s: stop %1$s temporarily (Settings → Apps → %1$s → Force stop) and try again. ||| El dispositivo no responde. Probablemente esté ocupado con %1$s: detén temporalmente %1$s (Ajustes → Aplicaciones → %1$s → Forzar detención) y vuelve a intentarlo.
+wearable_failure_no_response_plain = The device does not respond. Bring it closer and try again. ||| El dispositivo no responde. Acércalo y vuelve a intentarlo.
+wearable_failure_wrong_key = Wrong authentication key: the device does not recognise it. Check that you copied the current key; if you unpaired the device in %1$s, the key changed and you need the new one. ||| Clave de autenticación incorrecta: el dispositivo no la reconoce. Comprueba que copiaste la clave actual; si desvinculaste el dispositivo en %1$s, la clave cambió y necesitas la nueva.
+wearable_failure_auth_rejected = The device rejected the authentication. Check the key and try again. ||| El dispositivo rechazó la autenticación. Revisa la clave y vuelve a intentarlo.
+wearable_failure_link_lost = The connection to the device was lost. ||| Se perdió la conexión con el dispositivo.
+wearable_failure_timeout = The device did not answer in time. ||| El dispositivo no respondió a tiempo.
+wearable_failure_not_supported = This device does not support that. ||| Este dispositivo no admite esa función.
+wearable_failure_busy = The device is connected to another app (almost certainly %1$s) and accepts only one connection. Stop %1$s temporarily (Settings → Apps → %1$s → Force stop) and try again. When you are done, open %1$s so it keeps syncing. ||| El dispositivo está conectado a otra app (casi seguro %1$s) y solo admite una conexión. Detén temporalmente %1$s (Ajustes → Aplicaciones → %1$s → Forzar detención) y vuelve a intentarlo. Al terminar, abre %1$s para que siga sincronizando.
+wearable_failure_busy_plain = The device is connected to another app and accepts only one connection. Close that app and try again. ||| El dispositivo está conectado a otra app y solo admite una conexión. Cierra esa app y vuelve a intentarlo.
+wearable_failure_alarm_slots_full = The device has no free alarm slot. Delete an alarm first. ||| El dispositivo ya no admite más alarmas. Elimina una primero.
+
+# Wearable key card and key wizard (no vendor sign-in: the key is always entered by the user)
+wearable_key_user_id_title = Xiaomi account user ID ||| ID de usuario de la cuenta Xiaomi
+wearable_key_missing = This device needs the authentication key that %1$s set up when it was paired. ||| Este dispositivo necesita la clave de autenticación que %1$s configuró al vincularlo.
+wearable_key_setup = Set up the key ||| Configurar la clave
+wearable_xiaomi_device_id = Device ID (Wear OS) ||| ID del dispositivo (Wear OS)
+wearable_xiaomi_device_id_help = Only for Wear OS watches such as the Xiaomi Watch 5: the companion device ID that Gadgetbridge's guide explains how to find. ||| Solo para relojes Wear OS como el Xiaomi Watch 5: el ID de dispositivo complementario que la guía de Gadgetbridge explica cómo encontrar.
+wearable_wizard_step_what = 1. What it is ||| 1. Qué es
+wearable_wizard_what_hex = A secret key of 32 hexadecimal characters (16 bytes) shared by your device and your %1$s account. It is created when you pair the device in %1$s; the device uses it to check that the phone may connect and to encrypt the link. It can't be generated on the phone. ||| Una clave secreta de 32 caracteres hexadecimales (16 bytes) que comparten tu dispositivo y tu cuenta de %1$s. Se crea al vincular el dispositivo en %1$s; el dispositivo la usa para comprobar que el teléfono puede conectarse y para cifrar la conexión. No se puede generar en el teléfono.
+wearable_wizard_what_user_id = This older model doesn't use a hexadecimal key: it authenticates with the numeric user ID of the Xiaomi account it was paired with in %1$s. ||| Este modelo antiguo no usa una clave hexadecimal: se autentica con el ID numérico de usuario de la cuenta Xiaomi con la que se vinculó en %1$s.
+wearable_wizard_step_where = 2. Where to get it ||| 2. Dónde obtenerla
+wearable_wizard_where = It comes from %1$s or from your account with the maker. The Gadgetbridge project documents how to get it for each family of devices. This app never signs in to your account and never fetches the key for you. ||| Procede de %1$s o de tu cuenta del fabricante. El proyecto Gadgetbridge documenta cómo obtenerla para cada familia de dispositivos. Esta app nunca inicia sesión en tu cuenta ni obtiene la clave por ti.
+wearable_wizard_link_device = Gadgetbridge: %1$s ||| Gadgetbridge: %1$s
+wearable_wizard_step_important = 3. Good to know ||| 3. Conviene saber
+wearable_wizard_unpair = If you unpair the device in %1$s or reset it, the key stops working and you will need the new one. ||| Si desvinculas el dispositivo en %1$s o lo restableces, la clave deja de valer y necesitarás la nueva.
+wearable_wizard_share = Don't share it: whoever has it can connect to your device. ||| No la compartas: quien la tenga puede conectarse a tu dispositivo.
+wearable_wizard_step_enter = 4. Enter it ||| 4. Introdúcela
+wearable_key_paste_hex = Paste the 32-character hexadecimal key (with or without "0x"); spaces and line breaks are ignored. ||| Pega la clave de 32 caracteres hexadecimales (con o sin «0x»); se ignoran espacios y saltos de línea.
+wearable_key_paste_user_id = Enter the numeric user ID (digits only). ||| Introduce el ID numérico de usuario (solo dígitos).
+wearable_wizard_paste = Paste from clipboard ||| Pegar del portapapeles
+wearable_wizard_clipboard_empty = The clipboard does not contain a key in the expected format. ||| El portapapeles no contiene ninguna clave con el formato esperado.
+wearable_key_error_empty_user_id = Enter the user ID. ||| Introduce el ID de usuario.
+wearable_key_error_not_numeric = The user ID can only contain digits. ||| El ID de usuario solo puede contener dígitos.
+wearable_key_error_too_long = The user ID is too long. ||| El ID de usuario es demasiado largo.
+wearable_wizard_plaintext = This model's connection is not encrypted: someone nearby with the right equipment could read what the device and the phone exchange. ||| La conexión de este modelo no está cifrada: alguien cercano con el equipo adecuado podría leer lo que se intercambian el dispositivo y el teléfono.
+wearable_clipboard_clear_title = Key saved ||| Clave guardada
+wearable_clipboard_clear_text = The key is still in the clipboard, where other apps can read it. Clear the clipboard? ||| La clave sigue en el portapapeles, donde otras apps pueden leerla. ¿Vaciar el portapapeles?
+wearable_clipboard_clear = Clear clipboard ||| Vaciar portapapeles
+wearable_clipboard_keep = Leave it ||| Dejarla
+
+# Activity: live heart rate recorded in direct mode, per device
+health_wearable_live_title = %1$s · direct mode ||| %1$s · modo directo
+health_wearable_live_text = Live heart rate recorded by the app with the device connected (not in Health Connect). ||| Pulso en directo registrado por la app con el dispositivo conectado (no en Health Connect).

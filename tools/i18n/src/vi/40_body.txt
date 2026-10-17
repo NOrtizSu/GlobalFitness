@@ -1,0 +1,54 @@
+# Body
+range_1m = 1T
+range_3m = 3T
+range_6m = 6T
+range_1y = 1N
+range_all = Tất cả
+body_empty_text = Hãy bước lên cân bằng chân trần khi đang mở ứng dụng, hoặc thêm cân nặng thủ công bằng nút bên dưới. Tại đây, bạn sẽ thấy cân nặng và thành phần cơ thể thay đổi theo thời gian.
+body_period_summary = Tóm tắt giai đoạn
+body_stat_current = Hiện tại
+body_stat_change = Thay đổi
+body_stat_min = Thấp nhất
+body_stat_max = Cao nhất
+body_stat_average = Trung bình
+body_stat_rate = Tốc độ
+body_rate_value = %1$s/tuần
+body_stat_projection = Dự kiến đạt mục tiêu
+body_projection_no_goal = Chưa có mục tiêu
+body_projection_reached = Đã đạt
+body_projection_no_trend = Không có xu hướng
+body_projection_eta = ~ %1$s
+body_rate_hint = Cần ít nhất 3 kết quả đo trải dài 7 ngày trong 28 ngày gần nhất để tính tốc độ.
+body_history = Lịch sử
+body_normal_range = Phạm vi bình thường
+body_normal_range_bmi = Phạm vi bình thường (BMI %1$s–%2$s)
+body_goal_line = Mục tiêu %1$s
+body_chart_title_unit = %1$s (%2$s)
+body_chart_needs_composition = Chỉ số này cần thành phần cơ thể. Hãy bước lên cân bằng chân trần và khô.
+body_chart_no_measurements = Chưa có kết quả đo nào.
+body_chart_none_in_period = Không có kết quả đo trong giai đoạn này. Hãy thử giai đoạn dài hơn.
+body_chart_single = Chỉ có một kết quả đo trong giai đoạn này (%1$s, %2$s). Cần ít nhất 2 kết quả để vẽ xu hướng.
+body_current_composition = Thành phần hiện tại
+body_row_fat = Mỡ %1$s
+body_row_no_composition = Không có thành phần
+source_manual = Thủ công
+source_scale = Cân
+comp_source_device = Thành phần cơ thể do cân đo
+comp_source_formula = Thành phần cơ thể được tính (công thức %1$s)
+comp_fat = Mỡ
+metric_impedance = Trở kháng
+
+# Charts
+chart_trend_desc{other} = Biểu đồ %1$s với %2$d kết quả đo, từ %3$s đến %4$s
+chart_avg_7d_value = Trung bình 7 ngày: %1$s
+chart_legend_measurements = Kết quả đo
+chart_legend_avg_7d = Trung bình 7 ngày
+chart_composition_desc = Thành phần: %1$s
+chart_composition_item = %1$s %2$s
+
+# Measurement dialogs
+manual_weight_only = Chỉ cân nặng: thành phần cơ thể cần được đo bằng cân.
+manual_weight_range = Nhập cân nặng từ %1$s đến %2$s
+manual_date_future = Ngày không được ở tương lai.
+delete_measurement_title = Xóa kết quả đo?
+delete_measurement_text = Kết quả đo %1$s lúc %2$s sẽ bị xóa. Không thể hoàn tác thao tác này.

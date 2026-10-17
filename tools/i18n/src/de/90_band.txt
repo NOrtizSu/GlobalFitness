@@ -1,0 +1,86 @@
+# Band (experimental direct mode). Its diagnostics log stays in English on purpose.
+band_test_notification_body = Testbenachrichtigung vom GlobalFitness-Direktmodus
+band_failure_no_bluetooth = Dieses Smartphone hat kein Bluetooth.
+band_failure_bluetooth_off = Bluetooth ist deaktiviert. Aktiviere es und versuche es erneut.
+band_test_notification_sent = Testbenachrichtigung gesendet
+band_key_error_empty = Gib den Authentifizierungsschlüssel ein.
+band_key_error_not_hex = Der Schlüssel darf nur Hexadezimalziffern (0–9 und a–f) enthalten, optional mit dem Präfix 0x.
+band_key_error_length = Der Schlüssel muss %1$s Hexadezimalzeichen haben (er hat %2$s).
+band_key_save_failed = Der Schlüssel konnte nicht auf dem Smartphone gespeichert werden.
+band_key_title = Authentifizierungsschlüssel
+band_actions = Aktionen
+band_forwarding_title = Weiterleitung von Benachrichtigungen
+band_battery = Akku
+band_battery_charging = %1$s · wird geladen
+band_worn = Am Handgelenk
+band_model = Modell
+band_firmware = Firmware
+band_serial = Seriennummer
+band_time_synced_at = Uhrzeit synchronisiert
+band_disconnect = Trennen
+band_refresh_battery = Akku aktualisieren
+band_stop_find = Suche beenden
+band_sync_time = Uhrzeit synchronisieren
+band_test_notification = Testbenachrichtigung
+band_sync_time_on_connect = Uhrzeit beim Verbinden synchronisieren
+band_live_heart_rate = Live-Herzfrequenz
+band_alarms_title = Wecker
+band_save_alarm = Wecker speichern
+band_delete_alarm = Wecker löschen
+band_steps_today = Schritte heute
+band_calories = Kalorien
+band_standing_hours = Stehstunden
+band_live_storage_text = Die Messwerte werden auf dem Smartphone gespeichert (band.db), damit sie später kombiniert werden können. Solange die Live-Herzfrequenz aktiv ist und du diesen Bildschirm geöffnet hast, wird die Verbindung nicht wegen Inaktivität beendet.
+band_diagnostics = Diagnose
+band_log_hide = Ausblenden
+band_log_show = Anzeigen (%1$s)
+band_log_text = Verbindungsprotokoll (auf Englisch, für Fehlerberichte). Es enthält nie den Authentifizierungsschlüssel.
+band_log_empty = Noch keine Einträge.
+band_log_clear = Protokoll löschen
+band_live_chart_desc{one} = Live-Herzfrequenz: %1$d Messwert, von %2$s bis %3$s
+band_live_chart_desc{other} = Live-Herzfrequenz: %1$d Messwerte, von %2$s bis %3$s
+
+# Band key and device picker
+band_key_saved = Schlüssel auf dem Smartphone gespeichert (verborgen).
+band_key_change = Ändern
+band_key_show = Anzeigen
+band_key_save = Schlüssel speichern
+
+# Band key help
+band_help_important_storage = Diese App speichert ihn nur im privaten Speicher, außerhalb von Backups, und zeigt ihn nie in der Diagnose an.
+band_help_how_text = Das sind die Methoden, die das Gadgetbridge-Projekt dokumentiert. Die App extrahiert den Schlüssel nicht für dich.
+band_help_how_logs = Mi-Fitness-Protokolle (ohne Root): Mi Fitness (früher Xiaomi Wear, Paket com.xiaomi.wearable) schreibt Protokolldateien in den Speicher des Smartphones, nach Android/data/com.xiaomi.wearable/files/log/ (in der Variante Mi Health: Android/data/com.mi.health/files/log/). Durchsuche sie (zum Beispiel XiaomiFit.device.log) nach den Feldern „encryptKey“, „authKey“, „token“ oder „huamiAuthKey“, gefolgt von 32 Hexadezimalzeichen. Gibt es mehrere, probiere zuerst den, der dem Dateiende am nächsten ist. Ab Android 11 sind diese Ordner meist nur zugänglich, wenn du das Smartphone mit einem Computer verbindest (MTP oder adb).
+band_help_how_root = Smartphone mit Root: Beende Mi Fitness und sieh in seiner Datenbank „device_db“ nach; der Schlüssel steht im Attribut „auth_key“ oder „encrypt_key“ des JSON „detail“.
+band_help_link_server = Gadgetbridge: Schlüssel beziehen (Huami-/Xiaomi-Server)
+
+# Band alarms
+alarm_once = Einmal
+alarm_daily = Täglich
+alarm_weekdays = Montag bis Freitag
+alarm_weekends = Wochenende
+alarm_band_repeat = Wiederholung am Band eingestellt
+alarm_saved_on_band = Auf dem Band gespeicherte Wecker
+alarm_count_of_max{one} = %1$d von %2$d Weckern
+alarm_count_of_max{other} = %1$d von %2$d Weckern
+alarm_count{one} = %1$d Wecker
+alarm_count{other} = %1$d Wecker
+alarm_none = Auf dem Band sind keine Wecker vorhanden.
+alarm_new = Neuer Wecker
+alarm_edit = Wecker bearbeiten
+alarm_reload = Erneut lesen
+alarm_sync_text = Änderungen werden an das Band gesendet und die Liste wird anschließend von dort neu gelesen, damit du siehst, was es tatsächlich gespeichert hat.
+alarm_repeat_smart = %1$s · smart
+alarm_edit_at = Wecker um %1$s bearbeiten
+alarm_delete_at = Wecker um %1$s löschen
+alarm_repeat = Wiederholen
+alarm_smart = Smarter Wecker
+alarm_smart_text = Das Band kann dich etwas früher wecken, und zwar im Leichtschlaf.
+
+# Notification forwarding
+forwarding_switch = Benachrichtigungen des Smartphones weiterleiten
+forwarding_text = Nur solange das Band im Direktmodus verbunden ist und nur von den Apps, die du ankreuzt. Die übrige Zeit sendet Mi Fitness die Benachrichtigungen. Der Inhalt wird nie gespeichert.
+forwarding_access_needed = Zum Lesen wird der Android-Zugriff auf Benachrichtigungen benötigt.
+forwarding_grant_access = Zugriff auf Benachrichtigungen erlauben
+forwarding_active_pending = Aktiv: Sie werden weitergeleitet, sobald du das Band verbindest.
+forwarding_apps = Apps
+forwarding_apps_empty = Apps erscheinen hier, sobald sie eine Benachrichtigung senden.

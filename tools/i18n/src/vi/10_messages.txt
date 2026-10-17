@@ -1,0 +1,21 @@
+# Snackbar messages
+msg_measurement_saved = Đã lưu kết quả đo
+msg_impedance_added = Đã thêm trở kháng vào kết quả đo
+msg_profile_create_failed = Không thể tạo hồ sơ
+msg_profile_save_failed = Không thể lưu hồ sơ
+msg_profile_updated = Đã cập nhật hồ sơ
+msg_measurement_delete_failed = Không thể xóa kết quả đo
+msg_measurement_deleted = Đã xóa kết quả đo
+msg_measurement_save_failed = Không thể lưu kết quả đo
+msg_weight_added = Đã thêm cân nặng
+msg_file_open_failed = Không thể mở tệp
+msg_csv_export_failed = Xuất không thành công
+msg_csv_import_failed = Nhập không thành công
+msg_csv_exported{other} = Đã xuất %1$d kết quả đo
+msg_csv_no_rows = Không tìm thấy kết quả đo hợp lệ nào trong tệp CSV
+msg_csv_imported{other} = Đã nhập %1$d kết quả đo
+msg_csv_duplicates{other} = Đã bỏ qua %1$d kết quả trùng lặp
+msg_csv_invalid_rows{other} = %1$d dòng không hợp lệ
+msg_csv_other_profiles{other} = Đã bỏ qua %1$d kết quả của người khác
+msg_csv_profile_created = đã tạo hồ sơ
+ads_privacy_options_failed = Không thể mở tùy chọn quyền riêng tư: %1$s

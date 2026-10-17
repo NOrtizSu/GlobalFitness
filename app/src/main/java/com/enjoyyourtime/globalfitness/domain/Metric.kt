@@ -1,0 +1,80 @@
+package com.enjoyyourtime.globalfitness.domain
+
+enum class MetricUnit { KG, PERCENT, KCAL, YEARS, NONE }
+
+/** Metrics shown in tiles and charts (names are mapped to string resources by the UI). */
+enum class Metric(
+    val unit: MetricUnit,
+    val decimals: Int,
+    val needsImpedance: Boolean,
+    val chartable: Boolean = true,
+    /** Listed only when a measurement has a value (few scales or formula libraries estimate it). */
+    val optional: Boolean = false,
+) {
+    WEIGHT(MetricUnit.KG, 2, needsImpedance = false),
+    BMI(MetricUnit.NONE, 1, needsImpedance = false),
+    FAT_PERCENT(MetricUnit.PERCENT, 1, needsImpedance = true),
+    FAT_MASS(MetricUnit.KG, 1, needsImpedance = true),
+    MUSCLE(MetricUnit.KG, 1, needsImpedance = true),
+    SKELETAL_MUSCLE(MetricUnit.PERCENT, 1, needsImpedance = true, optional = true),
+    WATER(MetricUnit.PERCENT, 1, needsImpedance = true),
+    BONE(MetricUnit.KG, 2, needsImpedance = true),
+    VISCERAL(MetricUnit.NONE, 1, needsImpedance = false),
+    BMR(MetricUnit.KCAL, 0, needsImpedance = false),
+    METABOLIC_AGE(MetricUnit.YEARS, 0, needsImpedance = true),
+    PROTEIN(MetricUnit.PERCENT, 1, needsImpedance = true),
+    IDEAL_WEIGHT(MetricUnit.KG, 1, needsImpedance = false, chartable = false);
+
+    fun extract(c: BodyComposition): Double? = when (this) {
+        WEIGHT -> c.weightKg
+        BMI -> c.bmi
+        FAT_PERCENT -> c.fatPercent
+        FAT_MASS -> c.fatMassKg
+        MUSCLE -> c.muscleKg
+        SKELETAL_MUSCLE -> c.skeletalMusclePercent
+        WATER -> c.waterPercent
+        BONE -> c.boneKg
+        VISCERAL -> c.visceralFat
+        BMR -> c.bmr
+        METABOLIC_AGE -> c.metabolicAge
+        PROTEIN -> c.proteinPercent
+        IDEAL_WEIGHT -> c.idealWeightKg
+    }
+
+    /** Status chip for this metric, or null if the value is unavailable. */
+    fun classify(c: BodyComposition): Classification? = when (this) {
+        WEIGHT -> Classifier.bmi(c.bmi)
+        BMI -> Classifier.bmi(c.bmi)
+        FAT_PERCENT, FAT_MASS -> c.fatPercent?.let { Classifier.fat(it, c.sex, c.age) }
+        MUSCLE -> c.muscleKg?.let { Classifier.muscle(it, c.sex, c.heightCm) }
+        SKELETAL_MUSCLE -> c.skeletalMusclePercent?.let { Classifier.skeletalMuscle(it, c.sex) }
+        WATER -> c.waterPercent?.let { Classifier.water(it, c.sex) }
+        BONE -> c.boneKg?.let { Classifier.bone(it, c.sex, c.weightKg) }
+        VISCERAL -> Classifier.visceral(c.visceralFat)
+        BMR -> Classifier.bmr(c.bmr, c.weightKg, c.sex, c.age)
+        METABOLIC_AGE -> c.metabolicAge?.let { Classifier.metabolicAge(it, c.age) }
+        PROTEIN -> c.proteinPercent?.let { Classifier.protein(it) }
+        IDEAL_WEIGHT -> Classifier.idealWeight(c.weightKg, c.healthyWeightMinKg, c.healthyWeightMaxKg)
+    }
+
+    /**
+     * Range considered healthy for chart bands (values with a "good" status), based on the
+     * profile/latest composition. Null when the metric has no closed normal range.
+     */
+    fun normalRange(c: BodyComposition): ClosedFloatingPointRange<Double>? = when (this) {
+        WEIGHT -> c.healthyWeightMinKg..c.healthyWeightMaxKg
+        BMI -> 18.5..24.9
+        FAT_PERCENT -> Classifier.fatThresholds(c.sex, c.age).let { it[0]..it[2] }
+        MUSCLE -> Classifier.muscleRange(c.sex, c.heightCm)
+        SKELETAL_MUSCLE -> Classifier.skeletalMuscleRange(c.sex)
+        WATER -> Classifier.waterRange(c.sex)
+        BONE -> Classifier.boneRange(c.sex, c.weightKg)
+        VISCERAL -> 1.0..9.9
+        PROTEIN -> 16.0..20.0
+        FAT_MASS, BMR, METABOLIC_AGE, IDEAL_WEIGHT -> null
+    }
+
+    companion object {
+        val chartMetrics: List<Metric> = entries.filter { it.chartable }
+    }
+}

@@ -1,0 +1,86 @@
+# Band (experimental direct mode). Its diagnostics log stays in English on purpose.
+band_test_notification_body = GlobalFitness doğrudan modundan test bildirimi
+band_failure_no_bluetooth = Bu telefonda Bluetooth yok.
+band_failure_bluetooth_off = Bluetooth kapalı. Açıp tekrar deneyin.
+band_test_notification_sent = Test bildirimi gönderildi
+band_key_error_empty = Kimlik doğrulama anahtarını girin.
+band_key_error_not_hex = Anahtar yalnızca onaltılık basamaklar (0–9 ve a–f) içerebilir; isteğe bağlı olarak 0x öneki kullanılabilir.
+band_key_error_length = Anahtar %1$s onaltılık karakterden oluşmalıdır (şu an %2$s).
+band_key_save_failed = Anahtar telefona kaydedilemedi.
+band_key_title = Kimlik doğrulama anahtarı
+band_actions = Eylemler
+band_forwarding_title = Bildirim iletimi
+band_battery = Pil
+band_battery_charging = %1$s · şarj oluyor
+band_worn = Bilekte
+band_model = Model
+band_firmware = Ürün yazılımı
+band_serial = Seri no
+band_time_synced_at = Saat senkronize edildi
+band_disconnect = Bağlantıyı kes
+band_refresh_battery = Pil durumunu yenile
+band_stop_find = Aramayı durdur
+band_sync_time = Saati senkronize et
+band_test_notification = Test bildirimi
+band_sync_time_on_connect = Bağlanırken saati senkronize et
+band_live_heart_rate = Canlı nabız
+band_alarms_title = Alarmlar
+band_save_alarm = Alarmı kaydet
+band_delete_alarm = Alarmı sil
+band_steps_today = Bugünkü adımlar
+band_calories = Kaloriler
+band_standing_hours = Ayakta geçen saatler
+band_live_storage_text = Okumalar, daha sonra birleştirilebilmesi için telefonda (band.db) saklanır. Canlı nabız açıkken ve bu ekrandayken bağlantı hareketsizlik nedeniyle kapatılmaz.
+band_diagnostics = Tanılama
+band_log_hide = Gizle
+band_log_show = Göster (%1$s)
+band_log_text = Bağlantı günlüğü (hata bildirimleri için İngilizce). Kimlik doğrulama anahtarını asla içermez.
+band_log_empty = Henüz kayıt yok.
+band_log_clear = Günlüğü temizle
+band_live_chart_desc{one} = Canlı nabız: %1$d okuma, %2$s ile %3$s arası
+band_live_chart_desc{other} = Canlı nabız: %1$d okuma, %2$s ile %3$s arası
+
+# Band key and device picker
+band_key_saved = Anahtar telefona kaydedildi (gizli).
+band_key_change = Değiştir
+band_key_show = Göster
+band_key_save = Anahtarı kaydet
+
+# Band key help
+band_help_important_storage = Bu uygulama onu yalnızca özel depolama alanında, yedeklerin dışında saklar ve tanılamada asla göstermez.
+band_help_how_text = Bunlar Gadgetbridge projesinin belgelediği yöntemlerdir. Uygulama anahtarı sizin için çıkarmaz.
+band_help_how_logs = Mi Fitness günlükleri (root gerekmez): Mi Fitness (eski adıyla Xiaomi Wear, paket adı com.xiaomi.wearable) günlük dosyalarını telefonun depolama alanında Android/data/com.xiaomi.wearable/files/log/ klasörüne yazar (Mi Health sürümünde: Android/data/com.mi.health/files/log/). Bu dosyalarda (örneğin XiaomiFit.device.log) “encryptKey”, “authKey”, “token” veya “huamiAuthKey” alanlarını arayın; ardından 32 onaltılık karakter gelir. Birden fazla varsa önce dosyanın sonuna en yakın olanı deneyin. Android 11 ve sonrasında bu klasörlere genellikle yalnızca telefonu bir bilgisayara bağlayarak (MTP veya adb) erişilebilir.
+band_help_how_root = Root'lu telefon: Mi Fitness'i kapatın ve “device_db” veritabanına bakın; anahtar, “detail” JSON verisindeki “auth_key” veya “encrypt_key” özniteliğindedir.
+band_help_link_server = Gadgetbridge: anahtarı alma (Huami/Xiaomi sunucusu)
+
+# Band alarms
+alarm_once = Bir kez
+alarm_daily = Her gün
+alarm_weekdays = Pazartesi–Cuma
+alarm_weekends = Hafta sonları
+alarm_band_repeat = Tekrar bileklikte ayarlandı
+alarm_saved_on_band = Bilekliğe kaydedilen alarmlar
+alarm_count_of_max{one} = %1$d / %2$d alarm
+alarm_count_of_max{other} = %1$d / %2$d alarm
+alarm_count{one} = %1$d alarm
+alarm_count{other} = %1$d alarm
+alarm_none = Bileklikte alarm yok.
+alarm_new = Yeni alarm
+alarm_edit = Alarmı düzenle
+alarm_reload = Yeniden oku
+alarm_sync_text = Değişiklikler bilekliğe gönderilir ve liste ondan geri okunur; böylece bilekliğin gerçekte neyi kaydettiğini görürsünüz.
+alarm_repeat_smart = %1$s · akıllı
+alarm_edit_at = %1$s alarmını düzenle
+alarm_delete_at = %1$s alarmını sil
+alarm_repeat = Tekrar
+alarm_smart = Akıllı alarm
+alarm_smart_text = Bileklik sizi hafif uyku sırasında biraz daha erken uyandırabilir.
+
+# Notification forwarding
+forwarding_switch = Telefon bildirimlerini ilet
+forwarding_text = Yalnızca bileklik doğrudan modda bağlıyken ve yalnızca işaretlediğiniz uygulamalardan. Diğer zamanlarda bildirimleri Mi Fitness gönderir. İçerik asla saklanmaz.
+forwarding_access_needed = Bildirimleri okumak için Android bildirim erişimi gerekir.
+forwarding_grant_access = Bildirim erişimi ver
+forwarding_active_pending = Açık: bilekliği bağladığınızda iletilecekler.
+forwarding_apps = Uygulamalar
+forwarding_apps_empty = Uygulamalar bildirim gönderdiğinde burada görünür.

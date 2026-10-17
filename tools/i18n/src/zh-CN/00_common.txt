@@ -1,0 +1,102 @@
+# App
+band_notification_listener_label = GlobalFitness：向手环转发通知
+
+# Common actions
+action_cancel = 取消
+action_ok = 确定
+action_save = 保存
+action_delete = 删除
+action_retry = 重试
+action_got_it = 知道了
+action_close = 关闭
+action_back = 返回
+action_continue = 继续
+action_open_settings = 打开设置
+action_grant_permission = 授予权限
+action_turn_on_bluetooth = 开启 Bluetooth
+action_turn_on_location = 开启位置信息
+action_connect_health_connect = 连接 Health Connect
+action_install_health_connect = 安装 Health Connect
+action_update_health_connect = 更新 Health Connect
+action_add_manual_weight = 手动添加体重
+common_no_data = 暂无数据
+common_not_enough_data = 数据不足
+common_time = 时间
+common_experimental = 实验性
+common_required_mark = %1$s *
+common_error_detail = %1$s：%2$s
+
+# Units and values
+unit_kg = 公斤
+unit_kcal = 千卡
+unit_percent = %
+unit_years = 岁
+value_kg = %1$s 公斤
+value_kcal = %1$s 千卡
+value_percent = %1$s%%
+value_years{other} = %1$s 岁
+value_ohm = %1$s Ω
+
+# Relative dates
+time_today = 今天
+time_yesterday = 昨天
+time_today_at = 今天 %1$s
+time_yesterday_at = 昨天 %1$s
+
+# Navigation
+nav_today = 今天
+nav_body = 身体
+nav_activity = 活动
+nav_devices = 设备
+nav_profile = 我的
+
+# Body metrics
+metric_weight = 体重
+metric_bmi = BMI
+metric_fat_percent = 体脂率
+metric_fat_mass = 脂肪量
+metric_muscle = 肌肉量
+metric_skeletal_muscle = 骨骼肌
+metric_water = 水分
+metric_bone = 骨量
+metric_visceral = 内脏脂肪
+metric_bmr = 基础代谢
+metric_metabolic_age = 代谢年龄
+metric_protein = 蛋白质
+metric_ideal_weight = 理想体重
+
+# Classification chips
+class_low = 偏低
+class_very_low = 过低
+class_normal = 正常
+class_high = 偏高
+class_very_high = 过高
+class_overweight = 超重
+class_obese = 肥胖
+class_excellent = 优秀
+class_optimal = 最佳
+class_younger = 更年轻
+class_older_than_age = 高于实际年龄
+class_in_range = 在范围内
+class_out_of_range = 超出范围
+
+# Body types
+body_type = 体型
+body_type_obese = 肥胖型
+body_type_overweight = 偏胖型
+body_type_solid = 壮实型
+body_type_lack_exercise = 缺乏运动型
+body_type_balanced = 标准型
+body_type_balanced_muscular = 标准肌肉型
+body_type_skinny = 偏瘦型
+body_type_balanced_skinny = 标准偏瘦型
+body_type_skinny_muscular = 偏瘦肌肉型
+
+# Health Connect rationale (shown by Health Connect)
+health_rationale_title = 健康数据隐私
+health_rationale_intro = GlobalFitness 使用 Health Connect 做两件事：
+health_rationale_read = • 读取你的手环或手表数据（例如通过 Mi Fitness 同步的 Xiaomi Smart Band）：步数、距离、卡路里、心率、静息心率、心率变异性、睡眠、血氧、呼吸频率和运动记录。它还会读取其他应用记录的体重和体脂率。获得过往数据权限后，最多可导入一年的数据。
+health_rationale_write = • 写入你的体重秤测量数据：体重、体脂率、骨量、去脂体重、基础代谢和身体水分。如果你在应用中删除某条测量记录，它也会从 Health Connect 中删除。
+health_rationale_storage = 从 Health Connect 读取的数据仅保存在这部手机上：不会上传到可选的云备份，不会用于广告，也不会与任何人共享。应用仅用这些数据向你显示摘要和图表。
+health_rationale_revoke = 你可以随时在 Health Connect 中撤销任何权限；应用将停止读取该类数据，并在下次同步时删除其本地副本。
+health_rationale_full_policy = 完整隐私政策

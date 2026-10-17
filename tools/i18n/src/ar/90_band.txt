@@ -1,0 +1,98 @@
+# Band (experimental direct mode). Its diagnostics log stays in English on purpose.
+band_test_notification_body = إشعار تجريبي من الوضع المباشر في GlobalFitness
+band_failure_no_bluetooth = لا يحتوي هذا الهاتف على Bluetooth.
+band_failure_bluetooth_off = تم إيقاف Bluetooth. شغّله ثم أعد المحاولة.
+band_test_notification_sent = تم إرسال الإشعار التجريبي
+band_key_error_empty = أدخل مفتاح المصادقة.
+band_key_error_not_hex = يمكن أن يحتوي المفتاح على أرقام سداسية عشرية فقط (الأرقام 0–9 والحروف a–f)، مع البادئة 0x الاختيارية.
+band_key_error_length = يجب أن يتكوّن المفتاح من %1$s حرفًا سداسيًا عشريًا (طوله الحالي %2$s).
+band_key_save_failed = تعذّر حفظ المفتاح على الهاتف.
+band_key_title = مفتاح المصادقة
+band_actions = الإجراءات
+band_forwarding_title = إعادة توجيه الإشعارات
+band_battery = البطارية
+band_battery_charging = %1$s · قيد الشحن
+band_worn = على المعصم
+band_model = الطراز
+band_firmware = البرنامج الثابت
+band_serial = الرقم التسلسلي
+band_time_synced_at = تمت مزامنة الوقت
+band_disconnect = قطع الاتصال
+band_refresh_battery = تحديث البطارية
+band_stop_find = إيقاف البحث
+band_sync_time = مزامنة الوقت
+band_test_notification = إشعار تجريبي
+band_sync_time_on_connect = مزامنة الوقت عند الاتصال
+band_live_heart_rate = معدل ضربات القلب المباشر
+band_alarms_title = المنبهات
+band_save_alarm = حفظ المنبه
+band_delete_alarm = حذف المنبه
+band_steps_today = خطوات اليوم
+band_calories = السعرات الحرارية
+band_standing_hours = ساعات الوقوف
+band_live_storage_text = تُحفظ القراءات على الهاتف (band.db) ليمكن دمجها لاحقًا. وما دام معدل ضربات القلب المباشر مفعّلًا وأنت في هذه الشاشة، لا يُغلق الاتصال بسبب عدم النشاط.
+band_diagnostics = التشخيص
+band_log_hide = إخفاء
+band_log_show = إظهار (%1$s)
+band_log_text = سجل الاتصال (بالإنجليزية، لإرفاقه ببلاغات الأخطاء). لا يتضمن مفتاح المصادقة أبدًا.
+band_log_empty = لا توجد مدخلات بعد.
+band_log_clear = مسح السجل
+band_live_chart_desc{zero} = معدل ضربات القلب المباشر: %1$d قراءة، من %2$s إلى %3$s
+band_live_chart_desc{one} = معدل ضربات القلب المباشر: قراءة واحدة، من %2$s إلى %3$s
+band_live_chart_desc{two} = معدل ضربات القلب المباشر: قراءتان، من %2$s إلى %3$s
+band_live_chart_desc{few} = معدل ضربات القلب المباشر: %1$d قراءات، من %2$s إلى %3$s
+band_live_chart_desc{many} = معدل ضربات القلب المباشر: %1$d قراءة، من %2$s إلى %3$s
+band_live_chart_desc{other} = معدل ضربات القلب المباشر: %1$d قراءة، من %2$s إلى %3$s
+
+# Band key and device picker
+band_key_saved = تم حفظ المفتاح على الهاتف (مخفي).
+band_key_change = تغيير
+band_key_show = إظهار
+band_key_save = حفظ المفتاح
+
+# Band key help
+band_help_important_storage = يحفظه هذا التطبيق في تخزينه الخاص فقط، خارج النسخ الاحتياطية، ولا يعرضه أبدًا في التشخيص.
+band_help_how_text = هذه هي الطرق التي يوثّقها مشروع Gadgetbridge. لا يستخرج التطبيق المفتاح نيابةً عنك.
+band_help_how_logs = سجلات Mi Fitness (دون صلاحيات الجذر): يكتب Mi Fitness (المعروف سابقًا باسم Xiaomi Wear، والحزمة com.xiaomi.wearable) ملفات سجل في ذاكرة الهاتف، في المسار Android/data/com.xiaomi.wearable/files/log (وفي نسخة Mi Health: Android/data/com.mi.health/files/log). ابحث فيها (مثل XiaomiFit.device.log) عن الحقول «encryptKey» أو «authKey» أو «token» أو «huamiAuthKey» متبوعة بـ32 حرفًا سداسيًا عشريًا. وإذا وُجد أكثر من مفتاح فجرّب أولًا الأقرب إلى نهاية الملف. وفي Android 11 والإصدارات الأحدث لا يمكن عادةً الوصول إلى هذه المجلدات إلا بتوصيل الهاتف بحاسوب (MTP أو adb).
+band_help_how_root = هاتف بصلاحيات الجذر: أغلق Mi Fitness وابحث في قاعدة بياناته «device_db»؛ يوجد المفتاح في الخاصية «auth_key» أو «encrypt_key» ضمن ملف JSON المسمى «detail».
+band_help_link_server = الحصول على المفتاح (خادم Huami/Xiaomi) في Gadgetbridge
+
+# Band alarms
+alarm_once = مرة واحدة
+alarm_daily = كل يوم
+alarm_weekdays = من الاثنين إلى الجمعة
+alarm_weekends = نهاية الأسبوع
+alarm_band_repeat = التكرار مضبوط على السوار
+alarm_saved_on_band = المنبهات المحفوظة في السوار
+alarm_count_of_max{zero} = %1$d من %2$d منبه
+alarm_count_of_max{one} = %1$d من منبه واحد
+alarm_count_of_max{two} = %1$d من منبهين
+alarm_count_of_max{few} = %1$d من %2$d منبهات
+alarm_count_of_max{many} = %1$d من %2$d منبهًا
+alarm_count_of_max{other} = %1$d من %2$d منبه
+alarm_count{zero} = لا توجد منبهات
+alarm_count{one} = منبه واحد
+alarm_count{two} = منبهان
+alarm_count{few} = %1$d منبهات
+alarm_count{many} = %1$d منبهًا
+alarm_count{other} = %1$d منبه
+alarm_none = لا توجد منبهات في السوار.
+alarm_new = منبه جديد
+alarm_edit = تعديل المنبه
+alarm_reload = إعادة القراءة
+alarm_sync_text = تُرسل التغييرات إلى السوار وتُقرأ القائمة منه مرة أخرى، فترى ما حفظه فعلًا.
+alarm_repeat_smart = %1$s · ذكي
+alarm_edit_at = تعديل منبه الساعة %1$s
+alarm_delete_at = حذف منبه الساعة %1$s
+alarm_repeat = التكرار
+alarm_smart = المنبه الذكي
+alarm_smart_text = يمكن للسوار إيقاظك قبل الموعد بقليل، أثناء النوم الخفيف.
+
+# Notification forwarding
+forwarding_switch = إعادة توجيه إشعارات الهاتف
+forwarding_text = فقط أثناء اتصال السوار بالوضع المباشر ومن التطبيقات التي تحددها فقط. وفي بقية الوقت يرسل Mi Fitness الإشعارات. لا يُحفظ المحتوى أبدًا.
+forwarding_access_needed = يلزم إذن الوصول إلى الإشعارات في Android لقراءتها.
+forwarding_grant_access = منح إذن الوصول إلى الإشعارات
+forwarding_active_pending = مفعّل: ستُعاد توجيهها عند اتصال السوار.
+forwarding_apps = التطبيقات
+forwarding_apps_empty = ستظهر التطبيقات هنا عندما تنشر إشعارًا.

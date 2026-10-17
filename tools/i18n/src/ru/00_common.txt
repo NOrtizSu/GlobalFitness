@@ -1,0 +1,105 @@
+# App
+band_notification_listener_label = GlobalFitness: пересылка на браслет
+
+# Common actions
+action_cancel = Отмена
+action_ok = ОК
+action_save = Сохранить
+action_delete = Удалить
+action_retry = Повторить
+action_got_it = Понятно
+action_close = Закрыть
+action_back = Назад
+action_continue = Продолжить
+action_open_settings = Открыть настройки
+action_grant_permission = Дать разрешение
+action_turn_on_bluetooth = Включить Bluetooth
+action_turn_on_location = Включить геолокацию
+action_connect_health_connect = Подключить Health Connect
+action_install_health_connect = Установить Health Connect
+action_update_health_connect = Обновить Health Connect
+action_add_manual_weight = Добавить вес вручную
+common_no_data = Нет данных
+common_not_enough_data = Недостаточно данных
+common_time = Время
+common_experimental = Экспериментально
+common_required_mark = %1$s *
+common_error_detail = %1$s: %2$s
+
+# Units and values
+unit_kg = кг
+unit_kcal = ккал
+unit_percent = %
+unit_years = лет
+value_kg = %1$s кг
+value_kcal = %1$s ккал
+value_percent = %1$s%%
+value_years{one} = %1$s год
+value_years{few} = %1$s года
+value_years{many} = %1$s лет
+value_years{other} = %1$s года
+value_ohm = %1$s Ом
+
+# Relative dates
+time_today = Сегодня
+time_yesterday = Вчера
+time_today_at = Сегодня, %1$s
+time_yesterday_at = Вчера, %1$s
+
+# Navigation
+nav_today = Сегодня
+nav_body = Тело
+nav_activity = Активность
+nav_devices = Устройства
+nav_profile = Профиль
+
+# Body metrics
+metric_weight = Вес
+metric_bmi = ИМТ
+metric_fat_percent = Процент жира
+metric_fat_mass = Жировая масса
+metric_muscle = Мышечная масса
+metric_skeletal_muscle = Скелетные мышцы
+metric_water = Вода
+metric_bone = Костная масса
+metric_visceral = Висцеральный жир
+metric_bmr = Базальный метаболизм
+metric_metabolic_age = Метаболический возраст
+metric_protein = Белок
+metric_ideal_weight = Идеальный вес
+
+# Classification chips
+class_low = Низкий
+class_very_low = Очень низкий
+class_normal = Норма
+class_high = Высокий
+class_very_high = Очень высокий
+class_overweight = Избыточный вес
+class_obese = Ожирение
+class_excellent = Отлично
+class_optimal = Оптимально
+class_younger = Моложе
+class_older_than_age = Старше вашего возраста
+class_in_range = В норме
+class_out_of_range = Вне нормы
+
+# Body types
+body_type = Тип телосложения
+body_type_obese = Ожирение
+body_type_overweight = Избыточный вес
+body_type_solid = Крепкий
+body_type_lack_exercise = Недостаток нагрузки
+body_type_balanced = Сбалансированный
+body_type_balanced_muscular = Сбалансированный мускулистый
+body_type_skinny = Худощавый
+body_type_balanced_skinny = Сбалансированный худощавый
+body_type_skinny_muscular = Худощавый мускулистый
+
+# Health Connect rationale (shown by Health Connect)
+health_rationale_title = Конфиденциальность данных о здоровье
+health_rationale_intro = GlobalFitness использует Health Connect для двух целей:
+health_rationale_read = • Чтение данных с вашего браслета или часов (например, Xiaomi Smart Band через Mi Fitness): шаги, расстояние, калории, пульс, пульс в покое, вариабельность сердечного ритма, сон, кислород в крови, частота дыхания и тренировки. Также приложение читает вес и процент жира, записанные другими приложениями. С разрешением на доступ к прошлым данным оно импортирует данные максимум за год.
+health_rationale_write = • Запись измерений с ваших весов: вес, процент жира, костная масса, безжировая масса тела, базальный метаболизм и вода в организме. Если вы удалите измерение в приложении, оно удалится и из Health Connect.
+health_rationale_storage = Данные, полученные из Health Connect, хранятся только на этом телефоне: они не загружаются в необязательную резервную копию в облаке, не используются для рекламы и никому не передаются. Приложение использует их только для того, чтобы показывать вам сводки и графики.
+health_rationale_revoke = Вы можете в любой момент отозвать любое разрешение в Health Connect: приложение перестанет читать этот тип данных и удалит его локальную копию при следующей синхронизации.
+health_rationale_full_policy = Полная политика конфиденциальности
