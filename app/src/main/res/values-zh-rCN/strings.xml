@@ -965,7 +965,7 @@
     <string name="forwarding_apps_empty">应用发布通知后会显示在这里。</string>
     <string name="devices_wearables">手环和手表</string>
     <string name="wearables_none">还没有设置任何手环或手表。请把你的设备靠近手机，或从目录中添加。</string>
-    <string name="wearables_add_from_catalog">从目录中添加</string>
+    <string name="wearables_add_from_catalog">从目录添加</string>
     <string name="wearables_detected">已检测到和已配对</string>
     <string name="wearables_detected_none">尚未识别到任何设备。授予“附近的设备”权限后，与这部手机配对的设备会显示在这里；其他设备会在开机且在附近时显示。</string>
     <string name="wearables_paired">已配对</string>

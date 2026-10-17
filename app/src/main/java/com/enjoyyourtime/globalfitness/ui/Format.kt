@@ -182,6 +182,15 @@ object Fmt {
 
     fun time(ms: Long): String = skeleton(ms, timeSkeleton())
 
+    /**
+     * A time on a chart axis. On a 12-hour clock a time on the hour shows the hour alone ("6 AM",
+     * "오전 6시"), which "오전 6:00" is too wide for; otherwise the same as [time] ("06:00", "5:45 AM").
+     */
+    fun axisTime(ms: Long): String {
+        val onTheHour = java.time.Instant.ofEpochMilli(ms).atZone(ZoneId.systemDefault()).let { it.minute == 0 && it.second == 0 }
+        return if (hour24 == false && onTheHour) skeleton(ms, "h") else time(ms)
+    }
+
     /** A time of day ("07:30" / "7:30 AM"). */
     fun time(t: LocalTime): String = time(t.atDate(LocalDate.now()).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
 
