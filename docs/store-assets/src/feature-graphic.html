@@ -2,15 +2,17 @@
 <!--
   Google Play feature graphic (1024x500). Render with headless Chrome, e.g.:
     chrome --headless=new --hide-scrollbars --force-device-scale-factor=1 --window-size=1024,500 \
-           --virtual-time-budget=5000 --screenshot=feature-graphic-1024x500.png "file:///.../feature-graphic.html"
-  Spanish variant: add ?lang=es to the URL. Uses the real app screenshots in ../screenshots-20x9 and ../icon-512.png.
+           --virtual-time-budget=8000 --allow-file-access-from-files \
+           --screenshot=feature-graphic-1024x500.png "file:///.../feature-graphic.html"
+  Other languages: add ?lang=<Play locale> (es, pt-BR, pt-PT, fr-FR, de-DE, it-IT, ru-RU, zh-CN, ja-JP, ko-KR, tr-TR,
+  pl-PL, hi-IN, ar, id, vi). Uses the real app screenshots in ../screenshots-20x9/<locale> and ../icon-512.png.
 -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <title>GlobalFitness feature graphic</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Noto+Sans+SC:wght@500&family=Noto+Sans+JP:wght@500&family=Noto+Sans+KR:wght@500&family=Noto+Sans+Devanagari:wght@500&family=Noto+Sans+Arabic:wght@500&display=swap">
 <style>
   :root {
     --blue-0: #3E8CE6;
@@ -34,7 +36,14 @@
   .brand { display: flex; align-items: center; gap: 22px; }
   .brand img { width: 96px; height: 96px; border-radius: 22px; box-shadow: 0 8px 24px rgba(8, 36, 84, 0.35); }
   .brand h1 { font-size: 62px; line-height: 1; font-weight: 700; letter-spacing: -0.5px; }
-  .tagline { margin-top: 34px; font-size: 34px; line-height: 1.28; font-weight: 500; max-width: 480px; text-wrap: balance; color: rgba(255, 255, 255, 0.96); }
+  .tagline { margin-top: 34px; font-size: 34px; line-height: 1.28; font-weight: 500; max-width: 480px; text-wrap: balance; white-space: pre-line; color: rgba(255, 255, 255, 0.96); }
+
+  /* Scripts Roboto lacks: the tagline falls back to the matching Noto Sans family. */
+  :lang(zh) .tagline { font-family: "Noto Sans SC", "Roboto", sans-serif; line-height: 1.4; }
+  :lang(ja) .tagline { font-family: "Noto Sans JP", "Roboto", sans-serif; line-height: 1.4; }
+  :lang(ko) .tagline { font-family: "Noto Sans KR", "Roboto", sans-serif; line-height: 1.4; word-break: keep-all; }
+  :lang(hi) .tagline { font-family: "Roboto", "Noto Sans Devanagari", sans-serif; line-height: 1.45; }
+  :lang(ar) .tagline { font-family: "Noto Sans Arabic", "Roboto", sans-serif; line-height: 1.5; }
 
   .phone {
     position: absolute; width: 236px; height: 540px; padding: 8px; border-radius: 36px;
@@ -44,6 +53,13 @@
   .phone .screen img { display: block; width: 220px; height: auto; }
   .back  { left: 592px; top: 92px; }
   .front { left: 772px; top: 34px; }
+
+  /* Right-to-left languages: the whole composition is mirrored (copy on the right, phones on the left). */
+  [dir="rtl"] .s1 { left: -16px; }
+  [dir="rtl"] .s2 { left: 804px; }
+  [dir="rtl"] .copy { left: auto; right: 64px; }
+  [dir="rtl"] .back { left: 196px; }
+  [dir="rtl"] .front { left: 16px; }
 </style>
 </head>
 <body>
@@ -53,7 +69,7 @@
   <div class="copy">
     <div class="brand">
       <img src="../icon-512.png" alt="">
-      <h1>GlobalFitness</h1>
+      <h1 dir="ltr">GlobalFitness</h1>
     </div>
     <p class="tagline" id="tagline">Smart scales, bands &amp; health — in one app</p>
   </div>
@@ -62,14 +78,42 @@
   <div class="phone front"><div class="screen"><img id="shotFront" alt=""></div></div>
 
   <script>
-    const es = new URLSearchParams(location.search).get("lang") === "es";
-    const loc = es ? "es-ES" : "en-US";
-    document.documentElement.lang = es ? "es" : "en";
-    document.getElementById("tagline").textContent = es
-      ? "Básculas, pulseras y salud en una sola app"
-      : "Smart scales, bands & health — in one app";
+    // Play listing locale -> [screenshot folder, html lang, tagline ("\n" = preferred line break)]
+    const LOCALES = {
+      "en":    ["en-US", "en", "Smart scales, bands & health — in one app"],
+      "es":    ["es-ES", "es", "Básculas, pulseras y salud en una sola app"],
+      "pt-BR": ["pt-BR", "pt-BR", "Balanças, pulseiras e saúde em um só app"],
+      "pt-PT": ["pt-PT", "pt-PT", "Balanças, pulseiras e saúde numa só app"],
+      "fr-FR": ["fr-FR", "fr", "Balances, bracelets et santé dans une seule app"],
+      "de-DE": ["de-DE", "de", "Waagen, Fitnessbänder und Gesundheit in einer App"],
+      "it-IT": ["it-IT", "it", "Bilance, smartband e salute in un’unica app"],
+      "ru-RU": ["ru-RU", "ru", "Весы, браслеты и здоровье в одном приложении"],
+      "zh-CN": ["zh-CN", "zh-CN", "智能体重秤、手环与健康，\n尽在一款应用"],
+      "ja-JP": ["ja-JP", "ja", "スマート体重計、バンド、健康管理をひとつのアプリで"],
+      "ko-KR": ["ko-KR", "ko", "스마트 체중계, 밴드,\n건강 관리를 하나의 앱으로"],
+      "tr-TR": ["tr-TR", "tr", "Akıllı tartılar, bileklikler ve sağlık tek uygulamada"],
+      "pl-PL": ["pl-PL", "pl", "Wagi, opaski i zdrowie w jednej aplikacji"],
+      "hi-IN": ["hi-IN", "hi", "स्मार्ट स्केल, बैंड और सेहत —\nसब एक ही ऐप में"],
+      "ar":    ["ar", "ar", "الموازين الذكية والأساور وصحتك في تطبيق واحد"],
+      "id":    ["id", "id", "Timbangan, gelang, dan kesehatan dalam satu aplikasi"],
+      "vi":    ["vi", "vi", "Cân, vòng đeo tay và sức khỏe trong một ứng dụng"],
+    };
+    const RTL = new Set(["ar"]);
+    const param = new URLSearchParams(location.search).get("lang") || "en";
+    const key = LOCALES[param] ? param : (Object.keys(LOCALES).find(k => LOCALES[k][0] === param) || "en");
+    const [loc, htmlLang, tagline] = LOCALES[key];
+    document.documentElement.lang = htmlLang;
+    if (RTL.has(key)) document.documentElement.dir = "rtl";
+    const el = document.getElementById("tagline");
+    el.textContent = tagline;
     document.getElementById("shotBack").src = "../screenshots-20x9/" + loc + "/02-body.png";
     document.getElementById("shotFront").src = "../screenshots-20x9/" + loc + "/01-today.png";
+    // Keep the tagline on two lines: shrink long translations a little once the web fonts are in.
+    document.fonts.ready.then(() => {
+      let size = 34;
+      const lines = () => Math.round(el.getBoundingClientRect().height / parseFloat(getComputedStyle(el).lineHeight));
+      while (lines() > 2 && size > 26) el.style.fontSize = (--size) + "px";
+    });
   </script>
 </body>
 </html>
