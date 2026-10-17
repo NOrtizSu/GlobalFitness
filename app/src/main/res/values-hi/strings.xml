@@ -959,7 +959,6 @@
     <string name="band_key_change">बदलें</string>
     <string name="band_key_show">दिखाएं</string>
     <string name="band_key_save">कुंजी सेव करें</string>
-    <string name="band_key_storage">इसे सिर्फ़ ऐप के निजी स्टोरेज में रखा जाता है, बैकअप से बाहर, और यह डायग्नोस्टिक्स में कभी नहीं दिखती।</string>
     <string name="band_help_important_storage">यह ऐप इसे सिर्फ़ अपने निजी स्टोरेज में रखता है, बैकअप से बाहर, और डायग्नोस्टिक्स में इसे कभी नहीं दिखाता।</string>
     <string name="band_help_how_text">ये वे तरीके हैं, जो Gadgetbridge प्रोजेक्ट में बताए गए हैं। ऐप आपके लिए कुंजी नहीं निकालता।</string>
     <string name="band_help_how_logs">Mi Fitness के लॉग (बिना रूट): Mi Fitness (पहले Xiaomi Wear, पैकेज com.xiaomi.wearable) फ़ोन के स्टोरेज में Android/data/com.xiaomi.wearable/files/log/ में लॉग फ़ाइलें लिखता है (Mi Health वेरिएंट में: Android/data/com.mi.health/files/log/)। उनमें (उदाहरण के लिए XiaomiFit.device.log में) “encryptKey”, “authKey”, “token” या “huamiAuthKey” फ़ील्ड खोजें, जिनके बाद 32 हेक्साडेसिमल वर्ण हों। अगर कई मिलें, तो पहले फ़ाइल के अंत के सबसे करीब वाली आज़माएं। Android 11 और उसके बाद के वर्शन पर ये फ़ोल्डर आम तौर पर सिर्फ़ फ़ोन को कंप्यूटर से कनेक्ट करके (MTP या adb) ही खुल पाते हैं।</string>

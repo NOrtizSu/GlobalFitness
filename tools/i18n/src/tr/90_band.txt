@@ -45,7 +45,6 @@ band_key_saved = Anahtar telefona kaydedildi (gizli).
 band_key_change = Değiştir
 band_key_show = Göster
 band_key_save = Anahtarı kaydet
-band_key_storage = Yalnızca uygulamanın özel depolama alanında, yedeklerin dışında saklanır ve tanılamada asla görünmez.
 
 # Band key help
 band_help_important_storage = Bu uygulama onu yalnızca özel depolama alanında, yedeklerin dışında saklar ve tanılamada asla göstermez.

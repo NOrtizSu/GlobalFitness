@@ -928,7 +928,6 @@
     <string name="band_key_change">Ubah</string>
     <string name="band_key_show">Tampilkan</string>
     <string name="band_key_save">Simpan kunci</string>
-    <string name="band_key_storage">Kunci hanya disimpan di penyimpanan pribadi aplikasi, di luar cadangan, dan tidak pernah muncul di diagnostik.</string>
     <string name="band_help_important_storage">Aplikasi ini hanya menyimpannya di penyimpanan pribadinya, di luar cadangan, dan tidak pernah menampilkannya di diagnostik.</string>
     <string name="band_help_how_text">Berikut adalah metode yang didokumentasikan oleh proyek Gadgetbridge. Aplikasi ini tidak mengekstrak kunci untuk Anda.</string>
     <string name="band_help_how_logs">Log Mi Fitness (tanpa root): Mi Fitness (sebelumnya Xiaomi Wear, paket com.xiaomi.wearable) menulis file log ke penyimpanan ponsel, di Android/data/com.xiaomi.wearable/files/log/ (pada varian Mi Health: Android/data/com.mi.health/files/log/). Cari di dalamnya (misalnya di XiaomiFit.device.log) kolom “encryptKey”, “authKey”, “token”, atau “huamiAuthKey” yang diikuti oleh 32 karakter heksadesimal. Jika ada beberapa, coba dulu yang paling dekat dengan akhir file. Di Android 11 dan versi lebih baru, folder tersebut biasanya hanya dapat diakses dengan menghubungkan ponsel ke komputer (MTP atau adb).</string>

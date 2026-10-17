@@ -1021,7 +1021,6 @@
     <string name="band_key_change">Zmień</string>
     <string name="band_key_show">Pokaż</string>
     <string name="band_key_save">Zapisz klucz</string>
-    <string name="band_key_storage">Jest przechowywany wyłącznie w prywatnej pamięci aplikacji, poza kopiami zapasowymi, i nigdy nie pojawia się w diagnostyce.</string>
     <string name="band_help_important_storage">Ta aplikacja przechowuje go wyłącznie w swojej prywatnej pamięci, poza kopiami zapasowymi, i nigdy nie pokazuje go w diagnostyce.</string>
     <string name="band_help_how_text">To metody opisane w projekcie Gadgetbridge. Aplikacja nie wyodrębnia klucza za Ciebie.</string>
     <string name="band_help_how_logs">Dzienniki Mi Fitness (bez roota): Mi Fitness (dawniej Xiaomi Wear, pakiet com.xiaomi.wearable) zapisuje pliki dziennika w pamięci telefonu, w Android/data/com.xiaomi.wearable/files/log/ (w wariancie Mi Health: Android/data/com.mi.health/files/log/). Przeszukaj je (na przykład XiaomiFit.device.log) pod kątem pól „encryptKey”, „authKey”, „token” lub „huamiAuthKey”, po których następuje 32 znaki szesnastkowe. Jeśli jest ich kilka, najpierw wypróbuj ten najbliższy końca pliku. W Androidzie 11 i nowszych te foldery są zwykle dostępne tylko po podłączeniu telefonu do komputera (MTP lub adb).</string>

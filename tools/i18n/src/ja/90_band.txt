@@ -44,7 +44,6 @@ band_key_saved = キーをスマートフォンに保存しました（非表示
 band_key_change = 変更
 band_key_show = 表示
 band_key_save = キーを保存
-band_key_storage = キーはアプリの非公開ストレージにのみ保存され、バックアップには含まれず、診断にも表示されません。
 
 # Band key help
 band_help_important_storage = このアプリはキーを非公開ストレージにのみ保存し、バックアップには含めず、診断にも表示しません。

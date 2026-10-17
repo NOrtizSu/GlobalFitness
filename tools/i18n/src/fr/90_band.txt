@@ -46,7 +46,6 @@ band_key_saved = Clé enregistrée sur le téléphone (masquée).
 band_key_change = Modifier
 band_key_show = Afficher
 band_key_save = Enregistrer la clé
-band_key_storage = Elle est stockée uniquement dans l'espace privé de l'application, hors des sauvegardes, et n'apparaît jamais dans le diagnostic.
 
 # Band key help
 band_help_important_storage = Cette application ne la stocke que dans son espace privé, hors des sauvegardes, et ne l'affiche jamais dans le diagnostic.

@@ -44,7 +44,6 @@ band_key_saved = Khóa đã được lưu trên điện thoại (đã ẩn).
 band_key_change = Đổi
 band_key_show = Hiện
 band_key_save = Lưu khóa
-band_key_storage = Khóa chỉ được lưu trong bộ nhớ riêng của ứng dụng, nằm ngoài các bản sao lưu, và không bao giờ xuất hiện trong phần chẩn đoán.
 
 # Band key help
 band_help_important_storage = Ứng dụng này chỉ lưu khóa trong bộ nhớ riêng, nằm ngoài các bản sao lưu, và không bao giờ hiển thị khóa trong phần chẩn đoán.

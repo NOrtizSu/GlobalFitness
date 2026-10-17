@@ -149,7 +149,6 @@ fun WearableKeyWizardScreen(viewModel: WearableViewModel, driver: WearableDriver
                 OutlinedButton(onClick = { viewModel.paste(readClipboard(context)) }) { Text(stringResource(R.string.wearable_wizard_paste)) }
                 Button(onClick = { if (viewModel.saveKey()) onDone() }, enabled = input.isNotBlank()) { Text(stringResource(R.string.band_key_save)) }
             }
-            Text(stringResource(R.string.band_key_storage), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }

@@ -46,7 +46,6 @@ band_key_saved = Chave salva no celular (oculta).
 band_key_change = Alterar
 band_key_show = Mostrar
 band_key_save = Salvar chave
-band_key_storage = Ela fica guardada apenas no armazenamento privado do app, fora dos backups, e nunca aparece no diagnóstico.
 
 # Band key help
 band_help_important_storage = Este app a guarda apenas no armazenamento privado dele, fora dos backups, e nunca a mostra no diagnóstico.

@@ -1083,7 +1083,6 @@
     <string name="band_key_change">تغيير</string>
     <string name="band_key_show">إظهار</string>
     <string name="band_key_save">حفظ المفتاح</string>
-    <string name="band_key_storage">يُحفظ في التخزين الخاص بالتطبيق فقط، خارج النسخ الاحتياطية، ولا يظهر أبدًا في التشخيص.</string>
     <string name="band_help_important_storage">يحفظه هذا التطبيق في تخزينه الخاص فقط، خارج النسخ الاحتياطية، ولا يعرضه أبدًا في التشخيص.</string>
     <string name="band_help_how_text">هذه هي الطرق التي يوثّقها مشروع Gadgetbridge. لا يستخرج التطبيق المفتاح نيابةً عنك.</string>
     <string name="band_help_how_logs">سجلات Mi Fitness (دون صلاحيات الجذر): يكتب Mi Fitness (المعروف سابقًا باسم Xiaomi Wear، والحزمة com.xiaomi.wearable) ملفات سجل في ذاكرة الهاتف، في المسار Android/data/com.xiaomi.wearable/files/log (وفي نسخة Mi Health: Android/data/com.mi.health/files/log). ابحث فيها (مثل XiaomiFit.device.log) عن الحقول «encryptKey» أو «authKey» أو «token» أو «huamiAuthKey» متبوعة بـ32 حرفًا سداسيًا عشريًا. وإذا وُجد أكثر من مفتاح فجرّب أولًا الأقرب إلى نهاية الملف. وفي Android 11 والإصدارات الأحدث لا يمكن عادةً الوصول إلى هذه المجلدات إلا بتوصيل الهاتف بحاسوب (MTP أو adb).</string>

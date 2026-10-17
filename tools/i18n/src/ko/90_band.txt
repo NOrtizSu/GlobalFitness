@@ -44,7 +44,6 @@ band_key_saved = 키가 휴대전화에 저장됨(숨김).
 band_key_change = 변경
 band_key_show = 표시
 band_key_save = 키 저장
-band_key_storage = 키는 앱의 비공개 저장소에만 저장되며, 백업에 포함되지 않고 진단 정보에도 표시되지 않습니다.
 
 # Band key help
 band_help_important_storage = 이 앱은 키를 비공개 저장소에만 저장하며, 백업에 포함하지 않고 진단 정보에도 표시하지 않습니다.

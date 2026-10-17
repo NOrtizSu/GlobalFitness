@@ -928,7 +928,6 @@
     <string name="band_key_change">Đổi</string>
     <string name="band_key_show">Hiện</string>
     <string name="band_key_save">Lưu khóa</string>
-    <string name="band_key_storage">Khóa chỉ được lưu trong bộ nhớ riêng của ứng dụng, nằm ngoài các bản sao lưu, và không bao giờ xuất hiện trong phần chẩn đoán.</string>
     <string name="band_help_important_storage">Ứng dụng này chỉ lưu khóa trong bộ nhớ riêng, nằm ngoài các bản sao lưu, và không bao giờ hiển thị khóa trong phần chẩn đoán.</string>
     <string name="band_help_how_text">Đây là các phương pháp được dự án Gadgetbridge ghi lại. Ứng dụng không trích xuất khóa giúp bạn.</string>
     <string name="band_help_how_logs">Nhật ký của Mi Fitness (không cần root): Mi Fitness (trước đây là Xiaomi Wear, gói com.xiaomi.wearable) ghi các tệp nhật ký vào bộ nhớ điện thoại, trong Android/data/com.xiaomi.wearable/files/log/ (với biến thể Mi Health: Android/data/com.mi.health/files/log/). Hãy tìm trong đó (ví dụ trong XiaomiFit.device.log) các trường “encryptKey”, “authKey”, “token” hoặc “huamiAuthKey” theo sau là 32 ký tự thập lục phân. Nếu có nhiều giá trị, hãy thử giá trị gần cuối tệp nhất trước. Trên Android 11 trở lên, các thư mục này thường chỉ truy cập được khi kết nối điện thoại với máy tính (MTP hoặc adb).</string>

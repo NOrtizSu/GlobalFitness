@@ -44,7 +44,6 @@ band_key_saved = Kunci disimpan di ponsel (tersembunyi).
 band_key_change = Ubah
 band_key_show = Tampilkan
 band_key_save = Simpan kunci
-band_key_storage = Kunci hanya disimpan di penyimpanan pribadi aplikasi, di luar cadangan, dan tidak pernah muncul di diagnostik.
 
 # Band key help
 band_help_important_storage = Aplikasi ini hanya menyimpannya di penyimpanan pribadinya, di luar cadangan, dan tidak pernah menampilkannya di diagnostik.

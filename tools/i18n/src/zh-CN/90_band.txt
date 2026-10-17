@@ -44,7 +44,6 @@ band_key_saved = 密钥已保存在手机上（已隐藏）。
 band_key_change = 更改
 band_key_show = 显示
 band_key_save = 保存密钥
-band_key_storage = 密钥仅存储在应用的私有存储空间中，不包含在备份里，也绝不会出现在诊断信息中。
 
 # Band key help
 band_help_important_storage = 本应用仅将其存储在私有存储空间中，不包含在备份里，也绝不会在诊断信息中显示。

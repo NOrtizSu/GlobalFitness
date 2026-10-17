@@ -45,7 +45,6 @@ band_key_saved = Key saved on the phone (hidden). ||| Clave guardada en el telé
 band_key_change = Change ||| Cambiar
 band_key_show = Show ||| Mostrar
 band_key_save = Save key ||| Guardar clave
-band_key_storage = It is stored only in the app's private storage, outside backups, and never appears in the diagnostics. ||| Se guarda solo en el almacenamiento privado de la app, fuera de las copias de seguridad, y nunca aparece en el diagnóstico.
 
 # Band key help
 band_help_important_storage = This app stores it only in its private storage, outside backups, and never shows it in the diagnostics. ||| Esta app la guarda solo en su almacenamiento privado, fuera de las copias de seguridad, y nunca la muestra en el diagnóstico.

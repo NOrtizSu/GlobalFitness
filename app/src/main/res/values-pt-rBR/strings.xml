@@ -990,7 +990,6 @@
     <string name="band_key_change">Alterar</string>
     <string name="band_key_show">Mostrar</string>
     <string name="band_key_save">Salvar chave</string>
-    <string name="band_key_storage">Ela fica guardada apenas no armazenamento privado do app, fora dos backups, e nunca aparece no diagnóstico.</string>
     <string name="band_help_important_storage">Este app a guarda apenas no armazenamento privado dele, fora dos backups, e nunca a mostra no diagnóstico.</string>
     <string name="band_help_how_text">Estes são os métodos documentados pelo projeto Gadgetbridge. O app não extrai a chave por você.</string>
     <string name="band_help_how_logs">Registros do Mi Fitness (sem root): o Mi Fitness (antigo Xiaomi Wear, pacote com.xiaomi.wearable) grava arquivos de registro no armazenamento do celular, em Android/data/com.xiaomi.wearable/files/log/ (na variante Mi Health: Android/data/com.mi.health/files/log/). Procure neles (por exemplo, em XiaomiFit.device.log) os campos “encryptKey”, “authKey”, “token” ou “huamiAuthKey” seguidos de 32 caracteres hexadecimais. Se houver vários, tente primeiro o mais próximo do final do arquivo. No Android 11 e posteriores, essas pastas geralmente só são acessíveis conectando o celular a um computador (MTP ou adb).</string>

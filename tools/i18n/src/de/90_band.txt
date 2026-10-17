@@ -45,7 +45,6 @@ band_key_saved = Schlüssel auf dem Smartphone gespeichert (verborgen).
 band_key_change = Ändern
 band_key_show = Anzeigen
 band_key_save = Schlüssel speichern
-band_key_storage = Er wird nur im privaten Speicher der App abgelegt, außerhalb von Backups, und erscheint nie in der Diagnose.
 
 # Band key help
 band_help_important_storage = Diese App speichert ihn nur im privaten Speicher, außerhalb von Backups, und zeigt ihn nie in der Diagnose an.

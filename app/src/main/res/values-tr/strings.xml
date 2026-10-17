@@ -959,7 +959,6 @@
     <string name="band_key_change">Değiştir</string>
     <string name="band_key_show">Göster</string>
     <string name="band_key_save">Anahtarı kaydet</string>
-    <string name="band_key_storage">Yalnızca uygulamanın özel depolama alanında, yedeklerin dışında saklanır ve tanılamada asla görünmez.</string>
     <string name="band_help_important_storage">Bu uygulama onu yalnızca özel depolama alanında, yedeklerin dışında saklar ve tanılamada asla göstermez.</string>
     <string name="band_help_how_text">Bunlar Gadgetbridge projesinin belgelediği yöntemlerdir. Uygulama anahtarı sizin için çıkarmaz.</string>
     <string name="band_help_how_logs">Mi Fitness günlükleri (root gerekmez): Mi Fitness (eski adıyla Xiaomi Wear, paket adı com.xiaomi.wearable) günlük dosyalarını telefonun depolama alanında Android/data/com.xiaomi.wearable/files/log/ klasörüne yazar (Mi Health sürümünde: Android/data/com.mi.health/files/log/). Bu dosyalarda (örneğin XiaomiFit.device.log) “encryptKey”, “authKey”, “token” veya “huamiAuthKey” alanlarını arayın; ardından 32 onaltılık karakter gelir. Birden fazla varsa önce dosyanın sonuna en yakın olanı deneyin. Android 11 ve sonrasında bu klasörlere genellikle yalnızca telefonu bir bilgisayara bağlayarak (MTP veya adb) erişilebilir.</string>

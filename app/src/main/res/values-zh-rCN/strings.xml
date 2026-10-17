@@ -928,7 +928,6 @@
     <string name="band_key_change">更改</string>
     <string name="band_key_show">显示</string>
     <string name="band_key_save">保存密钥</string>
-    <string name="band_key_storage">密钥仅存储在应用的私有存储空间中，不包含在备份里，也绝不会出现在诊断信息中。</string>
     <string name="band_help_important_storage">本应用仅将其存储在私有存储空间中，不包含在备份里，也绝不会在诊断信息中显示。</string>
     <string name="band_help_how_text">以下是 Gadgetbridge 项目记录的方法。本应用不会替你提取密钥。</string>
     <string name="band_help_how_logs">Mi Fitness 日志（无需 root）：Mi Fitness（原名 Xiaomi Wear，软件包 com.xiaomi.wearable）会将日志文件写入手机存储空间的 Android/data/com.xiaomi.wearable/files/log/ 中（Mi Health 版本则为 Android/data/com.mi.health/files/log/）。在这些文件（例如 XiaomiFit.device.log）中搜索“encryptKey”“authKey”“token”或“huamiAuthKey”字段，其后跟有 32 个十六进制字符。如果有多个，请先尝试最靠近文件末尾的那个。在 Android 11 及更高版本上，这些文件夹通常只能通过将手机连接到电脑（MTP 或 adb）来访问。</string>

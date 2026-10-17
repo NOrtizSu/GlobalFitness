@@ -928,7 +928,6 @@
     <string name="band_key_change">変更</string>
     <string name="band_key_show">表示</string>
     <string name="band_key_save">キーを保存</string>
-    <string name="band_key_storage">キーはアプリの非公開ストレージにのみ保存され、バックアップには含まれず、診断にも表示されません。</string>
     <string name="band_help_important_storage">このアプリはキーを非公開ストレージにのみ保存し、バックアップには含めず、診断にも表示しません。</string>
     <string name="band_help_how_text">以下は Gadgetbridge プロジェクトで紹介されている方法です。このアプリがキーを抽出することはありません。</string>
     <string name="band_help_how_logs">Mi Fitness のログ（root 不要）：Mi Fitness（旧 Xiaomi Wear、パッケージ com.xiaomi.wearable）は、スマートフォンのストレージの Android/data/com.xiaomi.wearable/files/log/ にログファイルを書き込みます（Mi Health 版では Android/data/com.mi.health/files/log/）。これらのファイル（XiaomiFit.device.log など）で、後ろに 16 進数 32 文字が続く「encryptKey」、「authKey」、「token」、「huamiAuthKey」の各フィールドを検索します。複数ある場合は、ファイルの末尾に最も近いものから試してください。Android 11 以降では、通常これらのフォルダにはスマートフォンをパソコンに接続した場合（MTP または adb）にのみアクセスできます。</string>

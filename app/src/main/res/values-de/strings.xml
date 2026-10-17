@@ -959,7 +959,6 @@
     <string name="band_key_change">Ändern</string>
     <string name="band_key_show">Anzeigen</string>
     <string name="band_key_save">Schlüssel speichern</string>
-    <string name="band_key_storage">Er wird nur im privaten Speicher der App abgelegt, außerhalb von Backups, und erscheint nie in der Diagnose.</string>
     <string name="band_help_important_storage">Diese App speichert ihn nur im privaten Speicher, außerhalb von Backups, und zeigt ihn nie in der Diagnose an.</string>
     <string name="band_help_how_text">Das sind die Methoden, die das Gadgetbridge-Projekt dokumentiert. Die App extrahiert den Schlüssel nicht für dich.</string>
     <string name="band_help_how_logs">Mi-Fitness-Protokolle (ohne Root): Mi Fitness (früher Xiaomi Wear, Paket com.xiaomi.wearable) schreibt Protokolldateien in den Speicher des Smartphones, nach Android/data/com.xiaomi.wearable/files/log/ (in der Variante Mi Health: Android/data/com.mi.health/files/log/). Durchsuche sie (zum Beispiel XiaomiFit.device.log) nach den Feldern „encryptKey“, „authKey“, „token“ oder „huamiAuthKey“, gefolgt von 32 Hexadezimalzeichen. Gibt es mehrere, probiere zuerst den, der dem Dateiende am nächsten ist. Ab Android 11 sind diese Ordner meist nur zugänglich, wenn du das Smartphone mit einem Computer verbindest (MTP oder adb).</string>

@@ -998,7 +998,6 @@
     <string name="band_key_change">Change</string>
     <string name="band_key_show">Show</string>
     <string name="band_key_save">Save key</string>
-    <string name="band_key_storage">It is stored only in the app\'s private storage, outside backups, and never appears in the diagnostics.</string>
     <!-- Band key help -->
     <string name="band_help_important_storage">This app stores it only in its private storage, outside backups, and never shows it in the diagnostics.</string>
     <string name="band_help_how_text">These are the methods documented by the Gadgetbridge project. The app does not extract the key for you.</string>
