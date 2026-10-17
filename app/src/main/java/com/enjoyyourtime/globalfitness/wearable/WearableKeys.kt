@@ -37,7 +37,7 @@ object WearableKeys {
         var text = input.filterNot { it.isWhitespace() }
         if (text.startsWith("0x") || text.startsWith("0X")) text = text.substring(2)
         if (text.isEmpty()) return KeyCheck.Invalid(KeyProblem.EMPTY)
-        if (text.any { Character.digit(it, 16) < 0 }) return KeyCheck.Invalid(KeyProblem.NOT_HEX, text.length)
+        if (!text.all(::isAsciiHex)) return KeyCheck.Invalid(KeyProblem.NOT_HEX, text.length)
         if (text.length != HEX_LENGTH) return KeyCheck.Invalid(KeyProblem.WRONG_LENGTH, text.length)
         return KeyCheck.Valid(text.lowercase(Locale.ROOT))
     }
@@ -66,9 +66,15 @@ object WearableKeys {
         }
     }
 
+    /**
+     * Only ASCII 0-9, a-f, A-F. [Character.digit] also accepts other scripts' digits (Arabic-Indic,
+     * fullwidth...), which would pass the check and then be stored as "?" in the ASCII key file.
+     */
+    fun isAsciiHex(c: Char): Boolean = c in '0'..'9' || c in 'a'..'f' || c in 'A'..'F'
+
     /** Hex key to 16 bytes; [normalized] must come from [KeyCheck.Valid] of [AuthKeyKind.HEX_32]. */
     fun hexToBytes(normalized: String): ByteArray {
-        require(normalized.length == HEX_LENGTH) { "bad key length" }
+        require(normalized.length == HEX_LENGTH && normalized.all(::isAsciiHex)) { "bad key" }
         return ByteArray(HEX_LENGTH / 2) { i ->
             ((Character.digit(normalized[2 * i], 16) shl 4) or Character.digit(normalized[2 * i + 1], 16)).toByte()
         }

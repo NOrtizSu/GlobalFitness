@@ -51,6 +51,10 @@ class AuthKeyTest {
     @Test
     fun rejectsNonHexCharacters() {
         assertEquals(AuthKeyError.NOT_HEX, invalid(hex.replaceFirst('a', 'g')).error)
+        // Other scripts' digits are not hex here: they would be stored as "?" in the ASCII key file.
+        assertEquals(AuthKeyError.NOT_HEX, invalid(hex.replaceFirst('0', '٠')).error) // Arabic-Indic zero
+        assertEquals(AuthKeyError.NOT_HEX, invalid(hex.replaceFirst('0', '０')).error) // fullwidth zero
+        assertEquals(AuthKeyError.NOT_HEX, invalid(hex.replaceFirst('a', 'ａ')).error) // fullwidth a
     }
 
     @Test

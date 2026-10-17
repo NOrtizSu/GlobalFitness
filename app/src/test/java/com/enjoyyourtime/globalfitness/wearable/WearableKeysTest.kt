@@ -24,6 +24,11 @@ class WearableKeysTest {
         assertEquals(KeyCheck.Invalid(KeyProblem.WRONG_LENGTH, 30), WearableKeys.validate(AuthKeyKind.HEX_32, key.dropLast(2)))
         assertEquals(KeyCheck.Invalid(KeyProblem.WRONG_LENGTH, 34), WearableKeys.validate(AuthKeyKind.HEX_32, key + "00"))
         assertEquals(KeyCheck.Invalid(KeyProblem.NOT_HEX, 32), WearableKeys.validate(AuthKeyKind.HEX_32, key.dropLast(1) + "g"))
+        // ASCII only: Arabic-Indic, extended Arabic-Indic and fullwidth digits/letters are refused.
+        for (c in listOf('٠', '۵', '０', 'Ａ')) {
+            assertEquals(c.toString(), KeyCheck.Invalid(KeyProblem.NOT_HEX, 32), WearableKeys.validate(AuthKeyKind.HEX_32, key.dropLast(1) + c))
+        }
+        assertEquals(null, WearableKeys.extractFromClipboard(AuthKeyKind.HEX_32, key.dropLast(1) + '０'))
     }
 
     @Test
@@ -32,6 +37,7 @@ class WearableKeysTest {
         assertEquals(KeyCheck.Invalid(KeyProblem.NOT_NUMERIC, 4), WearableKeys.validate(AuthKeyKind.NUMERIC_USER_ID, "12a4"))
         assertEquals(KeyCheck.Invalid(KeyProblem.TOO_LONG, 21), WearableKeys.validate(AuthKeyKind.NUMERIC_USER_ID, "1".repeat(21)))
         assertEquals(KeyCheck.Invalid(KeyProblem.EMPTY), WearableKeys.validate(AuthKeyKind.NUMERIC_USER_ID, ""))
+        assertEquals(KeyCheck.Invalid(KeyProblem.NOT_NUMERIC, 3), WearableKeys.validate(AuthKeyKind.NUMERIC_USER_ID, "1٢2"))
     }
 
     @Test

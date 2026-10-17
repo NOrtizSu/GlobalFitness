@@ -30,10 +30,12 @@ class WearableKeyStore(context: Context) {
         }
     }
 
-    /** Stores [normalizedKey] (from [KeyCheck.Valid]) for [address]. */
+    /** Stores [normalizedKey] (from [KeyCheck.Valid]: ASCII hex or digits) for [address]. */
     @Synchronized
     fun save(address: String, normalizedKey: String) {
         val file = fileFor(address) ?: throw IOException("Invalid address")
+        // The file is ASCII: anything else would be written as "?" and silently corrupt the key.
+        if (normalizedKey.isEmpty() || !normalizedKey.all(WearableKeys::isAsciiHex)) throw IOException("Invalid key format")
         dir.mkdirs()
         val out = file.startWrite()
         try {

@@ -28,7 +28,8 @@ class AuthKey private constructor(private val bytes: ByteArray) {
             var text = input.filterNot { it.isWhitespace() }
             if (text.startsWith("0x") || text.startsWith("0X")) text = text.substring(2)
             if (text.isEmpty()) return AuthKeyResult.Invalid(AuthKeyError.EMPTY)
-            if (text.any { Character.digit(it, 16) < 0 }) return AuthKeyResult.Invalid(AuthKeyError.NOT_HEX)
+            // ASCII only: Character.digit also accepts Arabic-Indic, fullwidth and other digits.
+            if (text.any { it !in '0'..'9' && it !in 'a'..'f' && it !in 'A'..'F' }) return AuthKeyResult.Invalid(AuthKeyError.NOT_HEX)
             if (text.length != HEX_LENGTH) return AuthKeyResult.Invalid(AuthKeyError.WRONG_LENGTH, text.length)
             val bytes = ByteArray(HEX_LENGTH / 2) { i ->
                 ((Character.digit(text[2 * i], 16) shl 4) or Character.digit(text[2 * i + 1], 16)).toByte()
