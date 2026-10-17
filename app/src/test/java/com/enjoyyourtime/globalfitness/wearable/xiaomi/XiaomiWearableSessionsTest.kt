@@ -4,6 +4,7 @@ import com.enjoyyourtime.globalfitness.band.proto.XiaomiProto
 import com.enjoyyourtime.globalfitness.band.xiaomi.AlarmSpec
 import com.enjoyyourtime.globalfitness.band.xiaomi.BandNotification
 import com.enjoyyourtime.globalfitness.band.xiaomi.FakeBand
+import com.enjoyyourtime.globalfitness.band.xiaomi.XiaomiCommands
 import com.enjoyyourtime.globalfitness.band.xiaomi.XiaomiSession
 import com.enjoyyourtime.globalfitness.wearable.FakeLinks
 import com.enjoyyourtime.globalfitness.wearable.WearableEvent
@@ -144,10 +145,10 @@ class XiaomiWearableSessionsTest {
         exercise(session, { band.received.toList() }, { band.push(it) })
         // After authentication every message carries a fresh counter starting at 1.
         assertEquals((1..band.phoneCounters.size).toList(), band.phoneCounters.toList())
-        // A long notification needs a chunked transfer.
+        // A long notification needs a chunked transfer (the body is capped at 512 characters, still several chunks).
         session.sendNotification(BandNotification(6, "com.whatsapp", "WhatsApp", "Ana", "x".repeat(600), 0))
         waitFor { band.received.count { it.type == 7 && it.subtype == 0 } == 2 }
-        assertEquals("x".repeat(600), band.received.last().notification.notification2.notification3.body)
+        assertEquals("x".repeat(XiaomiCommands.MAX_NOTIFICATION_TEXT), band.received.last().notification.notification2.notification3.body)
         session.close()
     }
 
