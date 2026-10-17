@@ -5,8 +5,10 @@ import android.content.res.Resources
 import android.icu.text.DateTimePatternGenerator
 import android.icu.text.ListFormatter
 import android.icu.text.SimpleDateFormat
+import android.view.View
 import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
+import androidx.core.text.layoutDirection
 import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.domain.Metric
 import com.enjoyyourtime.globalfitness.domain.MetricUnit
@@ -68,19 +70,26 @@ object Fmt {
     private fun roundsToZero(v: Double, decimals: Int): Boolean =
         !v.isFinite() || BigDecimal(abs(v)).setScale(decimals, RoundingMode.HALF_UP).signum() == 0
 
+    /**
+     * A sign before a number. In right-to-left languages a left-to-right mark keeps it on the left of
+     * the digits (otherwise Arabic shows "2.85−"), as ICU does for its own Arabic minus sign.
+     */
+    private fun sign(s: String): String =
+        if (locale.layoutDirection == View.LAYOUT_DIRECTION_RTL) "‎$s" else s
+
     /** [v] with [decimals] decimals; a typographic minus, never "-0". */
     fun num(v: Double, decimals: Int): String {
         val magnitude = format(abs(v), decimals)
-        return if (v < 0 && !roundsToZero(v, decimals)) "$MINUS$magnitude" else magnitude
+        return if (v < 0 && !roundsToZero(v, decimals)) sign(MINUS) + magnitude else magnitude
     }
 
     /** "+0,5", "−1,2" or "±0,0". */
     fun signed(v: Double, decimals: Int): String {
         val magnitude = format(abs(v), decimals)
         return when {
-            roundsToZero(v, decimals) -> "±$magnitude"
-            v > 0 -> "+$magnitude"
-            else -> "$MINUS$magnitude"
+            roundsToZero(v, decimals) -> sign("±") + magnitude
+            v > 0 -> sign("+") + magnitude
+            else -> sign(MINUS) + magnitude
         }
     }
 
@@ -123,6 +132,7 @@ object Fmt {
                     Character.isDigit(ch) -> append('0' + Character.getNumericValue(ch))
                     ch == ',' || ch == '٫' || ch == '.' -> append('.')
                     ch == '-' || ch == MINUS[0] -> append('-')
+                    Character.getType(ch) == Character.FORMAT.toInt() -> Unit // bidi marks such as U+200E
                     else -> append(ch)
                 }
             }
