@@ -18,7 +18,12 @@ import java.security.SecureRandom
  *
  * Holds key material only in memory; nothing here is ever logged.
  */
-class XiaomiAuth(secretKey: AuthKey, private val random: SecureRandom = SecureRandom()) {
+class XiaomiAuth(
+    secretKey: AuthKey,
+    private val random: SecureRandom = SecureRandom(),
+    /** Companion device id sent with the nonce when the caller gives none (Wear OS watches). */
+    private val defaultDeviceId: String? = null,
+) {
     private val secret = secretKey.bytes()
     private val phoneNonce = ByteArray(16)
 
@@ -39,7 +44,7 @@ class XiaomiAuth(secretKey: AuthKey, private val random: SecureRandom = SecureRa
     }
 
     /** Step 1: a fresh nonce for this session. */
-    fun startHandshake(deviceId: String? = null): XiaomiProto.Command {
+    fun startHandshake(deviceId: String? = defaultDeviceId): XiaomiProto.Command {
         isEncryptionInitialized = false
         random.nextBytes(phoneNonce)
         return XiaomiCommands.nonce(phoneNonce, deviceId)
@@ -79,6 +84,24 @@ class XiaomiAuth(secretKey: AuthKey, private val random: SecureRandom = SecureRa
         val nonce = ByteBuffer.allocate(12).order(ByteOrder.LITTLE_ENDIAN)
             .put(decryptionNonce).putInt(0).putInt(0).array()
         return XiaomiCrypto.aesCcmDecrypt(decryptionKey, nonce, payload)
+    }
+
+    /**
+     * As [decryptV1] without checking the 4-byte tag (Gadgetbridge `checkDecryptionMac() == false`,
+     * Redmi Smart Band Pro): the CCM keystream starts at counter 1, so this is AES-CTR from the
+     * counter-1 block over everything but the tag.
+     */
+    fun decryptV1Unchecked(payload: ByteArray): ByteArray {
+        val nonce = ByteBuffer.allocate(12).order(ByteOrder.LITTLE_ENDIAN)
+            .put(decryptionNonce).putInt(0).putInt(0).array()
+        val data = payload.copyOf(maxOf(0, payload.size - XiaomiCrypto.CCM_TAG_LENGTH))
+        // CCM counter block: flags (L - 1 = 2) || 12-byte nonce || 3-byte big-endian counter.
+        val counter1 = ByteArray(16).also {
+            it[0] = 2
+            System.arraycopy(nonce, 0, it, 1, 12)
+            it[15] = 1
+        }
+        return XiaomiCrypto.aesCtr(decryptionKey, counter1, data)
     }
 
     /** SPP V2: AES-CTR with the key reused as IV. */

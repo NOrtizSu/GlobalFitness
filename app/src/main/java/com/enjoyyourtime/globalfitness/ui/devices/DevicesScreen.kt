@@ -3,12 +3,8 @@ package com.enjoyyourtime.globalfitness.ui.devices
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,23 +28,26 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.launch
 import com.enjoyyourtime.globalfitness.R
-import com.enjoyyourtime.globalfitness.band.BandConnectionState
 import com.enjoyyourtime.globalfitness.ble.LiveScale
 import com.enjoyyourtime.globalfitness.ble.ScanDebugInfo
 import com.enjoyyourtime.globalfitness.ble.ScanStatus
-import com.enjoyyourtime.globalfitness.ui.BandSummary
 import com.enjoyyourtime.globalfitness.ui.Fmt
 import com.enjoyyourtime.globalfitness.ui.MainViewModel
 import com.enjoyyourtime.globalfitness.ui.components.AppCard
 import com.enjoyyourtime.globalfitness.ui.components.AppIcons
-import com.enjoyyourtime.globalfitness.ui.components.ExperimentalBadge
 import com.enjoyyourtime.globalfitness.ui.components.InfoRow
 import com.enjoyyourtime.globalfitness.ui.components.LocalAppSnackbar
 import com.enjoyyourtime.globalfitness.ui.components.SectionTitle
 import com.enjoyyourtime.globalfitness.ui.components.TabPage
 import com.enjoyyourtime.globalfitness.ui.health.HealthConnectionCard
 import com.enjoyyourtime.globalfitness.ui.health.HealthViewModel
+import com.enjoyyourtime.globalfitness.ui.wearables.WearableDialogs
+import com.enjoyyourtime.globalfitness.ui.wearables.WearableDialogsHost
+import com.enjoyyourtime.globalfitness.ui.wearables.WearablesEvent
+import com.enjoyyourtime.globalfitness.ui.wearables.WearablesViewModel
+import com.enjoyyourtime.globalfitness.ui.wearables.wearablesSection
 
 /** Devices: scales, the experimental direct band mode, Health Connect and BLE diagnostics. */
 @Composable
@@ -56,23 +55,39 @@ fun DevicesScreen(
     mainVm: MainViewModel,
     healthVm: HealthViewModel,
     onConnectHealth: () -> Unit,
-    onOpenBand: () -> Unit,
+    onOpenWearable: (String) -> Unit,
     scalesVm: ScaleDevicesViewModel = viewModel(factory = ScaleDevicesViewModel.Factory),
+    wearablesVm: WearablesViewModel = viewModel(factory = WearablesViewModel.Factory),
 ) {
     val scales by scalesVm.state.collectAsStateWithLifecycle()
     val health by healthVm.uiState.collectAsStateWithLifecycle()
-    val band by mainVm.band.collectAsStateWithLifecycle()
+    val wearables by wearablesVm.state.collectAsStateWithLifecycle()
     val scanStatus by mainVm.scanStatus.collectAsStateWithLifecycle()
     val live by mainVm.live.collectAsStateWithLifecycle()
     val debug by mainVm.debug.collectAsStateWithLifecycle()
     val dialogs = remember { ScaleDialogs() }
+    val wearableDialogs = remember { WearableDialogs() }
     var diagnosticsOpen by rememberSaveable { mutableStateOf(false) }
     val snackbar = LocalAppSnackbar.current
     val context = LocalContext.current
 
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     LaunchedEffect(lifecycle) {
-        lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) { scalesVm.keepDetectedFresh() }
+        lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            launch { scalesVm.keepDetectedFresh() }
+            launch { wearablesVm.keepDetectedFresh() }
+        }
+    }
+    LaunchedEffect(Unit) {
+        wearablesVm.events.collect { event ->
+            when (event) {
+                is WearablesEvent.Open -> onOpenWearable(event.deviceId)
+                is WearablesEvent.Message -> {
+                    snackbar.currentSnackbarData?.dismiss()
+                    snackbar.showSnackbar(event.text.resolve(context), withDismissAction = true)
+                }
+            }
+        }
     }
     LaunchedEffect(Unit) {
         scalesVm.events.collect {
@@ -88,8 +103,11 @@ fun DevicesScreen(
             onAcceptSuggestion = scalesVm::acceptSuggestion, onDeclineSuggestion = scalesVm::declineSuggestion,
         )
 
-        item { SectionTitle(stringResource(R.string.devices_band)) }
-        item { BandCard(band, onOpenBand) }
+        item { SectionTitle(stringResource(R.string.devices_wearables)) }
+        wearablesSection(
+            wearables, wearableDialogs, onOpen = onOpenWearable, onUse = wearablesVm::use,
+            onAcceptSuggestion = wearablesVm::acceptSuggestion, onDeclineSuggestion = wearablesVm::declineSuggestion,
+        )
 
         item { SectionTitle("Health Connect") }
         item {
@@ -114,54 +132,7 @@ fun DevicesScreen(
     }
 
     ScaleDialogsHost(scales, dialogs, scalesVm)
-}
-
-@Composable
-private fun BandCard(band: BandSummary?, onOpen: () -> Unit) {
-    AppCard {
-        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(AppIcons.Watch, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
-                Spacer(Modifier.width(12.dp))
-                Column(Modifier.weight(1f)) {
-                    Text(band?.name ?: "Xiaomi Smart Band 9", style = MaterialTheme.typography.titleMedium)
-                    Text(
-                        bandStatus(band),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-                ExperimentalBadge()
-            }
-            Text(
-                stringResource(R.string.devices_band_text),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-            FilledTonalButton(onClick = onOpen, modifier = Modifier.heightIn(min = 48.dp)) {
-                Text(stringResource(R.string.devices_band_open))
-            }
-        }
-    }
-}
-
-/** One line about the direct band mode (Today and Devices); [withMode] adds "Direct mode · ". */
-@Composable
-fun bandStatus(band: BandSummary?, withMode: Boolean = true): String {
-    if (band == null) return stringResource(R.string.band_status_not_set_up)
-    if (!band.hasKey) return stringResource(R.string.band_status_no_key)
-    val state = band.state
-    val connection = stringResource(
-        when (state.connection) {
-            BandConnectionState.DISCONNECTED -> R.string.band_status_disconnected
-            BandConnectionState.CONNECTING -> R.string.band_status_connecting
-            BandConnectionState.AUTHENTICATING -> R.string.band_status_authenticating
-            BandConnectionState.READY -> R.string.band_status_connected
-        },
-    )
-    val withBattery = state.batteryLevel?.takeIf { state.connection == BandConnectionState.READY }
-        ?.let { stringResource(R.string.band_status_battery, connection, Fmt.percent(it.toDouble())) } ?: connection
-    return if (withMode) stringResource(R.string.band_status_direct_mode, withBattery) else withBattery
+    WearableDialogsHost(wearables, wearableDialogs, wearablesVm)
 }
 
 @Composable

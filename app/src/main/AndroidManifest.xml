@@ -51,6 +51,8 @@
         <package android:name="com.google.android.apps.healthdata" />
         <package android:name="com.xiaomi.wearable" />
         <package android:name="com.mi.health" />
+        <package android:name="com.xiaomi.hm.health" />
+        <package android:name="com.huami.watch.hmwatchmanager" />
     </queries>
     <!-- Optional cloud backup (Firebase), ads (AdMob) and Google Play Billing. -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -88,9 +90,9 @@
             </intent-filter>
         </activity>
 
-        <!-- Experimental direct Xiaomi Smart Band 9 mode -->
+        <!-- Experimental direct mode for bands and watches (one screen per configured device) -->
         <activity
-            android:name=".ui.band.BandActivity"
+            android:name=".ui.wearables.WearableActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 

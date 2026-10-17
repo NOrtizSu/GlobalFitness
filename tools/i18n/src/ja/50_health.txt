@@ -176,7 +176,6 @@ health_hr_day_none = この日の心拍数データは Health Connect にあり�
 health_hr_day_stats = 平均 %1$s · 最小 %2$s · 最大 %3$s
 health_hr_day_stats_resting = %1$s · 安静時 %2$s
 health_band_direct_title = バンド · ダイレクトモード
-health_band_direct_text = バンドの接続中にアプリが記録したリアルタイムの心拍数です（Health Connect には含まれません）。
 health_last_30_days = 過去 30 日間
 health_no_hr_data = 心拍数データがありません。
 health_sleep_last_night_none = 昨夜の睡眠データがありません。

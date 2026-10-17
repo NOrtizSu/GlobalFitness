@@ -196,7 +196,6 @@ health_hr_day_none = لا توجد بيانات عن معدل ضربات الق�
 health_hr_day_stats = المتوسط %1$s · الأدنى %2$s · الأقصى %3$s
 health_hr_day_stats_resting = %1$s · أثناء الراحة %2$s
 health_band_direct_title = السوار · الوضع المباشر
-health_band_direct_text = معدل ضربات القلب المباشر الذي يسجله التطبيق أثناء اتصال السوار (غير موجود في Health Connect).
 health_last_30_days = آخر 30 يومًا
 health_no_hr_data = لا توجد بيانات عن معدل ضربات القلب.
 health_sleep_last_night_none = لا توجد بيانات نوم لليلة الماضية.

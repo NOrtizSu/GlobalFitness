@@ -1,0 +1,107 @@
+# Devices → Bands & watches (any supported family; the diagnostics log stays in English on purpose)
+devices_wearables = बैंड और घड़ियां
+wearables_none = अभी तक कोई बैंड या घड़ी सेट अप नहीं की गई है। अपना डिवाइस पास लाएं या कैटलॉग से जोड़ें।
+wearables_add_from_catalog = कैटलॉग से जोड़ें
+wearables_detected = पहचाने गए और पेयर किए गए
+wearables_detected_none = अभी तक कुछ भी नहीं पहचाना गया। इस फ़ोन से पेयर किए गए डिवाइस, आस-पास मौजूद डिवाइस की अनुमति मिलने पर यहां दिखते हैं; बाकी डिवाइस तब दिखते हैं, जब वे चालू हों और पास में हों।
+wearables_paired = पेयर किया गया
+wearables_use_this = सेट अप करें
+wearables_already_set_up = पहले से सेट अप है
+wearables_open = खोलें
+wearables_remove_text = इसकी कुंजी और सेटिंग फ़ोन से मिटा दी जाती हैं; रिकॉर्ड की गई हृदय गति बनी रहती है। इसे दोबारा सुझाया नहीं जाएगा।
+wearables_removed = हटाया गया: %1$s
+wearables_added = जोड़ा गया: %1$s
+wearables_suggestion_title = क्या यह आपका बैंड या आपकी घड़ी है?
+wearables_suggestion_text = ऐप इससे सिर्फ़ तब कनेक्ट होता है, जब आप इसे डायरेक्ट मोड में खोलते हैं। सिर्फ़ तभी पुष्टि करें, जब यह आपका हो।
+wearables_suggestion_text_key = ऐप इससे सिर्फ़ तब कनेक्ट होता है, जब आप इसे डायरेक्ट मोड में खोलते हैं, और इसके लिए इसके ऐप से प्रमाणीकरण कुंजी चाहिए। सिर्फ़ तभी पुष्टि करें, जब यह आपका हो।
+wearables_suggestion_yes = हां, सेट अप करें
+wearables_catalog_title = बैंड और घड़ियों का कैटलॉग
+wearables_needs_key = %1$s से कुंजी चाहिए
+wearables_no_key_needed = कुंजी की ज़रूरत नहीं
+wearables_bind_question = इनमें से कौन-सा डिवाइस है?
+wearables_bind_none = पहचाने गए या पेयर किए गए डिवाइस में से कोई भी इस मॉडल जैसा नहीं दिखता। इसे चालू करें, पास में रखें और जांचें कि इसके ऐप ने इसे इस फ़ोन से पेयर किया है।
+wearables_bind_others = पहचाने गए दूसरे डिवाइस
+chip_wearable = %1$s: %2$s
+
+# Wearable status
+wearable_status_not_connected = कनेक्ट नहीं है
+wearable_status_connected = कनेक्ट है
+wearable_status_unknown_model = यह मॉडल इस वर्शन में काम नहीं करता
+wearable_connected_protocol = कनेक्ट है (%1$s)
+
+# Wearable screen
+wearable_intro = ऐप ब्लूटूथ के ज़रिए सीधे डिवाइस से बात करता है (Gadgetbridge की तरह), %1$s के बिना। ज़्यादातर डिवाइस सिर्फ़ एक कनेक्शन स्वीकार करते हैं, इसलिए ऐप सिर्फ़ तब कनेक्ट होता है, जब आप “कनेक्ट करें” पर टैप करते हैं, और 2 मिनट तक इस्तेमाल न होने पर या इस स्क्रीन से बाहर जाने पर डिसकनेक्ट हो जाता है, ताकि %1$s फिर से सिंक कर सके।
+wearable_intro_plain = ऐप ब्लूटूथ के ज़रिए सीधे डिवाइस से बात करता है (Gadgetbridge की तरह)। यह सिर्फ़ तब कनेक्ट होता है, जब आप “कनेक्ट करें” पर टैप करते हैं, और 2 मिनट तक इस्तेमाल न होने पर या इस स्क्रीन से बाहर जाने पर डिसकनेक्ट हो जाता है।
+wearable_experimental = प्रायोगिक: इस मॉडल के असली डिवाइस के साथ अभी तक जांचा नहीं गया है।
+wearable_doc_link = इस डिवाइस के बारे में Gadgetbridge के नोट
+wearable_permission_text = डिवाइस से कनेक्ट करने के लिए आस-पास मौजूद डिवाइस की अनुमति ज़रूरी है।
+wearable_transport_ble = ब्लूटूथ LE
+wearable_transport_classic = क्लासिक ब्लूटूथ
+wearable_transport_uart = ब्लूटूथ LE (UART)
+wearable_hardware = हार्डवेयर
+wearable_vendor_settings = %1$s की सेटिंग
+wearable_cannot_connect_hint = कनेक्ट कर पाने के लिए प्रमाणीकरण कुंजी सेव करें।
+wearable_released = डिवाइस फिर से खाली है। अगर आपने %1$s को रोका था, तो उसे दोबारा खोलें, ताकि वह सिंक करता रहे।
+wearable_find = डिवाइस ढूंढें
+wearable_finding_text = डिवाइस बज रहा है या वाइब्रेट कर रहा है। इसे डिवाइस पर बंद करें या “%1$s” पर टैप करें।
+wearable_time_synced = समय सिंक हो गया
+wearable_connect_first = पहले डिवाइस कनेक्ट करें
+wearable_found = डिवाइस के मुताबिक आपने उसे ढूंढ लिया है
+wearable_find_phone = %1$s फ़ोन को ढूंढ रहा है
+wearable_waiting_data = डिवाइस से डेटा का इंतज़ार किया जा रहा है…
+wearable_measuring_hint = मापा जा रहा है… डिवाइस को त्वचा से सटाकर रखें।
+wearable_rr_interval = धड़कनों के बीच का अंतराल
+wearable_steps_session = कनेक्ट होने के बाद से कदम
+wearable_alarms_section = डिवाइस के अलार्म
+wearable_alarms_none = डिवाइस पर कोई अलार्म नहीं है।
+wearable_alarms_read_back = बदलाव डिवाइस को भेजे जाते हैं और सूची उससे दोबारा पढ़ी जाती है, ताकि आप देख सकें कि उसने असल में क्या सेव किया।
+wearable_alarms_local = यह डिवाइस अपने अलार्म नहीं बता सकता: सूची में वही दिखता है, जो ऐप ने उसे भेजा है। डिवाइस पर ही बनाए गए अलार्म यहां नहीं दिखते।
+wearable_forwarding_text = सिर्फ़ तब, जब डिवाइस डायरेक्ट मोड में कनेक्ट हो, और सिर्फ़ उन ऐप से, जिन्हें आप चुनते हैं। बाकी समय सूचनाएं %1$s भेजता है। सामग्री कभी सेव नहीं की जाती।
+wearable_forwarding_text_plain = सिर्फ़ तब, जब डिवाइस डायरेक्ट मोड में कनेक्ट हो, और सिर्फ़ उन ऐप से, जिन्हें आप चुनते हैं। सामग्री कभी सेव नहीं की जाती।
+wearable_forwarding_pending = चालू: डिवाइस कनेक्ट रहने तक सूचनाएं आगे भेजी जाएंगी।
+
+# Wearable connection failures
+wearable_failure_permission = आस-पास मौजूद डिवाइस (ब्लूटूथ) की अनुमति नहीं है। कनेक्ट करने के लिए यह अनुमति दें।
+wearable_failure_no_key = पहले डिवाइस की प्रमाणीकरण कुंजी सेव करें।
+wearable_failure_unknown = यह डिवाइस अब सेट अप नहीं है, या ऐप का यह वर्शन इसके मॉडल के साथ काम नहीं करता।
+wearable_failure_not_found = डिवाइस नहीं मिला। जांचें कि वह चालू हो, पास में हो और इस फ़ोन से पेयर हो।
+wearable_failure_connect = कनेक्शन नहीं खुल सका। जांचें कि डिवाइस चालू है, पास में है और उसमें चार्ज है। अगर %1$s उससे कनेक्ट है, तो डिवाइस व्यस्त है: %1$s को कुछ समय के लिए रोकें (सेटिंग → ऐप्लिकेशन → %1$s → ज़बरदस्ती रोकें) और फिर से कोशिश करें।
+wearable_failure_connect_plain = कनेक्शन नहीं खुल सका। जांचें कि डिवाइस चालू है, पास में है, उसमें चार्ज है और कोई दूसरा ऐप उससे कनेक्ट नहीं है।
+wearable_failure_unsupported = कनेक्ट हो गया, लेकिन डिवाइस वे ब्लूटूथ सेवाएं नहीं देता, जो इस मॉडल में होनी चाहिए। हो सकता है कि यह कोई दूसरा मॉडल या दूसरा फ़र्मवेयर हो।
+wearable_failure_no_response = डिवाइस जवाब नहीं दे रहा। संभवतः वह %1$s के साथ व्यस्त है: %1$s को कुछ समय के लिए रोकें (सेटिंग → ऐप्लिकेशन → %1$s → ज़बरदस्ती रोकें) और फिर से कोशिश करें।
+wearable_failure_no_response_plain = डिवाइस जवाब नहीं दे रहा। उसे पास लाएं और फिर से कोशिश करें।
+wearable_failure_wrong_key = प्रमाणीकरण कुंजी गलत है: डिवाइस उसे पहचानता नहीं। जांचें कि आपने मौजूदा कुंजी कॉपी की है; अगर आपने %1$s में डिवाइस को अनपेयर किया था, तो कुंजी बदल गई है और आपको नई कुंजी चाहिए।
+wearable_failure_auth_rejected = डिवाइस ने प्रमाणीकरण अस्वीकार कर दिया। कुंजी जांचें और फिर से कोशिश करें।
+wearable_failure_link_lost = डिवाइस से कनेक्शन टूट गया।
+wearable_failure_timeout = डिवाइस ने समय पर जवाब नहीं दिया।
+wearable_failure_not_supported = यह डिवाइस यह सुविधा नहीं देता।
+wearable_failure_busy = डिवाइस किसी दूसरे ऐप (लगभग पक्का %1$s) से कनेक्ट है और सिर्फ़ एक कनेक्शन स्वीकार करता है। %1$s को कुछ समय के लिए रोकें (सेटिंग → ऐप्लिकेशन → %1$s → ज़बरदस्ती रोकें) और फिर से कोशिश करें। काम पूरा होने पर %1$s खोलें, ताकि वह सिंक करता रहे।
+wearable_failure_busy_plain = डिवाइस किसी दूसरे ऐप से कनेक्ट है और सिर्फ़ एक कनेक्शन स्वीकार करता है। उस ऐप को बंद करें और फिर से कोशिश करें।
+
+# Wearable key card and key wizard (no vendor sign-in: the key is always entered by the user)
+wearable_key_user_id_title = Xiaomi खाते का यूज़र आईडी
+wearable_key_missing = इस डिवाइस को वह प्रमाणीकरण कुंजी चाहिए, जो %1$s ने पेयर करते समय सेट की थी।
+wearable_key_setup = कुंजी सेट अप करें
+wearable_xiaomi_device_id = डिवाइस आईडी (Wear OS)
+wearable_xiaomi_device_id_help = सिर्फ़ Xiaomi Watch 5 जैसी Wear OS घड़ियों के लिए: कंपैनियन डिवाइस आईडी, जिसे ढूंढने का तरीका Gadgetbridge की गाइड में बताया गया है।
+wearable_wizard_step_what = 1. यह क्या है
+wearable_wizard_what_hex = 32 हेक्साडेसिमल वर्णों (16 बाइट) की एक गुप्त कुंजी, जो आपके डिवाइस और आपके %1$s खाते के बीच साझा होती है। यह तब बनती है, जब आप %1$s में डिवाइस को पेयर करते हैं; डिवाइस इससे जांचता है कि फ़ोन कनेक्ट हो सकता है या नहीं, और कनेक्शन को एन्क्रिप्ट करता है। इसे फ़ोन पर नहीं बनाया जा सकता।
+wearable_wizard_what_user_id = यह पुराना मॉडल हेक्साडेसिमल कुंजी का इस्तेमाल नहीं करता: यह उस Xiaomi खाते के संख्यात्मक यूज़र आईडी से प्रमाणित होता है, जिससे इसे %1$s में पेयर किया गया था।
+wearable_wizard_step_where = 2. इसे कहां से पाएं
+wearable_wizard_where = यह %1$s से या निर्माता के पास मौजूद आपके खाते से मिलती है। Gadgetbridge प्रोजेक्ट हर डिवाइस फ़ैमिली के लिए इसे पाने का तरीका बताता है। यह ऐप कभी भी आपके खाते में साइन इन नहीं करता और कभी भी आपके लिए कुंजी नहीं लाता।
+wearable_wizard_link_device = Gadgetbridge: %1$s
+wearable_wizard_step_important = 3. ध्यान रखें
+wearable_wizard_unpair = अगर आप %1$s में डिवाइस को अनपेयर या रीसेट करते हैं, तो कुंजी काम करना बंद कर देती है और आपको नई कुंजी चाहिए होगी।
+wearable_wizard_share = इसे किसी से साझा न करें: जिसके पास यह है, वह आपके डिवाइस से कनेक्ट कर सकता है।
+wearable_wizard_step_enter = 4. इसे डालें
+wearable_key_paste_hex = 32 वर्णों की हेक्साडेसिमल कुंजी चिपकाएं (“0x” के साथ या उसके बिना); स्पेस और लाइन ब्रेक अनदेखे किए जाते हैं।
+wearable_key_paste_user_id = संख्यात्मक यूज़र आईडी डालें (सिर्फ़ अंक)।
+wearable_wizard_paste = क्लिपबोर्ड से चिपकाएं
+wearable_wizard_clipboard_empty = क्लिपबोर्ड में अपेक्षित फ़ॉर्मैट वाली कोई कुंजी नहीं है।
+wearable_key_error_empty_user_id = यूज़र आईडी डालें।
+wearable_key_error_not_numeric = यूज़र आईडी में सिर्फ़ अंक हो सकते हैं।
+wearable_key_error_too_long = यूज़र आईडी बहुत लंबा है।
+
+# Activity: live heart rate recorded in direct mode, per device
+health_wearable_live_title = %1$s · डायरेक्ट मोड
+health_wearable_live_text = डिवाइस कनेक्ट होने पर ऐप की रिकॉर्ड की गई लाइव हृदय गति (Health Connect में नहीं)।

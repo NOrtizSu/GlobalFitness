@@ -46,7 +46,6 @@ chip_cloud_error = Cloud: Fehler
 chip_cloud_pending = Cloud: Upload ausstehend
 chip_cloud_synced = Cloud: %1$s
 chip_cloud_connected = Cloud: verbunden
-chip_band = Band: %1$s
 today_no_measurements_text = Stell dich bei geöffneter App barfuß auf die Waage: Die Messung erscheint dann hier. Wenn deine Waage nicht unterstützt wird, trag dein Gewicht manuell ein.
 today_view_weight_trend = Gewichtstrend ansehen
 today_weekly_change_none = Wöchentliche Änderung: zu wenig Daten

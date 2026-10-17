@@ -14,7 +14,6 @@ import com.enjoyyourtime.globalfitness.GlobalFitnessApp
 import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.UiText
 import com.enjoyyourtime.globalfitness.account.AccountUser
-import com.enjoyyourtime.globalfitness.band.BandState
 import com.enjoyyourtime.globalfitness.ble.GattSessionInfo
 import com.enjoyyourtime.globalfitness.ble.LiveScale
 import com.enjoyyourtime.globalfitness.ble.ScanDebugInfo
@@ -34,11 +33,14 @@ import com.enjoyyourtime.globalfitness.ui.devices.toUiText
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import com.enjoyyourtime.globalfitness.wearable.WearableConnection
+import com.enjoyyourtime.globalfitness.wearable.WearableSummary
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -55,8 +57,6 @@ data class MainUiState(
 )
 
 /** The experimental direct band mode, once a band has been chosen. */
-data class BandSummary(val name: String, val hasKey: Boolean, val state: BandState)
-
 sealed interface UiEvent {
     data class Message(val text: UiText, val haptic: Boolean = false) : UiEvent
 }
@@ -97,11 +97,10 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
     val premium: StateFlow<Boolean> = container.billing.isPremium
     val adPrivacyOptionsRequired: StateFlow<Boolean> = container.ads.privacyOptionsRequired
 
-    val band: StateFlow<BandSummary?> = container.band.let { band ->
-        combine(band.store.selected, band.store.hasAuthKey, band.state) { selected, hasKey, state ->
-            selected?.let { BandSummary(it.name, hasKey, state) }
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
-    }
+    /** The wearable shown on Today: the connected one, otherwise the first set up. */
+    val wearable: StateFlow<WearableSummary?> = container.wearables.summaries
+        .map { list -> list.firstOrNull { it.state.connection == WearableConnection.READY } ?: list.firstOrNull() }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
     private val _events = Channel<UiEvent>(Channel.BUFFERED)
     val events: Flow<UiEvent> = _events.receiveAsFlow()

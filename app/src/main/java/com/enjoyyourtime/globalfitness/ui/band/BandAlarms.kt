@@ -89,6 +89,10 @@ fun AlarmsCard(
     onEdit: (BandAlarm) -> Unit,
     onToggle: (BandAlarm, Boolean) -> Unit,
     onDelete: (BandAlarm) -> Unit,
+    emptyText: String = stringResource(R.string.alarm_none),
+    footerText: String = stringResource(R.string.alarm_sync_text),
+    /** False for devices that cannot report their alarms (nothing to read again). */
+    canRefresh: Boolean = true,
 ) {
     OutlinedCard(Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -110,15 +114,15 @@ fun AlarmsCard(
                 AlarmRow(alarm, onEdit = { onEdit(alarm) }, onToggle = { onToggle(alarm, it) }, onDelete = { onDelete(alarm) })
             }
             if (alarms != null && alarms.isEmpty()) {
-                Text(stringResource(R.string.alarm_none), style = MaterialTheme.typography.bodySmall)
+                Text(emptyText, style = MaterialTheme.typography.bodySmall)
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 val full = maxAlarms != null && alarms != null && alarms.size >= maxAlarms
                 FilledTonalButton(onClick = onAdd, enabled = !busy && !full) { Text(stringResource(R.string.alarm_new)) }
-                TextButton(onClick = onRefresh, enabled = !busy) { Text(stringResource(R.string.alarm_reload)) }
+                if (canRefresh) TextButton(onClick = onRefresh, enabled = !busy) { Text(stringResource(R.string.alarm_reload)) }
             }
             Text(
-                stringResource(R.string.alarm_sync_text),
+                footerText,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -146,7 +150,14 @@ private fun AlarmRow(alarm: BandAlarm, onEdit: () -> Unit, onToggle: (Boolean) -
 }
 
 @Composable
-fun AlarmEditorDialog(initial: AlarmSpec?, isNew: Boolean, onSave: (AlarmSpec) -> Unit, onDismiss: () -> Unit) {
+fun AlarmEditorDialog(
+    initial: AlarmSpec?,
+    isNew: Boolean,
+    onSave: (AlarmSpec) -> Unit,
+    onDismiss: () -> Unit,
+    /** Shows the smart wake-up option (only devices that implement it). */
+    allowSmart: Boolean = true,
+) {
     val start = initial ?: AlarmSpec(hour = 7, minute = 0)
     val time = rememberTimePickerState(
         initialHour = start.hour,
@@ -178,7 +189,7 @@ fun AlarmEditorDialog(initial: AlarmSpec?, isNew: Boolean, onSave: (AlarmSpec) -
                 }
                 val repeat = if (!daysEdited && start.repeat is AlarmRepeat.Other) start.repeat else AlarmRepeat.fromDays(days)
                 Text(repeatLabel(repeat), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                if (allowSmart) Row(verticalAlignment = Alignment.CenterVertically) {
                     Column(Modifier.weight(1f)) {
                         Text(stringResource(R.string.alarm_smart), style = MaterialTheme.typography.bodyMedium)
                         Text(
@@ -196,7 +207,7 @@ fun AlarmEditorDialog(initial: AlarmSpec?, isNew: Boolean, onSave: (AlarmSpec) -
             TextButton(onClick = {
                 val repeat = if (!daysEdited && start.repeat is AlarmRepeat.Other) start.repeat else AlarmRepeat.fromDays(days)
                 // Saving from the editor (re)activates the alarm, as clock apps do.
-                onSave(start.copy(hour = time.hour, minute = time.minute, smart = smart, repeat = repeat, enabled = true))
+                onSave(start.copy(hour = time.hour, minute = time.minute, smart = smart && allowSmart, repeat = repeat, enabled = true))
             }) { Text(stringResource(R.string.action_save)) }
         },
         dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_cancel)) } },

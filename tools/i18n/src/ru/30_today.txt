@@ -50,7 +50,6 @@ chip_cloud_error = Облако: ошибка
 chip_cloud_pending = Облако: ждёт загрузки
 chip_cloud_synced = Облако: %1$s
 chip_cloud_connected = Облако: подключено
-chip_band = Браслет: %1$s
 today_no_measurements_text = Встаньте на весы босиком, когда приложение открыто: измерение появится здесь. Если ваши весы не поддерживаются, добавьте вес вручную.
 today_view_weight_trend = Показать динамику веса
 today_weekly_change_none = Изменение за неделю: недостаточно данных

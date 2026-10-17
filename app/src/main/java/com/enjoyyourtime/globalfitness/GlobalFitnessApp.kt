@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import android.os.SystemClock
 import android.util.Log
-import com.enjoyyourtime.globalfitness.band.BandManager
 import com.enjoyyourtime.globalfitness.account.AccountManager
 import com.enjoyyourtime.globalfitness.ads.AdSuppression
 import com.enjoyyourtime.globalfitness.ads.AdsManager
@@ -25,12 +24,12 @@ import com.enjoyyourtime.globalfitness.scale.GattSession
 import com.enjoyyourtime.globalfitness.scale.ScaleContext
 import com.enjoyyourtime.globalfitness.scale.drivers.AllDrivers
 import com.enjoyyourtime.globalfitness.ui.Fmt
+import com.enjoyyourtime.globalfitness.wearable.WearableManager
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -62,14 +61,17 @@ class AppContainer(context: Context) {
         elapsedClock = SystemClock::elapsedRealtime,
     ).also { monitor -> appScope.launch { monitor.gattConnecting.collect { scanner.setPaused(it) } } }
 
-    /** Experimental direct Xiaomi Smart Band 9 mode; created on first use. */
-    val band by lazy {
-        BandManager(context.applicationContext, appScope).also { manager ->
-            // No interstitials while the band streams live heart rate.
+    /**
+     * Experimental direct mode for bands and watches of every supported family (Xiaomi, Huami /
+     * Zepp OS, standard BLE, PineTime, Bangle.js); it includes the original Smart Band 9 mode.
+     */
+    val wearables by lazy {
+        WearableManager(context.applicationContext, appScope).also { manager ->
+            // No interstitials while any wearable streams live heart rate.
             appScope.launch {
-                manager.state.map { it.liveActive }.distinctUntilChanged()
-                    .collect { adSuppression.set(AdSuppression.BAND_LIVE_HEART_RATE, it) }
+                manager.liveHeartRateActive.collect { adSuppression.set(AdSuppression.BAND_LIVE_HEART_RATE, it) }
             }
+            appScope.launch { scanner.advertisements.collect { manager.onAdvertisement(it) } }
         }
     }
     val health = HealthModule(context, repository, scaleRegistry, appScope)

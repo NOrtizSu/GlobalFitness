@@ -176,7 +176,6 @@ health_hr_day_none = 이날의 심박수 데이터가 Health Connect에 없습�
 health_hr_day_stats = 평균 %1$s · 최저 %2$s · 최고 %3$s
 health_hr_day_stats_resting = %1$s · 안정 시 %2$s
 health_band_direct_title = 밴드 · 직접 연결 모드
-health_band_direct_text = 밴드가 연결된 상태에서 앱이 기록한 실시간 심박수입니다(Health Connect에는 없음).
 health_last_30_days = 최근 30일
 health_no_hr_data = 심박수 데이터가 없습니다.
 health_sleep_last_night_none = 어젯밤 수면 데이터가 없습니다.

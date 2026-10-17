@@ -44,7 +44,6 @@ chip_cloud_error = クラウド：エラー
 chip_cloud_pending = クラウド：アップロード待ち
 chip_cloud_synced = クラウド：%1$s
 chip_cloud_connected = クラウド：接続済み
-chip_band = バンド：%1$s
 today_no_measurements_text = アプリを開いた状態で、素足で体重計に乗ってください。測定データがここに表示されます。お使いの体重計が対応していない場合は、体重を手動で追加してください。
 today_view_weight_trend = 体重の推移を見る
 today_weekly_change_none = 週間の変化：データ不足

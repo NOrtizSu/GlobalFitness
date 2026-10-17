@@ -1,0 +1,107 @@
+# Devices → Bands & watches (any supported family; the diagnostics log stays in English on purpose)
+devices_wearables = 밴드 및 워치
+wearables_none = 아직 설정된 밴드나 워치가 없습니다. 기기를 가까이 가져오거나 카탈로그에서 추가하세요.
+wearables_add_from_catalog = 카탈로그에서 추가
+wearables_detected = 감지됨 및 페어링됨
+wearables_detected_none = 아직 인식된 기기가 없습니다. 이 휴대전화와 페어링된 기기는 ‘근처 기기’ 권한을 허용하면 여기에 표시되고, 다른 기기는 켜져 있고 가까이 있을 때 표시됩니다.
+wearables_paired = 페어링됨
+wearables_use_this = 설정
+wearables_already_set_up = 이미 설정됨
+wearables_open = 열기
+wearables_remove_text = 기기의 키와 설정이 휴대전화에서 삭제되며, 기록된 심박수는 유지됩니다. 이 기기는 다시 추천되지 않습니다.
+wearables_removed = 삭제됨: %1$s
+wearables_added = 추가됨: %1$s
+wearables_suggestion_title = 내 밴드 또는 워치인가요?
+wearables_suggestion_text = 앱은 직접 연결 모드에서 기기를 열 때만 연결합니다. 본인 기기인 경우에만 확인하세요.
+wearables_suggestion_text_key = 앱은 직접 연결 모드에서 기기를 열 때만 연결하며, 기기 전용 앱의 인증 키가 필요합니다. 본인 기기인 경우에만 확인하세요.
+wearables_suggestion_yes = 예, 설정
+wearables_catalog_title = 밴드 및 워치 카탈로그
+wearables_needs_key = %1$s의 키 필요
+wearables_no_key_needed = 키 필요 없음
+wearables_bind_question = 다음 중 어떤 기기인가요?
+wearables_bind_none = 감지되거나 페어링된 기기 중 이 모델로 보이는 기기가 없습니다. 기기를 켜서 가까이 두고, 기기 전용 앱에서 이 휴대전화와 페어링했는지 확인하세요.
+wearables_bind_others = 감지된 다른 기기
+chip_wearable = %1$s: %2$s
+
+# Wearable status
+wearable_status_not_connected = 연결 안 됨
+wearable_status_connected = 연결됨
+wearable_status_unknown_model = 이 버전에서 지원하지 않는 모델
+wearable_connected_protocol = 연결됨(%1$s)
+
+# Wearable screen
+wearable_intro = 앱은 %1$s 앱을 거치지 않고 Bluetooth로 기기와 직접 통신합니다(Gadgetbridge와 같은 방식). 대부분의 기기는 한 번에 하나의 연결만 허용하므로, 앱은 ‘연결’을 탭할 때만 연결하고 2분 동안 사용하지 않거나 이 화면을 나가면 연결을 해제합니다. 그러면 %1$s에서 다시 동기화할 수 있습니다.
+wearable_intro_plain = 앱은 Bluetooth로 기기와 직접 통신합니다(Gadgetbridge와 같은 방식). ‘연결’을 탭할 때만 연결하고 2분 동안 사용하지 않거나 이 화면을 나가면 연결을 해제합니다.
+wearable_experimental = 실험 단계: 아직 이 모델의 실제 기기로 테스트하지 않았습니다.
+wearable_doc_link = 이 기기에 대한 Gadgetbridge 참고 자료
+wearable_permission_text = 기기에 연결하려면 ‘근처 기기’ 권한이 필요합니다.
+wearable_transport_ble = Bluetooth LE
+wearable_transport_classic = Bluetooth Classic
+wearable_transport_uart = Bluetooth LE(UART)
+wearable_hardware = 하드웨어
+wearable_vendor_settings = %1$s 설정
+wearable_cannot_connect_hint = 연결하려면 인증 키를 저장하세요.
+wearable_released = 이제 기기를 다른 앱에서 사용할 수 있습니다. %1$s 앱을 중지했다면 계속 동기화되도록 다시 여세요.
+wearable_find = 기기 찾기
+wearable_finding_text = 기기에서 소리가 나거나 진동하고 있습니다. 기기에서 멈추거나 ‘%1$s’ 버튼을 탭하세요.
+wearable_time_synced = 시간 동기화됨
+wearable_connect_first = 먼저 기기를 연결하세요
+wearable_found = 기기에서 찾았다고 응답했습니다
+wearable_find_phone = %1$s에서 휴대전화를 찾고 있습니다
+wearable_waiting_data = 기기의 데이터를 기다리는 중…
+wearable_measuring_hint = 측정 중… 기기를 피부에 밀착시키세요.
+wearable_rr_interval = 심박 간격
+wearable_steps_session = 연결 후 걸음 수
+wearable_alarms_section = 기기의 알람
+wearable_alarms_none = 기기에 알람이 없습니다.
+wearable_alarms_read_back = 변경 사항을 기기로 보낸 후 기기에서 목록을 다시 읽어 오므로, 기기에 실제로 저장된 내용을 확인할 수 있습니다.
+wearable_alarms_local = 이 기기는 알람 목록을 알려 주지 못합니다. 목록에는 앱이 기기로 보낸 내용이 표시됩니다. 기기 자체에서 만든 알람은 여기에 표시되지 않습니다.
+wearable_forwarding_text = 기기가 직접 연결 모드로 연결되어 있는 동안에만, 선택한 앱의 알림만 전달합니다. 그 외의 시간에는 %1$s에서 알림을 보냅니다. 내용은 절대 저장되지 않습니다.
+wearable_forwarding_text_plain = 기기가 직접 연결 모드로 연결되어 있는 동안에만, 선택한 앱의 알림만 전달합니다. 내용은 절대 저장되지 않습니다.
+wearable_forwarding_pending = 사용: 기기가 연결되어 있는 동안 전달됩니다.
+
+# Wearable connection failures
+wearable_failure_permission = ‘근처 기기’(Bluetooth) 권한이 없습니다. 연결하려면 권한을 허용하세요.
+wearable_failure_no_key = 먼저 기기의 인증 키를 저장하세요.
+wearable_failure_unknown = 이 기기는 더 이상 설정되어 있지 않거나, 이 버전의 앱에서 해당 모델을 지원하지 않습니다.
+wearable_failure_not_found = 기기를 찾을 수 없습니다. 기기가 켜져 있고, 가까이 있으며, 이 휴대전화와 페어링되어 있는지 확인하세요.
+wearable_failure_connect = 연결할 수 없습니다. 기기가 켜져 있고, 가까이 있으며, 충전되어 있는지 확인하세요. %1$s 앱이 기기에 연결되어 있으면 기기가 사용 중입니다. %1$s 앱을 일시적으로 중지하고(설정 → 애플리케이션 → %1$s → 강제 중지) 다시 시도하세요.
+wearable_failure_connect_plain = 연결할 수 없습니다. 기기가 켜져 있고, 가까이 있으며, 충전되어 있는지, 그리고 다른 앱이 연결되어 있지 않은지 확인하세요.
+wearable_failure_unsupported = 연결되었지만 이 모델에 있어야 할 Bluetooth 서비스를 기기에서 제공하지 않습니다. 다른 모델이거나 다른 펌웨어일 수 있습니다.
+wearable_failure_no_response = 기기가 응답하지 않습니다. %1$s에서 사용 중일 가능성이 높습니다. %1$s 앱을 일시적으로 중지하고(설정 → 애플리케이션 → %1$s → 강제 중지) 다시 시도하세요.
+wearable_failure_no_response_plain = 기기가 응답하지 않습니다. 더 가까이 가져온 후 다시 시도하세요.
+wearable_failure_wrong_key = 인증 키가 잘못되었습니다. 기기에서 인식하지 못합니다. 현재 키를 복사했는지 확인하세요. %1$s에서 기기 페어링을 해제했다면 키가 변경되었으므로 새 키가 필요합니다.
+wearable_failure_auth_rejected = 기기에서 인증을 거부했습니다. 키를 확인하고 다시 시도하세요.
+wearable_failure_link_lost = 기기와의 연결이 끊어졌습니다.
+wearable_failure_timeout = 기기가 제때 응답하지 않았습니다.
+wearable_failure_not_supported = 이 기기는 해당 기능을 지원하지 않습니다.
+wearable_failure_busy = 기기가 다른 앱(거의 확실히 %1$s)에 연결되어 있으며, 한 번에 하나의 연결만 허용합니다. %1$s 앱을 일시적으로 중지하고(설정 → 애플리케이션 → %1$s → 강제 중지) 다시 시도하세요. 완료한 후에는 동기화가 계속되도록 %1$s 앱을 여세요.
+wearable_failure_busy_plain = 기기가 다른 앱에 연결되어 있으며, 한 번에 하나의 연결만 허용합니다. 해당 앱을 닫고 다시 시도하세요.
+
+# Wearable key card and key wizard (no vendor sign-in: the key is always entered by the user)
+wearable_key_user_id_title = Xiaomi 계정 사용자 ID
+wearable_key_missing = 이 기기에는 페어링할 때 %1$s에서 설정한 인증 키가 필요합니다.
+wearable_key_setup = 키 설정
+wearable_xiaomi_device_id = 기기 ID(Wear OS)
+wearable_xiaomi_device_id_help = Xiaomi Watch 5 같은 Wear OS 워치 전용: Gadgetbridge 가이드에서 찾는 방법을 설명하는 컴패니언 기기 ID입니다.
+wearable_wizard_step_what = 1. 키란?
+wearable_wizard_what_hex = 기기와 %1$s 계정이 공유하는 32자리 16진수(16바이트) 비밀 키입니다. %1$s에서 기기를 페어링할 때 생성되며, 기기는 이 키로 휴대전화의 연결을 허용할지 확인하고 연결을 암호화합니다. 휴대전화에서는 생성할 수 없습니다.
+wearable_wizard_what_user_id = 이 구형 모델은 16진수 키를 사용하지 않고, %1$s에서 페어링할 때 사용한 Xiaomi 계정의 숫자 사용자 ID로 인증합니다.
+wearable_wizard_step_where = 2. 얻는 방법
+wearable_wizard_where = 키는 %1$s 또는 제조사 계정에서 얻을 수 있습니다. Gadgetbridge 프로젝트에서 기기 제품군별로 키를 얻는 방법을 설명합니다. 이 앱은 사용자 계정에 로그인하지 않으며, 키를 대신 가져오지도 않습니다.
+wearable_wizard_link_device = Gadgetbridge: %1$s
+wearable_wizard_step_important = 3. 알아 두세요
+wearable_wizard_unpair = %1$s에서 기기 페어링을 해제하거나 기기를 초기화하면 키가 더 이상 작동하지 않으며 새 키가 필요합니다.
+wearable_wizard_share = 키를 공유하지 마세요. 키를 가진 사람은 누구나 기기에 연결할 수 있습니다.
+wearable_wizard_step_enter = 4. 입력
+wearable_key_paste_hex = 32자리 16진수 키를 붙여넣으세요(‘0x’ 포함 여부는 상관없음). 공백과 줄바꿈은 무시됩니다.
+wearable_key_paste_user_id = 숫자 사용자 ID를 입력하세요(숫자만).
+wearable_wizard_paste = 클립보드에서 붙여넣기
+wearable_wizard_clipboard_empty = 클립보드에 예상 형식의 키가 없습니다.
+wearable_key_error_empty_user_id = 사용자 ID를 입력하세요.
+wearable_key_error_not_numeric = 사용자 ID에는 숫자만 사용할 수 있습니다.
+wearable_key_error_too_long = 사용자 ID가 너무 깁니다.
+
+# Activity: live heart rate recorded in direct mode, per device
+health_wearable_live_title = %1$s · 직접 연결 모드
+health_wearable_live_text = 기기가 연결된 동안 앱이 기록한 실시간 심박수입니다(Health Connect에는 없음).

@@ -180,7 +180,6 @@ health_hr_day_none = इस दिन के लिए Health Connect में 
 health_hr_day_stats = औसत %1$s · न्यूनतम %2$s · अधिकतम %3$s
 health_hr_day_stats_resting = %1$s · आराम के समय %2$s
 health_band_direct_title = बैंड · डायरेक्ट मोड
-health_band_direct_text = बैंड कनेक्ट होने पर ऐप ने लाइव हृदय गति रिकॉर्ड की (यह Health Connect में नहीं है)।
 health_last_30_days = पिछले 30 दिन
 health_no_hr_data = हृदय गति का कोई डेटा नहीं।
 health_sleep_last_night_none = पिछली रात की नींद का कोई डेटा नहीं।

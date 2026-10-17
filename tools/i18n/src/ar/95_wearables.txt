@@ -1,0 +1,107 @@
+# Devices → Bands & watches (any supported family; the diagnostics log stays in English on purpose)
+devices_wearables = الأساور والساعات
+wearables_none = لم يتم إعداد أي سوار أو ساعة بعد. قرّب جهازك أو أضفه من الكتالوج.
+wearables_add_from_catalog = إضافة من الكتالوج
+wearables_detected = المكتشفة والمقترنة
+wearables_detected_none = لم يتم التعرف على أي جهاز بعد. تظهر هنا الأجهزة المقترنة بهذا الهاتف بعد منح إذن «الأجهزة المجاورة»، وتظهر الأجهزة الأخرى عندما تكون قيد التشغيل وقريبة.
+wearables_paired = مقترن
+wearables_use_this = إعداد
+wearables_already_set_up = تم إعداده
+wearables_open = فتح
+wearables_remove_text = يُحذف مفتاحه وإعداداته من الهاتف، ويُحتفظ بمعدل ضربات القلب المسجّل. ولن يُقترح مرة أخرى.
+wearables_removed = تمت الإزالة: %1$s
+wearables_added = تمت الإضافة: %1$s
+wearables_suggestion_title = هل هذا سوارك أو ساعتك؟
+wearables_suggestion_text = لا يتصل التطبيق به إلا عندما تفتحه في الوضع المباشر. لا تؤكّد إلا إذا كان ملكك.
+wearables_suggestion_text_key = لا يتصل التطبيق به إلا عندما تفتحه في الوضع المباشر، ويحتاج إلى مفتاح المصادقة من تطبيقه. لا تؤكّد إلا إذا كان ملكك.
+wearables_suggestion_yes = نعم، إعداده
+wearables_catalog_title = كتالوج الأساور والساعات
+wearables_needs_key = مفتاح من %1$s
+wearables_no_key_needed = لا يلزم مفتاح
+wearables_bind_question = أيّ هذه الأجهزة هو؟
+wearables_bind_none = لا يبدو أن أيًّا من الأجهزة المكتشفة أو المقترنة من هذا الطراز. شغّله وأبقه قريبًا وتحقق من أن تطبيقه قد أقرنه بهذا الهاتف.
+wearables_bind_others = أجهزة أخرى مكتشفة
+chip_wearable = %1$s: %2$s
+
+# Wearable status
+wearable_status_not_connected = غير متصل
+wearable_status_connected = متصل
+wearable_status_unknown_model = هذا الطراز غير مدعوم في هذا الإصدار
+wearable_connected_protocol = متصل (%1$s)
+
+# Wearable screen
+wearable_intro = يتواصل التطبيق مع الجهاز مباشرةً عبر Bluetooth (مثل Gadgetbridge)، دون %1$s. لا تقبل معظم الأجهزة إلا اتصالًا واحدًا، لذلك لا يتصل التطبيق إلا عند النقر على «اتصال»، ويقطع الاتصال بعد دقيقتين من عدم الاستخدام أو عند الخروج من هذه الشاشة، كي يتمكن %1$s من المزامنة من جديد.
+wearable_intro_plain = يتواصل التطبيق مع الجهاز مباشرةً عبر Bluetooth (مثل Gadgetbridge). لا يتصل إلا عند النقر على «اتصال»، ويقطع الاتصال بعد دقيقتين من عدم الاستخدام أو عند الخروج من هذه الشاشة.
+wearable_experimental = تجريبي: لم يُختبر بعد مع جهاز حقيقي من هذا الطراز.
+wearable_doc_link = ملاحظات Gadgetbridge حول هذا الجهاز
+wearable_permission_text = يحتاج الاتصال بالجهاز إلى إذن «الأجهزة المجاورة».
+wearable_transport_ble = Bluetooth LE
+wearable_transport_classic = Bluetooth الكلاسيكي
+wearable_transport_uart = Bluetooth LE (UART)
+wearable_hardware = العتاد
+wearable_vendor_settings = إعدادات %1$s
+wearable_cannot_connect_hint = احفظ مفتاح المصادقة لتتمكن من الاتصال.
+wearable_released = أصبح الجهاز حرًا من جديد. إذا أوقفت %1$s فافتحه مرة أخرى ليواصل المزامنة.
+wearable_find = العثور على الجهاز
+wearable_finding_text = الجهاز يرنّ أو يهتز. أوقفه من الجهاز نفسه أو انقر على «%1$s».
+wearable_time_synced = تمت مزامنة الوقت
+wearable_connect_first = اتصل بالجهاز أولًا
+wearable_found = يشير الجهاز إلى أنك عثرت عليه
+wearable_find_phone = يبحث %1$s عن الهاتف
+wearable_waiting_data = في انتظار البيانات من الجهاز…
+wearable_measuring_hint = جارٍ القياس… أبقِ الجهاز ملاصقًا لبشرتك.
+wearable_rr_interval = الفاصل بين النبضات
+wearable_steps_session = الخطوات منذ الاتصال
+wearable_alarms_section = المنبّهات على الجهاز
+wearable_alarms_none = لا توجد منبّهات على الجهاز.
+wearable_alarms_read_back = تُرسل التغييرات إلى الجهاز ثم تُقرأ القائمة منه من جديد، لترى ما حفظه فعلًا.
+wearable_alarms_local = لا يستطيع هذا الجهاز الإبلاغ عن منبّهاته: تعرض القائمة ما أرسله التطبيق إليه. ولا تظهر هنا المنبّهات التي أُنشئت على الجهاز نفسه.
+wearable_forwarding_text = فقط أثناء اتصال الجهاز في الوضع المباشر، وفقط من التطبيقات التي تحددها. وفي بقية الوقت يرسل %1$s الإشعارات. لا يُخزَّن المحتوى أبدًا.
+wearable_forwarding_text_plain = فقط أثناء اتصال الجهاز في الوضع المباشر، وفقط من التطبيقات التي تحددها. لا يُخزَّن المحتوى أبدًا.
+wearable_forwarding_pending = مفعّل: ستُعاد توجيهها ما دام الجهاز متصلًا.
+
+# Wearable connection failures
+wearable_failure_permission = إذن «الأجهزة المجاورة» (Bluetooth) غير ممنوح. امنحه للاتصال.
+wearable_failure_no_key = احفظ أولًا مفتاح المصادقة الخاص بالجهاز.
+wearable_failure_unknown = لم يعد هذا الجهاز مُعدًّا، أو أن هذا الإصدار من التطبيق لا يدعم طرازه.
+wearable_failure_not_found = لم يتم العثور على الجهاز. تحقق من أنه قيد التشغيل وقريب ومقترن بهذا الهاتف.
+wearable_failure_connect = تعذّر فتح الاتصال. تحقق من أن الجهاز قيد التشغيل وقريب ومشحون. إذا كان %1$s متصلًا به فالجهاز مشغول: أوقف %1$s مؤقتًا (الإعدادات ← التطبيقات ← %1$s ← فرض الإيقاف) ثم أعد المحاولة.
+wearable_failure_connect_plain = تعذّر فتح الاتصال. تحقق من أن الجهاز قيد التشغيل وقريب ومشحون، ومن عدم اتصال أي تطبيق آخر به.
+wearable_failure_unsupported = تم الاتصال، لكن الجهاز لا يوفّر خدمات Bluetooth التي يُفترض أن يملكها هذا الطراز. قد يكون طرازًا آخر أو برنامجًا ثابتًا مختلفًا.
+wearable_failure_no_response = لا يستجيب الجهاز. من المرجح أنه مشغول مع %1$s: أوقف %1$s مؤقتًا (الإعدادات ← التطبيقات ← %1$s ← فرض الإيقاف) ثم أعد المحاولة.
+wearable_failure_no_response_plain = لا يستجيب الجهاز. قرّبه ثم أعد المحاولة.
+wearable_failure_wrong_key = مفتاح المصادقة غير صحيح: لا يتعرف عليه الجهاز. تحقق من أنك نسخت المفتاح الحالي؛ فإذا ألغيت إقران الجهاز في %1$s فقد تغيّر المفتاح وتحتاج إلى المفتاح الجديد.
+wearable_failure_auth_rejected = رفض الجهاز المصادقة. تحقق من المفتاح ثم أعد المحاولة.
+wearable_failure_link_lost = انقطع الاتصال بالجهاز.
+wearable_failure_timeout = لم يستجب الجهاز في الوقت المحدد.
+wearable_failure_not_supported = لا يدعم هذا الجهاز هذه الميزة.
+wearable_failure_busy = الجهاز متصل بتطبيق آخر (على الأرجح %1$s) ولا يقبل إلا اتصالًا واحدًا. أوقف %1$s مؤقتًا (الإعدادات ← التطبيقات ← %1$s ← فرض الإيقاف) ثم أعد المحاولة. وعند الانتهاء، افتح %1$s ليواصل المزامنة.
+wearable_failure_busy_plain = الجهاز متصل بتطبيق آخر ولا يقبل إلا اتصالًا واحدًا. أغلق ذلك التطبيق ثم أعد المحاولة.
+
+# Wearable key card and key wizard (no vendor sign-in: the key is always entered by the user)
+wearable_key_user_id_title = معرّف المستخدم في حساب Xiaomi
+wearable_key_missing = يحتاج هذا الجهاز إلى مفتاح المصادقة الذي أعدّه %1$s عند إقرانه.
+wearable_key_setup = إعداد المفتاح
+wearable_xiaomi_device_id = معرّف الجهاز (Wear OS)
+wearable_xiaomi_device_id_help = لساعات Wear OS فقط مثل Xiaomi Watch 5: معرّف الجهاز المصاحب الذي يشرح دليل Gadgetbridge كيفية العثور عليه.
+wearable_wizard_step_what = 1. ما هو
+wearable_wizard_what_hex = مفتاح سري من 32 حرفًا ست عشريًا (16 بايت) يتشاركه جهازك وحسابك في %1$s. يُنشأ عند إقران الجهاز في %1$s، ويستخدمه الجهاز للتحقق من أن الهاتف مسموح له بالاتصال ولتشفير الاتصال. ولا يمكن إنشاؤه على الهاتف.
+wearable_wizard_what_user_id = لا يستخدم هذا الطراز الأقدم مفتاحًا ست عشريًا: فهو يصادق باستخدام معرّف المستخدم الرقمي لحساب Xiaomi الذي أُقرن به في %1$s.
+wearable_wizard_step_where = 2. من أين تحصل عليه
+wearable_wizard_where = يأتي من %1$s أو من حسابك لدى الشركة المصنّعة. يوثّق مشروع Gadgetbridge طريقة الحصول عليه لكل عائلة من الأجهزة. لا يسجّل هذا التطبيق الدخول إلى حسابك أبدًا ولا يجلب المفتاح نيابةً عنك أبدًا.
+wearable_wizard_link_device = Gadgetbridge: %1$s
+wearable_wizard_step_important = 3. من المفيد معرفته
+wearable_wizard_unpair = إذا ألغيت إقران الجهاز في %1$s أو أعدت ضبطه، يتوقف المفتاح عن العمل وستحتاج إلى المفتاح الجديد.
+wearable_wizard_share = لا تشاركه مع أحد: فمن يملكه يستطيع الاتصال بجهازك.
+wearable_wizard_step_enter = 4. أدخله
+wearable_key_paste_hex = الصق المفتاح الست عشري المكوّن من 32 حرفًا (مع «0x» أو بدونها)؛ تُتجاهل المسافات وفواصل الأسطر.
+wearable_key_paste_user_id = أدخل معرّف المستخدم الرقمي (أرقام فقط).
+wearable_wizard_paste = لصق من الحافظة
+wearable_wizard_clipboard_empty = لا تحتوي الحافظة على مفتاح بالتنسيق المتوقع.
+wearable_key_error_empty_user_id = أدخل معرّف المستخدم.
+wearable_key_error_not_numeric = لا يمكن أن يحتوي معرّف المستخدم إلا على أرقام.
+wearable_key_error_too_long = معرّف المستخدم طويل جدًا.
+
+# Activity: live heart rate recorded in direct mode, per device
+health_wearable_live_title = %1$s · الوضع المباشر
+health_wearable_live_text = معدل ضربات القلب المباشر الذي سجّله التطبيق أثناء اتصال الجهاز (ليس في Health Connect).

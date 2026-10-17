@@ -77,8 +77,8 @@ data class HealthDashboard(
     val daily: Map<LocalDate, DailyActivity>,
     val hrDay: LocalDate,
     val hrDaySamples: List<HrSample>,
-    /** Live heart rate recorded that day by the direct band mode (band.db), shown apart. */
-    val hrDayBand: List<HrSample>,
+    /** Live heart rate recorded that day in direct mode (band.db), one series per device, shown apart. */
+    val hrDayDevices: List<DeviceHrSeries>,
     val hrDayResting: Int?,
     val hrDays: List<LocalDate>,
     val hrRanges: List<DailyHrRange>,
@@ -132,11 +132,14 @@ data class HealthUiState(
     val allDataGranted: Boolean get() = HealthPermissions.allGranted(granted, historyAvailable = false)
 }
 
+/** One device's live heart rate of the selected day; [name] null = a device that is no longer set up. */
+data class DeviceHrSeries(val name: String?, val samples: List<HrSample>)
+
 class HealthViewModel(
     private val health: HealthModule,
     private val repository: Repository,
-    /** Direct-mode band heart rate in [from, to] (blocking). */
-    private val bandHeartRate: (Long, Long) -> List<HrSample>,
+    /** Direct-mode heart rate in [from, to] per device (blocking). */
+    private val bandHeartRate: (Long, Long) -> List<DeviceHrSeries>,
 ) : ViewModel() {
 
     private val zone: ZoneId get() = ZoneId.systemDefault()
@@ -294,7 +297,7 @@ class HealthViewModel(
             daily = daily,
             hrDay = hrDay,
             hrDaySamples = hrDaySamples,
-            hrDayBand = runCatching { bandHeartRate(hrDayStart, hrDayEnd - 1) }.getOrDefault(emptyList()),
+            hrDayDevices = runCatching { bandHeartRate(hrDayStart, hrDayEnd - 1) }.getOrDefault(emptyList()),
             hrDayResting = restingByDay[hrDay]?.let { Math.round(it).toInt() },
             hrDays = (HR_RANGE_DAYS - 1 downTo 0).map { today.minusDays(it.toLong()) },
             hrRanges = HealthStats.dailyHrRanges(hr30, zone),
@@ -334,7 +337,9 @@ class HealthViewModel(
                 val app = this[APPLICATION_KEY] as GlobalFitnessApp
                 val container = app.container
                 HealthViewModel(container.health, container.repository) { from, to ->
-                    container.band.recordedHeartRate(from, to).map { HrSample(it.timestampMs, it.bpm) }
+                    container.wearables.recordedHeartRateByDevice(from, to).map { series ->
+                        DeviceHrSeries(series.name, series.samples.map { HrSample(it.timestampMs, it.bpm) })
+                    }
                 }
             }
         }

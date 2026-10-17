@@ -109,7 +109,7 @@ fun ActivityScreen(vm: HealthViewModel, onConnect: () -> Unit) {
         item { SectionTitle(stringResource(R.string.nav_today)) }
         item { TodayGrid(d) }
         if (HealthDataType.STEPS in readable) item { StepsCard(d, stepsRange) { stepsRange = it } }
-        if (HealthDataType.HEART_RATE in readable || d.hrDayBand.isNotEmpty()) item { HeartRateCard(d, onDay = vm::selectHrDay) }
+        if (HealthDataType.HEART_RATE in readable || d.hrDayDevices.isNotEmpty()) item { HeartRateCard(d, onDay = vm::selectHrDay) }
         if (HealthDataType.HEART_RATE_VARIABILITY in readable) item { HrvCard(d) }
         if (HealthDataType.SLEEP in readable) item { SleepCard(d) }
         if (HealthDataType.OXYGEN_SATURATION in readable) item { Spo2Card(d) }
@@ -412,12 +412,15 @@ private fun HeartRateCard(d: HealthDashboard, onDay: (LocalDate) -> Unit) {
                 SmallText(d.hrDayResting?.let { stringResource(R.string.health_hr_day_stats_resting, base, HealthFormat.bpm(it)) } ?: base)
             }
         }
-        if (d.hrDayBand.isNotEmpty()) {
+        d.hrDayDevices.forEach { series ->
             Spacer(Modifier.height(16.dp))
-            Text(stringResource(R.string.health_band_direct_title), style = MaterialTheme.typography.titleSmall)
-            SmallText(stringResource(R.string.health_band_direct_text))
+            Text(
+                series.name?.let { stringResource(R.string.health_wearable_live_title, it) } ?: stringResource(R.string.health_band_direct_title),
+                style = MaterialTheme.typography.titleSmall,
+            )
+            SmallText(stringResource(R.string.health_wearable_live_text))
             Spacer(Modifier.height(8.dp))
-            HeartRateDayChart(d.hrDayBand, null, start, end)
+            HeartRateDayChart(series.samples, null, start, end)
         }
         Spacer(Modifier.height(16.dp))
         Text(stringResource(R.string.health_last_30_days), style = MaterialTheme.typography.titleSmall)

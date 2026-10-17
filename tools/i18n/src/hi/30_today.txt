@@ -46,7 +46,6 @@ chip_cloud_error = क्लाउड: गड़बड़ी
 chip_cloud_pending = क्लाउड: अपलोड बाकी
 chip_cloud_synced = क्लाउड: %1$s
 chip_cloud_connected = क्लाउड: कनेक्ट है
-chip_band = बैंड: %1$s
 today_no_measurements_text = ऐप खुला रखकर नंगे पैर स्केल पर खड़े हों: माप यहां दिखेगा। अगर आपका स्केल ऐप के साथ काम नहीं करता, तो अपना वज़न मैन्युअल रूप से जोड़ें।
 today_view_weight_trend = वज़न का रुझान देखें
 today_weekly_change_none = साप्ताहिक बदलाव: पर्याप्त डेटा नहीं

@@ -46,7 +46,6 @@ chip_cloud_error = Cloud: error ||| Nube: error
 chip_cloud_pending = Cloud: upload pending ||| Nube: pendiente de subir
 chip_cloud_synced = Cloud: %1$s ||| Nube: %1$s
 chip_cloud_connected = Cloud: connected ||| Nube: conectada
-chip_band = Band: %1$s ||| Pulsera: %1$s
 today_no_measurements_text = Step on the scale barefoot with the app open: the measurement will appear here. If your scale is not supported, add your weight manually. ||| Súbete a la báscula descalzo y con la app abierta: la medición aparecerá aquí. Si tu báscula no es compatible, añade el peso a mano.
 today_view_weight_trend = View weight trend ||| Ver evolución del peso
 today_weekly_change_none = Weekly change: not enough data ||| Cambio semanal: faltan datos

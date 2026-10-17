@@ -176,7 +176,6 @@ health_hr_day_none = Tidak ada data detak jantung di Health Connect untuk hari t
 health_hr_day_stats = Rata-rata %1$s · min %2$s · maks %3$s
 health_hr_day_stats_resting = %1$s · istirahat %2$s
 health_band_direct_title = Gelang · mode langsung
-health_band_direct_text = Detak jantung real-time yang direkam aplikasi saat gelang terhubung (tidak ada di Health Connect).
 health_last_30_days = 30 hari terakhir
 health_no_hr_data = Tidak ada data detak jantung.
 health_sleep_last_night_none = Tidak ada data tidur untuk semalam.

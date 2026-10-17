@@ -50,7 +50,7 @@ import com.enjoyyourtime.globalfitness.domain.Metric
 import com.enjoyyourtime.globalfitness.domain.TimePoint
 import com.enjoyyourtime.globalfitness.domain.Trends
 import com.enjoyyourtime.globalfitness.health.HcAvailability
-import com.enjoyyourtime.globalfitness.ui.BandSummary
+import com.enjoyyourtime.globalfitness.wearable.WearableSummary
 import com.enjoyyourtime.globalfitness.ui.BleAccess
 import com.enjoyyourtime.globalfitness.ui.Entry
 import com.enjoyyourtime.globalfitness.ui.Fmt
@@ -64,7 +64,7 @@ import com.enjoyyourtime.globalfitness.ui.components.Sparkline
 import com.enjoyyourtime.globalfitness.ui.components.StatusChip
 import com.enjoyyourtime.globalfitness.ui.components.TabPage
 import com.enjoyyourtime.globalfitness.ui.devices.ScaleSuggestionCard
-import com.enjoyyourtime.globalfitness.ui.devices.bandStatus
+import com.enjoyyourtime.globalfitness.ui.wearables.wearableStatus
 import com.enjoyyourtime.globalfitness.ui.health.HealthDashboard
 import com.enjoyyourtime.globalfitness.ui.health.HealthFormat
 import com.enjoyyourtime.globalfitness.ui.health.HealthUiState
@@ -87,7 +87,7 @@ data class TodayStatus(
     val dashboard: HealthDashboard?,
     val user: AccountUser?,
     val cloud: CloudSyncStatus,
-    val band: BandSummary?,
+    val wearable: WearableSummary?,
     /** A nearby scale waiting for "Is this your scale?" (same as in Devices). */
     val suggestion: ScaleSuggestion? = null,
 )
@@ -383,7 +383,7 @@ private fun StatusChips(
             }
             StatusAssistChip(text, AppIcons.Cloud, onOpenAccount)
         }
-        status.band?.let { StatusAssistChip(stringResource(R.string.chip_band, bandStatus(it, withMode = false)), AppIcons.Watch, onOpenBand) }
+        status.wearable?.let { StatusAssistChip(stringResource(R.string.chip_wearable, it.device.name, wearableStatus(it)), AppIcons.Watch, onOpenBand) }
     }
 }
 
