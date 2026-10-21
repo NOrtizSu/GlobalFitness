@@ -377,7 +377,10 @@ No requieren formulario de declaración, pero conviene tener la justificación:
    estatales de EE. UU.**
 5. **app-ads.txt**: cuando tengas el ID de editor (`pub-…`), crea `hosting/public/app-ads.txt` con la línea
    que da AdMob (`google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0`), despliega el hosting y pon
-   https://globalfitness-app.web.app/ como sitio web en la ficha de Play.
+   https://globalfitness-app.web.app/ como sitio web en la ficha de Play. El archivo está en `.gitignore`
+   (no subimos IDs de AdMob al repo): si despliegas desde otra copia, vuelve a crearlo antes de
+   `firebase deploy --only hosting`. Después, en AdMob → Aplicaciones → la app → app-ads.txt, pulsa
+   «Buscar actualizaciones».
 6. Para probar con anuncios reales en tus móviles, añádelos como **dispositivos de prueba** en AdMob
    (Configuración → Dispositivos de prueba) y no pulses tus propios anuncios.
 
