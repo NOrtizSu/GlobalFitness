@@ -104,3 +104,13 @@ The app links the following libraries, each under its own license:
     (https://developers.google.com/terms) and the Android SDK license.
   - Google Play In-App Review: Play Core Software Development Kit Terms of Service
     (https://developer.android.com/guide/playcore#license).
+
+
+Trademarks
+==========
+
+Spotify and the Spotify logo are trademarks of Spotify AB. The Spotify icon next to the "Spotify
+playlists" attribution of Music for today is Spotify's official icon, unaltered, from
+https://developer.spotify.com/documentation/design (see docs/third-party/spotify/README.md), used
+as Spotify's Design & Branding Guidelines describe. Fortia is not affiliated with or endorsed by
+Spotify.

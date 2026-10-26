@@ -1,0 +1,34 @@
+# Music for today: five Spotify workout playlists a day, chosen by the day's training, on Hoy, the Entreno tab and the workout in progress
+# Title of the card and of the sheet; also the workout's top-bar button, read by TalkBack
+music_title = Musica per oggi
+# Small attribution on the card: the playlists are Spotify's (keep "Spotify")
+music_attribution = Playlist Spotify
+# Action on each playlist: opens it in the Spotify app or on Spotify's website (keep "Spotify")
+music_open = Apri su Spotify
+# Why these playlists, one line under the title: a strength workout today
+music_reason_strength = Musica intensa per il tuo allenamento di forza
+# A strength workout that is mostly legs
+music_reason_legs = Per il tuo allenamento gambe
+# A workout that is mostly cardio (running, bike, rower…)
+music_reason_cardio = Un ritmo costante per il tuo cardio
+# No workout yet today
+music_reason_training_day = Ti alleni oggi? Musica per dare il massimo
+# No workout today after a hard one yesterday
+music_reason_recovery = Ieri ci hai dato dentro: oggi qualcosa di leggero per recuperare
+# No workout today, on a weekday the user usually rests
+music_reason_rest = Giorno di riposo: qualcosa di tranquillo
+# Training settings: the switch and its explanation
+music_setting = Suggerisci playlist Spotify
+music_setting_text = Cinque playlist al giorno per allenarti, scelte in base al tuo allenamento, in Oggi, Allenamento e nell'allenamento in corso. Non serve un account.
+# A playlist could not be opened: neither the Spotify app nor any browser can open its link (snackbar)
+music_open_failed = Nessuna app su questo telefono può aprire il link di Spotify.
+# Asked once at start, right after the ad consent: may the cards load the playlists' covers from Spotify? Small dialog: title, text and two buttons
+music_covers_title = Copertine di Spotify
+# The dialog's text. Quote the card title (music_title) and the path Profile → Training settings (nav_profile → profile_training_title) exactly as the app shows them
+music_covers_text = Le schede “Musica per oggi” possono mostrare le copertine delle playlist. Vengono caricate da Spotify, che riceve il tuo indirizzo IP; non vengono inviati account né dati personali. Puoi cambiare questa scelta in Profilo → Impostazioni allenamento.
+# The dialog's buttons: allow the covers / not now (covers stay off; the switch in the settings turns them on later)
+music_covers_allow = Mostra copertine
+music_covers_not_now = Non ora
+# Training settings: the switch under the music one, and its explanation
+music_covers_setting = Mostra copertine di Spotify
+music_covers_setting_text = Le copertine vengono caricate da Spotify, che riceve il tuo indirizzo IP. Se disattivato, le playlist appaiono senza copertina.

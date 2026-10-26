@@ -1963,6 +1963,40 @@
     <!-- Achievements review fixes -->
     <!-- How "Towards your target" is counted: from the week the current target weight was set in the profile -->
     <string name="ach_goal_progress_rule_target">Change of your 7-day average weight since you set your current target, in its direction. Milestones beyond your target are not on offer.</string>
+    <!-- Music for today: five Spotify workout playlists a day, chosen by the day's training, on Hoy, the Entreno tab and the workout in progress -->
+    <!-- Title of the card and of the sheet; also the workout's top-bar button, read by TalkBack -->
+    <string name="music_title">Music for today</string>
+    <!-- Small attribution on the card: the playlists are Spotify's (keep "Spotify") -->
+    <string name="music_attribution">Spotify playlists</string>
+    <!-- Action on each playlist: opens it in the Spotify app or on Spotify's website (keep "Spotify") -->
+    <string name="music_open">Open in Spotify</string>
+    <!-- Why these playlists, one line under the title: a strength workout today -->
+    <string name="music_reason_strength">Intense music for your strength workout</string>
+    <!-- A strength workout that is mostly legs -->
+    <string name="music_reason_legs">For your leg day</string>
+    <!-- A workout that is mostly cardio (running, bike, rower…) -->
+    <string name="music_reason_cardio">A steady beat for your cardio</string>
+    <!-- No workout yet today -->
+    <string name="music_reason_training_day">Training today? Music to give it your all</string>
+    <!-- No workout today after a hard one yesterday -->
+    <string name="music_reason_recovery">Hard session yesterday: something gentle to recover</string>
+    <!-- No workout today, on a weekday the user usually rests -->
+    <string name="music_reason_rest">Rest day: something gentle</string>
+    <!-- Training settings: the switch and its explanation -->
+    <string name="music_setting">Suggest Spotify playlists</string>
+    <string name="music_setting_text">Five workout playlists a day, chosen by your training, in Today, Training and the workout. No account is needed.</string>
+    <!-- A playlist could not be opened: neither the Spotify app nor any browser can open its link (snackbar) -->
+    <string name="music_open_failed">No app on this phone can open Spotify\'s link.</string>
+    <!-- Asked once at start, right after the ad consent: may the cards load the playlists' covers from Spotify? Small dialog: title, text and two buttons -->
+    <string name="music_covers_title">Spotify covers</string>
+    <!-- The dialog's text. Quote the card title (music_title) and the path Profile → Training settings (nav_profile → profile_training_title) exactly as the app shows them -->
+    <string name="music_covers_text">The \"Music for today\" cards can show the playlists\' covers. They are loaded from Spotify, which receives your IP address; no account or personal data is sent. You can change this in Profile → Training settings.</string>
+    <!-- The dialog's buttons: allow the covers / not now (covers stay off; the switch in the settings turns them on later) -->
+    <string name="music_covers_allow">Show covers</string>
+    <string name="music_covers_not_now">Not now</string>
+    <!-- Training settings: the switch under the music one, and its explanation -->
+    <string name="music_covers_setting">Show Spotify covers</string>
+    <string name="music_covers_setting_text">The covers are loaded from Spotify, which receives your IP address. Off, the playlists show without covers.</string>
     <!-- Rating the app on Google Play. Profile → About: a row that opens the app's Google Play page. -->
     <!-- "Fortia" is the app's name: keep it as is. -->
     <string name="about_rate_app">Rate Fortia</string>

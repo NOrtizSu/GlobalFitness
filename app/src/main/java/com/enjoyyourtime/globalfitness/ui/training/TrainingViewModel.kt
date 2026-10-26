@@ -1032,7 +1032,7 @@ class TrainingViewModel(container: AppContainer) : ViewModel() {
          * Until a moment after the next local midnight, at most an hour: a change of time zone or of
          * the clock is noticed within the hour.
          */
-        private fun untilTomorrow(): Long {
+        internal fun untilTomorrow(): Long {
             val now = ZonedDateTime.now()
             val midnight = now.toLocalDate().plusDays(1).atStartOfDay(now.zone)
             return (Duration.between(now, midnight).toMillis() + 1_000L).coerceIn(1_000L, 3_600_000L)

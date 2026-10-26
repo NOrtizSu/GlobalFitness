@@ -1,0 +1,19 @@
+# Music for today: five Spotify workout playlists a day, chosen by the day's training, on Hoy, the Entreno tab and the workout in progress
+music_title = Nhạc hôm nay
+music_attribution = Danh sách phát Spotify
+music_open = Mở trong Spotify
+music_reason_strength = Nhạc sôi động cho buổi tập sức mạnh của bạn
+music_reason_legs = Cho ngày tập chân của bạn
+music_reason_cardio = Nhịp điệu đều đặn cho buổi cardio của bạn
+music_reason_training_day = Hôm nay tập chứ? Nhạc để bạn dốc hết sức
+music_reason_recovery = Hôm qua tập nặng: hôm nay nghe nhạc nhẹ nhàng để phục hồi
+music_reason_rest = Ngày nghỉ: nhạc nhẹ nhàng
+music_setting = Gợi ý danh sách phát Spotify
+music_setting_text = Mỗi ngày năm danh sách phát để tập, chọn theo buổi tập của bạn, trong “Hôm nay”, “Tập luyện” và khi đang tập. Không cần tài khoản.
+music_open_failed = Không có ứng dụng nào trên điện thoại này mở được đường liên kết của Spotify.
+music_covers_title = Ảnh bìa Spotify
+music_covers_text = Các thẻ “Nhạc hôm nay” có thể hiển thị ảnh bìa của danh sách phát. Ảnh bìa được tải từ Spotify, nơi nhận địa chỉ IP của bạn; không có tài khoản hay dữ liệu cá nhân nào được gửi đi. Bạn có thể thay đổi trong Hồ sơ → Cài đặt tập luyện.
+music_covers_allow = Hiện ảnh bìa
+music_covers_not_now = Để sau
+music_covers_setting = Hiện ảnh bìa Spotify
+music_covers_setting_text = Ảnh bìa được tải từ Spotify, nơi nhận địa chỉ IP của bạn. Khi tắt, danh sách phát hiển thị không có ảnh bìa.

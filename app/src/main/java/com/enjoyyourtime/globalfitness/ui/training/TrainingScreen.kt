@@ -74,12 +74,15 @@ import com.enjoyyourtime.globalfitness.ui.navigation.openSubPage
 import com.enjoyyourtime.globalfitness.ui.navigation.subPage
 import com.enjoyyourtime.globalfitness.ui.navigation.subPageWithArgs
 import com.enjoyyourtime.globalfitness.ui.theme.TabularNumbers
+import com.enjoyyourtime.globalfitness.ui.training.music.TrainingMusicCard
+import com.enjoyyourtime.globalfitness.ui.training.music.musicSuggestions
 import java.time.LocalDate
 import java.time.format.TextStyle
 
 /**
- * The "Entreno" tab: today's / the active workout, start a workout, routines, repeat a workout, recent
- * workouts and entry points to the catalog and history. [onOpen] opens a training sub-page route.
+ * The "Entreno" tab: today's / the active workout, start a workout, routines, repeat a workout, the
+ * day's music, recent workouts and entry points to the catalog and history. [onOpen] opens a
+ * training sub-page route.
  */
 @Composable
 fun TrainingScreen(onOpen: (route: String) -> Unit, modifier: Modifier = Modifier) {
@@ -88,6 +91,7 @@ fun TrainingScreen(onOpen: (route: String) -> Unit, modifier: Modifier = Modifie
     val exercises by vm.exercises.collectAsStateWithLifecycle()
     val unit by vm.loadUnit.collectAsStateWithLifecycle()
     val routines by vm.routines.collectAsStateWithLifecycle()
+    val music = musicSuggestions()
     var pickDate by rememberSaveable { mutableStateOf(false) }
     val openWorkout = rememberWorkoutOpener(onOpen)
     RestTimerEffect(vm)
@@ -167,6 +171,7 @@ fun TrainingScreen(onOpen: (route: String) -> Unit, modifier: Modifier = Modifie
                 }
             }
         }
+        music?.let { suggestions -> item(key = "music") { TrainingMusicCard(suggestions) } }
         val week = overview.week
         if (week != null && overview.hasWorkouts) {
             item(key = "week") { WeekCard(week, unit) }

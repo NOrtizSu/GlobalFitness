@@ -1,0 +1,34 @@
+# Music for today: five Spotify workout playlists a day, chosen by the day's training, on Hoy, the Entreno tab and the workout in progress
+# Title of the card and of the sheet; also the workout's top-bar button, read by TalkBack
+music_title = Bugün için müzik
+# Small attribution on the card: the playlists are Spotify's (keep "Spotify")
+music_attribution = Spotify çalma listeleri
+# Action on each playlist: opens it in the Spotify app or on Spotify's website (keep "Spotify")
+music_open = Spotify'da aç
+# Why these playlists, one line under the title: a strength workout today
+music_reason_strength = Kuvvet antrenmanınız için güçlü müzik
+# A strength workout that is mostly legs
+music_reason_legs = Bacak gününüz için
+# A workout that is mostly cardio (running, bike, rower…)
+music_reason_cardio = Kardiyonuz için düzenli bir ritim
+# No workout yet today
+music_reason_training_day = Bugün antrenman mı var? Tüm gücünüzü vermeniz için müzik
+# No workout today after a hard one yesterday
+music_reason_recovery = Dün zorlu bir antrenman yaptınız: toparlanmak için sakin bir şeyler
+# No workout today, on a weekday the user usually rests
+music_reason_rest = Dinlenme günü: sakin bir şeyler
+# Training settings: the switch and its explanation
+music_setting = Spotify çalma listeleri öner
+music_setting_text = Her gün antrenmanınıza göre seçilen beş çalma listesi: Bugün ve Antrenman sekmelerinde, ayrıca antrenman sırasında. Hesap gerekmez.
+# A playlist could not be opened: neither the Spotify app nor any browser can open its link (snackbar)
+music_open_failed = Bu telefonda Spotify bağlantısını açabilecek bir uygulama yok.
+# Asked once at start, right after the ad consent: may the cards load the playlists' covers from Spotify? Small dialog: title, text and two buttons
+music_covers_title = Spotify kapakları
+# The dialog's text. Quote the card title (music_title) and the path Profile → Training settings (nav_profile → profile_training_title) exactly as the app shows them
+music_covers_text = “Bugün için müzik” kartları çalma listelerinin kapaklarını gösterebilir. Kapaklar, IP adresinizi alan Spotify'dan yüklenir; hesap veya kişisel veri gönderilmez. Bunu Profil → Antrenman ayarları bölümünden değiştirebilirsiniz.
+# The dialog's buttons: allow the covers / not now (covers stay off; the switch in the settings turns them on later)
+music_covers_allow = Kapakları göster
+music_covers_not_now = Şimdi değil
+# Training settings: the switch under the music one, and its explanation
+music_covers_setting = Spotify kapaklarını göster
+music_covers_setting_text = Kapaklar, IP adresinizi alan Spotify'dan yüklenir. Kapalıyken çalma listeleri kapaksız gösterilir.

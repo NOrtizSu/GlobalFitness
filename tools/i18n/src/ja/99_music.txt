@@ -1,0 +1,19 @@
+# Music for today: five Spotify workout playlists a day, chosen by the day's training, on Hoy, the Entreno tab and the workout in progress
+music_title = 今日の音楽
+music_attribution = Spotify のプレイリスト
+music_open = Spotify で開く
+music_reason_strength = 筋力トレーニングを盛り上げる激しめの音楽
+music_reason_legs = 脚の日のために
+music_reason_cardio = 有酸素運動にぴったりの一定のリズム
+music_reason_training_day = 今日はトレーニングしますか？全力を出せる音楽を
+music_reason_recovery = 昨日はハードでしたね。今日は穏やかな曲で回復を
+music_reason_rest = 休養日：穏やかな曲を
+music_setting = Spotify のプレイリストを提案
+music_setting_text = トレーニング内容に合わせて選んだワークアウト用プレイリストを毎日5つ、「今日」「トレーニング」とワークアウト中の画面に表示します。アカウントは不要です。
+music_open_failed = このスマートフォンには Spotify のリンクを開けるアプリがありません。
+music_covers_title = Spotify のカバー画像
+music_covers_text = 「今日の音楽」カードにプレイリストのカバー画像を表示できます。カバー画像は Spotify から読み込まれ、その際 Spotify に IP アドレスが送信されます。アカウントや個人データは送信されません。この設定は「プロフィール → トレーニング設定」で変更できます。
+music_covers_allow = カバーを表示
+music_covers_not_now = 今はしない
+music_covers_setting = Spotify のカバー画像を表示
+music_covers_setting_text = カバー画像は Spotify から読み込まれ、その際 Spotify に IP アドレスが送信されます。オフにすると、プレイリストはカバー画像なしで表示されます。

@@ -121,6 +121,8 @@ import com.enjoyyourtime.globalfitness.ui.components.TimeInputDialog
 import com.enjoyyourtime.globalfitness.ui.components.WholeWordsAutoSize
 import com.enjoyyourtime.globalfitness.ui.theme.ChartTheme
 import com.enjoyyourtime.globalfitness.ui.theme.TabularNumbers
+import com.enjoyyourtime.globalfitness.ui.training.music.MusicSheet
+import com.enjoyyourtime.globalfitness.ui.training.music.musicSuggestions
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.LocalDate
@@ -149,6 +151,7 @@ fun WorkoutScreen(workoutId: String, onBack: () -> Unit, onOpen: (route: String)
     val exercises by vm.exercises.collectAsStateWithLifecycle()
     val female by vm.female.collectAsStateWithLifecycle()
     val routines by vm.routines.collectAsStateWithLifecycle()
+    val music = musicSuggestions()
     val snackbar = remember { SnackbarHostState() }
     val haptic = LocalHapticFeedback.current
     val context = LocalContext.current
@@ -257,6 +260,7 @@ fun WorkoutScreen(workoutId: String, onBack: () -> Unit, onOpen: (route: String)
     var pendingDay by rememberSaveable { mutableLongStateOf(Long.MIN_VALUE) }
     var editDuration by rememberSaveable { mutableStateOf(false) }
     var showRoutines by rememberSaveable { mutableStateOf(false) }
+    var showMusic by rememberSaveable { mutableStateOf(false) }
     var askRoutineName by rememberSaveable { mutableStateOf(false) }
     // Saved from the finish summary, which then says so instead of offering it again.
     var routineSavedInSummary by rememberSaveable { mutableStateOf(false) }
@@ -298,6 +302,12 @@ fun WorkoutScreen(workoutId: String, onBack: () -> Unit, onOpen: (route: String)
         onBack = back,
         snackbar = snackbar,
         actions = {
+            // The day's playlists, one tap away while training.
+            if (live && music != null) {
+                IconButton(onClick = { showMusic = true }) {
+                    Icon(TrainingIcons.MusicNote, contentDescription = stringResource(R.string.music_title))
+                }
+            }
             TextButton(onClick = ::requestFinish) {
                 Text(stringResource(if (live) R.string.training_finish else R.string.action_save))
             }
@@ -514,6 +524,18 @@ fun WorkoutScreen(workoutId: String, onBack: () -> Unit, onOpen: (route: String)
             },
             onDismiss = { showRoutines = false },
         )
+    }
+    if (showMusic) {
+        music?.takeIf { live }?.let {
+            MusicSheet(
+                it,
+                onDismiss = { showMusic = false },
+                onOpenFailed = {
+                    showMusic = false
+                    scope.launch { snackbar.showSnackbar(context.getString(R.string.music_open_failed), withDismissAction = true) }
+                },
+            )
+        }
     }
     if (askRoutineName) {
         SaveRoutineDialog(

@@ -1,0 +1,19 @@
+# Music for today: five Spotify workout playlists a day, chosen by the day's training, on Hoy, the Entreno tab and the workout in progress
+music_title = Musik hari ini
+music_attribution = Playlist Spotify
+music_open = Buka di Spotify
+music_reason_strength = Musik intens untuk latihan kekuatan Anda
+music_reason_legs = Untuk hari latihan kaki Anda
+music_reason_cardio = Ritme stabil untuk kardio Anda
+music_reason_training_day = Latihan hari ini? Musik untuk mengerahkan seluruh tenaga
+music_reason_recovery = Kemarin latihan berat: kini musik santai untuk pemulihan
+music_reason_rest = Hari istirahat: musik santai
+music_setting = Sarankan playlist Spotify
+music_setting_text = Lima playlist latihan setiap hari, dipilih sesuai latihan Anda, di “Hari ini”, “Latihan”, dan saat latihan berlangsung. Tidak perlu akun.
+music_open_failed = Tidak ada aplikasi di ponsel ini yang dapat membuka link Spotify.
+music_covers_title = Sampul Spotify
+music_covers_text = Kartu “Musik hari ini” dapat menampilkan sampul playlist. Sampul dimuat dari Spotify, yang menerima alamat IP Anda; tidak ada akun atau data pribadi yang dikirim. Anda dapat mengubahnya di Profil → Setelan latihan.
+music_covers_allow = Tampilkan sampul
+music_covers_not_now = Lain kali
+music_covers_setting = Tampilkan sampul Spotify
+music_covers_setting_text = Sampul dimuat dari Spotify, yang menerima alamat IP Anda. Jika nonaktif, playlist ditampilkan tanpa sampul.

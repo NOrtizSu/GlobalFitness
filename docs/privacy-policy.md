@@ -1,6 +1,6 @@
 # Política de privacidad de Fortia
 
-Última actualización: 25 de octubre de 2026 · Contacto: **enjoyyourtime.online@gmail.com** ·
+Última actualización: 26 de octubre de 2026 · Contacto: **enjoyyourtime.online@gmail.com** ·
 Versión web: [globalfitness-app.web.app/privacy.html](https://globalfitness-app.web.app/privacy.html)
 
 ## 1. Quién es el responsable
@@ -134,6 +134,22 @@ Solo con los proveedores necesarios para que la app funcione, que actúan como e
 tratamiento o como responsables independientes según el caso: **Google** (Firebase Authentication,
 Cloud Firestore, AdMob/UMP y Google Play). No vendemos datos personales.
 
+**Música para hoy (Spotify).** Las portadas y los nombres de las listas de Spotify que sugiere la app
+solo se cargan **si lo permites**: la app lo pregunta una vez, al empezar, justo después del
+consentimiento de anuncios, y puedes cambiarlo cuando quieras en **Perfil → Ajustes de entreno →
+«Mostrar portadas de Spotify»** (base legal: tu consentimiento, art. 6.1.a del RGPD). Mientras no lo
+permitas, la app no hace ninguna petición a Spotify y las listas se muestran con su nombre, sin portada.
+Si lo permites, el teléfono los pide directamente a Spotify: a open.spotify.com (su servicio oEmbed, que
+da el nombre y la portada de cada lista) y a sus servidores de imágenes (`*.scdn.co`,
+`*.spotifycdn.com`). Spotify recibe así tu dirección IP y un User-Agent genérico de la app («Fortia/»
+y su versión, sin el modelo del teléfono); no se envía ninguna cuenta, identificador ni dato personal:
+solo el enlace público de la lista. Los nombres y las portadas se guardan en la caché del teléfono y se
+borran cuando una lista lleva 30 días sin sugerirse, y en cuanto desactivas las portadas o las
+sugerencias (Android también puede vaciar la caché si necesita espacio). Abrir una lista es decisión
+tuya y no depende de este permiso: te lleva a la app o la web de Spotify, que se rigen por sus propias
+condiciones y política de privacidad. Puedes ocultar todas las sugerencias en **Perfil → Ajustes de
+entreno**.
+
 ## 11. Menores
 
 La app no está dirigida a menores de 16 años.
@@ -154,7 +170,7 @@ importante, te avisaremos en la app.
 
 # Fortia Privacy Policy (English)
 
-Last updated: 25 October 2026 · Contact: **enjoyyourtime.online@gmail.com**
+Last updated: 26 October 2026 · Contact: **enjoyyourtime.online@gmail.com**
 
 **Controller.** Fortia (formerly GlobalFitness) is published by **Enjoy Your Time**, the data controller. Contact:
 **enjoyyourtime.online@gmail.com**.
@@ -213,6 +229,16 @@ photos (kept in the app's cloud backup instead) are excluded.
 
 **Sharing:** only with Google as service provider (Firebase, AdMob/UMP, Google Play). We do not sell
 personal data. The app is not directed at children under 16.
+
+**Music for today (Spotify):** the covers and names of the suggested Spotify playlists are only loaded
+if you allow it (asked once at start, right after the ad consent; change it under Profile → Training
+settings → "Show Spotify covers"; legal basis: consent). Until then nothing is requested from Spotify.
+If allowed, the phone requests them from open.spotify.com (oEmbed) and Spotify's image servers
+(`*.scdn.co`, `*.spotifycdn.com`), which receive your IP address and a generic app User-Agent
+("Fortia/" and its version); no account or personal data is sent, only the playlist's public link.
+They are cached on the phone and deleted after 30 days without being suggested, or when you turn the
+covers or the suggestions off. Opening a playlist (your choice, no permission needed) takes you to
+Spotify's app or website, under Spotify's own terms and privacy policy.
 
 **Your rights:** access, rectification, erasure, restriction, objection, portability (CSV export in
 the app) and withdrawal of consent: email enjoyyourtime.online@gmail.com. You may complain to the

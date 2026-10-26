@@ -1,0 +1,34 @@
+# Music for today: five Spotify workout playlists a day, chosen by the day's training, on Hoy, the Entreno tab and the workout in progress
+# Title of the card and of the sheet; also the workout's top-bar button, read by TalkBack
+music_title = Muzyka na dziś
+# Small attribution on the card: the playlists are Spotify's (keep "Spotify")
+music_attribution = Playlisty Spotify
+# Action on each playlist: opens it in the Spotify app or on Spotify's website (keep "Spotify")
+music_open = Otwórz w Spotify
+# Why these playlists, one line under the title: a strength workout today
+music_reason_strength = Mocna muzyka na trening siłowy
+# A strength workout that is mostly legs
+music_reason_legs = Na dzień nóg
+# A workout that is mostly cardio (running, bike, rower…)
+music_reason_cardio = Równy rytm na cardio
+# No workout yet today
+music_reason_training_day = Trenujesz dziś? Muzyka, żeby dać z siebie wszystko
+# No workout today after a hard one yesterday
+music_reason_recovery = Wczoraj był ciężki trening: dziś coś spokojnego na regenerację
+# No workout today, on a weekday the user usually rests
+music_reason_rest = Dzień odpoczynku: coś spokojnego
+# Training settings: the switch and its explanation
+music_setting = Proponuj playlisty Spotify
+music_setting_text = Codziennie pięć playlist dobranych do Twoich treningów: w zakładkach Dziś i Trening oraz podczas treningu. Konto nie jest potrzebne.
+# A playlist could not be opened: neither the Spotify app nor any browser can open its link (snackbar)
+music_open_failed = Na tym telefonie nie ma aplikacji, która może otworzyć link Spotify.
+# Asked once at start, right after the ad consent: may the cards load the playlists' covers from Spotify? Small dialog: title, text and two buttons
+music_covers_title = Okładki ze Spotify
+# The dialog's text. Quote the card title (music_title) and the path Profile → Training settings (nav_profile → profile_training_title) exactly as the app shows them
+music_covers_text = Karty „Muzyka na dziś” mogą pokazywać okładki playlist. Są pobierane ze Spotify, który otrzymuje Twój adres IP; nie są wysyłane żadne dane konta ani dane osobowe. Możesz to zmienić w sekcji „Profil → Ustawienia treningu”.
+# The dialog's buttons: allow the covers / not now (covers stay off; the switch in the settings turns them on later)
+music_covers_allow = Pokaż okładki
+music_covers_not_now = Nie teraz
+# Training settings: the switch under the music one, and its explanation
+music_covers_setting = Pokazuj okładki ze Spotify
+music_covers_setting_text = Okładki są pobierane ze Spotify, który otrzymuje Twój adres IP. Po wyłączeniu playlisty są wyświetlane bez okładek.

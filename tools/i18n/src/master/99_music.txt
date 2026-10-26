@@ -1,0 +1,34 @@
+# Music for today: five Spotify workout playlists a day, chosen by the day's training, on Hoy, the Entreno tab and the workout in progress
+# Title of the card and of the sheet; also the workout's top-bar button, read by TalkBack
+music_title = Music for today ||| Música para hoy
+# Small attribution on the card: the playlists are Spotify's (keep "Spotify")
+music_attribution = Spotify playlists ||| Listas de Spotify
+# Action on each playlist: opens it in the Spotify app or on Spotify's website (keep "Spotify")
+music_open = Open in Spotify ||| Abrir en Spotify
+# Why these playlists, one line under the title: a strength workout today
+music_reason_strength = Intense music for your strength workout ||| Música intensa para tu entreno de fuerza
+# A strength workout that is mostly legs
+music_reason_legs = For your leg day ||| Para tu día de pierna
+# A workout that is mostly cardio (running, bike, rower…)
+music_reason_cardio = A steady beat for your cardio ||| Ritmo para tu cardio
+# No workout yet today
+music_reason_training_day = Training today? Music to give it your all ||| ¿Entrenas hoy? Música para darlo todo
+# No workout today after a hard one yesterday
+music_reason_recovery = Hard session yesterday: something gentle to recover ||| Ayer diste caña: hoy, algo suave para recuperar
+# No workout today, on a weekday the user usually rests
+music_reason_rest = Rest day: something gentle ||| Día de descanso: algo suave
+# Training settings: the switch and its explanation
+music_setting = Suggest Spotify playlists ||| Sugerir listas de Spotify
+music_setting_text = Five workout playlists a day, chosen by your training, in Today, Training and the workout. No account is needed. ||| Cinco listas para entrenar cada día, elegidas según tu entreno, en Hoy, Entreno y el entreno en curso. No hace falta cuenta.
+# A playlist could not be opened: neither the Spotify app nor any browser can open its link (snackbar)
+music_open_failed = No app on this phone can open Spotify's link. ||| Ninguna app de este teléfono puede abrir el enlace de Spotify.
+# Asked once at start, right after the ad consent: may the cards load the playlists' covers from Spotify? Small dialog: title, text and two buttons
+music_covers_title = Spotify covers ||| Portadas de Spotify
+# The dialog's text. Quote the card title (music_title) and the path Profile → Training settings (nav_profile → profile_training_title) exactly as the app shows them
+music_covers_text = The "Music for today" cards can show the playlists' covers. They are loaded from Spotify, which receives your IP address; no account or personal data is sent. You can change this in Profile → Training settings. ||| Las tarjetas de «Música para hoy» pueden mostrar las portadas de las listas. Se cargan desde Spotify, que recibe tu dirección IP; no se envía ninguna cuenta ni dato personal. Puedes cambiarlo en Perfil → Ajustes de entreno.
+# The dialog's buttons: allow the covers / not now (covers stay off; the switch in the settings turns them on later)
+music_covers_allow = Show covers ||| Mostrar portadas
+music_covers_not_now = Not now ||| Ahora no
+# Training settings: the switch under the music one, and its explanation
+music_covers_setting = Show Spotify covers ||| Mostrar portadas de Spotify
+music_covers_setting_text = The covers are loaded from Spotify, which receives your IP address. Off, the playlists show without covers. ||| Las portadas se cargan desde Spotify, que recibe tu dirección IP. Desactivado, las listas se muestran sin portada.

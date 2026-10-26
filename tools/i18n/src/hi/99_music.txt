@@ -1,0 +1,34 @@
+# Music for today: five Spotify workout playlists a day, chosen by the day's training, on Hoy, the Entreno tab and the workout in progress
+# Title of the card and of the sheet; also the workout's top-bar button, read by TalkBack
+music_title = आज का म्यूज़िक
+# Small attribution on the card: the playlists are Spotify's (keep "Spotify")
+music_attribution = Spotify प्लेलिस्ट
+# Action on each playlist: opens it in the Spotify app or on Spotify's website (keep "Spotify")
+music_open = Spotify में खोलें
+# Why these playlists, one line under the title: a strength workout today
+music_reason_strength = आपके स्ट्रेंथ वर्कआउट के लिए दमदार म्यूज़िक
+# A strength workout that is mostly legs
+music_reason_legs = आपके लेग डे के लिए
+# A workout that is mostly cardio (running, bike, rower…)
+music_reason_cardio = आपके कार्डियो के लिए स्थिर बीट
+# No workout yet today
+music_reason_training_day = आज ट्रेनिंग है? पूरा दम लगाने के लिए म्यूज़िक
+# No workout today after a hard one yesterday
+music_reason_recovery = कल का वर्कआउट कड़ा था: रिकवरी के लिए कुछ सुकून भरा
+# No workout today, on a weekday the user usually rests
+music_reason_rest = आराम का दिन: कुछ सुकून भरा
+# Training settings: the switch and its explanation
+music_setting = Spotify प्लेलिस्ट सुझाएं
+music_setting_text = हर दिन वर्कआउट के लिए पांच प्लेलिस्ट, आपकी ट्रेनिंग के हिसाब से चुनी गई, “आज”, “ट्रेनिंग” और चल रहे वर्कआउट में। खाते की ज़रूरत नहीं।
+# A playlist could not be opened: neither the Spotify app nor any browser can open its link (snackbar)
+music_open_failed = इस फ़ोन पर कोई भी ऐप Spotify का लिंक नहीं खोल सकता।
+# Asked once at start, right after the ad consent: may the cards load the playlists' covers from Spotify? Small dialog: title, text and two buttons
+music_covers_title = Spotify कवर
+# The dialog's text. Quote the card title (music_title) and the path Profile → Training settings (nav_profile → profile_training_title) exactly as the app shows them
+music_covers_text = “आज का म्यूज़िक” कार्ड में प्लेलिस्ट के कवर दिख सकते हैं। ये Spotify से लोड होते हैं, जिसे आपका IP पता मिलता है; कोई खाता या निजी डेटा नहीं भेजा जाता। आप इसे “प्रोफ़ाइल → ट्रेनिंग सेटिंग” में बदल सकते हैं।
+# The dialog's buttons: allow the covers / not now (covers stay off; the switch in the settings turns them on later)
+music_covers_allow = कवर दिखाएं
+music_covers_not_now = अभी नहीं
+# Training settings: the switch under the music one, and its explanation
+music_covers_setting = Spotify कवर दिखाएं
+music_covers_setting_text = कवर Spotify से लोड होते हैं, जिसे आपका IP पता मिलता है। बंद होने पर प्लेलिस्ट बिना कवर के दिखती हैं।

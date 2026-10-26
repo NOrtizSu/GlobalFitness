@@ -1,0 +1,34 @@
+# Music for today: five Spotify workout playlists a day, chosen by the day's training, on Hoy, the Entreno tab and the workout in progress
+# Title of the card and of the sheet; also the workout's top-bar button, read by TalkBack
+music_title = Musique du jour
+# Small attribution on the card: the playlists are Spotify's (keep "Spotify")
+music_attribution = Playlists Spotify
+# Action on each playlist: opens it in the Spotify app or on Spotify's website (keep "Spotify")
+music_open = Ouvrir Spotify
+# Why these playlists, one line under the title: a strength workout today
+music_reason_strength = Musique intense pour votre séance de musculation
+# A strength workout that is mostly legs
+music_reason_legs = Pour votre séance jambes
+# A workout that is mostly cardio (running, bike, rower…)
+music_reason_cardio = Un rythme régulier pour votre cardio
+# No workout yet today
+music_reason_training_day = Vous vous entraînez aujourd'hui ? De la musique pour tout donner
+# No workout today after a hard one yesterday
+music_reason_recovery = Grosse séance hier : aujourd'hui, on récupère en douceur
+# No workout today, on a weekday the user usually rests
+music_reason_rest = Jour de repos : tout en douceur
+# Training settings: the switch and its explanation
+music_setting = Suggérer des playlists Spotify
+music_setting_text = Cinq playlists sport par jour, choisies selon votre entraînement, dans Aujourd'hui, Entraînement et l'entraînement en cours. Aucun compte n'est nécessaire.
+# A playlist could not be opened: neither the Spotify app nor any browser can open its link (snackbar)
+music_open_failed = Aucune application de ce téléphone ne peut ouvrir le lien Spotify.
+# Asked once at start, right after the ad consent: may the cards load the playlists' covers from Spotify? Small dialog: title, text and two buttons
+music_covers_title = Pochettes Spotify
+# The dialog's text. Quote the card title (music_title) and the path Profile → Training settings (nav_profile → profile_training_title) exactly as the app shows them
+music_covers_text = Les cartes « Musique du jour » peuvent afficher les pochettes des playlists. Elles sont chargées depuis Spotify, qui reçoit votre adresse IP ; aucun compte ni aucune donnée personnelle n'est envoyé. Vous pouvez modifier ce choix dans Profil → Paramètres d'entraînement.
+# The dialog's buttons: allow the covers / not now (covers stay off; the switch in the settings turns them on later)
+music_covers_allow = Afficher les pochettes
+music_covers_not_now = Pas maintenant
+# Training settings: the switch under the music one, and its explanation
+music_covers_setting = Afficher les pochettes Spotify
+music_covers_setting_text = Les pochettes sont chargées depuis Spotify, qui reçoit votre adresse IP. Désactivé : les playlists s'affichent sans pochette.

@@ -1,0 +1,19 @@
+# Music for today: five Spotify workout playlists a day, chosen by the day's training, on Hoy, the Entreno tab and the workout in progress
+music_title = 今日音乐
+music_attribution = Spotify 歌单
+music_open = 在 Spotify 中打开
+music_reason_strength = 劲爆音乐，助力你的力量训练
+music_reason_legs = 为你的练腿日准备
+music_reason_cardio = 稳定的节奏，陪你做有氧
+music_reason_training_day = 今天训练吗？来点音乐，全力以赴
+music_reason_recovery = 昨天练得很猛：今天来点舒缓的，助你恢复
+music_reason_rest = 休息日：来点舒缓的
+music_setting = 推荐 Spotify 歌单
+music_setting_text = 每天根据你的训练挑选五个健身歌单，显示在“今天”、“训练”和进行中的训练里。无需账号。
+music_open_failed = 这部手机上没有可以打开 Spotify 链接的应用。
+music_covers_title = Spotify 封面
+music_covers_text = “今日音乐”卡片可以显示歌单封面。封面从 Spotify 加载，Spotify 会收到你的 IP 地址；不会发送任何账号或个人数据。你可以在“我的 → 训练设置”中更改。
+music_covers_allow = 显示封面
+music_covers_not_now = 以后再说
+music_covers_setting = 显示 Spotify 封面
+music_covers_setting_text = 封面从 Spotify 加载，Spotify 会收到你的 IP 地址。关闭后，歌单将不显示封面。

@@ -1,6 +1,6 @@
 # Fortia Privacy Policy
 
-Last updated: 25 October 2026 · Contact: **enjoyyourtime.online@gmail.com** ·
+Last updated: 26 October 2026 · Contact: **enjoyyourtime.online@gmail.com** ·
 Web version (Spanish, with an English summary): [globalfitness-app.web.app/privacy.html#en](https://globalfitness-app.web.app/privacy.html#en)
 
 This is the English version of the privacy policy. If it differs from the Spanish version, the
@@ -130,6 +130,21 @@ the app's cloud backup, they are kept there). You can turn it off in the Android
 Only with the providers needed for the app to work, acting as processors or as independent
 controllers depending on the case: **Google** (Firebase Authentication, Cloud Firestore, AdMob/UMP and
 Google Play). We do not sell personal data.
+
+**Music for today (Spotify).** The covers and names of the Spotify playlists the app suggests are only
+loaded **if you allow it**: the app asks once, at start, right after the ad consent, and you can change
+your answer at any time in **Profile → Training settings → "Show Spotify covers"** (legal basis: your
+consent, Art. 6(1)(a) GDPR). Until you allow it, the app sends no request at all to Spotify and the
+playlists show their names without covers. If you allow it, the phone requests them directly from
+Spotify: from open.spotify.com (its oEmbed service, which gives each playlist's name and cover) and from
+its image servers (`*.scdn.co`, `*.spotifycdn.com`). Spotify therefore receives your IP address and a
+generic app User-Agent ("Fortia/" and its version, without the phone's model); no account, identifier
+or personal data is sent: only the playlist's public link. The names and covers are kept in the phone's
+cache and deleted once a playlist has not been suggested for 30 days, and as soon as you turn off the
+covers or the suggestions (Android may also clear the cache when it needs space). Opening a playlist is
+your choice and does not depend on this permission: it takes you to Spotify's app or website, which are
+governed by Spotify's own terms and privacy policy. You can hide all the suggestions in **Profile →
+Training settings**.
 
 ## 11. Children
 

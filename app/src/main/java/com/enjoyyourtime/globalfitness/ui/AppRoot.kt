@@ -92,6 +92,7 @@ import com.enjoyyourtime.globalfitness.ui.today.TodayScreen
 import com.enjoyyourtime.globalfitness.ui.today.TodayStatus
 import com.enjoyyourtime.globalfitness.ui.training.TrainingRoutes
 import com.enjoyyourtime.globalfitness.ui.training.TrainingScreen
+import com.enjoyyourtime.globalfitness.ui.training.music.SpotifyCoversQuestion
 import com.enjoyyourtime.globalfitness.ui.training.trainingGraph
 
 /** Single-activity root: loading → onboarding (first launch) → the four sections. */
@@ -363,6 +364,8 @@ private fun MainScaffold(
         }
     }
 
+    // Once per install, after the start's ad consent: may the music cards load Spotify's covers?
+    SpotifyCoversQuestion(onMainSection = section != null)
     if (showManual) {
         ManualEntryDialog(
             onSave = { weight, timestamp ->

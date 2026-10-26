@@ -1,0 +1,34 @@
+# Music for today: five Spotify workout playlists a day, chosen by the day's training, on Hoy, the Entreno tab and the workout in progress
+# Title of the card and of the sheet; also the workout's top-bar button, read by TalkBack
+music_title = Музыка на сегодня
+# Small attribution on the card: the playlists are Spotify's (keep "Spotify")
+music_attribution = Плейлисты Spotify
+# Action on each playlist: opens it in the Spotify app or on Spotify's website (keep "Spotify")
+music_open = Открыть в Spotify
+# Why these playlists, one line under the title: a strength workout today
+music_reason_strength = Мощная музыка для силовой тренировки
+# A strength workout that is mostly legs
+music_reason_legs = Для дня ног
+# A workout that is mostly cardio (running, bike, rower…)
+music_reason_cardio = Ровный ритм для кардио
+# No workout yet today
+music_reason_training_day = Тренируетесь сегодня? Музыка, чтобы выложиться на полную
+# No workout today after a hard one yesterday
+music_reason_recovery = Вчера была тяжёлая тренировка: что-то спокойное для восстановления
+# No workout today, on a weekday the user usually rests
+music_reason_rest = День отдыха: что-то спокойное
+# Training settings: the switch and its explanation
+music_setting = Предлагать плейлисты Spotify
+music_setting_text = Пять плейлистов в день, подобранных под ваши тренировки: в разделах «Сегодня», «Тренировки» и во время занятия. Аккаунт не нужен.
+# A playlist could not be opened: neither the Spotify app nor any browser can open its link (snackbar)
+music_open_failed = На этом телефоне нет приложения, которое может открыть ссылку Spotify.
+# Asked once at start, right after the ad consent: may the cards load the playlists' covers from Spotify? Small dialog: title, text and two buttons
+music_covers_title = Обложки Spotify
+# The dialog's text. Quote the card title (music_title) and the path Profile → Training settings (nav_profile → profile_training_title) exactly as the app shows them
+music_covers_text = В карточках «Музыка на сегодня» можно показывать обложки плейлистов. Они загружаются из Spotify, который получает ваш IP-адрес; аккаунт и личные данные не передаются. Это можно изменить в разделе «Профиль → Настройки тренировок».
+# The dialog's buttons: allow the covers / not now (covers stay off; the switch in the settings turns them on later)
+music_covers_allow = Показать обложки
+music_covers_not_now = Не сейчас
+# Training settings: the switch under the music one, and its explanation
+music_covers_setting = Показывать обложки Spotify
+music_covers_setting_text = Обложки загружаются из Spotify, который получает ваш IP-адрес. Если выключено, плейлисты показываются без обложек.

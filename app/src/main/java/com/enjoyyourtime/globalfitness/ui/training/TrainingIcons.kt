@@ -47,6 +47,9 @@ object TrainingIcons {
         "SkipNext" to "M6,18l8.5,-6L6,6v12zM16,6v12h2V6h-2z",
         "Notes" to "M3,18h12v-2H3v2zM3,6v2h18V6H3zM3,13h18v-2H3v2z",
         "Tune" to "M3,17v2h6v-2H3zM3,5v2h10V5H3zM13,21v-2h8v-2h-8v-2h-2v6h2zM7,9v2H3v2h4v2h2V9H7zM21,13v-2H11v2h10zM15,9h2V7h4V5h-4V3h-2v6z",
+        "MusicNote" to "M12,3v10.55c-0.59,-0.34 -1.27,-0.55 -2,-0.55 -2.21,0 -4,1.79 -4,4s1.79,4 4,4 4,-1.79 4,-4V7h4V3h-6z",
+        "OpenInNew" to "M19,19H5V5h7V3H5c-1.11,0 -2,0.9 -2,2v14c0,1.1 0.89,2 2,2h14c1.1,0 2,-0.9 2,-2v-7h-2v7zM14,3v2h3.59l-9.83,9.83 " +
+            "1.41,1.41L19,6.41V10h2V3h-7z",
     )
 
     /** [autoMirror]: directional glyphs are flipped in right-to-left layouts. */
@@ -97,4 +100,10 @@ object TrainingIcons {
 
     /** Machine settings (seat, back rest...). */
     val Tune: ImageVector by lazy { icon("Tune") }
+
+    /** The day's music (a generic note: Spotify's logo is never drawn). */
+    val MusicNote: ImageVector by lazy { icon("MusicNote") }
+
+    /** Opens outside the app (a playlist in Spotify). */
+    val OpenInNew: ImageVector by lazy { icon("OpenInNew", autoMirror = true) }
 }

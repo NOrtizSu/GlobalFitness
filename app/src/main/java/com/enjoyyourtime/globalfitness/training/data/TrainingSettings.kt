@@ -20,7 +20,23 @@ enum class MuscleMapMode(val code: String) {
     }
 }
 
-/** Training preferences (SharedPreferences, mirrored in StateFlows). */
+/**
+ * Whether the music suggestions may load the playlists' covers and names from Spotify (which sees
+ * the phone's IP address). Asked once, after the ad consent at start; until [ALLOWED] nothing is
+ * requested from Spotify.
+ */
+enum class SpotifyCovers(val code: String) {
+    UNKNOWN("unknown"),
+    ALLOWED("allowed"),
+    DECLINED("declined"),
+    ;
+
+    companion object {
+        fun fromCode(code: String?): SpotifyCovers = entries.firstOrNull { it.code == code } ?: UNKNOWN
+    }
+}
+
+/** Training preferences (SharedPreferences, mirrored in StateFlows; backed up with the app's other settings). */
 class TrainingSettings(context: Context) {
     private val prefs = context.getSharedPreferences("training", Context.MODE_PRIVATE)
 
@@ -49,6 +65,16 @@ class TrainingSettings(context: Context) {
     /** The routine a workout was last started from or filled with (offered first; may be deleted since). */
     val lastRoutineId: StateFlow<String?> = _lastRoutineId.asStateFlow()
 
+    private val _music = MutableStateFlow(prefs.getBoolean(KEY_MUSIC, true))
+
+    /** Whether Hoy, Entreno and the workout suggest the day's Spotify playlists (on until turned off). */
+    val musicSuggestions: StateFlow<Boolean> = _music.asStateFlow()
+
+    private val _spotifyCovers = MutableStateFlow(SpotifyCovers.fromCode(prefs.getString(KEY_SPOTIFY_COVERS, null)))
+
+    /** The user's answer about loading the playlists' covers from Spotify. */
+    val spotifyCovers: StateFlow<SpotifyCovers> = _spotifyCovers.asStateFlow()
+
     fun setLoadUnit(unit: LoadUnit) {
         _loadUnit.value = unit
         prefs.edit { putString(KEY_UNIT, unit.code) }
@@ -76,6 +102,17 @@ class TrainingSettings(context: Context) {
         prefs.edit { putString(KEY_LAST_ROUTINE, id) }
     }
 
+    fun setMusicSuggestions(enabled: Boolean) {
+        _music.value = enabled
+        prefs.edit { putBoolean(KEY_MUSIC, enabled) }
+    }
+
+    fun setSpotifyCovers(allowed: Boolean) {
+        val value = if (allowed) SpotifyCovers.ALLOWED else SpotifyCovers.DECLINED
+        _spotifyCovers.value = value
+        prefs.edit { putString(KEY_SPOTIFY_COVERS, value.code) }
+    }
+
     companion object {
         const val DEFAULT_REST_SECONDS = 90
         const val MAX_REST_SECONDS = 600
@@ -84,6 +121,8 @@ class TrainingSettings(context: Context) {
         private const val KEY_MAP_MODE = "muscle_map_mode"
         private const val KEY_HC_EXPORT = "health_export"
         private const val KEY_LAST_ROUTINE = "last_routine"
+        private const val KEY_MUSIC = "music_suggestions"
+        private const val KEY_SPOTIFY_COVERS = "spotify_covers"
 
         /** Countries whose gyms load plates in pounds. */
         private val POUND_COUNTRIES = setOf("US", "LR", "MM")

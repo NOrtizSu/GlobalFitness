@@ -1,0 +1,34 @@
+# Music for today: five Spotify workout playlists a day, chosen by the day's training, on Hoy, the Entreno tab and the workout in progress
+# Title of the card and of the sheet; also the workout's top-bar button, read by TalkBack
+music_title = موسيقى اليوم
+# Small attribution on the card: the playlists are Spotify's (keep "Spotify")
+music_attribution = قوائم تشغيل Spotify
+# Action on each playlist: opens it in the Spotify app or on Spotify's website (keep "Spotify")
+music_open = افتح في Spotify
+# Why these playlists, one line under the title: a strength workout today
+music_reason_strength = موسيقى حماسية لتمارين القوة
+# A strength workout that is mostly legs
+music_reason_legs = ليوم تمارين الأرجل
+# A workout that is mostly cardio (running, bike, rower…)
+music_reason_cardio = إيقاع ثابت لتمارين الكارديو
+# No workout yet today
+music_reason_training_day = هل ستتدرّب اليوم؟ موسيقى لتبذل أقصى ما لديك
+# No workout today after a hard one yesterday
+music_reason_recovery = حصة شاقة بالأمس: شيء هادئ للتعافي
+# No workout today, on a weekday the user usually rests
+music_reason_rest = يوم راحة: شيء هادئ
+# Training settings: the switch and its explanation
+music_setting = اقتراح قوائم تشغيل Spotify
+music_setting_text = خمس قوائم تشغيل للتدريب كل يوم، مختارة حسب تدريبك، في «اليوم» و«التدريب» وأثناء الحصة التدريبية. لا حاجة إلى حساب.
+# A playlist could not be opened: neither the Spotify app nor any browser can open its link (snackbar)
+music_open_failed = لا يوجد تطبيق على هذا الهاتف يمكنه فتح رابط Spotify.
+# Asked once at start, right after the ad consent: may the cards load the playlists' covers from Spotify? Small dialog: title, text and two buttons
+music_covers_title = أغلفة Spotify
+# The dialog's text. Quote the card title (music_title) and the path Profile → Training settings (nav_profile → profile_training_title) exactly as the app shows them
+music_covers_text = يمكن لبطاقات «موسيقى اليوم» عرض أغلفة قوائم التشغيل. تُحمَّل الأغلفة من Spotify، الذي يتلقى عنوان IP الخاص بك؛ ولا يُرسَل أي حساب أو بيانات شخصية. يمكنك تغيير ذلك في «الملف الشخصي ← إعدادات التدريب».
+# The dialog's buttons: allow the covers / not now (covers stay off; the switch in the settings turns them on later)
+music_covers_allow = عرض الأغلفة
+music_covers_not_now = ليس الآن
+# Training settings: the switch under the music one, and its explanation
+music_covers_setting = عرض أغلفة Spotify
+music_covers_setting_text = تُحمَّل الأغلفة من Spotify، الذي يتلقى عنوان IP الخاص بك. عند الإيقاف، تظهر قوائم التشغيل بلا أغلفة.

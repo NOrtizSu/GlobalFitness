@@ -73,6 +73,8 @@ import com.enjoyyourtime.globalfitness.ui.health.HealthViewModel
 import com.enjoyyourtime.globalfitness.ui.progress.MusclesUiState
 import com.enjoyyourtime.globalfitness.ui.theme.TabularNumbers
 import com.enjoyyourtime.globalfitness.ui.training.TrainingTodayCard
+import com.enjoyyourtime.globalfitness.ui.training.music.TodayMusicCard
+import com.enjoyyourtime.globalfitness.ui.training.music.musicSuggestions
 import kotlinx.coroutines.delay
 import java.time.LocalDate
 import kotlin.math.abs
@@ -97,8 +99,8 @@ data class TodayStatus(
 
 /**
  * Today: greeting with today's rings (Health Connect), quick status chips, the weighing in progress,
- * today's workout and this week's muscles (once the user has trained), the latest weight with its
- * 30-day trend and body composition highlights.
+ * today's workout, music and this week's muscles (once the user has trained), the latest weight
+ * with its 30-day trend and body composition highlights.
  */
 @Composable
 fun TodayScreen(
@@ -131,6 +133,7 @@ fun TodayScreen(
     }
     val entries = state.entries
     val session = visibleSession(status.sessions, now)
+    val music = musicSuggestions()
 
     TabPage(title = stringResource(R.string.nav_today)) {
         item(key = "hero") {
@@ -185,6 +188,7 @@ fun TodayScreen(
         // to be seen right away (the user may be standing on the scale).
         if (muscles.hasWorkouts) {
             item(key = "training") { TrainingTodayCard(onOpenTraining = onOpenTraining, onOpen = onOpenSubPage) }
+            music?.let { suggestions -> item(key = "music") { TodayMusicCard(suggestions) } }
             item(key = "muscles") {
                 WeekMusclesCard(muscles, female = state.profile?.sex == Sex.FEMALE, onOpen = onOpenMuscles)
             }

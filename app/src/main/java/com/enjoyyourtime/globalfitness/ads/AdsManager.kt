@@ -72,6 +72,15 @@ class AdsManager(
     /** Show an "Opciones de privacidad de anuncios" entry when true. */
     val privacyOptionsRequired: StateFlow<Boolean> = _privacyOptionsRequired.asStateFlow()
 
+    private val _startupConsentDone = MutableStateFlow(false)
+
+    /**
+     * The start's consent step is over in this run: Google's form was closed or not needed, or the
+     * user is premium and there is no form. The app's own one-time questions of the start wait for
+     * it, so they never cover the form (offline, it waits for a later start).
+     */
+    val startupConsentDone: StateFlow<Boolean> = _startupConsentDone.asStateFlow()
+
     private val mobileAdsReady = MutableStateFlow(false)
 
     /** Consent obtained and SDK initialized. */
@@ -122,6 +131,8 @@ class AdsManager(
         )
         // The onboarding just ended while the app is on screen: ask for consent now.
         scope.launch { onboardingCompleted.collect { done -> if (done) maybeGatherConsent() } }
+        // Premium known while the app is on screen: no form, the step is over.
+        scope.launch { premium.collect { p -> if (p) maybeGatherConsent() } }
         scope.launch {
             combine(_canRequestAds, isPremium, onboardingCompleted) { can, noAds, done -> can && !noAds && done }.first { it }
             initializeMobileAds()
@@ -146,11 +157,16 @@ class AdsManager(
 
     /**
      * Only on the app's own screen (never over ad, sign-in or permission activities) and only
-     * after the onboarding, so the consent form never covers the welcome pages.
+     * after the onboarding, so the consent form never covers the welcome pages. Premium users have
+     * no form: their step is over at once (unless a form started before Google Play answered).
      */
     private fun maybeGatherConsent() {
         val activity = resumedMain?.get() ?: return
-        if (!onboardingCompleted.value || premium.value) return
+        if (!onboardingCompleted.value) return
+        if (premium.value) {
+            if (!consentInFlight) _startupConsentDone.value = true
+            return
+        }
         gatherConsent(activity)
     }
 
@@ -168,6 +184,7 @@ class AdsManager(
                     if (formError != null) Log.w(TAG, "Consent form: ${formError.message}")
                     consentUpdatedThisProcess = true
                     finishConsent()
+                    _startupConsentDone.value = true
                 }
             },
             { requestError ->
