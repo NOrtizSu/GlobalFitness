@@ -1,0 +1,47 @@
+# Routines: the Entreno tab's section, the routine page and editor, adding a routine to a workout, saving a workout as a routine
+training_routines_title = ルーティン
+training_routine_new = 新しいルーティン
+training_routine_open = ルーティンを見る
+# Title bar of a routine's page
+training_routine_title = ルーティン
+training_routine_missing = このルーティンはもう存在しません。
+# Label on a routine's page: one of the app's routines / one the user made
+training_routine_builtin = おすすめのルーティン
+training_routine_own = マイルーティン
+training_routine_start = ワークアウトを開始
+training_routine_add_to_active = 進行中のワークアウトに追加
+training_routine_active_hint = ワークアウトが進行中です。まだ含まれていない種目が追加されます。
+training_routine_duplicate = 複製して編集
+training_routine_delete = ルーティンを削除
+# %1$s: routine name
+training_routine_delete_title = %1$s を削除しますか？
+training_routine_delete_text = これまでのワークアウトはそのまま残ります。
+training_routine_exercises = 種目
+training_routine_muscles = 鍛えられる筋肉
+training_routine_loads_hint = 重量は、各種目の前回のセッションから自動で入力されます。
+training_routine_edit_title = ルーティンを編集
+training_routine_name_hint = 例：月曜の脚の日
+training_routine_note = メモ（任意）
+training_routine_add_exercises = 種目を追加
+training_routine_editor_empty = ルーティンの種目を追加してください。各種目は前回のセッションのセット数と回数から始まります。
+training_routine_exercises_error = 種目を 1 つ以上追加してください。
+# Set stepper of an exercise in the routine editor, read by TalkBack; %1$s: exercise
+training_routine_fewer_sets = %1$s のセットを減らす
+training_routine_more_sets = %1$s のセットを増やす
+training_routine_save_failed = ルーティンを保存できませんでした
+training_routine_add = ルーティンを追加
+# Groups of the "Add routine" sheet
+training_routines_own = マイルーティン
+training_routines_builtin = おすすめ
+training_routine_already_in = このワークアウトに追加済み
+training_routine_added{other} = %1$s 種目を追加しました
+training_routine_nothing_added = このワークアウトには、ルーティンのすべての種目がすでに含まれています。
+training_routine_save_from_workout = ルーティンとして保存
+training_routine_save_text = 種目とセットが保存されます。重量は常に前回のセッションから入力されます。
+training_routine_saved = ルーティンを保存しました
+# Snackbar action: open the routine just saved
+training_routine_view = 表示
+# Hoy card: start a workout with the routine used last; %1$s: routine name
+training_start_routine = 「%1$s」を開始
+# Hoy card, next to the routine: start a workout without exercises
+training_start_blank = 空のワークアウト

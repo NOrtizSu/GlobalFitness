@@ -1,0 +1,165 @@
+# Built-in exercise and machine names: ex_<catalog id> (training/catalog/ExerciseCatalog.kt)
+
+# Machines
+ex_machine_chest_press = Đẩy ngực với máy
+ex_machine_incline_chest_press = Đẩy ngực dốc lên với máy
+ex_pec_deck = Ép ngực bướm (pec deck)
+ex_machine_shoulder_press = Đẩy vai với máy
+ex_machine_lateral_raise = Nâng tay ngang với máy
+ex_reverse_pec_deck = Bay vai sau với máy
+ex_machine_row = Kéo ngồi với máy
+ex_pullover_machine = Pullover với máy
+ex_leg_press_machine = Đạp đùi
+ex_horizontal_leg_press = Đạp đùi ngang
+ex_hack_squat_machine = Hack squat
+ex_pendulum_squat_machine = Pendulum squat
+ex_leg_extension_machine = Đá đùi trước
+ex_lying_leg_curl_machine = Móc đùi sau nằm
+ex_seated_leg_curl_machine = Móc đùi sau ngồi
+ex_standing_calf_raise_machine = Nhón bắp chân đứng với máy
+ex_seated_calf_raise_machine = Nhón bắp chân ngồi
+ex_leg_press_calf_raise = Nhón bắp chân trên máy đạp đùi
+ex_hip_abductor_machine = Mở đùi với máy
+ex_hip_adductor_machine = Khép đùi với máy
+ex_glute_kickback_machine = Đá mông với máy
+ex_hip_thrust_machine = Hip thrust với máy
+ex_back_extension_machine = Duỗi lưng với máy
+ex_ab_crunch_machine = Gập bụng với máy
+ex_rotary_torso_machine = Xoay thân với máy
+ex_machine_biceps_curl = Cuốn tay trước với máy
+ex_machine_triceps_extension = Duỗi tay sau với máy
+ex_seated_dip_machine = Dips ngồi với máy
+ex_assisted_pull_up_machine = Hít xà với máy hỗ trợ
+ex_assisted_chin_up_machine = Hít xà tay ngửa với máy hỗ trợ
+ex_assisted_dip_machine = Dips với máy hỗ trợ
+ex_neck_machine = Máy tập cổ
+
+# Cable
+ex_lat_pulldown_machine = Kéo xô
+ex_close_grip_lat_pulldown = Kéo xô tay hẹp
+ex_seated_cable_row = Kéo cáp ngồi
+ex_single_arm_cable_row = Kéo cáp một tay
+ex_straight_arm_pulldown = Kéo cáp tay thẳng
+ex_cable_crossover = Ép ngực với cáp
+ex_low_cable_crossover = Ép ngực cáp từ dưới lên
+ex_cable_fly = Bay ngực với cáp
+ex_face_pull = Face pull
+ex_cable_lateral_raise = Nâng tay ngang với cáp
+ex_cable_triceps_pushdown = Đẩy cáp tay sau
+ex_rope_triceps_pushdown = Đẩy cáp tay sau với dây thừng
+ex_cable_overhead_triceps_extension = Duỗi tay sau qua đầu với cáp
+ex_cable_curl = Cuốn tay trước với cáp
+ex_cable_crunch = Gập bụng với cáp
+ex_cable_woodchop = Woodchop với cáp
+ex_cable_pull_through = Pull-through với cáp
+ex_cable_glute_kickback = Đá mông với cáp
+
+# Smith machine
+ex_smith_squat = Squat với máy Smith
+ex_smith_bench_press = Đẩy ngực với máy Smith
+ex_smith_incline_bench_press = Đẩy ngực dốc lên với máy Smith
+ex_smith_shoulder_press = Đẩy vai với máy Smith
+ex_smith_split_squat = Split squat với máy Smith
+ex_smith_hip_thrust = Hip thrust với máy Smith
+ex_smith_calf_raise = Nhón bắp chân với máy Smith
+
+# Barbell and EZ bar
+ex_barbell_bench_press = Đẩy ngực với tạ đòn
+ex_barbell_incline_bench_press = Đẩy ngực dốc lên với tạ đòn
+ex_barbell_decline_bench_press = Đẩy ngực dốc xuống với tạ đòn
+ex_close_grip_bench_press = Đẩy ngực tay hẹp
+ex_barbell_overhead_press = Đẩy tạ qua đầu
+ex_barbell_back_squat = Squat với tạ đòn
+ex_barbell_front_squat = Front squat
+ex_barbell_deadlift = Deadlift
+ex_sumo_deadlift = Deadlift sumo
+ex_barbell_romanian_deadlift = Romanian deadlift
+ex_good_morning = Good morning
+ex_barbell_lunge = Chùng chân với tạ đòn
+ex_barbell_hip_thrust = Hip thrust với tạ đòn
+ex_barbell_glute_bridge = Nâng hông với tạ đòn
+ex_barbell_row = Kéo tạ đòn gập người
+ex_pendlay_row = Pendlay row
+ex_t_bar_row = Kéo tạ chữ T
+ex_barbell_upright_row = Kéo tạ lên cằm
+ex_barbell_shrug = Nhún vai với tạ đòn
+ex_barbell_curl = Cuốn tạ đòn
+ex_ez_bar_curl = Cuốn thanh EZ
+ex_ez_bar_preacher_curl = Preacher curl với thanh EZ
+ex_skull_crusher = Skull crusher
+ex_barbell_wrist_curl = Cuốn cổ tay
+ex_barbell_reverse_wrist_curl = Cuốn cổ tay ngược
+
+# Dumbbells
+ex_dumbbell_bench_press = Đẩy ngực với tạ đơn
+ex_dumbbell_incline_bench_press = Đẩy ngực dốc lên với tạ đơn
+ex_dumbbell_fly = Bay ngực với tạ đơn
+ex_dumbbell_pullover = Pullover với tạ đơn
+ex_dumbbell_shoulder_press = Đẩy vai với tạ đơn
+ex_arnold_press = Arnold press
+ex_dumbbell_lateral_raise = Nâng tay ngang với tạ đơn
+ex_dumbbell_front_raise = Nâng tay trước với tạ đơn
+ex_dumbbell_rear_delt_fly = Bay vai sau
+ex_dumbbell_row = Kéo tạ đơn một tay
+ex_dumbbell_shrug = Nhún vai với tạ đơn
+ex_dumbbell_curl = Cuốn tạ đơn
+ex_hammer_curl = Cuốn tạ kiểu búa
+ex_incline_dumbbell_curl = Cuốn tạ đơn ghế dốc
+ex_concentration_curl = Cuốn tạ tập trung
+ex_dumbbell_overhead_extension = Duỗi tay sau qua đầu với tạ đơn
+ex_dumbbell_triceps_kickback = Kickback tay sau
+ex_dumbbell_goblet_squat = Goblet squat với tạ đơn
+ex_bulgarian_split_squat = Bulgarian split squat
+ex_dumbbell_lunge = Chùng chân với tạ đơn
+ex_dumbbell_step_up = Bước lên bục với tạ đơn
+ex_dumbbell_romanian_deadlift = Romanian deadlift với tạ đơn
+ex_dumbbell_side_bend = Nghiêng người với tạ đơn
+
+# Kettlebells
+ex_kettlebell_swing = Vung tạ ấm
+ex_kettlebell_goblet_squat = Goblet squat với tạ ấm
+ex_kettlebell_clean_and_press = Clean and press với tạ ấm
+ex_turkish_get_up = Turkish get-up
+
+# Bodyweight
+ex_push_up = Hít đất
+ex_parallel_bar_dip = Dips xà kép
+ex_bench_dip = Dips trên ghế
+ex_pull_up = Hít xà
+ex_chin_up = Hít xà tay ngửa
+ex_inverted_row = Inverted row
+ex_bodyweight_squat = Squat không tạ
+ex_bodyweight_lunge = Chùng chân
+ex_glute_bridge = Nâng hông
+ex_back_extension = Duỗi lưng
+ex_nordic_curl = Nordic curl
+ex_crunch = Gập bụng
+ex_sit_up = Gập bụng ngồi dậy
+ex_hanging_leg_raise = Treo người nâng chân
+ex_lying_leg_raise = Nằm nâng chân
+ex_russian_twist = Xoay người kiểu Nga
+ex_mountain_climber = Leo núi tại chỗ
+ex_burpee = Burpee
+
+# Timed holds and carries
+ex_plank = Plank
+ex_side_plank = Plank nghiêng
+ex_copenhagen_plank = Plank Copenhagen
+ex_wall_sit = Ngồi dựa tường
+ex_dead_hang = Treo xà
+ex_farmers_carry = Xách tạ đi bộ
+
+# Resistance bands
+ex_band_pull_apart = Kéo giãn dây kháng lực
+ex_banded_lateral_walk = Bước ngang với dây kháng lực
+
+# Cardio machines
+ex_treadmill = Máy chạy bộ
+ex_stationary_bike = Xe đạp tập
+ex_spin_bike = Xe đạp spinning
+ex_recumbent_bike = Xe đạp tập có tựa lưng
+ex_air_bike = Air bike
+ex_elliptical = Máy tập elip
+ex_rowing_machine = Máy chèo thuyền
+ex_stair_climber = Máy leo cầu thang
+ex_ski_erg = Ski erg

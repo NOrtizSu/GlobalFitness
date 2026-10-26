@@ -1,0 +1,8 @@
+# Body map: captions, TalkBack descriptions of the muscle figure, open-source credit of its drawings
+bodymap_front = Спереди
+bodymap_back = Сзади
+bodymap_figure_front = Тело, вид спереди
+bodymap_figure_back = Тело, вид сзади
+bodymap_figure_highlighted = %1$s: %2$s
+bodymap_muscle_state = %1$s, %2$s
+notice_body_highlighter = Рисунки карты мышц перенесены из react-native-body-highlighter.

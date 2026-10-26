@@ -1,5 +1,5 @@
 # Band (experimental direct mode). Its diagnostics log stays in English on purpose.
-band_test_notification_body = 来自 GlobalFitness 直连模式的测试通知
+band_test_notification_body = 来自 Fortia 直连模式的测试通知
 band_failure_no_bluetooth = 此手机不支持 Bluetooth。
 band_failure_bluetooth_off = Bluetooth 已关闭。请开启后重试。
 band_test_notification_sent = 测试通知已发送

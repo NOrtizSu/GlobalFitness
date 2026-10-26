@@ -30,20 +30,26 @@ object AppIcons {
             }
         }.build()
 
-    /** App glyph (matches the launcher icon): scale platform with a heartbeat line. */
+    /**
+     * App glyph (the launcher icon's drawing): a dumbbell whose bar is a heartbeat line. The pulse
+     * is a little heavier than a plain scale-down so it still reads at 24 dp.
+     */
     val Logo: ImageVector by lazy {
         ImageVector.Builder("Logo", 24.dp, 24.dp, 24f, 24f).apply {
             val ink = SolidColor(Color.Black)
             addPath(
-                pathData = addPathNodes("M7,3.5h10a3.5,3.5 0 0 1 3.5,3.5v10a3.5,3.5 0 0 1 -3.5,3.5H7a3.5,3.5 0 0 1 -3.5,-3.5V7a3.5,3.5 0 0 1 3.5,-3.5z"),
-                stroke = ink,
-                strokeLineWidth = 1.8f,
+                pathData = addPathNodes(
+                    "M2.1,9.6H3.15A0.75,0.75 0 0 1 3.9,10.35V13.65A0.75,0.75 0 0 1 3.15,14.4H2.1A0.75,0.75 0 0 1 1.35,13.65V10.35A0.75,0.75 0 0 1 2.1,9.6Z" +
+                        "M20.85,9.6H21.9A0.75,0.75 0 0 1 22.65,10.35V13.65A0.75,0.75 0 0 1 21.9,14.4H20.85A0.75,0.75 0 0 1 20.1,13.65V10.35A0.75,0.75 0 0 1 20.85,9.6Z" +
+                        "M4.35,6.6H5.25A1.05,1.05 0 0 1 6.3,7.65V16.35A1.05,1.05 0 0 1 5.25,17.4H4.35A1.05,1.05 0 0 1 3.3,16.35V7.65A1.05,1.05 0 0 1 4.35,6.6Z" +
+                        "M18.75,6.6H19.65A1.05,1.05 0 0 1 20.7,7.65V16.35A1.05,1.05 0 0 1 19.65,17.4H18.75A1.05,1.05 0 0 1 17.7,16.35V7.65A1.05,1.05 0 0 1 18.75,6.6Z",
+                ),
+                fill = ink,
             )
-            addPath(addPathNodes("M10,6.9h4"), stroke = ink, strokeLineWidth = 1.8f, strokeLineCap = StrokeCap.Round)
             addPath(
-                pathData = addPathNodes("M6.2,13.5H9l1.5,-3 2.2,6 1.8,-4.5 0.9,1.5H17.8"),
+                pathData = addPathNodes("M6.3,12L8.4,12L9.75,8.25L11.85,15.75L13.8,9.45L15.3,12L17.7,12"),
                 stroke = ink,
-                strokeLineWidth = 1.8f,
+                strokeLineWidth = 1.7f,
                 strokeLineCap = StrokeCap.Round,
                 strokeLineJoin = StrokeJoin.Round,
             )
@@ -127,6 +133,16 @@ object AppIcons {
         icon("Code", "M9.4,16.6L4.8,12l4.6,-4.6L8,6l-6,6 6,6 1.4,-1.4zM14.6,16.6l4.6,-4.6 -4.6,-4.6L16,6l6,6 -6,6 -1.4,-1.4z")
     }
 
+    /** Star outline ("star_border"): rate the app (the filled star is "Remove ads"). */
+    val StarOutline: ImageVector by lazy {
+        icon(
+            "StarOutline",
+            "M22,9.24l-7.19,-0.62L12,2 9.19,8.63 2,9.24l5.46,4.73L5.82,21 12,17.27 18.18,21l-1.63,-7.03L22,9.24z" +
+                "M12,15.4l-3.76,2.27 1,-4.28 -3.32,-2.88 4.38,-0.38L12,6.1l1.71,4.04 4.38,0.38 -3.32,2.88 1,4.28L12,15.4z",
+            evenOdd = true,
+        )
+    }
+
     val TrendUp: ImageVector by lazy {
         icon("TrendUp", "M16,6l2.29,2.29 -4.88,4.88 -4,-4L2,16.59 3.41,18l6,-6 4,4 6.3,-6.29L22,12V6z", autoMirror = true)
     }
@@ -137,5 +153,27 @@ object AppIcons {
 
     val TrendFlat: ImageVector by lazy {
         icon("TrendFlat", "M22,12l-4,-4v3H3v2h15v3z", autoMirror = true)
+    }
+
+    /** Dumbbell ("fitness_center"): the Entreno tab and training entries. */
+    val FitnessCenter: ImageVector by lazy {
+        icon(
+            "FitnessCenter",
+            "M20.57,14.86L22,13.43 20.57,12 17,15.57 8.43,7 12,3.43 10.57,2 9.14,3.43 7.71,2 5.57,4.14 4.14,2.71 2.71,4.14l1.43,1.43L2,7.71" +
+                "l1.43,1.43L2,10.57 3.43,12 7,8.43 15.57,17 12,20.57 13.43,22l1.43,-1.43L16.29,22l2.14,-2.14 1.43,1.43 1.43,-1.43 -1.43,-1.43L22,16.29z",
+        )
+    }
+
+    /** Line chart with sparkles ("insights"): the Progreso tab. */
+    val Insights: ImageVector by lazy {
+        icon(
+            "Insights",
+            "M21,8c-1.45,0 -2.26,1.44 -1.93,2.51l-3.55,3.56c-0.3,-0.09 -0.74,-0.09 -1.04,0l-2.55,-2.55C12.27,10.45 11.46,9 10,9" +
+                "c-1.45,0 -2.27,1.44 -1.93,2.52l-4.56,4.55C2.44,15.74 1,16.55 1,18c0,1.1 0.9,2 2,2c1.45,0 2.26,-1.44 1.93,-2.51" +
+                "l4.55,-4.56c0.3,0.09 0.74,0.09 1.04,0l2.55,2.55C12.73,16.55 13.54,18 15,18c1.45,0 2.27,-1.44 1.93,-2.52l3.56,-3.55" +
+                "C21.56,12.26 23,11.45 23,10C23,8.9 22.1,8 21,8z",
+            "M15,9l0.94,-2.07l2.06,-0.93l-2.06,-0.93l-0.94,-2.07l-0.92,2.07l-2.08,0.93l2.08,0.93z",
+            "M3.5,11l0.5,-2l2,-0.5l-2,-0.5l-0.5,-2l-0.5,2l-2,0.5l2,0.5z",
+        )
     }
 }

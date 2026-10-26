@@ -34,7 +34,9 @@ class InterstitialController(
     private var ad: InterstitialAd? = null
     private var loadedAt = 0L
     private var loading = false
-    private var showing = false
+    /** An interstitial is on screen (the rating card waits for another moment). */
+    var showing = false
+        private set
     private var failures = 0
     private var retryJob: Job? = null
     private var foreground = false

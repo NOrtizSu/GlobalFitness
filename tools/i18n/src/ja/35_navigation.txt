@@ -1,0 +1,82 @@
+# Bottom bar: Hoy · Entreno · Progreso · Perfil (very little room: one short word)
+nav_training = トレーニング
+nav_progress = 進捗
+
+# Progreso: tabs Músculos | Cuerpo | Actividad (Cuerpo and Actividad use nav_body and nav_activity)
+progress_tab_muscles = 筋肉
+
+# Progreso → Músculos: how the body map is colored (three segmented buttons: keep them short)
+progress_mode_sets = セット数
+progress_mode_strength = 筋力
+progress_mode_recovery = 回復
+progress_caption_sets = 過去 7 日間の有効セット数（補助的に使われる筋肉は半分として計算）を、筋肥大に一般的な範囲と比較しています。
+progress_caption_strength = 選択した期間における、各筋肉を鍛える種目の推定 1RM の変化です。
+progress_caption_recovery = 各ワークアウトの有効セット数から推定しています。ボリュームに応じて 1～4 日です。
+
+# Weekly sets compared with the muscle's range
+progress_level_none = セットなし
+progress_level_low = 範囲未満
+progress_level_optimal = 範囲内
+progress_level_high = 範囲超過
+progress_sets{other} = %1$s セット
+progress_target = 目標 %1$s～%2$s
+
+# Strength trend (%1$s: a percentage such as −5 % or +5 %)
+progress_strength_down_more = %1$s 未満
+progress_strength_down = 低下
+progress_strength_stable = 横ばい
+progress_strength_up = 向上
+progress_strength_up_more = %1$s 超
+progress_strength_title = 筋力（%1$s）
+progress_exercises{other} = %1$d 種目
+
+# Recovery (Spanish avoids gendered adjectives: the muscles' names mix genders)
+progress_recovery_fatigued = 疲労
+progress_recovery_recovering = 回復中
+progress_recovery_recovered = 回復済み
+progress_recovery_not_trained = まだトレーニングしていません
+progress_recovery_percent = %1$s 回復
+progress_recovery_full_at = 完全回復は %1$s 頃
+progress_time_tomorrow_at = 明日 %1$s
+progress_last_trained = 前回のトレーニング：%1$s
+
+# Selected muscle and the list of all muscles
+progress_detail_week = 今週
+progress_tap_hint = 人体図またはリストの筋肉をタップすると、詳細が表示されます。
+progress_all_muscles = すべての筋肉
+progress_recent_exercises = 最近の種目
+progress_recent_hint = 前回のセッションのベストセットと、その前のセッションと比べた推定 1RM の変化です。
+progress_open_exercise = 種目を開く
+# %1$s: number, %2$s: unit (kg or lb)
+progress_load_value = %1$s %2$s
+progress_state_description = %1$s、%2$s
+# %1$s: load, %2$s: repetitions
+progress_set_load_reps = %1$s × %2$s
+progress_set_reps{other} = %1$d 回
+progress_set_seconds = %1$s 秒
+progress_empty_title = 筋肉の進捗がここに表示されます
+progress_empty_text = 「トレーニング」でワークアウトを記録しましょう。各セットは鍛えた筋肉ごとにカウントされ、人体図に週間セット数、筋力の伸び、回復状況が表示されます。
+progress_empty_action = トレーニングへ
+
+# Hoy: muscles this week (%1$s: a list of the muscle groups below)
+today_muscles_title = 今週の筋肉
+today_muscles_on_track = 順調：%1$s
+today_muscles_below = 目標未満：%1$s
+today_muscles_all_on_track = すべての筋肉群が順調です
+today_muscles_none = 今週はまだセットがありません
+today_muscles_open = 筋肉を見る
+# Muscle groups used inside those lists: lowercase where the language allows it
+progress_region_chest = 胸
+progress_region_back = 背中
+progress_region_shoulders = 肩
+progress_region_arms = 腕
+progress_region_core = 体幹
+progress_region_legs = 脚
+
+# Perfil: Devices and training settings
+profile_section_devices = デバイスとトレーニング
+profile_devices_scales{other} = 体重計 %1$d 台
+profile_devices_wearables{other} = バンド・ウォッチ %1$d 台
+profile_devices_none = 体重計、バンド、Health Connect
+profile_training_title = トレーニング設定
+profile_training_text = 重量の単位、休憩タイマー、Health Connect

@@ -1,5 +1,5 @@
 # App
-band_notification_listener_label = GlobalFitness: meneruskan ke gelang Anda
+band_notification_listener_label = Fortia: meneruskan ke gelang Anda
 
 # Common actions
 action_cancel = Batal
@@ -94,7 +94,7 @@ body_type_skinny_muscular = Kurus berotot
 
 # Health Connect rationale (shown by Health Connect)
 health_rationale_title = Privasi data kesehatan
-health_rationale_intro = GlobalFitness menggunakan Health Connect untuk dua hal:
+health_rationale_intro = Fortia menggunakan Health Connect untuk dua hal:
 health_rationale_read = • Membaca data dari gelang atau jam tangan Anda (misalnya Xiaomi Smart Band melalui Mi Fitness): langkah, jarak, kalori, detak jantung, detak jantung istirahat, variabilitas detak jantung, tidur, oksigen darah, laju pernapasan, dan latihan. Aplikasi ini juga membaca berat badan dan lemak tubuh yang dicatat oleh aplikasi lain. Dengan izin data sebelumnya, aplikasi dapat mengimpor data hingga satu tahun.
 health_rationale_write = • Menulis pengukuran timbangan Anda: berat badan, lemak tubuh, massa tulang, massa tubuh tanpa lemak, metabolisme basal, dan air tubuh. Jika Anda menghapus pengukuran di aplikasi, pengukuran tersebut juga dihapus dari Health Connect.
 health_rationale_storage = Data yang dibaca dari Health Connect hanya disimpan di ponsel ini: data tersebut tidak diunggah ke cadangan cloud opsional, tidak digunakan untuk iklan, dan tidak dibagikan kepada siapa pun. Aplikasi hanya menggunakannya untuk menampilkan ringkasan dan grafik kepada Anda.

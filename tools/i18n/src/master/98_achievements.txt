@@ -1,0 +1,145 @@
+# Achievements: medals derived from the workouts and the weighings, the celebration shown when a level is reached, and the achievements page (Entreno tab card, Perfil row)
+achievements_title = Achievements ||| Logros
+# Medals earned out of all the levels on offer: "12 of 70 medals"
+achievements_earned{one} = %1$s of %2$s medal ||| %1$s de %2$s medalla
+achievements_earned{other} = %1$s of %2$s medals ||| %1$s de %2$s medallas
+achievements_category_training = Consistency ||| Constancia
+achievements_category_strength = Strength ||| Fuerza
+achievements_category_body = Body ||| Cuerpo
+# Highest level reached of an achievement: "Level 3 of 8"
+achievements_level = Level %1$s of %2$s ||| Nivel %1$s de %2$s
+achievements_not_started = Not earned yet ||| Aún sin conseguir
+achievements_all_levels = Every level earned ||| Todos los niveles conseguidos
+# When a level was earned: "Earned on 15 Oct 2026"
+achievements_earned_on = Earned on %1$s ||| Conseguido el %1$s
+# The next level of an achievement: "Next: Finish 25 workouts"
+achievements_next = Next: %1$s ||| Siguiente: %1$s
+# Progress towards the next level: "23 / 25", "12.5 t / 50 t"
+achievements_progress = %1$s / %2$s ||| %1$s / %2$s
+achievements_levels = Levels ||| Niveles
+achievements_how = How it counts ||| Cómo se cuenta
+achievements_open = Open achievements ||| Abrir logros
+achievements_needs_bodyweight = Weigh yourself to compare your lifts with your body weight. ||| Pésate para comparar tus levantamientos con tu peso corporal.
+achievements_needs_target = Set a target weight in your profile. ||| Pon un peso objetivo en tu perfil.
+achievements_needs_weighings = Weigh yourself to start. ||| Pésate para empezar.
+achievements_target_is_start = Your target is your starting weight: there is no distance to cover. ||| Tu objetivo es tu peso de partida: no hay distancia que recorrer.
+achievements_needs_composition = Needs weighings with body composition, from a scale that measures it. ||| Necesita pesajes con composición corporal, de una báscula que la mida.
+achievements_lift_note = The levels follow common strength standards and are lower for women. Only the barbell counts: not the Smith machine or other machines. ||| Los niveles siguen estándares de fuerza habituales y son más bajos para mujeres. Solo cuenta la barra: ni la máquina Smith ni otras máquinas.
+# Total volume in metric tonnes: "10 t"
+achievements_value_tonnes = %1$s t ||| %1$s t
+# A lift as a multiple of the body weight: "1.25×"
+achievements_value_ratio = %1$s× ||| %1$s×
+
+# The celebration shown over any screen when a new level is reached
+celebration_title = Congratulations! ||| ¡Enhorabuena!
+celebration_view = View achievements ||| Ver logros
+# Spoken by TalkBack when the celebration appears
+celebration_announce = New achievement ||| Nuevo logro
+# An achievement and the level just reached: "Workouts · Level 3"
+celebration_level = %1$s · Level %2$s ||| %1$s · Nivel %2$s
+# More levels were reached at once than the card lists: "+2 more"
+celebration_more{one} = +%1$s more ||| y %1$s más
+celebration_more{other} = +%1$s more ||| y %1$s más
+
+# One block per achievement: title, what a level asks for (goal), the congratulation (done) and how it is counted (rule)
+ach_workouts_title = Workouts ||| Entrenos
+ach_workouts_goal{one} = Finish your first workout ||| Termina tu primer entreno
+ach_workouts_goal{other} = Finish %1$s workouts ||| Termina %1$s entrenos
+ach_workouts_done{one} = You've finished your first workout ||| Has terminado tu primer entreno
+ach_workouts_done{other} = You've finished %1$s workouts ||| Has terminado %1$s entrenos
+ach_workouts_rule = Finished workouts with at least one completed set. ||| Entrenos terminados con al menos una serie completada.
+
+ach_week_streak_title = Weekly streak ||| Racha semanal
+ach_week_streak_goal{one} = Train at least twice in %1$s week ||| Entrena al menos 2 veces en %1$s semana
+ach_week_streak_goal{other} = Train at least twice a week for %1$s weeks in a row ||| Entrena al menos 2 veces por semana %1$s semanas seguidas
+ach_week_streak_done{one} = You've trained at least twice in %1$s week ||| Has entrenado al menos 2 veces en %1$s semana
+ach_week_streak_done{other} = You've trained at least twice a week for %1$s weeks in a row ||| Llevas %1$s semanas seguidas entrenando al menos 2 veces por semana
+ach_week_streak_rule = Calendar weeks in a row with at least 2 finished workouts. The current week does not break the streak until it is over. ||| Semanas naturales seguidas con al menos 2 entrenos terminados. La semana en curso no rompe la racha hasta que termina.
+
+ach_balanced_weeks_title = Balanced weeks ||| Semanas equilibradas
+ach_balanced_weeks_goal{one} = Have a balanced week ||| Consigue una semana equilibrada
+ach_balanced_weeks_goal{other} = Have %1$s balanced weeks ||| Consigue %1$s semanas equilibradas
+ach_balanced_weeks_done{one} = Your first balanced week ||| Tu primera semana equilibrada
+ach_balanced_weeks_done{other} = You've had %1$s balanced weeks ||| Llevas %1$s semanas equilibradas
+# %1$s: list of muscles ("Chest, Shoulders and Lats")
+ach_balanced_weeks_rule = Calendar weeks in which each of these muscles gets a number of hard sets within its weekly range, neither below nor above: %1$s. ||| Semanas naturales en las que cada uno de estos músculos recibe un número de series efectivas dentro de su rango semanal, ni por debajo ni por encima: %1$s.
+
+ach_variety_title = Variety ||| Variedad
+ach_variety_goal{one} = Do %1$s different exercise ||| Haz %1$s ejercicio distinto
+ach_variety_goal{other} = Do %1$s different exercises ||| Haz %1$s ejercicios distintos
+ach_variety_done{one} = You've done %1$s different exercise ||| Has hecho %1$s ejercicio distinto
+ach_variety_done{other} = You've done %1$s different exercises ||| Has hecho %1$s ejercicios distintos
+ach_variety_rule = Different exercises and machines with at least one completed set. ||| Ejercicios y máquinas distintos con al menos una serie completada.
+
+ach_cardio_km_title = Cardio distance ||| Distancia de cardio
+# %1$s: a distance ("50 km")
+ach_cardio_km_goal = Cover %1$s on cardio ||| Recorre %1$s en cardio
+ach_cardio_km_done = You've covered %1$s on cardio ||| Has recorrido %1$s en cardio
+ach_cardio_km_rule = Distance of every completed cardio set. ||| Distancia de todas las series de cardio completadas.
+
+ach_volume_title = Total volume ||| Volumen total
+# %1$s: a weight ("10 t", "22046 lb")
+ach_volume_goal = Lift %1$s in total ||| Levanta %1$s en total
+ach_volume_done = You've lifted %1$s in total ||| Has levantado %1$s en total
+ach_volume_rule = Weight × repetitions of every completed set, with your body weight in bodyweight and assisted exercises. ||| Peso × repeticiones de todas las series completadas, con tu peso corporal en los ejercicios con el propio peso y asistidos.
+
+ach_records_title = Personal records ||| Récords personales
+ach_records_goal{one} = Beat your first personal record ||| Bate tu primer récord personal
+ach_records_goal{other} = Beat %1$s personal records ||| Bate %1$s récords personales
+ach_records_done{one} = Your first personal record ||| Tu primer récord personal
+ach_records_done{other} = You've beaten %1$s personal records ||| Has batido %1$s récords personales
+ach_records_rule = Sets that beat one of the exercise's records: estimated 1RM, weight, repetitions, time or least assistance. ||| Series que baten un récord del ejercicio: 1RM estimado, peso, repeticiones, tiempo o menor asistencia.
+
+ach_bench_bw_title = Bench press ||| Press de banca
+# %1$s: a multiple of the body weight ("1.25×")
+ach_bench_bw_goal = Bench press %1$s your body weight ||| Press de banca con %1$s tu peso corporal
+ach_bench_bw_done = Your bench press reaches %1$s your body weight ||| Tu press de banca llega a %1$s tu peso corporal
+ach_bench_bw_rule = Best estimated 1RM on the barbell bench press, divided by your body weight on that day. ||| Mejor 1RM estimado en press de banca con barra, dividido entre tu peso corporal de ese día.
+
+ach_squat_bw_title = Squat ||| Sentadilla
+ach_squat_bw_goal = Squat %1$s your body weight ||| Sentadilla con %1$s tu peso corporal
+ach_squat_bw_done = Your squat reaches %1$s your body weight ||| Tu sentadilla llega a %1$s tu peso corporal
+ach_squat_bw_rule = Best estimated 1RM on the barbell back or front squat, divided by your body weight on that day. ||| Mejor 1RM estimado en sentadilla trasera o frontal con barra, dividido entre tu peso corporal de ese día.
+
+ach_deadlift_bw_title = Deadlift ||| Peso muerto
+ach_deadlift_bw_goal = Deadlift %1$s your body weight ||| Peso muerto con %1$s tu peso corporal
+ach_deadlift_bw_done = Your deadlift reaches %1$s your body weight ||| Tu peso muerto llega a %1$s tu peso corporal
+ach_deadlift_bw_rule = Best estimated 1RM on the conventional or sumo barbell deadlift, divided by your body weight on that day. ||| Mejor 1RM estimado en peso muerto convencional o sumo con barra, dividido entre tu peso corporal de ese día.
+
+ach_ohp_bw_title = Overhead press ||| Press militar
+ach_ohp_bw_goal = Overhead press %1$s your body weight ||| Press militar con %1$s tu peso corporal
+ach_ohp_bw_done = Your overhead press reaches %1$s your body weight ||| Tu press militar llega a %1$s tu peso corporal
+ach_ohp_bw_rule = Best estimated 1RM on the standing barbell overhead press, divided by your body weight on that day. ||| Mejor 1RM estimado en press militar con barra, dividido entre tu peso corporal de ese día.
+
+ach_pull_ups_title = Pull-ups ||| Dominadas
+ach_pull_ups_goal{one} = Do your first pull-up without assistance ||| Haz tu primera dominada sin ayuda
+ach_pull_ups_goal{other} = Do %1$s pull-ups without assistance in one set ||| Haz %1$s dominadas sin ayuda en una serie
+ach_pull_ups_done{one} = Your first pull-up without assistance ||| Tu primera dominada sin ayuda
+ach_pull_ups_done{other} = %1$s pull-ups without assistance in one set ||| %1$s dominadas sin ayuda en una serie
+ach_pull_ups_rule = Most repetitions in one set of pull-ups or chin-ups, with or without extra weight, or on the assisted machine with 0 assistance. ||| Máximo de repeticiones en una serie de dominadas, en pronación o supinación, con o sin lastre, o en la máquina asistida con 0 de asistencia.
+
+ach_goal_title = Target weight ||| Peso objetivo
+# %1$s: the target weight ("75 kg")
+ach_goal_goal = Reach your target weight of %1$s ||| Alcanza tu peso objetivo de %1$s
+ach_goal_done = You've reached your target weight of %1$s ||| Has alcanzado tu peso objetivo de %1$s
+ach_goal_rule = Your 7-day average weight reaches the target set in your profile. ||| Tu peso medio de 7 días alcanza el objetivo de tu perfil.
+
+ach_goal_progress_title = Towards your target ||| Hacia tu objetivo
+# %1$s: a weight ("3 kg")
+ach_goal_progress_goal_loss = Lose %1$s towards your target ||| Pierde %1$s hacia tu objetivo
+ach_goal_progress_goal_gain = Gain %1$s towards your target ||| Gana %1$s hacia tu objetivo
+ach_goal_progress_done_loss = You've lost %1$s ||| Has perdido %1$s
+ach_goal_progress_done_gain = You've gained %1$s ||| Has ganado %1$s
+
+ach_fat_down_title = Body fat ||| Grasa corporal
+ach_fat_down_goal{one} = Lower your body fat by %1$s point ||| Baja tu grasa corporal %1$s punto
+ach_fat_down_goal{other} = Lower your body fat by %1$s points ||| Baja tu grasa corporal %1$s puntos
+ach_fat_down_done{one} = Your body fat is down %1$s point ||| Tu grasa corporal ha bajado %1$s punto
+ach_fat_down_done{other} = Your body fat is down %1$s points ||| Tu grasa corporal ha bajado %1$s puntos
+ach_fat_down_rule = Drop of your 7-day average body fat since your first week of measurements. Going below the healthy minimum does not count. ||| Bajada de tu grasa corporal media de 7 días desde tu primera semana de mediciones. Bajar del mínimo saludable no cuenta.
+
+ach_muscle_up_title = Muscle mass ||| Masa muscular
+# %1$s: a weight ("2 kg")
+ach_muscle_up_goal = Gain %1$s of muscle mass ||| Gana %1$s de masa muscular
+ach_muscle_up_done = You've gained %1$s of muscle mass ||| Has ganado %1$s de masa muscular
+ach_muscle_up_rule = Rise of your 7-day average muscle mass since your first week of measurements. ||| Aumento de tu masa muscular media de 7 días desde tu primera semana de mediciones.

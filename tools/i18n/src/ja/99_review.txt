@@ -1,0 +1,4 @@
+# Rating the app on Google Play (Profile → About) and the open-source credit of the In-App Review library
+about_rate_app = Fortia を評価
+about_rate_app_text = Google Play でご意見をお聞かせください
+notice_play_review = 適切なタイミングで、Google 純正のカードを使って Google Play での評価をお願いします。

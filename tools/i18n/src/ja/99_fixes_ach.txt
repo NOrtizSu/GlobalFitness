@@ -1,0 +1,3 @@
+# Achievements review fixes
+# How "Towards your target" is counted: from the week the current target weight was set in the profile
+ach_goal_progress_rule_target = 現在の目標を設定してから、7 日間の平均体重が目標の方向にどれだけ変化したか。目標を超えるマイルストーンはありません。

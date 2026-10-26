@@ -12,17 +12,21 @@ import com.enjoyyourtime.globalfitness.ble.LiveScale
 import com.enjoyyourtime.globalfitness.ble.ScaleMonitor
 import com.enjoyyourtime.globalfitness.ble.ScaleScanner
 import com.enjoyyourtime.globalfitness.cloud.CloudSyncEngine
+import com.enjoyyourtime.globalfitness.cloud.ExercisePhotoFiles
 import com.enjoyyourtime.globalfitness.cloud.RepositoryBackupAdapter
+import com.enjoyyourtime.globalfitness.cloud.TrainingBackupSource
 import com.enjoyyourtime.globalfitness.data.AppDatabase
 import com.enjoyyourtime.globalfitness.data.Repository
 import com.enjoyyourtime.globalfitness.data.SettingsStore
 import com.enjoyyourtime.globalfitness.domain.MeasurementRecorder
 import com.enjoyyourtime.globalfitness.health.HealthModule
+import com.enjoyyourtime.globalfitness.review.ReviewPrompter
 import com.enjoyyourtime.globalfitness.scale.SessionStatus
 import com.enjoyyourtime.globalfitness.domain.RecordOutcome
 import com.enjoyyourtime.globalfitness.scale.GattSession
 import com.enjoyyourtime.globalfitness.scale.ScaleContext
 import com.enjoyyourtime.globalfitness.scale.drivers.AllDrivers
+import com.enjoyyourtime.globalfitness.training.TrainingModule
 import com.enjoyyourtime.globalfitness.ui.Fmt
 import com.enjoyyourtime.globalfitness.wearable.WearableManager
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -82,12 +86,27 @@ class AppContainer(context: Context) {
             appScope.launch { manager.linkActive.collect { wearableLinkActive.value = it } }
         }
     }
-    val health = HealthModule(context, repository, scaleRegistry, appScope)
+
+    /** Exercise and machine catalog, workouts and the muscle statistics' data. */
+    val training = TrainingModule(context, appScope)
+    val health = HealthModule(context, repository, scaleRegistry, appScope, training)
     // ---- Optional Google account + cloud backup, ads and the "Quitar anuncios" purchase --------
-    val adSuppression = AdSuppression()
+    val adSuppression = AdSuppression().also { suppression ->
+        // No interstitials while a workout is in progress: the user is logging sets in the gym.
+        appScope.launch {
+            training.repository.activeWorkout.collect { suppression.set(AdSuppression.WORKOUT_IN_PROGRESS, it != null) }
+        }
+    }
     val billing = BillingRepository(context, appScope, adSuppression)
     val account = AccountManager(context)
-    val cloudSync = CloudSyncEngine(context, appScope, account, RepositoryBackupAdapter(repository, settings), billing.isPremium)
+    val cloudSync = CloudSyncEngine(
+        context,
+        appScope,
+        account,
+        RepositoryBackupAdapter(repository, settings),
+        billing.isPremium,
+        training = TrainingBackupSource(training.repository, ExercisePhotoFiles(training.photos)),
+    )
     val onboarding = OnboardingStore(context)
     val ads = AdsManager(
         application = context.applicationContext as Application,
@@ -101,6 +120,16 @@ class AppContainer(context: Context) {
             live is LiveScale.Connecting || live is LiveScale.Measuring || live is LiveScale.Stabilized ||
                 sessions.values.any { it.status in BUSY_SESSION_STATES }
         },
+        onboardingCompleted = onboarding.completed,
+    )
+
+    /** Google Play's rating card at good moments. Created at startup: it notes the first day of use. */
+    val reviews = ReviewPrompter(
+        context = context,
+        scope = appScope,
+        suppression = adSuppression,
+        interstitialShowing = { ads.interstitials.showing },
+        workouts = training.repository.workouts,
         onboardingCompleted = onboarding.completed,
     )
 

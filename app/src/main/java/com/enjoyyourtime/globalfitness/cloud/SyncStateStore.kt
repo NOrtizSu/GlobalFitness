@@ -10,17 +10,25 @@ import java.io.File
  * after a restore or on a new phone the engine starts without a base, so it merges instead of
  * mistaking the missing history for deletions.
  */
-class SyncStateStore(context: Context) {
+class SyncStateStore(context: Context) : TrainingBaseStore {
     private val dir = File(context.noBackupFilesDir, "cloud_sync")
 
     suspend fun loadBase(uid: String): SyncBase? = read(baseFile(uid))?.let(SyncStateCodec::decodeBase)
 
     suspend fun saveBase(uid: String, base: SyncBase) = write(baseFile(uid), SyncStateCodec.encodeBase(base))
 
+    /** Forgets what was synced for [uid]: measurements and training (the next sync reads everything). */
     suspend fun clearBase(uid: String) = withContext(Dispatchers.IO) {
         baseFile(uid).delete()
+        trainingFile(uid).delete()
         Unit
     }
+
+    override suspend fun loadTrainingBase(uid: String): TrainingBase? = read(trainingFile(uid))?.let(TrainingBaseCodec::decode)
+
+    override suspend fun saveTrainingBase(uid: String, base: TrainingBase) = write(trainingFile(uid), TrainingBaseCodec.encode(base))
+
+    private fun trainingFile(uid: String) = File(dir, "training_${FirestoreCodec.safeDocId(uid)}.txt")
 
     /** A cloud deletion started for [uid] and has not finished: sync stays paused until it does. */
     suspend fun isDeletionPending(uid: String): Boolean = withContext(Dispatchers.IO) { pendingFile(uid).isFile }

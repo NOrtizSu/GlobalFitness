@@ -51,11 +51,11 @@ about_licenses_text = Giấy phép AGPL-3.0, mã nguồn từ openScale (GPL-3.0
 
 # Open source notices
 open_source_title = Mã nguồn mở
-open_source_free_software = GlobalFitness là phần mềm tự do
+open_source_free_software = Fortia là phần mềm tự do
 open_source_license_text = © 2026 Enjoy Your Time và những người đóng góp. Bạn có thể phân phối lại và sửa đổi phần mềm theo các điều khoản của GNU Affero General Public License, phiên bản 3 trở lên (AGPL-3.0). Phần mềm được phân phối KHÔNG KÈM BẤT KỲ BẢO ĐẢM NÀO. Toàn bộ mã nguồn của mọi phiên bản đều có sẵn miễn phí trên GitHub.
 open_source_view_code = Xem mã nguồn
 open_source_read_license = Đọc giấy phép AGPL-3.0
-open_source_ported_intro = GlobalFitness bao gồm mã nguồn được chuyển thể từ các dự án phần mềm tự do. Cảm ơn các tác giả của những dự án này.
+open_source_ported_intro = Fortia bao gồm mã nguồn được chuyển thể từ các dự án phần mềm tự do. Cảm ơn các tác giả của những dự án này.
 open_source_libraries = Thư viện
 open_source_license_label = Giấy phép: %1$s
 open_source_open_website = Mở trang web của dự án

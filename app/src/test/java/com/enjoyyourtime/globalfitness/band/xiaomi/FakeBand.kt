@@ -5,7 +5,7 @@ import com.google.protobuf.ByteString
 import java.io.IOException
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
-import java.util.Collections
+import java.util.concurrent.CopyOnWriteArrayList
 import kotlinx.coroutines.channels.Channel
 
 /**
@@ -29,13 +29,13 @@ class FakeBand(
     private var material = ByteArray(64)
 
     /** Decrypted commands from the phone after authentication. */
-    val received: MutableList<XiaomiProto.Command> = Collections.synchronizedList(mutableListOf())
+    val received: MutableList<XiaomiProto.Command> = CopyOnWriteArrayList()
 
     /** Sequence numbers the phone acked (V2). */
-    val acksFromPhone: MutableList<Int> = Collections.synchronizedList(mutableListOf())
+    val acksFromPhone: MutableList<Int> = CopyOnWriteArrayList()
 
     /** Raw V2 data frames from the phone, in arrival order. */
-    val dataFramesFromPhone: MutableList<ByteArray> = Collections.synchronizedList(mutableListOf())
+    val dataFramesFromPhone: MutableList<ByteArray> = CopyOnWriteArrayList()
 
     @Volatile
     var companionDevice: XiaomiProto.CompanionDevice? = null

@@ -1,0 +1,49 @@
+# Routines: the Training tab's section, the routine page and editor, adding a routine to a workout, saving a workout as a routine
+training_routines_title = Routines
+training_routine_new = Nouvelle routine
+training_routine_open = Voir la routine
+# Title bar of a routine's page
+training_routine_title = Routine
+training_routine_missing = Cette routine n'existe plus.
+# Label on a routine's page: one of the app's routines / one the user made
+training_routine_builtin = Routine suggérée
+training_routine_own = Votre routine
+training_routine_start = Démarrer l'entraînement
+training_routine_add_to_active = Ajouter à l'entraînement en cours
+training_routine_active_hint = Un entraînement est en cours : les exercices qu'il ne contient pas encore y sont ajoutés.
+training_routine_duplicate = Dupliquer et modifier
+training_routine_delete = Supprimer la routine
+# %1$s: routine name
+training_routine_delete_title = Supprimer %1$s ?
+training_routine_delete_text = Vos entraînements restent inchangés.
+training_routine_exercises = Exercices
+training_routine_muscles = Muscles sollicités
+training_routine_loads_hint = Les charges sont reprises de votre dernière séance de chaque exercice.
+training_routine_edit_title = Modifier la routine
+training_routine_name_hint = Ex. : Jambes du lundi
+training_routine_note = Note (facultatif)
+training_routine_add_exercises = Ajouter des exercices
+training_routine_editor_empty = Ajoutez les exercices de la routine : chacun commence avec les séries et répétitions de votre dernière séance.
+training_routine_exercises_error = Ajoutez au moins un exercice.
+# Set stepper of an exercise in the routine editor, read by TalkBack; %1$s: exercise
+training_routine_fewer_sets = Moins de séries de %1$s
+training_routine_more_sets = Plus de séries de %1$s
+training_routine_save_failed = Impossible d'enregistrer la routine
+training_routine_add = Ajouter une routine
+# Groups of the "Add routine" sheet
+training_routines_own = Vos routines
+training_routines_builtin = Suggérées
+training_routine_already_in = Déjà dans l'entraînement
+training_routine_added{one} = %1$s exercice ajouté
+training_routine_added{many} = %1$s exercices ajoutés
+training_routine_added{other} = %1$s exercices ajoutés
+training_routine_nothing_added = Cet entraînement contient déjà tous les exercices de la routine.
+training_routine_save_from_workout = Enregistrer comme routine
+training_routine_save_text = Ses exercices et ses séries sont enregistrés ; les charges viennent toujours de votre dernière séance.
+training_routine_saved = Routine enregistrée
+# Snackbar action: open the routine just saved
+training_routine_view = Voir
+# Today card: start a workout with the routine used last; %1$s: routine name
+training_start_routine = Démarrer %1$s
+# Today card, next to the routine: start a workout without exercises
+training_start_blank = Entraînement vide

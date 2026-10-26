@@ -56,11 +56,11 @@ about_licenses_text = ترخيص AGPL-3.0، وشيفرة من openScale (GPL-3.0
 
 # Open source notices
 open_source_title = المصدر المفتوح
-open_source_free_software = تطبيق GlobalFitness برنامج حر
+open_source_free_software = تطبيق Fortia برنامج حر
 open_source_license_text = حقوق النشر © 2026 Enjoy Your Time والمساهمون. يمكنك إعادة توزيعه وتعديله بموجب شروط رخصة GNU Affero General Public License، الإصدار 3 أو أحدث (AGPL-3.0). ويُوزَّع دون أي ضمان على الإطلاق. الشيفرة المصدرية الكاملة لكل إصدار متاحة مجانًا على GitHub.
 open_source_view_code = عرض الشيفرة المصدرية
 open_source_read_license = قراءة ترخيص AGPL-3.0
-open_source_ported_intro = يتضمن GlobalFitness شيفرة منقولة من مشاريع برمجيات حرة. شكرًا لمؤلفيها.
+open_source_ported_intro = يتضمن Fortia شيفرة منقولة من مشاريع برمجيات حرة. شكرًا لمؤلفيها.
 open_source_libraries = المكتبات
 open_source_license_label = الترخيص: %1$s
 open_source_open_website = فتح موقع المشروع

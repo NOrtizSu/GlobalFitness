@@ -1,5 +1,5 @@
 # Remove ads (Google Play Billing)
-remove_ads_headline = GlobalFitness ohne Werbung
+remove_ads_headline = Fortia ohne Werbung
 remove_ads_benefit_no_ads = Keine Banner und keine Vollbildwerbung.
 remove_ads_benefit_one_time = Einmalzahlung: kein Abo.
 remove_ads_benefit_restore = Wird auf deinen anderen Smartphones mit demselben Google Play-Konto wiederhergestellt.

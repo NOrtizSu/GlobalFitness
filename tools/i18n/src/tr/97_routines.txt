@@ -1,0 +1,15 @@
+# Built-in routine names: routine_<id> (training/catalog/RoutineCatalog.kt). Short: they label cards and list rows.
+routine_full_body_machines = Makinelerle tüm vücut
+routine_full_body_free_weights = Tüm vücut, serbest ağırlık
+routine_push = İtme (göğüs, omuz, triceps)
+routine_pull = Çekme (sırt, biceps)
+routine_legs = Bacak
+routine_upper_body = Üst vücut
+routine_lower_body = Alt vücut
+routine_chest_triceps = Göğüs ve triceps
+routine_back_biceps = Sırt ve biceps
+routine_shoulders = Omuz
+routine_arms = Kol
+routine_glutes = Kalça
+routine_core = Core ve karın
+routine_cardio_mix = Kardiyo makineleri

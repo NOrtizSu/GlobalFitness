@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import com.enjoyyourtime.globalfitness.data.Repository
 import com.enjoyyourtime.globalfitness.scale.ScaleRegistry
+import com.enjoyyourtime.globalfitness.training.TrainingModule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,17 +15,32 @@ import kotlinx.coroutines.launch
  * Health Connect wiring for the app container. Registered as activity lifecycle callbacks so
  * every resume refreshes permissions and runs a throttled sync (at most every 5 minutes).
  */
-class HealthModule(context: Context, repository: Repository, scales: ScaleRegistry, private val scope: CoroutineScope) :
-    Application.ActivityLifecycleCallbacks {
+class HealthModule(
+    context: Context,
+    repository: Repository,
+    scales: ScaleRegistry,
+    private val scope: CoroutineScope,
+    training: TrainingModule,
+) : Application.ActivityLifecycleCallbacks {
 
     val cache = HealthCache(context)
     val settings = HealthSettings(context)
     val gateway = HealthConnectGateway(context)
     val sync = HealthSync(gateway, cache, settings, scope, ownPackage = context.packageName)
     val exporter = ScaleExporter(gateway, cache, settings, repository, scales, scope, ownPackage = context.packageName)
+    val workoutExporter = WorkoutExporter(
+        gateway = gateway,
+        cache = cache,
+        repository = training.repository,
+        settings = training.settings,
+        scope = scope,
+        ownPackage = context.packageName,
+        genericTitle = { type -> context.getString(WorkoutExporter.genericTitleRes(type)) },
+    )
 
     init {
         exporter.start()
+        workoutExporter.start()
     }
 
     /** Refreshes availability / permissions, then syncs if the last attempt is old enough. */
@@ -32,6 +48,7 @@ class HealthModule(context: Context, repository: Repository, scales: ScaleRegist
         scope.launch(Dispatchers.IO) {
             gateway.refresh()
             sync.syncIfStale()
+            workoutExporter.onForeground()
         }
     }
 

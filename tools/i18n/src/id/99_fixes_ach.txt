@@ -1,0 +1,3 @@
+# Achievements review fixes
+# How "Towards your target" is counted: from the week the current target weight was set in the profile
+ach_goal_progress_rule_target = Perubahan rata-rata berat badan 7 hari Anda sejak Anda menetapkan target saat ini, ke arah target tersebut. Tidak ada tahapan yang melampaui target Anda.

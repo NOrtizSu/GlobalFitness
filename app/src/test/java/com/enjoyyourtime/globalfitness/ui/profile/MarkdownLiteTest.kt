@@ -72,7 +72,7 @@ class MarkdownLiteTest {
     fun theBundledPrivacyPolicyParsesAndLinksItsWebVersion() {
         val file = listOf(File("../docs/privacy-policy.md"), File("docs/privacy-policy.md")).first { it.isFile }
         val blocks = MarkdownLite.parse(file.readText())
-        assertEquals(MdBlock.Heading(1, "Política de privacidad de GlobalFitness"), blocks.first())
+        assertEquals(MdBlock.Heading(1, "Política de privacidad de Fortia"), blocks.first())
         val header = blocks[1] as MdBlock.Paragraph
         assertTrue(header.text, header.text.startsWith("Última actualización:"))
         assertTrue(MarkdownLite.inline(header.text).any { it.url == PRIVACY_POLICY_URL })

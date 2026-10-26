@@ -1,0 +1,87 @@
+# Bottom bar: Hoy · Entreno · Progreso · Perfil (very little room: one short word)
+nav_training = ट्रेनिंग
+nav_progress = प्रगति
+
+# Progreso: tabs Músculos | Cuerpo | Actividad (Cuerpo and Actividad use nav_body and nav_activity)
+progress_tab_muscles = मांसपेशियां
+
+# Progreso → Músculos: how the body map is colored (three segmented buttons: keep them short)
+progress_mode_sets = सेट
+progress_mode_strength = ताकत
+progress_mode_recovery = रिकवरी
+progress_caption_sets = पिछले 7 दिनों के हार्ड सेट (सहायक मांसपेशियां आधी गिनी जाती हैं), मांसपेशी बढ़ाने की सामान्य सीमा की तुलना में।
+progress_caption_strength = चुनी गई अवधि में हर मांसपेशी पर काम करने वाली एक्सरसाइज़ के अनुमानित वन-रेप मैक्स (1RM) में बदलाव।
+progress_caption_recovery = हर वर्कआउट के हार्ड सेट से अनुमानित: वॉल्यूम के हिसाब से 1 से 4 दिन।
+
+# Weekly sets compared with the muscle's range
+progress_level_none = कोई सेट नहीं
+progress_level_low = सीमा से कम
+progress_level_optimal = सीमा में
+progress_level_high = सीमा से ज़्यादा
+progress_sets{one} = %1$s सेट
+progress_sets{other} = %1$s सेट
+progress_target = लक्ष्य %1$s–%2$s
+
+# Strength trend (%1$s: a percentage such as −5 % or +5 %)
+progress_strength_down_more = %1$s से कम
+progress_strength_down = गिरावट
+progress_strength_stable = स्थिर
+progress_strength_up = बढ़त
+progress_strength_up_more = %1$s से ज़्यादा
+progress_strength_title = ताकत (%1$s)
+progress_exercises{one} = %1$d एक्सरसाइज़
+progress_exercises{other} = %1$d एक्सरसाइज़
+
+# Recovery (Spanish avoids gendered adjectives: the muscles' names mix genders)
+progress_recovery_fatigued = थकान
+progress_recovery_recovering = रिकवरी जारी
+progress_recovery_recovered = पूरी रिकवरी
+progress_recovery_not_trained = अभी ट्रेनिंग नहीं हुई
+progress_recovery_percent = %1$s रिकवरी
+progress_recovery_full_at = पूरी रिकवरी ~%1$s
+progress_time_tomorrow_at = कल, %1$s
+progress_last_trained = आखिरी ट्रेनिंग: %1$s
+
+# Selected muscle and the list of all muscles
+progress_detail_week = इस हफ़्ते
+progress_tap_hint = ब्योरा देखने के लिए आकृति पर या सूची में किसी मांसपेशी पर टैप करें।
+progress_all_muscles = सभी मांसपेशियां
+progress_recent_exercises = हाल की एक्सरसाइज़
+progress_recent_hint = पिछले सेशन का सबसे अच्छा सेट और उससे पहले वाले सेशन की तुलना में उसके अनुमानित 1RM में बदलाव।
+progress_open_exercise = एक्सरसाइज़ खोलें
+# %1$s: number, %2$s: unit (kg or lb)
+progress_load_value = %1$s %2$s
+progress_state_description = %1$s, %2$s
+# %1$s: load, %2$s: repetitions
+progress_set_load_reps = %1$s × %2$s
+progress_set_reps{one} = %1$d रेप
+progress_set_reps{other} = %1$d रेप्स
+progress_set_seconds = %1$s सेकंड
+progress_empty_title = आपकी मांसपेशियों की प्रगति यहां दिखेगी
+progress_empty_text = अपने वर्कआउट “ट्रेनिंग” में दर्ज करें: हर सेट उन मांसपेशियों के लिए गिना जाता है जिन पर वह काम करता है, और आकृति आपके साप्ताहिक सेट, ताकत में बढ़त और रिकवरी दिखाती है।
+progress_empty_action = ट्रेनिंग पर जाएं
+
+# Hoy: muscles this week (%1$s: a list of the muscle groups below)
+today_muscles_title = इस हफ़्ते की मांसपेशियां
+today_muscles_on_track = लक्ष्य पर: %1$s
+today_muscles_below = लक्ष्य से कम: %1$s
+today_muscles_all_on_track = सभी मांसपेशी समूह लक्ष्य पर
+today_muscles_none = इस हफ़्ते अभी तक कोई सेट नहीं
+today_muscles_open = मांसपेशियां देखें
+# Muscle groups used inside those lists: lowercase where the language allows it
+progress_region_chest = छाती
+progress_region_back = पीठ
+progress_region_shoulders = कंधे
+progress_region_arms = बाहें
+progress_region_core = एब्स
+progress_region_legs = पैर
+
+# Perfil: Devices and training settings
+profile_section_devices = डिवाइस और ट्रेनिंग
+profile_devices_scales{one} = %1$d स्केल
+profile_devices_scales{other} = %1$d स्केल
+profile_devices_wearables{one} = %1$d बैंड या घड़ी
+profile_devices_wearables{other} = %1$d बैंड या घड़ियां
+profile_devices_none = स्केल, बैंड और Health Connect
+profile_training_title = ट्रेनिंग सेटिंग
+profile_training_text = वज़न की इकाई, आराम टाइमर और Health Connect

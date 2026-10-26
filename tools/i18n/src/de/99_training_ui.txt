@@ -1,0 +1,220 @@
+# Training screens: Training tab, Today card, workout, exercise picker and catalog, exercise detail, editor, history, settings
+training_title = Training
+training_catalog_title = Übungen und Maschinen
+training_history_title = Verlauf
+training_settings_title = Trainingseinstellungen
+training_in_progress = Training läuft
+training_start_title = Bereit fürs Training?
+training_start_empty = Training starten
+training_log_past = Anderen Tag erfassen
+training_intro_title = Erfasse deine Trainings
+training_intro_text = Starte ein Training, füge Übungen aus dem Katalog oder deine eigenen Maschinen hinzu und hake jeden Satz ab, sobald du ihn beendet hast. Die App merkt sich, was du beim letzten Mal gemacht hast, und verfolgt deinen Fortschritt pro Übung und pro Muskel.
+training_open_catalog = Übungen ansehen
+training_repeat_title = Training wiederholen
+training_repeat_action = Wiederholen
+training_this_week = Diese Woche
+training_stat_workouts = Trainings
+training_stat_sets = Sätze
+training_stat_volume = Volumen
+# Spoken summary of the week card: workouts, sets, volume ("3 workouts", "42 sets", "12450 kg")
+training_week_desc = Diese Woche: %1$s, %2$s, %3$s
+training_recent_title = Letzte Trainings
+training_see_all = Alle ansehen
+training_today_done = Heutiges Training
+training_open_workout = Training öffnen
+training_open_tab = „Training“ öffnen
+# "Last workout: 2 days ago · Legs"
+training_last_workout = Letztes Training: %1$s · %2$s
+training_no_workouts_yet = Noch keine Trainings erfasst.
+# Title of a workout without a name, muscles or exercises
+training_workout_default = Training
+# Title bar of a finished or past workout
+training_workout_title = Training
+training_workout_missing = Dieses Training existiert nicht mehr.
+training_workout_name = Name des Trainings
+training_workout_note = Notizen zum Training
+training_workout_empty = Füge die erste Übung hinzu: Die Sätze vom letzten Mal sind schon eingetragen.
+training_add_exercise = Übung hinzufügen
+training_add_set = Satz hinzufügen
+training_finish = Beenden
+training_finish_workout = Training beenden
+training_more_options = Weitere Optionen
+training_change_start = Datum und Uhrzeit ändern
+training_discard_workout = Training verwerfen
+training_delete_workout = Training löschen
+training_discard = Verwerfen
+training_discard_title = Dieses Training verwerfen?
+# %1$s: start date and time
+training_discard_text = Das am %1$s begonnene Training und seine Sätze werden gelöscht.
+training_discard_empty_text = Kein Satz ist als erledigt abgehakt, es gibt also nichts zu speichern.
+training_delete_title = Dieses Training löschen?
+# %1$s: date and time of the workout
+training_delete_text = Das Training vom %1$s wird mit allen Sätzen gelöscht.
+training_exercise_options = Optionen für %1$s
+training_open_exercise = Übung ansehen
+training_add_warmup = Aufwärmsatz hinzufügen
+training_entry_note = Notiz
+training_move_up = Nach oben
+training_move_down = Nach unten
+training_remove_exercise = Übung entfernen
+training_remove = Entfernen
+training_remove_exercise_title = %1$s entfernen?
+training_remove_exercise_text = Ihre Sätze in diesem Training werden gelöscht.
+# Set table column headers (narrow: keep them short)
+training_col_set = Satz
+training_col_previous = Vorher
+# Extra weight on a bodyweight exercise, %1$s: unit ("+kg")
+training_col_extra_load = +%1$s
+# Counterweight of an assisted machine, %1$s: unit; may wrap to two lines
+training_col_assistance = Hilfe (%1$s)
+training_col_reps = Wdh.
+training_col_time = Zeit
+training_col_km = km
+training_col_level = Stufe
+# Set cells as TalkBack reads them ("Repetitions, set 2")
+training_field_extra_load = Zusatzgewicht
+training_field_assistance = Unterstützung
+training_field_reps = Wiederholungen
+training_field_distance = Distanz
+training_field_kcal = Kalorien
+training_set_number = Satz %1$s
+training_warmup_set = Aufwärmsatz
+# Shown instead of the set number for a warm-up set (one letter)
+training_warmup_short = A
+training_set_done = %1$s erledigt
+training_set_options = %1$s: Optionen
+training_make_warmup = Als Aufwärmsatz markieren
+training_make_working = Als Arbeitssatz markieren
+training_delete_set = Satz löschen
+training_copy_previous = Werte vom letzten Mal übernehmen
+training_record = Persönlicher Rekord
+# %1$s: exercise, %2$s: the set ("85 kg × 8")
+training_record_message = Neuer persönlicher Rekord! %1$s, %2$s
+training_assist_hint = An einer assistierten Maschine erfasst du das Gegengewicht, das dir hilft: weniger Unterstützung = mehr Kraft.
+training_rest = Pause
+training_rest_value = Pause %1$s
+# Seconds ("30 s", "−15 s")
+training_seconds_value = %1$s s
+training_skip_rest = Pause überspringen
+training_rest_off = Aus
+training_elapsed_desc = Verstrichene Zeit: %1$s
+training_duration = Dauer
+training_duration_minutes = Minuten
+training_unfinished_title = Nicht abgehakte Sätze
+training_unfinished_text{one} = Ein Satz hat Werte, ist aber nicht als erledigt abgehakt.
+training_unfinished_text{other} = %1$s Sätze haben Werte, sind aber nicht als erledigt abgehakt.
+training_unfinished_complete = Als erledigt abhaken
+training_unfinished_discard = Verwerfen
+training_finished_title = Training beendet
+training_records = Rekorde
+training_done = Fertig
+# A muscle with its sets in the workout summary ("Chest: 4 sets")
+training_muscle_sets = %1$s: %2$s
+training_picker_title = Übungen hinzufügen
+training_add_selected{one} = %1$s Übung hinzufügen
+training_add_selected{other} = %1$s Übungen hinzufügen
+training_create_exercise = Maschine oder Übung erstellen
+training_search = Übungen suchen
+training_search_clear = Suche löschen
+training_no_results = Keine passende Übung. Probiere andere Wörter oder Filter oder erstelle deine eigene.
+training_recent_exercises = Zuletzt
+training_all_exercises = Alle Übungen
+training_scope_all = Alle
+training_scope_mine = Meine Maschinen
+training_scope_favorites = Favoriten
+training_mine_empty = Hier erscheinen deine eigenen Maschinen und Übungen sowie jede Übung, der du ein Foto oder Einstellungen hinzugefügt hast.
+training_favorites_empty = Tippe auf den Stern einer Übung, um sie griffbereit zu haben.
+training_new_machine = Neue Maschine
+training_favorite = Favorit
+training_make_favorite = Zu Favoriten hinzufügen
+training_unfavorite = Aus Favoriten entfernen
+training_exercise_title = Übung
+training_exercise_missing = Diese Übung existiert nicht mehr.
+training_edit = Bearbeiten
+training_archive = Archivieren
+training_restore = Wiederherstellen
+training_archive_title = %1$s archivieren?
+training_archive_text = Sie wird im Katalog ausgeblendet; deine Trainings behalten sie und du kannst sie von dort wiederherstellen.
+training_delete_exercise_title = %1$s löschen?
+training_delete_exercise_text = Sie wird mit Foto und Einstellungen gelöscht.
+training_archived_note = Archiviert: im Katalog ausgeblendet.
+# An exercise the user created
+training_own_exercise = Eigene
+training_photo_add = Füge ein Foto deiner Maschine hinzu
+training_photo_add_text = Damit du sie in deinem Studio wiedererkennst.
+training_photo_change = Foto ändern
+training_photo_of = Foto von %1$s
+training_photo_take = Foto aufnehmen
+training_photo_pick = Aus Galerie auswählen
+training_photo_remove = Foto entfernen
+training_photo_failed = Das Foto konnte nicht gelesen werden.
+training_photo_unavailable = Keine App auf diesem Smartphone kann Fotos aufnehmen.
+training_muscle_primary = Hauptmuskeln
+training_muscle_secondary = Hilfsmuskeln
+training_machine_settings = Einstellungen der Maschine
+training_machine_settings_hint = Z. B. Sitz 4, Lehne 2
+training_progress = Fortschritt
+training_progress_empty = Hake Sätze dieser Übung in einem Training ab, um hier deinen Fortschritt zu sehen.
+training_progress_none_in_period = Keine Einheiten in diesem Zeitraum.
+training_needs_bodyweight = Erfasse dein Körpergewicht (Waage oder manuell), um die Kraft zu sehen.
+training_personal_records = Persönliche Rekorde
+training_no_records = Noch keine Rekorde.
+training_record_volume = Bestes Volumen in einer Einheit
+training_metric_e1rm = Geschätztes 1RM
+training_metric_e1rm_short = Gesch. 1RM
+training_metric_heaviest = Höchstes Gewicht
+training_metric_extra_load = Höchstes Zusatzgewicht
+training_metric_max_reps = Meiste Wiederholungen
+training_metric_total_reps = Wiederholungen gesamt
+training_metric_longest = Längste Dauer
+training_metric_total_time = Gesamtzeit
+training_metric_distance = Distanz
+training_metric_least_assistance = Geringste Unterstützung
+training_value_reps = %1$s Wdh.
+training_value_lb = %1$s lb
+# Progress chart for TalkBack: %1$s metric, %2$s number of sessions, %3$s first value, %4$s last value, %5$s highest value
+training_chart_desc{one} = Diagramm %1$s, %2$s Einheit: %3$s.
+training_chart_desc{other} = Diagramm %1$s, %2$s Einheiten: von %3$s bis %4$s, Höchstwert %5$s.
+# How sets of each kind are logged (exercise editor)
+training_kind_weight_reps_text = Gewicht × Wiederholungen: Drücken, Rudern, Beinpresse …
+training_kind_bodyweight_reps_text = Wiederholungen mit deinem Körpergewicht, Zusatzgewicht optional: Klimmzüge, Dips, Liegestütze.
+training_kind_assisted_reps_text = Du erfasst das Gegengewicht, das dir hilft: weniger Unterstützung = mehr Kraft.
+training_kind_duration_text = Gehaltene Sekunden, Gewicht optional: Unterarmstütz, Farmer's Walk.
+training_kind_cardio_text = Zeit, Distanz, Stufe und Kalorien: Laufband, Rad, Rudergerät.
+training_editor_new = Neue Maschine oder Übung
+training_editor_edit = Übung bearbeiten
+training_editor_not_editable = Übungen aus dem Katalog lassen sich nicht bearbeiten: Füge Einstellungen, Foto und Stern auf ihrer Seite hinzu.
+training_editor_name = Name
+training_editor_name_hint = Z. B. Brustpresse (Technogym)
+training_editor_name_error = Gib einen Namen ein.
+training_editor_equipment = Ausrüstung
+training_editor_kind = Erfassungsart
+training_editor_kind_changed = Bereits erfasste Sätze behalten ihre Werte; nur ihre Auswertung ändert sich.
+training_editor_muscle_error = Wähle mindestens einen Hauptmuskel.
+training_editor_photo = Foto
+training_history_empty_title = Noch keine Trainings
+training_history_empty_text = Abgeschlossene Trainings erscheinen hier, nach Monat gruppiert.
+training_workout_actions = Trainingsaktionen
+training_settings_unit = Gewichtseinheit
+training_settings_unit_text = Gewichte werden in Kilogramm gespeichert; du kannst die Einheit jederzeit ändern.
+training_unit_kg_long = Kilogramm (kg)
+training_unit_lb_long = Pfund (lb)
+training_settings_rest = Pausentimer
+training_settings_rest_text = Startet, wenn du einen Satz abhakst, und vibriert am Ende, solange die App geöffnet ist.
+training_settings_health = Das Speichern deiner Trainings in Health Connect richtest du unter „Profil → Health Connect“ ein.
+training_days_ago{one} = Vor %1$s Tag
+training_days_ago{other} = Vor %1$s Tagen
+training_exercises_count{one} = %1$s Übung
+training_exercises_count{other} = %1$s Übungen
+training_sets_count{one} = %1$s Satz
+training_sets_count{other} = %1$s Sätze
+# Half sets of a secondary muscle ("2.5 sets"): decimals take no plural form
+training_sets_fraction = %1$s Sätze
+training_workouts_count{one} = %1$s Training
+training_workouts_count{other} = %1$s Trainings
+training_undo = Rückgängig
+training_exercise_removed = Übung entfernt
+training_set_deleted = Satz gelöscht
+training_discard_changes = Änderungen verwerfen?
+training_save_failed = Die Übung konnte nicht gespeichert werden
+training_spoken_pair = %1$s, %2$s

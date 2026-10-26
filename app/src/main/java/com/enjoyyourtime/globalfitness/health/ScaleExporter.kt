@@ -83,7 +83,7 @@ class ScaleExporter(
                 repository.measurements,
                 settings.exportChoice,
                 gateway.granted,
-            ) { loaded, _, _, _, granted -> loaded && HealthPermissions.writableTypes(granted).isNotEmpty() }
+            ) { loaded, _, _, _, granted -> loaded && HealthPermissions.canWriteAnyScaleValue(granted) }
                 .collectLatest { ready ->
                     if (!ready) return@collectLatest
                     delay(DEBOUNCE_MS)
@@ -144,8 +144,9 @@ class ScaleExporter(
         // Single-profile app: Health Connect data belongs to the (only) profile.
         val profile = repository.profiles.value.firstOrNull()
         val owned = if (profile == null) emptyList() else measurements.filter { it.profileId == profile.id }
-        val payloads = if (profile == null) emptyList() else owned.mapNotNull { ExportPayload.from(it, profile, allowed) }
         val written = withContext(io) {
+            // The body composition of every weighing: off the main thread (this runs at every start).
+            val payloads = if (profile == null) emptyList() else owned.mapNotNull { ExportPayload.from(it, profile, allowed) }
             val plan = ScaleExportPlanner.plan(
                 ownedIds = owned.mapTo(HashSet()) { it.id },
                 payloads = payloads,

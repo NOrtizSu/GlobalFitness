@@ -1,0 +1,90 @@
+# Bottom bar: Today · Training · Progress · Profile (very little room: one short word)
+nav_training = Entraînement
+nav_progress = Progrès
+
+# Progress: tabs Muscles | Body | Activity (Body and Activity use nav_body and nav_activity)
+progress_tab_muscles = Muscles
+
+# Progress → Muscles: how the body map is coloured (three segmented buttons: keep them short)
+progress_mode_sets = Séries
+progress_mode_strength = Force
+progress_mode_recovery = Récupération
+progress_caption_sets = Séries effectives des 7 derniers jours (les muscles secondaires comptent pour moitié) comparées à la plage habituelle pour la prise de muscle.
+progress_caption_strength = Évolution du 1RM estimé des exercices qui sollicitent chaque muscle sur la période choisie.
+progress_caption_recovery = Estimée à partir des séries effectives de chaque entraînement : de 1 à 4 jours selon le volume.
+
+# Weekly sets compared with the muscle's range
+progress_level_none = Aucune série
+progress_level_low = Sous la plage
+progress_level_optimal = Dans la plage
+progress_level_high = Au-dessus de la plage
+progress_sets{one} = %1$s série
+progress_sets{many} = %1$s séries
+progress_sets{other} = %1$s séries
+progress_target = objectif %1$s–%2$s
+
+# Strength trend (%1$s: a percentage such as −5 % or +5 %)
+progress_strength_down_more = Moins de %1$s
+progress_strength_down = En baisse
+progress_strength_stable = Stable
+progress_strength_up = En hausse
+progress_strength_up_more = Plus de %1$s
+progress_strength_title = Force (%1$s)
+progress_exercises{one} = %1$d exercice
+progress_exercises{many} = %1$d exercices
+progress_exercises{other} = %1$d exercices
+
+# Recovery (avoids gendered adjectives: the muscles' names mix genders)
+progress_recovery_fatigued = Fatigue
+progress_recovery_recovering = En récupération
+progress_recovery_recovered = Récupération complète
+progress_recovery_not_trained = Pas encore d'entraînement
+progress_recovery_percent = %1$s de récupération
+progress_recovery_full_at = récupération complète ~%1$s
+progress_time_tomorrow_at = Demain, %1$s
+progress_last_trained = Dernier entraînement : %1$s
+
+# Selected muscle and the list of all muscles
+progress_detail_week = Cette semaine
+progress_tap_hint = Appuyez sur un muscle de la silhouette ou de la liste pour voir ses détails.
+progress_all_muscles = Tous les muscles
+progress_recent_exercises = Exercices récents
+progress_recent_hint = Meilleure série de la dernière séance et évolution de son 1RM estimé par rapport à la séance précédente.
+progress_open_exercise = Ouvrir l'exercice
+progress_load_value = %1$s %2$s
+progress_state_description = %1$s, %2$s
+progress_set_load_reps = %1$s × %2$s
+progress_set_reps{one} = %1$d répétition
+progress_set_reps{many} = %1$d répétitions
+progress_set_reps{other} = %1$d répétitions
+progress_set_seconds = %1$s s
+progress_empty_title = La progression de vos muscles s'affiche ici
+progress_empty_text = Enregistrez vos entraînements dans Entraînement : chaque série compte pour les muscles qu'elle sollicite, et la silhouette montre vos séries hebdomadaires, vos gains de force et votre récupération.
+progress_empty_action = Aller à Entraînement
+
+# Today: muscles this week (%1$s: a list of the muscle groups below)
+today_muscles_title = Muscles cette semaine
+today_muscles_on_track = En bonne voie : %1$s
+today_muscles_below = Sous l'objectif : %1$s
+today_muscles_all_on_track = Tous les groupes musculaires sont en bonne voie
+today_muscles_none = Aucune série cette semaine pour l'instant
+today_muscles_open = Voir les muscles
+# Muscle groups used inside those lists: lowercase where the language allows it
+progress_region_chest = pectoraux
+progress_region_back = dos
+progress_region_shoulders = épaules
+progress_region_arms = bras
+progress_region_core = abdominaux
+progress_region_legs = jambes
+
+# Profile: Devices and training settings
+profile_section_devices = Appareils et entraînement
+profile_devices_scales{one} = %1$d balance
+profile_devices_scales{many} = %1$d balances
+profile_devices_scales{other} = %1$d balances
+profile_devices_wearables{one} = %1$d bracelet ou montre
+profile_devices_wearables{many} = %1$d bracelets ou montres
+profile_devices_wearables{other} = %1$d bracelets ou montres
+profile_devices_none = Balances, bracelets et Health Connect
+profile_training_title = Paramètres d'entraînement
+profile_training_text = Unité de poids, minuteur de repos et Health Connect

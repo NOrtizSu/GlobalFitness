@@ -6,8 +6,8 @@ import com.enjoyyourtime.globalfitness.band.xiaomi.AlarmSpec
 import com.enjoyyourtime.globalfitness.band.xiaomi.BandAlarm
 import com.enjoyyourtime.globalfitness.band.xiaomi.BandNotification
 import com.enjoyyourtime.globalfitness.scale.MatchConfidence
-import java.util.Collections
 import java.util.TimeZone
+import java.util.concurrent.CopyOnWriteArrayList
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -56,7 +56,7 @@ class WearableControllerTest {
 
     /** Records every call; the test plays the device through [push] and [closeWith]. */
     private class FakeSession(private val openFailure: WearableFailure? = null) : WearableSession {
-        val calls: MutableList<String> = Collections.synchronizedList(mutableListOf())
+        val calls: MutableList<String> = CopyOnWriteArrayList()
         private val channel = Channel<WearableEvent>(Channel.UNLIMITED)
         private val closed = CompletableDeferred<WearableException>()
         override val label = "fake"
@@ -139,7 +139,7 @@ class WearableControllerTest {
         var precondition: WearableFailure? = null
         var busy = false
         var syncTime = true
-        val saved: MutableList<Pair<HeartRateSample, String>> = Collections.synchronizedList(mutableListOf())
+        val saved: MutableList<Pair<HeartRateSample, String>> = CopyOnWriteArrayList()
         override fun preconditionFailure(transport: WearableTransport) = precondition
         override fun authKey(address: String) = key
         override fun createSession(driver: WearableDriver, device: ConfiguredWearable, authKey: String?): WearableSession = session
@@ -246,7 +246,7 @@ class WearableControllerTest {
     fun findDeviceFoundItAndFindPhoneMessages() = runTest {
         val session = FakeSession()
         val c = controller(FakePlatform(session))
-        val messages = Collections.synchronizedList(mutableListOf<WearableMessage>())
+        val messages = CopyOnWriteArrayList<WearableMessage>()
         scope.launch { c.messages.collect { messages += it } }
         c.connect()
         c.awaitState { it.connection == WearableConnection.READY }
@@ -267,7 +267,7 @@ class WearableControllerTest {
         val session = FakeSession()
         val driver = FakeDriver(features = setOf(WearableFeature.BATTERY, WearableFeature.ALARMS))
         val c = controller(FakePlatform(session).apply { syncTime = false }, driver)
-        val messages = Collections.synchronizedList(mutableListOf<WearableMessage>())
+        val messages = CopyOnWriteArrayList<WearableMessage>()
         scope.launch { c.messages.collect { messages += it } }
         c.connect()
         c.awaitState { it.alarms != null }
@@ -285,7 +285,7 @@ class WearableControllerTest {
     fun fullAlarmSlotsAreReportedNotSwallowed() = runTest {
         val session = FakeSession()
         val c = controller(FakePlatform(session))
-        val messages = Collections.synchronizedList(mutableListOf<WearableMessage>())
+        val messages = CopyOnWriteArrayList<WearableMessage>()
         scope.launch { c.messages.collect { messages += it } }
         c.connect()
         c.awaitState { it.alarms != null }
@@ -357,7 +357,7 @@ class WearableControllerTest {
     @Test
     fun linkLossIsReported() = runTest {
         val session = FakeSession()
-        val messages = Collections.synchronizedList(mutableListOf<WearableMessage>())
+        val messages = CopyOnWriteArrayList<WearableMessage>()
         val c = controller(FakePlatform(session))
         scope.launch { c.messages.collect { messages += it } }
         c.connect()

@@ -112,12 +112,17 @@ object HealthMappings {
     )
 
     /**
-     * Friendly name for a record's `dataOrigin` package. Our own records are "GlobalFitness";
-     * unknown packages use [fallback] (e.g. the installed app label) or the package name. Null when
-     * the package is blank (the UI shows "Unknown").
+     * Friendly name for a record's `dataOrigin` package. Our own records are [ownName] (the app's
+     * name); unknown packages use [fallback] (e.g. the installed app label) or the package name. Null
+     * when the package is blank (the UI shows "Unknown").
      */
-    fun originName(packageName: String, ownPackage: String, fallback: (String) -> String? = { null }): String? = when {
-        packageName == ownPackage -> "GlobalFitness"
+    fun originName(
+        packageName: String,
+        ownPackage: String,
+        ownName: String,
+        fallback: (String) -> String? = { null },
+    ): String? = when {
+        packageName == ownPackage -> ownName
         packageName.isBlank() -> null
         else -> originNames[packageName] ?: fallback(packageName)?.takeIf { it.isNotBlank() } ?: packageName
     }

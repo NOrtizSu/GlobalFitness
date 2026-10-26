@@ -1,0 +1,15 @@
+# Built-in routine names: routine_<id> (training/catalog/RoutineCatalog.kt). Short: they label cards and list rows.
+routine_full_body_machines = Seluruh tubuh dengan mesin
+routine_full_body_free_weights = Seluruh tubuh, beban bebas
+routine_push = Push (dada, bahu, trisep)
+routine_pull = Pull (punggung, bisep)
+routine_legs = Kaki
+routine_upper_body = Tubuh bagian atas
+routine_lower_body = Tubuh bagian bawah
+routine_chest_triceps = Dada dan trisep
+routine_back_biceps = Punggung dan bisep
+routine_shoulders = Bahu
+routine_arms = Lengan
+routine_glutes = Bokong
+routine_core = Core dan perut
+routine_cardio_mix = Mesin kardio

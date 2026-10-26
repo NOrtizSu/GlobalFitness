@@ -1,0 +1,8 @@
+# Body map: captions, TalkBack descriptions of the muscle figure, open-source credit of its drawings
+bodymap_front = Depan
+bodymap_back = Belakang
+bodymap_figure_front = Tubuh, tampak depan
+bodymap_figure_back = Tubuh, tampak belakang
+bodymap_figure_highlighted = %1$s: %2$s
+bodymap_muscle_state = %1$s, %2$s
+notice_body_highlighter = Gambar peta otot diadaptasi dari react-native-body-highlighter.

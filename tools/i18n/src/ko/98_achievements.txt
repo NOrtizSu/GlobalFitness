@@ -1,0 +1,111 @@
+# Achievements: medals derived from the workouts and the weighings, the celebration shown when a level is reached, and the achievements page (Training tab card, Profile row)
+achievements_title = 업적
+achievements_earned{other} = 메달 %2$s개 중 %1$s개 획득
+achievements_category_training = 꾸준함
+achievements_category_strength = 근력
+achievements_category_body = 신체
+achievements_level = 레벨 %1$s/%2$s
+achievements_not_started = 아직 획득하지 않음
+achievements_all_levels = 모든 레벨 달성
+achievements_earned_on = %1$s 획득
+achievements_next = 다음: %1$s
+achievements_progress = %1$s / %2$s
+achievements_levels = 레벨
+achievements_how = 계산 방법
+achievements_open = 업적 열기
+achievements_needs_bodyweight = 체중을 측정하면 들어 올린 무게를 체중과 비교할 수 있습니다.
+achievements_needs_target = 프로필에서 목표 체중을 설정하세요.
+achievements_needs_weighings = 체중을 측정해 시작하세요.
+achievements_target_is_start = 목표 체중이 시작 체중과 같아 줄여야 할 차이가 없습니다.
+achievements_needs_composition = 체성분을 측정하는 체중계로 측정한 체성분 데이터가 필요합니다.
+achievements_lift_note = 레벨은 일반적인 근력 기준을 따르며 여성은 더 낮게 설정됩니다. 바벨만 인정되며 스미스 머신이나 다른 머신은 제외됩니다.
+achievements_value_tonnes = %1$s톤
+achievements_value_ratio = %1$s×
+
+# The celebration shown over any screen when a new level is reached
+celebration_title = 축하합니다!
+celebration_view = 업적 보기
+celebration_announce = 새 업적
+celebration_level = %1$s · 레벨 %2$s
+celebration_more{other} = 외 %1$s개
+
+ach_workouts_title = 운동 횟수
+ach_workouts_goal{other} = 운동 %1$s회 완료하기
+ach_workouts_done{other} = 운동을 %1$s회 완료했습니다
+ach_workouts_rule = 완료한 세트가 1개 이상인 완료된 운동.
+
+ach_week_streak_title = 주간 연속 기록
+ach_week_streak_goal{other} = %1$s주 연속 주 2회 이상 운동하기
+ach_week_streak_done{other} = %1$s주 연속 주 2회 이상 운동했습니다
+ach_week_streak_rule = 완료한 운동이 2회 이상인 달력 기준 주가 연속된 횟수. 진행 중인 주는 끝나기 전까지 연속 기록을 끊지 않습니다.
+
+ach_balanced_weeks_title = 균형 잡힌 주
+ach_balanced_weeks_goal{other} = 균형 잡힌 주 %1$s회 달성하기
+ach_balanced_weeks_done{other} = 균형 잡힌 주를 %1$s회 달성했습니다
+ach_balanced_weeks_rule = 다음 각 근육의 유효 세트 수가 주간 범위 안에 드는(미달도 초과도 아닌) 달력 기준 주: %1$s.
+
+ach_variety_title = 다양성
+ach_variety_goal{other} = 서로 다른 종목 %1$s개 하기
+ach_variety_done{other} = 서로 다른 종목을 %1$s개 했습니다
+ach_variety_rule = 완료한 세트가 1개 이상인 서로 다른 종목과 머신.
+
+ach_cardio_km_title = 유산소 거리
+ach_cardio_km_goal = 유산소 누적 거리 %1$s 달성하기
+ach_cardio_km_done = 유산소 누적 거리가 %1$s에 도달했습니다
+ach_cardio_km_rule = 완료한 모든 유산소 세트의 거리.
+
+ach_volume_title = 총 볼륨
+ach_volume_goal = 총 %1$s 들어 올리기
+ach_volume_done = 들어 올린 무게가 총 %1$s에 도달했습니다
+ach_volume_rule = 완료한 모든 세트의 무게 × 횟수이며, 맨몸 종목과 어시스트 종목에는 체중을 반영합니다.
+
+ach_records_title = 개인 기록
+ach_records_goal{other} = 개인 기록 %1$s회 경신하기
+ach_records_done{other} = 개인 기록을 %1$s회 경신했습니다
+ach_records_rule = 해당 종목의 기록(추정 1RM, 무게, 횟수, 시간, 최소 어시스트) 중 하나를 경신한 세트.
+
+ach_bench_bw_title = 벤치 프레스
+ach_bench_bw_goal = 벤치 프레스로 체중의 %1$s 들기
+ach_bench_bw_done = 벤치 프레스가 체중의 %1$s에 도달했습니다
+ach_bench_bw_rule = 바벨 벤치 프레스의 최고 추정 1RM을 그날의 체중으로 나눈 값.
+
+ach_squat_bw_title = 스쿼트
+ach_squat_bw_goal = 스쿼트로 체중의 %1$s 들기
+ach_squat_bw_done = 스쿼트가 체중의 %1$s에 도달했습니다
+ach_squat_bw_rule = 바벨 백 스쿼트 또는 프론트 스쿼트의 최고 추정 1RM을 그날의 체중으로 나눈 값.
+
+ach_deadlift_bw_title = 데드리프트
+ach_deadlift_bw_goal = 데드리프트로 체중의 %1$s 들기
+ach_deadlift_bw_done = 데드리프트가 체중의 %1$s에 도달했습니다
+ach_deadlift_bw_rule = 바벨 데드리프트 또는 스모 데드리프트의 최고 추정 1RM을 그날의 체중으로 나눈 값.
+
+ach_ohp_bw_title = 오버헤드 프레스
+ach_ohp_bw_goal = 오버헤드 프레스로 체중의 %1$s 들기
+ach_ohp_bw_done = 오버헤드 프레스가 체중의 %1$s에 도달했습니다
+ach_ohp_bw_rule = 서서 하는 바벨 오버헤드 프레스의 최고 추정 1RM을 그날의 체중으로 나눈 값.
+
+ach_pull_ups_title = 풀업
+ach_pull_ups_goal{other} = 한 세트에 어시스트 없이 풀업 %1$s회 하기
+ach_pull_ups_done{other} = 한 세트에 어시스트 없이 풀업 %1$s회 달성
+ach_pull_ups_rule = 풀업 또는 친업 한 세트의 최다 횟수. 추가 중량 유무와 관계없이 인정되며, 어시스트 머신에서 어시스트 0으로 한 세트도 포함됩니다.
+
+ach_goal_title = 목표 체중
+ach_goal_goal = 목표 체중 %1$s 도달하기
+ach_goal_done = 목표 체중 %1$s에 도달했습니다
+ach_goal_rule = 7일 평균 체중이 프로필에 설정한 목표에 도달하면 달성됩니다.
+
+ach_goal_progress_title = 목표를 향해
+ach_goal_progress_goal_loss = 목표를 향해 %1$s 감량하기
+ach_goal_progress_goal_gain = 목표를 향해 %1$s 증량하기
+ach_goal_progress_done_loss = %1$s 감량했습니다
+ach_goal_progress_done_gain = %1$s 증량했습니다
+
+ach_fat_down_title = 체지방률
+ach_fat_down_goal{other} = 체지방률 %1$s포인트 낮추기
+ach_fat_down_done{other} = 체지방률이 %1$s포인트 낮아졌습니다
+ach_fat_down_rule = 측정을 시작한 첫 주 이후 7일 평균 체지방률이 낮아진 양. 건강한 최저치 아래로 내려간 부분은 계산되지 않습니다.
+
+ach_muscle_up_title = 근육량
+ach_muscle_up_goal = 근육량 %1$s 늘리기
+ach_muscle_up_done = 근육량이 %1$s 늘었습니다
+ach_muscle_up_rule = 측정을 시작한 첫 주 이후 7일 평균 근육량이 늘어난 양.

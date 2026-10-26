@@ -1,0 +1,85 @@
+# Bottom bar: Today · Training · Progress · Profile (very little room: one short word)
+nav_training = Training
+nav_progress = Fortschritt
+
+# Progress: tabs Muscles | Body | Activity (Body and Activity use nav_body and nav_activity)
+progress_tab_muscles = Muskeln
+
+# Progress → Muscles: how the body map is coloured (three segmented buttons: keep them short)
+progress_mode_sets = Sätze
+progress_mode_strength = Kraft
+progress_mode_recovery = Erholung
+progress_caption_sets = Effektive Sätze der letzten 7 Tage (Hilfsmuskeln zählen zur Hälfte) im Vergleich zum üblichen Bereich für Muskelaufbau.
+progress_caption_strength = Veränderung des geschätzten 1RM der Übungen, die den jeweiligen Muskel trainieren, im gewählten Zeitraum.
+progress_caption_recovery = Geschätzt aus den effektiven Sätzen jedes Trainings: 1 bis 4 Tage, je nach Volumen.
+
+# Weekly sets compared with the muscle's range
+progress_level_none = Keine Sätze
+progress_level_low = Unter dem Bereich
+progress_level_optimal = Im Bereich
+progress_level_high = Über dem Bereich
+progress_sets{one} = %1$s Satz
+progress_sets{other} = %1$s Sätze
+progress_target = Ziel %1$s–%2$s
+
+# Strength trend (%1$s: a percentage such as −5 % or +5 %)
+progress_strength_down_more = Unter %1$s
+progress_strength_down = Sinkt
+progress_strength_stable = Stabil
+progress_strength_up = Steigt
+progress_strength_up_more = Über %1$s
+progress_strength_title = Kraft (%1$s)
+progress_exercises{one} = %1$d Übung
+progress_exercises{other} = %1$d Übungen
+
+# Recovery
+progress_recovery_fatigued = Ermüdet
+progress_recovery_recovering = Erholt sich
+progress_recovery_recovered = Erholt
+progress_recovery_not_trained = Noch nicht trainiert
+progress_recovery_percent = %1$s erholt
+progress_recovery_full_at = vollständig erholt ~%1$s
+progress_time_tomorrow_at = Morgen, %1$s
+progress_last_trained = Zuletzt trainiert: %1$s
+
+# Selected muscle and the list of all muscles
+progress_detail_week = Diese Woche
+progress_tap_hint = Tippe auf einen Muskel in der Figur oder in der Liste, um Details zu sehen.
+progress_all_muscles = Alle Muskeln
+progress_recent_exercises = Letzte Übungen
+progress_recent_hint = Bester Satz der letzten Einheit und Veränderung seines geschätzten 1RM gegenüber der Einheit davor.
+progress_open_exercise = Übung öffnen
+progress_load_value = %1$s %2$s
+progress_state_description = %1$s, %2$s
+progress_set_load_reps = %1$s × %2$s
+progress_set_reps{one} = %1$d Wiederholung
+progress_set_reps{other} = %1$d Wiederholungen
+progress_set_seconds = %1$s s
+progress_empty_title = Hier siehst du den Fortschritt deiner Muskeln
+progress_empty_text = Erfasse deine Trainings unter „Training“: Jeder Satz zählt für die Muskeln, die er trainiert, und die Figur zeigt deine Sätze pro Woche, deinen Kraftzuwachs und deine Erholung.
+progress_empty_action = Zum Training
+
+# Today: muscles this week (%1$s: a list of the muscle groups below)
+today_muscles_title = Muskeln diese Woche
+today_muscles_on_track = Auf Kurs: %1$s
+today_muscles_below = Unter dem Ziel: %1$s
+today_muscles_all_on_track = Alle Muskelgruppen auf Kurs
+today_muscles_none = Diese Woche noch keine Sätze
+today_muscles_open = Muskeln ansehen
+# Muscle groups used inside those lists (German nouns stay capitalised)
+progress_region_chest = Brust
+progress_region_back = Rücken
+progress_region_shoulders = Schultern
+progress_region_arms = Arme
+progress_region_core = Bauch
+progress_region_legs = Beine
+
+# Profile: Devices and training settings
+profile_section_devices = Geräte und Training
+profile_devices_scales{one} = %1$d Waage
+profile_devices_scales{other} = %1$d Waagen
+profile_devices_wearables{one} = %1$d Band oder Uhr
+profile_devices_wearables{other} = %1$d Bänder oder Uhren
+profile_devices_none = Waagen, Bänder und Health Connect
+profile_training_title = Trainingseinstellungen
+profile_training_text = Gewichtseinheit, Pausentimer und Health Connect

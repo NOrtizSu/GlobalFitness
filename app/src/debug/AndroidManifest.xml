@@ -25,5 +25,20 @@
             android:name=".debug.DebugMeasurementSeedReceiver"
             android:exported="true"
             android:permission="android.permission.DUMP" />
+        <!-- Seeds a sample training history (same DUMP-only protection). -->
+        <receiver
+            android:name=".debug.DebugTrainingSeedReceiver"
+            android:exported="true"
+            android:permission="android.permission.DUMP" />
+        <!-- Celebrates an achievement already reached, for the store screenshots (same DUMP-only protection). -->
+        <receiver
+            android:name=".debug.DebugCelebrationReceiver"
+            android:exported="true"
+            android:permission="android.permission.DUMP" />
+        <!-- The body figure in a matrix of shapes, to check the shape warp (same DUMP-only protection). -->
+        <activity
+            android:name=".debug.DebugBodyShapeActivity"
+            android:exported="true"
+            android:permission="android.permission.DUMP" />
     </application>
 </manifest>

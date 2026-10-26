@@ -1,0 +1,177 @@
+# Achievements: medals derived from the workouts and the weighings, the celebration shown when a level is reached, and the achievements page (Entreno tab card, Perfil row)
+achievements_title = Достижения
+# Medals earned out of all the levels on offer: "12 of 69 medals" (the plural follows the total: "из 21 медали", "из 69 медалей")
+achievements_earned{one} = %1$s из %2$s медали
+achievements_earned{few} = %1$s из %2$s медалей
+achievements_earned{many} = %1$s из %2$s медалей
+achievements_earned{other} = %1$s из %2$s медалей
+achievements_category_training = Регулярность
+achievements_category_strength = Сила
+achievements_category_body = Тело
+# Highest level reached of an achievement: "Level 3 of 8"
+achievements_level = Уровень %1$s из %2$s
+achievements_not_started = Пока не получено
+achievements_all_levels = Все уровни получены
+# When a level was earned: "Earned on 15 Oct 2026"
+achievements_earned_on = Получено %1$s
+# The next level of an achievement: "Next: Finish 25 workouts"
+achievements_next = Далее: %1$s
+# Progress towards the next level: "23 / 25", "12.5 t / 50 t"
+achievements_progress = %1$s / %2$s
+achievements_levels = Уровни
+achievements_how = Как считается
+achievements_open = Открыть достижения
+achievements_needs_bodyweight = Взвесьтесь, чтобы сравнивать результаты в упражнениях с весом тела.
+achievements_needs_target = Укажите целевой вес в профиле.
+achievements_needs_weighings = Взвесьтесь, чтобы начать.
+achievements_target_is_start = Ваш целевой вес совпадает с начальным: сбрасывать или набирать нечего.
+achievements_needs_composition = Нужны взвешивания с составом тела на весах, которые его измеряют.
+achievements_lift_note = Уровни основаны на распространённых силовых нормативах, для женщин они ниже. Учитывается только штанга: машина Смита и другие тренажёры не в счёт.
+# Total volume in metric tonnes: "10 t"
+achievements_value_tonnes = %1$s т
+# A lift as a multiple of the body weight: "1.25×"
+achievements_value_ratio = %1$s×
+
+# The celebration shown over any screen when a new level is reached
+celebration_title = Поздравляем!
+celebration_view = Посмотреть достижения
+# Spoken by TalkBack when the celebration appears
+celebration_announce = Новое достижение
+# An achievement and the level just reached: "Workouts · Level 3"
+celebration_level = %1$s · уровень %2$s
+# More levels were reached at once than the card lists: "+2 more"
+celebration_more{one} = и ещё %1$s
+celebration_more{few} = и ещё %1$s
+celebration_more{many} = и ещё %1$s
+celebration_more{other} = и ещё %1$s
+
+# One block per achievement: title, what a level asks for (goal), the congratulation (done) and how it is counted (rule)
+ach_workouts_title = Тренировки
+ach_workouts_goal{one} = Завершите первую тренировку
+ach_workouts_goal{few} = Завершите %1$s тренировки
+ach_workouts_goal{many} = Завершите %1$s тренировок
+ach_workouts_goal{other} = Завершите %1$s тренировки
+ach_workouts_done{one} = Вы завершили первую тренировку
+ach_workouts_done{few} = Вы завершили %1$s тренировки
+ach_workouts_done{many} = Вы завершили %1$s тренировок
+ach_workouts_done{other} = Вы завершили %1$s тренировки
+ach_workouts_rule = Завершённые тренировки хотя бы с одним выполненным подходом.
+
+ach_week_streak_title = Недельная серия
+ach_week_streak_goal{one} = Тренируйтесь не меньше 2 раз в неделю %1$s неделю подряд
+ach_week_streak_goal{few} = Тренируйтесь не меньше 2 раз в неделю %1$s недели подряд
+ach_week_streak_goal{many} = Тренируйтесь не меньше 2 раз в неделю %1$s недель подряд
+ach_week_streak_goal{other} = Тренируйтесь не меньше 2 раз в неделю %1$s недели подряд
+ach_week_streak_done{one} = Вы тренировались не меньше 2 раз в неделю %1$s неделю подряд
+ach_week_streak_done{few} = Вы тренировались не меньше 2 раз в неделю %1$s недели подряд
+ach_week_streak_done{many} = Вы тренировались не меньше 2 раз в неделю %1$s недель подряд
+ach_week_streak_done{other} = Вы тренировались не меньше 2 раз в неделю %1$s недели подряд
+ach_week_streak_rule = Календарные недели подряд, в каждой из которых не меньше 2 завершённых тренировок. Текущая неделя не прерывает серию, пока не закончится.
+
+ach_balanced_weeks_title = Сбалансированные недели
+ach_balanced_weeks_goal{one} = Проведите сбалансированную неделю
+ach_balanced_weeks_goal{few} = Проведите %1$s сбалансированные недели
+ach_balanced_weeks_goal{many} = Проведите %1$s сбалансированных недель
+ach_balanced_weeks_goal{other} = Проведите %1$s сбалансированной недели
+ach_balanced_weeks_done{one} = Ваша первая сбалансированная неделя
+ach_balanced_weeks_done{few} = Вы провели %1$s сбалансированные недели
+ach_balanced_weeks_done{many} = Вы провели %1$s сбалансированных недель
+ach_balanced_weeks_done{other} = Вы провели %1$s сбалансированной недели
+# %1$s: list of muscles ("Chest, Shoulders and Lats")
+ach_balanced_weeks_rule = Календарные недели, в которых у каждой из этих мышц число рабочих подходов в пределах её недельного диапазона, не ниже и не выше: %1$s.
+
+ach_variety_title = Разнообразие
+ach_variety_goal{one} = Выполните %1$s разное упражнение
+ach_variety_goal{few} = Выполните %1$s разных упражнения
+ach_variety_goal{many} = Выполните %1$s разных упражнений
+ach_variety_goal{other} = Выполните %1$s разного упражнения
+ach_variety_done{one} = Вы выполнили %1$s разное упражнение
+ach_variety_done{few} = Вы выполнили %1$s разных упражнения
+ach_variety_done{many} = Вы выполнили %1$s разных упражнений
+ach_variety_done{other} = Вы выполнили %1$s разного упражнения
+ach_variety_rule = Разные упражнения и тренажёры хотя бы с одним выполненным подходом.
+
+ach_cardio_km_title = Расстояние в кардио
+# %1$s: a distance ("50 km")
+ach_cardio_km_goal = Преодолейте %1$s в кардио
+ach_cardio_km_done = Вы преодолели %1$s в кардио
+ach_cardio_km_rule = Расстояние всех выполненных кардиоподходов.
+
+ach_volume_title = Общий объём
+# %1$s: a weight ("10 t", "22046 lb")
+ach_volume_goal = Поднимите %1$s в сумме
+ach_volume_done = Вы подняли %1$s в сумме
+ach_volume_rule = Вес × повторения всех выполненных подходов; в упражнениях с собственным весом и с противовесом считается ваш вес тела.
+
+ach_records_title = Личные рекорды
+ach_records_goal{one} = Установите первый личный рекорд
+ach_records_goal{few} = Установите %1$s личных рекорда
+ach_records_goal{many} = Установите %1$s личных рекордов
+ach_records_goal{other} = Установите %1$s личного рекорда
+ach_records_done{one} = Ваш первый личный рекорд
+ach_records_done{few} = Вы установили %1$s личных рекорда
+ach_records_done{many} = Вы установили %1$s личных рекордов
+ach_records_done{other} = Вы установили %1$s личного рекорда
+ach_records_rule = Подходы, побившие один из рекордов упражнения: расчётный 1ПМ, вес, повторения, время или минимальный противовес.
+
+ach_bench_bw_title = Жим лёжа
+# %1$s: a multiple of the body weight ("1.25×")
+ach_bench_bw_goal = Жим лёжа: %1$s от веса тела
+ach_bench_bw_done = Ваш жим лёжа достиг %1$s от веса тела
+ach_bench_bw_rule = Лучший расчётный 1ПМ в жиме лёжа со штангой, делённый на ваш вес тела в тот день.
+
+ach_squat_bw_title = Приседания
+ach_squat_bw_goal = Приседания: %1$s от веса тела
+ach_squat_bw_done = Ваши приседания достигли %1$s от веса тела
+ach_squat_bw_rule = Лучший расчётный 1ПМ в приседаниях со штангой на спине или во фронтальных приседаниях, делённый на ваш вес тела в тот день.
+
+ach_deadlift_bw_title = Становая тяга
+ach_deadlift_bw_goal = Становая тяга: %1$s от веса тела
+ach_deadlift_bw_done = Ваша становая тяга достигла %1$s от веса тела
+ach_deadlift_bw_rule = Лучший расчётный 1ПМ в классической становой тяге или в становой тяге сумо со штангой, делённый на ваш вес тела в тот день.
+
+ach_ohp_bw_title = Армейский жим
+ach_ohp_bw_goal = Армейский жим: %1$s от веса тела
+ach_ohp_bw_done = Ваш армейский жим достиг %1$s от веса тела
+ach_ohp_bw_rule = Лучший расчётный 1ПМ в армейском жиме штанги стоя, делённый на ваш вес тела в тот день.
+
+ach_pull_ups_title = Подтягивания
+ach_pull_ups_goal{one} = Подтянитесь первый раз без помощи
+ach_pull_ups_goal{few} = Подтянитесь %1$s раза без помощи за один подход
+ach_pull_ups_goal{many} = Подтянитесь %1$s раз без помощи за один подход
+ach_pull_ups_goal{other} = Подтянитесь %1$s раза без помощи за один подход
+ach_pull_ups_done{one} = Ваше первое подтягивание без помощи
+ach_pull_ups_done{few} = %1$s подтягивания без помощи за один подход
+ach_pull_ups_done{many} = %1$s подтягиваний без помощи за один подход
+ach_pull_ups_done{other} = %1$s подтягивания без помощи за один подход
+ach_pull_ups_rule = Максимум повторений за один подход подтягиваний прямым или обратным хватом, с отягощением или без, либо в гравитроне с противовесом 0.
+
+ach_goal_title = Целевой вес
+# %1$s: the target weight ("75 kg")
+ach_goal_goal = Достигните целевого веса %1$s
+ach_goal_done = Вы достигли целевого веса %1$s
+ach_goal_rule = Ваш средний вес за 7 дней достигает цели, заданной в профиле.
+
+ach_goal_progress_title = На пути к цели
+# %1$s: a weight ("3 kg")
+ach_goal_progress_goal_loss = Сбросьте %1$s на пути к цели
+ach_goal_progress_goal_gain = Наберите %1$s на пути к цели
+ach_goal_progress_done_loss = Вы сбросили %1$s
+ach_goal_progress_done_gain = Вы набрали %1$s
+
+ach_fat_down_title = Процент жира
+ach_fat_down_goal{one} = Снизьте процент жира на %1$s пункт
+ach_fat_down_goal{few} = Снизьте процент жира на %1$s пункта
+ach_fat_down_goal{many} = Снизьте процент жира на %1$s пунктов
+ach_fat_down_goal{other} = Снизьте процент жира на %1$s пункта
+ach_fat_down_done{one} = Процент жира снизился на %1$s пункт
+ach_fat_down_done{few} = Процент жира снизился на %1$s пункта
+ach_fat_down_done{many} = Процент жира снизился на %1$s пунктов
+ach_fat_down_done{other} = Процент жира снизился на %1$s пункта
+ach_fat_down_rule = Снижение вашего среднего процента жира за 7 дней с первой недели измерений. Снижение ниже здорового минимума не учитывается.
+
+ach_muscle_up_title = Мышечная масса
+# %1$s: a weight ("2 kg")
+ach_muscle_up_goal = Наберите %1$s мышечной массы
+ach_muscle_up_done = Вы набрали %1$s мышечной массы
+ach_muscle_up_rule = Прирост вашей средней мышечной массы за 7 дней с первой недели измерений.

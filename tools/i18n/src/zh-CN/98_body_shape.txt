@@ -1,0 +1,6 @@
+# Body shape of the muscle map figure (Progress → Muscles): "Now" vs some time ago; the caption says it is only an illustration
+body_shape_now = 现在
+body_shape_months_ago{other} = %1$s 个月前
+body_shape_weeks_ago{other} = %1$s 周前
+body_shape_caption_scale = 人体图的形态会随你的体脂率、肌肉量和训练而变化。这只是示意图，并非测量结果。
+body_shape_caption_training = 人体图的形态会随你的训练而变化（在身体成分体重秤上称重即可纳入体脂率）。这只是示意图，并非测量结果。

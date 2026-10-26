@@ -1,0 +1,15 @@
+# Built-in routine names: routine_<id> (training/catalog/RoutineCatalog.kt). Short: they label cards and list rows.
+routine_full_body_machines = 머신 전신 운동
+routine_full_body_free_weights = 프리웨이트 전신 운동
+routine_push = 푸시(가슴, 어깨, 삼두)
+routine_pull = 풀(등, 이두)
+routine_legs = 다리
+routine_upper_body = 상체
+routine_lower_body = 하체
+routine_chest_triceps = 가슴과 삼두
+routine_back_biceps = 등과 이두
+routine_shoulders = 어깨
+routine_arms = 팔
+routine_glutes = 둔근
+routine_core = 코어와 복근
+routine_cardio_mix = 유산소 머신

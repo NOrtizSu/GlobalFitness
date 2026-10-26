@@ -1,0 +1,15 @@
+# Built-in routine names: routine_<id> (training/catalog/RoutineCatalog.kt). Short: they label cards and list rows.
+routine_full_body_machines = الجسم كامل بالأجهزة
+routine_full_body_free_weights = الجسم كامل بالأوزان الحرة
+routine_push = الدفع (الصدر والأكتاف والترايسبس)
+routine_pull = السحب (الظهر والبايسبس)
+routine_legs = الأرجل
+routine_upper_body = الجزء العلوي
+routine_lower_body = الجزء السفلي
+routine_chest_triceps = الصدر والترايسبس
+routine_back_biceps = الظهر والبايسبس
+routine_shoulders = الأكتاف
+routine_arms = الذراعان
+routine_glutes = الأرداف
+routine_core = الجذع والبطن
+routine_cardio_mix = أجهزة الكارديو

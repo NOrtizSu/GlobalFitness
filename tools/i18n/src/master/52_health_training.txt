@@ -1,0 +1,15 @@
+# Health Connect: workouts of the training log saved as exercise sessions
+hc_workouts_export_title = Save workouts to Health Connect ||| Guardar entrenos en Health Connect
+hc_workouts_export_text = Each finished workout is saved as an exercise session with its sets and repetitions, so other fitness apps can count it. If you delete a workout, it is also deleted from Health Connect. ||| Cada entreno terminado se guarda como una sesión de ejercicio con sus series y repeticiones, para que otras apps de fitness lo tengan en cuenta. Si borras un entreno, también se borra de Health Connect.
+hc_workouts_export_missing_permission = Allow Fortia to write exercise in Health Connect to save your workouts there. ||| Permite que Fortia escriba ejercicio en Health Connect para guardar ahí tus entrenos.
+hc_workouts_export_denied = If no permission window opens, allow "Exercise" for Fortia in Health Connect. ||| Si no se abre la ventana de permisos, permite «Ejercicio» para Fortia en Health Connect.
+hc_workouts_export_allow = Allow ||| Permitir
+hc_workouts_export_off = New workouts are not saved. The ones already in Health Connect stay there. ||| Los entrenos nuevos no se guardan. Los que ya están en Health Connect se quedan allí.
+hc_workouts_export_count_none = No workouts in Health Connect yet. ||| Ningún entreno en Health Connect todavía.
+hc_workouts_export_count{one} = %1$d workout in Health Connect. ||| %1$d entreno en Health Connect.
+hc_workouts_export_count{other} = %1$d workouts in Health Connect. ||| %1$d entrenos en Health Connect.
+hc_missing_write_exercise = No permission to write exercise: workouts are not saved. ||| Sin permiso para escribir ejercicio: los entrenos no se guardan.
+# Title in Health Connect of a workout without a name that mixes different kinds of cardio
+hc_workout_title = Workout ||| Entrenamiento
+# Permissions rationale: continues the "Writing your scale measurements" item
+health_rationale_write_workouts = It also writes the workouts you finish in the app as exercise sessions: start and end time, type, name, note and each completed set with its repetitions. If you delete a workout in the app, it is also deleted from Health Connect. ||| También escribe los entrenos que terminas en la app como sesiones de ejercicio: hora de inicio y fin, tipo, nombre, nota y cada serie completada con sus repeticiones. Si borras un entreno en la app, también se borra de Health Connect.

@@ -1,0 +1,82 @@
+# Bottom bar: Hoy · Entreno · Progreso · Perfil (very little room: one short word)
+nav_training = Tập luyện
+nav_progress = Tiến độ
+
+# Progreso: tabs Músculos | Cuerpo | Actividad (Cuerpo and Actividad use nav_body and nav_activity)
+progress_tab_muscles = Cơ bắp
+
+# Progreso → Músculos: how the body map is colored (three segmented buttons: keep them short)
+progress_mode_sets = Số hiệp
+progress_mode_strength = Sức mạnh
+progress_mode_recovery = Phục hồi
+progress_caption_sets = Số hiệp hiệu quả trong 7 ngày qua (cơ phụ được tính một nửa) so với phạm vi thông thường để tăng cơ.
+progress_caption_strength = Mức thay đổi 1RM ước tính của các bài tập tác động đến từng nhóm cơ trong khoảng thời gian đã chọn.
+progress_caption_recovery = Ước tính từ số hiệp hiệu quả của mỗi buổi tập: từ 1 đến 4 ngày tùy theo khối lượng tập.
+
+# Weekly sets compared with the muscle's range
+progress_level_none = Chưa có hiệp
+progress_level_low = Dưới phạm vi
+progress_level_optimal = Trong phạm vi
+progress_level_high = Trên phạm vi
+progress_sets{other} = %1$s hiệp
+progress_target = mục tiêu %1$s–%2$s
+
+# Strength trend (%1$s: a percentage such as −5 % or +5 %)
+progress_strength_down_more = Dưới %1$s
+progress_strength_down = Giảm
+progress_strength_stable = Ổn định
+progress_strength_up = Tăng
+progress_strength_up_more = Trên %1$s
+progress_strength_title = Sức mạnh (%1$s)
+progress_exercises{other} = %1$d bài tập
+
+# Recovery (Spanish avoids gendered adjectives: the muscles' names mix genders)
+progress_recovery_fatigued = Mệt mỏi
+progress_recovery_recovering = Đang phục hồi
+progress_recovery_recovered = Đã phục hồi
+progress_recovery_not_trained = Chưa tập
+progress_recovery_percent = Đã phục hồi %1$s
+progress_recovery_full_at = phục hồi hoàn toàn ~%1$s
+progress_time_tomorrow_at = Ngày mai, %1$s
+progress_last_trained = Lần tập gần nhất: %1$s
+
+# Selected muscle and the list of all muscles
+progress_detail_week = Tuần này
+progress_tap_hint = Nhấn vào một nhóm cơ trên hình hoặc trong danh sách để xem chi tiết.
+progress_all_muscles = Tất cả nhóm cơ
+progress_recent_exercises = Bài tập gần đây
+progress_recent_hint = Hiệp tốt nhất của buổi tập gần nhất và mức thay đổi 1RM ước tính so với buổi trước đó.
+progress_open_exercise = Mở bài tập
+# %1$s: number, %2$s: unit (kg or lb)
+progress_load_value = %1$s %2$s
+progress_state_description = %1$s, %2$s
+# %1$s: load, %2$s: repetitions
+progress_set_load_reps = %1$s × %2$s
+progress_set_reps{other} = %1$d lần
+progress_set_seconds = %1$s giây
+progress_empty_title = Tiến độ cơ bắp của bạn sẽ hiển thị ở đây
+progress_empty_text = Hãy ghi lại các buổi tập trong Tập luyện: mỗi hiệp được tính cho các nhóm cơ mà hiệp đó tác động, và hình cơ thể sẽ hiển thị số hiệp mỗi tuần, mức tăng sức mạnh và tình trạng phục hồi của bạn.
+progress_empty_action = Đến Tập luyện
+
+# Hoy: muscles this week (%1$s: a list of the muscle groups below)
+today_muscles_title = Nhóm cơ tuần này
+today_muscles_on_track = Đạt mục tiêu: %1$s
+today_muscles_below = Dưới mục tiêu: %1$s
+today_muscles_all_on_track = Tất cả nhóm cơ đều đạt mục tiêu
+today_muscles_none = Chưa có hiệp nào trong tuần này
+today_muscles_open = Xem nhóm cơ
+# Muscle groups used inside those lists: lowercase where the language allows it
+progress_region_chest = ngực
+progress_region_back = lưng
+progress_region_shoulders = vai
+progress_region_arms = tay
+progress_region_core = bụng
+progress_region_legs = chân
+
+# Perfil: Devices and training settings
+profile_section_devices = Thiết bị và tập luyện
+profile_devices_scales{other} = %1$d cân
+profile_devices_wearables{other} = %1$d vòng đeo tay hoặc đồng hồ
+profile_devices_none = Cân, vòng đeo tay và Health Connect
+profile_training_title = Cài đặt tập luyện
+profile_training_text = Đơn vị khối lượng, hẹn giờ nghỉ và Health Connect

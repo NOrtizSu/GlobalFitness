@@ -1,0 +1,48 @@
+# Routines: the Entreno tab's section, the routine page and editor, adding a routine to a workout, saving a workout as a routine
+training_routines_title = Programlar
+training_routine_new = Yeni program
+training_routine_open = Programı aç
+# Title bar of a routine's page
+training_routine_title = Program
+training_routine_missing = Bu program artık yok.
+# Label on a routine's page: one of the app's routines / one the user made
+training_routine_builtin = Önerilen program
+training_routine_own = Programınız
+training_routine_start = Antrenmana başla
+training_routine_add_to_active = Devam eden antrenmana ekle
+training_routine_active_hint = Devam eden bir antrenman var: henüz içinde olmayan egzersizler ona eklenir.
+training_routine_duplicate = Kopyala ve düzenle
+training_routine_delete = Programı sil
+# %1$s: routine name
+training_routine_delete_title = %1$s silinsin mi?
+training_routine_delete_text = Antrenmanlarınız olduğu gibi kalır.
+training_routine_exercises = Egzersizler
+training_routine_muscles = Çalışan kaslar
+training_routine_loads_hint = Ağırlıklar, her egzersizin son seansınızdaki değerleriyle doldurulur.
+training_routine_edit_title = Programı düzenle
+training_routine_name_hint = Örn. Pazartesi bacak
+training_routine_note = Not (isteğe bağlı)
+training_routine_add_exercises = Egzersiz ekle
+training_routine_editor_empty = Programın egzersizlerini ekleyin: her biri son seansınızdaki set ve tekrarlarla başlar.
+training_routine_exercises_error = En az bir egzersiz ekleyin.
+# Set stepper of an exercise in the routine editor, read by TalkBack; %1$s: exercise
+training_routine_fewer_sets = Daha az set: %1$s
+training_routine_more_sets = Daha fazla set: %1$s
+training_routine_save_failed = Program kaydedilemedi
+training_routine_add = Program ekle
+# Groups of the "Add routine" sheet
+training_routines_own = Programlarınız
+training_routines_builtin = Önerilenler
+training_routine_already_in = Bu antrenmanda zaten var
+training_routine_added{one} = %1$s egzersiz eklendi
+training_routine_added{other} = %1$s egzersiz eklendi
+training_routine_nothing_added = Bu antrenmanda programın tüm egzersizleri zaten var.
+training_routine_save_from_workout = Program olarak kaydet
+training_routine_save_text = Egzersizleri ve setleri kaydedilir; ağırlıklar her zaman son seansınızdan gelir.
+training_routine_saved = Program kaydedildi
+# Snackbar action: open the routine just saved
+training_routine_view = Görüntüle
+# Hoy card: start a workout with the routine used last; %1$s: routine name
+training_start_routine = Başlat: %1$s
+# Hoy card, next to the routine: start a workout without exercises
+training_start_blank = Boş antrenman

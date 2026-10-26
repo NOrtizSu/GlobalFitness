@@ -1,0 +1,223 @@
+# Training screens: Entreno tab, Hoy card, workout, exercise picker and catalog, exercise detail, editor, history, settings
+training_title = Training ||| Entreno
+training_catalog_title = Exercises and machines ||| Ejercicios y máquinas
+training_history_title = History ||| Historial
+training_settings_title = Training settings ||| Ajustes de entreno
+training_in_progress = Workout in progress ||| Entreno en curso
+training_start_title = Ready to train? ||| ¿Empezamos?
+training_start_empty = Start workout ||| Empezar entreno
+training_log_past = Log another day ||| Registrar otro día
+training_intro_title = Log your workouts ||| Registra tus entrenos
+training_intro_text = Start a workout, add exercises from the catalog or your own machines and tick each set when you finish it. The app remembers what you did last time and tracks your progress per exercise and per muscle. ||| Empieza un entreno, añade ejercicios del catálogo o tus propias máquinas y marca cada serie al terminarla. La app recuerda lo que hiciste la última vez y sigue tu progreso por ejercicio y por músculo.
+training_open_catalog = Browse exercises ||| Ver ejercicios
+training_repeat_title = Repeat a workout ||| Repetir un entreno
+training_repeat_action = Repeat ||| Repetir
+training_this_week = This week ||| Esta semana
+training_stat_workouts = Workouts ||| Entrenos
+training_stat_sets = Sets ||| Series
+training_stat_volume = Volume ||| Volumen
+# Spoken summary of the week card: workouts, sets, volume ("3 workouts", "42 sets", "12450 kg")
+training_week_desc = This week: %1$s, %2$s, %3$s ||| Esta semana: %1$s, %2$s, %3$s
+training_recent_title = Recent workouts ||| Entrenos recientes
+training_see_all = See all ||| Ver todo
+training_today_done = Today's workout ||| Entreno de hoy
+training_open_workout = Open workout ||| Abrir entreno
+training_open_tab = Open Training ||| Abrir Entreno
+# "Last workout: 2 days ago · Legs"
+training_last_workout = Last workout: %1$s · %2$s ||| Último entreno: %1$s · %2$s
+training_no_workouts_yet = No workouts logged yet. ||| Aún no has registrado entrenos.
+# Title of a workout without a name, muscles or exercises
+training_workout_default = Workout ||| Entreno
+# Title bar of a finished or past workout
+training_workout_title = Workout ||| Entreno
+training_workout_missing = This workout no longer exists. ||| Este entreno ya no existe.
+training_workout_name = Workout name ||| Nombre del entreno
+training_workout_note = Workout notes ||| Notas del entreno
+training_workout_empty = Add the first exercise: last time's sets are filled in for you. ||| Añade el primer ejercicio: las series de la última vez aparecen ya rellenas.
+training_add_exercise = Add exercise ||| Añadir ejercicio
+training_add_set = Add set ||| Añadir serie
+training_finish = Finish ||| Terminar
+training_finish_workout = Finish workout ||| Terminar entreno
+training_more_options = More options ||| Más opciones
+training_change_start = Change date and time ||| Cambiar fecha y hora
+training_discard_workout = Discard workout ||| Descartar entreno
+training_delete_workout = Delete workout ||| Eliminar entreno
+training_discard = Discard ||| Descartar
+training_discard_title = Discard this workout? ||| ¿Descartar este entreno?
+# %1$s: start date and time
+training_discard_text = The workout started on %1$s and its sets will be deleted. ||| Se borrarán el entreno empezado el %1$s y sus series.
+training_discard_empty_text = No set is ticked as done, so there is nothing to save. ||| No has marcado ninguna serie como hecha, así que no hay nada que guardar.
+training_delete_title = Delete this workout? ||| ¿Eliminar este entreno?
+# %1$s: date and time of the workout
+training_delete_text = The workout of %1$s will be deleted with all its sets. ||| Se eliminará el entreno del %1$s con todas sus series.
+training_exercise_options = Options for %1$s ||| Opciones de %1$s
+training_open_exercise = Open exercise ||| Ver ejercicio
+training_add_warmup = Add warm-up set ||| Añadir calentamiento
+training_entry_note = Note ||| Nota
+training_move_up = Move up ||| Subir
+training_move_down = Move down ||| Bajar
+training_remove_exercise = Remove exercise ||| Quitar ejercicio
+training_remove = Remove ||| Quitar
+training_remove_exercise_title = Remove %1$s? ||| ¿Quitar %1$s?
+training_remove_exercise_text = Its sets in this workout will be deleted. ||| Se borrarán sus series de este entreno.
+# Set table column headers (narrow: keep them short)
+training_col_set = Set ||| Serie
+training_col_previous = Previous ||| Anterior
+# Extra weight on a bodyweight exercise, %1$s: unit ("+kg")
+training_col_extra_load = +%1$s ||| +%1$s
+# Counterweight of an assisted machine, %1$s: unit; may wrap to two lines
+training_col_assistance = Assistance (%1$s) ||| Asistencia (%1$s)
+training_col_reps = Reps ||| Reps
+training_col_time = Time ||| Tiempo
+training_col_km = km ||| km
+training_col_level = Level ||| Nivel
+# Set cells as TalkBack reads them ("Repetitions, set 2")
+training_field_extra_load = Extra weight ||| Lastre
+training_field_assistance = Assistance ||| Asistencia
+training_field_reps = Repetitions ||| Repeticiones
+training_field_distance = Distance ||| Distancia
+training_field_kcal = Calories ||| Calorías
+training_set_number = Set %1$s ||| Serie %1$s
+training_warmup_set = Warm-up set ||| Serie de calentamiento
+# Shown instead of the set number for a warm-up set (one letter)
+training_warmup_short = W ||| C
+training_set_done = %1$s done ||| %1$s hecha
+training_set_options = %1$s: options ||| %1$s: opciones
+training_make_warmup = Mark as warm-up ||| Marcar como calentamiento
+training_make_working = Mark as working set ||| Marcar como serie efectiva
+training_delete_set = Delete set ||| Eliminar serie
+training_copy_previous = Use last time's values ||| Usar los valores de la última vez
+training_record = Personal record ||| Récord personal
+# %1$s: exercise, %2$s: the set ("85 kg × 8")
+training_record_message = New personal record! %1$s, %2$s ||| ¡Nuevo récord personal! %1$s, %2$s
+training_assist_hint = On an assisted machine you log the counterweight that helps you: less assistance = stronger. ||| En una máquina asistida anotas el contrapeso que te ayuda: menos asistencia = más fuerza.
+training_rest = Rest ||| Descanso
+training_rest_value = Rest %1$s ||| Descanso %1$s
+# Seconds ("30 s", "−15 s")
+training_seconds_value = %1$s s ||| %1$s s
+training_skip_rest = Skip rest ||| Saltar descanso
+training_rest_off = Off ||| Desactivado
+training_elapsed_desc = Elapsed: %1$s ||| Tiempo transcurrido: %1$s
+training_duration = Duration ||| Duración
+training_duration_minutes = Minutes ||| Minutos
+training_unfinished_title = Sets not ticked ||| Series sin marcar
+training_unfinished_text{one} = One set has values but is not ticked as done. ||| Una serie tiene valores pero no está marcada como hecha.
+training_unfinished_text{other} = %1$s sets have values but are not ticked as done. ||| %1$s series tienen valores pero no están marcadas como hechas.
+training_unfinished_complete = Mark as done ||| Marcar como hechas
+training_unfinished_discard = Discard them ||| Descartarlas
+training_finished_title = Workout finished ||| Entreno terminado
+training_records = Records ||| Récords
+training_done = Done ||| Hecho
+# A muscle with its sets in the workout summary ("Chest: 4 sets")
+training_muscle_sets = %1$s: %2$s ||| %1$s: %2$s
+training_picker_title = Add exercises ||| Añadir ejercicios
+training_add_selected{one} = Add %1$s exercise ||| Añadir %1$s ejercicio
+training_add_selected{other} = Add %1$s exercises ||| Añadir %1$s ejercicios
+training_create_exercise = Create machine or exercise ||| Crear máquina o ejercicio
+training_search = Search exercises ||| Buscar ejercicios
+training_search_clear = Clear search ||| Borrar búsqueda
+training_no_results = No exercise matches. Try other words or filters, or create your own. ||| Ningún ejercicio coincide. Prueba otras palabras o filtros, o crea el tuyo.
+training_recent_exercises = Recent ||| Recientes
+training_all_exercises = All exercises ||| Todos los ejercicios
+training_scope_all = All ||| Todos
+training_scope_mine = My machines ||| Mis máquinas
+training_scope_favorites = Favorites ||| Favoritos
+training_mine_empty = Your own machines and exercises appear here, and any exercise you give a photo or settings. ||| Aquí aparecen tus propias máquinas y ejercicios, y los que tengan foto o ajustes tuyos.
+training_favorites_empty = Tap the star on an exercise to keep it at hand. ||| Toca la estrella de un ejercicio para tenerlo a mano.
+training_new_machine = New machine ||| Nueva máquina
+training_favorite = Favorite ||| Favorito
+training_make_favorite = Add to favorites ||| Añadir a favoritos
+training_unfavorite = Remove from favorites ||| Quitar de favoritos
+training_exercise_title = Exercise ||| Ejercicio
+training_exercise_missing = This exercise no longer exists. ||| Este ejercicio ya no existe.
+training_edit = Edit ||| Editar
+training_archive = Archive ||| Archivar
+training_restore = Restore ||| Restaurar
+training_archive_title = Archive %1$s? ||| ¿Archivar %1$s?
+training_archive_text = It is hidden from the catalog; your workouts keep it and you can restore it from them. ||| Se oculta del catálogo; tus entrenos lo conservan y puedes restaurarlo desde ellos.
+training_delete_exercise_title = Delete %1$s? ||| ¿Eliminar %1$s?
+training_delete_exercise_text = It is deleted with its photo and settings. ||| Se elimina con su foto y sus ajustes.
+training_archived_note = Archived: hidden from the catalog. ||| Archivado: oculto en el catálogo.
+# An exercise the user created
+training_own_exercise = Custom ||| Propio
+training_photo_add = Add a photo of your machine ||| Añade una foto de tu máquina
+training_photo_add_text = So you recognise it in your gym. ||| Para reconocerla en tu gimnasio.
+training_photo_change = Change photo ||| Cambiar foto
+training_photo_of = Photo of %1$s ||| Foto de %1$s
+training_photo_take = Take photo ||| Hacer foto
+training_photo_pick = Choose from gallery ||| Elegir de la galería
+training_photo_remove = Remove photo ||| Quitar foto
+training_photo_failed = The photo could not be read. ||| No se ha podido leer la foto.
+training_photo_unavailable = No app can take photos on this phone. ||| Ninguna app puede hacer fotos en este teléfono.
+training_muscle_primary = Primary muscles ||| Músculos principales
+training_muscle_secondary = Secondary muscles ||| Músculos secundarios
+training_machine_settings = Machine settings ||| Ajustes de la máquina
+training_machine_settings_hint = E.g. seat 4, back rest 2 ||| Ej.: asiento 4, respaldo 2
+training_progress = Progress ||| Progreso
+training_progress_empty = Tick sets of this exercise in a workout to see your progress here. ||| Marca series de este ejercicio en un entreno para ver aquí tu progreso.
+training_progress_none_in_period = No sessions in this period. ||| No hay sesiones en este periodo.
+training_needs_bodyweight = Log your body weight (scale or manual weight) to see strength. ||| Pésate (báscula o peso manual) para calcular la fuerza.
+training_personal_records = Personal records ||| Récords personales
+training_no_records = No records yet. ||| Aún no hay récords.
+training_record_volume = Best session volume ||| Mejor volumen en una sesión
+training_metric_e1rm = Estimated 1RM ||| 1RM estimado
+training_metric_e1rm_short = Est. 1RM ||| 1RM est.
+training_metric_heaviest = Heaviest weight ||| Peso máximo
+training_metric_extra_load = Heaviest extra weight ||| Lastre máximo
+training_metric_max_reps = Most reps ||| Más repeticiones
+training_metric_total_reps = Total reps ||| Repeticiones totales
+training_metric_longest = Longest ||| Más tiempo
+training_metric_total_time = Total time ||| Tiempo total
+training_metric_distance = Distance ||| Distancia
+training_metric_least_assistance = Least assistance ||| Menos asistencia
+training_value_reps = %1$s reps ||| %1$s reps
+training_value_lb = %1$s lb ||| %1$s lb
+# Progress chart for TalkBack: %1$s metric, %2$s number of sessions, %3$s first value, %4$s last value, %5$s highest value
+training_chart_desc{one} = %1$s chart, %2$s session: %3$s. ||| Gráfico de %1$s, %2$s sesión: %3$s.
+training_chart_desc{other} = %1$s chart, %2$s sessions: from %3$s to %4$s, highest %5$s. ||| Gráfico de %1$s, %2$s sesiones: de %3$s a %4$s, máximo %5$s.
+# How sets of each kind are logged (exercise editor)
+training_kind_weight_reps_text = Load × repetitions: presses, rows, leg press… ||| Carga × repeticiones: press, remos, prensa…
+training_kind_bodyweight_reps_text = Repetitions with your body, extra weight optional: pull-ups, dips, push-ups. ||| Repeticiones con tu cuerpo, lastre opcional: dominadas, fondos, flexiones.
+training_kind_assisted_reps_text = You log the counterweight that helps you: less assistance = stronger. ||| Anotas el contrapeso que te ayuda: menos asistencia = más fuerza.
+training_kind_duration_text = Seconds held, weight optional: plank, carries. ||| Segundos aguantando, peso opcional: plancha, paseo del granjero.
+training_kind_cardio_text = Time, distance, level and calories: treadmill, bike, rower. ||| Tiempo, distancia, nivel y calorías: cinta, bici, remo.
+training_editor_new = New machine or exercise ||| Nueva máquina o ejercicio
+training_editor_edit = Edit exercise ||| Editar ejercicio
+training_editor_not_editable = Built-in exercises cannot be edited: add your settings, photo and star on their page. ||| Los ejercicios del catálogo no se editan: añade tus ajustes, foto y estrella en su página.
+training_editor_name = Name ||| Nombre
+training_editor_name_hint = E.g. Chest press (Technogym) ||| Ej.: Press de pecho (Technogym)
+training_editor_name_error = Enter a name. ||| Escribe un nombre.
+training_editor_equipment = Equipment ||| Equipamiento
+training_editor_kind = How it is logged ||| Cómo se registra
+training_editor_kind_changed = Sets already logged keep their values; only how they are read changes. ||| Las series ya registradas conservan sus valores; solo cambia cómo se interpretan.
+training_editor_muscle_error = Choose at least one primary muscle. ||| Elige al menos un músculo principal.
+training_editor_photo = Photo ||| Foto
+training_history_empty_title = No workouts yet ||| Aún no hay entrenos
+training_history_empty_text = Finished workouts appear here, grouped by month. ||| Los entrenos terminados aparecen aquí, agrupados por mes.
+training_workout_actions = Workout actions ||| Acciones del entreno
+training_settings_unit = Weight unit ||| Unidad de peso
+training_settings_unit_text = Weights are stored in kilograms; change the unit whenever you like. ||| Los pesos se guardan en kilos; cambia la unidad cuando quieras.
+training_unit_kg_long = Kilograms (kg) ||| Kilos (kg)
+training_unit_lb_long = Pounds (lb) ||| Libras (lb)
+training_settings_rest = Rest timer ||| Temporizador de descanso
+training_settings_rest_text = Starts when you tick a set and vibrates when it ends, while the app is open. ||| Empieza al marcar una serie y vibra al terminar, mientras la app está abierta.
+!training_health_connect = Health Connect
+training_settings_health = Saving your workouts to Health Connect is set up in Profile → Health Connect. ||| Guardar tus entrenos en Health Connect se configura en Perfil → Health Connect.
+training_days_ago{one} = %1$s day ago ||| Hace %1$s día
+training_days_ago{other} = %1$s days ago ||| Hace %1$s días
+training_exercises_count{one} = %1$s exercise ||| %1$s ejercicio
+training_exercises_count{other} = %1$s exercises ||| %1$s ejercicios
+training_sets_count{one} = %1$s set ||| %1$s serie
+training_sets_count{other} = %1$s sets ||| %1$s series
+# Half sets of a secondary muscle ("2.5 sets"): decimals take no plural form
+training_sets_fraction = %1$s sets ||| %1$s series
+training_workouts_count{one} = %1$s workout ||| %1$s entreno
+training_workouts_count{other} = %1$s workouts ||| %1$s entrenos
+# Undo after removing an exercise or deleting a set; leaving the exercise editor with changes
+training_undo = Undo ||| Deshacer
+training_exercise_removed = Exercise removed ||| Ejercicio quitado
+training_set_deleted = Set deleted ||| Serie eliminada
+training_discard_changes = Discard changes? ||| ¿Descartar los cambios?
+training_save_failed = Could not save the exercise ||| No se pudo guardar el ejercicio
+# TalkBack: two parts of one description ("Repetitions, set 2"); use the language's list comma
+training_spoken_pair = %1$s, %2$s ||| %1$s, %2$s

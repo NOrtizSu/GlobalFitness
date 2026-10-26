@@ -432,7 +432,7 @@ class WearableManager(
 
     private companion object {
         const val TAG = "Wearables"
-        const val APP_NAME = "GlobalFitness"
+        const val APP_NAME = "Fortia"
         const val TEST_NOTIFICATION_ID = 0x6766
         const val SPP_CONNECT_TIMEOUT_MS = 15_000L
         const val MAX_NAME = 40

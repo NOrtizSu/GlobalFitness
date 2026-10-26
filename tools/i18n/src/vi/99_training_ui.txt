@@ -1,0 +1,213 @@
+# Training screens: Entreno tab, Hoy card, workout, exercise picker and catalog, exercise detail, editor, history, settings
+training_title = Tập luyện
+training_catalog_title = Bài tập và máy tập
+training_history_title = Lịch sử
+training_settings_title = Cài đặt tập luyện
+training_in_progress = Đang tập
+training_start_title = Sẵn sàng tập chưa?
+training_start_empty = Bắt đầu buổi tập
+training_log_past = Ghi cho ngày khác
+training_intro_title = Ghi lại các buổi tập
+training_intro_text = Bắt đầu một buổi tập, thêm bài tập từ danh mục hoặc từ máy tập của riêng bạn và đánh dấu từng hiệp khi hoàn thành. Ứng dụng ghi nhớ những gì bạn đã tập lần trước và theo dõi tiến độ của bạn theo từng bài tập và từng nhóm cơ.
+training_open_catalog = Xem các bài tập
+training_repeat_title = Lặp lại một buổi tập
+training_repeat_action = Lặp lại
+training_this_week = Tuần này
+training_stat_workouts = Buổi tập
+training_stat_sets = Hiệp
+training_stat_volume = Khối lượng
+# Spoken summary of the week card: workouts, sets, volume ("3 workouts", "42 sets", "12450 kg")
+training_week_desc = Tuần này: %1$s, %2$s, %3$s
+training_recent_title = Buổi tập gần đây
+training_see_all = Xem tất cả
+training_today_done = Buổi tập hôm nay
+training_open_workout = Mở buổi tập
+training_open_tab = Mở Tập luyện
+# "Last workout: 2 days ago · Legs"
+training_last_workout = Buổi tập gần nhất: %1$s · %2$s
+training_no_workouts_yet = Chưa ghi buổi tập nào.
+# Title of a workout without a name, muscles or exercises
+training_workout_default = Buổi tập
+# Title bar of a finished or past workout
+training_workout_title = Buổi tập
+training_workout_missing = Buổi tập này không còn tồn tại.
+training_workout_name = Tên buổi tập
+training_workout_note = Ghi chú buổi tập
+training_workout_empty = Thêm bài tập đầu tiên: các hiệp của lần trước sẽ được điền sẵn.
+training_add_exercise = Thêm bài tập
+training_add_set = Thêm hiệp
+training_finish = Kết thúc
+training_finish_workout = Kết thúc buổi tập
+training_more_options = Tùy chọn khác
+training_change_start = Đổi ngày và giờ
+training_discard_workout = Bỏ buổi tập
+training_delete_workout = Xóa buổi tập
+training_discard = Bỏ
+training_discard_title = Bỏ buổi tập này?
+# %1$s: start date and time
+training_discard_text = Buổi tập bắt đầu lúc %1$s và các hiệp của buổi tập sẽ bị xóa.
+training_discard_empty_text = Chưa có hiệp nào được đánh dấu là xong nên không có gì để lưu.
+training_delete_title = Xóa buổi tập này?
+# %1$s: date and time of the workout
+training_delete_text = Buổi tập %1$s sẽ bị xóa cùng tất cả các hiệp.
+training_exercise_options = Tùy chọn cho %1$s
+training_open_exercise = Xem bài tập
+training_add_warmup = Thêm hiệp khởi động
+training_entry_note = Ghi chú
+training_move_up = Di chuyển lên
+training_move_down = Di chuyển xuống
+training_remove_exercise = Gỡ bài tập
+training_remove = Gỡ
+training_remove_exercise_title = Gỡ %1$s?
+training_remove_exercise_text = Các hiệp của bài tập này trong buổi tập sẽ bị xóa.
+# Set table column headers (narrow: keep them short)
+training_col_set = Hiệp
+training_col_previous = Trước
+# Extra weight on a bodyweight exercise, %1$s: unit ("+kg")
+training_col_extra_load = +%1$s
+# Counterweight of an assisted machine, %1$s: unit; may wrap to two lines
+training_col_assistance = Hỗ trợ (%1$s)
+training_col_reps = Số lần
+training_col_time = Thời gian
+training_col_km = km
+training_col_level = Mức
+# Set cells as TalkBack reads them ("Repetitions, set 2")
+training_field_extra_load = Tạ thêm
+training_field_assistance = Hỗ trợ
+training_field_reps = Số lần
+training_field_distance = Quãng đường
+training_field_kcal = Calo
+training_set_number = Hiệp %1$s
+training_warmup_set = Hiệp khởi động
+# Shown instead of the set number for a warm-up set (one letter)
+training_warmup_short = W
+training_set_done = Đã xong %1$s
+training_set_options = %1$s: tùy chọn
+training_make_warmup = Đánh dấu là hiệp khởi động
+training_make_working = Đánh dấu là hiệp chính
+training_delete_set = Xóa hiệp
+training_copy_previous = Dùng giá trị lần trước
+training_record = Kỷ lục cá nhân
+# %1$s: exercise, %2$s: the set ("85 kg × 8")
+training_record_message = Kỷ lục cá nhân mới! %1$s, %2$s
+training_assist_hint = Trên máy hỗ trợ, bạn ghi lại mức đối trọng giúp bạn: càng ít hỗ trợ = càng khỏe.
+training_rest = Nghỉ
+training_rest_value = Nghỉ %1$s
+# Seconds ("30 s", "−15 s")
+training_seconds_value = %1$s giây
+training_skip_rest = Bỏ qua nghỉ
+training_rest_off = Tắt
+training_elapsed_desc = Thời gian đã trôi qua: %1$s
+training_duration = Thời lượng
+training_duration_minutes = Phút
+training_unfinished_title = Hiệp chưa đánh dấu
+training_unfinished_text{other} = %1$s hiệp có giá trị nhưng chưa được đánh dấu là xong.
+training_unfinished_complete = Đánh dấu là xong
+training_unfinished_discard = Bỏ các hiệp này
+training_finished_title = Đã hoàn thành buổi tập
+training_records = Kỷ lục
+training_done = Xong
+# A muscle with its sets in the workout summary ("Chest: 4 sets")
+training_muscle_sets = %1$s: %2$s
+training_picker_title = Thêm bài tập
+training_add_selected{other} = Thêm %1$s bài tập
+training_create_exercise = Tạo máy tập hoặc bài tập
+training_search = Tìm bài tập
+training_search_clear = Xóa tìm kiếm
+training_no_results = Không có bài tập nào phù hợp. Hãy thử từ khóa hoặc bộ lọc khác, hoặc tự tạo bài tập của bạn.
+training_recent_exercises = Gần đây
+training_all_exercises = Tất cả bài tập
+training_scope_all = Tất cả
+training_scope_mine = Máy của tôi
+training_scope_favorites = Yêu thích
+training_mine_empty = Máy tập và bài tập của riêng bạn sẽ hiển thị ở đây, cùng với mọi bài tập mà bạn đã thêm ảnh hoặc cài đặt.
+training_favorites_empty = Nhấn vào ngôi sao trên một bài tập để luôn có sẵn bài tập đó.
+training_new_machine = Máy tập mới
+training_favorite = Yêu thích
+training_make_favorite = Thêm vào yêu thích
+training_unfavorite = Xóa khỏi yêu thích
+training_exercise_title = Bài tập
+training_exercise_missing = Bài tập này không còn tồn tại.
+training_edit = Chỉnh sửa
+training_archive = Lưu trữ
+training_restore = Khôi phục
+training_archive_title = Lưu trữ %1$s?
+training_archive_text = Bài tập sẽ bị ẩn khỏi danh mục; các buổi tập của bạn vẫn giữ bài tập này và bạn có thể khôi phục từ đó.
+training_delete_exercise_title = Xóa %1$s?
+training_delete_exercise_text = Bài tập sẽ bị xóa cùng ảnh và cài đặt của nó.
+training_archived_note = Đã lưu trữ: bị ẩn khỏi danh mục.
+# An exercise the user created
+training_own_exercise = Tùy chỉnh
+training_photo_add = Thêm ảnh máy tập của bạn
+training_photo_add_text = Để bạn dễ nhận ra máy ở phòng tập.
+training_photo_change = Đổi ảnh
+training_photo_of = Ảnh của %1$s
+training_photo_take = Chụp ảnh
+training_photo_pick = Chọn từ thư viện
+training_photo_remove = Xóa ảnh
+training_photo_failed = Không thể đọc ảnh.
+training_photo_unavailable = Không có ứng dụng nào có thể chụp ảnh trên điện thoại này.
+training_muscle_primary = Cơ chính
+training_muscle_secondary = Cơ phụ
+training_machine_settings = Cài đặt máy
+training_machine_settings_hint = VD: ghế 4, tựa lưng 2
+training_progress = Tiến độ
+training_progress_empty = Đánh dấu các hiệp của bài tập này trong một buổi tập để xem tiến độ của bạn ở đây.
+training_progress_none_in_period = Không có buổi tập nào trong khoảng thời gian này.
+training_needs_bodyweight = Hãy ghi cân nặng của bạn (bằng cân hoặc nhập thủ công) để xem sức mạnh.
+training_personal_records = Kỷ lục cá nhân
+training_no_records = Chưa có kỷ lục nào.
+training_record_volume = Khối lượng cao nhất trong một buổi
+training_metric_e1rm = 1RM ước tính
+training_metric_e1rm_short = 1RM ước tính
+training_metric_heaviest = Mức tạ nặng nhất
+training_metric_extra_load = Tạ thêm nặng nhất
+training_metric_max_reps = Nhiều lần nhất
+training_metric_total_reps = Tổng số lần
+training_metric_longest = Lâu nhất
+training_metric_total_time = Tổng thời gian
+training_metric_distance = Quãng đường
+training_metric_least_assistance = Hỗ trợ ít nhất
+training_value_reps = %1$s lần
+training_value_lb = %1$s lb
+# Progress chart for TalkBack: %1$s metric, %2$s number of sessions, %3$s first value, %4$s last value, %5$s highest value
+training_chart_desc{other} = Biểu đồ %1$s, %2$s buổi: từ %3$s đến %4$s, cao nhất %5$s.
+# How sets of each kind are logged (exercise editor)
+training_kind_weight_reps_text = Mức tạ × số lần: đẩy, kéo, đạp đùi…
+training_kind_bodyweight_reps_text = Số lần với trọng lượng cơ thể, có thể thêm tạ: hít xà, dips, hít đất.
+training_kind_assisted_reps_text = Bạn ghi lại mức đối trọng giúp bạn: càng ít hỗ trợ = càng khỏe.
+training_kind_duration_text = Số giây giữ tư thế, có thể thêm tạ: plank, xách tạ đi bộ.
+training_kind_cardio_text = Thời gian, quãng đường, mức và calo: máy chạy bộ, xe đạp, máy chèo thuyền.
+training_editor_new = Máy tập hoặc bài tập mới
+training_editor_edit = Chỉnh sửa bài tập
+training_editor_not_editable = Không thể chỉnh sửa bài tập có sẵn: hãy thêm cài đặt, ảnh và ngôi sao của bạn trên trang của bài tập.
+training_editor_name = Tên
+training_editor_name_hint = VD: Đẩy ngực với máy (Technogym)
+training_editor_name_error = Hãy nhập tên.
+training_editor_equipment = Dụng cụ
+training_editor_kind = Cách ghi
+training_editor_kind_changed = Các hiệp đã ghi vẫn giữ nguyên giá trị; chỉ cách hiểu các giá trị đó thay đổi.
+training_editor_muscle_error = Hãy chọn ít nhất một cơ chính.
+training_editor_photo = Ảnh
+training_history_empty_title = Chưa có buổi tập nào
+training_history_empty_text = Các buổi tập đã hoàn thành sẽ hiển thị ở đây, được nhóm theo tháng.
+training_workout_actions = Thao tác với buổi tập
+training_settings_unit = Đơn vị khối lượng
+training_settings_unit_text = Khối lượng được lưu bằng kilôgam; bạn có thể đổi đơn vị bất cứ lúc nào.
+training_unit_kg_long = Kilôgam (kg)
+training_unit_lb_long = Pound (lb)
+training_settings_rest = Hẹn giờ nghỉ
+training_settings_rest_text = Bắt đầu khi bạn đánh dấu một hiệp và rung khi kết thúc, trong lúc ứng dụng đang mở.
+training_settings_health = Việc lưu buổi tập vào Health Connect được thiết lập trong Hồ sơ → Health Connect.
+training_days_ago{other} = %1$s ngày trước
+training_exercises_count{other} = %1$s bài tập
+training_sets_count{other} = %1$s hiệp
+# Half sets of a secondary muscle ("2.5 sets"): decimals take no plural form
+training_sets_fraction = %1$s hiệp
+training_workouts_count{other} = %1$s buổi tập
+training_undo = Hoàn tác
+training_exercise_removed = Đã gỡ bài tập
+training_set_deleted = Đã xóa hiệp
+training_discard_changes = Bỏ các thay đổi?
+training_save_failed = Không thể lưu bài tập
+training_spoken_pair = %1$s, %2$s

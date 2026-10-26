@@ -200,6 +200,9 @@ dependencies {
     implementation(libs.play.services.ads)
     implementation(libs.ump)
     implementation(libs.billing.ktx)
+    // Asks for a Google Play rating with Google's own card (no screen of ours).
+    implementation(libs.play.review)
 
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
 }

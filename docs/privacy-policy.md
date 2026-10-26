@@ -1,11 +1,11 @@
-# Política de privacidad de GlobalFitness
+# Política de privacidad de Fortia
 
-Última actualización: 15 de octubre de 2026 · Contacto: **enjoyyourtime.online@gmail.com** ·
+Última actualización: 25 de octubre de 2026 · Contacto: **enjoyyourtime.online@gmail.com** ·
 Versión web: [globalfitness-app.web.app/privacy.html](https://globalfitness-app.web.app/privacy.html)
 
 ## 1. Quién es el responsable
 
-GlobalFitness es una app para Android publicada por **Enjoy Your Time**, que es el responsable
+Fortia (antes GlobalFitness) es una app para Android publicada por **Enjoy Your Time**, que es el responsable
 del tratamiento. Para cualquier cuestión sobre privacidad escribe a
 **enjoyyourtime.online@gmail.com**.
 
@@ -26,6 +26,12 @@ del tratamiento. Para cualquier cuestión sobre privacidad escribe a
   introdujeron a mano. A partir de ellas se calculan en el teléfono el IMC, la grasa corporal y
   otras estimaciones.
 - **Ajustes** de la app y **básculas configuradas** (modelo, nombre y opciones).
+- **Entrenamiento**: los entrenos que registras (fecha y hora, nombre y notas, ejercicios y series con
+  el peso, las repeticiones, el tiempo, la distancia, el nivel o las calorías que introduzcas), las
+  máquinas y ejercicios que creas (nombre, músculos y notas de ajuste), tus favoritos y, si las añades,
+  **fotos de tus máquinas**. Las fotos las haces con la cámara o eliges tú una a una con el selector de
+  fotos de Android (la app no tiene acceso a tu galería); se reducen y se guardan en el almacenamiento
+  privado de la app. Con tu peso registrado, el teléfono calcula el 1RM estimado y el progreso por músculo.
 - **Pulsera Xiaomi Smart Band**: la clave de emparejamiento de la pulsera se guarda solo en el
   teléfono y **nunca sale de él** (ni a la nube ni a la copia de seguridad de Android). El pulso
   que registras en el modo directo (fecha, hora y pulsaciones) también se guarda solo en el teléfono.
@@ -51,9 +57,15 @@ Si lo autorizas, la app **lee y escribe** en Health Connect los tipos de datos q
 pantalla de permisos de Android (por ejemplo peso, composición corporal o frecuencia cardiaca).
 Puedes retirar el permiso en cualquier momento desde los ajustes de Health Connect.
 
+Si lo autorizas, la app también **escribe en Health Connect tus entrenos terminados** como sesiones de
+ejercicio (inicio y fin, tipo de ejercicio, nombre y notas del entreno y un segmento por serie con sus
+repeticiones; los pesos no se escriben) para que otras apps de fitness puedan verlos. Si borras un entreno
+en la app, se borra también de Health Connect; si desactivas la opción, deja de escribir y lo ya guardado
+se conserva. La app no vuelve a leer sus propias sesiones.
+
 - Los datos de Health Connect se usan **solo para mostrarte tu progreso y sincronizar tus
   mediciones** con otras apps que tú elijas. Lo que se lee se guarda en una caché en el teléfono.
-- **No se suben** a la copia en la nube de GlobalFitness, **no se usan para publicidad**, no se
+- **No se suben** a la copia en la nube de Fortia, **no se usan para publicidad**, no se
   venden y no se comparten con terceros.
 - El uso de la información recibida de Health Connect cumple la política de permisos de Health
   Connect, incluidos los requisitos de uso limitado.
@@ -67,7 +79,8 @@ Si inicias sesión con Google (mediante Firebase Authentication):
 - **Copia de seguridad** (Google Cloud Firestore): tu perfil (con un identificador aleatorio del
   conjunto de datos, para no mezclar nunca datos de personas distintas), tus mediciones (fecha,
   peso, impedancia, composición corporal que dé la báscula, origen y modelo de báscula) y tus
-  básculas configuradas (modelo, nombre y número de usuario en la báscula). **No** se suben la
+  básculas configuradas (modelo, nombre y número de usuario en la báscula), y tus entrenos, tus
+  máquinas y ejercicios propios con sus notas, favoritos y fotos. **No** se suben la
   clave de la pulsera, las claves de cifrado, PIN o claves de emparejamiento de las básculas, las
   direcciones Bluetooth, los datos de Health Connect ni ajustes propios del teléfono.
   Si has comprado «Quitar anuncios», se guarda además un indicador informativo `premium`.
@@ -112,7 +125,8 @@ El estado se guarda en el teléfono para que sigas sin anuncios aunque no tengas
 Si tienes activada la copia de seguridad de Android, el sistema puede guardar una copia cifrada
 de la base de datos y de los ajustes de la app en tu cuenta de Google Drive, y restaurarla al
 reinstalar o cambiar de móvil. **Quedan excluidas** las pulseras y relojes configurados (con sus claves, ajustes
-y el pulso registrado en modo directo) y la caché de Health Connect. Puedes desactivarla en los ajustes de Android.
+y el pulso registrado en modo directo), la caché de Health Connect y las fotos de tus máquinas (por su
+tamaño; si usas la copia en la nube de la app, se guardan allí). Puedes desactivarla en los ajustes de Android.
 
 ## 10. Con quién se comparten los datos
 
@@ -138,11 +152,11 @@ importante, te avisaremos en la app.
 
 ---
 
-# GlobalFitness Privacy Policy (English)
+# Fortia Privacy Policy (English)
 
-Last updated: 15 October 2026 · Contact: **enjoyyourtime.online@gmail.com**
+Last updated: 25 October 2026 · Contact: **enjoyyourtime.online@gmail.com**
 
-**Controller.** GlobalFitness is published by **Enjoy Your Time**, the data controller. Contact:
+**Controller.** Fortia (formerly GlobalFitness) is published by **Enjoy Your Time**, the data controller. Contact:
 **enjoyyourtime.online@gmail.com**.
 
 **Summary.** The app works **without an account** and keeps everything **on your phone** by default.
@@ -152,8 +166,9 @@ shows **Google AdMob** ads unless you buy "Remove ads".
 
 **Stored on the phone:** profile (name, sex, date of birth, height, target weight), measurements
 (date, weight, bioelectrical impedance, source) and derived body-composition estimates, settings and
-configured scales. The Xiaomi Smart Band pairing key stays on the phone only and is never uploaded or
-included in Android backups.
+configured scales, and your training log (workouts, sets, your own machines with setting notes and optional
+machine photos taken with the camera or picked with Android's photo picker). The Xiaomi Smart Band pairing
+key stays on the phone only and is never uploaded or included in Android backups.
 
 **Bluetooth:** used to read your scale and band. On Android 11 and lower the location permission is
 required by Android to scan for Bluetooth devices; location is not used for anything else. Heart rate
@@ -166,14 +181,17 @@ anywhere else.
 
 **Health Connect:** with your permission the app reads and writes the data types you grant (e.g.
 weight, body composition, heart rate). This data is only used to show your progress and sync with
-apps you choose, and is cached on the phone; it is **not uploaded to the GlobalFitness cloud backup,
+apps you choose, and is cached on the phone; it is **not uploaded to the Fortia cloud backup,
 not used for ads, not sold and not shared**. Use of information received from Health Connect follows
-the Health Connect Permissions policy, including the Limited Use requirements.
+the Health Connect Permissions policy, including the Limited Use requirements. If you allow it, the app
+also writes your finished workouts to Health Connect as exercise sessions (times, type, name, notes,
+repetitions per set; no weights), deletes them when you delete the workout, and never reads them back.
 
 **Optional Google account and cloud backup:** Firebase Authentication (user id, email, name, profile
 photo) and Google Cloud Firestore in the **EU (europe-southwest1, Madrid)** store your profile (with a
 random dataset id), measurements (incl. scale-reported body composition and scale model) and
-configured scales (model, name, user slot), plus an informational `premium` flag if you bought
+configured scales (model, name, user slot), your workouts, own machines/exercises with their notes,
+favourites and photos, plus an informational `premium` flag if you bought
 "remove ads". Never uploaded: band key, scale bind keys / PINs / pairing keys, Bluetooth addresses,
 Health Connect data, device-specific settings. Legal basis: your explicit consent (GDPR art. 6(1)(a) and 9(2)(a)).
 Kept until you delete it: **Profile → Account and cloud backup → "Delete my cloud data and
@@ -190,8 +208,8 @@ any targeting from the app. No ads are shown on the sign-in, purchase or consent
 and token, never payment details. The state is cached on the phone so offline users stay ad-free.
 
 **Android Auto Backup:** if enabled, Android may back up the app database and settings to your Google
-Drive (encrypted) and restore them on reinstall; the band key and the Health Connect cache are
-excluded.
+Drive (encrypted) and restore them on reinstall; the band key, the Health Connect cache and the machine
+photos (kept in the app's cloud backup instead) are excluded.
 
 **Sharing:** only with Google as service provider (Firebase, AdMob/UMP, Google Play). We do not sell
 personal data. The app is not directed at children under 16.

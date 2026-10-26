@@ -1,0 +1,8 @@
+# Body map: captions, TalkBack descriptions of the muscle figure, open-source credit of its drawings
+bodymap_front = 正面
+bodymap_back = 背面
+bodymap_figure_front = 人体正面图
+bodymap_figure_back = 人体背面图
+bodymap_figure_highlighted = %1$s：%2$s
+bodymap_muscle_state = %1$s，%2$s
+notice_body_highlighter = 肌肉图的绘图移植自 react-native-body-highlighter。

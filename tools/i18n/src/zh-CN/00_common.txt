@@ -1,5 +1,5 @@
 # App
-band_notification_listener_label = GlobalFitness：向手环转发通知
+band_notification_listener_label = Fortia：向手环转发通知
 
 # Common actions
 action_cancel = 取消
@@ -94,7 +94,7 @@ body_type_skinny_muscular = 偏瘦肌肉型
 
 # Health Connect rationale (shown by Health Connect)
 health_rationale_title = 健康数据隐私
-health_rationale_intro = GlobalFitness 使用 Health Connect 做两件事：
+health_rationale_intro = Fortia 使用 Health Connect 做两件事：
 health_rationale_read = • 读取你的手环或手表数据（例如通过 Mi Fitness 同步的 Xiaomi Smart Band）：步数、距离、卡路里、心率、静息心率、心率变异性、睡眠、血氧、呼吸频率和运动记录。它还会读取其他应用记录的体重和体脂率。获得过往数据权限后，最多可导入一年的数据。
 health_rationale_write = • 写入你的体重秤测量数据：体重、体脂率、骨量、去脂体重、基础代谢和身体水分。如果你在应用中删除某条测量记录，它也会从 Health Connect 中删除。
 health_rationale_storage = 从 Health Connect 读取的数据仅保存在这部手机上：不会上传到可选的云备份，不会用于广告，也不会与任何人共享。应用仅用这些数据向你显示摘要和图表。

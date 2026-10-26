@@ -1,0 +1,193 @@
+# Achievements: medals derived from the workouts and the weighings, the celebration shown when a level is reached, and the achievements page
+achievements_title = الإنجازات
+# Chosen by the total count: a label avoids number agreement
+achievements_earned{zero} = الميداليات: %1$s من %2$s
+achievements_earned{one} = الميداليات: %1$s من %2$s
+achievements_earned{two} = الميداليات: %1$s من %2$s
+achievements_earned{few} = الميداليات: %1$s من %2$s
+achievements_earned{many} = الميداليات: %1$s من %2$s
+achievements_earned{other} = الميداليات: %1$s من %2$s
+achievements_category_training = الانتظام
+achievements_category_strength = القوة
+achievements_category_body = الجسم
+achievements_level = المستوى %1$s من %2$s
+achievements_not_started = لم يتحقق بعد
+achievements_all_levels = اكتملت كل المستويات
+achievements_earned_on = تحقق في %1$s
+achievements_next = التالي: %1$s
+achievements_progress = %1$s / %2$s
+achievements_levels = المستويات
+achievements_how = طريقة الاحتساب
+achievements_open = فتح الإنجازات
+achievements_needs_bodyweight = اصعد على الميزان لمقارنة رفعاتك بوزن جسمك.
+achievements_needs_target = حدّد وزنًا مستهدفًا في ملفك الشخصي.
+achievements_needs_weighings = اصعد على الميزان للبدء.
+achievements_target_is_start = وزنك المستهدف هو وزن البداية نفسه: لا توجد مسافة تقطعها.
+achievements_needs_composition = يحتاج إلى قياسات وزن تتضمن تكوين الجسم، من ميزان يقيسه.
+achievements_lift_note = تتبع المستويات معايير القوة الشائعة، وهي أقل للنساء. يُحتسب البار فقط: لا جهاز سميث ولا الأجهزة الأخرى.
+achievements_value_tonnes = %1$s طن
+achievements_value_ratio = %1$s×
+
+# The celebration shown over any screen when a new level is reached
+celebration_title = تهانينا!
+celebration_view = عرض الإنجازات
+celebration_announce = إنجاز جديد
+celebration_level = %1$s · المستوى %2$s
+celebration_more{zero} = +%1$s أخرى
+celebration_more{one} = +%1$s آخر
+celebration_more{two} = +%1$s أخرى
+celebration_more{few} = +%1$s أخرى
+celebration_more{many} = +%1$s أخرى
+celebration_more{other} = +%1$s أخرى
+
+# One block per achievement: title, goal, done, rule
+ach_workouts_title = الحصص التدريبية
+ach_workouts_goal{zero} = أنهِ %1$s حصة تدريبية
+ach_workouts_goal{one} = أنهِ حصتك التدريبية الأولى
+ach_workouts_goal{two} = أنهِ حصتين تدريبيتين
+ach_workouts_goal{few} = أنهِ %1$s حصص تدريبية
+ach_workouts_goal{many} = أنهِ %1$s حصة تدريبية
+ach_workouts_goal{other} = أنهِ %1$s حصة تدريبية
+ach_workouts_done{zero} = أنهيت %1$s حصة تدريبية
+ach_workouts_done{one} = أنهيت حصتك التدريبية الأولى
+ach_workouts_done{two} = أنهيت حصتين تدريبيتين
+ach_workouts_done{few} = أنهيت %1$s حصص تدريبية
+ach_workouts_done{many} = أنهيت %1$s حصة تدريبية
+ach_workouts_done{other} = أنهيت %1$s حصة تدريبية
+ach_workouts_rule = الحصص التدريبية المنتهية التي فيها مجموعة مكتملة واحدة على الأقل.
+
+ach_week_streak_title = السلسلة الأسبوعية
+ach_week_streak_goal{zero} = تدرّب مرتين على الأقل أسبوعيًا لمدة %1$s أسبوع متتالٍ
+ach_week_streak_goal{one} = تدرّب مرتين على الأقل خلال أسبوع
+ach_week_streak_goal{two} = تدرّب مرتين على الأقل أسبوعيًا لأسبوعين متتاليين
+ach_week_streak_goal{few} = تدرّب مرتين على الأقل أسبوعيًا لمدة %1$s أسابيع متتالية
+ach_week_streak_goal{many} = تدرّب مرتين على الأقل أسبوعيًا لمدة %1$s أسبوعًا متتاليًا
+ach_week_streak_goal{other} = تدرّب مرتين على الأقل أسبوعيًا لمدة %1$s أسبوع متتالٍ
+ach_week_streak_done{zero} = تدرّبت مرتين على الأقل أسبوعيًا لمدة %1$s أسبوع متتالٍ
+ach_week_streak_done{one} = تدرّبت مرتين على الأقل خلال أسبوع
+ach_week_streak_done{two} = تدرّبت مرتين على الأقل أسبوعيًا لأسبوعين متتاليين
+ach_week_streak_done{few} = تدرّبت مرتين على الأقل أسبوعيًا لمدة %1$s أسابيع متتالية
+ach_week_streak_done{many} = تدرّبت مرتين على الأقل أسبوعيًا لمدة %1$s أسبوعًا متتاليًا
+ach_week_streak_done{other} = تدرّبت مرتين على الأقل أسبوعيًا لمدة %1$s أسبوع متتالٍ
+ach_week_streak_rule = أسابيع تقويمية متتالية في كل منها حصتان تدريبيتان منتهيتان على الأقل. لا يكسر الأسبوع الحالي السلسلة حتى ينتهي.
+
+ach_balanced_weeks_title = أسابيع متوازنة
+ach_balanced_weeks_goal{zero} = حقّق %1$s أسبوع متوازن
+ach_balanced_weeks_goal{one} = حقّق أسبوعًا متوازنًا
+ach_balanced_weeks_goal{two} = حقّق أسبوعين متوازنين
+ach_balanced_weeks_goal{few} = حقّق %1$s أسابيع متوازنة
+ach_balanced_weeks_goal{many} = حقّق %1$s أسبوعًا متوازنًا
+ach_balanced_weeks_goal{other} = حقّق %1$s أسبوع متوازن
+ach_balanced_weeks_done{zero} = حققت %1$s أسبوع متوازن
+ach_balanced_weeks_done{one} = أول أسبوع متوازن لك
+ach_balanced_weeks_done{two} = حققت أسبوعين متوازنين
+ach_balanced_weeks_done{few} = حققت %1$s أسابيع متوازنة
+ach_balanced_weeks_done{many} = حققت %1$s أسبوعًا متوازنًا
+ach_balanced_weeks_done{other} = حققت %1$s أسبوع متوازن
+ach_balanced_weeks_rule = أسابيع تقويمية تحصل فيها كل عضلة من هذه العضلات على عدد من المجموعات الفعّالة ضمن نطاقها الأسبوعي، لا دونه ولا فوقه: %1$s.
+
+ach_variety_title = التنوع
+ach_variety_goal{zero} = نفّذ %1$s تمرين مختلف
+ach_variety_goal{one} = نفّذ تمرينًا واحدًا
+ach_variety_goal{two} = نفّذ تمرينين مختلفين
+ach_variety_goal{few} = نفّذ %1$s تمارين مختلفة
+ach_variety_goal{many} = نفّذ %1$s تمرينًا مختلفًا
+ach_variety_goal{other} = نفّذ %1$s تمرين مختلف
+ach_variety_done{zero} = نفّذت %1$s تمرين مختلف
+ach_variety_done{one} = نفّذت تمرينًا واحدًا
+ach_variety_done{two} = نفّذت تمرينين مختلفين
+ach_variety_done{few} = نفّذت %1$s تمارين مختلفة
+ach_variety_done{many} = نفّذت %1$s تمرينًا مختلفًا
+ach_variety_done{other} = نفّذت %1$s تمرين مختلف
+ach_variety_rule = تمارين وأجهزة مختلفة فيها مجموعة مكتملة واحدة على الأقل.
+
+ach_cardio_km_title = مسافة الكارديو
+ach_cardio_km_goal = اقطع %1$s في الكارديو
+ach_cardio_km_done = قطعت %1$s في الكارديو
+ach_cardio_km_rule = مسافة كل مجموعات الكارديو المكتملة.
+
+ach_volume_title = الحجم الإجمالي
+ach_volume_goal = ارفع %1$s إجمالًا
+ach_volume_done = رفعت %1$s إجمالًا
+ach_volume_rule = الوزن × التكرارات لكل مجموعة مكتملة، مع احتساب وزن جسمك في تمارين وزن الجسم وتمارين الجهاز المساعد.
+
+ach_records_title = الأرقام القياسية الشخصية
+ach_records_goal{zero} = حطّم %1$s رقم قياسي شخصي
+ach_records_goal{one} = حطّم أول رقم قياسي شخصي لك
+ach_records_goal{two} = حطّم رقمين قياسيين شخصيين
+ach_records_goal{few} = حطّم %1$s أرقام قياسية شخصية
+ach_records_goal{many} = حطّم %1$s رقمًا قياسيًا شخصيًا
+ach_records_goal{other} = حطّم %1$s رقم قياسي شخصي
+ach_records_done{zero} = حطّمت %1$s رقم قياسي شخصي
+ach_records_done{one} = أول رقم قياسي شخصي لك
+ach_records_done{two} = حطّمت رقمين قياسيين شخصيين
+ach_records_done{few} = حطّمت %1$s أرقام قياسية شخصية
+ach_records_done{many} = حطّمت %1$s رقمًا قياسيًا شخصيًا
+ach_records_done{other} = حطّمت %1$s رقم قياسي شخصي
+ach_records_rule = مجموعات تتجاوز أحد الأرقام القياسية للتمرين: 1RM المقدَّر أو الوزن أو التكرارات أو الوقت أو أقل مساعدة.
+
+ach_bench_bw_title = ضغط الصدر
+ach_bench_bw_goal = ارفع %1$s وزن جسمك في ضغط الصدر
+ach_bench_bw_done = وصل ضغط الصدر لديك إلى %1$s وزن جسمك
+ach_bench_bw_rule = أفضل 1RM مقدَّر في ضغط الصدر بالبار، مقسومًا على وزن جسمك في ذلك اليوم.
+
+ach_squat_bw_title = السكوات
+ach_squat_bw_goal = ارفع %1$s وزن جسمك في السكوات
+ach_squat_bw_done = وصل السكوات لديك إلى %1$s وزن جسمك
+ach_squat_bw_rule = أفضل 1RM مقدَّر في السكوات بالبار أو السكوات الأمامي، مقسومًا على وزن جسمك في ذلك اليوم.
+
+ach_deadlift_bw_title = الرفعة الميتة
+ach_deadlift_bw_goal = ارفع %1$s وزن جسمك في الرفعة الميتة
+ach_deadlift_bw_done = وصلت الرفعة الميتة لديك إلى %1$s وزن جسمك
+ach_deadlift_bw_rule = أفضل 1RM مقدَّر في الرفعة الميتة بالبار، التقليدية أو سومو، مقسومًا على وزن جسمك في ذلك اليوم.
+
+ach_ohp_bw_title = الضغط العسكري
+ach_ohp_bw_goal = ارفع %1$s وزن جسمك في الضغط العسكري
+ach_ohp_bw_done = وصل الضغط العسكري لديك إلى %1$s وزن جسمك
+ach_ohp_bw_rule = أفضل 1RM مقدَّر في الضغط العسكري بالبار وقوفًا، مقسومًا على وزن جسمك في ذلك اليوم.
+
+ach_pull_ups_title = العقلة
+ach_pull_ups_goal{zero} = نفّذ %1$s تكرار من العقلة دون مساعدة في مجموعة واحدة
+ach_pull_ups_goal{one} = نفّذ أول تكرار من العقلة دون مساعدة
+ach_pull_ups_goal{two} = نفّذ تكرارين من العقلة دون مساعدة في مجموعة واحدة
+ach_pull_ups_goal{few} = نفّذ %1$s تكرارات من العقلة دون مساعدة في مجموعة واحدة
+ach_pull_ups_goal{many} = نفّذ %1$s تكرارًا من العقلة دون مساعدة في مجموعة واحدة
+ach_pull_ups_goal{other} = نفّذ %1$s تكرار من العقلة دون مساعدة في مجموعة واحدة
+ach_pull_ups_done{zero} = %1$s تكرار من العقلة دون مساعدة في مجموعة واحدة
+ach_pull_ups_done{one} = أول تكرار من العقلة دون مساعدة
+ach_pull_ups_done{two} = تكراران من العقلة دون مساعدة في مجموعة واحدة
+ach_pull_ups_done{few} = %1$s تكرارات من العقلة دون مساعدة في مجموعة واحدة
+ach_pull_ups_done{many} = %1$s تكرارًا من العقلة دون مساعدة في مجموعة واحدة
+ach_pull_ups_done{other} = %1$s تكرار من العقلة دون مساعدة في مجموعة واحدة
+ach_pull_ups_rule = أكبر عدد من التكرارات في مجموعة واحدة من العقلة أو العقلة المعكوسة، بوزن إضافي أو بدونه، أو على الجهاز المساعد بمساعدة 0.
+
+ach_goal_title = الوزن المستهدف
+ach_goal_goal = حقّق وزنك المستهدف البالغ %1$s
+ach_goal_done = وصلت إلى وزنك المستهدف البالغ %1$s
+ach_goal_rule = يصل متوسط وزنك خلال 7 أيام إلى الهدف المحدد في ملفك الشخصي.
+
+ach_goal_progress_title = نحو هدفك
+ach_goal_progress_goal_loss = اخسر %1$s في طريقك إلى هدفك
+ach_goal_progress_goal_gain = اكسب %1$s في طريقك إلى هدفك
+ach_goal_progress_done_loss = خسرت %1$s
+ach_goal_progress_done_gain = اكتسبت %1$s
+
+ach_fat_down_title = دهون الجسم
+ach_fat_down_goal{zero} = اخفض دهون جسمك بمقدار %1$s نقطة مئوية
+ach_fat_down_goal{one} = اخفض دهون جسمك بمقدار نقطة مئوية واحدة
+ach_fat_down_goal{two} = اخفض دهون جسمك بمقدار نقطتين مئويتين
+ach_fat_down_goal{few} = اخفض دهون جسمك بمقدار %1$s نقاط مئوية
+ach_fat_down_goal{many} = اخفض دهون جسمك بمقدار %1$s نقطة مئوية
+ach_fat_down_goal{other} = اخفض دهون جسمك بمقدار %1$s نقطة مئوية
+ach_fat_down_done{zero} = انخفضت دهون جسمك بمقدار %1$s نقطة مئوية
+ach_fat_down_done{one} = انخفضت دهون جسمك بمقدار نقطة مئوية واحدة
+ach_fat_down_done{two} = انخفضت دهون جسمك بمقدار نقطتين مئويتين
+ach_fat_down_done{few} = انخفضت دهون جسمك بمقدار %1$s نقاط مئوية
+ach_fat_down_done{many} = انخفضت دهون جسمك بمقدار %1$s نقطة مئوية
+ach_fat_down_done{other} = انخفضت دهون جسمك بمقدار %1$s نقطة مئوية
+ach_fat_down_rule = انخفاض متوسط دهون جسمك خلال 7 أيام منذ أسبوعك الأول من القياسات. لا يُحتسب النزول تحت الحد الأدنى الصحي.
+
+ach_muscle_up_title = الكتلة العضلية
+ach_muscle_up_goal = اكسب %1$s من الكتلة العضلية
+ach_muscle_up_done = اكتسبت %1$s من الكتلة العضلية
+ach_muscle_up_rule = زيادة متوسط كتلتك العضلية خلال 7 أيام منذ أسبوعك الأول من القياسات.

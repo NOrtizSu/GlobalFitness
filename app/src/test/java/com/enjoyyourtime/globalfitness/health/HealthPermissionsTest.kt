@@ -56,18 +56,21 @@ class HealthPermissionsTest {
             HealthDataType.LEAN_BODY_MASS to LeanBodyMassRecord::class,
             HealthDataType.BASAL_METABOLIC_RATE to BasalMetabolicRateRecord::class,
             HealthDataType.BODY_WATER_MASS to BodyWaterMassRecord::class,
+            HealthDataType.EXERCISE to ExerciseSessionRecord::class,
         )
         writes.forEach { (type, record) -> assertEquals(type.name, HealthPermission.getWritePermission(record), type.writePermission) }
         assertEquals(HealthPermission.PERMISSION_READ_HEALTH_DATA_HISTORY, HealthPermissions.READ_HISTORY)
+        assertEquals(HealthPermission.getWritePermission(ExerciseSessionRecord::class), HealthPermissions.WRITE_EXERCISE)
     }
 
     @Test
-    fun requestedSetHas13ReadsAnd6WritesPlusOptionalHistory() {
+    fun requestedSetHas13ReadsAnd7WritesPlusOptionalHistory() {
         assertEquals(13, HealthPermissions.readPermissions.size)
-        assertEquals(6, HealthPermissions.writePermissions.size)
-        assertEquals(19, HealthPermissions.requested(historyAvailable = false).size)
+        assertEquals(7, HealthPermissions.writePermissions.size)
+        assertEquals(20, HealthPermissions.requested(historyAvailable = false).size)
+        assertTrue(HealthPermissions.WRITE_EXERCISE in HealthPermissions.requested(historyAvailable = false))
         val withHistory = HealthPermissions.requested(historyAvailable = true)
-        assertEquals(20, withHistory.size)
+        assertEquals(21, withHistory.size)
         assertTrue(HealthPermissions.READ_HISTORY in withHistory)
         assertFalse(HealthPermissions.READ_HISTORY in HealthPermissions.requested(historyAvailable = false))
     }
@@ -83,6 +86,26 @@ class HealthPermissionsTest {
         assertTrue(HealthPermissions.canExport(granted + writeOf(HealthDataType.WEIGHT)))
         assertTrue(HealthDataType.HEART_RATE in HealthPermissions.missingWearableTypes(granted))
         assertFalse(HealthDataType.STEPS in HealthPermissions.missingWearableTypes(granted))
+    }
+
+    @Test
+    fun exerciseWritePermissionDoesNotChangeTheScaleExport() {
+        val granted = writeOf(HealthDataType.EXERCISE)
+        assertTrue(HealthPermissions.canExportWorkouts(granted))
+        assertFalse(HealthPermissions.canExport(granted))
+        assertFalse(HealthPermissions.canWriteAnyScaleValue(granted))
+        assertFalse(HealthDataType.EXERCISE in HealthPermissions.exportTypes)
+        assertEquals(ExportRecordType.entries.map { it.dataType }, HealthPermissions.exportTypes)
+        assertTrue(HealthPermissions.canWriteAnyScaleValue(writeOf(HealthDataType.BODY_FAT)))
+        assertFalse(HealthPermissions.canExportWorkouts(writeOf(HealthDataType.WEIGHT) + readOf(HealthDataType.EXERCISE)))
+        // Users who connected before workouts were exported miss only this permission.
+        val before = HealthPermissions.requested(historyAvailable = false) - HealthPermissions.WRITE_EXERCISE
+        assertEquals(setOf(HealthPermissions.WRITE_EXERCISE), HealthPermissions.missing(before, historyAvailable = false))
+        assertTrue(HealthPermissions.canExport(before))
+        // ...which does not make them "connected with partial permissions": workouts have their own switch.
+        assertFalse(HealthPermissions.allGranted(before, historyAvailable = false))
+        assertTrue(HealthPermissions.connectedFully(before, historyAvailable = false))
+        assertFalse(HealthPermissions.connectedFully(before - HealthPermissions.readPermissions.first(), historyAvailable = false))
     }
 
     @Test

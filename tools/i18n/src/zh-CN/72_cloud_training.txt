@@ -1,0 +1,5 @@
+# Cloud backup: what it includes now that the training data is backed up too
+account_benefit_where_training = 你的个人资料、设置、测量记录和训练（包括你的器械及其备注和照片）会保存在你的账号中，存储于欧盟（马德里）的 Google 服务器上。
+account_delete_text_training = 你的云备份（个人资料、测量记录、体重秤、训练、器械及其照片）以及你的 Fortia 账号将被永久删除。这部手机上的数据不会被删除。\n\n为安全起见，Google 会要求你选择并确认账号。
+conflict_restore_cloud_confirm_training = 这部手机上的数据将被云端数据替换。仅存在于这部手机上的测量记录、训练和器械将被删除。
+conflict_replace_cloud_confirm_training = 你的云备份将被这部手机上的数据替换。仅存在于云端的测量记录、训练和器械将被删除。

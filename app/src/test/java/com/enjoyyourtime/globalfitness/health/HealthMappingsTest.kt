@@ -50,12 +50,12 @@ class HealthMappingsTest {
     @Test
     fun originNames() {
         val own = "com.enjoyyourtime.globalfitness"
-        assertEquals("Mi Fitness", HealthMappings.originName("com.xiaomi.wearable", own))
-        assertEquals("Zepp Life", HealthMappings.originName("com.xiaomi.hm.health", own))
-        assertEquals("GlobalFitness", HealthMappings.originName(own, own))
-        assertNull(HealthMappings.originName("", own))
-        assertEquals("Mi Reloj", HealthMappings.originName("com.example.watch", own) { "Mi Reloj" })
-        assertEquals("com.example.watch", HealthMappings.originName("com.example.watch", own) { null })
-        assertEquals("com.example.watch", HealthMappings.originName("com.example.watch", own) { " " })
+        assertEquals("Mi Fitness", HealthMappings.originName("com.xiaomi.wearable", own, "Fortia"))
+        assertEquals("Zepp Life", HealthMappings.originName("com.xiaomi.hm.health", own, "Fortia"))
+        assertEquals("Fortia", HealthMappings.originName(own, own, "Fortia"))
+        assertNull(HealthMappings.originName("", own, "Fortia"))
+        assertEquals("Mi Reloj", HealthMappings.originName("com.example.watch", own, "Fortia") { "Mi Reloj" })
+        assertEquals("com.example.watch", HealthMappings.originName("com.example.watch", own, "Fortia") { null })
+        assertEquals("com.example.watch", HealthMappings.originName("com.example.watch", own, "Fortia") { " " })
     }
 }

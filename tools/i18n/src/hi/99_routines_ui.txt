@@ -1,0 +1,48 @@
+# Routines: the Entreno tab's section, the routine page and editor, adding a routine to a workout, saving a workout as a routine
+training_routines_title = रूटीन
+training_routine_new = नया रूटीन
+training_routine_open = रूटीन खोलें
+# Title bar of a routine's page
+training_routine_title = रूटीन
+training_routine_missing = यह रूटीन अब मौजूद नहीं है।
+# Label on a routine's page: one of the app's routines / one the user made
+training_routine_builtin = सुझाया गया रूटीन
+training_routine_own = आपका रूटीन
+training_routine_start = वर्कआउट शुरू करें
+training_routine_add_to_active = जारी वर्कआउट में जोड़ें
+training_routine_active_hint = एक वर्कआउट जारी है: जो एक्सरसाइज़ उसमें अभी नहीं हैं, वे उसमें जोड़ दी जाएंगी।
+training_routine_duplicate = कॉपी करें और बदलें
+training_routine_delete = रूटीन मिटाएं
+# %1$s: routine name
+training_routine_delete_title = %1$s मिटाएं?
+training_routine_delete_text = आपके वर्कआउट जैसे हैं, वैसे ही रहेंगे।
+training_routine_exercises = एक्सरसाइज़
+training_routine_muscles = काम करने वाली मांसपेशियां
+training_routine_loads_hint = वज़न हर एक्सरसाइज़ के आपके पिछले सेशन से भरे जाते हैं।
+training_routine_edit_title = रूटीन में बदलाव करें
+training_routine_name_hint = जैसे: सोमवार का लेग डे
+training_routine_note = नोट (वैकल्पिक)
+training_routine_add_exercises = एक्सरसाइज़ जोड़ें
+training_routine_editor_empty = रूटीन की एक्सरसाइज़ जोड़ें: हर एक्सरसाइज़ आपके पिछले सेशन के सेट और रेप्स से शुरू होती है।
+training_routine_exercises_error = कम से कम एक एक्सरसाइज़ जोड़ें।
+# Set stepper of an exercise in the routine editor, read by TalkBack; %1$s: exercise
+training_routine_fewer_sets = %1$s के कम सेट
+training_routine_more_sets = %1$s के ज़्यादा सेट
+training_routine_save_failed = रूटीन सेव नहीं हो सका
+training_routine_add = रूटीन जोड़ें
+# Groups of the "Add routine" sheet
+training_routines_own = आपके रूटीन
+training_routines_builtin = सुझाए गए
+training_routine_already_in = इस वर्कआउट में पहले से हैं
+training_routine_added{one} = %1$s एक्सरसाइज़ जोड़ी गई
+training_routine_added{other} = %1$s एक्सरसाइज़ जोड़ी गईं
+training_routine_nothing_added = इस वर्कआउट में रूटीन की सभी एक्सरसाइज़ पहले से हैं।
+training_routine_save_from_workout = रूटीन के रूप में सेव करें
+training_routine_save_text = इसकी एक्सरसाइज़ और सेट सेव होते हैं; वज़न हमेशा आपके पिछले सेशन से आते हैं।
+training_routine_saved = रूटीन सेव हो गया
+# Snackbar action: open the routine just saved
+training_routine_view = देखें
+# Hoy card: start a workout with the routine used last; %1$s: routine name
+training_start_routine = %1$s शुरू करें
+# Hoy card, next to the routine: start a workout without exercises
+training_start_blank = खाली वर्कआउट

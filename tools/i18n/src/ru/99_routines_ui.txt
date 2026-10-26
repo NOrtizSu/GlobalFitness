@@ -1,0 +1,50 @@
+# Routines: the Entreno tab's section, the routine page and editor, adding a routine to a workout, saving a workout as a routine
+training_routines_title = Программы
+training_routine_new = Новая программа
+training_routine_open = Открыть программу
+# Title bar of a routine's page
+training_routine_title = Программа
+training_routine_missing = Этой программы больше нет.
+# Label on a routine's page: one of the app's routines / one the user made
+training_routine_builtin = Рекомендуемая программа
+training_routine_own = Ваша программа
+training_routine_start = Начать тренировку
+training_routine_add_to_active = Добавить в текущую тренировку
+training_routine_active_hint = Идёт тренировка: в неё будут добавлены упражнения, которых в ней ещё нет.
+training_routine_duplicate = Дублировать и изменить
+training_routine_delete = Удалить программу
+# %1$s: routine name
+training_routine_delete_title = Удалить «%1$s»?
+training_routine_delete_text = Ваши тренировки останутся без изменений.
+training_routine_exercises = Упражнения
+training_routine_muscles = Задействованные мышцы
+training_routine_loads_hint = Веса подставляются из вашей последней тренировки с каждым упражнением.
+training_routine_edit_title = Изменить программу
+training_routine_name_hint = Например: Ноги по понедельникам
+training_routine_note = Заметка (необязательно)
+training_routine_add_exercises = Добавить упражнения
+training_routine_editor_empty = Добавьте упражнения программы: каждое начинается с подходов и повторений вашей последней тренировки.
+training_routine_exercises_error = Добавьте хотя бы одно упражнение.
+# Set stepper of an exercise in the routine editor, read by TalkBack; %1$s: exercise
+training_routine_fewer_sets = Меньше подходов: %1$s
+training_routine_more_sets = Больше подходов: %1$s
+training_routine_save_failed = Не удалось сохранить программу
+training_routine_add = Добавить программу
+# Groups of the "Add routine" sheet
+training_routines_own = Ваши программы
+training_routines_builtin = Рекомендуемые
+training_routine_already_in = Уже в этой тренировке
+training_routine_added{one} = Добавлено %1$s упражнение
+training_routine_added{few} = Добавлено %1$s упражнения
+training_routine_added{many} = Добавлено %1$s упражнений
+training_routine_added{other} = Добавлено %1$s упражнения
+training_routine_nothing_added = В этой тренировке уже есть все упражнения программы.
+training_routine_save_from_workout = Сохранить как программу
+training_routine_save_text = Сохраняются её упражнения и подходы; веса всегда берутся из вашей последней тренировки.
+training_routine_saved = Программа сохранена
+# Snackbar action: open the routine just saved
+training_routine_view = Открыть
+# Hoy card: start a workout with the routine used last; %1$s: routine name
+training_start_routine = Начать: %1$s
+# Hoy card, next to the routine: start a workout without exercises
+training_start_blank = Пустая тренировка

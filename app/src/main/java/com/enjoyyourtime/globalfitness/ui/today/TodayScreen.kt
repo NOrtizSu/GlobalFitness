@@ -46,6 +46,7 @@ import com.enjoyyourtime.globalfitness.ble.LiveScale
 import com.enjoyyourtime.globalfitness.ble.ScaleSuggestion
 import com.enjoyyourtime.globalfitness.ble.ScanStatus
 import com.enjoyyourtime.globalfitness.cloud.CloudSyncStatus
+import com.enjoyyourtime.globalfitness.data.Sex
 import com.enjoyyourtime.globalfitness.domain.Metric
 import com.enjoyyourtime.globalfitness.domain.TimePoint
 import com.enjoyyourtime.globalfitness.domain.Trends
@@ -69,7 +70,9 @@ import com.enjoyyourtime.globalfitness.ui.health.HealthDashboard
 import com.enjoyyourtime.globalfitness.ui.health.HealthFormat
 import com.enjoyyourtime.globalfitness.ui.health.HealthUiState
 import com.enjoyyourtime.globalfitness.ui.health.HealthViewModel
+import com.enjoyyourtime.globalfitness.ui.progress.MusclesUiState
 import com.enjoyyourtime.globalfitness.ui.theme.TabularNumbers
+import com.enjoyyourtime.globalfitness.ui.training.TrainingTodayCard
 import kotlinx.coroutines.delay
 import java.time.LocalDate
 import kotlin.math.abs
@@ -93,13 +96,15 @@ data class TodayStatus(
 )
 
 /**
- * Today: greeting with today's rings (Health Connect), the weighing in progress, the latest
- * weight with its 30-day trend, body composition highlights and quick status chips.
+ * Today: greeting with today's rings (Health Connect), quick status chips, the weighing in progress,
+ * today's workout and this week's muscles (once the user has trained), the latest weight with its
+ * 30-day trend and body composition highlights.
  */
 @Composable
 fun TodayScreen(
     state: MainUiState,
     status: TodayStatus,
+    muscles: MusclesUiState,
     access: BleAccess,
     onRetryScan: () -> Unit,
     onConnectHealth: () -> Unit,
@@ -110,6 +115,9 @@ fun TodayScreen(
     onOpenDevices: () -> Unit,
     onOpenActivity: () -> Unit,
     onOpenBand: () -> Unit,
+    onOpenTraining: () -> Unit,
+    onOpenMuscles: () -> Unit,
+    onOpenSubPage: (route: String) -> Unit,
     onAcceptSuggestion: () -> Unit,
     onDeclineSuggestion: () -> Unit,
 ) {
@@ -171,6 +179,15 @@ fun TodayScreen(
         }
         if (scaleCardVisible(status.scanStatus, status.live, session)) {
             item(key = "scale") { ScaleLiveCard(status.scanStatus, status.live, session, access, onRetryScan) }
+        }
+        // Only for people who train (any workout, the one in progress included): a scale-only user
+        // keeps the weight near the top. Below the cloud, suggestion and weighing cards, which need
+        // to be seen right away (the user may be standing on the scale).
+        if (muscles.hasWorkouts) {
+            item(key = "training") { TrainingTodayCard(onOpenTraining = onOpenTraining, onOpen = onOpenSubPage) }
+            item(key = "muscles") {
+                WeekMusclesCard(muscles, female = state.profile?.sex == Sex.FEMALE, onOpen = onOpenMuscles)
+            }
         }
         item(key = "weight") { WeightCard(entries, now, onOpen = { onOpenMetric(Metric.WEIGHT) }, onAddWeight = onAddWeight) }
         if (entries.isNotEmpty()) {

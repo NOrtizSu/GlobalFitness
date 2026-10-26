@@ -63,8 +63,8 @@ import com.enjoyyourtime.globalfitness.ui.components.AppIcons
 import com.enjoyyourtime.globalfitness.ui.components.NoticeCard
 import com.enjoyyourtime.globalfitness.ui.components.SectionTitle
 import com.enjoyyourtime.globalfitness.ui.components.StatusChip
-import com.enjoyyourtime.globalfitness.ui.components.TabPage
 import com.enjoyyourtime.globalfitness.ui.components.fullBleed
+import com.enjoyyourtime.globalfitness.ui.progress.ProgressTabContent
 import com.enjoyyourtime.globalfitness.ui.theme.TabularNumbers
 import kotlinx.coroutines.delay
 import java.time.Instant
@@ -83,9 +83,10 @@ enum class ChartRange(@param:StringRes val label: Int, val days: Int?) {
 private val BlockGap = 12.dp
 
 /**
- * Body: metric trend chart with range, period stats, projection and composition, then the
- * history grouped by month. Tapping a row opens its detail sheet (with delete). [listState] is
- * hoisted so the "Add weight manually" button can shrink while the page is scrolled.
+ * Body (the Cuerpo tab of Progreso): metric trend chart with range, period stats, projection and
+ * composition, then the history grouped by month. Tapping a row opens its detail sheet (with
+ * delete). [listState] is hoisted so the "Add weight manually" button can shrink while the page is
+ * scrolled.
  */
 @Composable
 fun BodyScreen(
@@ -141,7 +142,7 @@ fun BodyScreen(
             .toList()
     }
 
-    TabPage(title = stringResource(R.string.nav_body), listState = listState, bottomPadding = 104.dp, itemSpacing = 0.dp) {
+    ProgressTabContent(listState, topPadding = 0.dp, bottomPadding = 104.dp, itemSpacing = 0.dp) {
         if (entries.isEmpty()) {
             block("empty") {
                 NoticeCard(
@@ -150,7 +151,7 @@ fun BodyScreen(
                     icon = AppIcons.Scale,
                 )
             }
-            return@TabPage
+            return@ProgressTabContent
         }
         block("metrics") {
             LazyRow(

@@ -1,0 +1,19 @@
+# Health Connect: workouts of the training log saved as exercise sessions
+hc_workouts_export_title = حفظ الحصص التدريبية في Health Connect
+hc_workouts_export_text = تُحفظ كل حصة تدريبية مكتملة كجلسة تمرين مع مجموعاتها وتكراراتها، لكي تحتسبها تطبيقات اللياقة الأخرى. إذا حذفت حصة تدريبية فستُحذف أيضًا من Health Connect.
+hc_workouts_export_missing_permission = اسمح لتطبيق Fortia بكتابة التمارين في Health Connect لحفظ حصصك التدريبية هناك.
+hc_workouts_export_denied = إذا لم تُفتح نافذة الأذونات، فاسمح بـ«التمارين» لتطبيق Fortia في Health Connect.
+hc_workouts_export_allow = سماح
+hc_workouts_export_off = لا تُحفظ الحصص التدريبية الجديدة. أما الموجودة في Health Connect فتبقى هناك.
+hc_workouts_export_count_none = لا توجد حصص تدريبية في Health Connect بعد.
+hc_workouts_export_count{zero} = لا توجد حصص تدريبية في Health Connect بعد.
+hc_workouts_export_count{one} = حصة تدريبية واحدة في Health Connect.
+hc_workouts_export_count{two} = حصتان تدريبيتان في Health Connect.
+hc_workouts_export_count{few} = %1$d حصص تدريبية في Health Connect.
+hc_workouts_export_count{many} = %1$d حصة تدريبية في Health Connect.
+hc_workouts_export_count{other} = %1$d حصة تدريبية في Health Connect.
+hc_missing_write_exercise = لا يوجد إذن بكتابة التمارين: لا تُحفظ الحصص التدريبية.
+# Title in Health Connect of a workout without a name that mixes different kinds of cardio
+hc_workout_title = حصة تدريبية
+# Permissions rationale: continues the "Writing your scale measurements" item
+health_rationale_write_workouts = كما يكتب الحصص التدريبية التي تُنهيها في التطبيق كجلسات تمرين: وقت البدء والانتهاء والنوع والاسم والملاحظة وكل مجموعة مكتملة مع تكراراتها. إذا حذفت حصة تدريبية في التطبيق فستُحذف أيضًا من Health Connect.

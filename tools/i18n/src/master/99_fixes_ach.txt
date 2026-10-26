@@ -1,0 +1,3 @@
+# Achievements review fixes
+# How "Towards your target" is counted: from the week the current target weight was set in the profile
+ach_goal_progress_rule_target = Change of your 7-day average weight since you set your current target, in its direction. Milestones beyond your target are not on offer. ||| Cambio de tu peso medio de 7 días desde que pusiste tu objetivo actual, en su dirección. Los hitos más allá de tu objetivo no cuentan.

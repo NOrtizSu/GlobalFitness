@@ -1,0 +1,5 @@
+# Cloud backup: what it includes now that the training data is backed up too
+account_benefit_where_training = 프로필, 설정, 측정 기록, 운동(내 머신과 그 메모 및 사진 포함)은 EU(마드리드)에 있는 Google 서버의 내 계정에 저장됩니다.
+account_delete_text_training = 클라우드 백업(프로필, 측정 기록, 체중계, 운동, 머신 및 사진)과 Fortia 계정이 영구적으로 삭제됩니다. 이 휴대전화의 데이터는 삭제되지 않습니다.\n\n보안을 위해 Google에서 계정을 선택하고 확인하라는 메시지가 표시됩니다.
+conflict_restore_cloud_confirm_training = 이 휴대전화의 데이터가 클라우드 데이터로 대체됩니다. 이 휴대전화에만 있는 측정 기록, 운동, 머신은 삭제됩니다.
+conflict_replace_cloud_confirm_training = 클라우드 백업이 이 휴대전화의 데이터로 대체됩니다. 클라우드에만 있는 측정 기록, 운동, 머신은 삭제됩니다.

@@ -1,0 +1,87 @@
+# Bottom bar: Hoy · Entreno · Progreso · Perfil (very little room: one short word)
+nav_training = Antrenman
+nav_progress = İlerleme
+
+# Progreso: tabs Músculos | Cuerpo | Actividad (Cuerpo and Actividad use nav_body and nav_activity)
+progress_tab_muscles = Kaslar
+
+# Progreso → Músculos: how the body map is colored (three segmented buttons: keep them short)
+progress_mode_sets = Setler
+progress_mode_strength = Güç
+progress_mode_recovery = Toparlanma
+progress_caption_sets = Son 7 günün efektif setleri (yardımcı kaslar yarım sayılır), kas gelişimi için olağan aralıkla karşılaştırılır.
+progress_caption_strength = Seçilen dönemde her kası çalıştıran egzersizlerin tahmini tek tekrar maksimumundaki (1RM) değişim.
+progress_caption_recovery = Her antrenmanın efektif setlerinden tahmin edilir: hacme göre 1 ila 4 gün.
+
+# Weekly sets compared with the muscle's range
+progress_level_none = Set yok
+progress_level_low = Aralığın altında
+progress_level_optimal = Aralıkta
+progress_level_high = Aralığın üstünde
+progress_sets{one} = %1$s set
+progress_sets{other} = %1$s set
+progress_target = hedef %1$s–%2$s
+
+# Strength trend (%1$s: a percentage such as −5 % or +5 %)
+progress_strength_down_more = %1$s altında
+progress_strength_down = Düşüş
+progress_strength_stable = Sabit
+progress_strength_up = Artış
+progress_strength_up_more = %1$s üstünde
+progress_strength_title = Güç (%1$s)
+progress_exercises{one} = %1$d egzersiz
+progress_exercises{other} = %1$d egzersiz
+
+# Recovery (Spanish avoids gendered adjectives: the muscles' names mix genders)
+progress_recovery_fatigued = Yorgun
+progress_recovery_recovering = Toparlanıyor
+progress_recovery_recovered = Toparlandı
+progress_recovery_not_trained = Henüz çalışılmadı
+progress_recovery_percent = Toparlanma: %1$s
+progress_recovery_full_at = tam toparlanma ~%1$s
+progress_time_tomorrow_at = Yarın, %1$s
+progress_last_trained = Son antrenman: %1$s
+
+# Selected muscle and the list of all muscles
+progress_detail_week = Bu hafta
+progress_tap_hint = Ayrıntılarını görmek için figürde veya listede bir kasa dokunun.
+progress_all_muscles = Tüm kaslar
+progress_recent_exercises = Son egzersizler
+progress_recent_hint = Son seansın en iyi seti ve tahmini 1RM değerinin bir önceki seansa göre değişimi.
+progress_open_exercise = Egzersizi aç
+# %1$s: number, %2$s: unit (kg or lb)
+progress_load_value = %1$s %2$s
+progress_state_description = %1$s, %2$s
+# %1$s: load, %2$s: repetitions
+progress_set_load_reps = %1$s × %2$s
+progress_set_reps{one} = %1$d tekrar
+progress_set_reps{other} = %1$d tekrar
+progress_set_seconds = %1$s sn
+progress_empty_title = Kaslarınızın ilerlemesi burada görünür
+progress_empty_text = Antrenmanlarınızı Antrenman bölümünde kaydedin: her set çalıştırdığı kaslar için sayılır ve figür haftalık setlerinizi, güç kazanımınızı ve toparlanmanızı gösterir.
+progress_empty_action = Antrenmana git
+
+# Hoy: muscles this week (%1$s: a list of the muscle groups below)
+today_muscles_title = Bu haftaki kaslar
+today_muscles_on_track = Hedefte: %1$s
+today_muscles_below = Hedefin altında: %1$s
+today_muscles_all_on_track = Tüm kas grupları hedefte
+today_muscles_none = Bu hafta henüz set yok
+today_muscles_open = Kasları gör
+# Muscle groups used inside those lists: lowercase where the language allows it
+progress_region_chest = göğüs
+progress_region_back = sırt
+progress_region_shoulders = omuzlar
+progress_region_arms = kollar
+progress_region_core = karın
+progress_region_legs = bacaklar
+
+# Perfil: Devices and training settings
+profile_section_devices = Cihazlar ve antrenman
+profile_devices_scales{one} = %1$d tartı
+profile_devices_scales{other} = %1$d tartı
+profile_devices_wearables{one} = %1$d bileklik veya saat
+profile_devices_wearables{other} = %1$d bileklik veya saat
+profile_devices_none = Tartılar, bileklikler ve Health Connect
+profile_training_title = Antrenman ayarları
+profile_training_text = Ağırlık birimi, dinlenme zamanlayıcısı ve Health Connect

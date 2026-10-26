@@ -1,0 +1,2 @@
+# Fixes after the review of routines and icons: archiving an exercise that only routines use
+training_archive_routines_text = Bài tập sẽ bị ẩn khỏi danh mục; các giáo án của bạn vẫn giữ bài tập này và bạn có thể khôi phục từ đó.

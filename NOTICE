@@ -1,5 +1,5 @@
-GlobalFitness
-Copyright (C) 2026 Enjoy Your Time <enjoyyourtime.online@gmail.com> and the GlobalFitness contributors
+Fortia
+Copyright (C) 2026 Enjoy Your Time <enjoyyourtime.online@gmail.com> and the Fortia contributors
 
 This program is free software: you can redistribute it and/or modify it under the terms of the
 GNU Affero General Public License as published by the Free Software Foundation, either version 3
@@ -54,6 +54,42 @@ used by the experimental direct band mode was ported from Gadgetbridge. Ported c
   - app/src/main/proto/xiaomi.proto
       Trimmed copy of Gadgetbridge's xiaomi.proto message definitions.
 
+react-native-body-highlighter
+-----------------------------
+Copyright (c) 2022 ELABBASSI Hicham
+License: MIT License (MIT).
+https://github.com/HichamELBSI/react-native-body-highlighter
+
+The SVG path data of the body map drawings (male and female figures, front and back, one shape
+per muscle group or body part) was copied unchanged from the project's assets/ folder (bodyFront.ts,
+bodyBack.ts, bodyFemaleFront.ts, bodyFemaleBack.ts) into Kotlin source. The MIT License allows
+including it in this AGPL-3.0 work; its notice is kept below. Ported data lives in:
+
+  - app/src/main/java/com/enjoyyourtime/globalfitness/ui/training/BodyMapArtMale.kt
+  - app/src/main/java/com/enjoyyourtime/globalfitness/ui/training/BodyMapArtFemale.kt
+
+  MIT License
+
+  Copyright (c) 2022 ELABBASSI Hicham
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.
+
 
 Libraries
 =========
@@ -66,3 +102,5 @@ The app links the following libraries, each under its own license:
   - Firebase (Authentication, Cloud Firestore), Google Mobile Ads, User Messaging Platform,
     Google Play Billing, Credential Manager / Google Identity: Google's terms
     (https://developers.google.com/terms) and the Android SDK license.
+  - Google Play In-App Review: Play Core Software Development Kit Terms of Service
+    (https://developer.android.com/guide/playcore#license).

@@ -1,5 +1,5 @@
 # App
-band_notification_listener_label = GlobalFitness: chuyển tiếp đến vòng đeo tay
+band_notification_listener_label = Fortia: chuyển tiếp đến vòng đeo tay
 
 # Common actions
 action_cancel = Hủy
@@ -94,7 +94,7 @@ body_type_skinny_muscular = Gầy cơ bắp
 
 # Health Connect rationale (shown by Health Connect)
 health_rationale_title = Quyền riêng tư của dữ liệu sức khỏe
-health_rationale_intro = GlobalFitness dùng Health Connect cho hai việc:
+health_rationale_intro = Fortia dùng Health Connect cho hai việc:
 health_rationale_read = • Đọc dữ liệu từ vòng đeo tay hoặc đồng hồ của bạn (ví dụ Xiaomi Smart Band qua Mi Fitness): số bước, quãng đường, lượng calo, nhịp tim, nhịp tim lúc nghỉ, biến thiên nhịp tim, giấc ngủ, oxy trong máu, nhịp thở và buổi tập. Ứng dụng cũng đọc cân nặng và mỡ cơ thể do các ứng dụng khác ghi lại. Khi có quyền truy cập dữ liệu trước đây, ứng dụng nhập dữ liệu tối đa một năm.
 health_rationale_write = • Ghi kết quả đo từ cân của bạn: cân nặng, mỡ cơ thể, khối lượng xương, khối lượng nạc, trao đổi chất cơ bản và nước trong cơ thể. Nếu bạn xóa một kết quả đo trong ứng dụng, kết quả đó cũng bị xóa khỏi Health Connect.
 health_rationale_storage = Dữ liệu đọc từ Health Connect chỉ được lưu trên điện thoại này: không được tải lên bản sao lưu đám mây tùy chọn, không dùng cho quảng cáo và không chia sẻ với bất kỳ ai. Ứng dụng chỉ dùng dữ liệu này để hiển thị bản tóm tắt và biểu đồ cho bạn.

@@ -1,0 +1,213 @@
+# Training screens: Entreno tab, Hoy card, workout, exercise picker and catalog, exercise detail, editor, history, settings
+training_title = 训练
+training_catalog_title = 动作和器械
+training_history_title = 历史记录
+training_settings_title = 训练设置
+training_in_progress = 训练进行中
+training_start_title = 准备好训练了吗？
+training_start_empty = 开始训练
+training_log_past = 补记其他日期
+training_intro_title = 记录你的训练
+training_intro_text = 开始一次训练，从动作库或你自己的器械中添加动作，每完成一组就勾选它。应用会记住你上次的训练内容，并按动作和肌肉跟踪你的进度。
+training_open_catalog = 浏览动作
+training_repeat_title = 重复一次训练
+training_repeat_action = 重复
+training_this_week = 本周
+training_stat_workouts = 训练
+training_stat_sets = 组数
+training_stat_volume = 训练量
+# Spoken summary of the week card: workouts, sets, volume ("3 workouts", "42 sets", "12450 kg")
+training_week_desc = 本周：%1$s，%2$s，%3$s
+training_recent_title = 最近的训练
+training_see_all = 查看全部
+training_today_done = 今天的训练
+training_open_workout = 打开训练
+training_open_tab = 前往训练
+# "Last workout: 2 days ago · Legs"
+training_last_workout = 上次训练：%1$s · %2$s
+training_no_workouts_yet = 还没有记录任何训练。
+# Title of a workout without a name, muscles or exercises
+training_workout_default = 训练
+# Title bar of a finished or past workout
+training_workout_title = 训练
+training_workout_missing = 此训练已不存在。
+training_workout_name = 训练名称
+training_workout_note = 训练备注
+training_workout_empty = 添加第一个动作：上次的组数据会自动填入。
+training_add_exercise = 添加动作
+training_add_set = 添加组
+training_finish = 完成
+training_finish_workout = 完成训练
+training_more_options = 更多选项
+training_change_start = 更改日期和时间
+training_discard_workout = 放弃训练
+training_delete_workout = 删除训练
+training_discard = 放弃
+training_discard_title = 要放弃此次训练吗？
+# %1$s: start date and time
+training_discard_text = 开始于 %1$s 的训练及其所有组都将被删除。
+training_discard_empty_text = 没有标记为完成的组，因此没有可保存的内容。
+training_delete_title = 要删除此次训练吗？
+# %1$s: date and time of the workout
+training_delete_text = %1$s 的训练及其所有组都将被删除。
+training_exercise_options = %1$s 的选项
+training_open_exercise = 查看动作
+training_add_warmup = 添加热身组
+training_entry_note = 备注
+training_move_up = 上移
+training_move_down = 下移
+training_remove_exercise = 移除动作
+training_remove = 移除
+training_remove_exercise_title = 要移除 %1$s 吗？
+training_remove_exercise_text = 此次训练中该动作的组将被删除。
+# Set table column headers (narrow: keep them short)
+training_col_set = 组
+training_col_previous = 上次
+# Extra weight on a bodyweight exercise, %1$s: unit ("+kg")
+training_col_extra_load = +%1$s
+# Counterweight of an assisted machine, %1$s: unit; may wrap to two lines
+training_col_assistance = 辅助（%1$s）
+training_col_reps = 次数
+training_col_time = 时间
+training_col_km = 公里
+training_col_level = 等级
+# Set cells as TalkBack reads them ("Repetitions, set 2")
+training_field_extra_load = 额外负重
+training_field_assistance = 辅助重量
+training_field_reps = 次数
+training_field_distance = 距离
+training_field_kcal = 卡路里
+training_set_number = 第 %1$s 组
+training_warmup_set = 热身组
+# Shown instead of the set number for a warm-up set (one letter)
+training_warmup_short = 热
+training_set_done = %1$s 已完成
+training_set_options = %1$s：选项
+training_make_warmup = 标记为热身组
+training_make_working = 标记为正式组
+training_delete_set = 删除组
+training_copy_previous = 使用上次的数值
+training_record = 个人纪录
+# %1$s: exercise, %2$s: the set ("85 kg × 8")
+training_record_message = 新的个人纪录！%1$s，%2$s
+training_assist_hint = 在辅助器械上，你记录的是帮助你的配重：辅助越少 = 力量越强。
+training_rest = 休息
+training_rest_value = 休息 %1$s
+# Seconds ("30 s", "−15 s")
+training_seconds_value = %1$s 秒
+training_skip_rest = 跳过休息
+training_rest_off = 关闭
+training_elapsed_desc = 已用时间：%1$s
+training_duration = 时长
+training_duration_minutes = 分钟
+training_unfinished_title = 有未勾选的组
+training_unfinished_text{other} = %1$s 组已填写数值，但未勾选为完成。
+training_unfinished_complete = 标记为完成
+training_unfinished_discard = 放弃这些组
+training_finished_title = 训练已完成
+training_records = 纪录
+training_done = 完成
+# A muscle with its sets in the workout summary ("Chest: 4 sets")
+training_muscle_sets = %1$s：%2$s
+training_picker_title = 添加动作
+training_add_selected{other} = 添加 %1$s 个动作
+training_create_exercise = 创建器械或动作
+training_search = 搜索动作
+training_search_clear = 清除搜索
+training_no_results = 没有匹配的动作。请尝试其他关键词或筛选条件，或创建你自己的动作。
+training_recent_exercises = 最近
+training_all_exercises = 所有动作
+training_scope_all = 全部
+training_scope_mine = 我的器械
+training_scope_favorites = 收藏
+training_mine_empty = 你自己的器械和动作会显示在这里，你添加了照片或设置的动作也会显示在这里。
+training_favorites_empty = 点按动作上的星标即可收藏，方便随时使用。
+training_new_machine = 新器械
+training_favorite = 收藏
+training_make_favorite = 添加到收藏
+training_unfavorite = 从收藏中移除
+training_exercise_title = 动作
+training_exercise_missing = 此动作已不存在。
+training_edit = 编辑
+training_archive = 归档
+training_restore = 恢复
+training_archive_title = 要归档 %1$s 吗？
+training_archive_text = 它将从动作库中隐藏；你的训练记录会保留它，你也可以从中恢复它。
+training_delete_exercise_title = 要删除 %1$s 吗？
+training_delete_exercise_text = 它将连同其照片和设置一起被删除。
+training_archived_note = 已归档：在动作库中隐藏。
+# An exercise the user created
+training_own_exercise = 自定义
+training_photo_add = 为你的器械添加照片
+training_photo_add_text = 方便你在健身房认出它。
+training_photo_change = 更换照片
+training_photo_of = %1$s 的照片
+training_photo_take = 拍照
+training_photo_pick = 从相册中选择
+training_photo_remove = 移除照片
+training_photo_failed = 无法读取照片。
+training_photo_unavailable = 这部手机上没有可以拍照的应用。
+training_muscle_primary = 主要肌肉
+training_muscle_secondary = 次要肌肉
+training_machine_settings = 器械设置
+training_machine_settings_hint = 例如：座椅 4，靠背 2
+training_progress = 进度
+training_progress_empty = 在训练中勾选此动作的组，即可在这里查看你的进度。
+training_progress_none_in_period = 此时段内没有训练记录。
+training_needs_bodyweight = 记录你的体重（通过体重秤或手动添加）即可计算力量。
+training_personal_records = 个人纪录
+training_no_records = 还没有纪录。
+training_record_volume = 单次训练最大训练量
+training_metric_e1rm = 估算 1RM
+training_metric_e1rm_short = 估算 1RM
+training_metric_heaviest = 最大重量
+training_metric_extra_load = 最大额外负重
+training_metric_max_reps = 最多次数
+training_metric_total_reps = 总次数
+training_metric_longest = 最长时间
+training_metric_total_time = 总时间
+training_metric_distance = 距离
+training_metric_least_assistance = 最少辅助
+training_value_reps = %1$s 次
+training_value_lb = %1$s 磅
+# Progress chart for TalkBack: %1$s metric, %2$s number of sessions, %3$s first value, %4$s last value, %5$s highest value
+training_chart_desc{other} = %1$s 图表，%2$s 次训练：从 %3$s 到 %4$s，最高 %5$s。
+# How sets of each kind are logged (exercise editor)
+training_kind_weight_reps_text = 负重 × 次数：推举、划船、腿举…
+training_kind_bodyweight_reps_text = 用自身体重完成次数，可选额外负重：引体向上、双杠臂屈伸、俯卧撑。
+training_kind_assisted_reps_text = 记录帮助你的配重：辅助越少 = 力量越强。
+training_kind_duration_text = 坚持的秒数，可选负重：平板支撑、农夫行走。
+training_kind_cardio_text = 时间、距离、等级和卡路里：跑步机、单车、划船机。
+training_editor_new = 新器械或动作
+training_editor_edit = 编辑动作
+training_editor_not_editable = 内置动作无法编辑：你可以在其页面上添加设置、照片和星标。
+training_editor_name = 名称
+training_editor_name_hint = 例如：推胸机（Technogym）
+training_editor_name_error = 请输入名称。
+training_editor_equipment = 器材
+training_editor_kind = 记录方式
+training_editor_kind_changed = 已记录的组会保留其数值；只有解读方式会改变。
+training_editor_muscle_error = 请至少选择一个主要肌肉。
+training_editor_photo = 照片
+training_history_empty_title = 还没有训练
+training_history_empty_text = 已完成的训练会按月份分组显示在这里。
+training_workout_actions = 训练操作
+training_settings_unit = 重量单位
+training_settings_unit_text = 重量以公斤为单位存储；你可以随时更改单位。
+training_unit_kg_long = 公斤（kg）
+training_unit_lb_long = 磅（lb）
+training_settings_rest = 休息计时器
+training_settings_rest_text = 在你勾选一组后开始计时，结束时会振动（仅在应用打开时）。
+training_settings_health = 将训练保存到 Health Connect 的功能可在“我的 → Health Connect”中设置。
+training_days_ago{other} = %1$s 天前
+training_exercises_count{other} = %1$s 个动作
+training_sets_count{other} = %1$s 组
+# Half sets of a secondary muscle ("2.5 sets"): decimals take no plural form
+training_sets_fraction = %1$s 组
+training_workouts_count{other} = %1$s 次训练
+training_undo = 撤消
+training_exercise_removed = 已移除动作
+training_set_deleted = 已删除组
+training_discard_changes = 要放弃更改吗？
+training_save_failed = 无法保存动作
+training_spoken_pair = %1$s，%2$s

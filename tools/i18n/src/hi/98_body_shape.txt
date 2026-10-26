@@ -1,0 +1,9 @@
+# Body shape of the muscle map figure (Progreso → Músculos): a segmented control compares the figure
+# now with the figure some time ago; the caption says what shapes it and that it is only an illustration.
+body_shape_now = अभी
+body_shape_months_ago{one} = %1$s महीना पहले
+body_shape_months_ago{other} = %1$s महीने पहले
+body_shape_weeks_ago{one} = %1$s हफ़्ता पहले
+body_shape_weeks_ago{other} = %1$s हफ़्ते पहले
+body_shape_caption_scale = आकृति का आकार आपके शरीर में वसा, मांसपेशी द्रव्यमान और ट्रेनिंग के हिसाब से बदलता है। यह एक चित्रण है, माप नहीं।
+body_shape_caption_training = आकृति का आकार आपकी ट्रेनिंग के हिसाब से बदलता है (शरीर में वसा भी शामिल करने के लिए शारीरिक संरचना वाले स्केल पर अपना वज़न मापें)। यह एक चित्रण है, माप नहीं।

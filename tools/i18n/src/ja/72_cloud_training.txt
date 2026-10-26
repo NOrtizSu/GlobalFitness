@@ -1,0 +1,5 @@
+# Cloud backup: what it includes now that the training data is backed up too
+account_benefit_where_training = プロフィール、設定、測定データ、ワークアウト（マシンとそのメモ・写真を含む）は、EU（マドリード）にある Google のサーバー上のアカウントに保存されます。
+account_delete_text_training = クラウドバックアップ（プロフィール、測定データ、体重計、ワークアウト、マシンとその写真）と Fortia アカウントが完全に削除されます。このスマートフォンのデータは削除されません。\n\nセキュリティのため、Google からアカウントの選択と確認を求められます。
+conflict_restore_cloud_confirm_training = このスマートフォンのデータがクラウドのデータに置き換えられます。このスマートフォンにのみある測定データ、ワークアウト、マシンは削除されます。
+conflict_replace_cloud_confirm_training = クラウドバックアップがこのスマートフォンのデータに置き換えられます。クラウドにのみある測定データ、ワークアウト、マシンは削除されます。

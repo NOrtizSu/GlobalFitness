@@ -1,0 +1,14 @@
+# Health Connect: workouts of the training log saved as exercise sessions
+hc_workouts_export_title = Health Connect에 운동 저장
+hc_workouts_export_text = 완료한 각 운동은 세트와 반복 횟수가 포함된 운동 세션으로 저장되므로 다른 피트니스 앱에서도 반영할 수 있습니다. 운동을 삭제하면 Health Connect에서도 삭제됩니다.
+hc_workouts_export_missing_permission = 운동을 Health Connect에 저장하려면 Fortia가 Health Connect에 운동 데이터를 쓸 수 있도록 허용하세요.
+hc_workouts_export_denied = 권한 창이 열리지 않으면 Health Connect에서 Fortia에 ‘운동’을 허용하세요.
+hc_workouts_export_allow = 허용
+hc_workouts_export_off = 새 운동은 저장되지 않습니다. 이미 Health Connect에 있는 운동은 그대로 유지됩니다.
+hc_workouts_export_count_none = 아직 Health Connect에 운동이 없습니다.
+hc_workouts_export_count{other} = Health Connect에 운동 %1$d개가 있습니다.
+hc_missing_write_exercise = 운동 쓰기 권한 없음: 운동이 저장되지 않습니다.
+# Title in Health Connect of a workout without a name that mixes different kinds of cardio
+hc_workout_title = 운동
+# Permissions rationale: continues the "Writing your scale measurements" item
+health_rationale_write_workouts = 앱에서 완료한 운동도 운동 세션으로 씁니다: 시작 및 종료 시간, 유형, 이름, 메모, 완료한 각 세트와 반복 횟수. 앱에서 운동을 삭제하면 Health Connect에서도 삭제됩니다.

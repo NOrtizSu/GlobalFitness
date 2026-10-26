@@ -184,6 +184,6 @@ class PineTimeSession(env: WearableSessionEnv) : GattWearableSession(env, reques
 
     companion object {
         /** Shown by the watch as the "caller" while finding it. */
-        const val FIND_CALLER_NAME = "GlobalFitness"
+        const val FIND_CALLER_NAME = "Fortia"
     }
 }

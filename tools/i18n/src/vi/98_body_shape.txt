@@ -1,0 +1,6 @@
+# Body shape of the muscle map figure (Progress → Muscles): "Now" vs some time ago; the caption says it is only an illustration
+body_shape_now = Hiện tại
+body_shape_months_ago{other} = %1$s tháng trước
+body_shape_weeks_ago{other} = %1$s tuần trước
+body_shape_caption_scale = Hình dáng của hình cơ thể thay đổi theo mỡ cơ thể, khối lượng cơ và quá trình tập luyện của bạn. Đây là hình minh họa, không phải kết quả đo.
+body_shape_caption_training = Hình dáng của hình cơ thể thay đổi theo quá trình tập luyện của bạn (hãy cân bằng cân đo thành phần cơ thể để tính cả mỡ cơ thể). Đây là hình minh họa, không phải kết quả đo.

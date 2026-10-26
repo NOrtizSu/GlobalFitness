@@ -10,8 +10,8 @@ import com.enjoyyourtime.globalfitness.wearable.pinetime.PineTimeSession
 import com.enjoyyourtime.globalfitness.wearable.standard.StandardGatt
 import com.enjoyyourtime.globalfitness.wearable.standard.StandardHeartRateSession
 import com.enjoyyourtime.globalfitness.wearable.standard.StandardUuids
-import java.util.Collections
 import java.util.TimeZone
+import java.util.concurrent.CopyOnWriteArrayList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -40,7 +40,7 @@ class KeylessSessionsTest {
     }
 
     private fun events(session: WearableSession): MutableList<WearableEvent> {
-        val list = Collections.synchronizedList(mutableListOf<WearableEvent>())
+        val list = CopyOnWriteArrayList<WearableEvent>()
         scope.launch { session.events.collect { list += it } }
         return list
     }

@@ -1,0 +1,15 @@
+# Health Connect: workouts of the training log saved as exercise sessions
+hc_workouts_export_title = Antrenmanları Health Connect'e kaydet
+hc_workouts_export_text = Tamamlanan her antrenman, setleri ve tekrarlarıyla birlikte bir egzersiz oturumu olarak kaydedilir; böylece diğer fitness uygulamaları da onu hesaba katabilir. Bir antrenmanı silerseniz Health Connect'ten de silinir.
+hc_workouts_export_missing_permission = Antrenmanlarınızı Health Connect'e kaydetmek için Fortia'nın oraya egzersiz yazmasına izin verin.
+hc_workouts_export_denied = İzin penceresi açılmazsa Health Connect'te Fortia için “Egzersiz” iznini verin.
+hc_workouts_export_allow = İzin ver
+hc_workouts_export_off = Yeni antrenmanlar kaydedilmez. Health Connect'te zaten bulunanlar orada kalır.
+hc_workouts_export_count_none = Health Connect'te henüz antrenman yok.
+hc_workouts_export_count{one} = Health Connect'te %1$d antrenman var.
+hc_workouts_export_count{other} = Health Connect'te %1$d antrenman var.
+hc_missing_write_exercise = Egzersiz yazma izni yok: antrenmanlar kaydedilmiyor.
+# Title in Health Connect of a workout without a name that mixes different kinds of cardio
+hc_workout_title = Antrenman
+# Permissions rationale: continues the "Writing your scale measurements" item
+health_rationale_write_workouts = Uygulamada tamamladığınız antrenmanları da egzersiz oturumu olarak yazar: başlangıç ve bitiş saati, tür, ad, not ve tamamlanan her set ile tekrar sayısı. Uygulamada bir antrenmanı silerseniz Health Connect'ten de silinir.

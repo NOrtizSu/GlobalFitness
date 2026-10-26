@@ -1,0 +1,13 @@
+# Body shape of the muscle map figure (Progreso → Músculos): a segmented control compares the figure
+# now with the figure some time ago; the caption says what shapes it and that it is only an illustration.
+body_shape_now = Сейчас
+body_shape_months_ago{one} = %1$s месяц назад
+body_shape_months_ago{few} = %1$s месяца назад
+body_shape_months_ago{many} = %1$s месяцев назад
+body_shape_months_ago{other} = %1$s месяца назад
+body_shape_weeks_ago{one} = %1$s неделю назад
+body_shape_weeks_ago{few} = %1$s недели назад
+body_shape_weeks_ago{many} = %1$s недель назад
+body_shape_weeks_ago{other} = %1$s недели назад
+body_shape_caption_scale = Форма фигуры зависит от процента жира, мышечной массы и ваших тренировок. Это иллюстрация, а не измерение.
+body_shape_caption_training = Форма фигуры зависит от ваших тренировок (взвешивайтесь на весах с анализом состава тела, чтобы учитывался и процент жира). Это иллюстрация, а не измерение.

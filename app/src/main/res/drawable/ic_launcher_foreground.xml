@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    GlobalFitness glyph: a bathroom-scale platform (rounded square with its display) crossed by a
-    heartbeat line. Strokes only, single color, inside the 66 dp safe zone, so the same drawable
-    also serves as the monochrome (themed icon) layer.
+    Fortia glyph: a dumbbell whose bar is a heartbeat line (gym + health in one stroke). Plates with
+    small outer collars (the collars run under the plates, so no anti-aliasing seam shows where they
+    meet) and a pulse with round caps and joins. Single colour, scaled into the 66 dp safe zone, so
+    the same drawable also serves as the monochrome (themed icon) layer.
 -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
@@ -12,20 +13,17 @@
     <group
         android:pivotX="54"
         android:pivotY="54"
-        android:scaleX="0.88"
-        android:scaleY="0.88">
+        android:scaleX="0.78"
+        android:scaleY="0.78">
         <path
-            android:pathData="M41,30.5 L67,30.5 A10.5,10.5 0 0 1 77.5,41 L77.5,67 A10.5,10.5 0 0 1 67,77.5 L41,77.5 A10.5,10.5 0 0 1 30.5,67 L30.5,41 A10.5,10.5 0 0 1 41,30.5 Z"
-            android:strokeWidth="4.8"
-            android:strokeColor="#FFFFFFFF" />
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M21,46H24.5A2.5,2.5 0 0 1 27,48.5V59.5A2.5,2.5 0 0 1 24.5,62H21A2.5,2.5 0 0 1 18.5,59.5V48.5A2.5,2.5 0 0 1 21,46Z
+                M83.5,46H87A2.5,2.5 0 0 1 89.5,48.5V59.5A2.5,2.5 0 0 1 87,62H83.5A2.5,2.5 0 0 1 81,59.5V48.5A2.5,2.5 0 0 1 83.5,46Z
+                M28.5,36H31.5A3.5,3.5 0 0 1 35,39.5V68.5A3.5,3.5 0 0 1 31.5,72H28.5A3.5,3.5 0 0 1 25,68.5V39.5A3.5,3.5 0 0 1 28.5,36Z
+                M76.5,36H79.5A3.5,3.5 0 0 1 83,39.5V68.5A3.5,3.5 0 0 1 79.5,72H76.5A3.5,3.5 0 0 1 73,68.5V39.5A3.5,3.5 0 0 1 76.5,36Z" />
         <path
-            android:pathData="M49,39.5 L59,39.5"
-            android:strokeWidth="4.8"
-            android:strokeColor="#FFFFFFFF"
-            android:strokeLineCap="round" />
-        <path
-            android:pathData="M39,58 L46.5,58 L50.3,50 L55.8,66 L60.4,54 L62.8,58 L69,58"
-            android:strokeWidth="4.8"
+            android:pathData="M35,54L42,54L46.5,41.5L53.5,66.5L60,45.5L65,54L73,54"
+            android:strokeWidth="5.25"
             android:strokeColor="#FFFFFFFF"
             android:strokeLineCap="round"
             android:strokeLineJoin="round" />

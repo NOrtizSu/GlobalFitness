@@ -1,13 +1,30 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.enjoyyourtime.globalfitness.ui.devices
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,6 +34,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.stateDescription
@@ -38,9 +57,8 @@ import com.enjoyyourtime.globalfitness.ui.MainViewModel
 import com.enjoyyourtime.globalfitness.ui.components.AppCard
 import com.enjoyyourtime.globalfitness.ui.components.AppIcons
 import com.enjoyyourtime.globalfitness.ui.components.InfoRow
-import com.enjoyyourtime.globalfitness.ui.components.LocalAppSnackbar
 import com.enjoyyourtime.globalfitness.ui.components.SectionTitle
-import com.enjoyyourtime.globalfitness.ui.components.TabPage
+import com.enjoyyourtime.globalfitness.ui.components.TopBarTitle
 import com.enjoyyourtime.globalfitness.ui.health.HealthConnectionCard
 import com.enjoyyourtime.globalfitness.ui.health.HealthViewModel
 import com.enjoyyourtime.globalfitness.ui.wearables.WearableDialogs
@@ -49,13 +67,18 @@ import com.enjoyyourtime.globalfitness.ui.wearables.WearablesEvent
 import com.enjoyyourtime.globalfitness.ui.wearables.WearablesViewModel
 import com.enjoyyourtime.globalfitness.ui.wearables.wearablesSection
 
-/** Devices: scales, the experimental direct band mode, Health Connect and BLE diagnostics. */
+/**
+ * Devices (a sub-page of Perfil, also opened from Hoy's scale and band chips): scales, the
+ * experimental direct band mode, Health Connect and BLE diagnostics. Its messages use the page's own
+ * snackbar, which sits above the system navigation bar now that there is no bottom bar.
+ */
 @Composable
 fun DevicesScreen(
     mainVm: MainViewModel,
     healthVm: HealthViewModel,
     onConnectHealth: () -> Unit,
     onOpenWearable: (String) -> Unit,
+    onBack: () -> Unit,
     scalesVm: ScaleDevicesViewModel = viewModel(factory = ScaleDevicesViewModel.Factory),
     wearablesVm: WearablesViewModel = viewModel(factory = WearablesViewModel.Factory),
 ) {
@@ -68,7 +91,7 @@ fun DevicesScreen(
     val dialogs = remember { ScaleDialogs() }
     val wearableDialogs = remember { WearableDialogs() }
     var diagnosticsOpen by rememberSaveable { mutableStateOf(false) }
-    val snackbar = LocalAppSnackbar.current
+    val snackbar = remember { SnackbarHostState() }
     val context = LocalContext.current
 
     val lifecycle = LocalLifecycleOwner.current.lifecycle
@@ -96,38 +119,69 @@ fun DevicesScreen(
         }
     }
 
-    TabPage(title = stringResource(R.string.nav_devices)) {
-        item { SectionTitle(stringResource(R.string.devices_scales)) }
-        scaleDevicesSection(
-            scales, dialogs, onUse = scalesVm::useDetected, onSaveConfig = scalesVm::setConfig,
-            onAcceptSuggestion = scalesVm::acceptSuggestion, onDeclineSuggestion = scalesVm::declineSuggestion,
-        )
-
-        item { SectionTitle(stringResource(R.string.devices_wearables)) }
-        wearablesSection(
-            wearables, wearableDialogs, onOpen = onOpenWearable, onUse = wearablesVm::use,
-            onAcceptSuggestion = wearablesVm::acceptSuggestion, onDeclineSuggestion = wearablesVm::declineSuggestion,
-        )
-
-        item { SectionTitle("Health Connect") }
-        item {
-            HealthConnectionCard(
-                state = health,
-                onConnect = onConnectHealth,
-                onOpenSettings = { healthVm.openHealthConnectSettings() },
-                onOpenPlayStore = { healthVm.openPlayStore() },
-                showTitle = false,
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val direction = LocalLayoutDirection.current
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopAppBar(
+                title = { TopBarTitle(stringResource(R.string.nav_devices)) },
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.action_back))
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer,
+                ),
             )
-        }
-
-        item {
-            DiagnosticsCard(
-                open = diagnosticsOpen,
-                onToggle = { diagnosticsOpen = !diagnosticsOpen },
-                scanStatus = scanStatus,
-                live = live,
-                debug = debug,
+        },
+        snackbarHost = { SnackbarHost(snackbar) },
+    ) { padding ->
+        LazyColumn(
+            contentPadding = PaddingValues(
+                start = padding.calculateStartPadding(direction) + 16.dp,
+                end = padding.calculateEndPadding(direction) + 16.dp,
+                top = padding.calculateTopPadding() + 4.dp,
+                bottom = padding.calculateBottomPadding() + 24.dp,
+            ),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = Modifier.fillMaxSize().consumeWindowInsets(padding),
+        ) {
+            item { SectionTitle(stringResource(R.string.devices_scales)) }
+            scaleDevicesSection(
+                scales, dialogs, onUse = scalesVm::useDetected, onSaveConfig = scalesVm::setConfig,
+                onAcceptSuggestion = scalesVm::acceptSuggestion, onDeclineSuggestion = scalesVm::declineSuggestion,
             )
+
+            item { SectionTitle(stringResource(R.string.devices_wearables)) }
+            wearablesSection(
+                wearables, wearableDialogs, onOpen = onOpenWearable, onUse = wearablesVm::use,
+                onAcceptSuggestion = wearablesVm::acceptSuggestion, onDeclineSuggestion = wearablesVm::declineSuggestion,
+            )
+
+            item { SectionTitle("Health Connect") }
+            item {
+                HealthConnectionCard(
+                    state = health,
+                    onConnect = onConnectHealth,
+                    onOpenSettings = { healthVm.openHealthConnectSettings() },
+                    onOpenPlayStore = { healthVm.openPlayStore() },
+                    showTitle = false,
+                )
+            }
+
+            item {
+                DiagnosticsCard(
+                    open = diagnosticsOpen,
+                    onToggle = { diagnosticsOpen = !diagnosticsOpen },
+                    scanStatus = scanStatus,
+                    live = live,
+                    debug = debug,
+                )
+            }
         }
     }
 

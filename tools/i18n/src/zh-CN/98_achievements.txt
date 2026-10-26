@@ -1,0 +1,111 @@
+# Achievements: medals derived from the workouts and the weighings, the celebration shown when a level is reached, and the achievements page (Training tab card, Profile row)
+achievements_title = 成就
+achievements_earned{other} = 已获得 %1$s/%2$s 枚奖章
+achievements_category_training = 坚持
+achievements_category_strength = 力量
+achievements_category_body = 身体
+achievements_level = 等级 %1$s/%2$s
+achievements_not_started = 尚未获得
+achievements_all_levels = 已获得全部等级
+achievements_earned_on = 获得于 %1$s
+achievements_next = 下一级：%1$s
+achievements_progress = %1$s / %2$s
+achievements_levels = 等级
+achievements_how = 计算方式
+achievements_open = 打开成就
+achievements_needs_bodyweight = 称一次体重，即可将你举起的重量与体重进行比较。
+achievements_needs_target = 请在“我的”中设置目标体重。
+achievements_needs_weighings = 称一次体重即可开始。
+achievements_target_is_start = 你的目标体重就是起始体重：没有需要跨越的差距。
+achievements_needs_composition = 需要包含身体成分的称重记录，来自能测量身体成分的体重秤。
+achievements_lift_note = 等级参照常见的力量标准，女性的标准更低。只计入杠铃动作：史密斯机和其他器械不计入。
+achievements_value_tonnes = %1$s 吨
+achievements_value_ratio = %1$s×
+
+# The celebration shown over any screen when a new level is reached
+celebration_title = 恭喜！
+celebration_view = 查看成就
+celebration_announce = 新成就
+celebration_level = %1$s · 第 %2$s 级
+celebration_more{other} = 另有 %1$s 项
+
+ach_workouts_title = 训练次数
+ach_workouts_goal{other} = 完成 %1$s 次训练
+ach_workouts_done{other} = 你已完成 %1$s 次训练
+ach_workouts_rule = 已结束且至少完成一组的训练。
+
+ach_week_streak_title = 连续训练周数
+ach_week_streak_goal{other} = 连续 %1$s 周每周至少训练 2 次
+ach_week_streak_done{other} = 你已连续 %1$s 周每周至少训练 2 次
+ach_week_streak_rule = 连续的自然周，每周至少完成 2 次训练。本周结束前不会中断连续周数。
+
+ach_balanced_weeks_title = 均衡周
+ach_balanced_weeks_goal{other} = 完成 %1$s 个均衡周
+ach_balanced_weeks_done{other} = 你已完成 %1$s 个均衡周
+ach_balanced_weeks_rule = 以下每块肌肉的有效组数都在其每周范围内（既不低于也不高于）的自然周：%1$s。
+
+ach_variety_title = 动作多样性
+ach_variety_goal{other} = 完成 %1$s 个不同的动作
+ach_variety_done{other} = 你已完成 %1$s 个不同的动作
+ach_variety_rule = 至少完成一组的不同动作和器械。
+
+ach_cardio_km_title = 有氧距离
+ach_cardio_km_goal = 有氧累计 %1$s
+ach_cardio_km_done = 你的有氧已累计 %1$s
+ach_cardio_km_rule = 所有已完成有氧组的距离。
+
+ach_volume_title = 总训练量
+ach_volume_goal = 累计举起 %1$s
+ach_volume_done = 你已累计举起 %1$s
+ach_volume_rule = 所有已完成组的重量 × 次数；自重动作和辅助动作计入你的体重。
+
+ach_records_title = 个人纪录
+ach_records_goal{other} = 打破 %1$s 项个人纪录
+ach_records_done{other} = 你已打破 %1$s 项个人纪录
+ach_records_rule = 打破该动作某项纪录的组：估算 1RM、重量、次数、时间或最少辅助。
+
+ach_bench_bw_title = 卧推
+ach_bench_bw_goal = 卧推达到 %1$s 体重
+ach_bench_bw_done = 你的卧推已达到 %1$s 体重
+ach_bench_bw_rule = 杠铃卧推的最佳估算 1RM 除以当天的体重。
+
+ach_squat_bw_title = 深蹲
+ach_squat_bw_goal = 深蹲达到 %1$s 体重
+ach_squat_bw_done = 你的深蹲已达到 %1$s 体重
+ach_squat_bw_rule = 杠铃深蹲或杠铃前蹲的最佳估算 1RM 除以当天的体重。
+
+ach_deadlift_bw_title = 硬拉
+ach_deadlift_bw_goal = 硬拉达到 %1$s 体重
+ach_deadlift_bw_done = 你的硬拉已达到 %1$s 体重
+ach_deadlift_bw_rule = 杠铃硬拉或相扑硬拉的最佳估算 1RM 除以当天的体重。
+
+ach_ohp_bw_title = 推举
+ach_ohp_bw_goal = 推举达到 %1$s 体重
+ach_ohp_bw_done = 你的推举已达到 %1$s 体重
+ach_ohp_bw_rule = 站姿杠铃推举的最佳估算 1RM 除以当天的体重。
+
+ach_pull_ups_title = 引体向上
+ach_pull_ups_goal{other} = 单组完成 %1$s 个无辅助引体向上
+ach_pull_ups_done{other} = 单组完成 %1$s 个无辅助引体向上
+ach_pull_ups_rule = 引体向上或反手引体向上的单组最多次数，负重与否均可，也可在辅助器械上以 0 辅助完成。
+
+ach_goal_title = 目标体重
+ach_goal_goal = 达到 %1$s 的目标体重
+ach_goal_done = 你已达到 %1$s 的目标体重
+ach_goal_rule = 你的 7 天平均体重达到你在“我的”中设置的目标。
+
+ach_goal_progress_title = 迈向目标
+ach_goal_progress_goal_loss = 朝目标减重 %1$s
+ach_goal_progress_goal_gain = 朝目标增重 %1$s
+ach_goal_progress_done_loss = 你已减重 %1$s
+ach_goal_progress_done_gain = 你已增重 %1$s
+
+ach_fat_down_title = 体脂率
+ach_fat_down_goal{other} = 体脂率降低 %1$s 个百分点
+ach_fat_down_done{other} = 你的体脂率已降低 %1$s 个百分点
+ach_fat_down_rule = 自第一周测量以来，你的 7 天平均体脂率的下降幅度。低于健康下限的部分不计入。
+
+ach_muscle_up_title = 肌肉量
+ach_muscle_up_goal = 肌肉量增加 %1$s
+ach_muscle_up_done = 你的肌肉量已增加 %1$s
+ach_muscle_up_rule = 自第一周测量以来，你的 7 天平均肌肉量的增长。

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App -->
-    <string name="app_name" translatable="false">GlobalFitness</string>
-    <string name="band_notification_listener_label">GlobalFitness: forwarding to your band</string>
+    <string name="app_name" translatable="false">Fortia</string>
+    <string name="band_notification_listener_label">Fortia: forwarding to your band</string>
     <!-- Common actions -->
     <string name="action_cancel">Cancel</string>
     <string name="action_ok">OK</string>
@@ -92,7 +92,7 @@
     <string name="body_type_skinny_muscular">Skinny muscular</string>
     <!-- Health Connect rationale (shown by Health Connect) -->
     <string name="health_rationale_title">Health data privacy</string>
-    <string name="health_rationale_intro">GlobalFitness uses Health Connect for two things:</string>
+    <string name="health_rationale_intro">Fortia uses Health Connect for two things:</string>
     <string name="health_rationale_read">• Reading the data from your band or watch (for example the Xiaomi Smart Band through Mi Fitness): steps, distance, calories, heart rate, resting heart rate, heart rate variability, sleep, blood oxygen, respiratory rate and workouts. It also reads the weight and body fat recorded by other apps. With the past-data permission it imports up to one year.</string>
     <string name="health_rationale_write">• Writing your scale measurements: weight, body fat, bone mass, lean mass, basal metabolic rate and body water. If you delete a measurement in the app, it is also deleted from Health Connect.</string>
     <string name="health_rationale_storage">Data read from Health Connect is stored only on this phone: it is not uploaded to the optional cloud backup, not used for advertising and not shared with anyone. The app uses it only to show you summaries and charts.</string>
@@ -195,7 +195,7 @@
     <string name="scale_protocol_error">Protocol error: %1$s</string>
     <string name="scale_no_new_data">No new data from the scale</string>
     <string name="scale_auto_configured">Scale detected and set up: %1$s.</string>
-    <string name="scale_auto_configured_needs_setup">Scale detected and set up: %1$s. Complete its settings in Devices.</string>
+    <string name="scale_auto_configured_needs_setup">Scale detected and set up: %1$s. Complete its settings in Profile → Devices.</string>
     <string name="scale_added_step_on">Scale added: %1$s. Step on it so the app can connect.</string>
     <string name="scale_added_needs_setup">Scale added: %1$s. Complete its settings.</string>
     <string name="scale_save_failed">Could not save the measurement: %1$s</string>
@@ -297,7 +297,7 @@
     <string name="live_no_ble_title">Bluetooth LE not available</string>
     <string name="live_no_ble_text">This phone has no Bluetooth Low Energy, which is needed to read the scale.</string>
     <string name="live_permission_title">Bluetooth permission missing</string>
-    <string name="live_permission_text">To read your scale and your band, GlobalFitness needs the nearby devices permission (location on Android 11 or earlier). Your location is never used or stored.</string>
+    <string name="live_permission_text">To read your scale and your band, Fortia needs the nearby devices permission (location on Android 11 or earlier). Your location is never used or stored.</string>
     <string name="live_bluetooth_off_title">Bluetooth is off</string>
     <string name="live_bluetooth_off_text">Turn on Bluetooth to detect the scale.</string>
     <string name="live_scan_error_title">Error searching for the scale</string>
@@ -318,7 +318,97 @@
     <string name="live_measuring_scale">Measuring · %1$s</string>
     <string name="live_session_measuring">%1$s: measuring…</string>
     <string name="live_read_failed">Could not read %1$s</string>
-    <string name="live_read_failed_hint">Step on the scale again. If it happens again, check its settings in Devices.</string>
+    <string name="live_read_failed_hint">Step on the scale again. If it happens again, check its settings in Profile → Devices.</string>
+    <!-- Bottom bar: Hoy · Entreno · Progreso · Perfil (very little room: one short word) -->
+    <string name="nav_training">Training</string>
+    <string name="nav_progress">Progress</string>
+    <!-- Progreso: tabs Músculos | Cuerpo | Actividad (Cuerpo and Actividad use nav_body and nav_activity) -->
+    <string name="progress_tab_muscles">Muscles</string>
+    <!-- Progreso → Músculos: how the body map is colored (three segmented buttons: keep them short) -->
+    <string name="progress_mode_sets">Sets</string>
+    <string name="progress_mode_strength">Strength</string>
+    <string name="progress_mode_recovery">Recovery</string>
+    <string name="progress_caption_sets">Hard sets of the last 7 days (secondary muscles count half) compared with the usual range for muscle growth.</string>
+    <string name="progress_caption_strength">Change of the estimated one-rep max of the exercises that train each muscle in the selected period.</string>
+    <string name="progress_caption_recovery">Estimated from the hard sets of each workout: from 1 to 4 days depending on the volume.</string>
+    <!-- Weekly sets compared with the muscle's range -->
+    <string name="progress_level_none">No sets</string>
+    <string name="progress_level_low">Below range</string>
+    <string name="progress_level_optimal">In range</string>
+    <string name="progress_level_high">Above range</string>
+    <plurals name="progress_sets">
+        <item quantity="one">%1$s set</item>
+        <item quantity="other">%1$s sets</item>
+    </plurals>
+    <string name="progress_target">target %1$s–%2$s</string>
+    <!-- Strength trend (%1$s: a percentage such as −5 % or +5 %) -->
+    <string name="progress_strength_down_more">Below %1$s</string>
+    <string name="progress_strength_down">Down</string>
+    <string name="progress_strength_stable">Stable</string>
+    <string name="progress_strength_up">Up</string>
+    <string name="progress_strength_up_more">Above %1$s</string>
+    <string name="progress_strength_title">Strength (%1$s)</string>
+    <plurals name="progress_exercises">
+        <item quantity="one">%1$d exercise</item>
+        <item quantity="other">%1$d exercises</item>
+    </plurals>
+    <!-- Recovery (Spanish avoids gendered adjectives: the muscles' names mix genders) -->
+    <string name="progress_recovery_fatigued">Fatigued</string>
+    <string name="progress_recovery_recovering">Recovering</string>
+    <string name="progress_recovery_recovered">Recovered</string>
+    <string name="progress_recovery_not_trained">Not trained yet</string>
+    <string name="progress_recovery_percent">%1$s recovered</string>
+    <string name="progress_recovery_full_at">full recovery ~%1$s</string>
+    <string name="progress_time_tomorrow_at">Tomorrow, %1$s</string>
+    <string name="progress_last_trained">Last trained: %1$s</string>
+    <!-- Selected muscle and the list of all muscles -->
+    <string name="progress_detail_week">This week</string>
+    <string name="progress_tap_hint">Tap a muscle on the figure or in the list to see its details.</string>
+    <string name="progress_all_muscles">All muscles</string>
+    <string name="progress_recent_exercises">Recent exercises</string>
+    <string name="progress_recent_hint">Best set of the last session and the change of its estimated 1RM against the session before.</string>
+    <string name="progress_open_exercise">Open exercise</string>
+    <!-- %1$s: number, %2$s: unit (kg or lb) -->
+    <string name="progress_load_value">%1$s %2$s</string>
+    <!-- What TalkBack reads for a muscle: %1$s its value, %2$s its state (the list separator of the language) -->
+    <string name="progress_state_description">%1$s, %2$s</string>
+    <!-- %1$s: load, %2$s: repetitions -->
+    <string name="progress_set_load_reps">%1$s × %2$s</string>
+    <plurals name="progress_set_reps">
+        <item quantity="one">%1$d rep</item>
+        <item quantity="other">%1$d reps</item>
+    </plurals>
+    <string name="progress_set_seconds">%1$s s</string>
+    <string name="progress_empty_title">Your muscles\' progress shows here</string>
+    <string name="progress_empty_text">Log your workouts in Training: every set counts for the muscles it works, and the figure shows your weekly sets, your strength gains and your recovery.</string>
+    <string name="progress_empty_action">Go to Training</string>
+    <!-- Hoy: muscles this week (%1$s: a list of the muscle groups below) -->
+    <string name="today_muscles_title">Muscles this week</string>
+    <string name="today_muscles_on_track">On track: %1$s</string>
+    <string name="today_muscles_below">Below target: %1$s</string>
+    <string name="today_muscles_all_on_track">Every muscle group on track</string>
+    <string name="today_muscles_none">No sets yet this week</string>
+    <string name="today_muscles_open">View muscles</string>
+    <!-- Muscle groups used inside those lists: lowercase where the language allows it -->
+    <string name="progress_region_chest">chest</string>
+    <string name="progress_region_back">back</string>
+    <string name="progress_region_shoulders">shoulders</string>
+    <string name="progress_region_arms">arms</string>
+    <string name="progress_region_core">core</string>
+    <string name="progress_region_legs">legs</string>
+    <!-- Perfil: Devices and training settings -->
+    <string name="profile_section_devices">Devices and training</string>
+    <plurals name="profile_devices_scales">
+        <item quantity="one">%1$d scale</item>
+        <item quantity="other">%1$d scales</item>
+    </plurals>
+    <plurals name="profile_devices_wearables">
+        <item quantity="one">%1$d band or watch</item>
+        <item quantity="other">%1$d bands or watches</item>
+    </plurals>
+    <string name="profile_devices_none">Scales, bands and Health Connect</string>
+    <string name="profile_training_title">Training settings</string>
+    <string name="profile_training_text">Weight unit, rest timer and Health Connect</string>
     <!-- Body -->
     <string name="range_1m">1M</string>
     <string name="range_3m">3M</string>
@@ -659,6 +749,23 @@
         <item quantity="other">%1$d blood oxygen readings, from %2$s to %3$s</item>
     </plurals>
     <string name="chart_readings_desc">%1$s chart: %2$s</string>
+    <!-- Health Connect: workouts of the training log saved as exercise sessions -->
+    <string name="hc_workouts_export_title">Save workouts to Health Connect</string>
+    <string name="hc_workouts_export_text">Each finished workout is saved as an exercise session with its sets and repetitions, so other fitness apps can count it. If you delete a workout, it is also deleted from Health Connect.</string>
+    <string name="hc_workouts_export_missing_permission">Allow Fortia to write exercise in Health Connect to save your workouts there.</string>
+    <string name="hc_workouts_export_denied">If no permission window opens, allow \"Exercise\" for Fortia in Health Connect.</string>
+    <string name="hc_workouts_export_allow">Allow</string>
+    <string name="hc_workouts_export_off">New workouts are not saved. The ones already in Health Connect stay there.</string>
+    <string name="hc_workouts_export_count_none">No workouts in Health Connect yet.</string>
+    <plurals name="hc_workouts_export_count">
+        <item quantity="one">%1$d workout in Health Connect.</item>
+        <item quantity="other">%1$d workouts in Health Connect.</item>
+    </plurals>
+    <string name="hc_missing_write_exercise">No permission to write exercise: workouts are not saved.</string>
+    <!-- Title in Health Connect of a workout without a name that mixes different kinds of cardio -->
+    <string name="hc_workout_title">Workout</string>
+    <!-- Permissions rationale: continues the "Writing your scale measurements" item -->
+    <string name="health_rationale_write_workouts">It also writes the workouts you finish in the app as exercise sessions: start and end time, type, name, note and each completed set with its repetitions. If you delete a workout in the app, it is also deleted from Health Connect.</string>
     <!-- Profile -->
     <string name="sex_male">Male</string>
     <string name="sex_female">Female</string>
@@ -714,11 +821,11 @@
     <string name="about_licenses_text">AGPL-3.0 license, code from openScale (GPL-3.0) and Gadgetbridge (AGPL-3.0), libraries</string>
     <!-- Open source notices -->
     <string name="open_source_title">Open source</string>
-    <string name="open_source_free_software">GlobalFitness is free software</string>
+    <string name="open_source_free_software">Fortia is free software</string>
     <string name="open_source_license_text">© 2026 Enjoy Your Time and contributors. You can redistribute and modify it under the terms of the GNU Affero General Public License, version 3 or later (AGPL-3.0). It is distributed WITHOUT ANY WARRANTY. The complete source code of every version is available free of charge on GitHub.</string>
     <string name="open_source_view_code">View the source code</string>
     <string name="open_source_read_license">Read the AGPL-3.0 license</string>
-    <string name="open_source_ported_intro">GlobalFitness includes code ported from free software projects. Thanks to their authors.</string>
+    <string name="open_source_ported_intro">Fortia includes code ported from free software projects. Thanks to their authors.</string>
     <string name="open_source_libraries">Libraries</string>
     <string name="open_source_license_label">License: %1$s</string>
     <string name="open_source_open_website">Open the project website</string>
@@ -767,7 +874,6 @@
     <string name="account_unexpected_error">Unexpected error: %1$s</string>
     <string name="account_backup_title">Cloud backup</string>
     <string name="account_backup_text">Save your data in the cloud and get it back if you change phones or reinstall the app.</string>
-    <string name="account_benefit_where">Your profile, settings and measurements are saved in your account, on Google servers in the EU (Madrid).</string>
     <string name="account_benefit_sync">It syncs by itself when there is a connection; offline, everything keeps working.</string>
     <string name="account_benefit_optional">It is optional: without an account the app works the same and your data stays only on this phone.</string>
     <string name="account_benefit_delete">You can delete your cloud data and the account whenever you want.</string>
@@ -780,7 +886,6 @@
     <string name="account_sign_out_title">Sign out?</string>
     <string name="account_sign_out_text">Your data stays on this phone, but it will no longer be copied to the cloud until you sign in again.</string>
     <string name="account_delete_title">Delete your cloud data and your account?</string>
-    <string name="account_delete_text">Your cloud copy (profile, measurements and scales) and your GlobalFitness account will be deleted forever. The data on this phone is not deleted.\n\nFor security, Google will ask you to choose and confirm the account.</string>
     <string name="account_delete_confirm">Delete permanently</string>
     <string name="account_last_sync">Last sync: %1$s</string>
     <string name="account_never_synced">Not synced yet.</string>
@@ -789,9 +894,7 @@
     <string name="conflict_different_title">Your cloud copy has other data</string>
     <string name="conflict_different_text">This phone and your cloud copy have different measurements (from another phone or another profile). To avoid mixing different people\'s data they are not merged automatically: choose which data to keep.</string>
     <string name="conflict_restore_cloud">Restore the cloud copy on this phone</string>
-    <string name="conflict_restore_cloud_confirm">The data on this phone will be replaced by the cloud data. Measurements that are only on this phone will be deleted.</string>
     <string name="conflict_replace_cloud">Replace the cloud copy with this phone\'s data</string>
-    <string name="conflict_replace_cloud_confirm">Your cloud copy will be replaced by the data on this phone. Measurements that are only in the cloud will be deleted.</string>
     <plurals name="conflict_mass_delete_title">
         <item quantity="one">You deleted %1$d measurement on this phone</item>
         <item quantity="other">You deleted %1$d measurements on this phone</item>
@@ -802,7 +905,7 @@
     <string name="conflict_paused">Sync is paused until you choose which data to keep.</string>
     <string name="conflict_choose">Choose which data to keep</string>
     <!-- Onboarding -->
-    <string name="onboarding_welcome_title">Welcome to GlobalFitness</string>
+    <string name="onboarding_welcome_title">Welcome to Fortia</string>
     <string name="onboarding_welcome_text">Your weight and body composition from your Bluetooth scale, together with the steps, sleep and heart rate from your band. No account needed: your data stays on your phone.</string>
     <string name="onboarding_restore_question">Already have a cloud backup?</string>
     <string name="onboarding_restore_text">Sign in with Google to restore it: you will get your profile and your history back.</string>
@@ -816,7 +919,7 @@
     <string name="onboarding_profile_text">Your sex, age and height are used to calculate body composition from the scale.</string>
     <string name="onboarding_profile_text_no_backup">Your account has no cloud backup yet. Your sex, age and height are used to calculate body composition from the scale.</string>
     <string name="onboarding_permissions_title">Permissions</string>
-    <string name="onboarding_permissions_text">You can change them whenever you want in Devices.</string>
+    <string name="onboarding_permissions_text">You can change them whenever you want in Profile → Devices.</string>
     <string name="onboarding_bluetooth_title">Nearby devices (Bluetooth)</string>
     <string name="onboarding_bluetooth_text">To read your scale and connect to your band. Your location is not used.</string>
     <string name="onboarding_allow">Allow</string>
@@ -829,10 +932,15 @@
     <string name="onboarding_not_available">Not available on this phone</string>
     <string name="onboarding_done_title">All set</string>
     <string name="onboarding_done_title_name">All set, %1$s</string>
-    <string name="onboarding_done_text">Step on your scale barefoot with the app open: if it is supported, it sets itself up. You can choose your model and see your band in Devices.</string>
+    <string name="onboarding_done_text">Step on your scale barefoot with the app open: if it is supported, it sets itself up. You can choose your model and see your band in Profile → Devices.</string>
     <string name="onboarding_start">Get started</string>
+    <!-- Cloud backup: what it includes now that the training data is backed up too -->
+    <string name="account_benefit_where_training">Your profile, settings, measurements and workouts (with your machines, their notes and photos) are saved in your account, on Google servers in the EU (Madrid).</string>
+    <string name="account_delete_text_training">Your cloud copy (profile, measurements, scales, workouts, machines and their photos) and your Fortia account will be deleted forever. The data on this phone is not deleted.\n\nFor security, Google will ask you to choose and confirm the account.</string>
+    <string name="conflict_restore_cloud_confirm_training">The data on this phone will be replaced by the cloud data. Measurements, workouts and machines that are only on this phone will be deleted.</string>
+    <string name="conflict_replace_cloud_confirm_training">Your cloud copy will be replaced by the data on this phone. Measurements, workouts and machines that are only in the cloud will be deleted.</string>
     <!-- Remove ads (Google Play Billing) -->
-    <string name="remove_ads_headline">GlobalFitness without ads</string>
+    <string name="remove_ads_headline">Fortia without ads</string>
     <string name="remove_ads_benefit_no_ads">No banners or full-screen ads.</string>
     <string name="remove_ads_benefit_one_time">One-time payment: no subscription.</string>
     <string name="remove_ads_benefit_restore">Restored on your other phones with the same Google Play account.</string>
@@ -951,7 +1059,7 @@
     <string name="scales_unknown_setting">Unknown setting</string>
     <string name="scales_setting_saved">Setting saved</string>
     <!-- Band (experimental direct mode). Its diagnostics log stays in English on purpose. -->
-    <string name="band_test_notification_body">Test notification from GlobalFitness direct mode</string>
+    <string name="band_test_notification_body">Test notification from Fortia direct mode</string>
     <string name="band_failure_no_bluetooth">This phone has no Bluetooth.</string>
     <string name="band_failure_bluetooth_off">Bluetooth is off. Turn it on and try again.</string>
     <string name="band_test_notification_sent">Test notification sent</string>
@@ -1146,4 +1254,1006 @@
     <!-- Activity: live heart rate recorded in direct mode, per device -->
     <string name="health_wearable_live_title">%1$s · direct mode</string>
     <string name="health_wearable_live_text">Live heart rate recorded by the app with the device connected (not in Health Connect).</string>
+    <!-- Training: muscles, equipment, how sets are logged -->
+    <string name="muscle_chest">Chest</string>
+    <string name="muscle_shoulders">Shoulders</string>
+    <string name="muscle_biceps">Biceps</string>
+    <string name="muscle_triceps">Triceps</string>
+    <string name="muscle_forearms">Forearms</string>
+    <string name="muscle_abs">Abs</string>
+    <string name="muscle_obliques">Obliques</string>
+    <string name="muscle_traps">Traps</string>
+    <string name="muscle_lats">Lats</string>
+    <string name="muscle_lower_back">Lower back</string>
+    <string name="muscle_glutes">Glutes</string>
+    <string name="muscle_quads">Quads</string>
+    <string name="muscle_hamstrings">Hamstrings</string>
+    <string name="muscle_adductors">Adductors</string>
+    <string name="muscle_calves">Calves</string>
+    <string name="muscle_neck">Neck</string>
+    <string name="equipment_barbell">Barbell</string>
+    <string name="equipment_dumbbell">Dumbbell</string>
+    <string name="equipment_kettlebell">Kettlebell</string>
+    <string name="equipment_machine">Machine</string>
+    <string name="equipment_cable">Cable</string>
+    <string name="equipment_smith">Smith machine</string>
+    <string name="equipment_bodyweight">Bodyweight</string>
+    <string name="equipment_band">Resistance band</string>
+    <string name="equipment_cardio">Cardio machine</string>
+    <string name="equipment_other">Other</string>
+    <string name="exercise_kind_weight_reps">Weight and reps</string>
+    <string name="exercise_kind_bodyweight_reps">Reps (bodyweight)</string>
+    <string name="exercise_kind_assisted_reps">Reps (assisted machine)</string>
+    <string name="exercise_kind_duration">Time</string>
+    <string name="exercise_kind_cardio">Cardio</string>
+    <string name="unit_lb">lb</string>
+    <string name="training_unknown_exercise">Deleted exercise</string>
+    <!-- How to do each built-in exercise: exg_<catalog id>_steps / exg_<catalog id>_tips (training/catalog/ExerciseGuides.kt). -->
+    <!-- steps: 3-5 numbered lines ("1. ", "2. "...), tips: 2-3 lines starting with "• ". Keep the numbering, the bullets and the \n line breaks. -->
+    <!-- Machines -->
+    <string name="exg_machine_chest_press_steps">1. Set the seat so the handles line up with the middle of your chest.\n2. Sit with your back and head against the pad, feet flat, and grip the handles.\n3. Press the handles forward until your arms are almost straight.\n4. Bring them back slowly until you feel a stretch in your chest, without letting the plates touch.</string>
+    <string name="exg_machine_chest_press_tips">• Keep your shoulder blades back and down against the pad.\n• Don\'t lock your elbows hard or let your shoulders roll forward at the end.</string>
+    <string name="exg_machine_incline_chest_press_steps">1. Set the seat so the handles line up with your upper chest.\n2. Sit with your back flat against the inclined pad and grip the handles.\n3. Press up and forward until your arms are almost straight.\n4. Lower slowly until your hands are level with your upper chest.</string>
+    <string name="exg_machine_incline_chest_press_tips">• Keep your shoulder blades pinned back; don\'t shrug toward your ears.\n• Keep your elbows slightly below shoulder height to spare your shoulders.</string>
+    <string name="exg_pec_deck_steps">1. Set the seat so the handles are at chest height with your upper arms parallel to the floor.\n2. Sit with your back on the pad and grip the handles (or rest your forearms on the pads), elbows slightly bent.\n3. Bring the handles together in front of your chest in a wide arc.\n4. Squeeze for a moment, then open slowly until you feel a stretch across your chest.</string>
+    <string name="exg_pec_deck_tips">• Keep the same slight bend in your elbows throughout: it\'s a hug, not a press.\n• Don\'t let your arms travel behind your body; stop at a comfortable stretch.</string>
+    <string name="exg_machine_shoulder_press_steps">1. Set the seat so the handles start at about shoulder height.\n2. Sit with your back against the pad, feet flat, and grip the handles.\n3. Press up until your arms are almost straight overhead.\n4. Lower under control back to shoulder height.</string>
+    <string name="exg_machine_shoulder_press_tips">• Keep your lower back against the pad; don\'t arch to push more weight.\n• Don\'t lock your elbows hard at the top or shrug your shoulders.</string>
+    <string name="exg_machine_lateral_raise_steps">1. Set the seat so your shoulders line up with the machine\'s pivot points.\n2. Sit with your back straight and place your forearms or elbows against the pads, arms at your sides.\n3. Raise your arms out to the sides until your elbows reach shoulder height.\n4. Lower slowly to the start without letting the weight rest.</string>
+    <string name="exg_machine_lateral_raise_tips">• Lead with your elbows and keep your shoulders down, away from your ears.\n• Don\'t lean back or swing; use a weight you can control.</string>
+    <string name="exg_reverse_pec_deck_steps">1. Set the handles to their front position and the seat so they\'re at shoulder height.\n2. Sit facing the pad, chest against it, and grip the handles with your arms straight in front of you.\n3. Open your arms out to the sides in a wide arc until they\'re in line with your body.\n4. Pause briefly, then return slowly to the front.</string>
+    <string name="exg_reverse_pec_deck_tips">• Keep a slight bend in your elbows and push the handles out wide, not back.\n• Don\'t shrug; let the back of your shoulders do the work.</string>
+    <string name="exg_machine_row_steps">1. Set the seat and chest pad so the handles are at mid-chest height and you reach them with straight arms.\n2. Sit with your chest against the pad and grip the handles.\n3. Pull the handles toward your torso, driving your elbows back and squeezing your shoulder blades together.\n4. Return slowly until your arms are straight and you feel a stretch in your back.</string>
+    <string name="exg_machine_row_tips">• Keep your chest on the pad; don\'t lean back to move the weight.\n• Lead with your elbows and keep your shoulders down, not shrugged.</string>
+    <string name="exg_pullover_machine_steps">1. Set the seat so your shoulders line up with the machine\'s pivot and fasten the belt if there is one.\n2. Place your elbows against the pads with your arms overhead and hold the bar lightly.\n3. Bring your arms down and forward in an arc until the bar reaches your stomach.\n4. Return slowly overhead until you feel a stretch in your lats.</string>
+    <string name="exg_pullover_machine_tips">• Push with your elbows, not your hands, to keep the work in your back.\n• Keep your lower back against the pad; don\'t hunch forward at the bottom.</string>
+    <string name="exg_leg_press_machine_steps">1. Sit with your back and hips flat on the pad, feet shoulder-width apart in the middle of the platform.\n2. Push the platform up slightly and release the safety handles.\n3. Lower the platform by bending your knees to about 90 degrees, without your hips lifting off the seat.\n4. Press back up through your whole foot, stopping just short of locking your knees.\n5. Engage the safety handles again when you finish the set.</string>
+    <string name="exg_leg_press_machine_tips">• Keep your knees in line with your toes; don\'t let them cave in.\n• Don\'t go so deep that your lower back rounds off the pad.\n• Never lock your knees hard at the top.</string>
+    <string name="exg_horizontal_leg_press_steps">1. Set the backrest so your knees are bent about 90 degrees with your feet on the platform.\n2. Sit with your back against the pad, feet shoulder-width apart, and hold the side handles.\n3. Push the platform away (or your seat back, depending on the model) until your legs are almost straight.\n4. Return slowly to the start without letting the plates touch.</string>
+    <string name="exg_horizontal_leg_press_tips">• Push through your heels and mid-foot, keeping your knees in line with your toes.\n• Keep your hips and lower back on the seat; don\'t lock your knees.</string>
+    <string name="exg_hack_squat_machine_steps">1. Stand on the platform with your back on the pad, shoulders under the pads and feet shoulder-width apart.\n2. Straighten your legs to lift the sled and release the safety handles.\n3. Bend your knees to squat down, back on the pad, until your thighs are about parallel to the platform.\n4. Drive back up through your whole foot, stopping short of locking your knees.\n5. Engage the safety handles again when you finish the set.</string>
+    <string name="exg_hack_squat_machine_tips">• Keep your heels down and your knees tracking over your toes.\n• Feet higher on the platform work the glutes more; lower, the quads.\n• Don\'t let your hips come off the pad at the bottom.</string>
+    <string name="exg_pendulum_squat_machine_steps">1. Step in with your back on the pad, shoulders under the pads and feet about hip-width apart.\n2. Stand up to take the weight and release the safety lever.\n3. Squat down as the pad swings along its arc, letting your knees travel forward, as deep as you can control.\n4. Drive back up through your whole foot without locking your knees; engage the safety when you finish.</string>
+    <string name="exg_pendulum_squat_machine_tips">• Keep your heels down and your back pressed into the pad throughout.\n• Lower slowly and don\'t bounce at the bottom.</string>
+    <string name="exg_leg_extension_machine_steps">1. Set the backrest so your knees line up with the machine\'s pivot point.\n2. Set the roller on your lower shins, just above your ankles, and hold the side handles.\n3. Straighten your legs fully and squeeze your quads.\n4. Lower slowly without letting the plates touch.</string>
+    <string name="exg_leg_extension_machine_tips">• Keep your hips and back against the seat; don\'t swing the weight up.\n• Move smoothly, without kicking.</string>
+    <string name="exg_lying_leg_curl_machine_steps">1. Lie face down with your knees just off the edge of the bench, in line with the pivot point.\n2. Set the roller on the back of your lower legs, just above your heels, and hold the handles.\n3. Curl your heels toward your glutes as far as you can.\n4. Lower slowly until your legs are almost straight.</string>
+    <string name="exg_lying_leg_curl_machine_tips">• Keep your hips pressed into the bench; don\'t let them rise as you curl.\n• Don\'t jerk the weight; control the way down.</string>
+    <string name="exg_seated_leg_curl_machine_steps">1. Set the backrest so your knees line up with the pivot point and lower the thigh pad just above your knees.\n2. Rest the back of your lower legs on the roller, just above your heels, and hold the handles.\n3. Pull your heels down and back under the seat as far as you can.\n4. Return slowly until your legs are almost straight.</string>
+    <string name="exg_seated_leg_curl_machine_tips">• Keep the thigh pad snug so your hips don\'t lift.\n• Keep your back against the backrest and control the return; don\'t let the weight snap back.</string>
+    <string name="exg_standing_calf_raise_machine_steps">1. Stand under the shoulder pads with the balls of your feet on the edge of the step, heels hanging off.\n2. Straighten your legs, without locking your knees, to lift the weight.\n3. Lower your heels slowly as far as is comfortable to stretch your calves.\n4. Rise onto your toes as high as you can and hold for a moment at the top.</string>
+    <string name="exg_standing_calf_raise_machine_tips">• Keep your knees straight but not locked: only your ankles move.\n• Pause at the bottom instead of bouncing.</string>
+    <string name="exg_seated_calf_raise_machine_steps">1. Sit with the balls of your feet on the footrest and the knee pad snug on your lower thighs.\n2. Lift your heels slightly and release the safety lever.\n3. Lower your heels slowly as far as is comfortable.\n4. Push up onto your toes as high as you can, pause, and repeat; engage the lever again at the end.</string>
+    <string name="exg_seated_calf_raise_machine_tips">• Only your ankles move; don\'t push with your hands or lean back.\n• Pause at the bottom and at the top instead of bouncing.</string>
+    <string name="exg_leg_press_calf_raise_steps">1. Sit in the leg press with the balls of your feet on the bottom edge of the platform, heels off.\n2. Straighten your legs, without locking your knees, and release the safety handles.\n3. Let the platform bring your toes back toward you as far as is comfortable.\n4. Push the platform away with your toes as far as you can, pause, and repeat.</string>
+    <string name="exg_leg_press_calf_raise_tips">• Place your feet firmly so they can\'t slip off the platform.\n• Keep your knees still; only your ankles move.\n• Engage the safety handles before you bend your knees.</string>
+    <string name="exg_hip_abductor_machine_steps">1. Sit with your back against the pad and the outside of your knees against the pads, legs together.\n2. Hold the handles and keep your back straight.\n3. Push your knees out to the sides as far as you can control.\n4. Return slowly without letting the plates touch.</string>
+    <string name="exg_hip_abductor_machine_tips">• Leaning slightly forward works the glutes more; stay steady either way.\n• Move smoothly; don\'t let the pads snap your legs back together.</string>
+    <string name="exg_hip_adductor_machine_steps">1. Set the starting width so you feel a light stretch in your inner thighs, then sit with your back on the pad.\n2. Place the inside of your knees against the pads and hold the handles.\n3. Squeeze your legs together until the pads meet.\n4. Open slowly back to the starting position.</string>
+    <string name="exg_hip_adductor_machine_tips">• Choose a starting width that stretches without straining your groin.\n• Keep your back on the pad and avoid jerky movements.</string>
+    <string name="exg_glute_kickback_machine_steps">1. Get into position with your chest or forearms on the support and one foot on the footplate.\n2. Brace your core and keep your hips square to the machine.\n3. Push the footplate back and up by extending your hip until your leg is in line with your body.\n4. Squeeze your glute at the top and return slowly; finish your reps, then switch legs.</string>
+    <string name="exg_glute_kickback_machine_tips">• Move from the hip, not the lower back: don\'t arch to push higher.\n• Keep your hips level; don\'t twist to the side.</string>
+    <string name="exg_hip_thrust_machine_steps">1. Sit with your upper back against the pad and fasten the belt or pad across your hips.\n2. Place your feet flat, hip-width apart, so your shins are vertical at the top.\n3. Drive through your heels to lift your hips until your knees, hips and shoulders are in line.\n4. Squeeze your glutes at the top, then lower under control.</string>
+    <string name="exg_hip_thrust_machine_tips">• Keep your chin tucked and ribs down; don\'t arch your lower back at the top.\n• If you feel it mostly in your hamstrings, bring your feet a little closer.</string>
+    <string name="exg_back_extension_machine_steps">1. Sit with your feet on the footrest and the pad on your upper back; fasten the belt if there is one.\n2. Cross your arms on your chest or hold the handles.\n3. Push back against the pad by extending your back until your torso is upright or slightly reclined.\n4. Return slowly to the start.</string>
+    <string name="exg_back_extension_machine_tips">• Move smoothly and stop at a slight lean back; don\'t force the extension.\n• Use a moderate weight: this is a control exercise, not a max lift.</string>
+    <string name="exg_ab_crunch_machine_steps">1. Set the seat so the handles are at chest height and hook your feet under the rollers if there are any.\n2. Hold the handles and sit with your back against the pad.\n3. Crunch forward by curling your ribs toward your hips as you breathe out.\n4. Return slowly until your abs are stretched, without letting the weight rest.</string>
+    <string name="exg_ab_crunch_machine_tips">• Curl your spine; don\'t just pull with your arms or bend at the hips.\n• Keep the movement slow and controlled.</string>
+    <string name="exg_rotary_torso_machine_steps">1. Set the starting angle to one side and sit with your knees or legs against the pads, depending on the model.\n2. Place your chest or arms against the pads, hold the handles and keep your back straight.\n3. Turn your torso in a controlled arc from your waist, using your obliques, not your arms.\n4. Return slowly; finish your reps, then set the machine to the other side.</string>
+    <string name="exg_rotary_torso_machine_tips">• Turn from your waist and keep the movement slow; don\'t swing.\n• Use a light weight and a range you can control.</string>
+    <string name="exg_machine_biceps_curl_steps">1. Set the seat so your upper arms rest flat on the pad and your elbows line up with the pivot point.\n2. Grip the handles with your palms facing up.\n3. Curl the handles toward your shoulders, squeezing your biceps.\n4. Lower slowly until your arms are almost straight.</string>
+    <string name="exg_machine_biceps_curl_tips">• Keep your elbows on the pad and don\'t rise off the seat to help.\n• Control the lowering; don\'t let the weight drop.</string>
+    <string name="exg_machine_triceps_extension_steps">1. Set the seat so your upper arms rest on the pad and your elbows line up with the pivot point.\n2. Grip the handles with your elbows bent.\n3. Straighten your arms by pushing the handles until your elbows are fully extended.\n4. Return slowly to the start.</string>
+    <string name="exg_machine_triceps_extension_tips">• Keep your elbows fixed on the pad; only your forearms move.\n• Don\'t lean forward to push the weight.</string>
+    <string name="exg_seated_dip_machine_steps">1. Set the seat so that, with your elbows bent, the handles are at about lower-chest height.\n2. Sit with your back against the pad, fasten the thigh pad if there is one, and grip the handles.\n3. Push the handles down until your arms are straight, keeping your elbows close to your body.\n4. Return slowly until your elbows are bent about 90 degrees.</string>
+    <string name="exg_seated_dip_machine_tips">• Keep your shoulders down and back; don\'t let them roll forward.\n• Sitting upright works the triceps more; leaning forward shifts work to the chest.</string>
+    <string name="exg_assisted_pull_up_machine_steps">1. Select the counterweight: the more weight, the more help you get.\n2. Kneel or stand on the platform and grip the top handles wider than your shoulders, palms facing away.\n3. Pull yourself up until your chin is above the handles, driving your elbows down toward your sides.\n4. Lower slowly until your arms are straight.</string>
+    <string name="exg_assisted_pull_up_machine_tips">• Aim to reduce the counterweight over time: less assistance means more strength.\n• Start each rep from straight arms with your shoulders down, not shrugged.\n• Step down carefully: hold the handles until both feet are on the steps.</string>
+    <string name="exg_assisted_chin_up_machine_steps">1. Select the counterweight: the more weight, the more help you get.\n2. Kneel or stand on the platform and grip the handles shoulder-width apart, palms facing you.\n3. Pull yourself up until your chin is above your hands, keeping your elbows in front of you.\n4. Lower slowly until your arms are straight.</string>
+    <string name="exg_assisted_chin_up_machine_tips">• Aim to reduce the counterweight over time: less assistance means more strength.\n• Don\'t swing or kick; keep your body still and your core tight.\n• Step down carefully: hold the handles until both feet are on the steps.</string>
+    <string name="exg_assisted_dip_machine_steps">1. Select the counterweight: the more weight, the more help you get.\n2. Grip the dip handles, then kneel or stand on the platform with your arms straight.\n3. Lower yourself by bending your elbows until your upper arms are about parallel to the floor.\n4. Push back up until your arms are straight.</string>
+    <string name="exg_assisted_dip_machine_tips">• Aim to reduce the counterweight over time: less assistance means more strength.\n• Keep your shoulders down and don\'t go deeper than is comfortable for them.\n• Lean slightly forward for more chest; stay upright for more triceps.</string>
+    <string name="exg_neck_machine_steps">1. Set the seat so the pad rests on your forehead or the back of your head, depending on the direction you train.\n2. Sit with your back straight, hold the handles and keep your shoulders still.\n3. Move your head slowly against the pad through a small, comfortable range.\n4. Return slowly to the neutral position.</string>
+    <string name="exg_neck_machine_tips">• Use a light weight and slow, smooth reps; never jerk your neck.\n• Keep the range small and free of discomfort.</string>
+    <!-- Cable -->
+    <string name="exg_lat_pulldown_machine_steps">1. Set the thigh pad so your legs fit snugly under it.\n2. Grip the bar a little wider than your shoulders, palms facing away, and sit down.\n3. Pull the bar down to your upper chest, driving your elbows down and back.\n4. Let the bar rise slowly until your arms are straight.</string>
+    <string name="exg_lat_pulldown_machine_tips">• Lean back only slightly and keep your chest up; don\'t swing your body.\n• Don\'t pull the bar behind your neck.</string>
+    <string name="exg_close_grip_lat_pulldown_steps">1. Attach a close-grip (V) handle and set the thigh pad so your legs fit snugly under it.\n2. Grip the handle with your palms facing each other and sit down with your arms straight.\n3. Pull the handle to your upper chest, keeping your elbows close to your body.\n4. Let it rise slowly until your arms are straight and your lats stretch.</string>
+    <string name="exg_close_grip_lat_pulldown_tips">• Keep your chest up and lean back only slightly.\n• Pull with your elbows; don\'t yank with your arms or swing.</string>
+    <string name="exg_seated_cable_row_steps">1. Attach a V-handle (or a bar), sit down and place your feet on the footrests, knees slightly bent.\n2. Grip the handle and sit tall with your arms straight and your back neutral.\n3. Pull the handle to your stomach, driving your elbows back and squeezing your shoulder blades.\n4. Return slowly until your arms are straight, letting your shoulders reach forward slightly.</string>
+    <string name="exg_seated_cable_row_tips">• Keep your torso still; don\'t rock back and forth to move the weight.\n• Keep your chest up and your shoulders down.</string>
+    <string name="exg_single_arm_cable_row_steps">1. Attach a single handle at about waist or chest height and grip it with one hand.\n2. Face the pulley in a staggered stance (or sit down), with your arm straight and your core braced.\n3. Pull the handle to your side, driving your elbow back close to your body.\n4. Return slowly, letting your shoulder reach forward; finish your reps and switch arms.</string>
+    <string name="exg_single_arm_cable_row_tips">• Keep your hips and shoulders square; don\'t twist your torso to pull.\n• Pull with your elbow and keep your shoulder down.</string>
+    <string name="exg_straight_arm_pulldown_steps">1. Attach a straight bar or rope to the high pulley and stand facing it, a step back, feet hip-width apart.\n2. Grip the bar shoulder-width apart, hinge slightly at the hips and keep your arms straight.\n3. Sweep the bar down in an arc to your thighs, using your lats.\n4. Let it rise slowly back to about head height.</string>
+    <string name="exg_straight_arm_pulldown_tips">• Keep your elbows fixed in a slight bend; don\'t turn it into a triceps pushdown.\n• Keep your torso still; don\'t bob up and down.</string>
+    <string name="exg_cable_crossover_steps">1. Set both pulleys high, take a handle in each hand and step forward between them in a staggered stance.\n2. Lean slightly forward with your arms open and a slight bend in your elbows.\n3. Bring the handles down and together in front of your lower chest in a wide arc.\n4. Squeeze, then let your arms open slowly until you feel a stretch across your chest.</string>
+    <string name="exg_cable_crossover_tips">• Keep the same elbow bend throughout; the movement happens at the shoulders.\n• Don\'t let the cables pull your arms too far back.</string>
+    <string name="exg_low_cable_crossover_steps">1. Set both pulleys at the lowest position, take a handle in each hand and step forward between them.\n2. Stand tall with your arms down and slightly out to the sides, palms forward, elbows slightly bent.\n3. Bring the handles up and together in front of your upper chest in a wide arc.\n4. Lower them slowly back out to your sides.</string>
+    <string name="exg_low_cable_crossover_tips">• Keep the slight elbow bend fixed; don\'t curl the handles up.\n• Keep your shoulders down and your chest up.</string>
+    <string name="exg_cable_fly_steps">1. Set both pulleys at about chest height, take a handle in each hand and step forward in a staggered stance.\n2. Open your arms out to the sides at chest level, elbows slightly bent.\n3. Bring the handles together in front of your chest in a wide hugging arc.\n4. Open slowly until you feel a stretch in your chest, keeping tension on the cables.</string>
+    <string name="exg_cable_fly_tips">• Keep your elbows slightly bent and fixed: it\'s a fly, not a press.\n• Brace your core so your body doesn\'t sway with the cables.</string>
+    <string name="exg_face_pull_steps">1. Attach a rope to a pulley at about face height or slightly above.\n2. Grip each end of the rope, thumbs toward you, and step back until your arms are straight.\n3. Pull the rope toward your face, splitting the ends apart and driving your elbows out and high.\n4. Finish with your hands beside your ears, then return slowly.</string>
+    <string name="exg_face_pull_tips">• Keep your elbows at or above shoulder height and squeeze your upper back.\n• Use a light weight; don\'t lean back to pull.</string>
+    <string name="exg_cable_lateral_raise_steps">1. Set a pulley at the lowest position with a single handle and stand side-on to it.\n2. Grip the handle with the hand farther from the machine, the cable crossing in front of your body.\n3. Raise your arm out to the side until your elbow reaches shoulder height, elbow slightly bent.\n4. Lower slowly; finish your reps and switch sides.</string>
+    <string name="exg_cable_lateral_raise_tips">• Lead with your elbow and keep your shoulder down, away from your ear.\n• Don\'t lean or swing to lift the weight.</string>
+    <string name="exg_cable_triceps_pushdown_steps">1. Attach a straight or angled bar to the high pulley and stand facing it, feet hip-width apart.\n2. Grip the bar palms down and bring your elbows to your sides, forearms about parallel to the floor.\n3. Push the bar down until your arms are fully straight.\n4. Let it rise slowly until your forearms are just above parallel.</string>
+    <string name="exg_cable_triceps_pushdown_tips">• Keep your elbows pinned to your sides; only your forearms move.\n• Don\'t lean over the bar or use your body weight to push.</string>
+    <string name="exg_rope_triceps_pushdown_steps">1. Attach a rope to the high pulley and stand facing it, feet hip-width apart.\n2. Grip the rope ends with your palms facing each other and bring your elbows to your sides.\n3. Push the rope down, spreading the ends apart at the bottom, until your arms are straight.\n4. Let the rope rise slowly until your forearms are just above parallel.</string>
+    <string name="exg_rope_triceps_pushdown_tips">• Keep your elbows still at your sides throughout.\n• Spread the rope at the bottom to finish each rep; don\'t lean forward.</string>
+    <string name="exg_cable_overhead_triceps_extension_steps">1. Attach a rope to a low or middle pulley, grip it and turn your back to the machine.\n2. Step forward into a staggered stance, hands behind your head and elbows pointing up.\n3. Straighten your arms overhead until your elbows are fully extended.\n4. Bend your elbows slowly to bring the rope back behind your head.</string>
+    <string name="exg_cable_overhead_triceps_extension_tips">• Keep your elbows close to your head and still; only your forearms move.\n• Brace your core so your lower back doesn\'t arch.</string>
+    <string name="exg_cable_curl_steps">1. Attach a straight or EZ bar to the low pulley and stand facing it, feet hip-width apart.\n2. Grip the bar palms up, shoulder-width apart, with your arms straight and elbows at your sides.\n3. Curl the bar toward your shoulders, squeezing your biceps.\n4. Lower slowly until your arms are straight.</string>
+    <string name="exg_cable_curl_tips">• Keep your elbows at your sides; don\'t let them drift forward.\n• Don\'t lean back or swing to lift the weight.</string>
+    <string name="exg_cable_crunch_steps">1. Attach a rope to the high pulley and kneel facing the machine, about an arm\'s length away.\n2. Hold the rope ends beside your head and hinge forward slightly at the hips.\n3. Crunch down by curling your ribs toward your hips until your elbows approach your thighs.\n4. Return slowly until your abs are stretched, keeping your hips still.</string>
+    <string name="exg_cable_crunch_tips">• Curl your spine; don\'t sit back on your heels or pull with your arms.\n• Keep your hips high and in the same place throughout.</string>
+    <string name="exg_cable_woodchop_steps">1. Set a pulley at the highest position with a handle and stand side-on to it, feet wider than your shoulders.\n2. Grip the handle with both hands, arms almost straight, above the shoulder nearest the machine.\n3. Pull it diagonally down and across your body to outside your opposite knee, rotating your torso.\n4. Return slowly along the same path; finish your reps and switch sides.</string>
+    <string name="exg_cable_woodchop_tips">• Pivot on your back foot and turn from your torso and hips, keeping your arms long.\n• Control the return; don\'t let the cable pull you back.</string>
+    <string name="exg_cable_pull_through_steps">1. Attach a rope to the low pulley, face away from the machine and grip the rope between your legs.\n2. Walk forward a couple of steps and stand with your feet a little wider than hip-width.\n3. Hinge at the hips, pushing them back with a flat back, until you feel a stretch in your hamstrings.\n4. Drive your hips forward to stand up tall, squeezing your glutes at the top.</string>
+    <string name="exg_cable_pull_through_tips">• It\'s a hip hinge, not a squat: keep your knees soft and push your hips back.\n• Don\'t lean back at the top; just stand tall.</string>
+    <string name="exg_cable_glute_kickback_steps">1. Attach an ankle strap to the low pulley and fasten it around one ankle.\n2. Face the machine, hold the frame for support and hinge slightly forward.\n3. Kick the strapped leg back by extending your hip, knee slightly bent.\n4. Squeeze your glute, return slowly, and switch legs after your reps.</string>
+    <string name="exg_cable_glute_kickback_tips">• Don\'t arch your lower back to lift the leg higher.\n• Keep your hips square; don\'t rotate your leg outward.</string>
+    <!-- Smith machine -->
+    <string name="exg_smith_squat_steps">1. Set the bar at about shoulder height and the safety stops just below your lowest squat depth.\n2. Step under the bar, rest it on your upper back and place your feet slightly forward, shoulder-width apart.\n3. Rotate the bar to unhook it, then squat down until your thighs are about parallel to the floor.\n4. Drive up through your whole foot to standing; rotate the bar to hook it back on at the end.</string>
+    <string name="exg_smith_squat_tips">• The bar moves on a fixed path: find a foot position that feels comfortable for your knees and back.\n• Keep your chest up and your knees in line with your toes.</string>
+    <string name="exg_smith_bench_press_steps">1. Place a flat bench under the bar so it lines up with your mid-chest, and set the safety stops at chest level.\n2. Lie down, feet flat, shoulder blades back and down, and grip the bar slightly wider than your shoulders.\n3. Rotate the bar to unhook it and lower it under control to your mid-chest.\n4. Press it back up until your arms are almost straight; rotate it to hook it back on at the end.</string>
+    <string name="exg_smith_bench_press_tips">• Check the bench position before loading: the fixed path should land on your mid-chest.\n• Keep your elbows at about 45 degrees from your body, not flared out.</string>
+    <string name="exg_smith_incline_bench_press_steps">1. Set an incline bench at 30–45 degrees under the bar so it lines up with your upper chest; set the safety stops.\n2. Lie back, feet flat, shoulder blades back and down, and grip the bar slightly wider than your shoulders.\n3. Rotate the bar to unhook it and lower it under control to your upper chest.\n4. Press back up until your arms are almost straight; hook the bar back on at the end.</string>
+    <string name="exg_smith_incline_bench_press_tips">• A lower incline keeps more of the work on the chest; a steep one shifts it to the shoulders.\n• Don\'t bounce the bar off your chest.</string>
+    <string name="exg_smith_shoulder_press_steps">1. Place a bench with an upright back under the bar so the bar comes down just in front of your face.\n2. Sit with your back against the pad and grip the bar slightly wider than your shoulders.\n3. Rotate the bar to unhook it and lower it to about chin height.\n4. Press it up until your arms are almost straight; hook the bar back on at the end.</string>
+    <string name="exg_smith_shoulder_press_tips">• Keep your lower back against the pad; don\'t arch to push.\n• Set the safety stops so the bar can\'t come down onto your head.</string>
+    <string name="exg_smith_split_squat_steps">1. Set the bar at about shoulder height, step under it and rest it on your upper back.\n2. Unhook the bar and take a long stance: one foot forward, the other back on its toes.\n3. Lower your back knee toward the floor until your front thigh is about parallel to it.\n4. Push through your front foot to rise; finish your reps, then switch legs.</string>
+    <string name="exg_smith_split_squat_tips">• Keep your torso upright and your front knee in line with your toes.\n• Keep your feet in place for the whole set; the bar\'s fixed path keeps you balanced.</string>
+    <string name="exg_smith_hip_thrust_steps">1. Set the bar low, sit on the floor with your upper back against a bench and the padded bar over your hips.\n2. Place your feet flat, hip-width apart, and rotate the bar to unhook it.\n3. Drive through your heels to raise your hips until your knees, hips and shoulders are in line.\n4. Squeeze your glutes at the top, lower under control and hook the bar back on at the end.</string>
+    <string name="exg_smith_hip_thrust_tips">• Use a pad on the bar and keep your chin tucked.\n• Don\'t arch your lower back at the top; finish the movement with your glutes.</string>
+    <string name="exg_smith_calf_raise_steps">1. Place a step or plate under the bar, set the bar at shoulder height and rest it on your upper back.\n2. Stand with the balls of your feet on the edge of the step, heels hanging off, and unhook the bar.\n3. Lower your heels slowly as far as is comfortable.\n4. Rise onto your toes as high as you can, pause, and repeat; hook the bar back on at the end.</string>
+    <string name="exg_smith_calf_raise_tips">• Keep your knees straight but not locked; only your ankles move.\n• Pause at the bottom instead of bouncing.</string>
+    <!-- Barbell and EZ bar -->
+    <string name="exg_barbell_bench_press_steps">1. Lie on a flat bench with your eyes under the bar and your feet flat on the floor.\n2. Grip the bar slightly wider than your shoulders and pull your shoulder blades back and down.\n3. Unrack the bar and lower it under control to your mid-chest.\n4. Press it back up over your shoulders until your arms are straight, then rack it.</string>
+    <string name="exg_barbell_bench_press_tips">• Keep your shoulder blades back and down and your feet planted.\n• Don\'t bounce the bar off your chest; keep your elbows at about 45 degrees.\n• Use a spotter or safety arms for heavy sets.</string>
+    <string name="exg_barbell_incline_bench_press_steps">1. Set the bench at 30–45 degrees and lie back with your eyes under the bar, feet flat.\n2. Grip the bar slightly wider than your shoulders and set your shoulder blades back and down.\n3. Unrack the bar and lower it under control to your upper chest, just below the collarbones.\n4. Press it back up until your arms are straight, then rack it.</string>
+    <string name="exg_barbell_incline_bench_press_tips">• Keep your hips on the bench and your shoulder blades pinned.\n• Don\'t flare your elbows straight out to the sides; use a spotter for heavy sets.</string>
+    <string name="exg_barbell_decline_bench_press_steps">1. Hook your legs under the pads of a decline bench and lie back with your eyes under the bar.\n2. Grip the bar slightly wider than your shoulders, shoulder blades back and down.\n3. Unrack the bar (ideally with a spotter) and lower it under control to your lower chest.\n4. Press it back up until your arms are straight, then rack it.</string>
+    <string name="exg_barbell_decline_bench_press_tips">• Have a spotter hand you the bar and help you rack it: the decline makes this awkward.\n• Lower slowly; don\'t bounce the bar off your chest.</string>
+    <string name="exg_close_grip_bench_press_steps">1. Lie on a flat bench with your eyes under the bar and your feet flat.\n2. Grip the bar about shoulder-width apart (no narrower) and set your shoulder blades.\n3. Unrack the bar and lower it to your lower chest, keeping your elbows close to your body.\n4. Press it back up until your arms are straight, then rack it.</string>
+    <string name="exg_close_grip_bench_press_tips">• A shoulder-width grip is enough; a very narrow grip strains the wrists.\n• Keep your elbows tucked and your wrists straight above your elbows.</string>
+    <string name="exg_barbell_overhead_press_steps">1. Set the bar in a rack at upper-chest height and grip it just outside your shoulders.\n2. Unrack it onto the front of your shoulders, step back and brace your glutes and core.\n3. Press the bar straight up, moving your head back slightly to let it pass, until your arms are straight.\n4. Lower it under control to the front of your shoulders.</string>
+    <string name="exg_barbell_overhead_press_tips">• Squeeze your glutes and abs so your lower back doesn\'t arch.\n• Finish with the bar over your mid-foot and your head between your arms.</string>
+    <string name="exg_barbell_back_squat_steps">1. Set the bar in a rack at about armpit height and the safety arms just below your lowest squat depth.\n2. Step under the bar, rest it on your upper back (not your neck), grip it firmly and stand up to unrack it.\n3. Step back, feet shoulder-width apart and toes slightly out, and squat down to parallel or below.\n4. Drive up through your whole foot to standing, then walk the bar back into the rack.</string>
+    <string name="exg_barbell_back_squat_tips">• Brace your core before each rep and keep your chest up.\n• Keep your knees in line with your toes and your heels on the floor.\n• Use safety arms or a spotter when you go heavy.</string>
+    <string name="exg_barbell_front_squat_steps">1. Set the bar in a rack at shoulder height and step under it so it rests on the front of your shoulders.\n2. Hold it with your fingertips under the bar (or arms crossed), elbows high, and stand up to unrack it.\n3. Step back, feet shoulder-width apart, and squat down keeping your torso upright and elbows up.\n4. Drive up through your whole foot to standing, then rack the bar.</string>
+    <string name="exg_barbell_front_squat_tips">• Keep your elbows high so the bar doesn\'t roll forward.\n• Stay upright and let your knees travel forward over your toes.</string>
+    <string name="exg_barbell_deadlift_steps">1. Stand with your mid-foot under the bar, feet hip-width apart.\n2. Hinge down and grip the bar just outside your legs; bend your knees until your shins touch the bar.\n3. Flatten your back, lift your chest and pull the slack out of the bar.\n4. Push the floor away and stand up with the bar close to your legs, hips and shoulders rising together.\n5. Lower the bar to the floor by pushing your hips back, bending your knees once it passes them.</string>
+    <string name="exg_barbell_deadlift_tips">• Keep your back neutral; never round it to reach the bar.\n• Keep the bar in contact with your legs the whole way.\n• Finish standing tall; don\'t lean back at the top.</string>
+    <string name="exg_sumo_deadlift_steps">1. Take a wide stance, toes pointed out, with the bar over your mid-foot and close to your shins.\n2. Squat down with a straight back and grip the bar shoulder-width apart, arms inside your knees.\n3. Push your knees out over your toes, lift your chest and pull the slack out of the bar.\n4. Push the floor apart and stand up with the bar close, bringing your hips forward to finish.\n5. Lower the bar to the floor under control along the same path.</string>
+    <string name="exg_sumo_deadlift_tips">• Keep your knees tracking over your toes; don\'t let them collapse inward.\n• Your torso stays more upright than in a conventional deadlift; keep your back neutral.</string>
+    <string name="exg_barbell_romanian_deadlift_steps">1. Start standing with the bar at your hips, hands shoulder-width apart and feet hip-width apart.\n2. With your knees slightly bent and fixed, push your hips back and lower the bar along your thighs.\n3. Go down until you feel a strong stretch in your hamstrings, usually just below the knees, back flat.\n4. Drive your hips forward to stand back up, squeezing your glutes.</string>
+    <string name="exg_barbell_romanian_deadlift_tips">• Unlike a deadlift, the bar doesn\'t touch the floor between reps and your knees barely bend.\n• Keep the bar close to your legs and your back neutral; stop when your hips can\'t go further back.</string>
+    <string name="exg_good_morning_steps">1. Rest the bar on your upper back as for a back squat, unrack it and step back, feet hip-width apart.\n2. Unlock your knees slightly and brace your core.\n3. Push your hips back and lower your torso with a flat back until you feel a strong stretch in your hamstrings.\n4. Drive your hips forward to return to standing.</string>
+    <string name="exg_good_morning_tips">• Start light: the load sits far from your hips, so it feels heavier than it looks.\n• Keep your back neutral; stop before it starts to round.</string>
+    <string name="exg_barbell_lunge_steps">1. Rest the bar on your upper back, unrack it and step back to a spot with room to step forward.\n2. Stand tall with your feet hip-width apart and brace your core.\n3. Step forward with one leg and lower your back knee toward the floor until both knees are bent about 90 degrees.\n4. Push through your front foot to return to the start, then alternate legs.</string>
+    <string name="exg_barbell_lunge_tips">• Keep your torso upright and your front knee in line with your toes.\n• Take a long enough step that your front heel stays down; find your balance before each step.</string>
+    <string name="exg_barbell_hip_thrust_steps">1. Sit on the floor with your upper back against a bench and roll a padded barbell over your hips.\n2. Place your feet flat, hip-width apart, so your shins are vertical at the top.\n3. Drive through your heels to lift your hips until your knees, hips and shoulders are in line.\n4. Squeeze your glutes at the top, then lower under control.</string>
+    <string name="exg_barbell_hip_thrust_tips">• Keep your chin tucked and ribs down; don\'t arch your lower back to get higher.\n• Use a bar pad and hold the bar so it doesn\'t roll.</string>
+    <string name="exg_barbell_glute_bridge_steps">1. Lie on your back on the floor, knees bent and feet flat, hip-width apart.\n2. Roll a padded barbell over your hips and hold it in place with both hands.\n3. Drive through your heels to lift your hips until your knees, hips and shoulders are in line.\n4. Squeeze your glutes at the top, then lower until your glutes lightly touch the floor.</string>
+    <string name="exg_barbell_glute_bridge_tips">• The range is shorter than in a hip thrust: focus on a strong squeeze at the top.\n• Don\'t arch your lower back; keep your ribs down.</string>
+    <string name="exg_barbell_row_steps">1. Hold the bar with an overhand grip slightly wider than your shoulders, feet hip-width apart.\n2. Hinge at the hips, knees slightly bent, until your torso is at about 45 degrees or lower, back flat.\n3. Pull the bar to your lower chest or upper stomach, driving your elbows back.\n4. Lower it under control until your arms are straight, keeping your torso still.</string>
+    <string name="exg_barbell_row_tips">• Keep your back flat and your torso angle fixed; don\'t stand up to move the weight.\n• Squeeze your shoulder blades at the top and don\'t jerk the bar.</string>
+    <string name="exg_pendlay_row_steps">1. Stand with the bar over your mid-foot and grip it overhand, slightly wider than your shoulders.\n2. Hinge until your torso is roughly parallel to the floor, back flat and knees slightly bent.\n3. Pull the bar explosively from the floor to your lower chest or upper stomach.\n4. Lower it back to the floor and let it settle completely before the next rep.</string>
+    <string name="exg_pendlay_row_tips">• Every rep starts from a dead stop on the floor; don\'t bounce it.\n• Keep your torso parallel and still; only your arms and shoulder blades move.</string>
+    <string name="exg_t_bar_row_steps">1. Load the T-bar (or a barbell in a landmine) and straddle it, feet shoulder-width apart.\n2. Grip the handle with both hands and hinge at the hips until your torso is at about 45 degrees, back flat.\n3. Pull the handle toward your chest, driving your elbows back and squeezing your shoulder blades.\n4. Lower it under control until your arms are straight.</string>
+    <string name="exg_t_bar_row_tips">• Keep your chest up and your back flat; don\'t round at the bottom.\n• Don\'t use your legs and hips to heave the weight up.</string>
+    <string name="exg_barbell_upright_row_steps">1. Stand tall holding the bar in front of your thighs with an overhand grip about shoulder-width apart.\n2. Pull the bar up close to your body, leading with your elbows.\n3. Stop when your elbows reach about shoulder height, with the bar around chest level.\n4. Lower it slowly to the start.</string>
+    <string name="exg_barbell_upright_row_tips">• A shoulder-width (not narrow) grip and stopping at shoulder height are easier on your shoulders.\n• Keep the bar close to your body and don\'t swing.</string>
+    <string name="exg_barbell_shrug_steps">1. Stand tall holding the bar in front of your thighs, hands just outside your hips.\n2. Shrug your shoulders straight up toward your ears as high as you can.\n3. Hold for a moment at the top.\n4. Lower your shoulders slowly to the start.</string>
+    <string name="exg_barbell_shrug_tips">• Move straight up and down; don\'t roll your shoulders.\n• Keep your arms straight; don\'t bend your elbows to lift.</string>
+    <string name="exg_barbell_curl_steps">1. Stand tall holding the bar with an underhand grip, hands shoulder-width apart, arms straight.\n2. Keep your elbows at your sides and curl the bar toward your shoulders.\n3. Squeeze your biceps at the top.\n4. Lower slowly until your arms are straight.</string>
+    <string name="exg_barbell_curl_tips">• Don\'t swing your body or lean back to lift the bar.\n• Keep your elbows still; don\'t let them drift forward.</string>
+    <string name="exg_ez_bar_curl_steps">1. Stand tall holding the EZ bar on its angled grips, palms up, arms straight.\n2. Keep your elbows at your sides and curl the bar toward your shoulders.\n3. Squeeze your biceps at the top.\n4. Lower slowly until your arms are straight.</string>
+    <string name="exg_ez_bar_curl_tips">• The angled grip is easier on the wrists than a straight bar.\n• Don\'t swing or lean back; keep your elbows still.</string>
+    <string name="exg_ez_bar_preacher_curl_steps">1. Set the preacher bench seat so your armpits rest snugly over the top of the pad.\n2. Rest the back of your upper arms on the pad and hold the EZ bar on its angled grips, palms up.\n3. Curl the bar up until your forearms are about vertical.\n4. Lower slowly until your arms are almost straight.</string>
+    <string name="exg_ez_bar_preacher_curl_tips">• Control the bottom: don\'t let the weight drop into a locked elbow.\n• Keep your upper arms on the pad; don\'t lift your shoulders to help.</string>
+    <string name="exg_skull_crusher_steps">1. Lie on a flat bench holding an EZ bar or barbell above your chest, arms straight, hands about shoulder-width.\n2. Tilt your arms slightly back toward your head and keep your upper arms still.\n3. Bend your elbows to lower the bar toward your forehead or just behind your head.\n4. Straighten your arms to press it back up.</string>
+    <string name="exg_skull_crusher_tips">• Keep your elbows pointing up, not flaring out.\n• Lower slowly and with control: the bar travels toward your head.</string>
+    <string name="exg_barbell_wrist_curl_steps">1. Sit on a bench holding a barbell palms up, forearms on your thighs and wrists just past your knees.\n2. Let the bar roll down toward your fingertips as you lower your wrists.\n3. Curl your wrists up as far as you can, squeezing your forearms.\n4. Lower slowly and repeat.</string>
+    <string name="exg_barbell_wrist_curl_tips">• Only your wrists move; keep your forearms flat on your thighs.\n• Use a light weight and a full, controlled range.</string>
+    <string name="exg_barbell_reverse_wrist_curl_steps">1. Sit on a bench holding a barbell palms down, forearms on your thighs and wrists just past your knees.\n2. Lower the back of your hands slowly toward the floor.\n3. Raise your knuckles as far as you can by extending your wrists.\n4. Lower slowly and repeat.</string>
+    <string name="exg_barbell_reverse_wrist_curl_tips">• Use less weight than for wrist curls: these muscles are weaker.\n• Keep your forearms still on your thighs.</string>
+    <!-- Dumbbells -->
+    <string name="exg_dumbbell_bench_press_steps">1. Sit on the end of a flat bench with the dumbbells on your thighs, then lie back bringing them to your chest.\n2. Plant your feet, set your shoulder blades back and down, and hold the dumbbells beside your chest.\n3. Press them up until your arms are straight over your chest.\n4. Lower them slowly until your elbows are slightly below the bench or you feel a good stretch.</string>
+    <string name="exg_dumbbell_bench_press_tips">• Keep your elbows at about 45 degrees from your body.\n• To finish, bring the dumbbells to your chest and sit up with them on your thighs instead of dropping them.</string>
+    <string name="exg_dumbbell_incline_bench_press_steps">1. Set the bench at 30–45 degrees, sit with the dumbbells on your thighs and lie back bringing them to your chest.\n2. Plant your feet and set your shoulder blades back and down.\n3. Press the dumbbells up over your upper chest until your arms are straight.\n4. Lower them slowly to the sides of your upper chest.</string>
+    <string name="exg_dumbbell_incline_bench_press_tips">• Keep your elbows slightly tucked, not straight out to the sides.\n• Bring the dumbbells to your thighs as you sit up at the end; don\'t drop them.</string>
+    <string name="exg_dumbbell_fly_steps">1. Lie on a flat bench with a dumbbell in each hand, arms straight above your chest, palms facing each other.\n2. Bend your elbows slightly and keep that angle.\n3. Open your arms out to the sides in a wide arc until you feel a stretch in your chest.\n4. Bring the dumbbells back together above your chest along the same arc.</string>
+    <string name="exg_dumbbell_fly_tips">• Don\'t lower the weights below the bench; stop at a comfortable stretch.\n• Keep the elbow bend fixed: bending more turns it into a press.</string>
+    <string name="exg_dumbbell_pullover_steps">1. Lie on a flat bench (along or across it) and hold one dumbbell with both hands above your chest.\n2. Keep a slight bend in your elbows and brace your core.\n3. Lower the dumbbell in an arc behind your head until you feel a stretch in your chest and lats.\n4. Pull it back over your chest along the same arc.</string>
+    <string name="exg_dumbbell_pullover_tips">• Only go as far back as is comfortable for your shoulders.\n• Keep your hips down and avoid arching your lower back.</string>
+    <string name="exg_dumbbell_shoulder_press_steps">1. Sit on a bench with an upright back and hold the dumbbells at shoulder height, palms forward.\n2. Plant your feet and keep your back against the pad.\n3. Press the dumbbells up until your arms are straight overhead.\n4. Lower them slowly back to shoulder height.</string>
+    <string name="exg_dumbbell_shoulder_press_tips">• Don\'t arch your lower back; keep your core tight.\n• Keep your forearms vertical under the dumbbells.</string>
+    <string name="exg_arnold_press_steps">1. Sit on a bench with an upright back, holding the dumbbells in front of your shoulders, palms facing you.\n2. Press up while rotating your palms to face forward.\n3. Finish with your arms straight overhead.\n4. Lower slowly while rotating back to the start, palms facing you.</string>
+    <string name="exg_arnold_press_tips">• Make the rotation smooth and continuous through the whole press.\n• Keep your back against the pad and use less weight than for a regular press.</string>
+    <string name="exg_dumbbell_lateral_raise_steps">1. Stand tall with a dumbbell in each hand at your sides, palms facing in, elbows slightly bent.\n2. Raise your arms out to the sides until they reach shoulder height.\n3. Pause briefly at the top.\n4. Lower slowly to your sides.</string>
+    <string name="exg_dumbbell_lateral_raise_tips">• Lead with your elbows and keep your shoulders away from your ears.\n• Use a weight you can lift without swinging or leaning back.</string>
+    <string name="exg_dumbbell_front_raise_steps">1. Stand tall with the dumbbells in front of your thighs, palms facing your body or each other.\n2. Raise one or both arms straight in front of you, elbows slightly bent.\n3. Stop when your arms reach shoulder height.\n4. Lower slowly to the start.</string>
+    <string name="exg_dumbbell_front_raise_tips">• Don\'t swing or lean back to lift the weights.\n• Going above shoulder height adds little; keep the movement controlled.</string>
+    <string name="exg_dumbbell_rear_delt_fly_steps">1. Hinge forward until your torso is nearly parallel to the floor (or lie chest-down on an incline bench).\n2. Let the dumbbells hang below your shoulders, palms facing each other, elbows slightly bent.\n3. Raise your arms out to the sides until they\'re in line with your body.\n4. Lower slowly to the start.</string>
+    <string name="exg_dumbbell_rear_delt_fly_tips">• Lead with your elbows and keep your shoulders down; don\'t squeeze your shoulder blades hard.\n• Use a light weight and keep your back flat; don\'t swing.</string>
+    <string name="exg_dumbbell_row_steps">1. Place one knee and the same-side hand on a flat bench, back flat and roughly parallel to the floor.\n2. Hold a dumbbell in the other hand, arm straight below your shoulder.\n3. Pull the dumbbell toward your hip, driving your elbow back close to your body.\n4. Lower it slowly until your arm is straight; finish your reps and switch sides.</string>
+    <string name="exg_dumbbell_row_tips">• Keep your back flat and your shoulders level; don\'t twist to lift the weight.\n• Pull toward your hip rather than straight up to your chest.</string>
+    <string name="exg_dumbbell_shrug_steps">1. Stand tall with a dumbbell in each hand at your sides, palms facing in.\n2. Shrug your shoulders straight up toward your ears as high as you can.\n3. Hold for a moment at the top.\n4. Lower your shoulders slowly to the start.</string>
+    <string name="exg_dumbbell_shrug_tips">• Move straight up and down; don\'t roll your shoulders.\n• Keep your arms straight and your head neutral.</string>
+    <string name="exg_dumbbell_curl_steps">1. Stand tall with a dumbbell in each hand, arms straight at your sides, palms facing forward.\n2. Keep your elbows at your sides and curl the dumbbells toward your shoulders, together or alternating.\n3. Squeeze your biceps at the top.\n4. Lower slowly until your arms are straight.</string>
+    <string name="exg_dumbbell_curl_tips">• Don\'t swing your body or let your elbows drift forward.\n• Lower under control; the way down counts too.</string>
+    <string name="exg_hammer_curl_steps">1. Stand tall with a dumbbell in each hand at your sides, palms facing your body.\n2. Keep your palms facing in and curl the dumbbells toward your shoulders.\n3. Squeeze at the top with your thumbs pointing up.\n4. Lower slowly until your arms are straight.</string>
+    <string name="exg_hammer_curl_tips">• Keep the neutral grip (palms facing each other) the whole way.\n• Keep your elbows at your sides and don\'t swing.</string>
+    <string name="exg_incline_dumbbell_curl_steps">1. Set a bench at 45–60 degrees and lie back with a dumbbell in each hand, arms hanging straight down.\n2. Turn your palms forward and keep your upper arms vertical.\n3. Curl the dumbbells toward your shoulders without moving your elbows forward.\n4. Lower slowly until your arms are fully straight.</string>
+    <string name="exg_incline_dumbbell_curl_tips">• Keep your head and back against the bench.\n• The stretched start is the point of this curl: use less weight than standing.</string>
+    <string name="exg_concentration_curl_steps">1. Sit on a bench with your feet wide apart and a dumbbell in one hand.\n2. Rest the back of that upper arm against your inner thigh, arm straight, palm up.\n3. Curl the dumbbell toward your shoulder, keeping your upper arm still.\n4. Lower slowly until your arm is straight; finish your reps and switch arms.</string>
+    <string name="exg_concentration_curl_tips">• Don\'t lean back or use your thigh to push your arm up.\n• Squeeze your biceps for a moment at the top.</string>
+    <string name="exg_dumbbell_overhead_extension_steps">1. Sit on a bench with back support (or stand) and hold one dumbbell overhead with both hands, arms straight.\n2. Keep your upper arms close to your head and pointing up.\n3. Bend your elbows to lower the dumbbell behind your head until you feel a stretch in your triceps.\n4. Straighten your arms to raise it back overhead.</string>
+    <string name="exg_dumbbell_overhead_extension_tips">• Don\'t let your elbows flare out; keep your upper arms still.\n• Brace your core so your lower back doesn\'t arch.</string>
+    <string name="exg_dumbbell_triceps_kickback_steps">1. Place one knee and hand on a bench (or hinge forward), back flat, with a dumbbell in the other hand.\n2. Raise that upper arm until it\'s parallel to the floor and close to your body, elbow bent at 90 degrees.\n3. Straighten your arm back until it\'s fully extended.\n4. Bend your elbow slowly to return; finish your reps and switch arms.</string>
+    <string name="exg_dumbbell_triceps_kickback_tips">• Keep your upper arm fixed; only your forearm moves.\n• Use a light weight: swinging defeats the purpose.</string>
+    <string name="exg_dumbbell_goblet_squat_steps">1. Hold one dumbbell vertically against your chest, cupping the top end with both hands.\n2. Stand with your feet shoulder-width apart or slightly wider, toes turned out a little.\n3. Squat down between your knees, chest up, until your thighs are at least parallel.\n4. Drive up through your whole foot to standing.</string>
+    <string name="exg_dumbbell_goblet_squat_tips">• Keep the dumbbell close to your chest and your elbows inside your knees.\n• Keep your heels down and your knees in line with your toes.</string>
+    <string name="exg_bulgarian_split_squat_steps">1. Stand about a stride in front of a bench, a dumbbell in each hand, and rest the top of your back foot on it.\n2. Find a front-foot position where your knee bends comfortably and your heel stays down.\n3. Lower your back knee toward the floor until your front thigh is about parallel to it.\n4. Push through your front foot to rise; finish your reps, then switch legs.</string>
+    <string name="exg_bulgarian_split_squat_tips">• Keep your torso fairly upright and your front knee in line with your toes.\n• A longer stance works the glutes more; a shorter one, the quads.</string>
+    <string name="exg_dumbbell_lunge_steps">1. Stand tall with a dumbbell in each hand at your sides, feet hip-width apart.\n2. Step forward with one leg and lower your back knee toward the floor until both knees are bent about 90 degrees.\n3. Push through your front foot to return to standing.\n4. Alternate legs, or do all your reps on one side before switching.</string>
+    <string name="exg_dumbbell_lunge_tips">• Keep your torso upright and your front knee in line with your toes.\n• Take a long enough step that your front heel stays on the floor.</string>
+    <string name="exg_dumbbell_step_up_steps">1. Stand facing a sturdy box or bench about knee height, with a dumbbell in each hand.\n2. Place one whole foot on the box.\n3. Push through that foot to step up until your leg is straight, bringing the other foot up beside it.\n4. Step down slowly, other foot first; finish your reps and switch legs.</string>
+    <string name="exg_dumbbell_step_up_tips">• Drive with the leg on the box; don\'t push off with the back foot.\n• Use a stable box and keep your knee in line with your toes.</string>
+    <string name="exg_dumbbell_romanian_deadlift_steps">1. Stand tall with a dumbbell in each hand in front of your thighs, feet hip-width apart.\n2. With your knees slightly bent and fixed, push your hips back and lower the dumbbells along your legs.\n3. Go down until you feel a strong stretch in your hamstrings, back flat.\n4. Drive your hips forward to stand up, squeezing your glutes.</string>
+    <string name="exg_dumbbell_romanian_deadlift_tips">• Keep the dumbbells close to your legs; your knees barely bend.\n• Keep your back neutral; stop when your hips can\'t go further back.</string>
+    <string name="exg_dumbbell_side_bend_steps">1. Stand tall holding a dumbbell in one hand at your side, feet hip-width apart, the other hand on your waist.\n2. Bend sideways toward the dumbbell, sliding it down your leg.\n3. Return to upright by contracting the obliques on the opposite side.\n4. Finish your reps and switch sides.</string>
+    <string name="exg_dumbbell_side_bend_tips">• Bend purely to the side; don\'t lean forward or twist.\n• Move slowly and use one dumbbell only: with two, one cancels out the other.</string>
+    <!-- Kettlebells -->
+    <string name="exg_kettlebell_swing_steps">1. Stand with your feet a bit wider than hip-width, the kettlebell on the floor a short step in front of you.\n2. Hinge at the hips, grip the handle with both hands and hike the bell back between your legs.\n3. Snap your hips forward to swing it up to chest height, arms straight and relaxed.\n4. Let it fall back between your legs, hinging at the hips, and flow into the next rep.\n5. To stop, let it swing back once more and set it down in front of you.</string>
+    <string name="exg_kettlebell_swing_tips">• The power comes from your hips, not from your arms or a squat.\n• Keep your back flat and stand tall at the top; don\'t lean back.</string>
+    <string name="exg_kettlebell_goblet_squat_steps">1. Hold the kettlebell by the sides of the handle at your chest, elbows pointing down.\n2. Stand with your feet shoulder-width apart or slightly wider, toes turned out a little.\n3. Squat down between your knees, chest up, until your thighs are at least parallel.\n4. Drive up through your whole foot to standing.</string>
+    <string name="exg_kettlebell_goblet_squat_tips">• Keep the kettlebell close to your chest and your elbows inside your knees.\n• Keep your heels down and your knees in line with your toes.</string>
+    <string name="exg_kettlebell_clean_and_press_steps">1. Stand with the kettlebell between your feet, hinge at the hips and grip the handle with one hand.\n2. Drive your hips forward and pull the bell close to your body into the rack position at your shoulder.\n3. Press it straight overhead until your arm is fully extended, biceps by your ear.\n4. Lower it to your shoulder, then let it swing down between your legs, hinging, for the next rep.\n5. Finish your reps and switch arms.</string>
+    <string name="exg_kettlebell_clean_and_press_tips">• Guide the bell close to your body so it doesn\'t flip over and hit your forearm.\n• Keep your wrist straight and squeeze your glutes as you press; don\'t lean back.</string>
+    <string name="exg_turkish_get_up_steps">1. Lie on your back holding the kettlebell straight up in one hand; bend that knee, other arm and leg out wide.\n2. Keeping your eyes on the bell, roll onto your opposite forearm, then push up onto that hand.\n3. Lift your hips, sweep your straight leg back under you onto one knee and bring your torso upright.\n4. Stand up from the kneeling position as if finishing a lunge, arm still straight overhead.\n5. Reverse each step slowly to lie back down; finish your reps and switch sides.</string>
+    <string name="exg_turkish_get_up_tips">• Keep the arm holding the bell straight and vertical the whole time, wrist straight.\n• Learn it with no weight or a very light one first; move slowly, one step at a time.</string>
+    <!-- Bodyweight -->
+    <string name="exg_push_up_steps">1. Place your hands on the floor slightly wider than your shoulders, legs straight behind you, on your toes.\n2. Brace your abs and glutes so your body forms a straight line from head to heels.\n3. Lower your chest toward the floor by bending your elbows, keeping them at about 45 degrees.\n4. Push back up until your arms are straight.</string>
+    <string name="exg_push_up_tips">• Don\'t let your hips sag or pike up.\n• Too hard? Put your hands on a bench or do them from your knees.</string>
+    <string name="exg_parallel_bar_dip_steps">1. Grip the parallel bars and jump or step up until your arms are straight, shoulders over your hands.\n2. Bend your knees or keep your legs straight below you, and brace your core.\n3. Lower yourself by bending your elbows until your upper arms are about parallel to the floor.\n4. Push back up until your arms are straight.</string>
+    <string name="exg_parallel_bar_dip_tips">• Keep your shoulders down, away from your ears, and don\'t go deeper than is comfortable.\n• Lean slightly forward for more chest; stay upright for more triceps.</string>
+    <string name="exg_bench_dip_steps">1. Sit on the edge of a bench, hands beside your hips gripping the edge, fingers forward.\n2. Slide your hips off the bench, legs bent (easier) or straight (harder).\n3. Bend your elbows to lower your hips until your upper arms are about parallel to the floor.\n4. Push through your hands to straighten your arms.</string>
+    <string name="exg_bench_dip_tips">• Keep your back close to the bench and your elbows pointing back, not out.\n• Don\'t go too low; stop if your shoulders feel strained.</string>
+    <string name="exg_pull_up_steps">1. Grip the bar slightly wider than your shoulders, palms facing away, and hang with your arms straight.\n2. Pull your shoulders down and brace your core, legs still.\n3. Pull yourself up until your chin is above the bar, driving your elbows down.\n4. Lower slowly until your arms are straight again.</string>
+    <string name="exg_pull_up_tips">• Don\'t swing or kick to get up; keep the movement controlled.\n• Can\'t do one yet? Use the assisted machine, a band or slow lowerings from the top.</string>
+    <string name="exg_chin_up_steps">1. Grip the bar shoulder-width apart with your palms facing you and hang with your arms straight.\n2. Pull your shoulders down and brace your core.\n3. Pull yourself up until your chin is above the bar, keeping your elbows in front of you.\n4. Lower slowly until your arms are straight.</string>
+    <string name="exg_chin_up_tips">• Avoid swinging; keep your legs still.\n• Use the full range: start every rep from straight arms.</string>
+    <string name="exg_inverted_row_steps">1. Set a bar in a rack or Smith machine at about waist height and lie underneath it.\n2. Grip the bar slightly wider than your shoulders and hang with straight arms, heels down and body straight.\n3. Pull your chest up to the bar, squeezing your shoulder blades together.\n4. Lower slowly until your arms are straight.</string>
+    <string name="exg_inverted_row_tips">• Keep your body in a straight line from head to heels; don\'t let your hips sag.\n• Bend your knees to make it easier; a lower bar makes it harder.</string>
+    <string name="exg_bodyweight_squat_steps">1. Stand with your feet shoulder-width apart, toes turned out slightly, arms in front of you for balance.\n2. Push your hips back and bend your knees to squat down, chest up.\n3. Go as low as you can with your heels down and back neutral, ideally to parallel or below.\n4. Push through your whole foot to stand back up.</string>
+    <string name="exg_bodyweight_squat_tips">• Keep your knees in line with your toes; don\'t let them cave in.\n• Keep your weight over your mid-foot, heels on the floor.</string>
+    <string name="exg_bodyweight_lunge_steps">1. Stand tall with your feet hip-width apart and your hands on your hips.\n2. Step forward with one leg and lower your back knee toward the floor until both knees are bent about 90 degrees.\n3. Push through your front foot to return to standing.\n4. Alternate legs, or do all your reps on one side before switching.</string>
+    <string name="exg_bodyweight_lunge_tips">• Keep your torso upright and your front knee in line with your toes.\n• Take a long enough step that your front heel stays down.</string>
+    <string name="exg_glute_bridge_steps">1. Lie on your back with your knees bent, feet flat on the floor hip-width apart, arms at your sides.\n2. Brace your core and press your lower back gently toward the floor.\n3. Drive through your heels to lift your hips until your knees, hips and shoulders are in line.\n4. Squeeze your glutes at the top, then lower slowly.</string>
+    <string name="exg_glute_bridge_tips">• Don\'t arch your lower back at the top; the lift comes from your glutes.\n• Make it harder on one leg or with a pause at the top.</string>
+    <string name="exg_back_extension_steps">1. Set the pad just below your hip bones and hook your heels under the foot rollers.\n2. Cross your arms on your chest (or hold a plate), body in a straight line.\n3. Bend forward at the hips with a flat back until you feel a stretch in your hamstrings.\n4. Raise your torso until your body is in line with your legs again.</string>
+    <string name="exg_back_extension_tips">• Stop when your body is straight; don\'t swing up into an arch.\n• Move slowly and keep your neck neutral.</string>
+    <string name="exg_nordic_curl_steps">1. Kneel on a pad with your ankles anchored under a bench or roller, or held by a partner.\n2. Keep your body straight from knees to shoulders, hands ready in front of your chest.\n3. Lower yourself forward as slowly as you can, resisting with your hamstrings.\n4. Catch yourself with your hands at the bottom and push lightly back up to the start.</string>
+    <string name="exg_nordic_curl_tips">• Keep your hips straight; don\'t bend at the waist to make it easier.\n• Focus on the slow lowering; use your hands as much as you need on the way up.</string>
+    <string name="exg_crunch_steps">1. Lie on your back with your knees bent and feet flat, hands lightly behind your head or crossed on your chest.\n2. Brace your abs and press your lower back toward the floor.\n3. Breathing out, curl your head, shoulders and upper back off the floor, bringing your ribs toward your hips.\n4. Lower slowly back down.</string>
+    <string name="exg_crunch_tips">• Don\'t pull on your neck; keep a fist\'s space between your chin and chest.\n• It\'s a short movement: your lower back stays on the floor.</string>
+    <string name="exg_sit_up_steps">1. Lie on your back with your knees bent and feet flat (anchored if needed), arms crossed on your chest.\n2. Brace your abs.\n3. Curl up through your spine until your torso is upright, breathing out as you rise.\n4. Lower slowly back down, one vertebra at a time.</string>
+    <string name="exg_sit_up_tips">• Don\'t yank yourself up with your arms or neck.\n• Lower under control rather than dropping back.</string>
+    <string name="exg_hanging_leg_raise_steps">1. Hang from a pull-up bar with your arms straight and hands shoulder-width apart.\n2. Pull your shoulders down slightly and keep your legs together and still.\n3. Raise your legs, straight or with knees bent, until your thighs pass parallel, tilting your pelvis up.\n4. Lower them slowly without swinging.</string>
+    <string name="exg_hanging_leg_raise_tips">• Avoid swinging: pause at the bottom between reps.\n• Tilt your pelvis up at the top so your abs, not just your hip flexors, do the work.</string>
+    <string name="exg_lying_leg_raise_steps">1. Lie on your back with your legs straight and your hands under your hips or at your sides.\n2. Press your lower back into the floor and brace your abs.\n3. Raise your legs together until they\'re vertical.\n4. Lower them slowly, stopping before your lower back lifts off the floor.</string>
+    <string name="exg_lying_leg_raise_tips">• Your lower back must stay on the floor; bend your knees if it lifts.\n• Move slowly; don\'t let your legs drop.</string>
+    <string name="exg_russian_twist_steps">1. Sit on the floor with your knees bent and heels down (or lifted to make it harder).\n2. Lean back with a straight back until you feel your abs working, hands together or holding a weight.\n3. Rotate your torso to one side, bringing your hands toward the floor beside your hip.\n4. Rotate to the other side and keep alternating with control.</string>
+    <string name="exg_russian_twist_tips">• Turn from your ribs and shoulders, not just your arms.\n• Keep your back straight; don\'t slump.</string>
+    <string name="exg_mountain_climber_steps">1. Start in a high plank: hands under your shoulders, body straight from head to heels.\n2. Drive one knee toward your chest.\n3. Switch legs quickly, bringing the other knee in as the first foot goes back.\n4. Keep alternating at a steady pace.</string>
+    <string name="exg_mountain_climber_tips">• Keep your hips level and low; your shoulders stay over your hands.\n• Brace your abs and breathe steadily.</string>
+    <string name="exg_burpee_steps">1. Stand with your feet shoulder-width apart, then squat down and place your hands on the floor.\n2. Jump or step your feet back into a plank.\n3. Do a push-up (optional), then jump or step your feet back toward your hands.\n4. Stand up and jump, reaching your arms overhead; land softly and go into the next rep.</string>
+    <string name="exg_burpee_tips">• Keep your body straight in the plank; don\'t let your hips sag.\n• Step instead of jumping to make it easier; land with soft knees.</string>
+    <!-- Timed holds and carries -->
+    <string name="exg_plank_steps">1. Place your forearms on the floor with your elbows under your shoulders.\n2. Step your feet back onto your toes so your body is straight from head to heels.\n3. Brace your abs and squeeze your glutes.\n4. Hold the position for your target time, then lower your knees to rest.</string>
+    <string name="exg_plank_tips">• Breathe steadily; don\'t hold your breath.\n• Keep your hips in line, neither sagging nor piked; look at the floor to keep your neck neutral.</string>
+    <string name="exg_side_plank_steps">1. Lie on your side with your elbow under your shoulder and your legs straight, feet stacked.\n2. Lift your hips until your body is straight from head to feet.\n3. Hold the position, hips high, top hand on your hip or pointing up.\n4. Lower your hips, then repeat on the other side.</string>
+    <string name="exg_side_plank_tips">• Breathe steadily throughout the hold.\n• Don\'t let your hips sag or rotate forward; bend your bottom knee to make it easier.</string>
+    <string name="exg_copenhagen_plank_steps">1. Lie on your side next to a bench, elbow under your shoulder, and rest your top leg on the bench (knee or ankle).\n2. Lift your hips so your body is straight, supported by your forearm and your top leg.\n3. Bring your bottom leg up toward the bench, or let it hang, and hold.\n4. Lower down, then repeat on the other side.</string>
+    <string name="exg_copenhagen_plank_tips">• Resting your knee on the bench is easier than your ankle: start there.\n• Keep your hips high and in line, and breathe steadily.</string>
+    <string name="exg_wall_sit_steps">1. Stand with your back against a wall and your feet about a step in front of you, hip-width apart.\n2. Slide down the wall until your knees are bent about 90 degrees, thighs parallel to the floor.\n3. Keep your back flat against the wall and hold, hands off your thighs.\n4. Slide back up the wall to finish.</string>
+    <string name="exg_wall_sit_tips">• Keep your knees over your ankles, not past your toes.\n• Breathe steadily; stay higher on the wall if 90 degrees is too hard.</string>
+    <string name="exg_dead_hang_steps">1. Grip a pull-up bar with your palms facing away, hands shoulder-width apart.\n2. Lift your feet and hang with your arms straight.\n3. Keep your shoulders slightly engaged (not shrugged up to your ears) and your body still.\n4. Hold for your target time, then step down carefully.</string>
+    <string name="exg_dead_hang_tips">• Breathe steadily and relax your legs.\n• Use a box or step to reach the bar and to get down; don\'t drop from a height.</string>
+    <string name="exg_farmers_carry_steps">1. Stand between two heavy dumbbells, squat down with a flat back and grip one in each hand.\n2. Stand up tall, shoulders back and down, arms straight at your sides.\n3. Walk with short, controlled steps for your target time or distance.\n4. Stop, then squat down with a flat back to set the dumbbells on the floor.</string>
+    <string name="exg_farmers_carry_tips">• Keep your torso upright; don\'t lean to either side.\n• Breathe steadily and squeeze the handles hard.</string>
+    <!-- Resistance bands -->
+    <string name="exg_band_pull_apart_steps">1. Stand tall holding a light band in front of you at shoulder height, hands shoulder-width apart, palms down.\n2. Keep your arms straight with a slight bend in your elbows.\n3. Pull the band apart by moving your hands out to the sides until it touches your chest.\n4. Return slowly, keeping tension on the band.</string>
+    <string name="exg_band_pull_apart_tips">• Keep your shoulders down and your ribs in; don\'t arch your back.\n• Choose a band that lets you complete the full range; hands closer together make it harder.</string>
+    <string name="exg_banded_lateral_walk_steps">1. Place a mini band around your legs, just above your knees or around your ankles.\n2. Stand with your feet hip-width apart and sink into a quarter squat, chest up.\n3. Step sideways with one foot, keeping tension on the band, then follow with the other without your feet touching.\n4. Take your planned number of steps, then walk back the other way.</string>
+    <string name="exg_banded_lateral_walk_tips">• Keep your knees pushed out and your toes pointing forward.\n• Stay low at the same height; don\'t bob up and down or sway your torso.</string>
+    <!-- Cardio machines -->
+    <string name="exg_treadmill_steps">1. Stand on the side rails, clip the safety key to your clothes and start the belt at a slow speed.\n2. Step onto the belt and walk for a few minutes to warm up.\n3. Raise the speed or incline gradually to your target effort.\n4. To finish, slow down for a few minutes before stopping the belt and stepping off.</string>
+    <string name="exg_treadmill_tips">• Don\'t hold the handrails while you walk or run: it changes your posture and the effort.\n• Stay near the front of the belt, look ahead and keep your strides natural.\n• For a harder walk, add incline instead of very high speeds.</string>
+    <string name="exg_stationary_bike_steps">1. Set the seat so your knee is slightly bent when the pedal is at the bottom.\n2. Set the handlebar at a comfortable height and fasten the pedal straps if there are any.\n3. Start pedalling at a light resistance for a few minutes to warm up.\n4. Raise the resistance or cadence to your target effort, and lower it again for the last minutes.</string>
+    <string name="exg_stationary_bike_tips">• A good starting point: the seat at hip height when you stand next to the bike.\n• Keep your back straight and your knees in line with your feet, not pointing out.</string>
+    <string name="exg_spin_bike_steps">1. Set the saddle at about hip height so your knee is slightly bent at the bottom of the pedal stroke.\n2. Adjust the saddle fore and aft and the handlebar height, then secure your feet in the pedals or clips.\n3. Warm up for a few minutes at a light resistance.\n4. Vary resistance and cadence, seated or standing, and ease off for the last few minutes.</string>
+    <string name="exg_spin_bike_tips">• The flywheel keeps the pedals turning: use the brake to stop and don\'t take your feet out while it spins.\n• Always keep some resistance on, especially when you pedal standing.</string>
+    <string name="exg_recumbent_bike_steps">1. Slide the seat so your knee is slightly bent when the pedal is at its farthest point.\n2. Sit with your back against the backrest and fasten the pedal straps.\n3. Start pedalling at a light resistance for a few minutes to warm up.\n4. Raise the resistance or cadence to your target effort, and lower it again for the last minutes.</string>
+    <string name="exg_recumbent_bike_tips">• Keep your back against the backrest and your knees in line with your feet.\n• Don\'t lock your knees at full extension; move the seat closer if they do.</string>
+    <string name="exg_air_bike_steps">1. Set the seat so your knee is slightly bent when the pedal is at the bottom.\n2. Grip the moving handles and place your feet on the pedals.\n3. Push and pull the handles as you pedal; the faster you go, the more the fan resists.\n4. Warm up gently, then work at your target effort; slow down gradually to finish.</string>
+    <string name="exg_air_bike_tips">• The resistance rises steeply with speed: pace yourself on longer efforts.\n• Use your arms and legs together and keep your torso stable.</string>
+    <string name="exg_elliptical_steps">1. Step onto the pedals holding the handles and start moving slowly.\n2. Set the resistance and incline (if there is one) for a light warm-up.\n3. Push and pull the moving handles as you stride, or hold the fixed ones to focus on your legs.\n4. Raise the resistance to your target effort, then ease off for the last few minutes.</string>
+    <string name="exg_elliptical_tips">• Stand tall and keep your whole foot on the pedals; don\'t lean on the handles.\n• Pedal backwards now and then for variety.</string>
+    <string name="exg_rowing_machine_steps">1. Strap your feet in across the widest part of the foot and set the damper (3 to 5 is a good start).\n2. Sit tall and grip the handle with your arms straight and your shins vertical.\n3. Push with your legs first, then lean back slightly and pull the handle to your lower ribs.\n4. Return in reverse: arms forward, lean forward from the hips, then bend your knees to slide in.</string>
+    <string name="exg_rowing_machine_tips">• Drive: legs, body, arms. Return: arms, body, legs.\n• Keep your back straight and don\'t pull with your arms before your legs are almost straight.\n• A higher damper isn\'t more effort by itself; the power comes from the leg drive.</string>
+    <string name="exg_stair_climber_steps">1. Step onto the stairs holding the side rails and start at a slow speed.\n2. Climb with your whole foot on each step, standing tall.\n3. Raise the speed gradually to your target effort.\n4. Slow down for the last few minutes, then wait for the stairs to stop before stepping off.</string>
+    <string name="exg_stair_climber_tips">• Use the rails only for balance; don\'t lean on them or hang your weight on your arms.\n• Keep your torso upright rather than hunched over the console.</string>
+    <string name="exg_ski_erg_steps">1. Stand facing the machine, feet hip-width apart, set the damper and grip the handles overhead.\n2. Pull the handles down, hinging at the hips and bending your knees slightly, like a double-pole ski stroke.\n3. Finish with your hands past your hips and your torso leaning forward.\n4. Stand back up and let your arms rise with the handles to start the next pull.</string>
+    <string name="exg_ski_erg_tips">• Use your whole body: your core and hips drive the pull, not just your arms.\n• Keep your back flat as you hinge; don\'t turn it into a squat.</string>
+    <!-- Built-in exercise and machine names: ex_<catalog id> (training/catalog/ExerciseCatalog.kt) -->
+    <!-- Machines -->
+    <string name="ex_machine_chest_press">Chest press machine</string>
+    <string name="ex_machine_incline_chest_press">Incline chest press machine</string>
+    <string name="ex_pec_deck">Pec deck (butterfly)</string>
+    <string name="ex_machine_shoulder_press">Shoulder press machine</string>
+    <string name="ex_machine_lateral_raise">Lateral raise machine</string>
+    <string name="ex_reverse_pec_deck">Reverse pec deck</string>
+    <string name="ex_machine_row">Seated row machine</string>
+    <string name="ex_pullover_machine">Pullover machine</string>
+    <string name="ex_leg_press_machine">Leg press</string>
+    <string name="ex_horizontal_leg_press">Horizontal leg press</string>
+    <string name="ex_hack_squat_machine">Hack squat</string>
+    <string name="ex_pendulum_squat_machine">Pendulum squat</string>
+    <string name="ex_leg_extension_machine">Leg extension</string>
+    <string name="ex_lying_leg_curl_machine">Lying leg curl</string>
+    <string name="ex_seated_leg_curl_machine">Seated leg curl</string>
+    <string name="ex_standing_calf_raise_machine">Standing calf raise machine</string>
+    <string name="ex_seated_calf_raise_machine">Seated calf raise</string>
+    <string name="ex_leg_press_calf_raise">Leg press calf raise</string>
+    <string name="ex_hip_abductor_machine">Hip abductor machine</string>
+    <string name="ex_hip_adductor_machine">Hip adductor machine</string>
+    <string name="ex_glute_kickback_machine">Glute kickback machine</string>
+    <string name="ex_hip_thrust_machine">Hip thrust machine</string>
+    <string name="ex_back_extension_machine">Back extension machine</string>
+    <string name="ex_ab_crunch_machine">Ab crunch machine</string>
+    <string name="ex_rotary_torso_machine">Rotary torso machine</string>
+    <string name="ex_machine_biceps_curl">Biceps curl machine</string>
+    <string name="ex_machine_triceps_extension">Triceps extension machine</string>
+    <string name="ex_seated_dip_machine">Seated dip machine</string>
+    <string name="ex_assisted_pull_up_machine">Assisted pull-up machine</string>
+    <string name="ex_assisted_chin_up_machine">Assisted chin-up machine</string>
+    <string name="ex_assisted_dip_machine">Assisted dip machine</string>
+    <string name="ex_neck_machine">Neck machine</string>
+    <!-- Cable -->
+    <string name="ex_lat_pulldown_machine">Lat pulldown</string>
+    <string name="ex_close_grip_lat_pulldown">Close-grip lat pulldown</string>
+    <string name="ex_seated_cable_row">Seated cable row</string>
+    <string name="ex_single_arm_cable_row">Single-arm cable row</string>
+    <string name="ex_straight_arm_pulldown">Straight-arm pulldown</string>
+    <string name="ex_cable_crossover">Cable crossover</string>
+    <string name="ex_low_cable_crossover">Low cable crossover</string>
+    <string name="ex_cable_fly">Cable fly</string>
+    <string name="ex_face_pull">Face pull</string>
+    <string name="ex_cable_lateral_raise">Cable lateral raise</string>
+    <string name="ex_cable_triceps_pushdown">Triceps pushdown</string>
+    <string name="ex_rope_triceps_pushdown">Rope triceps pushdown</string>
+    <string name="ex_cable_overhead_triceps_extension">Overhead cable triceps extension</string>
+    <string name="ex_cable_curl">Cable curl</string>
+    <string name="ex_cable_crunch">Cable crunch</string>
+    <string name="ex_cable_woodchop">Cable woodchop</string>
+    <string name="ex_cable_pull_through">Cable pull-through</string>
+    <string name="ex_cable_glute_kickback">Cable glute kickback</string>
+    <!-- Smith machine -->
+    <string name="ex_smith_squat">Smith machine squat</string>
+    <string name="ex_smith_bench_press">Smith machine bench press</string>
+    <string name="ex_smith_incline_bench_press">Smith machine incline press</string>
+    <string name="ex_smith_shoulder_press">Smith machine shoulder press</string>
+    <string name="ex_smith_split_squat">Smith machine split squat</string>
+    <string name="ex_smith_hip_thrust">Smith machine hip thrust</string>
+    <string name="ex_smith_calf_raise">Smith machine calf raise</string>
+    <!-- Barbell and EZ bar -->
+    <string name="ex_barbell_bench_press">Barbell bench press</string>
+    <string name="ex_barbell_incline_bench_press">Incline barbell bench press</string>
+    <string name="ex_barbell_decline_bench_press">Decline barbell bench press</string>
+    <string name="ex_close_grip_bench_press">Close-grip bench press</string>
+    <string name="ex_barbell_overhead_press">Overhead press</string>
+    <string name="ex_barbell_back_squat">Barbell back squat</string>
+    <string name="ex_barbell_front_squat">Front squat</string>
+    <string name="ex_barbell_deadlift">Deadlift</string>
+    <string name="ex_sumo_deadlift">Sumo deadlift</string>
+    <string name="ex_barbell_romanian_deadlift">Romanian deadlift</string>
+    <string name="ex_good_morning">Good morning</string>
+    <string name="ex_barbell_lunge">Barbell lunge</string>
+    <string name="ex_barbell_hip_thrust">Barbell hip thrust</string>
+    <string name="ex_barbell_glute_bridge">Barbell glute bridge</string>
+    <string name="ex_barbell_row">Barbell row</string>
+    <string name="ex_pendlay_row">Pendlay row</string>
+    <string name="ex_t_bar_row">T-bar row</string>
+    <string name="ex_barbell_upright_row">Upright row</string>
+    <string name="ex_barbell_shrug">Barbell shrug</string>
+    <string name="ex_barbell_curl">Barbell curl</string>
+    <string name="ex_ez_bar_curl">EZ-bar curl</string>
+    <string name="ex_ez_bar_preacher_curl">EZ-bar preacher curl</string>
+    <string name="ex_skull_crusher">Skull crusher</string>
+    <string name="ex_barbell_wrist_curl">Wrist curl</string>
+    <string name="ex_barbell_reverse_wrist_curl">Reverse wrist curl</string>
+    <!-- Dumbbells -->
+    <string name="ex_dumbbell_bench_press">Dumbbell bench press</string>
+    <string name="ex_dumbbell_incline_bench_press">Incline dumbbell press</string>
+    <string name="ex_dumbbell_fly">Dumbbell fly</string>
+    <string name="ex_dumbbell_pullover">Dumbbell pullover</string>
+    <string name="ex_dumbbell_shoulder_press">Dumbbell shoulder press</string>
+    <string name="ex_arnold_press">Arnold press</string>
+    <string name="ex_dumbbell_lateral_raise">Dumbbell lateral raise</string>
+    <string name="ex_dumbbell_front_raise">Dumbbell front raise</string>
+    <string name="ex_dumbbell_rear_delt_fly">Rear delt fly</string>
+    <string name="ex_dumbbell_row">One-arm dumbbell row</string>
+    <string name="ex_dumbbell_shrug">Dumbbell shrug</string>
+    <string name="ex_dumbbell_curl">Dumbbell curl</string>
+    <string name="ex_hammer_curl">Hammer curl</string>
+    <string name="ex_incline_dumbbell_curl">Incline dumbbell curl</string>
+    <string name="ex_concentration_curl">Concentration curl</string>
+    <string name="ex_dumbbell_overhead_extension">Dumbbell overhead extension</string>
+    <string name="ex_dumbbell_triceps_kickback">Triceps kickback</string>
+    <string name="ex_dumbbell_goblet_squat">Dumbbell goblet squat</string>
+    <string name="ex_bulgarian_split_squat">Bulgarian split squat</string>
+    <string name="ex_dumbbell_lunge">Dumbbell lunge</string>
+    <string name="ex_dumbbell_step_up">Dumbbell step-up</string>
+    <string name="ex_dumbbell_romanian_deadlift">Dumbbell Romanian deadlift</string>
+    <string name="ex_dumbbell_side_bend">Dumbbell side bend</string>
+    <!-- Kettlebells -->
+    <string name="ex_kettlebell_swing">Kettlebell swing</string>
+    <string name="ex_kettlebell_goblet_squat">Kettlebell goblet squat</string>
+    <string name="ex_kettlebell_clean_and_press">Kettlebell clean and press</string>
+    <string name="ex_turkish_get_up">Turkish get-up</string>
+    <!-- Bodyweight -->
+    <string name="ex_push_up">Push-up</string>
+    <string name="ex_parallel_bar_dip">Parallel bar dip</string>
+    <string name="ex_bench_dip">Bench dip</string>
+    <string name="ex_pull_up">Pull-up</string>
+    <string name="ex_chin_up">Chin-up</string>
+    <string name="ex_inverted_row">Inverted row</string>
+    <string name="ex_bodyweight_squat">Bodyweight squat</string>
+    <string name="ex_bodyweight_lunge">Lunge</string>
+    <string name="ex_glute_bridge">Glute bridge</string>
+    <string name="ex_back_extension">Back extension</string>
+    <string name="ex_nordic_curl">Nordic hamstring curl</string>
+    <string name="ex_crunch">Crunch</string>
+    <string name="ex_sit_up">Sit-up</string>
+    <string name="ex_hanging_leg_raise">Hanging leg raise</string>
+    <string name="ex_lying_leg_raise">Lying leg raise</string>
+    <string name="ex_russian_twist">Russian twist</string>
+    <string name="ex_mountain_climber">Mountain climber</string>
+    <string name="ex_burpee">Burpee</string>
+    <!-- Timed holds and carries -->
+    <string name="ex_plank">Plank</string>
+    <string name="ex_side_plank">Side plank</string>
+    <string name="ex_copenhagen_plank">Copenhagen plank</string>
+    <string name="ex_wall_sit">Wall sit</string>
+    <string name="ex_dead_hang">Dead hang</string>
+    <string name="ex_farmers_carry">Farmer\'s carry</string>
+    <!-- Resistance bands -->
+    <string name="ex_band_pull_apart">Band pull-apart</string>
+    <string name="ex_banded_lateral_walk">Banded lateral walk</string>
+    <!-- Cardio machines -->
+    <string name="ex_treadmill">Treadmill</string>
+    <string name="ex_stationary_bike">Stationary bike</string>
+    <string name="ex_spin_bike">Spin bike</string>
+    <string name="ex_recumbent_bike">Recumbent bike</string>
+    <string name="ex_air_bike">Air bike</string>
+    <string name="ex_elliptical">Elliptical</string>
+    <string name="ex_rowing_machine">Rowing machine</string>
+    <string name="ex_stair_climber">Stair climber</string>
+    <string name="ex_ski_erg">Ski erg</string>
+    <!-- Built-in routine names: routine_<id> (training/catalog/RoutineCatalog.kt). Short: they label cards and list rows. -->
+    <string name="routine_full_body_machines">Full body on machines</string>
+    <string name="routine_full_body_free_weights">Full body, free weights</string>
+    <string name="routine_push">Push (chest, shoulders, triceps)</string>
+    <string name="routine_pull">Pull (back, biceps)</string>
+    <string name="routine_legs">Legs</string>
+    <string name="routine_upper_body">Upper body</string>
+    <string name="routine_lower_body">Lower body</string>
+    <string name="routine_chest_triceps">Chest and triceps</string>
+    <string name="routine_back_biceps">Back and biceps</string>
+    <string name="routine_shoulders">Shoulders</string>
+    <string name="routine_arms">Arms</string>
+    <string name="routine_glutes">Glutes</string>
+    <string name="routine_core">Core</string>
+    <string name="routine_cardio_mix">Cardio machines</string>
+    <!-- Achievements: medals derived from the workouts and the weighings, the celebration shown when a level is reached, and the achievements page (Entreno tab card, Perfil row) -->
+    <string name="achievements_title">Achievements</string>
+    <!-- Medals earned out of all the levels on offer: "12 of 70 medals" -->
+    <plurals name="achievements_earned">
+        <item quantity="one">%1$s of %2$s medal</item>
+        <item quantity="other">%1$s of %2$s medals</item>
+    </plurals>
+    <string name="achievements_category_training">Consistency</string>
+    <string name="achievements_category_strength">Strength</string>
+    <string name="achievements_category_body">Body</string>
+    <!-- Highest level reached of an achievement: "Level 3 of 8" -->
+    <string name="achievements_level">Level %1$s of %2$s</string>
+    <string name="achievements_not_started">Not earned yet</string>
+    <string name="achievements_all_levels">Every level earned</string>
+    <!-- When a level was earned: "Earned on 15 Oct 2026" -->
+    <string name="achievements_earned_on">Earned on %1$s</string>
+    <!-- The next level of an achievement: "Next: Finish 25 workouts" -->
+    <string name="achievements_next">Next: %1$s</string>
+    <!-- Progress towards the next level: "23 / 25", "12.5 t / 50 t" -->
+    <string name="achievements_progress">%1$s / %2$s</string>
+    <string name="achievements_levels">Levels</string>
+    <string name="achievements_how">How it counts</string>
+    <string name="achievements_open">Open achievements</string>
+    <string name="achievements_needs_bodyweight">Weigh yourself to compare your lifts with your body weight.</string>
+    <string name="achievements_needs_target">Set a target weight in your profile.</string>
+    <string name="achievements_needs_weighings">Weigh yourself to start.</string>
+    <string name="achievements_target_is_start">Your target is your starting weight: there is no distance to cover.</string>
+    <string name="achievements_needs_composition">Needs weighings with body composition, from a scale that measures it.</string>
+    <string name="achievements_lift_note">The levels follow common strength standards and are lower for women. Only the barbell counts: not the Smith machine or other machines.</string>
+    <!-- Total volume in metric tonnes: "10 t" -->
+    <string name="achievements_value_tonnes">%1$s t</string>
+    <!-- A lift as a multiple of the body weight: "1.25×" -->
+    <string name="achievements_value_ratio">%1$s×</string>
+    <!-- The celebration shown over any screen when a new level is reached -->
+    <string name="celebration_title">Congratulations!</string>
+    <string name="celebration_view">View achievements</string>
+    <!-- Spoken by TalkBack when the celebration appears -->
+    <string name="celebration_announce">New achievement</string>
+    <!-- An achievement and the level just reached: "Workouts · Level 3" -->
+    <string name="celebration_level">%1$s · Level %2$s</string>
+    <!-- More levels were reached at once than the card lists: "+2 more" -->
+    <plurals name="celebration_more">
+        <item quantity="one">+%1$s more</item>
+        <item quantity="other">+%1$s more</item>
+    </plurals>
+    <!-- One block per achievement: title, what a level asks for (goal), the congratulation (done) and how it is counted (rule) -->
+    <string name="ach_workouts_title">Workouts</string>
+    <plurals name="ach_workouts_goal">
+        <item quantity="one">Finish your first workout</item>
+        <item quantity="other">Finish %1$s workouts</item>
+    </plurals>
+    <plurals name="ach_workouts_done">
+        <item quantity="one">You\'ve finished your first workout</item>
+        <item quantity="other">You\'ve finished %1$s workouts</item>
+    </plurals>
+    <string name="ach_workouts_rule">Finished workouts with at least one completed set.</string>
+    <string name="ach_week_streak_title">Weekly streak</string>
+    <plurals name="ach_week_streak_goal">
+        <item quantity="one">Train at least twice in %1$s week</item>
+        <item quantity="other">Train at least twice a week for %1$s weeks in a row</item>
+    </plurals>
+    <plurals name="ach_week_streak_done">
+        <item quantity="one">You\'ve trained at least twice in %1$s week</item>
+        <item quantity="other">You\'ve trained at least twice a week for %1$s weeks in a row</item>
+    </plurals>
+    <string name="ach_week_streak_rule">Calendar weeks in a row with at least 2 finished workouts. The current week does not break the streak until it is over.</string>
+    <string name="ach_balanced_weeks_title">Balanced weeks</string>
+    <plurals name="ach_balanced_weeks_goal">
+        <item quantity="one">Have a balanced week</item>
+        <item quantity="other">Have %1$s balanced weeks</item>
+    </plurals>
+    <plurals name="ach_balanced_weeks_done">
+        <item quantity="one">Your first balanced week</item>
+        <item quantity="other">You\'ve had %1$s balanced weeks</item>
+    </plurals>
+    <!-- %1$s: list of muscles ("Chest, Shoulders and Lats") -->
+    <string name="ach_balanced_weeks_rule">Calendar weeks in which each of these muscles gets a number of hard sets within its weekly range, neither below nor above: %1$s.</string>
+    <string name="ach_variety_title">Variety</string>
+    <plurals name="ach_variety_goal">
+        <item quantity="one">Do %1$s different exercise</item>
+        <item quantity="other">Do %1$s different exercises</item>
+    </plurals>
+    <plurals name="ach_variety_done">
+        <item quantity="one">You\'ve done %1$s different exercise</item>
+        <item quantity="other">You\'ve done %1$s different exercises</item>
+    </plurals>
+    <string name="ach_variety_rule">Different exercises and machines with at least one completed set.</string>
+    <string name="ach_cardio_km_title">Cardio distance</string>
+    <!-- %1$s: a distance ("50 km") -->
+    <string name="ach_cardio_km_goal">Cover %1$s on cardio</string>
+    <string name="ach_cardio_km_done">You\'ve covered %1$s on cardio</string>
+    <string name="ach_cardio_km_rule">Distance of every completed cardio set.</string>
+    <string name="ach_volume_title">Total volume</string>
+    <!-- %1$s: a weight ("10 t", "22046 lb") -->
+    <string name="ach_volume_goal">Lift %1$s in total</string>
+    <string name="ach_volume_done">You\'ve lifted %1$s in total</string>
+    <string name="ach_volume_rule">Weight × repetitions of every completed set, with your body weight in bodyweight and assisted exercises.</string>
+    <string name="ach_records_title">Personal records</string>
+    <plurals name="ach_records_goal">
+        <item quantity="one">Beat your first personal record</item>
+        <item quantity="other">Beat %1$s personal records</item>
+    </plurals>
+    <plurals name="ach_records_done">
+        <item quantity="one">Your first personal record</item>
+        <item quantity="other">You\'ve beaten %1$s personal records</item>
+    </plurals>
+    <string name="ach_records_rule">Sets that beat one of the exercise\'s records: estimated 1RM, weight, repetitions, time or least assistance.</string>
+    <string name="ach_bench_bw_title">Bench press</string>
+    <!-- %1$s: a multiple of the body weight ("1.25×") -->
+    <string name="ach_bench_bw_goal">Bench press %1$s your body weight</string>
+    <string name="ach_bench_bw_done">Your bench press reaches %1$s your body weight</string>
+    <string name="ach_bench_bw_rule">Best estimated 1RM on the barbell bench press, divided by your body weight on that day.</string>
+    <string name="ach_squat_bw_title">Squat</string>
+    <string name="ach_squat_bw_goal">Squat %1$s your body weight</string>
+    <string name="ach_squat_bw_done">Your squat reaches %1$s your body weight</string>
+    <string name="ach_squat_bw_rule">Best estimated 1RM on the barbell back or front squat, divided by your body weight on that day.</string>
+    <string name="ach_deadlift_bw_title">Deadlift</string>
+    <string name="ach_deadlift_bw_goal">Deadlift %1$s your body weight</string>
+    <string name="ach_deadlift_bw_done">Your deadlift reaches %1$s your body weight</string>
+    <string name="ach_deadlift_bw_rule">Best estimated 1RM on the conventional or sumo barbell deadlift, divided by your body weight on that day.</string>
+    <string name="ach_ohp_bw_title">Overhead press</string>
+    <string name="ach_ohp_bw_goal">Overhead press %1$s your body weight</string>
+    <string name="ach_ohp_bw_done">Your overhead press reaches %1$s your body weight</string>
+    <string name="ach_ohp_bw_rule">Best estimated 1RM on the standing barbell overhead press, divided by your body weight on that day.</string>
+    <string name="ach_pull_ups_title">Pull-ups</string>
+    <plurals name="ach_pull_ups_goal">
+        <item quantity="one">Do your first pull-up without assistance</item>
+        <item quantity="other">Do %1$s pull-ups without assistance in one set</item>
+    </plurals>
+    <plurals name="ach_pull_ups_done">
+        <item quantity="one">Your first pull-up without assistance</item>
+        <item quantity="other">%1$s pull-ups without assistance in one set</item>
+    </plurals>
+    <string name="ach_pull_ups_rule">Most repetitions in one set of pull-ups or chin-ups, with or without extra weight, or on the assisted machine with 0 assistance.</string>
+    <string name="ach_goal_title">Target weight</string>
+    <!-- %1$s: the target weight ("75 kg") -->
+    <string name="ach_goal_goal">Reach your target weight of %1$s</string>
+    <string name="ach_goal_done">You\'ve reached your target weight of %1$s</string>
+    <string name="ach_goal_rule">Your 7-day average weight reaches the target set in your profile.</string>
+    <string name="ach_goal_progress_title">Towards your target</string>
+    <!-- %1$s: a weight ("3 kg") -->
+    <string name="ach_goal_progress_goal_loss">Lose %1$s towards your target</string>
+    <string name="ach_goal_progress_goal_gain">Gain %1$s towards your target</string>
+    <string name="ach_goal_progress_done_loss">You\'ve lost %1$s</string>
+    <string name="ach_goal_progress_done_gain">You\'ve gained %1$s</string>
+    <string name="ach_fat_down_title">Body fat</string>
+    <plurals name="ach_fat_down_goal">
+        <item quantity="one">Lower your body fat by %1$s point</item>
+        <item quantity="other">Lower your body fat by %1$s points</item>
+    </plurals>
+    <plurals name="ach_fat_down_done">
+        <item quantity="one">Your body fat is down %1$s point</item>
+        <item quantity="other">Your body fat is down %1$s points</item>
+    </plurals>
+    <string name="ach_fat_down_rule">Drop of your 7-day average body fat since your first week of measurements. Going below the healthy minimum does not count.</string>
+    <string name="ach_muscle_up_title">Muscle mass</string>
+    <!-- %1$s: a weight ("2 kg") -->
+    <string name="ach_muscle_up_goal">Gain %1$s of muscle mass</string>
+    <string name="ach_muscle_up_done">You\'ve gained %1$s of muscle mass</string>
+    <string name="ach_muscle_up_rule">Rise of your 7-day average muscle mass since your first week of measurements.</string>
+    <!-- Body shape of the muscle map figure (Progreso → Músculos): a segmented control compares the figure -->
+    <!-- now with the figure some time ago; the caption says what shapes it and that it is only an illustration. -->
+    <string name="body_shape_now">Now</string>
+    <plurals name="body_shape_months_ago">
+        <item quantity="one">%1$s month ago</item>
+        <item quantity="other">%1$s months ago</item>
+    </plurals>
+    <plurals name="body_shape_weeks_ago">
+        <item quantity="one">%1$s week ago</item>
+        <item quantity="other">%1$s weeks ago</item>
+    </plurals>
+    <string name="body_shape_caption_scale">The figure\'s shape follows your body fat, your muscle mass and your training. It\'s an illustration, not a measurement.</string>
+    <string name="body_shape_caption_training">The figure\'s shape follows your training (weigh yourself on a body composition scale to include body fat). It\'s an illustration, not a measurement.</string>
+    <!-- Body map: captions, TalkBack descriptions of the muscle figure, open-source credit of its drawings -->
+    <string name="bodymap_front">Front</string>
+    <string name="bodymap_back">Back</string>
+    <string name="bodymap_figure_front">Body, front view</string>
+    <string name="bodymap_figure_back">Body, back view</string>
+    <string name="bodymap_figure_highlighted">%1$s: %2$s</string>
+    <string name="bodymap_muscle_state">%1$s, %2$s</string>
+    <string name="notice_body_highlighter">The drawings of the muscle map are ported from react-native-body-highlighter.</string>
+    <!-- Exercise info sheet: how an exercise is done (animation, steps, tips), opened from the ⓘ button next to an exercise in the lists, the workout and the routines -->
+    <!-- The ⓘ button, read by TalkBack; %1$s: exercise -->
+    <string name="training_info_open">How to do it: %1$s</string>
+    <!-- Headings of the sheet: the numbered steps, then the key cues and common mistakes -->
+    <string name="training_info_steps">How to do it</string>
+    <string name="training_info_tips">Tips</string>
+    <!-- Read by TalkBack before each step; %1$s: step number -->
+    <string name="training_info_step">Step %1$s</string>
+    <!-- The animation, read by TalkBack; %1$s: exercise -->
+    <string name="training_info_animation">Animation of %1$s</string>
+    <!-- Button over the animation, read by TalkBack -->
+    <string name="training_info_play">Play animation</string>
+    <string name="training_info_pause">Pause animation</string>
+    <!-- Instead of the steps, for an exercise or machine the user created -->
+    <string name="training_info_no_guide">You created this exercise, so it has no step-by-step guide.</string>
+    <!-- Added when that exercise has no photo and no machine settings yet -->
+    <string name="training_info_no_guide_add">Add a photo and your machine settings on its page to remember how you use it.</string>
+    <!-- Button: opens the exercise's page (progress chart, records, history) -->
+    <string name="training_info_progress">See progress</string>
+    <!-- Fixes after the review of routines and icons: archiving an exercise that only routines use -->
+    <string name="training_archive_routines_text">It is hidden from the catalog; your routines keep it and you can restore it from them.</string>
+    <!-- Achievements review fixes -->
+    <!-- How "Towards your target" is counted: from the week the current target weight was set in the profile -->
+    <string name="ach_goal_progress_rule_target">Change of your 7-day average weight since you set your current target, in its direction. Milestones beyond your target are not on offer.</string>
+    <!-- Rating the app on Google Play. Profile → About: a row that opens the app's Google Play page. -->
+    <!-- "Fortia" is the app's name: keep it as is. -->
+    <string name="about_rate_app">Rate Fortia</string>
+    <string name="about_rate_app_text">Tell us what you think on Google Play</string>
+    <!-- Profile → Open source and licenses: what the Google Play In-App Review library is used for. -->
+    <string name="notice_play_review">Asks for a rating on Google Play at a good moment, with Google\'s own card.</string>
+    <!-- Routines: the Entreno tab's section, the routine page and editor, adding a routine to a workout, saving a workout as a routine -->
+    <string name="training_routines_title">Routines</string>
+    <string name="training_routine_new">New routine</string>
+    <string name="training_routine_open">Open routine</string>
+    <!-- Title bar of a routine's page -->
+    <string name="training_routine_title">Routine</string>
+    <string name="training_routine_missing">This routine no longer exists.</string>
+    <!-- Label on a routine's page: one of the app's routines / one the user made -->
+    <string name="training_routine_builtin">Suggested routine</string>
+    <string name="training_routine_own">Your routine</string>
+    <string name="training_routine_start">Start workout</string>
+    <string name="training_routine_add_to_active">Add to workout in progress</string>
+    <string name="training_routine_active_hint">A workout is in progress: the exercises it does not have yet are added to it.</string>
+    <string name="training_routine_duplicate">Duplicate and edit</string>
+    <string name="training_routine_delete">Delete routine</string>
+    <!-- %1$s: routine name -->
+    <string name="training_routine_delete_title">Delete %1$s?</string>
+    <string name="training_routine_delete_text">Your workouts stay as they are.</string>
+    <string name="training_routine_exercises">Exercises</string>
+    <string name="training_routine_muscles">Muscles worked</string>
+    <string name="training_routine_loads_hint">Weights are filled in from your last session of each exercise.</string>
+    <string name="training_routine_edit_title">Edit routine</string>
+    <string name="training_routine_name_hint">E.g. Monday legs</string>
+    <string name="training_routine_note">Note (optional)</string>
+    <string name="training_routine_add_exercises">Add exercises</string>
+    <string name="training_routine_editor_empty">Add the exercises of the routine: each starts with the sets and reps of your last session.</string>
+    <string name="training_routine_exercises_error">Add at least one exercise.</string>
+    <!-- Set stepper of an exercise in the routine editor, read by TalkBack; %1$s: exercise -->
+    <string name="training_routine_fewer_sets">Fewer sets of %1$s</string>
+    <string name="training_routine_more_sets">More sets of %1$s</string>
+    <string name="training_routine_save_failed">Could not save the routine</string>
+    <string name="training_routine_add">Add routine</string>
+    <!-- Groups of the "Add routine" sheet -->
+    <string name="training_routines_own">Your routines</string>
+    <string name="training_routines_builtin">Suggested</string>
+    <string name="training_routine_already_in">Already in this workout</string>
+    <plurals name="training_routine_added">
+        <item quantity="one">%1$s exercise added</item>
+        <item quantity="other">%1$s exercises added</item>
+    </plurals>
+    <string name="training_routine_nothing_added">This workout already has every exercise of the routine.</string>
+    <string name="training_routine_save_from_workout">Save as routine</string>
+    <string name="training_routine_save_text">Its exercises and sets are saved; the weights always come from your last session.</string>
+    <string name="training_routine_saved">Routine saved</string>
+    <!-- Snackbar action: open the routine just saved -->
+    <string name="training_routine_view">View</string>
+    <!-- Hoy card: start a workout with the routine used last; %1$s: routine name -->
+    <string name="training_start_routine">Start %1$s</string>
+    <!-- Hoy card, next to the routine: start a workout without exercises -->
+    <string name="training_start_blank">Empty workout</string>
+    <!-- Training screens: Entreno tab, Hoy card, workout, exercise picker and catalog, exercise detail, editor, history, settings -->
+    <string name="training_title">Training</string>
+    <string name="training_catalog_title">Exercises and machines</string>
+    <string name="training_history_title">History</string>
+    <string name="training_settings_title">Training settings</string>
+    <string name="training_in_progress">Workout in progress</string>
+    <string name="training_start_title">Ready to train?</string>
+    <string name="training_start_empty">Start workout</string>
+    <string name="training_log_past">Log another day</string>
+    <string name="training_intro_title">Log your workouts</string>
+    <string name="training_intro_text">Start a workout, add exercises from the catalog or your own machines and tick each set when you finish it. The app remembers what you did last time and tracks your progress per exercise and per muscle.</string>
+    <string name="training_open_catalog">Browse exercises</string>
+    <string name="training_repeat_title">Repeat a workout</string>
+    <string name="training_repeat_action">Repeat</string>
+    <string name="training_this_week">This week</string>
+    <string name="training_stat_workouts">Workouts</string>
+    <string name="training_stat_sets">Sets</string>
+    <string name="training_stat_volume">Volume</string>
+    <!-- Spoken summary of the week card: workouts, sets, volume ("3 workouts", "42 sets", "12450 kg") -->
+    <string name="training_week_desc">This week: %1$s, %2$s, %3$s</string>
+    <string name="training_recent_title">Recent workouts</string>
+    <string name="training_see_all">See all</string>
+    <string name="training_today_done">Today\'s workout</string>
+    <string name="training_open_workout">Open workout</string>
+    <string name="training_open_tab">Open Training</string>
+    <!-- "Last workout: 2 days ago · Legs" -->
+    <string name="training_last_workout">Last workout: %1$s · %2$s</string>
+    <string name="training_no_workouts_yet">No workouts logged yet.</string>
+    <!-- Title of a workout without a name, muscles or exercises -->
+    <string name="training_workout_default">Workout</string>
+    <!-- Title bar of a finished or past workout -->
+    <string name="training_workout_title">Workout</string>
+    <string name="training_workout_missing">This workout no longer exists.</string>
+    <string name="training_workout_name">Workout name</string>
+    <string name="training_workout_note">Workout notes</string>
+    <string name="training_workout_empty">Add the first exercise: last time\'s sets are filled in for you.</string>
+    <string name="training_add_exercise">Add exercise</string>
+    <string name="training_add_set">Add set</string>
+    <string name="training_finish">Finish</string>
+    <string name="training_finish_workout">Finish workout</string>
+    <string name="training_more_options">More options</string>
+    <string name="training_change_start">Change date and time</string>
+    <string name="training_discard_workout">Discard workout</string>
+    <string name="training_delete_workout">Delete workout</string>
+    <string name="training_discard">Discard</string>
+    <string name="training_discard_title">Discard this workout?</string>
+    <!-- %1$s: start date and time -->
+    <string name="training_discard_text">The workout started on %1$s and its sets will be deleted.</string>
+    <string name="training_discard_empty_text">No set is ticked as done, so there is nothing to save.</string>
+    <string name="training_delete_title">Delete this workout?</string>
+    <!-- %1$s: date and time of the workout -->
+    <string name="training_delete_text">The workout of %1$s will be deleted with all its sets.</string>
+    <string name="training_exercise_options">Options for %1$s</string>
+    <string name="training_open_exercise">Open exercise</string>
+    <string name="training_add_warmup">Add warm-up set</string>
+    <string name="training_entry_note">Note</string>
+    <string name="training_move_up">Move up</string>
+    <string name="training_move_down">Move down</string>
+    <string name="training_remove_exercise">Remove exercise</string>
+    <string name="training_remove">Remove</string>
+    <string name="training_remove_exercise_title">Remove %1$s?</string>
+    <string name="training_remove_exercise_text">Its sets in this workout will be deleted.</string>
+    <!-- Set table column headers (narrow: keep them short) -->
+    <string name="training_col_set">Set</string>
+    <string name="training_col_previous">Previous</string>
+    <!-- Extra weight on a bodyweight exercise, %1$s: unit ("+kg") -->
+    <string name="training_col_extra_load">+%1$s</string>
+    <!-- Counterweight of an assisted machine, %1$s: unit; may wrap to two lines -->
+    <string name="training_col_assistance">Assistance (%1$s)</string>
+    <string name="training_col_reps">Reps</string>
+    <string name="training_col_time">Time</string>
+    <string name="training_col_km">km</string>
+    <string name="training_col_level">Level</string>
+    <!-- Set cells as TalkBack reads them ("Repetitions, set 2") -->
+    <string name="training_field_extra_load">Extra weight</string>
+    <string name="training_field_assistance">Assistance</string>
+    <string name="training_field_reps">Repetitions</string>
+    <string name="training_field_distance">Distance</string>
+    <string name="training_field_kcal">Calories</string>
+    <string name="training_set_number">Set %1$s</string>
+    <string name="training_warmup_set">Warm-up set</string>
+    <!-- Shown instead of the set number for a warm-up set (one letter) -->
+    <string name="training_warmup_short">W</string>
+    <string name="training_set_done">%1$s done</string>
+    <string name="training_set_options">%1$s: options</string>
+    <string name="training_make_warmup">Mark as warm-up</string>
+    <string name="training_make_working">Mark as working set</string>
+    <string name="training_delete_set">Delete set</string>
+    <string name="training_copy_previous">Use last time\'s values</string>
+    <string name="training_record">Personal record</string>
+    <!-- %1$s: exercise, %2$s: the set ("85 kg × 8") -->
+    <string name="training_record_message">New personal record! %1$s, %2$s</string>
+    <string name="training_assist_hint">On an assisted machine you log the counterweight that helps you: less assistance = stronger.</string>
+    <string name="training_rest">Rest</string>
+    <string name="training_rest_value">Rest %1$s</string>
+    <!-- Seconds ("30 s", "−15 s") -->
+    <string name="training_seconds_value">%1$s s</string>
+    <string name="training_skip_rest">Skip rest</string>
+    <string name="training_rest_off">Off</string>
+    <string name="training_elapsed_desc">Elapsed: %1$s</string>
+    <string name="training_duration">Duration</string>
+    <string name="training_duration_minutes">Minutes</string>
+    <string name="training_unfinished_title">Sets not ticked</string>
+    <plurals name="training_unfinished_text">
+        <item quantity="one">One set has values but is not ticked as done.</item>
+        <item quantity="other">%1$s sets have values but are not ticked as done.</item>
+    </plurals>
+    <string name="training_unfinished_complete">Mark as done</string>
+    <string name="training_unfinished_discard">Discard them</string>
+    <string name="training_finished_title">Workout finished</string>
+    <string name="training_records">Records</string>
+    <string name="training_done">Done</string>
+    <!-- A muscle with its sets in the workout summary ("Chest: 4 sets") -->
+    <string name="training_muscle_sets">%1$s: %2$s</string>
+    <string name="training_picker_title">Add exercises</string>
+    <plurals name="training_add_selected">
+        <item quantity="one">Add %1$s exercise</item>
+        <item quantity="other">Add %1$s exercises</item>
+    </plurals>
+    <string name="training_create_exercise">Create machine or exercise</string>
+    <string name="training_search">Search exercises</string>
+    <string name="training_search_clear">Clear search</string>
+    <string name="training_no_results">No exercise matches. Try other words or filters, or create your own.</string>
+    <string name="training_recent_exercises">Recent</string>
+    <string name="training_all_exercises">All exercises</string>
+    <string name="training_scope_all">All</string>
+    <string name="training_scope_mine">My machines</string>
+    <string name="training_scope_favorites">Favorites</string>
+    <string name="training_mine_empty">Your own machines and exercises appear here, and any exercise you give a photo or settings.</string>
+    <string name="training_favorites_empty">Tap the star on an exercise to keep it at hand.</string>
+    <string name="training_new_machine">New machine</string>
+    <string name="training_favorite">Favorite</string>
+    <string name="training_make_favorite">Add to favorites</string>
+    <string name="training_unfavorite">Remove from favorites</string>
+    <string name="training_exercise_title">Exercise</string>
+    <string name="training_exercise_missing">This exercise no longer exists.</string>
+    <string name="training_edit">Edit</string>
+    <string name="training_archive">Archive</string>
+    <string name="training_restore">Restore</string>
+    <string name="training_archive_title">Archive %1$s?</string>
+    <string name="training_archive_text">It is hidden from the catalog; your workouts keep it and you can restore it from them.</string>
+    <string name="training_delete_exercise_title">Delete %1$s?</string>
+    <string name="training_delete_exercise_text">It is deleted with its photo and settings.</string>
+    <string name="training_archived_note">Archived: hidden from the catalog.</string>
+    <!-- An exercise the user created -->
+    <string name="training_own_exercise">Custom</string>
+    <string name="training_photo_add">Add a photo of your machine</string>
+    <string name="training_photo_add_text">So you recognise it in your gym.</string>
+    <string name="training_photo_change">Change photo</string>
+    <string name="training_photo_of">Photo of %1$s</string>
+    <string name="training_photo_take">Take photo</string>
+    <string name="training_photo_pick">Choose from gallery</string>
+    <string name="training_photo_remove">Remove photo</string>
+    <string name="training_photo_failed">The photo could not be read.</string>
+    <string name="training_photo_unavailable">No app can take photos on this phone.</string>
+    <string name="training_muscle_primary">Primary muscles</string>
+    <string name="training_muscle_secondary">Secondary muscles</string>
+    <string name="training_machine_settings">Machine settings</string>
+    <string name="training_machine_settings_hint">E.g. seat 4, back rest 2</string>
+    <string name="training_progress">Progress</string>
+    <string name="training_progress_empty">Tick sets of this exercise in a workout to see your progress here.</string>
+    <string name="training_progress_none_in_period">No sessions in this period.</string>
+    <string name="training_needs_bodyweight">Log your body weight (scale or manual weight) to see strength.</string>
+    <string name="training_personal_records">Personal records</string>
+    <string name="training_no_records">No records yet.</string>
+    <string name="training_record_volume">Best session volume</string>
+    <string name="training_metric_e1rm">Estimated 1RM</string>
+    <string name="training_metric_e1rm_short">Est. 1RM</string>
+    <string name="training_metric_heaviest">Heaviest weight</string>
+    <string name="training_metric_extra_load">Heaviest extra weight</string>
+    <string name="training_metric_max_reps">Most reps</string>
+    <string name="training_metric_total_reps">Total reps</string>
+    <string name="training_metric_longest">Longest</string>
+    <string name="training_metric_total_time">Total time</string>
+    <string name="training_metric_distance">Distance</string>
+    <string name="training_metric_least_assistance">Least assistance</string>
+    <string name="training_value_reps">%1$s reps</string>
+    <string name="training_value_lb">%1$s lb</string>
+    <!-- Progress chart for TalkBack: %1$s metric, %2$s number of sessions, %3$s first value, %4$s last value, %5$s highest value -->
+    <plurals name="training_chart_desc">
+        <item quantity="one">%1$s chart, %2$s session: %3$s.</item>
+        <item quantity="other">%1$s chart, %2$s sessions: from %3$s to %4$s, highest %5$s.</item>
+    </plurals>
+    <!-- How sets of each kind are logged (exercise editor) -->
+    <string name="training_kind_weight_reps_text">Load × repetitions: presses, rows, leg press…</string>
+    <string name="training_kind_bodyweight_reps_text">Repetitions with your body, extra weight optional: pull-ups, dips, push-ups.</string>
+    <string name="training_kind_assisted_reps_text">You log the counterweight that helps you: less assistance = stronger.</string>
+    <string name="training_kind_duration_text">Seconds held, weight optional: plank, carries.</string>
+    <string name="training_kind_cardio_text">Time, distance, level and calories: treadmill, bike, rower.</string>
+    <string name="training_editor_new">New machine or exercise</string>
+    <string name="training_editor_edit">Edit exercise</string>
+    <string name="training_editor_not_editable">Built-in exercises cannot be edited: add your settings, photo and star on their page.</string>
+    <string name="training_editor_name">Name</string>
+    <string name="training_editor_name_hint">E.g. Chest press (Technogym)</string>
+    <string name="training_editor_name_error">Enter a name.</string>
+    <string name="training_editor_equipment">Equipment</string>
+    <string name="training_editor_kind">How it is logged</string>
+    <string name="training_editor_kind_changed">Sets already logged keep their values; only how they are read changes.</string>
+    <string name="training_editor_muscle_error">Choose at least one primary muscle.</string>
+    <string name="training_editor_photo">Photo</string>
+    <string name="training_history_empty_title">No workouts yet</string>
+    <string name="training_history_empty_text">Finished workouts appear here, grouped by month.</string>
+    <string name="training_workout_actions">Workout actions</string>
+    <string name="training_settings_unit">Weight unit</string>
+    <string name="training_settings_unit_text">Weights are stored in kilograms; change the unit whenever you like.</string>
+    <string name="training_unit_kg_long">Kilograms (kg)</string>
+    <string name="training_unit_lb_long">Pounds (lb)</string>
+    <string name="training_settings_rest">Rest timer</string>
+    <string name="training_settings_rest_text">Starts when you tick a set and vibrates when it ends, while the app is open.</string>
+    <string name="training_health_connect" translatable="false">Health Connect</string>
+    <string name="training_settings_health">Saving your workouts to Health Connect is set up in Profile → Health Connect.</string>
+    <plurals name="training_days_ago">
+        <item quantity="one">%1$s day ago</item>
+        <item quantity="other">%1$s days ago</item>
+    </plurals>
+    <plurals name="training_exercises_count">
+        <item quantity="one">%1$s exercise</item>
+        <item quantity="other">%1$s exercises</item>
+    </plurals>
+    <plurals name="training_sets_count">
+        <item quantity="one">%1$s set</item>
+        <item quantity="other">%1$s sets</item>
+    </plurals>
+    <!-- Half sets of a secondary muscle ("2.5 sets"): decimals take no plural form -->
+    <string name="training_sets_fraction">%1$s sets</string>
+    <plurals name="training_workouts_count">
+        <item quantity="one">%1$s workout</item>
+        <item quantity="other">%1$s workouts</item>
+    </plurals>
+    <!-- Undo after removing an exercise or deleting a set; leaving the exercise editor with changes -->
+    <string name="training_undo">Undo</string>
+    <string name="training_exercise_removed">Exercise removed</string>
+    <string name="training_set_deleted">Set deleted</string>
+    <string name="training_discard_changes">Discard changes?</string>
+    <string name="training_save_failed">Could not save the exercise</string>
+    <!-- TalkBack: two parts of one description ("Repetitions, set 2"); use the language's list comma -->
+    <string name="training_spoken_pair">%1$s, %2$s</string>
 </resources>

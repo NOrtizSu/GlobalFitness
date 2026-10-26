@@ -1,0 +1,15 @@
+# Built-in routine names: routine_<id> (training/catalog/RoutineCatalog.kt). Short: they label cards and list rows.
+routine_full_body_machines = マシンで全身
+routine_full_body_free_weights = フリーウエイトで全身
+routine_push = プッシュ（胸・肩・三頭筋）
+routine_pull = プル（背中・二頭筋）
+routine_legs = 脚
+routine_upper_body = 上半身
+routine_lower_body = 下半身
+routine_chest_triceps = 胸・上腕三頭筋
+routine_back_biceps = 背中・上腕二頭筋
+routine_shoulders = 肩
+routine_arms = 腕
+routine_glutes = 臀部
+routine_core = 体幹・腹筋
+routine_cardio_mix = 有酸素マシン

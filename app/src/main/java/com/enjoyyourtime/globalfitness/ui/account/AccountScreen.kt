@@ -69,6 +69,7 @@ import com.enjoyyourtime.globalfitness.cloud.CloudSyncStatus
 import com.enjoyyourtime.globalfitness.cloud.ConflictChoice
 import com.enjoyyourtime.globalfitness.ui.Fmt
 import com.enjoyyourtime.globalfitness.ui.asString
+import com.enjoyyourtime.globalfitness.ui.components.TopBarTitle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.HttpURLConnection
@@ -96,7 +97,7 @@ fun AccountScreen(onBack: () -> Unit, vm: AccountViewModel = viewModel(factory =
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.profile_account_title)) },
+                title = { TopBarTitle(stringResource(R.string.profile_account_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.action_back))
@@ -146,7 +147,7 @@ private fun SignedOut(busy: Boolean, onSignIn: () -> Unit) {
             stringResource(R.string.account_backup_text),
             style = MaterialTheme.typography.bodyLarge,
         )
-        Benefit(stringResource(R.string.account_benefit_where))
+        Benefit(stringResource(R.string.account_benefit_where_training))
         Benefit(stringResource(R.string.account_benefit_sync))
         Benefit(stringResource(R.string.account_benefit_optional))
         Benefit(stringResource(R.string.account_benefit_delete))
@@ -261,7 +262,7 @@ private fun SignedIn(
         AlertDialog(
             onDismissRequest = { confirmDelete = false },
             title = { Text(stringResource(R.string.account_delete_title)) },
-            text = { Text(stringResource(R.string.account_delete_text)) },
+            text = { Text(stringResource(R.string.account_delete_text_training)) },
             confirmButton = {
                 TextButton(
                     onClick = {

@@ -1,0 +1,165 @@
+# Built-in exercise and machine names: ex_<catalog id> (training/catalog/ExerciseCatalog.kt)
+
+# Machines
+ex_machine_chest_press = Supino na máquina
+ex_machine_incline_chest_press = Supino inclinado na máquina
+ex_pec_deck = Voador (pec deck)
+ex_machine_shoulder_press = Desenvolvimento na máquina
+ex_machine_lateral_raise = Elevação lateral na máquina
+ex_reverse_pec_deck = Voador invertido
+ex_machine_row = Remada sentada na máquina
+ex_pullover_machine = Pullover na máquina
+ex_leg_press_machine = Leg press
+ex_horizontal_leg_press = Leg press horizontal
+ex_hack_squat_machine = Agachamento hack
+ex_pendulum_squat_machine = Agachamento pêndulo
+ex_leg_extension_machine = Cadeira extensora
+ex_lying_leg_curl_machine = Mesa flexora
+ex_seated_leg_curl_machine = Cadeira flexora
+ex_standing_calf_raise_machine = Panturrilha em pé na máquina
+ex_seated_calf_raise_machine = Panturrilha sentado
+ex_leg_press_calf_raise = Panturrilha no leg press
+ex_hip_abductor_machine = Cadeira abdutora
+ex_hip_adductor_machine = Cadeira adutora
+ex_glute_kickback_machine = Coice na máquina
+ex_hip_thrust_machine = Elevação pélvica na máquina
+ex_back_extension_machine = Extensão lombar na máquina
+ex_ab_crunch_machine = Abdominal na máquina
+ex_rotary_torso_machine = Rotação de tronco na máquina
+ex_machine_biceps_curl = Rosca bíceps na máquina
+ex_machine_triceps_extension = Tríceps na máquina
+ex_seated_dip_machine = Mergulho sentado na máquina
+ex_assisted_pull_up_machine = Barra fixa assistida (máquina)
+ex_assisted_chin_up_machine = Barra supinada assistida
+ex_assisted_dip_machine = Mergulho assistido (máquina)
+ex_neck_machine = Máquina de pescoço
+
+# Cable
+ex_lat_pulldown_machine = Puxada alta
+ex_close_grip_lat_pulldown = Puxada alta pegada fechada
+ex_seated_cable_row = Remada baixa
+ex_single_arm_cable_row = Remada unilateral na polia
+ex_straight_arm_pulldown = Puxada com braços estendidos
+ex_cable_crossover = Crossover
+ex_low_cable_crossover = Crossover na polia baixa
+ex_cable_fly = Crucifixo na polia
+ex_face_pull = Face pull
+ex_cable_lateral_raise = Elevação lateral na polia
+ex_cable_triceps_pushdown = Tríceps pulley
+ex_rope_triceps_pushdown = Tríceps corda
+ex_cable_overhead_triceps_extension = Tríceps francês na polia
+ex_cable_curl = Rosca na polia
+ex_cable_crunch = Abdominal na polia
+ex_cable_woodchop = Lenhador na polia
+ex_cable_pull_through = Pull-through na polia
+ex_cable_glute_kickback = Coice na polia
+
+# Smith machine
+ex_smith_squat = Agachamento no Smith
+ex_smith_bench_press = Supino no Smith
+ex_smith_incline_bench_press = Supino inclinado no Smith
+ex_smith_shoulder_press = Desenvolvimento no Smith
+ex_smith_split_squat = Afundo no Smith
+ex_smith_hip_thrust = Elevação pélvica no Smith
+ex_smith_calf_raise = Panturrilha no Smith
+
+# Barbell and EZ bar
+ex_barbell_bench_press = Supino reto com barra
+ex_barbell_incline_bench_press = Supino inclinado com barra
+ex_barbell_decline_bench_press = Supino declinado com barra
+ex_close_grip_bench_press = Supino pegada fechada
+ex_barbell_overhead_press = Desenvolvimento militar
+ex_barbell_back_squat = Agachamento livre com barra
+ex_barbell_front_squat = Agachamento frontal
+ex_barbell_deadlift = Levantamento terra
+ex_sumo_deadlift = Levantamento terra sumô
+ex_barbell_romanian_deadlift = Levantamento terra romeno
+ex_good_morning = Good morning
+ex_barbell_lunge = Avanço com barra
+ex_barbell_hip_thrust = Elevação pélvica com barra
+ex_barbell_glute_bridge = Ponte glútea com barra
+ex_barbell_row = Remada curvada com barra
+ex_pendlay_row = Remada Pendlay
+ex_t_bar_row = Remada cavalinho
+ex_barbell_upright_row = Remada alta
+ex_barbell_shrug = Encolhimento com barra
+ex_barbell_curl = Rosca direta com barra
+ex_ez_bar_curl = Rosca com barra W
+ex_ez_bar_preacher_curl = Rosca Scott com barra W
+ex_skull_crusher = Tríceps testa
+ex_barbell_wrist_curl = Rosca de punho
+ex_barbell_reverse_wrist_curl = Rosca de punho inversa
+
+# Dumbbells
+ex_dumbbell_bench_press = Supino reto com halteres
+ex_dumbbell_incline_bench_press = Supino inclinado com halteres
+ex_dumbbell_fly = Crucifixo com halteres
+ex_dumbbell_pullover = Pullover com halter
+ex_dumbbell_shoulder_press = Desenvolvimento com halteres
+ex_arnold_press = Desenvolvimento Arnold
+ex_dumbbell_lateral_raise = Elevação lateral com halteres
+ex_dumbbell_front_raise = Elevação frontal com halteres
+ex_dumbbell_rear_delt_fly = Crucifixo inverso com halteres
+ex_dumbbell_row = Remada serrote
+ex_dumbbell_shrug = Encolhimento com halteres
+ex_dumbbell_curl = Rosca com halteres
+ex_hammer_curl = Rosca martelo
+ex_incline_dumbbell_curl = Rosca inclinada com halteres
+ex_concentration_curl = Rosca concentrada
+ex_dumbbell_overhead_extension = Tríceps francês com halter
+ex_dumbbell_triceps_kickback = Tríceps coice
+ex_dumbbell_goblet_squat = Agachamento goblet (halter)
+ex_bulgarian_split_squat = Agachamento búlgaro
+ex_dumbbell_lunge = Avanço com halteres
+ex_dumbbell_step_up = Subida no banco com halteres
+ex_dumbbell_romanian_deadlift = Terra romeno com halteres
+ex_dumbbell_side_bend = Flexão lateral com halter
+
+# Kettlebells
+ex_kettlebell_swing = Swing com kettlebell
+ex_kettlebell_goblet_squat = Agachamento goblet (kettlebell)
+ex_kettlebell_clean_and_press = Clean and press com kettlebell
+ex_turkish_get_up = Levantamento turco
+
+# Bodyweight
+ex_push_up = Flexão de braço
+ex_parallel_bar_dip = Mergulho nas paralelas
+ex_bench_dip = Mergulho no banco
+ex_pull_up = Barra fixa
+ex_chin_up = Barra fixa supinada
+ex_inverted_row = Remada invertida
+ex_bodyweight_squat = Agachamento sem peso
+ex_bodyweight_lunge = Avanço
+ex_glute_bridge = Ponte glútea
+ex_back_extension = Hiperextensão lombar
+ex_nordic_curl = Flexão nórdica
+ex_crunch = Abdominal crunch
+ex_sit_up = Abdominal completo (sit-up)
+ex_hanging_leg_raise = Elevação de pernas na barra
+ex_lying_leg_raise = Elevação de pernas deitado
+ex_russian_twist = Giro russo
+ex_mountain_climber = Escalador
+ex_burpee = Burpee
+
+# Timed holds and carries
+ex_plank = Prancha
+ex_side_plank = Prancha lateral
+ex_copenhagen_plank = Prancha Copenhague
+ex_wall_sit = Cadeirinha na parede
+ex_dead_hang = Suspensão na barra
+ex_farmers_carry = Caminhada do fazendeiro
+
+# Resistance bands
+ex_band_pull_apart = Pull-apart com elástico
+ex_banded_lateral_walk = Caminhada lateral com elástico
+
+# Cardio machines
+ex_treadmill = Esteira
+ex_stationary_bike = Bicicleta ergométrica
+ex_spin_bike = Bike de spinning
+ex_recumbent_bike = Bicicleta horizontal
+ex_air_bike = Air bike
+ex_elliptical = Elíptico
+ex_rowing_machine = Remo ergométrico
+ex_stair_climber = Simulador de escada
+ex_ski_erg = Ski erg

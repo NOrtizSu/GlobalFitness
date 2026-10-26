@@ -1,0 +1,5 @@
+# Cloud backup: what it includes now that the training data is backed up too
+account_benefit_where_training = Profil, setelan, pengukuran, dan latihan Anda (beserta mesin Anda, catatan, dan fotonya) disimpan di akun Anda, di server Google di Uni Eropa (Madrid).
+account_delete_text_training = Cadangan cloud Anda (profil, pengukuran, timbangan, latihan, mesin, dan fotonya) serta akun Fortia Anda akan dihapus secara permanen. Data di ponsel ini tidak dihapus.\n\nDemi keamanan, Google akan meminta Anda memilih dan mengonfirmasi akun.
+conflict_restore_cloud_confirm_training = Data di ponsel ini akan diganti dengan data dari cloud. Pengukuran, latihan, dan mesin yang hanya ada di ponsel ini akan dihapus.
+conflict_replace_cloud_confirm_training = Cadangan cloud Anda akan diganti dengan data di ponsel ini. Pengukuran, latihan, dan mesin yang hanya ada di cloud akan dihapus.

@@ -1,0 +1,16 @@
+# Health Connect: workouts of the training log saved as exercise sessions
+hc_workouts_export_title = Enregistrer les entraînements dans Health Connect
+hc_workouts_export_text = Chaque entraînement terminé est enregistré comme une séance d'exercice avec ses séries et ses répétitions, afin que les autres applications de fitness puissent le prendre en compte. Si vous supprimez un entraînement, il est aussi supprimé de Health Connect.
+hc_workouts_export_missing_permission = Autorisez Fortia à écrire les exercices dans Health Connect pour y enregistrer vos entraînements.
+hc_workouts_export_denied = Si aucune fenêtre d'autorisation ne s'ouvre, autorisez « Exercice » pour Fortia dans Health Connect.
+hc_workouts_export_allow = Autoriser
+hc_workouts_export_off = Les nouveaux entraînements ne sont pas enregistrés. Ceux qui sont déjà dans Health Connect y restent.
+hc_workouts_export_count_none = Aucun entraînement dans Health Connect pour l'instant.
+hc_workouts_export_count{one} = %1$d entraînement dans Health Connect.
+hc_workouts_export_count{many} = %1$d entraînements dans Health Connect.
+hc_workouts_export_count{other} = %1$d entraînements dans Health Connect.
+hc_missing_write_exercise = Pas d'autorisation d'écrire les exercices : les entraînements ne sont pas enregistrés.
+# Title in Health Connect of a workout without a name that mixes different kinds of cardio
+hc_workout_title = Entraînement
+# Permissions rationale: continues the "Writing your scale measurements" item
+health_rationale_write_workouts = L'application écrit aussi les entraînements que vous terminez comme séances d'exercice : heure de début et de fin, type, nom, note et chaque série effectuée avec ses répétitions. Si vous supprimez un entraînement dans l'application, il est aussi supprimé de Health Connect.

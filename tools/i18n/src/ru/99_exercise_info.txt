@@ -1,0 +1,19 @@
+# Exercise info sheet: how an exercise is done (animation, steps, tips), opened from the ⓘ button next to an exercise in the lists, the workout and the routines
+# The ⓘ button, read by TalkBack; %1$s: exercise
+training_info_open = Как выполнять: %1$s
+# Headings of the sheet: the numbered steps, then the key cues and common mistakes
+training_info_steps = Как выполнять
+training_info_tips = Советы
+# Read by TalkBack before each step; %1$s: step number
+training_info_step = Шаг %1$s
+# The animation, read by TalkBack; %1$s: exercise
+training_info_animation = Анимация: %1$s
+# Button over the animation, read by TalkBack
+training_info_play = Воспроизвести анимацию
+training_info_pause = Приостановить анимацию
+# Instead of the steps, for an exercise or machine the user created
+training_info_no_guide = Это упражнение создали вы, поэтому пошаговой инструкции для него нет.
+# Added when that exercise has no photo and no machine settings yet
+training_info_no_guide_add = Добавьте на его странице фото и настройки тренажёра, чтобы помнить, как вы им пользуетесь.
+# Button: opens the exercise's page (progress chart, records, history)
+training_info_progress = Смотреть прогресс

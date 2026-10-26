@@ -1,5 +1,5 @@
 # App
-band_notification_listener_label = GlobalFitness: bilekliğinize iletim
+band_notification_listener_label = Fortia: bilekliğinize iletim
 
 # Common actions
 action_cancel = İptal
@@ -95,7 +95,7 @@ body_type_skinny_muscular = Zayıf kaslı
 
 # Health Connect rationale (shown by Health Connect)
 health_rationale_title = Sağlık verilerinin gizliliği
-health_rationale_intro = GlobalFitness, Health Connect'i iki amaçla kullanır:
+health_rationale_intro = Fortia, Health Connect'i iki amaçla kullanır:
 health_rationale_read = • Bilekliğinizden veya saatinizden gelen verileri okumak (örneğin Mi Fitness üzerinden Xiaomi Smart Band): adımlar, mesafe, kaloriler, nabız, dinlenme nabzı, nabız değişkenliği, uyku, kan oksijeni, solunum hızı ve antrenmanlar. Diğer uygulamaların kaydettiği kilo ve vücut yağı verilerini de okur. Geçmiş veri izniyle bir yıla kadar geriye dönük veri içe aktarır.
 health_rationale_write = • Tartı ölçümlerinizi yazmak: kilo, vücut yağı, kemik kütlesi, yağsız vücut kütlesi, bazal metabolizma hızı ve vücut suyu. Uygulamada bir ölçümü silerseniz Health Connect'ten de silinir.
 health_rationale_storage = Health Connect'ten okunan veriler yalnızca bu telefonda saklanır: isteğe bağlı bulut yedeğine yüklenmez, reklam için kullanılmaz ve kimseyle paylaşılmaz. Uygulama bu verileri yalnızca size özetler ve grafikler göstermek için kullanır.

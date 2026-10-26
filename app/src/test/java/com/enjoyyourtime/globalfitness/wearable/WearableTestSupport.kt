@@ -9,8 +9,8 @@ import com.enjoyyourtime.globalfitness.scale.GattLink
 import com.enjoyyourtime.globalfitness.scale.GattNotification
 import com.enjoyyourtime.globalfitness.scale.MapDriverStore
 import com.enjoyyourtime.globalfitness.scale.ScaleNotice
-import java.util.Collections
 import java.util.UUID
+import java.util.concurrent.CopyOnWriteArrayList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -41,8 +41,8 @@ class FakeGattDevice(
         override fun toString(): String = "$characteristic ${value.hex()}"
     }
 
-    val writes: MutableList<Write> = Collections.synchronizedList(mutableListOf())
-    val subscribed: MutableList<UUID> = Collections.synchronizedList(mutableListOf())
+    val writes: MutableList<Write> = CopyOnWriteArrayList()
+    val subscribed: MutableList<UUID> = CopyOnWriteArrayList()
     val readValues = HashMap<UUID, ByteArray>()
 
     @Volatile
@@ -117,7 +117,7 @@ fun testEnv(
     authKey: String? = null,
     store: MapDriverStore = MapDriverStore(),
     config: Map<String, String> = emptyMap(),
-    log: MutableList<String> = Collections.synchronizedList(mutableListOf()),
+    log: MutableList<String> = CopyOnWriteArrayList(),
     timeouts: WearableTimeouts = FAST_TIMEOUTS,
 ) = WearableSessionEnv(
     address = "C0:FF:EE:00:00:01",

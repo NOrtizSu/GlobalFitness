@@ -20,3 +20,6 @@
 # Firebase CLI
 firebase-debug.log*
 .firebase/
+
+# app-ads.txt holds the AdMob publisher ID (kept out of git; see docs/play-release.md)
+/hosting/public/app-ads.txt

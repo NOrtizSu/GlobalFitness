@@ -1,5 +1,5 @@
 # App
-band_notification_listener_label = GlobalFitness: 밴드로 알림 전달
+band_notification_listener_label = Fortia: 밴드로 알림 전달
 
 # Common actions
 action_cancel = 취소
@@ -94,7 +94,7 @@ body_type_skinny_muscular = 마른 근육형
 
 # Health Connect rationale (shown by Health Connect)
 health_rationale_title = 건강 데이터 개인정보 보호
-health_rationale_intro = GlobalFitness는 다음 두 가지 목적으로 Health Connect를 사용합니다.
+health_rationale_intro = Fortia는 다음 두 가지 목적으로 Health Connect를 사용합니다.
 health_rationale_read = • 밴드나 워치의 데이터 읽기(예: Mi Fitness를 통한 Xiaomi Smart Band): 걸음 수, 거리, 칼로리, 심박수, 안정 시 심박수, 심박 변이도, 수면, 혈중 산소, 호흡수, 운동. 다른 앱에서 기록한 체중과 체지방률도 읽습니다. 과거 데이터 권한이 있으면 최대 1년 치를 가져옵니다.
 health_rationale_write = • 체중계 측정 기록 쓰기: 체중, 체지방률, 골량, 제지방량, 기초대사량, 체수분. 앱에서 측정 기록을 삭제하면 Health Connect에서도 삭제됩니다.
 health_rationale_storage = Health Connect에서 읽은 데이터는 이 휴대전화에만 저장됩니다. 선택 사항인 클라우드 백업에 업로드되지 않으며, 광고에 사용되거나 다른 사람과 공유되지 않습니다. 앱은 요약과 차트를 보여 주는 데만 이 데이터를 사용합니다.

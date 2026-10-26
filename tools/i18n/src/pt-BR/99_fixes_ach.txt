@@ -1,0 +1,3 @@
+# Achievements review fixes
+# How "Towards your target" is counted: from the week the current target weight was set in the profile
+ach_goal_progress_rule_target = Variação do seu peso médio de 7 dias desde que você definiu sua meta atual, na direção dela. Marcos além da sua meta não contam.

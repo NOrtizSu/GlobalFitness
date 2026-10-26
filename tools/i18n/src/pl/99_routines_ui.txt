@@ -1,0 +1,50 @@
+# Routines: the Entreno tab's section, the routine page and editor, adding a routine to a workout, saving a workout as a routine
+training_routines_title = Plany
+training_routine_new = Nowy plan
+training_routine_open = Otwórz plan
+# Title bar of a routine's page
+training_routine_title = Plan
+training_routine_missing = Ten plan już nie istnieje.
+# Label on a routine's page: one of the app's routines / one the user made
+training_routine_builtin = Sugerowany plan
+training_routine_own = Twój plan
+training_routine_start = Rozpocznij trening
+training_routine_add_to_active = Dodaj do trwającego treningu
+training_routine_active_hint = Trwa trening: zostaną do niego dodane ćwiczenia, których jeszcze w nim nie ma.
+training_routine_duplicate = Duplikuj i edytuj
+training_routine_delete = Usuń plan
+# %1$s: routine name
+training_routine_delete_title = Usunąć „%1$s”?
+training_routine_delete_text = Twoje treningi pozostaną bez zmian.
+training_routine_exercises = Ćwiczenia
+training_routine_muscles = Pracujące mięśnie
+training_routine_loads_hint = Ciężary są uzupełniane na podstawie Twojej ostatniej sesji każdego ćwiczenia.
+training_routine_edit_title = Edytuj plan
+training_routine_name_hint = Np. Nogi w poniedziałek
+training_routine_note = Notatka (opcjonalnie)
+training_routine_add_exercises = Dodaj ćwiczenia
+training_routine_editor_empty = Dodaj ćwiczenia planu: każde zaczyna się od serii i powtórzeń z Twojej ostatniej sesji.
+training_routine_exercises_error = Dodaj co najmniej jedno ćwiczenie.
+# Set stepper of an exercise in the routine editor, read by TalkBack; %1$s: exercise
+training_routine_fewer_sets = Mniej serii: %1$s
+training_routine_more_sets = Więcej serii: %1$s
+training_routine_save_failed = Nie udało się zapisać planu
+training_routine_add = Dodaj plan
+# Groups of the "Add routine" sheet
+training_routines_own = Twoje plany
+training_routines_builtin = Sugerowane
+training_routine_already_in = Już w tym treningu
+training_routine_added{one} = Dodano %1$s ćwiczenie
+training_routine_added{few} = Dodano %1$s ćwiczenia
+training_routine_added{many} = Dodano %1$s ćwiczeń
+training_routine_added{other} = Dodano %1$s ćwiczenia
+training_routine_nothing_added = Ten trening zawiera już wszystkie ćwiczenia planu.
+training_routine_save_from_workout = Zapisz jako plan
+training_routine_save_text = Zapisywane są jego ćwiczenia i serie; ciężary zawsze pochodzą z Twojej ostatniej sesji.
+training_routine_saved = Plan zapisany
+# Snackbar action: open the routine just saved
+training_routine_view = Pokaż
+# Hoy card: start a workout with the routine used last; %1$s: routine name
+training_start_routine = Rozpocznij: %1$s
+# Hoy card, next to the routine: start a workout without exercises
+training_start_blank = Pusty trening

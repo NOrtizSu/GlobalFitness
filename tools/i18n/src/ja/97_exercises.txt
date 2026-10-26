@@ -1,0 +1,165 @@
+# Built-in exercise and machine names: ex_<catalog id> (training/catalog/ExerciseCatalog.kt)
+
+# Machines
+ex_machine_chest_press = マシンチェストプレス
+ex_machine_incline_chest_press = マシンインクラインプレス
+ex_pec_deck = ペックデック（バタフライ）
+ex_machine_shoulder_press = マシンショルダープレス
+ex_machine_lateral_raise = マシンサイドレイズ
+ex_reverse_pec_deck = リバースペックデック
+ex_machine_row = マシンシーテッドロー
+ex_pullover_machine = プルオーバーマシン
+ex_leg_press_machine = レッグプレス
+ex_horizontal_leg_press = ホリゾンタルレッグプレス
+ex_hack_squat_machine = ハックスクワット
+ex_pendulum_squat_machine = ペンデュラムスクワット
+ex_leg_extension_machine = レッグエクステンション
+ex_lying_leg_curl_machine = ライイングレッグカール
+ex_seated_leg_curl_machine = シーテッドレッグカール
+ex_standing_calf_raise_machine = スタンディングカーフレイズ
+ex_seated_calf_raise_machine = シーテッドカーフレイズ
+ex_leg_press_calf_raise = レッグプレスカーフレイズ
+ex_hip_abductor_machine = ヒップアブダクション
+ex_hip_adductor_machine = ヒップアダクション
+ex_glute_kickback_machine = マシングルートキックバック
+ex_hip_thrust_machine = マシンヒップスラスト
+ex_back_extension_machine = マシンバックエクステンション
+ex_ab_crunch_machine = マシンアブクランチ
+ex_rotary_torso_machine = ロータリートーソ
+ex_machine_biceps_curl = マシンアームカール
+ex_machine_triceps_extension = マシントライセプスエクステンション
+ex_seated_dip_machine = シーテッドディップス
+ex_assisted_pull_up_machine = アシスト懸垂マシン
+ex_assisted_chin_up_machine = アシスト逆手懸垂マシン
+ex_assisted_dip_machine = アシストディップスマシン
+ex_neck_machine = ネックマシン
+
+# Cable
+ex_lat_pulldown_machine = ラットプルダウン
+ex_close_grip_lat_pulldown = ナローグリップラットプルダウン
+ex_seated_cable_row = シーテッドケーブルロー
+ex_single_arm_cable_row = ワンアームケーブルロー
+ex_straight_arm_pulldown = ストレートアームプルダウン
+ex_cable_crossover = ケーブルクロスオーバー
+ex_low_cable_crossover = ローケーブルクロスオーバー
+ex_cable_fly = ケーブルフライ
+ex_face_pull = フェイスプル
+ex_cable_lateral_raise = ケーブルサイドレイズ
+ex_cable_triceps_pushdown = トライセプスプッシュダウン
+ex_rope_triceps_pushdown = ローププッシュダウン
+ex_cable_overhead_triceps_extension = ケーブルフレンチプレス
+ex_cable_curl = ケーブルカール
+ex_cable_crunch = ケーブルクランチ
+ex_cable_woodchop = ケーブルウッドチョップ
+ex_cable_pull_through = ケーブルプルスルー
+ex_cable_glute_kickback = ケーブルグルートキックバック
+
+# Smith machine
+ex_smith_squat = スミススクワット
+ex_smith_bench_press = スミスベンチプレス
+ex_smith_incline_bench_press = スミスインクラインプレス
+ex_smith_shoulder_press = スミスショルダープレス
+ex_smith_split_squat = スミススプリットスクワット
+ex_smith_hip_thrust = スミスヒップスラスト
+ex_smith_calf_raise = スミスカーフレイズ
+
+# Barbell and EZ bar
+ex_barbell_bench_press = バーベルベンチプレス
+ex_barbell_incline_bench_press = バーベルインクラインプレス
+ex_barbell_decline_bench_press = バーベルデクラインプレス
+ex_close_grip_bench_press = ナローグリップベンチプレス
+ex_barbell_overhead_press = オーバーヘッドプレス
+ex_barbell_back_squat = バーベルスクワット
+ex_barbell_front_squat = フロントスクワット
+ex_barbell_deadlift = デッドリフト
+ex_sumo_deadlift = スモウデッドリフト
+ex_barbell_romanian_deadlift = ルーマニアンデッドリフト
+ex_good_morning = グッドモーニング
+ex_barbell_lunge = バーベルランジ
+ex_barbell_hip_thrust = バーベルヒップスラスト
+ex_barbell_glute_bridge = バーベルヒップリフト
+ex_barbell_row = バーベルロー
+ex_pendlay_row = ペンドレイロー
+ex_t_bar_row = Tバーロー
+ex_barbell_upright_row = アップライトロー
+ex_barbell_shrug = バーベルシュラッグ
+ex_barbell_curl = バーベルカール
+ex_ez_bar_curl = EZバーカール
+ex_ez_bar_preacher_curl = EZバープリーチャーカール
+ex_skull_crusher = スカルクラッシャー
+ex_barbell_wrist_curl = リストカール
+ex_barbell_reverse_wrist_curl = リバースリストカール
+
+# Dumbbells
+ex_dumbbell_bench_press = ダンベルベンチプレス
+ex_dumbbell_incline_bench_press = インクラインダンベルプレス
+ex_dumbbell_fly = ダンベルフライ
+ex_dumbbell_pullover = ダンベルプルオーバー
+ex_dumbbell_shoulder_press = ダンベルショルダープレス
+ex_arnold_press = アーノルドプレス
+ex_dumbbell_lateral_raise = ダンベルサイドレイズ
+ex_dumbbell_front_raise = ダンベルフロントレイズ
+ex_dumbbell_rear_delt_fly = リアデルトフライ
+ex_dumbbell_row = ワンハンドダンベルロー
+ex_dumbbell_shrug = ダンベルシュラッグ
+ex_dumbbell_curl = ダンベルカール
+ex_hammer_curl = ハンマーカール
+ex_incline_dumbbell_curl = インクラインダンベルカール
+ex_concentration_curl = コンセントレーションカール
+ex_dumbbell_overhead_extension = ダンベルフレンチプレス
+ex_dumbbell_triceps_kickback = トライセプスキックバック
+ex_dumbbell_goblet_squat = ダンベルゴブレットスクワット
+ex_bulgarian_split_squat = ブルガリアンスクワット
+ex_dumbbell_lunge = ダンベルランジ
+ex_dumbbell_step_up = ダンベルステップアップ
+ex_dumbbell_romanian_deadlift = ダンベルルーマニアンデッドリフト
+ex_dumbbell_side_bend = ダンベルサイドベンド
+
+# Kettlebells
+ex_kettlebell_swing = ケトルベルスイング
+ex_kettlebell_goblet_squat = ケトルベルゴブレットスクワット
+ex_kettlebell_clean_and_press = ケトルベルクリーン＆プレス
+ex_turkish_get_up = ターキッシュゲットアップ
+
+# Bodyweight
+ex_push_up = 腕立て伏せ
+ex_parallel_bar_dip = ディップス
+ex_bench_dip = ベンチディップス
+ex_pull_up = 懸垂
+ex_chin_up = 逆手懸垂
+ex_inverted_row = 斜め懸垂
+ex_bodyweight_squat = 自重スクワット
+ex_bodyweight_lunge = ランジ
+ex_glute_bridge = ヒップリフト
+ex_back_extension = バックエクステンション
+ex_nordic_curl = ノルディックハムストリングカール
+ex_crunch = クランチ
+ex_sit_up = シットアップ
+ex_hanging_leg_raise = ハンギングレッグレイズ
+ex_lying_leg_raise = ライイングレッグレイズ
+ex_russian_twist = ロシアンツイスト
+ex_mountain_climber = マウンテンクライマー
+ex_burpee = バーピー
+
+# Timed holds and carries
+ex_plank = プランク
+ex_side_plank = サイドプランク
+ex_copenhagen_plank = コペンハーゲンプランク
+ex_wall_sit = 空気椅子
+ex_dead_hang = デッドハング
+ex_farmers_carry = ファーマーズウォーク
+
+# Resistance bands
+ex_band_pull_apart = チューブプルアパート
+ex_banded_lateral_walk = チューブサイドウォーク
+
+# Cardio machines
+ex_treadmill = トレッドミル
+ex_stationary_bike = エアロバイク
+ex_spin_bike = スピンバイク
+ex_recumbent_bike = リカンベントバイク
+ex_air_bike = エアバイク
+ex_elliptical = エリプティカル
+ex_rowing_machine = ローイングマシン
+ex_stair_climber = ステアクライマー
+ex_ski_erg = スキーエルゴ

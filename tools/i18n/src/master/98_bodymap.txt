@@ -1,0 +1,8 @@
+# Body map: captions, TalkBack descriptions of the muscle figure, open-source credit of its drawings
+bodymap_front = Front ||| Delante
+bodymap_back = Back ||| Detrás
+bodymap_figure_front = Body, front view ||| Cuerpo, vista frontal
+bodymap_figure_back = Body, back view ||| Cuerpo, vista posterior
+bodymap_figure_highlighted = %1$s: %2$s ||| %1$s: %2$s
+bodymap_muscle_state = %1$s, %2$s ||| %1$s, %2$s
+notice_body_highlighter = The drawings of the muscle map are ported from react-native-body-highlighter. ||| Los dibujos del mapa muscular están portados de react-native-body-highlighter.

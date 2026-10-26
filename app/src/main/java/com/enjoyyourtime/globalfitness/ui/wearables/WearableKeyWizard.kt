@@ -53,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.ui.asString
+import com.enjoyyourtime.globalfitness.ui.components.TopBarTitle
 import com.enjoyyourtime.globalfitness.wearable.AuthKeyKind
 import com.enjoyyourtime.globalfitness.wearable.WearableDriver
 import com.enjoyyourtime.globalfitness.wearable.WearableFamily
@@ -105,7 +106,7 @@ fun WearableKeyWizardScreen(viewModel: WearableViewModel, driver: WearableDriver
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(keyTitleRes(driver.authKey))) },
+                title = { TopBarTitle(stringResource(keyTitleRes(driver.authKey))) },
                 navigationIcon = {
                     IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.action_back)) }
                 },

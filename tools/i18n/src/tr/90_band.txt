@@ -1,5 +1,5 @@
 # Band (experimental direct mode). Its diagnostics log stays in English on purpose.
-band_test_notification_body = GlobalFitness doğrudan modundan test bildirimi
+band_test_notification_body = Fortia doğrudan modundan test bildirimi
 band_failure_no_bluetooth = Bu telefonda Bluetooth yok.
 band_failure_bluetooth_off = Bluetooth kapalı. Açıp tekrar deneyin.
 band_test_notification_sent = Test bildirimi gönderildi

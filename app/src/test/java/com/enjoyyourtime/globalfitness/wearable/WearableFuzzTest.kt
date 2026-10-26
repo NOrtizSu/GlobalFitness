@@ -20,9 +20,9 @@ import com.enjoyyourtime.globalfitness.wearable.xiaomi.XiaomiSppWearableSession
 import com.enjoyyourtime.globalfitness.wearable.zeppos.ZeppOsChunkDecoder
 import com.enjoyyourtime.globalfitness.wearable.zeppos.ZeppOsProtocol
 import java.io.IOException
-import java.util.Collections
 import java.util.TimeZone
 import java.util.UUID
+import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.random.Random
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -44,7 +44,7 @@ import org.junit.Test
  * [WearableException]; no coroutine may crash.
  */
 class WearableFuzzTest {
-    private val crashes: MutableList<Throwable> = Collections.synchronizedList(mutableListOf())
+    private val crashes: MutableList<Throwable> = CopyOnWriteArrayList()
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default + CoroutineExceptionHandler { _, e -> crashes += e })
 
     @After
@@ -241,7 +241,7 @@ class WearableFuzzTest {
         val registry = AllWearables.registry()
         val drivers = listOf("xiaomi_smart_band_8", "xiaomi_mi_watch_lite", "xiaomi_mi_band_5", "xiaomi_mi_band_2", "amazfit_band_7", "pinetime_infinitime", "banglejs", "standard_heart_rate")
             .map { requireNotNull(registry.find(it)) }
-        val failures = Collections.synchronizedList(mutableListOf<String>())
+        val failures = CopyOnWriteArrayList<String>()
         val opened = HashSet<String>()
         for ((i, driver) in drivers.withIndex()) {
             repeat(6) { round ->
@@ -264,7 +264,7 @@ class WearableFuzzTest {
 
     @Test
     fun sppSessionSurvivesRandomStreams() = runBlocking {
-        val failures = Collections.synchronizedList(mutableListOf<String>())
+        val failures = CopyOnWriteArrayList<String>()
         val model = XiaomiModels.ALL.first { it.id == XiaomiModels.BAND_9_ID }
         repeat(8) { round ->
             val rnd = Random(round)

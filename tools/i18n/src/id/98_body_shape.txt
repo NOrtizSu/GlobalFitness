@@ -1,0 +1,6 @@
+# Body shape of the muscle map figure (Progress → Muscles): "Now" vs some time ago; the caption says it is only an illustration
+body_shape_now = Sekarang
+body_shape_months_ago{other} = %1$s bulan lalu
+body_shape_weeks_ago{other} = %1$s minggu lalu
+body_shape_caption_scale = Bentuk gambar mengikuti lemak tubuh, massa otot, dan latihan Anda. Ini ilustrasi, bukan hasil pengukuran.
+body_shape_caption_training = Bentuk gambar mengikuti latihan Anda (timbang badan dengan timbangan komposisi tubuh agar lemak tubuh ikut dihitung). Ini ilustrasi, bukan hasil pengukuran.

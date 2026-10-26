@@ -1,0 +1,165 @@
+# Built-in exercise and machine names: ex_<catalog id> (training/catalog/ExerciseCatalog.kt)
+
+# Machines
+ex_machine_chest_press = Brustpresse
+ex_machine_incline_chest_press = Schräge Brustpresse
+ex_pec_deck = Butterfly
+ex_machine_shoulder_press = Schulterpresse
+ex_machine_lateral_raise = Seitheben an der Maschine
+ex_reverse_pec_deck = Reverse Butterfly
+ex_machine_row = Rudern an der Maschine
+ex_pullover_machine = Pullover an der Maschine
+ex_leg_press_machine = Beinpresse
+ex_horizontal_leg_press = Horizontale Beinpresse
+ex_hack_squat_machine = Hackenschmidt-Kniebeuge
+ex_pendulum_squat_machine = Pendel-Kniebeuge
+ex_leg_extension_machine = Beinstrecker
+ex_lying_leg_curl_machine = Liegender Beinbeuger
+ex_seated_leg_curl_machine = Sitzender Beinbeuger
+ex_standing_calf_raise_machine = Wadenheben stehend (Maschine)
+ex_seated_calf_raise_machine = Wadenheben sitzend
+ex_leg_press_calf_raise = Wadenheben an der Beinpresse
+ex_hip_abductor_machine = Abduktoren-Maschine
+ex_hip_adductor_machine = Adduktoren-Maschine
+ex_glute_kickback_machine = Gesäß-Kickback (Maschine)
+ex_hip_thrust_machine = Hip Thrust an der Maschine
+ex_back_extension_machine = Rückenstrecken an der Maschine
+ex_ab_crunch_machine = Crunch an der Maschine
+ex_rotary_torso_machine = Rumpfrotation (Maschine)
+ex_machine_biceps_curl = Bizepscurl an der Maschine
+ex_machine_triceps_extension = Trizepsstrecken (Maschine)
+ex_seated_dip_machine = Dips sitzend (Maschine)
+ex_assisted_pull_up_machine = Assistierte Klimmzüge (Maschine)
+ex_assisted_chin_up_machine = Assistierte Klimmzüge Untergriff
+ex_assisted_dip_machine = Assistierte Dips (Maschine)
+ex_neck_machine = Nackenmaschine
+
+# Cable
+ex_lat_pulldown_machine = Latzug
+ex_close_grip_lat_pulldown = Latzug enger Griff
+ex_seated_cable_row = Sitzendes Kabelrudern
+ex_single_arm_cable_row = Einarmiges Kabelrudern
+ex_straight_arm_pulldown = Pulldown mit gestreckten Armen
+ex_cable_crossover = Kabelcrossover
+ex_low_cable_crossover = Kabelcrossover von unten
+ex_cable_fly = Fliegende am Kabel
+ex_face_pull = Face Pull
+ex_cable_lateral_raise = Seitheben am Kabel
+ex_cable_triceps_pushdown = Trizepsdrücken am Kabel
+ex_rope_triceps_pushdown = Trizepsdrücken mit Seil
+ex_cable_overhead_triceps_extension = Überkopfstrecken am Kabel
+ex_cable_curl = Bizepscurl am Kabel
+ex_cable_crunch = Kabelcrunch
+ex_cable_woodchop = Holzhacker am Kabel
+ex_cable_pull_through = Pull-Through am Kabel
+ex_cable_glute_kickback = Gesäß-Kickback am Kabel
+
+# Smith machine
+ex_smith_squat = Kniebeuge (Multipresse)
+ex_smith_bench_press = Bankdrücken (Multipresse)
+ex_smith_incline_bench_press = Schrägbankdrücken (Multipresse)
+ex_smith_shoulder_press = Schulterdrücken (Multipresse)
+ex_smith_split_squat = Split Squat (Multipresse)
+ex_smith_hip_thrust = Hip Thrust (Multipresse)
+ex_smith_calf_raise = Wadenheben (Multipresse)
+
+# Barbell and EZ bar
+ex_barbell_bench_press = Langhantel-Bankdrücken
+ex_barbell_incline_bench_press = Langhantel-Schrägbankdrücken
+ex_barbell_decline_bench_press = Langhantel-Negativbankdrücken
+ex_close_grip_bench_press = Enges Bankdrücken
+ex_barbell_overhead_press = Überkopfdrücken
+ex_barbell_back_squat = Langhantel-Kniebeuge
+ex_barbell_front_squat = Frontkniebeuge
+ex_barbell_deadlift = Kreuzheben
+ex_sumo_deadlift = Sumo-Kreuzheben
+ex_barbell_romanian_deadlift = Rumänisches Kreuzheben
+ex_good_morning = Good Morning
+ex_barbell_lunge = Langhantel-Ausfallschritte
+ex_barbell_hip_thrust = Langhantel-Hip-Thrust
+ex_barbell_glute_bridge = Beckenheben mit Langhantel
+ex_barbell_row = Langhantelrudern
+ex_pendlay_row = Pendlay-Rudern
+ex_t_bar_row = T-Bar-Rudern
+ex_barbell_upright_row = Aufrechtes Rudern
+ex_barbell_shrug = Shrugs mit Langhantel
+ex_barbell_curl = Langhantel-Curl
+ex_ez_bar_curl = SZ-Curl
+ex_ez_bar_preacher_curl = Scottcurl mit SZ-Stange
+ex_skull_crusher = Stirndrücken
+ex_barbell_wrist_curl = Handgelenkcurl
+ex_barbell_reverse_wrist_curl = Reverse Handgelenkcurl
+
+# Dumbbells
+ex_dumbbell_bench_press = Kurzhantel-Bankdrücken
+ex_dumbbell_incline_bench_press = Kurzhantel-Schrägbankdrücken
+ex_dumbbell_fly = Kurzhantel-Fliegende
+ex_dumbbell_pullover = Kurzhantel-Pullover
+ex_dumbbell_shoulder_press = Kurzhantel-Schulterdrücken
+ex_arnold_press = Arnold Press
+ex_dumbbell_lateral_raise = Seitheben mit Kurzhanteln
+ex_dumbbell_front_raise = Frontheben mit Kurzhanteln
+ex_dumbbell_rear_delt_fly = Vorgebeugtes Seitheben
+ex_dumbbell_row = Einarmiges Kurzhantelrudern
+ex_dumbbell_shrug = Shrugs mit Kurzhanteln
+ex_dumbbell_curl = Kurzhantel-Curl
+ex_hammer_curl = Hammercurl
+ex_incline_dumbbell_curl = Schrägbank-Kurzhantelcurl
+ex_concentration_curl = Konzentrationscurl
+ex_dumbbell_overhead_extension = Kurzhantel-Überkopfstrecken
+ex_dumbbell_triceps_kickback = Trizeps-Kickback
+ex_dumbbell_goblet_squat = Goblet Squat (Kurzhantel)
+ex_bulgarian_split_squat = Bulgarische Kniebeuge
+ex_dumbbell_lunge = Ausfallschritte mit Kurzhanteln
+ex_dumbbell_step_up = Step-ups mit Kurzhanteln
+ex_dumbbell_romanian_deadlift = Kurzhantel-Kreuzheben rumänisch
+ex_dumbbell_side_bend = Seitbeugen mit Kurzhantel
+
+# Kettlebells
+ex_kettlebell_swing = Kettlebell Swing
+ex_kettlebell_goblet_squat = Goblet Squat (Kettlebell)
+ex_kettlebell_clean_and_press = Kettlebell Clean and Press
+ex_turkish_get_up = Turkish Get-up
+
+# Bodyweight
+ex_push_up = Liegestütze
+ex_parallel_bar_dip = Dips am Barren
+ex_bench_dip = Dips an der Bank
+ex_pull_up = Klimmzüge
+ex_chin_up = Klimmzüge im Untergriff
+ex_inverted_row = Umgekehrtes Rudern
+ex_bodyweight_squat = Kniebeuge ohne Gewicht
+ex_bodyweight_lunge = Ausfallschritte
+ex_glute_bridge = Beckenheben
+ex_back_extension = Rückenstrecken
+ex_nordic_curl = Nordic Curl
+ex_crunch = Crunch
+ex_sit_up = Sit-up
+ex_hanging_leg_raise = Hängendes Beinheben
+ex_lying_leg_raise = Beinheben liegend
+ex_russian_twist = Russian Twist
+ex_mountain_climber = Bergsteiger
+ex_burpee = Burpees
+
+# Timed holds and carries
+ex_plank = Unterarmstütz
+ex_side_plank = Seitstütz
+ex_copenhagen_plank = Copenhagen Plank
+ex_wall_sit = Wandsitzen
+ex_dead_hang = Passives Hängen
+ex_farmers_carry = Farmer's Walk
+
+# Resistance bands
+ex_band_pull_apart = Band Pull-Apart
+ex_banded_lateral_walk = Seitwärtsgehen mit Band
+
+# Cardio machines
+ex_treadmill = Laufband
+ex_stationary_bike = Heimtrainer
+ex_spin_bike = Spinning-Bike
+ex_recumbent_bike = Liegeergometer
+ex_air_bike = Air Bike
+ex_elliptical = Crosstrainer
+ex_rowing_machine = Rudergerät
+ex_stair_climber = Stepper
+ex_ski_erg = Ski-Ergometer

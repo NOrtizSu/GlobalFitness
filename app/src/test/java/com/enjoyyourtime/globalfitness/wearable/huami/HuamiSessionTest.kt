@@ -12,8 +12,8 @@ import com.enjoyyourtime.globalfitness.wearable.WearableFailure
 import com.enjoyyourtime.globalfitness.wearable.hex
 import com.enjoyyourtime.globalfitness.wearable.standard.StandardUuids
 import com.enjoyyourtime.globalfitness.wearable.testEnv
-import java.util.Collections
 import java.util.TimeZone
+import java.util.concurrent.CopyOnWriteArrayList
 import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
 import kotlinx.coroutines.CoroutineScope
@@ -103,7 +103,7 @@ class HuamiSessionTest {
         val device = band()
         val store = MapDriverStore()
         val session = HuamiSession(testEnv(scope, FakeLinks(device), keyHex, store), model("xiaomi_mi_band_5"))
-        val events = Collections.synchronizedList(mutableListOf<WearableEvent>())
+        val events = CopyOnWriteArrayList<WearableEvent>()
         scope.launch { session.events.collect { events += it } }
         session.open()
 

@@ -1,0 +1,111 @@
+# Achievements: medals derived from the workouts and the weighings, the celebration shown when a level is reached, and the achievements page (Training tab card, Profile row)
+achievements_title = Pencapaian
+achievements_earned{other} = %1$s dari %2$s medali
+achievements_category_training = Konsistensi
+achievements_category_strength = Kekuatan
+achievements_category_body = Tubuh
+achievements_level = Level %1$s dari %2$s
+achievements_not_started = Belum diraih
+achievements_all_levels = Semua level diraih
+achievements_earned_on = Diraih pada %1$s
+achievements_next = Berikutnya: %1$s
+achievements_progress = %1$s / %2$s
+achievements_levels = Level
+achievements_how = Cara penghitungan
+achievements_open = Buka pencapaian
+achievements_needs_bodyweight = Timbang berat badan Anda untuk membandingkan angkatan Anda dengan berat badan.
+achievements_needs_target = Tetapkan target berat badan di profil Anda.
+achievements_needs_weighings = Timbang berat badan Anda untuk memulai.
+achievements_target_is_start = Target Anda sama dengan berat awal: tidak ada selisih yang perlu ditempuh.
+achievements_needs_composition = Memerlukan hasil penimbangan dengan komposisi tubuh, dari timbangan yang dapat mengukurnya.
+achievements_lift_note = Level mengikuti standar kekuatan umum dan lebih rendah untuk wanita. Hanya barbel yang dihitung: bukan Smith machine atau mesin lainnya.
+achievements_value_tonnes = %1$s ton
+achievements_value_ratio = %1$s×
+
+# The celebration shown over any screen when a new level is reached
+celebration_title = Selamat!
+celebration_view = Lihat pencapaian
+celebration_announce = Pencapaian baru
+celebration_level = %1$s · Level %2$s
+celebration_more{other} = +%1$s lainnya
+
+ach_workouts_title = Latihan
+ach_workouts_goal{other} = Selesaikan %1$s latihan
+ach_workouts_done{other} = Anda telah menyelesaikan %1$s latihan
+ach_workouts_rule = Latihan yang diselesaikan dengan minimal satu set yang selesai.
+
+ach_week_streak_title = Minggu beruntun
+ach_week_streak_goal{other} = Berlatih minimal 2 kali seminggu selama %1$s minggu berturut-turut
+ach_week_streak_done{other} = Anda telah berlatih minimal 2 kali seminggu selama %1$s minggu berturut-turut
+ach_week_streak_rule = Minggu kalender berturut-turut dengan minimal 2 latihan yang diselesaikan. Minggu yang sedang berjalan tidak memutus rangkaian beruntun sampai minggu itu berakhir.
+
+ach_balanced_weeks_title = Minggu seimbang
+ach_balanced_weeks_goal{other} = Raih %1$s minggu seimbang
+ach_balanced_weeks_done{other} = Anda telah meraih %1$s minggu seimbang
+ach_balanced_weeks_rule = Minggu kalender ketika setiap otot berikut mendapat jumlah set efektif dalam rentang mingguannya, tidak kurang dan tidak lebih: %1$s.
+
+ach_variety_title = Variasi
+ach_variety_goal{other} = Lakukan %1$s gerakan berbeda
+ach_variety_done{other} = Anda telah melakukan %1$s gerakan berbeda
+ach_variety_rule = Gerakan dan mesin berbeda dengan minimal satu set yang selesai.
+
+ach_cardio_km_title = Jarak kardio
+ach_cardio_km_goal = Tempuh %1$s dengan kardio
+ach_cardio_km_done = Anda telah menempuh %1$s dengan kardio
+ach_cardio_km_rule = Jarak dari setiap set kardio yang selesai.
+
+ach_volume_title = Total volume
+ach_volume_goal = Angkat total %1$s
+ach_volume_done = Anda telah mengangkat total %1$s
+ach_volume_rule = Beban × repetisi dari setiap set yang selesai, dengan berat badan Anda pada gerakan beban tubuh dan gerakan dengan bantuan.
+
+ach_records_title = Rekor pribadi
+ach_records_goal{other} = Pecahkan %1$s rekor pribadi
+ach_records_done{other} = Anda telah memecahkan %1$s rekor pribadi
+ach_records_rule = Set yang memecahkan salah satu rekor gerakan: perkiraan 1RM, beban, repetisi, waktu, atau bantuan paling sedikit.
+
+ach_bench_bw_title = Bench press
+ach_bench_bw_goal = Bench press %1$s berat badan Anda
+ach_bench_bw_done = Bench press Anda mencapai %1$s berat badan Anda
+ach_bench_bw_rule = Perkiraan 1RM terbaik pada bench press barbel, dibagi berat badan Anda pada hari itu.
+
+ach_squat_bw_title = Squat
+ach_squat_bw_goal = Squat %1$s berat badan Anda
+ach_squat_bw_done = Squat Anda mencapai %1$s berat badan Anda
+ach_squat_bw_rule = Perkiraan 1RM terbaik pada back squat barbel atau front squat, dibagi berat badan Anda pada hari itu.
+
+ach_deadlift_bw_title = Deadlift
+ach_deadlift_bw_goal = Deadlift %1$s berat badan Anda
+ach_deadlift_bw_done = Deadlift Anda mencapai %1$s berat badan Anda
+ach_deadlift_bw_rule = Perkiraan 1RM terbaik pada deadlift barbel konvensional atau sumo, dibagi berat badan Anda pada hari itu.
+
+ach_ohp_bw_title = Overhead press
+ach_ohp_bw_goal = Overhead press %1$s berat badan Anda
+ach_ohp_bw_done = Overhead press Anda mencapai %1$s berat badan Anda
+ach_ohp_bw_rule = Perkiraan 1RM terbaik pada overhead press barbel sambil berdiri, dibagi berat badan Anda pada hari itu.
+
+ach_pull_ups_title = Pull-up
+ach_pull_ups_goal{other} = Lakukan %1$s pull-up tanpa bantuan dalam satu set
+ach_pull_ups_done{other} = %1$s pull-up tanpa bantuan dalam satu set
+ach_pull_ups_rule = Repetisi terbanyak dalam satu set pull-up atau chin-up, dengan atau tanpa beban tambahan, atau di mesin bantu dengan bantuan 0.
+
+ach_goal_title = Target berat badan
+ach_goal_goal = Capai target berat badan %1$s
+ach_goal_done = Anda telah mencapai target berat badan %1$s
+ach_goal_rule = Rata-rata berat badan 7 hari Anda mencapai target yang ditetapkan di profil Anda.
+
+ach_goal_progress_title = Menuju target
+ach_goal_progress_goal_loss = Turunkan berat badan %1$s menuju target
+ach_goal_progress_goal_gain = Naikkan berat badan %1$s menuju target
+ach_goal_progress_done_loss = Berat badan Anda telah turun %1$s
+ach_goal_progress_done_gain = Berat badan Anda telah naik %1$s
+
+ach_fat_down_title = Lemak tubuh
+ach_fat_down_goal{other} = Turunkan lemak tubuh %1$s poin
+ach_fat_down_done{other} = Lemak tubuh Anda turun %1$s poin
+ach_fat_down_rule = Penurunan rata-rata lemak tubuh 7 hari Anda sejak minggu pertama pengukuran. Turun di bawah batas minimum yang sehat tidak dihitung.
+
+ach_muscle_up_title = Massa otot
+ach_muscle_up_goal = Tambah massa otot %1$s
+ach_muscle_up_done = Massa otot Anda bertambah %1$s
+ach_muscle_up_rule = Kenaikan rata-rata massa otot 7 hari Anda sejak minggu pertama pengukuran.

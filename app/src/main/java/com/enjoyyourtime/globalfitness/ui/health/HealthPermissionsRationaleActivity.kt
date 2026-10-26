@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.enjoyyourtime.globalfitness.R
+import com.enjoyyourtime.globalfitness.ui.components.TopBarTitle
 import com.enjoyyourtime.globalfitness.ui.profile.PRIVACY_POLICY_URL
 import com.enjoyyourtime.globalfitness.ui.theme.GlobalFitnessTheme
 
@@ -48,7 +49,7 @@ class HealthPermissionsRationaleActivity : ComponentActivity() {
 @Composable
 private fun RationaleScreen(onClose: () -> Unit) {
     val uriHandler = LocalUriHandler.current
-    Scaffold(topBar = { TopAppBar(title = { Text(stringResource(R.string.health_rationale_title)) }) }) { padding ->
+    Scaffold(topBar = { TopAppBar(title = { TopBarTitle(stringResource(R.string.health_rationale_title)) }) }) { padding ->
         Column(
             Modifier
                 .padding(padding)
@@ -60,6 +61,7 @@ private fun RationaleScreen(onClose: () -> Unit) {
             Paragraph(stringResource(R.string.health_rationale_intro))
             Paragraph(stringResource(R.string.health_rationale_read))
             Paragraph(stringResource(R.string.health_rationale_write))
+            Paragraph(stringResource(R.string.health_rationale_write_workouts))
             Paragraph(stringResource(R.string.health_rationale_storage))
             Paragraph(stringResource(R.string.health_rationale_revoke))
             OutlinedButton(onClick = { runCatching { uriHandler.openUri(PRIVACY_POLICY_URL) } }) {

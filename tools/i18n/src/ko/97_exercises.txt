@@ -1,0 +1,165 @@
+# Built-in exercise and machine names: ex_<catalog id> (training/catalog/ExerciseCatalog.kt)
+
+# Machines
+ex_machine_chest_press = 머신 체스트 프레스
+ex_machine_incline_chest_press = 머신 인클라인 체스트 프레스
+ex_pec_deck = 펙덱 플라이(버터플라이)
+ex_machine_shoulder_press = 머신 숄더 프레스
+ex_machine_lateral_raise = 머신 레터럴 레이즈
+ex_reverse_pec_deck = 리버스 펙덱 플라이
+ex_machine_row = 머신 시티드 로우
+ex_pullover_machine = 풀오버 머신
+ex_leg_press_machine = 레그 프레스
+ex_horizontal_leg_press = 호리존탈 레그 프레스
+ex_hack_squat_machine = 핵 스쿼트
+ex_pendulum_squat_machine = 펜듈럼 스쿼트
+ex_leg_extension_machine = 레그 익스텐션
+ex_lying_leg_curl_machine = 라잉 레그 컬
+ex_seated_leg_curl_machine = 시티드 레그 컬
+ex_standing_calf_raise_machine = 머신 스탠딩 카프 레이즈
+ex_seated_calf_raise_machine = 시티드 카프 레이즈
+ex_leg_press_calf_raise = 레그 프레스 카프 레이즈
+ex_hip_abductor_machine = 힙 어브덕션 머신
+ex_hip_adductor_machine = 힙 어덕션 머신
+ex_glute_kickback_machine = 머신 글루트 킥백
+ex_hip_thrust_machine = 머신 힙 쓰러스트
+ex_back_extension_machine = 머신 백 익스텐션
+ex_ab_crunch_machine = 머신 복근 크런치
+ex_rotary_torso_machine = 로터리 토르소
+ex_machine_biceps_curl = 머신 바이셉스 컬
+ex_machine_triceps_extension = 머신 트라이셉스 익스텐션
+ex_seated_dip_machine = 시티드 딥스 머신
+ex_assisted_pull_up_machine = 어시스트 풀업 머신
+ex_assisted_chin_up_machine = 어시스트 친업 머신
+ex_assisted_dip_machine = 어시스트 딥스 머신
+ex_neck_machine = 넥 머신
+
+# Cable
+ex_lat_pulldown_machine = 랫 풀다운
+ex_close_grip_lat_pulldown = 클로즈 그립 랫 풀다운
+ex_seated_cable_row = 시티드 케이블 로우
+ex_single_arm_cable_row = 원암 케이블 로우
+ex_straight_arm_pulldown = 스트레이트 암 풀다운
+ex_cable_crossover = 케이블 크로스오버
+ex_low_cable_crossover = 로우 케이블 크로스오버
+ex_cable_fly = 케이블 플라이
+ex_face_pull = 페이스 풀
+ex_cable_lateral_raise = 케이블 레터럴 레이즈
+ex_cable_triceps_pushdown = 트라이셉스 푸시다운
+ex_rope_triceps_pushdown = 로프 푸시다운
+ex_cable_overhead_triceps_extension = 케이블 오버헤드 익스텐션
+ex_cable_curl = 케이블 컬
+ex_cable_crunch = 케이블 크런치
+ex_cable_woodchop = 케이블 우드찹
+ex_cable_pull_through = 케이블 풀스루
+ex_cable_glute_kickback = 케이블 글루트 킥백
+
+# Smith machine
+ex_smith_squat = 스미스 머신 스쿼트
+ex_smith_bench_press = 스미스 머신 벤치 프레스
+ex_smith_incline_bench_press = 스미스 머신 인클라인 프레스
+ex_smith_shoulder_press = 스미스 머신 숄더 프레스
+ex_smith_split_squat = 스미스 머신 스플릿 스쿼트
+ex_smith_hip_thrust = 스미스 머신 힙 쓰러스트
+ex_smith_calf_raise = 스미스 머신 카프 레이즈
+
+# Barbell and EZ bar
+ex_barbell_bench_press = 바벨 벤치 프레스
+ex_barbell_incline_bench_press = 인클라인 바벨 벤치 프레스
+ex_barbell_decline_bench_press = 디클라인 바벨 벤치 프레스
+ex_close_grip_bench_press = 클로즈 그립 벤치 프레스
+ex_barbell_overhead_press = 오버헤드 프레스
+ex_barbell_back_squat = 바벨 백 스쿼트
+ex_barbell_front_squat = 프론트 스쿼트
+ex_barbell_deadlift = 데드리프트
+ex_sumo_deadlift = 스모 데드리프트
+ex_barbell_romanian_deadlift = 루마니안 데드리프트
+ex_good_morning = 굿모닝
+ex_barbell_lunge = 바벨 런지
+ex_barbell_hip_thrust = 바벨 힙 쓰러스트
+ex_barbell_glute_bridge = 바벨 글루트 브릿지
+ex_barbell_row = 바벨 로우
+ex_pendlay_row = 펜들레이 로우
+ex_t_bar_row = T바 로우
+ex_barbell_upright_row = 업라이트 로우
+ex_barbell_shrug = 바벨 슈러그
+ex_barbell_curl = 바벨 컬
+ex_ez_bar_curl = EZ바 컬
+ex_ez_bar_preacher_curl = EZ바 프리처 컬
+ex_skull_crusher = 스컬 크러셔
+ex_barbell_wrist_curl = 리스트 컬
+ex_barbell_reverse_wrist_curl = 리버스 리스트 컬
+
+# Dumbbells
+ex_dumbbell_bench_press = 덤벨 벤치 프레스
+ex_dumbbell_incline_bench_press = 인클라인 덤벨 프레스
+ex_dumbbell_fly = 덤벨 플라이
+ex_dumbbell_pullover = 덤벨 풀오버
+ex_dumbbell_shoulder_press = 덤벨 숄더 프레스
+ex_arnold_press = 아놀드 프레스
+ex_dumbbell_lateral_raise = 덤벨 레터럴 레이즈
+ex_dumbbell_front_raise = 덤벨 프론트 레이즈
+ex_dumbbell_rear_delt_fly = 리어 델트 플라이
+ex_dumbbell_row = 원암 덤벨 로우
+ex_dumbbell_shrug = 덤벨 슈러그
+ex_dumbbell_curl = 덤벨 컬
+ex_hammer_curl = 해머 컬
+ex_incline_dumbbell_curl = 인클라인 덤벨 컬
+ex_concentration_curl = 컨센트레이션 컬
+ex_dumbbell_overhead_extension = 덤벨 오버헤드 익스텐션
+ex_dumbbell_triceps_kickback = 트라이셉스 킥백
+ex_dumbbell_goblet_squat = 덤벨 고블릿 스쿼트
+ex_bulgarian_split_squat = 불가리안 스플릿 스쿼트
+ex_dumbbell_lunge = 덤벨 런지
+ex_dumbbell_step_up = 덤벨 스텝업
+ex_dumbbell_romanian_deadlift = 덤벨 루마니안 데드리프트
+ex_dumbbell_side_bend = 덤벨 사이드 벤드
+
+# Kettlebells
+ex_kettlebell_swing = 케틀벨 스윙
+ex_kettlebell_goblet_squat = 케틀벨 고블릿 스쿼트
+ex_kettlebell_clean_and_press = 케틀벨 클린 앤 프레스
+ex_turkish_get_up = 터키시 겟업
+
+# Bodyweight
+ex_push_up = 푸시업
+ex_parallel_bar_dip = 평행봉 딥스
+ex_bench_dip = 벤치 딥스
+ex_pull_up = 풀업
+ex_chin_up = 친업
+ex_inverted_row = 인버티드 로우
+ex_bodyweight_squat = 맨몸 스쿼트
+ex_bodyweight_lunge = 런지
+ex_glute_bridge = 글루트 브릿지
+ex_back_extension = 백 익스텐션
+ex_nordic_curl = 노르딕 햄스트링 컬
+ex_crunch = 크런치
+ex_sit_up = 윗몸 일으키기
+ex_hanging_leg_raise = 행잉 레그 레이즈
+ex_lying_leg_raise = 라잉 레그 레이즈
+ex_russian_twist = 러시안 트위스트
+ex_mountain_climber = 마운틴 클라이머
+ex_burpee = 버피
+
+# Timed holds and carries
+ex_plank = 플랭크
+ex_side_plank = 사이드 플랭크
+ex_copenhagen_plank = 코펜하겐 플랭크
+ex_wall_sit = 월 싯
+ex_dead_hang = 데드 행
+ex_farmers_carry = 파머스 워크
+
+# Resistance bands
+ex_band_pull_apart = 밴드 풀 어파트
+ex_banded_lateral_walk = 밴드 사이드 워크
+
+# Cardio machines
+ex_treadmill = 러닝머신
+ex_stationary_bike = 실내 자전거
+ex_spin_bike = 스핀 바이크
+ex_recumbent_bike = 리컴번트 바이크
+ex_air_bike = 에어 바이크
+ex_elliptical = 일립티컬
+ex_rowing_machine = 로잉 머신
+ex_stair_climber = 계단 오르기 머신
+ex_ski_erg = 스키 에르그

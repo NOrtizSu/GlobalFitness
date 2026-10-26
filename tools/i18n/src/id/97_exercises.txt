@@ -1,0 +1,165 @@
+# Built-in exercise and machine names: ex_<catalog id> (training/catalog/ExerciseCatalog.kt)
+
+# Machines
+ex_machine_chest_press = Chest press mesin
+ex_machine_incline_chest_press = Incline chest press mesin
+ex_pec_deck = Pec deck (butterfly)
+ex_machine_shoulder_press = Shoulder press mesin
+ex_machine_lateral_raise = Lateral raise mesin
+ex_reverse_pec_deck = Reverse pec deck
+ex_machine_row = Seated row mesin
+ex_pullover_machine = Pullover mesin
+ex_leg_press_machine = Leg press
+ex_horizontal_leg_press = Leg press horizontal
+ex_hack_squat_machine = Hack squat
+ex_pendulum_squat_machine = Pendulum squat
+ex_leg_extension_machine = Leg extension
+ex_lying_leg_curl_machine = Lying leg curl
+ex_seated_leg_curl_machine = Seated leg curl
+ex_standing_calf_raise_machine = Standing calf raise mesin
+ex_seated_calf_raise_machine = Seated calf raise
+ex_leg_press_calf_raise = Calf raise di leg press
+ex_hip_abductor_machine = Hip abductor mesin
+ex_hip_adductor_machine = Hip adductor mesin
+ex_glute_kickback_machine = Glute kickback mesin
+ex_hip_thrust_machine = Hip thrust mesin
+ex_back_extension_machine = Back extension mesin
+ex_ab_crunch_machine = Crunch perut mesin
+ex_rotary_torso_machine = Rotary torso mesin
+ex_machine_biceps_curl = Biceps curl mesin
+ex_machine_triceps_extension = Triceps extension mesin
+ex_seated_dip_machine = Seated dip mesin
+ex_assisted_pull_up_machine = Pull-up mesin bantu
+ex_assisted_chin_up_machine = Chin-up mesin bantu
+ex_assisted_dip_machine = Dip mesin bantu
+ex_neck_machine = Mesin leher
+
+# Cable
+ex_lat_pulldown_machine = Lat pulldown
+ex_close_grip_lat_pulldown = Lat pulldown pegangan sempit
+ex_seated_cable_row = Seated row kabel
+ex_single_arm_cable_row = Row kabel satu lengan
+ex_straight_arm_pulldown = Straight-arm pulldown
+ex_cable_crossover = Cable crossover
+ex_low_cable_crossover = Cable crossover bawah
+ex_cable_fly = Fly kabel
+ex_face_pull = Face pull
+ex_cable_lateral_raise = Lateral raise kabel
+ex_cable_triceps_pushdown = Triceps pushdown
+ex_rope_triceps_pushdown = Triceps pushdown tali
+ex_cable_overhead_triceps_extension = Overhead triceps extension kabel
+ex_cable_curl = Curl kabel
+ex_cable_crunch = Crunch kabel
+ex_cable_woodchop = Woodchop kabel
+ex_cable_pull_through = Pull-through kabel
+ex_cable_glute_kickback = Glute kickback kabel
+
+# Smith machine
+ex_smith_squat = Squat Smith machine
+ex_smith_bench_press = Bench press Smith machine
+ex_smith_incline_bench_press = Incline press Smith machine
+ex_smith_shoulder_press = Shoulder press Smith machine
+ex_smith_split_squat = Split squat Smith machine
+ex_smith_hip_thrust = Hip thrust Smith machine
+ex_smith_calf_raise = Calf raise Smith machine
+
+# Barbell and EZ bar
+ex_barbell_bench_press = Bench press barbel
+ex_barbell_incline_bench_press = Incline bench press barbel
+ex_barbell_decline_bench_press = Decline bench press barbel
+ex_close_grip_bench_press = Bench press pegangan sempit
+ex_barbell_overhead_press = Overhead press
+ex_barbell_back_squat = Back squat barbel
+ex_barbell_front_squat = Front squat
+ex_barbell_deadlift = Deadlift
+ex_sumo_deadlift = Deadlift sumo
+ex_barbell_romanian_deadlift = Romanian deadlift
+ex_good_morning = Good morning
+ex_barbell_lunge = Lunge barbel
+ex_barbell_hip_thrust = Hip thrust barbel
+ex_barbell_glute_bridge = Glute bridge barbel
+ex_barbell_row = Row barbel
+ex_pendlay_row = Pendlay row
+ex_t_bar_row = T-bar row
+ex_barbell_upright_row = Upright row
+ex_barbell_shrug = Shrug barbel
+ex_barbell_curl = Curl barbel
+ex_ez_bar_curl = Curl EZ bar
+ex_ez_bar_preacher_curl = Preacher curl EZ bar
+ex_skull_crusher = Skull crusher
+ex_barbell_wrist_curl = Wrist curl
+ex_barbell_reverse_wrist_curl = Reverse wrist curl
+
+# Dumbbells
+ex_dumbbell_bench_press = Bench press dumbel
+ex_dumbbell_incline_bench_press = Incline press dumbel
+ex_dumbbell_fly = Fly dumbel
+ex_dumbbell_pullover = Pullover dumbel
+ex_dumbbell_shoulder_press = Shoulder press dumbel
+ex_arnold_press = Arnold press
+ex_dumbbell_lateral_raise = Lateral raise dumbel
+ex_dumbbell_front_raise = Front raise dumbel
+ex_dumbbell_rear_delt_fly = Rear delt fly
+ex_dumbbell_row = Row dumbel satu lengan
+ex_dumbbell_shrug = Shrug dumbel
+ex_dumbbell_curl = Curl dumbel
+ex_hammer_curl = Hammer curl
+ex_incline_dumbbell_curl = Incline curl dumbel
+ex_concentration_curl = Concentration curl
+ex_dumbbell_overhead_extension = Overhead extension dumbel
+ex_dumbbell_triceps_kickback = Triceps kickback
+ex_dumbbell_goblet_squat = Goblet squat dumbel
+ex_bulgarian_split_squat = Bulgarian split squat
+ex_dumbbell_lunge = Lunge dumbel
+ex_dumbbell_step_up = Step-up dumbel
+ex_dumbbell_romanian_deadlift = Romanian deadlift dumbel
+ex_dumbbell_side_bend = Side bend dumbel
+
+# Kettlebells
+ex_kettlebell_swing = Kettlebell swing
+ex_kettlebell_goblet_squat = Goblet squat kettlebell
+ex_kettlebell_clean_and_press = Clean and press kettlebell
+ex_turkish_get_up = Turkish get-up
+
+# Bodyweight
+ex_push_up = Push-up
+ex_parallel_bar_dip = Dip palang sejajar
+ex_bench_dip = Bench dip
+ex_pull_up = Pull-up
+ex_chin_up = Chin-up
+ex_inverted_row = Inverted row
+ex_bodyweight_squat = Squat tanpa beban
+ex_bodyweight_lunge = Lunge
+ex_glute_bridge = Glute bridge
+ex_back_extension = Back extension
+ex_nordic_curl = Nordic hamstring curl
+ex_crunch = Crunch
+ex_sit_up = Sit-up
+ex_hanging_leg_raise = Hanging leg raise
+ex_lying_leg_raise = Lying leg raise
+ex_russian_twist = Russian twist
+ex_mountain_climber = Mountain climber
+ex_burpee = Burpee
+
+# Timed holds and carries
+ex_plank = Plank
+ex_side_plank = Side plank
+ex_copenhagen_plank = Copenhagen plank
+ex_wall_sit = Wall sit
+ex_dead_hang = Dead hang
+ex_farmers_carry = Farmer's carry
+
+# Resistance bands
+ex_band_pull_apart = Band pull-apart
+ex_banded_lateral_walk = Lateral walk dengan band
+
+# Cardio machines
+ex_treadmill = Treadmill
+ex_stationary_bike = Sepeda statis
+ex_spin_bike = Sepeda spinning
+ex_recumbent_bike = Sepeda recumbent
+ex_air_bike = Air bike
+ex_elliptical = Elliptical
+ex_rowing_machine = Mesin dayung
+ex_stair_climber = Mesin naik tangga
+ex_ski_erg = Ski erg

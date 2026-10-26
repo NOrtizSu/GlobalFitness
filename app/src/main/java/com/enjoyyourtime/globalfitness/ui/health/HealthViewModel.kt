@@ -123,14 +123,24 @@ data class HealthUiState(
     val export: ExportState = ExportState(),
     val exportEnabled: Boolean = false,
     val profile: Profile? = null,
+    /** The "Save workouts to Health Connect" choice (null: never touched, on once allowed). */
+    val workoutExportChoice: Boolean? = null,
 ) {
     val canRead: Boolean get() = HealthPermissions.hasAnyWearableRead(granted)
     val canExport: Boolean get() = HealthPermissions.canExport(granted)
-    val allGranted: Boolean get() = HealthPermissions.allGranted(granted, historyAvailable)
 
-    /** Every data permission granted (the optional history permission aside). */
-    val allDataGranted: Boolean get() = HealthPermissions.allGranted(granted, historyAvailable = false)
+    /** Every requested permission granted, writing workouts aside (it has its own switch). */
+    val allGranted: Boolean get() = HealthPermissions.connectedFully(granted, historyAvailable)
+
+    /** Every data permission granted (the optional history permission and writing workouts aside). */
+    val allDataGranted: Boolean get() = HealthPermissions.connectedFully(granted, historyAvailable = false)
+
+    /** Workouts are to be saved (the switch is not off) but the exercise write permission is missing. */
+    val missingWorkoutPermission: Boolean
+        get() = workoutExportChoice != false && !HealthPermissions.canExportWorkouts(granted)
 }
+
+private data class PermissionState(val availability: HcAvailability, val granted: Set<String>, val history: Boolean, val workoutChoice: Boolean?)
 
 /** One device's live heart rate of the selected day; [name] null = a device that is no longer set up. */
 data class DeviceHrSeries(val name: String?, val samples: List<HrSample>)
@@ -158,7 +168,8 @@ class HealthViewModel(
         health.gateway.availability,
         health.gateway.granted,
         health.gateway.historyAvailable,
-    ) { availability, granted, history -> Triple(availability, granted, history) }
+        health.workoutExporter.choice,
+    ) { availability, granted, history, workoutChoice -> PermissionState(availability, granted, history, workoutChoice) }
 
     val uiState: StateFlow<HealthUiState> = combine(
         permissionState,
@@ -166,16 +177,17 @@ class HealthViewModel(
         health.exporter.state,
         health.settings.exportChoice,
         repository.profiles,
-    ) { (availability, granted, history), sync, export, choice, profiles ->
+    ) { permissions, sync, export, choice, profiles ->
         HealthUiState(
-            availability = availability,
-            granted = granted,
-            historyAvailable = history,
+            availability = permissions.availability,
+            granted = permissions.granted,
+            historyAvailable = permissions.history,
             sync = sync,
             export = export,
-            exportEnabled = HealthSettings.exportEnabled(choice, HealthPermissions.canExport(granted)),
+            exportEnabled = HealthSettings.exportEnabled(choice, HealthPermissions.canExport(permissions.granted)),
             // Single-profile app: Health Connect data belongs to the only profile.
             profile = profiles.firstOrNull(),
+            workoutExportChoice = permissions.workoutChoice,
         )
     }.stateIn(viewModelScope, SharingStarted.Eagerly, HealthUiState())
 

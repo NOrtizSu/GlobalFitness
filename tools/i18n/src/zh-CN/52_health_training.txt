@@ -1,0 +1,14 @@
+# Health Connect: workouts of the training log saved as exercise sessions
+hc_workouts_export_title = 将训练保存到 Health Connect
+hc_workouts_export_text = 每次完成的训练都会以运动记录的形式保存，包含其组数和次数，以便其他健身应用将其计入。如果你删除某次训练，它也会从 Health Connect 中删除。
+hc_workouts_export_missing_permission = 请允许 Fortia 向 Health Connect 写入运动数据，以便将你的训练保存到那里。
+hc_workouts_export_denied = 如果没有打开权限窗口，请在 Health Connect 中为 Fortia 允许“运动”。
+hc_workouts_export_allow = 允许
+hc_workouts_export_off = 新的训练不会被保存。已在 Health Connect 中的训练会保留。
+hc_workouts_export_count_none = Health Connect 中还没有训练。
+hc_workouts_export_count{other} = Health Connect 中有 %1$d 次训练。
+hc_missing_write_exercise = 无运动写入权限：训练不会被保存。
+# Title in Health Connect of a workout without a name that mixes different kinds of cardio
+hc_workout_title = 训练
+# Permissions rationale: continues the "Writing your scale measurements" item
+health_rationale_write_workouts = 它还会将你在应用中完成的训练写入为运动记录：开始和结束时间、类型、名称、备注，以及每个已完成的组及其次数。如果你在应用中删除某次训练，它也会从 Health Connect 中删除。

@@ -1,0 +1,165 @@
+# Built-in exercise and machine names: ex_<catalog id> (training/catalog/ExerciseCatalog.kt)
+
+# Machines
+ex_machine_chest_press = Chest press machine ||| Press de pecho en máquina
+ex_machine_incline_chest_press = Incline chest press machine ||| Press inclinado en máquina
+ex_pec_deck = Pec deck (butterfly) ||| Contractora de pecho (pec deck)
+ex_machine_shoulder_press = Shoulder press machine ||| Press de hombro en máquina
+ex_machine_lateral_raise = Lateral raise machine ||| Elevaciones laterales en máquina
+ex_reverse_pec_deck = Reverse pec deck ||| Pájaros en máquina
+ex_machine_row = Seated row machine ||| Remo sentado en máquina
+ex_pullover_machine = Pullover machine ||| Pullover en máquina
+ex_leg_press_machine = Leg press ||| Prensa de piernas
+ex_horizontal_leg_press = Horizontal leg press ||| Prensa horizontal
+ex_hack_squat_machine = Hack squat ||| Sentadilla hack
+ex_pendulum_squat_machine = Pendulum squat ||| Sentadilla péndulo
+ex_leg_extension_machine = Leg extension ||| Extensión de cuádriceps
+ex_lying_leg_curl_machine = Lying leg curl ||| Curl femoral tumbado
+ex_seated_leg_curl_machine = Seated leg curl ||| Curl femoral sentado
+ex_standing_calf_raise_machine = Standing calf raise machine ||| Elevación de gemelos de pie
+ex_seated_calf_raise_machine = Seated calf raise ||| Elevación de gemelos sentado
+ex_leg_press_calf_raise = Leg press calf raise ||| Gemelos en prensa
+ex_hip_abductor_machine = Hip abductor machine ||| Abductores en máquina
+ex_hip_adductor_machine = Hip adductor machine ||| Aductores en máquina
+ex_glute_kickback_machine = Glute kickback machine ||| Patada de glúteo en máquina
+ex_hip_thrust_machine = Hip thrust machine ||| Hip thrust en máquina
+ex_back_extension_machine = Back extension machine ||| Extensión lumbar en máquina
+ex_ab_crunch_machine = Ab crunch machine ||| Crunch abdominal en máquina
+ex_rotary_torso_machine = Rotary torso machine ||| Rotación de tronco en máquina
+ex_machine_biceps_curl = Biceps curl machine ||| Curl de bíceps en máquina
+ex_machine_triceps_extension = Triceps extension machine ||| Extensión de tríceps en máquina
+ex_seated_dip_machine = Seated dip machine ||| Fondos en máquina
+ex_assisted_pull_up_machine = Assisted pull-up machine ||| Dominadas asistidas (máquina)
+ex_assisted_chin_up_machine = Assisted chin-up machine ||| Dominadas supinas asistidas
+ex_assisted_dip_machine = Assisted dip machine ||| Fondos asistidos (máquina)
+ex_neck_machine = Neck machine ||| Máquina de cuello
+
+# Cable
+ex_lat_pulldown_machine = Lat pulldown ||| Jalón al pecho
+ex_close_grip_lat_pulldown = Close-grip lat pulldown ||| Jalón con agarre estrecho
+ex_seated_cable_row = Seated cable row ||| Remo en polea baja
+ex_single_arm_cable_row = Single-arm cable row ||| Remo a una mano en polea
+ex_straight_arm_pulldown = Straight-arm pulldown ||| Jalón con brazos rectos
+ex_cable_crossover = Cable crossover ||| Cruce de poleas
+ex_low_cable_crossover = Low cable crossover ||| Cruce de poleas bajas
+ex_cable_fly = Cable fly ||| Aperturas en polea
+ex_face_pull = Face pull ||| Face pull
+ex_cable_lateral_raise = Cable lateral raise ||| Elevación lateral en polea
+ex_cable_triceps_pushdown = Triceps pushdown ||| Extensión de tríceps en polea
+ex_rope_triceps_pushdown = Rope triceps pushdown ||| Extensión de tríceps con cuerda
+ex_cable_overhead_triceps_extension = Overhead cable triceps extension ||| Tríceps tras nuca en polea
+ex_cable_curl = Cable curl ||| Curl de bíceps en polea
+ex_cable_crunch = Cable crunch ||| Crunch en polea
+ex_cable_woodchop = Cable woodchop ||| Leñador en polea
+ex_cable_pull_through = Cable pull-through ||| Pull-through en polea
+ex_cable_glute_kickback = Cable glute kickback ||| Patada de glúteo en polea
+
+# Smith machine
+ex_smith_squat = Smith machine squat ||| Sentadilla en multipower
+ex_smith_bench_press = Smith machine bench press ||| Press de banca en multipower
+ex_smith_incline_bench_press = Smith machine incline press ||| Press inclinado en multipower
+ex_smith_shoulder_press = Smith machine shoulder press ||| Press militar en multipower
+ex_smith_split_squat = Smith machine split squat ||| Zancada estática en multipower
+ex_smith_hip_thrust = Smith machine hip thrust ||| Hip thrust en multipower
+ex_smith_calf_raise = Smith machine calf raise ||| Gemelos en multipower
+
+# Barbell and EZ bar
+ex_barbell_bench_press = Barbell bench press ||| Press de banca con barra
+ex_barbell_incline_bench_press = Incline barbell bench press ||| Press inclinado con barra
+ex_barbell_decline_bench_press = Decline barbell bench press ||| Press declinado con barra
+ex_close_grip_bench_press = Close-grip bench press ||| Press de banca agarre cerrado
+ex_barbell_overhead_press = Overhead press ||| Press militar con barra
+ex_barbell_back_squat = Barbell back squat ||| Sentadilla con barra
+ex_barbell_front_squat = Front squat ||| Sentadilla frontal
+ex_barbell_deadlift = Deadlift ||| Peso muerto
+ex_sumo_deadlift = Sumo deadlift ||| Peso muerto sumo
+ex_barbell_romanian_deadlift = Romanian deadlift ||| Peso muerto rumano
+ex_good_morning = Good morning ||| Buenos días con barra
+ex_barbell_lunge = Barbell lunge ||| Zancadas con barra
+ex_barbell_hip_thrust = Barbell hip thrust ||| Hip thrust con barra
+ex_barbell_glute_bridge = Barbell glute bridge ||| Puente de glúteo con barra
+ex_barbell_row = Barbell row ||| Remo con barra
+ex_pendlay_row = Pendlay row ||| Remo Pendlay
+ex_t_bar_row = T-bar row ||| Remo en barra T
+ex_barbell_upright_row = Upright row ||| Remo al mentón
+ex_barbell_shrug = Barbell shrug ||| Encogimientos con barra
+ex_barbell_curl = Barbell curl ||| Curl con barra
+ex_ez_bar_curl = EZ-bar curl ||| Curl con barra Z
+ex_ez_bar_preacher_curl = EZ-bar preacher curl ||| Curl Scott con barra Z
+ex_skull_crusher = Skull crusher ||| Press francés
+ex_barbell_wrist_curl = Wrist curl ||| Curl de muñeca
+ex_barbell_reverse_wrist_curl = Reverse wrist curl ||| Curl de muñeca invertido
+
+# Dumbbells
+ex_dumbbell_bench_press = Dumbbell bench press ||| Press de banca con mancuernas
+ex_dumbbell_incline_bench_press = Incline dumbbell press ||| Press inclinado con mancuernas
+ex_dumbbell_fly = Dumbbell fly ||| Aperturas con mancuernas
+ex_dumbbell_pullover = Dumbbell pullover ||| Pullover con mancuerna
+ex_dumbbell_shoulder_press = Dumbbell shoulder press ||| Press de hombro con mancuernas
+ex_arnold_press = Arnold press ||| Press Arnold
+ex_dumbbell_lateral_raise = Dumbbell lateral raise ||| Elevaciones laterales
+ex_dumbbell_front_raise = Dumbbell front raise ||| Elevaciones frontales
+ex_dumbbell_rear_delt_fly = Rear delt fly ||| Pájaros con mancuernas
+ex_dumbbell_row = One-arm dumbbell row ||| Remo con mancuerna
+ex_dumbbell_shrug = Dumbbell shrug ||| Encogimientos con mancuernas
+ex_dumbbell_curl = Dumbbell curl ||| Curl con mancuernas
+ex_hammer_curl = Hammer curl ||| Curl martillo
+ex_incline_dumbbell_curl = Incline dumbbell curl ||| Curl inclinado con mancuernas
+ex_concentration_curl = Concentration curl ||| Curl concentrado
+ex_dumbbell_overhead_extension = Dumbbell overhead extension ||| Tríceps tras nuca con mancuerna
+ex_dumbbell_triceps_kickback = Triceps kickback ||| Patada de tríceps
+ex_dumbbell_goblet_squat = Dumbbell goblet squat ||| Sentadilla goblet con mancuerna
+ex_bulgarian_split_squat = Bulgarian split squat ||| Sentadilla búlgara
+ex_dumbbell_lunge = Dumbbell lunge ||| Zancadas con mancuernas
+ex_dumbbell_step_up = Dumbbell step-up ||| Subida al cajón con mancuernas
+ex_dumbbell_romanian_deadlift = Dumbbell Romanian deadlift ||| Peso muerto rumano (mancuernas)
+ex_dumbbell_side_bend = Dumbbell side bend ||| Flexión lateral con mancuerna
+
+# Kettlebells
+ex_kettlebell_swing = Kettlebell swing ||| Swing con kettlebell
+ex_kettlebell_goblet_squat = Kettlebell goblet squat ||| Sentadilla goblet con kettlebell
+ex_kettlebell_clean_and_press = Kettlebell clean and press ||| Cargada y press con kettlebell
+ex_turkish_get_up = Turkish get-up ||| Levantamiento turco
+
+# Bodyweight
+ex_push_up = Push-up ||| Flexiones
+ex_parallel_bar_dip = Parallel bar dip ||| Fondos en paralelas
+ex_bench_dip = Bench dip ||| Fondos en banco
+ex_pull_up = Pull-up ||| Dominadas
+ex_chin_up = Chin-up ||| Dominadas supinas
+ex_inverted_row = Inverted row ||| Remo invertido
+ex_bodyweight_squat = Bodyweight squat ||| Sentadilla sin peso
+ex_bodyweight_lunge = Lunge ||| Zancadas
+ex_glute_bridge = Glute bridge ||| Puente de glúteo
+ex_back_extension = Back extension ||| Hiperextensiones
+ex_nordic_curl = Nordic hamstring curl ||| Curl nórdico
+ex_crunch = Crunch ||| Crunch abdominal
+ex_sit_up = Sit-up ||| Abdominales (sit-up)
+ex_hanging_leg_raise = Hanging leg raise ||| Elevación de piernas colgado
+ex_lying_leg_raise = Lying leg raise ||| Elevación de piernas tumbado
+ex_russian_twist = Russian twist ||| Giros rusos
+ex_mountain_climber = Mountain climber ||| Escaladores
+ex_burpee = Burpee ||| Burpees
+
+# Timed holds and carries
+ex_plank = Plank ||| Plancha
+ex_side_plank = Side plank ||| Plancha lateral
+ex_copenhagen_plank = Copenhagen plank ||| Plancha Copenhague
+ex_wall_sit = Wall sit ||| Sentadilla isométrica en pared
+ex_dead_hang = Dead hang ||| Suspensión en barra
+ex_farmers_carry = Farmer's carry ||| Paseo del granjero
+
+# Resistance bands
+ex_band_pull_apart = Band pull-apart ||| Aperturas inversas con banda
+ex_banded_lateral_walk = Banded lateral walk ||| Pasos laterales con banda
+
+# Cardio machines
+ex_treadmill = Treadmill ||| Cinta de correr
+ex_stationary_bike = Stationary bike ||| Bicicleta estática
+ex_spin_bike = Spin bike ||| Bicicleta de spinning
+ex_recumbent_bike = Recumbent bike ||| Bicicleta reclinada
+ex_air_bike = Air bike ||| Air bike
+ex_elliptical = Elliptical ||| Elíptica
+ex_rowing_machine = Rowing machine ||| Máquina de remo
+ex_stair_climber = Stair climber ||| Escaladora
+ex_ski_erg = Ski erg ||| Ski erg

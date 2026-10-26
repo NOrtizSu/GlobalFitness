@@ -1,0 +1,97 @@
+# Bottom bar: Hoy · Entreno · Progreso · Perfil (very little room: one short word)
+nav_training = Тренировки
+nav_progress = Прогресс
+
+# Progreso: tabs Músculos | Cuerpo | Actividad (Cuerpo and Actividad use nav_body and nav_activity)
+progress_tab_muscles = Мышцы
+
+# Progreso → Músculos: how the body map is colored (three segmented buttons: keep them short)
+progress_mode_sets = Подходы
+progress_mode_strength = Сила
+progress_mode_recovery = Восстановление
+progress_caption_sets = Рабочие подходы за последние 7 дней (второстепенные мышцы считаются за половину) в сравнении с обычным диапазоном для роста мышц.
+progress_caption_strength = Изменение расчётного 1ПМ (максимума на одно повторение) в упражнениях на каждую мышцу за выбранный период.
+progress_caption_recovery = Оценивается по рабочим подходам каждой тренировки: от 1 до 4 дней в зависимости от объёма.
+
+# Weekly sets compared with the muscle's range
+progress_level_none = Нет подходов
+progress_level_low = Ниже диапазона
+progress_level_optimal = В диапазоне
+progress_level_high = Выше диапазона
+progress_sets{one} = %1$s подход
+progress_sets{few} = %1$s подхода
+progress_sets{many} = %1$s подходов
+progress_sets{other} = %1$s подхода
+progress_target = цель %1$s–%2$s
+
+# Strength trend (%1$s: a percentage such as −5 % or +5 %)
+progress_strength_down_more = Ниже %1$s
+progress_strength_down = Снижается
+progress_strength_stable = Стабильно
+progress_strength_up = Растёт
+progress_strength_up_more = Выше %1$s
+progress_strength_title = Сила (%1$s)
+progress_exercises{one} = %1$d упражнение
+progress_exercises{few} = %1$d упражнения
+progress_exercises{many} = %1$d упражнений
+progress_exercises{other} = %1$d упражнения
+
+# Recovery (Spanish avoids gendered adjectives: the muscles' names mix genders)
+progress_recovery_fatigued = Утомление
+progress_recovery_recovering = Идёт восстановление
+progress_recovery_recovered = Полное восстановление
+progress_recovery_not_trained = Ещё без тренировок
+progress_recovery_percent = Восстановление: %1$s
+progress_recovery_full_at = полное восстановление ~%1$s
+progress_time_tomorrow_at = Завтра, %1$s
+progress_last_trained = Последняя тренировка: %1$s
+
+# Selected muscle and the list of all muscles
+progress_detail_week = На этой неделе
+progress_tap_hint = Нажмите на мышцу на фигуре или в списке, чтобы увидеть подробности.
+progress_all_muscles = Все мышцы
+progress_recent_exercises = Последние упражнения
+progress_recent_hint = Лучший подход последней тренировки и изменение его расчётного 1ПМ по сравнению с предыдущей.
+progress_open_exercise = Открыть упражнение
+# %1$s: number, %2$s: unit (kg or lb)
+progress_load_value = %1$s %2$s
+progress_state_description = %1$s, %2$s
+# %1$s: load, %2$s: repetitions
+progress_set_load_reps = %1$s × %2$s
+progress_set_reps{one} = %1$d повторение
+progress_set_reps{few} = %1$d повторения
+progress_set_reps{many} = %1$d повторений
+progress_set_reps{other} = %1$d повторения
+progress_set_seconds = %1$s с
+progress_empty_title = Здесь будет виден прогресс ваших мышц
+progress_empty_text = Записывайте тренировки в разделе «Тренировки»: каждый подход засчитывается мышцам, которые он нагружает, а фигура показывает ваши подходы за неделю, прирост силы и восстановление.
+progress_empty_action = Перейти в «Тренировки»
+
+# Hoy: muscles this week (%1$s: a list of the muscle groups below)
+today_muscles_title = Мышцы на этой неделе
+today_muscles_on_track = По плану: %1$s
+today_muscles_below = Ниже цели: %1$s
+today_muscles_all_on_track = Все группы мышц по плану
+today_muscles_none = На этой неделе ещё нет подходов
+today_muscles_open = Посмотреть мышцы
+# Muscle groups used inside those lists: lowercase where the language allows it
+progress_region_chest = грудь
+progress_region_back = спина
+progress_region_shoulders = плечи
+progress_region_arms = руки
+progress_region_core = пресс
+progress_region_legs = ноги
+
+# Perfil: Devices and training settings
+profile_section_devices = Устройства и тренировки
+profile_devices_scales{one} = Весы: %1$d
+profile_devices_scales{few} = Весы: %1$d
+profile_devices_scales{many} = Весы: %1$d
+profile_devices_scales{other} = Весы: %1$d
+profile_devices_wearables{one} = Браслеты и часы: %1$d
+profile_devices_wearables{few} = Браслеты и часы: %1$d
+profile_devices_wearables{many} = Браслеты и часы: %1$d
+profile_devices_wearables{other} = Браслеты и часы: %1$d
+profile_devices_none = Весы, браслеты и Health Connect
+profile_training_title = Настройки тренировок
+profile_training_text = Единица веса, таймер отдыха и Health Connect

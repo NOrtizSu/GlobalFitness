@@ -1,0 +1,161 @@
+# Achievements: medals derived from the workouts and the weighings, the celebration shown when a level is reached, and the achievements page (Entreno tab card, Perfil row)
+achievements_title = Conquistas
+# Medals earned out of all the levels on offer: "12 of 69 medals"
+achievements_earned{one} = %1$s de %2$s medalha
+achievements_earned{many} = %1$s de %2$s medalhas
+achievements_earned{other} = %1$s de %2$s medalhas
+achievements_category_training = Constância
+achievements_category_strength = Força
+achievements_category_body = Corpo
+# Highest level reached of an achievement: "Level 3 of 8"
+achievements_level = Nível %1$s de %2$s
+achievements_not_started = Ainda não conquistada
+achievements_all_levels = Todos os níveis conquistados
+# When a level was earned: "Earned on 15 Oct 2026"
+achievements_earned_on = Conquistado em %1$s
+# The next level of an achievement: "Next: Finish 25 workouts"
+achievements_next = Próximo: %1$s
+# Progress towards the next level: "23 / 25", "12.5 t / 50 t"
+achievements_progress = %1$s / %2$s
+achievements_levels = Níveis
+achievements_how = Como é contado
+achievements_open = Abrir conquistas
+achievements_needs_bodyweight = Pese-se para comparar seus levantamentos com seu peso corporal.
+achievements_needs_target = Defina uma meta de peso no seu perfil.
+achievements_needs_weighings = Pese-se para começar.
+achievements_target_is_start = Sua meta é o seu peso inicial: não há distância a percorrer.
+achievements_needs_composition = Requer pesagens com composição corporal, de uma balança que a meça.
+achievements_lift_note = Os níveis seguem padrões de força comuns e são mais baixos para mulheres. Só conta a barra livre: nem a máquina Smith nem outras máquinas.
+# Total volume in metric tonnes: "10 t"
+achievements_value_tonnes = %1$s t
+# A lift as a multiple of the body weight: "1.25×"
+achievements_value_ratio = %1$s×
+
+# The celebration shown over any screen when a new level is reached
+celebration_title = Parabéns!
+celebration_view = Ver conquistas
+# Spoken by TalkBack when the celebration appears
+celebration_announce = Nova conquista
+# An achievement and the level just reached: "Workouts · Level 3"
+celebration_level = %1$s · Nível %2$s
+# More levels were reached at once than the card lists: "+2 more"
+celebration_more{one} = e mais %1$s
+celebration_more{many} = e mais %1$s
+celebration_more{other} = e mais %1$s
+
+# One block per achievement: title, what a level asks for (goal), the congratulation (done) and how it is counted (rule)
+ach_workouts_title = Treinos
+ach_workouts_goal{one} = Conclua seu primeiro treino
+ach_workouts_goal{many} = Conclua %1$s treinos
+ach_workouts_goal{other} = Conclua %1$s treinos
+ach_workouts_done{one} = Você concluiu seu primeiro treino
+ach_workouts_done{many} = Você concluiu %1$s treinos
+ach_workouts_done{other} = Você concluiu %1$s treinos
+ach_workouts_rule = Treinos concluídos com pelo menos uma série feita.
+
+ach_week_streak_title = Sequência semanal
+ach_week_streak_goal{one} = Treine pelo menos 2 vezes em %1$s semana
+ach_week_streak_goal{many} = Treine pelo menos 2 vezes por semana durante %1$s semanas seguidas
+ach_week_streak_goal{other} = Treine pelo menos 2 vezes por semana durante %1$s semanas seguidas
+ach_week_streak_done{one} = Você treinou pelo menos 2 vezes em %1$s semana
+ach_week_streak_done{many} = Você treinou pelo menos 2 vezes por semana durante %1$s semanas seguidas
+ach_week_streak_done{other} = Você treinou pelo menos 2 vezes por semana durante %1$s semanas seguidas
+ach_week_streak_rule = Semanas do calendário seguidas com pelo menos 2 treinos concluídos. A semana atual não quebra a sequência até terminar.
+
+ach_balanced_weeks_title = Semanas equilibradas
+ach_balanced_weeks_goal{one} = Tenha uma semana equilibrada
+ach_balanced_weeks_goal{many} = Tenha %1$s semanas equilibradas
+ach_balanced_weeks_goal{other} = Tenha %1$s semanas equilibradas
+ach_balanced_weeks_done{one} = Sua primeira semana equilibrada
+ach_balanced_weeks_done{many} = Você já teve %1$s semanas equilibradas
+ach_balanced_weeks_done{other} = Você já teve %1$s semanas equilibradas
+# %1$s: list of muscles ("Chest, Shoulders and Lats")
+ach_balanced_weeks_rule = Semanas do calendário em que cada um destes músculos recebe um número de séries efetivas dentro da sua faixa semanal, nem abaixo nem acima: %1$s.
+
+ach_variety_title = Variedade
+ach_variety_goal{one} = Faça %1$s exercício diferente
+ach_variety_goal{many} = Faça %1$s exercícios diferentes
+ach_variety_goal{other} = Faça %1$s exercícios diferentes
+ach_variety_done{one} = Você fez %1$s exercício diferente
+ach_variety_done{many} = Você fez %1$s exercícios diferentes
+ach_variety_done{other} = Você fez %1$s exercícios diferentes
+ach_variety_rule = Exercícios e máquinas diferentes com pelo menos uma série feita.
+
+ach_cardio_km_title = Distância de cardio
+# %1$s: a distance ("50 km")
+ach_cardio_km_goal = Percorra %1$s no cardio
+ach_cardio_km_done = Você percorreu %1$s no cardio
+ach_cardio_km_rule = Distância de todas as séries de cardio feitas.
+
+ach_volume_title = Volume total
+# %1$s: a weight ("10 t", "22046 lb")
+ach_volume_goal = Levante %1$s no total
+ach_volume_done = Você levantou %1$s no total
+ach_volume_rule = Peso × repetições de todas as séries feitas, com seu peso corporal nos exercícios com peso corporal e assistidos.
+
+ach_records_title = Recordes pessoais
+ach_records_goal{one} = Bata seu primeiro recorde pessoal
+ach_records_goal{many} = Bata %1$s recordes pessoais
+ach_records_goal{other} = Bata %1$s recordes pessoais
+ach_records_done{one} = Seu primeiro recorde pessoal
+ach_records_done{many} = Você bateu %1$s recordes pessoais
+ach_records_done{other} = Você bateu %1$s recordes pessoais
+ach_records_rule = Séries que batem um dos recordes do exercício: 1RM estimado, peso, repetições, tempo ou menor assistência.
+
+ach_bench_bw_title = Supino reto
+# %1$s: a multiple of the body weight ("1.25×")
+ach_bench_bw_goal = Supino reto com %1$s seu peso corporal
+ach_bench_bw_done = Seu supino reto chega a %1$s seu peso corporal
+ach_bench_bw_rule = Melhor 1RM estimado no supino reto com barra, dividido pelo seu peso corporal naquele dia.
+
+ach_squat_bw_title = Agachamento
+ach_squat_bw_goal = Agachamento com %1$s seu peso corporal
+ach_squat_bw_done = Seu agachamento chega a %1$s seu peso corporal
+ach_squat_bw_rule = Melhor 1RM estimado no agachamento livre ou frontal com barra, dividido pelo seu peso corporal naquele dia.
+
+ach_deadlift_bw_title = Levantamento terra
+ach_deadlift_bw_goal = Levantamento terra com %1$s seu peso corporal
+ach_deadlift_bw_done = Seu levantamento terra chega a %1$s seu peso corporal
+ach_deadlift_bw_rule = Melhor 1RM estimado no levantamento terra convencional ou sumô com barra, dividido pelo seu peso corporal naquele dia.
+
+ach_ohp_bw_title = Desenvolvimento militar
+ach_ohp_bw_goal = Desenvolvimento militar com %1$s seu peso corporal
+ach_ohp_bw_done = Seu desenvolvimento militar chega a %1$s seu peso corporal
+ach_ohp_bw_rule = Melhor 1RM estimado no desenvolvimento militar em pé com barra, dividido pelo seu peso corporal naquele dia.
+
+ach_pull_ups_title = Barra fixa
+ach_pull_ups_goal{one} = Faça sua primeira repetição na barra fixa sem assistência
+ach_pull_ups_goal{many} = Faça %1$s repetições na barra fixa sem assistência em uma série
+ach_pull_ups_goal{other} = Faça %1$s repetições na barra fixa sem assistência em uma série
+ach_pull_ups_done{one} = Sua primeira repetição na barra fixa sem assistência
+ach_pull_ups_done{many} = %1$s repetições na barra fixa sem assistência em uma série
+ach_pull_ups_done{other} = %1$s repetições na barra fixa sem assistência em uma série
+ach_pull_ups_rule = Máximo de repetições em uma série de barra fixa, pronada ou supinada, com ou sem carga extra, ou na máquina assistida com 0 de assistência.
+
+ach_goal_title = Meta de peso
+# %1$s: the target weight ("75 kg")
+ach_goal_goal = Alcance sua meta de peso de %1$s
+ach_goal_done = Você alcançou sua meta de peso de %1$s
+ach_goal_rule = Seu peso médio de 7 dias alcança a meta definida no seu perfil.
+
+ach_goal_progress_title = Rumo à sua meta
+# %1$s: a weight ("3 kg")
+ach_goal_progress_goal_loss = Perca %1$s rumo à sua meta
+ach_goal_progress_goal_gain = Ganhe %1$s rumo à sua meta
+ach_goal_progress_done_loss = Você perdeu %1$s
+ach_goal_progress_done_gain = Você ganhou %1$s
+
+ach_fat_down_title = Gordura corporal
+ach_fat_down_goal{one} = Reduza sua gordura corporal em %1$s ponto
+ach_fat_down_goal{many} = Reduza sua gordura corporal em %1$s pontos
+ach_fat_down_goal{other} = Reduza sua gordura corporal em %1$s pontos
+ach_fat_down_done{one} = Sua gordura corporal caiu %1$s ponto
+ach_fat_down_done{many} = Sua gordura corporal caiu %1$s pontos
+ach_fat_down_done{other} = Sua gordura corporal caiu %1$s pontos
+ach_fat_down_rule = Queda da sua gordura corporal média de 7 dias desde a sua primeira semana de medições. Ficar abaixo do mínimo saudável não conta.
+
+ach_muscle_up_title = Massa muscular
+# %1$s: a weight ("2 kg")
+ach_muscle_up_goal = Ganhe %1$s de massa muscular
+ach_muscle_up_done = Você ganhou %1$s de massa muscular
+ach_muscle_up_rule = Aumento da sua massa muscular média de 7 dias desde a sua primeira semana de medições.

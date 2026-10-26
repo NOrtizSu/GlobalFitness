@@ -72,6 +72,15 @@ class Repository(
     /** All measurements of the profile, sorted by timestamp ascending. */
     override val measurements: StateFlow<List<Measurement>> = _measurements.asStateFlow()
 
+    private val _importedIds = MutableStateFlow<Set<Long>>(emptySet())
+
+    /**
+     * Measurements imported in this process (a CSV file, the cloud backup): history arriving, not a
+     * weighing on this phone, so the achievements file what they reach without a celebration.
+     * Updated before [measurements]: read after it, it always covers the list just read.
+     */
+    val importedIds: StateFlow<Set<Long>> = _importedIds.asStateFlow()
+
     private val _loaded = MutableStateFlow(false)
     val loaded: StateFlow<Boolean> = _loaded.asStateFlow()
 
@@ -203,7 +212,9 @@ class Repository(
         val plan = withContext(compute) { ImportPlanner.plan(rows, currentProfile, currentMeasurements, clock()) }
         val (created, inserted) = withContext(io) { db.applyImport(plan) }
         if (created != null) setProfile(created)
-        _measurements.value = withContext(compute) { sorted(currentMeasurements + inserted) }
+        val all = withContext(compute) { sorted(currentMeasurements + inserted) }
+        if (inserted.isNotEmpty()) _importedIds.value = _importedIds.value + inserted.map { it.id }
+        _measurements.value = all
         ImportResult(
             imported = inserted.size,
             duplicates = plan.duplicates + (plan.measurements.size - inserted.size),

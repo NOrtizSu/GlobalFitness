@@ -1,0 +1,107 @@
+# Bottom bar: Hoy · Entreno · Progreso · Perfil (very little room: one short word)
+nav_training = التدريب
+nav_progress = التقدم
+
+# Progreso: tabs Músculos | Cuerpo | Actividad (Cuerpo and Actividad use nav_body and nav_activity)
+progress_tab_muscles = العضلات
+
+# Progreso → Músculos: how the body map is colored (three segmented buttons: keep them short)
+progress_mode_sets = المجموعات
+progress_mode_strength = القوة
+progress_mode_recovery = التعافي
+progress_caption_sets = المجموعات الفعّالة في آخر 7 أيام (تُحتسب العضلات الثانوية بالنصف) مقارنةً بالنطاق المعتاد لنمو العضلات.
+progress_caption_strength = التغيّر في الحد الأقصى المقدَّر لتكرار واحد (1RM) في التمارين التي تعمل على كل عضلة خلال الفترة المحددة.
+progress_caption_recovery = يُقدَّر من المجموعات الفعّالة في كل حصة تدريبية: من يوم إلى 4 أيام حسب حجم التمرين.
+
+# Weekly sets compared with the muscle's range
+progress_level_none = بلا مجموعات
+progress_level_low = دون النطاق
+progress_level_optimal = ضمن النطاق
+progress_level_high = فوق النطاق
+progress_sets{zero} = %1$s مجموعة
+progress_sets{one} = %1$s مجموعة
+progress_sets{two} = %1$s مجموعة
+progress_sets{few} = %1$s مجموعات
+progress_sets{many} = %1$s مجموعة
+progress_sets{other} = %1$s مجموعة
+progress_target = الهدف %1$s–%2$s
+
+# Strength trend (%1$s: a percentage such as −5 % or +5 %)
+progress_strength_down_more = أقل من %1$s
+progress_strength_down = انخفاض
+progress_strength_stable = ثبات
+progress_strength_up = ارتفاع
+progress_strength_up_more = أكثر من %1$s
+progress_strength_title = القوة (%1$s)
+progress_exercises{zero} = %1$d تمرين
+progress_exercises{one} = تمرين واحد
+progress_exercises{two} = تمرينان
+progress_exercises{few} = %1$d تمارين
+progress_exercises{many} = %1$d تمرينًا
+progress_exercises{other} = %1$d تمرين
+
+# Recovery (Spanish avoids gendered adjectives: the muscles' names mix genders)
+progress_recovery_fatigued = إجهاد
+progress_recovery_recovering = قيد التعافي
+progress_recovery_recovered = تعافٍ كامل
+progress_recovery_not_trained = بلا تدريب بعد
+progress_recovery_percent = التعافي: %1$s
+progress_recovery_full_at = تعافٍ كامل حوالي %1$s
+progress_time_tomorrow_at = غدًا، %1$s
+progress_last_trained = آخر تدريب: %1$s
+
+# Selected muscle and the list of all muscles
+progress_detail_week = هذا الأسبوع
+progress_tap_hint = انقر على عضلة في الشكل أو في القائمة لعرض تفاصيلها.
+progress_all_muscles = كل العضلات
+progress_recent_exercises = التمارين الأخيرة
+progress_recent_hint = أفضل مجموعة في آخر حصة والتغيّر في 1RM المقدَّر لها مقارنةً بالحصة السابقة.
+progress_open_exercise = فتح التمرين
+# %1$s: number, %2$s: unit (kg or lb)
+progress_load_value = %1$s %2$s
+progress_state_description = %1$s، %2$s
+# %1$s: load, %2$s: repetitions
+progress_set_load_reps = %1$s × %2$s
+progress_set_reps{zero} = %1$d تكرار
+progress_set_reps{one} = تكرار واحد
+progress_set_reps{two} = تكراران
+progress_set_reps{few} = %1$d تكرارات
+progress_set_reps{many} = %1$d تكرارًا
+progress_set_reps{other} = %1$d تكرار
+progress_set_seconds = %1$s ث
+progress_empty_title = سترى هنا تقدّم عضلاتك
+progress_empty_text = سجّل حصصك التدريبية في «التدريب»: تُحتسب كل مجموعة للعضلات التي تعمل عليها، ويعرض الشكل مجموعاتك الأسبوعية ومكاسب قوتك وتعافيك.
+progress_empty_action = الانتقال إلى التدريب
+
+# Hoy: muscles this week (%1$s: a list of the muscle groups below)
+today_muscles_title = العضلات هذا الأسبوع
+today_muscles_on_track = ضمن الهدف: %1$s
+today_muscles_below = دون الهدف: %1$s
+today_muscles_all_on_track = كل العضلات ضمن الهدف
+today_muscles_none = لا توجد مجموعات هذا الأسبوع بعد
+today_muscles_open = عرض العضلات
+# Muscle groups used inside those lists: lowercase where the language allows it
+progress_region_chest = الصدر
+progress_region_back = الظهر
+progress_region_shoulders = الأكتاف
+progress_region_arms = الذراعان
+progress_region_core = البطن
+progress_region_legs = الساقان
+
+# Perfil: Devices and training settings
+profile_section_devices = الأجهزة والتدريب
+profile_devices_scales{zero} = %1$d ميزان
+profile_devices_scales{one} = ميزان واحد
+profile_devices_scales{two} = ميزانان
+profile_devices_scales{few} = %1$d موازين
+profile_devices_scales{many} = %1$d ميزانًا
+profile_devices_scales{other} = %1$d ميزان
+profile_devices_wearables{zero} = الأساور والساعات: %1$d
+profile_devices_wearables{one} = الأساور والساعات: %1$d
+profile_devices_wearables{two} = الأساور والساعات: %1$d
+profile_devices_wearables{few} = الأساور والساعات: %1$d
+profile_devices_wearables{many} = الأساور والساعات: %1$d
+profile_devices_wearables{other} = الأساور والساعات: %1$d
+profile_devices_none = الموازين والأساور وHealth Connect
+profile_training_title = إعدادات التدريب
+profile_training_text = وحدة الوزن ومؤقت الراحة وHealth Connect

@@ -15,7 +15,9 @@ enum class HealthDataType(val readPermission: String?, val writePermission: Stri
     HEART_RATE_VARIABILITY(read("HEART_RATE_VARIABILITY"), null),
     SLEEP(read("SLEEP"), null),
     OXYGEN_SATURATION(read("OXYGEN_SATURATION"), null),
-    EXERCISE(read("EXERCISE"), null),
+
+    /** Read: workouts of the band or watch. Write: the app's own training log ([WorkoutExporter]). */
+    EXERCISE(read("EXERCISE"), write("EXERCISE")),
     RESPIRATORY_RATE(read("RESPIRATORY_RATE"), null),
     WEIGHT(read("WEIGHT"), write("WEIGHT")),
     BODY_FAT(read("BODY_FAT"), write("BODY_FAT")),
@@ -55,8 +57,15 @@ object HealthPermissions {
         HealthDataType.RESPIRATORY_RATE,
     )
 
-    /** Types whose scale values the app writes. */
-    val exportTypes: List<HealthDataType> = HealthDataType.entries.filter { it.writePermission != null }
+    /**
+     * Types whose scale values the app writes. Listed from [ExportRecordType] rather than derived
+     * from the write permissions: workouts ([HealthDataType.EXERCISE]) are written too, by another
+     * exporter, and must never make the scale export think it has something to write.
+     */
+    val exportTypes: List<HealthDataType> = ExportRecordType.entries.map { it.dataType }
+
+    /** Write permission for the workouts of the training log (exercise sessions). */
+    val WRITE_EXERCISE: String = checkNotNull(HealthDataType.EXERCISE.writePermission)
 
     /** Everything to ask for; the history permission only when the device supports it. */
     fun requested(historyAvailable: Boolean): Set<String> =
@@ -77,6 +86,12 @@ object HealthPermissions {
     /** Scale export needs at least the weight write permission; other values are optional. */
     fun canExport(granted: Set<String>): Boolean = canWrite(granted, HealthDataType.WEIGHT)
 
+    /** Some scale value may be written (or deleted again); the exercise permission does not count. */
+    fun canWriteAnyScaleValue(granted: Set<String>): Boolean = exportTypes.any { canWrite(granted, it) }
+
+    /** Workouts are saved as exercise sessions (and deleted again) only with this permission. */
+    fun canExportWorkouts(granted: Set<String>): Boolean = canWrite(granted, HealthDataType.EXERCISE)
+
     fun historyGranted(granted: Set<String>): Boolean = READ_HISTORY in granted
 
     /** Days to import on a full read. */
@@ -87,6 +102,16 @@ object HealthPermissions {
 
     /** True when every requested permission is granted. */
     fun allGranted(granted: Set<String>, historyAvailable: Boolean): Boolean = missing(granted, historyAvailable).isEmpty()
+
+    /**
+     * Requested permissions the connection status does not depend on: writing workouts has its
+     * own switch (and "Allow" button), and users who connected before it existed do not have it.
+     */
+    val optionalForStatus: Set<String> = setOf(WRITE_EXERCISE)
+
+    /** "Connected" rather than "connected with partial permissions": all granted but [optionalForStatus]. */
+    fun connectedFully(granted: Set<String>, historyAvailable: Boolean): Boolean =
+        (missing(granted, historyAvailable) - optionalForStatus).isEmpty()
 
     /** Wearable types the user has not allowed, for the "missing permissions" hint. */
     fun missingWearableTypes(granted: Set<String>): List<HealthDataType> = wearableTypes.filterNot { canRead(granted, it) }

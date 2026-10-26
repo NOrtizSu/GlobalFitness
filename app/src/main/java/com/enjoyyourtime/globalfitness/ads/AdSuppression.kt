@@ -33,10 +33,19 @@ class AdSuppression {
         const val SCALE_MEASUREMENT = "scale_measurement"
         const val GATT_SCALE_SESSION = "gatt_scale_session"
         const val BAND_LIVE_HEART_RATE = "band_live_heart_rate"
+
+        /** A workout is in progress: the user is logging sets in the gym. */
+        const val WORKOUT_IN_PROGRESS = "workout_in_progress"
         const val SIGN_IN = "sign_in"
         const val PURCHASE = "purchase"
         const val CONSENT = "consent"
         const val ACCOUNT_SCREEN = "account_screen"
         const val PREMIUM_SCREEN = "premium_screen"
+
+        /** Google Play's rating card is being prepared or is on screen, and the minute after it. */
+        const val REVIEW_FLOW = "review_flow"
+
+        /** An achievement celebration is on screen (no interstitial or rating card over it). */
+        const val CELEBRATION = "celebration"
     }
 }

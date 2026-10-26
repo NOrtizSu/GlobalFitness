@@ -51,10 +51,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.enjoyyourtime.globalfitness.BuildConfig
+import com.enjoyyourtime.globalfitness.GlobalFitnessApp
 import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.health.HcAvailability
+import com.enjoyyourtime.globalfitness.review.openPlayListing
 import com.enjoyyourtime.globalfitness.ui.Fmt
 import com.enjoyyourtime.globalfitness.ui.MainViewModel
+import com.enjoyyourtime.globalfitness.ui.achievements.achievementsSummary
 import com.enjoyyourtime.globalfitness.ui.components.AppCard
 import com.enjoyyourtime.globalfitness.ui.components.AppIcons
 import com.enjoyyourtime.globalfitness.ui.components.SectionTitle
@@ -62,17 +65,21 @@ import com.enjoyyourtime.globalfitness.ui.components.TabPage
 import com.enjoyyourtime.globalfitness.ui.health.HealthExportCard
 import com.enjoyyourtime.globalfitness.ui.health.HealthViewModel
 import com.enjoyyourtime.globalfitness.ui.labelRes
+import com.enjoyyourtime.globalfitness.ui.training.TrainingIcons
 import java.time.LocalDate
 
 /**
- * Profile: the single profile, the optional cloud account, ads / premium, data export and
- * import, the Health Connect export switch, the app language and "About".
+ * Profile: the single profile, devices, training settings and achievements, the optional cloud account, ads /
+ * premium, data export and import, the Health Connect export switch, the app language and "About".
  */
 @Composable
 fun ProfileScreen(
     vm: MainViewModel,
     healthVm: HealthViewModel,
     onConnectHealth: () -> Unit,
+    onOpenDevices: () -> Unit,
+    onOpenTrainingSettings: () -> Unit,
+    onOpenAchievements: () -> Unit,
     onOpenAccount: () -> Unit,
     onOpenRemoveAds: () -> Unit,
     onOpenPrivacyPolicy: () -> Unit,
@@ -142,6 +149,32 @@ fun ProfileScreen(
             }
         }
 
+        item(key = "devices-title") { SectionTitle(stringResource(R.string.profile_section_devices)) }
+        item(key = "devices") {
+            AppCard {
+                SettingRow(
+                    icon = AppIcons.Bluetooth,
+                    title = stringResource(R.string.nav_devices),
+                    subtitle = devicesSummary(),
+                    onClick = onOpenDevices,
+                )
+                HorizontalDivider(color = MaterialTheme.colorScheme.surfaceContainerHighest)
+                SettingRow(
+                    icon = AppIcons.FitnessCenter,
+                    title = stringResource(R.string.profile_training_title),
+                    subtitle = stringResource(R.string.profile_training_text),
+                    onClick = onOpenTrainingSettings,
+                )
+                HorizontalDivider(color = MaterialTheme.colorScheme.surfaceContainerHighest)
+                SettingRow(
+                    icon = TrainingIcons.Trophy,
+                    title = stringResource(R.string.achievements_title),
+                    subtitle = achievementsSummary(),
+                    onClick = onOpenAchievements,
+                )
+            }
+        }
+
         item(key = "account-title") { SectionTitle(stringResource(R.string.profile_section_account)) }
         item(key = "account") {
             AppCard {
@@ -196,7 +229,7 @@ fun ProfileScreen(
                     icon = AppIcons.Upload,
                     title = stringResource(R.string.csv_export),
                     subtitle = stringResource(R.string.csv_export_text),
-                    onClick = { exportLauncher.launch("globalfitness-${LocalDate.now()}.csv") },
+                    onClick = { exportLauncher.launch("fortia-${LocalDate.now()}.csv") },
                 )
                 HorizontalDivider(color = MaterialTheme.colorScheme.surfaceContainerHighest)
                 SettingRow(
@@ -225,12 +258,20 @@ fun ProfileScreen(
             AppCard {
                 SettingRow(
                     icon = Icons.Filled.Info,
-                    title = "GlobalFitness ${BuildConfig.VERSION_NAME}",
+                    title = "${stringResource(R.string.app_name)} ${BuildConfig.VERSION_NAME}",
                     subtitle = stringResource(
                         if (BuildConfig.DEBUG) R.string.about_version_debug else R.string.about_version,
                         BuildConfig.VERSION_CODE.toString(),
                     ),
                     onClick = null,
+                )
+                // Rating on the user's own initiative opens the Play page: Play's policy keeps the in-app card off buttons.
+                HorizontalDivider(color = MaterialTheme.colorScheme.surfaceContainerHighest)
+                SettingRow(
+                    icon = AppIcons.StarOutline,
+                    title = stringResource(R.string.about_rate_app),
+                    subtitle = stringResource(R.string.about_rate_app_text),
+                    onClick = { openPlayListing(context) },
                 )
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     // Android 13+: per-app language in the system settings (the app follows the system otherwise).
@@ -293,6 +334,19 @@ fun ProfileScreen(
             onDismiss = { editing = false },
         )
     }
+}
+
+/** "1 scale · 2 bands or watches", or what the page holds while nothing is set up yet. */
+@Composable
+private fun devicesSummary(): String {
+    val container = (LocalContext.current.applicationContext as GlobalFitnessApp).container
+    val scales by container.settings.configuredScales.collectAsStateWithLifecycle()
+    val wearables by container.wearables.summaries.collectAsStateWithLifecycle()
+    val parts = listOfNotNull(
+        scales.size.takeIf { it > 0 }?.let { pluralStringResource(R.plurals.profile_devices_scales, it, it) },
+        wearables.size.takeIf { it > 0 }?.let { pluralStringResource(R.plurals.profile_devices_wearables, it, it) },
+    )
+    return if (parts.isEmpty()) stringResource(R.string.profile_devices_none) else parts.joinToString(" · ")
 }
 
 @Composable

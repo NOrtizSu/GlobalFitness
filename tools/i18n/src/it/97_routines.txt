@@ -1,0 +1,15 @@
+# Built-in routine names: routine_<id> (training/catalog/RoutineCatalog.kt). Short: they label cards and list rows.
+routine_full_body_machines = Full body alle macchine
+routine_full_body_free_weights = Full body a pesi liberi
+routine_push = Push (petto, spalle, tricipiti)
+routine_pull = Pull (schiena, bicipiti)
+routine_legs = Gambe
+routine_upper_body = Parte superiore
+routine_lower_body = Parte inferiore
+routine_chest_triceps = Petto e tricipiti
+routine_back_biceps = Schiena e bicipiti
+routine_shoulders = Spalle
+routine_arms = Braccia
+routine_glutes = Glutei
+routine_core = Core e addominali
+routine_cardio_mix = Macchine cardio

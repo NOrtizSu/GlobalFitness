@@ -1,0 +1,47 @@
+# Routines: the Entreno tab's section, the routine page and editor, adding a routine to a workout, saving a workout as a routine
+training_routines_title = Rutinitas
+training_routine_new = Rutinitas baru
+training_routine_open = Lihat rutinitas
+# Title bar of a routine's page
+training_routine_title = Rutinitas
+training_routine_missing = Rutinitas ini sudah tidak ada.
+# Label on a routine's page: one of the app's routines / one the user made
+training_routine_builtin = Rutinitas yang disarankan
+training_routine_own = Rutinitas Anda
+training_routine_start = Mulai latihan
+training_routine_add_to_active = Tambahkan ke latihan yang berlangsung
+training_routine_active_hint = Ada latihan yang sedang berlangsung: gerakan yang belum ada di dalamnya akan ditambahkan.
+training_routine_duplicate = Duplikat dan edit
+training_routine_delete = Hapus rutinitas
+# %1$s: routine name
+training_routine_delete_title = Hapus %1$s?
+training_routine_delete_text = Latihan Anda tetap seperti semula.
+training_routine_exercises = Gerakan
+training_routine_muscles = Otot yang dilatih
+training_routine_loads_hint = Beban diisi dari sesi terakhir Anda untuk setiap gerakan.
+training_routine_edit_title = Edit rutinitas
+training_routine_name_hint = Mis. Kaki hari Senin
+training_routine_note = Catatan (opsional)
+training_routine_add_exercises = Tambah gerakan
+training_routine_editor_empty = Tambahkan gerakan untuk rutinitas ini: masing-masing dimulai dengan set dan repetisi dari sesi terakhir Anda.
+training_routine_exercises_error = Tambahkan setidaknya satu gerakan.
+# Set stepper of an exercise in the routine editor, read by TalkBack; %1$s: exercise
+training_routine_fewer_sets = Kurangi set %1$s
+training_routine_more_sets = Tambah set %1$s
+training_routine_save_failed = Rutinitas tidak dapat disimpan
+training_routine_add = Tambah rutinitas
+# Groups of the "Add routine" sheet
+training_routines_own = Rutinitas Anda
+training_routines_builtin = Disarankan
+training_routine_already_in = Sudah ada di latihan ini
+training_routine_added{other} = %1$s gerakan ditambahkan
+training_routine_nothing_added = Latihan ini sudah berisi semua gerakan dari rutinitas tersebut.
+training_routine_save_from_workout = Simpan sebagai rutinitas
+training_routine_save_text = Gerakan dan set-nya disimpan; beban selalu diambil dari sesi terakhir Anda.
+training_routine_saved = Rutinitas disimpan
+# Snackbar action: open the routine just saved
+training_routine_view = Lihat
+# Hoy card: start a workout with the routine used last; %1$s: routine name
+training_start_routine = Mulai %1$s
+# Hoy card, next to the routine: start a workout without exercises
+training_start_blank = Latihan kosong

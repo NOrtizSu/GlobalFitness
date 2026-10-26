@@ -46,6 +46,7 @@ import com.enjoyyourtime.globalfitness.billing.Ownership
 import com.enjoyyourtime.globalfitness.billing.ProductState
 import com.enjoyyourtime.globalfitness.ui.account.SuppressInterstitials
 import com.enjoyyourtime.globalfitness.ui.asString
+import com.enjoyyourtime.globalfitness.ui.components.TopBarTitle
 
 /** One-time purchase "Remove ads". No ads are shown on this screen. */
 @Composable
@@ -59,7 +60,7 @@ fun RemoveAdsScreen(onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.remove_ads_title)) },
+                title = { TopBarTitle(stringResource(R.string.remove_ads_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.action_back))

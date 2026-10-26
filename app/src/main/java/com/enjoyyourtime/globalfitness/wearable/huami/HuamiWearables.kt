@@ -338,6 +338,6 @@ class HuamiSession(env: WearableSessionEnv, private val model: HuamiModel) : Gat
         const val MAX_ALARMS = 10
         const val KEEPALIVE_MS = 1_000L
         const val NEO_PING_MS = 10_000L
-        const val FIND_CALLER_NAME = "GlobalFitness"
+        const val FIND_CALLER_NAME = "Fortia"
     }
 }

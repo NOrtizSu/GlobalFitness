@@ -1,0 +1,8 @@
+# Body map: captions, TalkBack descriptions of the muscle figure, open-source credit of its drawings
+bodymap_front = Ön
+bodymap_back = Arka
+bodymap_figure_front = Vücut, önden görünüm
+bodymap_figure_back = Vücut, arkadan görünüm
+bodymap_figure_highlighted = %1$s: %2$s
+bodymap_muscle_state = %1$s, %2$s
+notice_body_highlighter = Kas haritasının çizimleri react-native-body-highlighter projesinden uyarlanmıştır.

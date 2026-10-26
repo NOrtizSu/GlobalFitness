@@ -9,6 +9,9 @@
     - onboarding: decided again on the new device from the restored profile.
     - health.db: Health Connect cache, re-read from Health Connect on the new device.
     - Firestore's local cache: it belongs to the signed-in session and would replay stale writes.
+    - exercise_photos: photos of the user's machines. They could exceed the 25 MB Auto Backup quota
+      (which would stop backing up the measurements too); the app's cloud backup keeps them, and
+      training.db (with the notes) is still backed up.
     Cloud sync bookkeeping lives in noBackupFilesDir, which is never backed up.
     Keep in sync with data_extraction_rules.xml.
 -->
@@ -28,4 +31,5 @@
     <exclude domain="database" path="firestore.%5BDEFAULT%5D.globalfitness-app.%28default%29-journal" />
     <exclude domain="database" path="firestore.%5BDEFAULT%5D.globalfitness-app.%28default%29-wal" />
     <exclude domain="database" path="firestore.%5BDEFAULT%5D.globalfitness-app.%28default%29-shm" />
+    <exclude domain="file" path="exercise_photos/" />
 </full-backup-content>

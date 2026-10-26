@@ -1,0 +1,4 @@
+# Rating the app on Google Play (الملف الشخصي ← حول التطبيق) and the open-source notice of the In-App Review library
+about_rate_app = قيّم Fortia
+about_rate_app_text = أخبرنا برأيك على Google Play
+notice_play_review = يطلب تقييمًا على Google Play في الوقت المناسب، ببطاقة Google نفسها.

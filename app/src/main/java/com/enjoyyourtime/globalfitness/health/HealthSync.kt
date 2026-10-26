@@ -346,8 +346,9 @@ class HealthSync(
             delete = { ids -> cache.deleteExercises(ids) },
             store = { run, records ->
                 val totalsFrom = run.now - EXERCISE_TOTALS_DAYS * DAY_MS
+                // The app's own workouts (WorkoutExporter) are shown by the training log, not as band workouts.
                 cache.upsertExercises(
-                    records.map { r ->
+                    records.filter { origin(it) != ownPackage }.map { r ->
                         val start = r.startTime.toEpochMilli()
                         val end = r.endTime.toEpochMilli()
                         val totals = if (start >= totalsFrom) exerciseTotals(run.client, run.granted, start, end) else null

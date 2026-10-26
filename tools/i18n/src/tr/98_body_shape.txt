@@ -1,0 +1,8 @@
+# Body shape of the muscle map figure (İlerleme → Kaslar): segmented control "N ay önce | Şimdi" and the caption
+body_shape_now = Şimdi
+body_shape_months_ago{one} = %1$s ay önce
+body_shape_months_ago{other} = %1$s ay önce
+body_shape_weeks_ago{one} = %1$s hafta önce
+body_shape_weeks_ago{other} = %1$s hafta önce
+body_shape_caption_scale = Figürün şekli vücut yağınızı, kas kütlenizi ve antrenmanınızı izler. Bu bir ölçüm değil, temsili bir görseldir.
+body_shape_caption_training = Figürün şekli antrenmanınızı izler (vücut yağını da dahil etmek için vücut kompozisyonu ölçen bir tartıya çıkın). Bu bir ölçüm değil, temsili bir görseldir.

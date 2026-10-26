@@ -14,7 +14,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
@@ -23,6 +25,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
@@ -41,6 +44,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -63,7 +67,7 @@ import com.enjoyyourtime.globalfitness.ui.components.AppCard
 import com.enjoyyourtime.globalfitness.ui.components.Dot
 import com.enjoyyourtime.globalfitness.ui.components.SectionTitle
 import com.enjoyyourtime.globalfitness.ui.components.StatusChip
-import com.enjoyyourtime.globalfitness.ui.components.TabPage
+import com.enjoyyourtime.globalfitness.ui.progress.ProgressTabContent
 import com.enjoyyourtime.globalfitness.ui.theme.ChartTheme
 import com.enjoyyourtime.globalfitness.ui.theme.TabularNumbers
 import java.time.LocalDate
@@ -76,18 +80,19 @@ private const val VITALS_DAYS = 30
 private const val BODY_FAT_DAYS = 90
 
 /**
- * Activity: what the band or watch wrote to Health Connect (today, steps, heart rate, sleep,
- * SpO2, heart-rate variability, respiratory rate, workouts, body fat from other apps) plus the
- * sync status. Connection and permissions live in Devices and the scale export switch in Profile.
+ * Activity (the Actividad tab of Progreso): what the band or watch wrote to Health Connect (today,
+ * steps, heart rate, sleep, SpO2, heart-rate variability, respiratory rate, workouts, body fat from
+ * other apps) plus the sync status. Connection and permissions live in Devices and the scale export
+ * switch in Profile. [listState] is hoisted so Progreso's title bar knows when the page is scrolled.
  */
 @Composable
-fun ActivityScreen(vm: HealthViewModel, onConnect: () -> Unit) {
+fun ActivityScreen(vm: HealthViewModel, onConnect: () -> Unit, listState: LazyListState) {
     val state by vm.uiState.collectAsStateWithLifecycle()
     val dashboard by vm.dashboard.collectAsStateWithLifecycle()
     val detail by vm.detail.collectAsStateWithLifecycle()
     var stepsRange by rememberSaveable { mutableStateOf(DayRange.D30) }
 
-    TabPage(title = stringResource(R.string.nav_activity)) {
+    ProgressTabContent(listState) {
         val available = state.availability == HcAvailability.AVAILABLE
         if (!available || !state.canRead) {
             item {
@@ -99,10 +104,10 @@ fun ActivityScreen(vm: HealthViewModel, onConnect: () -> Unit) {
                 )
             }
             item { MiFitnessHelpCard() }
-            return@TabPage
+            return@ProgressTabContent
         }
         item { SyncCard(state, onSync = vm::syncNow) }
-        val d = dashboard ?: return@TabPage
+        val d = dashboard ?: return@ProgressTabContent
         if (!d.hasData && !state.sync.running) item { NoDataCard() }
         // Partial grants: each section is shown only when its data type is readable.
         val readable = HealthPermissions.readableTypes(state.granted)
@@ -172,11 +177,14 @@ fun HealthConnectionCard(
                             BodyText(stringResource(R.string.hc_missing_read, Fmt.list(missing.map { stringResource(it.labelRes) })))
                         }
                         if (!state.canExport) BodyText(stringResource(R.string.hc_missing_write_weight))
+                        if (state.missingWorkoutPermission) BodyText(stringResource(R.string.hc_missing_write_exercise))
                         if (state.historyAvailable && !HealthPermissions.historyGranted(state.granted)) {
                             BodyText(stringResource(R.string.hc_history_hint))
                         }
                         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            if (!state.allGranted) FilledTonalButton(onClick = onConnect) { Text(stringResource(R.string.hc_review_permissions)) }
+                            if (!state.allGranted || state.missingWorkoutPermission) {
+                                FilledTonalButton(onClick = onConnect) { Text(stringResource(R.string.hc_review_permissions)) }
+                            }
                             OutlinedButton(onClick = onOpenSettings) { Text(stringResource(R.string.hc_open)) }
                         }
                     }
@@ -725,19 +733,26 @@ private fun SourcesCard(d: HealthDashboard) {
     }
 }
 
-/** "Send scale measurements to Health Connect" switch and the history export. */
+/**
+ * "Send scale measurements to Health Connect" switch and the history export, then the "Save
+ * workouts to Health Connect" switch ([WorkoutExportRow], which handles its own state).
+ */
 @Composable
 fun HealthExportCard(state: HealthUiState, onToggle: (Boolean) -> Unit, onExportHistory: () -> Unit, onRequestPermissions: () -> Unit) {
     val export = state.export
     AppCard {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            // The whole row is the switch, so TalkBack reads its title with its state.
+            Row(
+                Modifier.toggleable(value = state.exportEnabled, enabled = state.canExport, role = Role.Switch, onValueChange = onToggle),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
                 Text(
                     stringResource(R.string.hc_export_title),
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.weight(1f),
                 )
-                Switch(checked = state.exportEnabled, onCheckedChange = onToggle, enabled = state.canExport)
+                Switch(checked = state.exportEnabled, onCheckedChange = null, enabled = state.canExport)
             }
             BodyText(stringResource(R.string.hc_export_text))
             if (!state.canExport) {
@@ -756,6 +771,8 @@ fun HealthExportCard(state: HealthUiState, onToggle: (Boolean) -> Unit, onExport
             }
             export.message?.let { SmallText(it.asString()) }
             export.error?.let { Text(it.asString(), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error) }
+            HorizontalDivider(Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.surfaceContainerHighest)
+            WorkoutExportRow()
         }
     }
 }

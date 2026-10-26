@@ -1,0 +1,111 @@
+# Achievements: medals derived from the workouts and the weighings, the celebration shown when a level is reached, and the achievements page (Training tab card, Profile row)
+achievements_title = Thành tích
+achievements_earned{other} = %1$s/%2$s huy chương
+achievements_category_training = Kiên trì
+achievements_category_strength = Sức mạnh
+achievements_category_body = Cơ thể
+achievements_level = Cấp %1$s/%2$s
+achievements_not_started = Chưa đạt được
+achievements_all_levels = Đã đạt mọi cấp
+achievements_earned_on = Đạt được ngày %1$s
+achievements_next = Tiếp theo: %1$s
+achievements_progress = %1$s / %2$s
+achievements_levels = Các cấp
+achievements_how = Cách tính
+achievements_open = Mở thành tích
+achievements_needs_bodyweight = Hãy cân để so sánh mức tạ bạn nâng với cân nặng của bạn.
+achievements_needs_target = Hãy đặt cân nặng mục tiêu trong hồ sơ của bạn.
+achievements_needs_weighings = Hãy cân để bắt đầu.
+achievements_target_is_start = Mục tiêu của bạn bằng cân nặng ban đầu: không có khoảng cách nào cần vượt qua.
+achievements_needs_composition = Cần các lần cân có thành phần cơ thể, từ cân đo được thành phần cơ thể.
+achievements_lift_note = Các cấp dựa theo chuẩn sức mạnh phổ biến và thấp hơn đối với nữ. Chỉ tính tạ đòn: không tính máy Smith hay các máy khác.
+achievements_value_tonnes = %1$s tấn
+achievements_value_ratio = %1$s×
+
+# The celebration shown over any screen when a new level is reached
+celebration_title = Chúc mừng!
+celebration_view = Xem thành tích
+celebration_announce = Thành tích mới
+celebration_level = %1$s · Cấp %2$s
+celebration_more{other} = +%1$s mục khác
+
+ach_workouts_title = Buổi tập
+ach_workouts_goal{other} = Hoàn thành %1$s buổi tập
+ach_workouts_done{other} = Bạn đã hoàn thành %1$s buổi tập
+ach_workouts_rule = Các buổi tập đã kết thúc có ít nhất một hiệp đã hoàn thành.
+
+ach_week_streak_title = Chuỗi tuần tập
+ach_week_streak_goal{other} = Tập ít nhất 2 lần mỗi tuần trong %1$s tuần liên tiếp
+ach_week_streak_done{other} = Bạn đã tập ít nhất 2 lần mỗi tuần trong %1$s tuần liên tiếp
+ach_week_streak_rule = Các tuần lịch liên tiếp có ít nhất 2 buổi tập đã hoàn thành. Tuần hiện tại không làm đứt chuỗi cho đến khi tuần đó kết thúc.
+
+ach_balanced_weeks_title = Tuần cân bằng
+ach_balanced_weeks_goal{other} = Đạt %1$s tuần cân bằng
+ach_balanced_weeks_done{other} = Bạn đã có %1$s tuần cân bằng
+ach_balanced_weeks_rule = Các tuần lịch mà mỗi nhóm cơ sau đây có số hiệp hiệu quả nằm trong phạm vi mỗi tuần của nhóm cơ đó, không thấp hơn cũng không cao hơn: %1$s.
+
+ach_variety_title = Đa dạng
+ach_variety_goal{other} = Tập %1$s bài tập khác nhau
+ach_variety_done{other} = Bạn đã tập %1$s bài tập khác nhau
+ach_variety_rule = Các bài tập và máy khác nhau có ít nhất một hiệp đã hoàn thành.
+
+ach_cardio_km_title = Quãng đường cardio
+ach_cardio_km_goal = Đạt tổng quãng đường cardio %1$s
+ach_cardio_km_done = Bạn đã đạt tổng quãng đường cardio %1$s
+ach_cardio_km_rule = Quãng đường của mọi hiệp cardio đã hoàn thành.
+
+ach_volume_title = Tổng khối lượng
+ach_volume_goal = Nâng tổng cộng %1$s
+ach_volume_done = Bạn đã nâng tổng cộng %1$s
+ach_volume_rule = Mức tạ × số lần của mọi hiệp đã hoàn thành, tính cả cân nặng của bạn trong các bài tập với trọng lượng cơ thể và có hỗ trợ.
+
+ach_records_title = Kỷ lục cá nhân
+ach_records_goal{other} = Phá %1$s kỷ lục cá nhân
+ach_records_done{other} = Bạn đã phá %1$s kỷ lục cá nhân
+ach_records_rule = Các hiệp phá một kỷ lục của bài tập: 1RM ước tính, mức tạ, số lần, thời gian hoặc mức hỗ trợ ít nhất.
+
+ach_bench_bw_title = Đẩy ngực
+ach_bench_bw_goal = Đẩy ngực %1$s cân nặng của bạn
+ach_bench_bw_done = Mức đẩy ngực của bạn đạt %1$s cân nặng
+ach_bench_bw_rule = 1RM ước tính tốt nhất ở bài đẩy ngực với tạ đòn, chia cho cân nặng của bạn vào ngày đó.
+
+ach_squat_bw_title = Squat
+ach_squat_bw_goal = Squat %1$s cân nặng của bạn
+ach_squat_bw_done = Mức squat của bạn đạt %1$s cân nặng
+ach_squat_bw_rule = 1RM ước tính tốt nhất ở bài squat với tạ đòn hoặc front squat, chia cho cân nặng của bạn vào ngày đó.
+
+ach_deadlift_bw_title = Deadlift
+ach_deadlift_bw_goal = Deadlift %1$s cân nặng của bạn
+ach_deadlift_bw_done = Mức deadlift của bạn đạt %1$s cân nặng
+ach_deadlift_bw_rule = 1RM ước tính tốt nhất ở bài deadlift với tạ đòn kiểu thường hoặc sumo, chia cho cân nặng của bạn vào ngày đó.
+
+ach_ohp_bw_title = Đẩy tạ qua đầu
+ach_ohp_bw_goal = Đẩy tạ qua đầu %1$s cân nặng của bạn
+ach_ohp_bw_done = Mức đẩy tạ qua đầu của bạn đạt %1$s cân nặng
+ach_ohp_bw_rule = 1RM ước tính tốt nhất ở bài đẩy tạ đòn qua đầu tư thế đứng, chia cho cân nặng của bạn vào ngày đó.
+
+ach_pull_ups_title = Hít xà
+ach_pull_ups_goal{other} = Hít xà %1$s lần không hỗ trợ trong một hiệp
+ach_pull_ups_done{other} = %1$s lần hít xà không hỗ trợ trong một hiệp
+ach_pull_ups_rule = Số lần nhiều nhất trong một hiệp hít xà hoặc hít xà tay ngửa, có hoặc không đeo thêm tạ, hoặc trên máy hỗ trợ với mức hỗ trợ 0.
+
+ach_goal_title = Cân nặng mục tiêu
+ach_goal_goal = Đạt cân nặng mục tiêu %1$s
+ach_goal_done = Bạn đã đạt cân nặng mục tiêu %1$s
+ach_goal_rule = Cân nặng trung bình 7 ngày của bạn đạt mục tiêu đã đặt trong hồ sơ.
+
+ach_goal_progress_title = Tiến tới mục tiêu
+ach_goal_progress_goal_loss = Giảm %1$s để tiến tới mục tiêu
+ach_goal_progress_goal_gain = Tăng %1$s để tiến tới mục tiêu
+ach_goal_progress_done_loss = Bạn đã giảm %1$s
+ach_goal_progress_done_gain = Bạn đã tăng %1$s
+
+ach_fat_down_title = Mỡ cơ thể
+ach_fat_down_goal{other} = Giảm mỡ cơ thể %1$s điểm phần trăm
+ach_fat_down_done{other} = Mỡ cơ thể của bạn đã giảm %1$s điểm phần trăm
+ach_fat_down_rule = Mức giảm mỡ cơ thể trung bình 7 ngày của bạn kể từ tuần đo đầu tiên. Giảm xuống dưới mức tối thiểu lành mạnh không được tính.
+
+ach_muscle_up_title = Khối lượng cơ
+ach_muscle_up_goal = Tăng %1$s khối lượng cơ
+ach_muscle_up_done = Khối lượng cơ của bạn đã tăng %1$s
+ach_muscle_up_rule = Mức tăng khối lượng cơ trung bình 7 ngày của bạn kể từ tuần đo đầu tiên.

@@ -1,7 +1,7 @@
 package com.enjoyyourtime.globalfitness.band.xiaomi
 
 import com.enjoyyourtime.globalfitness.band.proto.XiaomiProto
-import java.util.Collections
+import java.util.concurrent.CopyOnWriteArrayList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -24,7 +24,7 @@ class XiaomiSessionTest {
     private val key = (AuthKey.parse(keyBytes.toHexString()) as AuthKeyResult.Valid).key
     private val companion = CompanionInfo(34, "Pixel 8", "ES")
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
-    private val logLines: MutableList<String> = Collections.synchronizedList(mutableListOf())
+    private val logLines: MutableList<String> = CopyOnWriteArrayList()
     private val fast = XiaomiSession.Timeouts(version = 300, sessionConfig = 1_000, auth = 1_000, request = 1_000, resend = 150)
 
     @After

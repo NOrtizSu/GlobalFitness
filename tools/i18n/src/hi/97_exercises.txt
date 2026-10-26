@@ -1,0 +1,165 @@
+# Built-in exercise and machine names: ex_<catalog id> (training/catalog/ExerciseCatalog.kt)
+
+# Machines
+ex_machine_chest_press = मशीन चेस्ट प्रेस
+ex_machine_incline_chest_press = मशीन इनक्लाइन चेस्ट प्रेस
+ex_pec_deck = पेक डेक (बटरफ़्लाई)
+ex_machine_shoulder_press = मशीन शोल्डर प्रेस
+ex_machine_lateral_raise = मशीन लेटरल रेज़
+ex_reverse_pec_deck = रिवर्स पेक डेक
+ex_machine_row = सीटेड रो मशीन
+ex_pullover_machine = पुलओवर मशीन
+ex_leg_press_machine = लेग प्रेस
+ex_horizontal_leg_press = हॉरिज़ॉन्टल लेग प्रेस
+ex_hack_squat_machine = हैक स्क्वाट
+ex_pendulum_squat_machine = पेंडुलम स्क्वाट
+ex_leg_extension_machine = लेग एक्सटेंशन
+ex_lying_leg_curl_machine = लाइंग लेग कर्ल
+ex_seated_leg_curl_machine = सीटेड लेग कर्ल
+ex_standing_calf_raise_machine = स्टैंडिंग काफ़ रेज़ मशीन
+ex_seated_calf_raise_machine = सीटेड काफ़ रेज़
+ex_leg_press_calf_raise = लेग प्रेस काफ़ रेज़
+ex_hip_abductor_machine = हिप एब्डक्टर मशीन
+ex_hip_adductor_machine = हिप एडक्टर मशीन
+ex_glute_kickback_machine = ग्लूट किकबैक मशीन
+ex_hip_thrust_machine = हिप थ्रस्ट मशीन
+ex_back_extension_machine = बैक एक्सटेंशन मशीन
+ex_ab_crunch_machine = एब क्रंच मशीन
+ex_rotary_torso_machine = रोटरी टॉर्सो मशीन
+ex_machine_biceps_curl = बाइसेप्स कर्ल मशीन
+ex_machine_triceps_extension = ट्राइसेप्स एक्सटेंशन मशीन
+ex_seated_dip_machine = सीटेड डिप मशीन
+ex_assisted_pull_up_machine = असिस्टेड पुल-अप मशीन
+ex_assisted_chin_up_machine = असिस्टेड चिन-अप मशीन
+ex_assisted_dip_machine = असिस्टेड डिप मशीन
+ex_neck_machine = नेक मशीन
+
+# Cable
+ex_lat_pulldown_machine = लैट पुलडाउन
+ex_close_grip_lat_pulldown = क्लोज़-ग्रिप लैट पुलडाउन
+ex_seated_cable_row = सीटेड केबल रो
+ex_single_arm_cable_row = सिंगल-आर्म केबल रो
+ex_straight_arm_pulldown = स्ट्रेट-आर्म पुलडाउन
+ex_cable_crossover = केबल क्रॉसओवर
+ex_low_cable_crossover = लो केबल क्रॉसओवर
+ex_cable_fly = केबल फ़्लाई
+ex_face_pull = फ़ेस पुल
+ex_cable_lateral_raise = केबल लेटरल रेज़
+ex_cable_triceps_pushdown = ट्राइसेप्स पुशडाउन
+ex_rope_triceps_pushdown = रोप ट्राइसेप्स पुशडाउन
+ex_cable_overhead_triceps_extension = केबल ओवरहेड ट्राइसेप्स एक्सटेंशन
+ex_cable_curl = केबल कर्ल
+ex_cable_crunch = केबल क्रंच
+ex_cable_woodchop = केबल वुडचॉप
+ex_cable_pull_through = केबल पुल-थ्रू
+ex_cable_glute_kickback = केबल ग्लूट किकबैक
+
+# Smith machine
+ex_smith_squat = स्मिथ मशीन स्क्वाट
+ex_smith_bench_press = स्मिथ मशीन बेंच प्रेस
+ex_smith_incline_bench_press = स्मिथ मशीन इनक्लाइन प्रेस
+ex_smith_shoulder_press = स्मिथ मशीन शोल्डर प्रेस
+ex_smith_split_squat = स्मिथ मशीन स्प्लिट स्क्वाट
+ex_smith_hip_thrust = स्मिथ मशीन हिप थ्रस्ट
+ex_smith_calf_raise = स्मिथ मशीन काफ़ रेज़
+
+# Barbell and EZ bar
+ex_barbell_bench_press = बारबेल बेंच प्रेस
+ex_barbell_incline_bench_press = इनक्लाइन बारबेल बेंच प्रेस
+ex_barbell_decline_bench_press = डिक्लाइन बारबेल बेंच प्रेस
+ex_close_grip_bench_press = क्लोज़-ग्रिप बेंच प्रेस
+ex_barbell_overhead_press = ओवरहेड प्रेस
+ex_barbell_back_squat = बारबेल बैक स्क्वाट
+ex_barbell_front_squat = फ़्रंट स्क्वाट
+ex_barbell_deadlift = डेडलिफ़्ट
+ex_sumo_deadlift = सूमो डेडलिफ़्ट
+ex_barbell_romanian_deadlift = रोमानियन डेडलिफ़्ट
+ex_good_morning = गुड मॉर्निंग
+ex_barbell_lunge = बारबेल लंज
+ex_barbell_hip_thrust = बारबेल हिप थ्रस्ट
+ex_barbell_glute_bridge = बारबेल ग्लूट ब्रिज
+ex_barbell_row = बारबेल रो
+ex_pendlay_row = पेंडले रो
+ex_t_bar_row = टी-बार रो
+ex_barbell_upright_row = अपराइट रो
+ex_barbell_shrug = बारबेल श्रग
+ex_barbell_curl = बारबेल कर्ल
+ex_ez_bar_curl = EZ-बार कर्ल
+ex_ez_bar_preacher_curl = EZ-बार प्रीचर कर्ल
+ex_skull_crusher = स्कल क्रशर
+ex_barbell_wrist_curl = रिस्ट कर्ल
+ex_barbell_reverse_wrist_curl = रिवर्स रिस्ट कर्ल
+
+# Dumbbells
+ex_dumbbell_bench_press = डंबल बेंच प्रेस
+ex_dumbbell_incline_bench_press = इनक्लाइन डंबल प्रेस
+ex_dumbbell_fly = डंबल फ़्लाई
+ex_dumbbell_pullover = डंबल पुलओवर
+ex_dumbbell_shoulder_press = डंबल शोल्डर प्रेस
+ex_arnold_press = आर्नोल्ड प्रेस
+ex_dumbbell_lateral_raise = डंबल लेटरल रेज़
+ex_dumbbell_front_raise = डंबल फ़्रंट रेज़
+ex_dumbbell_rear_delt_fly = रियर डेल्ट फ़्लाई
+ex_dumbbell_row = वन-आर्म डंबल रो
+ex_dumbbell_shrug = डंबल श्रग
+ex_dumbbell_curl = डंबल कर्ल
+ex_hammer_curl = हैमर कर्ल
+ex_incline_dumbbell_curl = इनक्लाइन डंबल कर्ल
+ex_concentration_curl = कंसन्ट्रेशन कर्ल
+ex_dumbbell_overhead_extension = डंबल ओवरहेड एक्सटेंशन
+ex_dumbbell_triceps_kickback = ट्राइसेप्स किकबैक
+ex_dumbbell_goblet_squat = डंबल गॉब्लेट स्क्वाट
+ex_bulgarian_split_squat = बल्गेरियन स्प्लिट स्क्वाट
+ex_dumbbell_lunge = डंबल लंज
+ex_dumbbell_step_up = डंबल स्टेप-अप
+ex_dumbbell_romanian_deadlift = डंबल रोमानियन डेडलिफ़्ट
+ex_dumbbell_side_bend = डंबल साइड बेंड
+
+# Kettlebells
+ex_kettlebell_swing = केटलबेल स्विंग
+ex_kettlebell_goblet_squat = केटलबेल गॉब्लेट स्क्वाट
+ex_kettlebell_clean_and_press = केटलबेल क्लीन एंड प्रेस
+ex_turkish_get_up = टर्किश गेट-अप
+
+# Bodyweight
+ex_push_up = पुश-अप
+ex_parallel_bar_dip = पैरलल बार डिप
+ex_bench_dip = बेंच डिप
+ex_pull_up = पुल-अप
+ex_chin_up = चिन-अप
+ex_inverted_row = इनवर्टेड रो
+ex_bodyweight_squat = बॉडीवेट स्क्वाट
+ex_bodyweight_lunge = लंज
+ex_glute_bridge = ग्लूट ब्रिज
+ex_back_extension = बैक एक्सटेंशन
+ex_nordic_curl = नॉर्डिक हैमस्ट्रिंग कर्ल
+ex_crunch = क्रंच
+ex_sit_up = सिट-अप
+ex_hanging_leg_raise = हैंगिंग लेग रेज़
+ex_lying_leg_raise = लाइंग लेग रेज़
+ex_russian_twist = रशियन ट्विस्ट
+ex_mountain_climber = माउंटेन क्लाइंबर
+ex_burpee = बर्पी
+
+# Timed holds and carries
+ex_plank = प्लैंक
+ex_side_plank = साइड प्लैंक
+ex_copenhagen_plank = कोपेनहेगन प्लैंक
+ex_wall_sit = वॉल सिट
+ex_dead_hang = डेड हैंग
+ex_farmers_carry = फ़ार्मर्स कैरी
+
+# Resistance bands
+ex_band_pull_apart = बैंड पुल-अपार्ट
+ex_banded_lateral_walk = बैंड लेटरल वॉक
+
+# Cardio machines
+ex_treadmill = ट्रेडमिल
+ex_stationary_bike = स्टेशनरी बाइक
+ex_spin_bike = स्पिन बाइक
+ex_recumbent_bike = रिकम्बेंट बाइक
+ex_air_bike = एयर बाइक
+ex_elliptical = इलिप्टिकल
+ex_rowing_machine = रोइंग मशीन
+ex_stair_climber = स्टेयर क्लाइंबर
+ex_ski_erg = स्की अर्ग

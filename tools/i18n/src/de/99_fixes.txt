@@ -1,0 +1,2 @@
+# Fixes after the review of routines and icons: archiving an exercise that only routines use
+training_archive_routines_text = Sie wird im Katalog ausgeblendet; deine Routinen behalten sie und du kannst sie von dort wiederherstellen.

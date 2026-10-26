@@ -1,0 +1,5 @@
+# Cloud backup: what it includes now that the training data is backed up too
+account_benefit_where_training = Hồ sơ, cài đặt, kết quả đo và các buổi tập của bạn (cùng với máy tập, ghi chú và ảnh của máy) được lưu trong tài khoản của bạn, trên máy chủ của Google tại EU (Madrid).
+account_delete_text_training = Bản sao lưu trên đám mây (hồ sơ, kết quả đo, cân, buổi tập, máy tập và ảnh của máy) và tài khoản Fortia của bạn sẽ bị xóa vĩnh viễn. Dữ liệu trên điện thoại này không bị xóa.\n\nVì lý do bảo mật, Google sẽ yêu cầu bạn chọn và xác nhận tài khoản.
+conflict_restore_cloud_confirm_training = Dữ liệu trên điện thoại này sẽ được thay thế bằng dữ liệu trên đám mây. Các kết quả đo, buổi tập và máy tập chỉ có trên điện thoại này sẽ bị xóa.
+conflict_replace_cloud_confirm_training = Bản sao lưu trên đám mây sẽ được thay thế bằng dữ liệu trên điện thoại này. Các kết quả đo, buổi tập và máy tập chỉ có trên đám mây sẽ bị xóa.

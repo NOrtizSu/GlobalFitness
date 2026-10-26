@@ -1,0 +1,5 @@
+# Cloud backup: what it includes now that the training data is backed up too
+account_benefit_where_training = Profiliniz, ayarlarınız, ölçümleriniz ve antrenmanlarınız (makineleriniz, notları ve fotoğraflarıyla birlikte) hesabınıza, AB'deki (Madrid) Google sunucularına kaydedilir.
+account_delete_text_training = Bulut kopyanız (profil, ölçümler, tartılar, antrenmanlar, makineler ve fotoğrafları) ve Fortia hesabınız kalıcı olarak silinecek. Bu telefondaki veriler silinmez.\n\nGüvenlik için Google, hesabı seçmenizi ve onaylamanızı isteyecek.
+conflict_restore_cloud_confirm_training = Bu telefondaki veriler bulut verileriyle değiştirilecek. Yalnızca bu telefonda bulunan ölçümler, antrenmanlar ve makineler silinecek.
+conflict_replace_cloud_confirm_training = Bulut kopyanız bu telefondaki verilerle değiştirilecek. Yalnızca bulutta bulunan ölçümler, antrenmanlar ve makineler silinecek.

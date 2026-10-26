@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -59,6 +60,9 @@ data class CloudSyncStatus(
  * "Sync now", and a debounced upload after local changes. Two different datasets are never
  * merged automatically (see [DatasetGate]). Everything runs in the background with retries; errors
  * are surfaced in [status] and [messages], never thrown.
+ *
+ * The training data (workouts, custom machines, machine notes and photos, routines; see [TrainingSync]) is
+ * synced in the same cycle, right after the measurements, following the same dataset decision.
  */
 @OptIn(FlowPreview::class)
 class CloudSyncEngine(
@@ -72,7 +76,10 @@ class CloudSyncEngine(
     private val identityStore: DatasetIdentityStore = DatasetIdentityStore(context),
     private val clock: () -> Long = System::currentTimeMillis,
     private val retry: RetryPolicy = RetryPolicy(),
+    /** Training data to back up too; null leaves it out. */
+    training: TrainingBackupSource? = null,
 ) {
+    private val trainingSync = training?.let { TrainingSync(it.repository, it.photos, remote.training, store, clock) }
     private val mutex = Mutex()
     private val requests = Channel<Unit>(Channel.CONFLATED)
     private var stamps: EditStamps? = null
@@ -92,6 +99,7 @@ class CloudSyncEngine(
 
     init {
         scope.launch { watchLocalChanges() }
+        trainingSync?.let { t -> scope.launch { watchTrainingChanges(t) } }
         scope.launch { runWhileSignedIn() }
         scope.launch {
             // Mirror the informational premium flag on the next sync.
@@ -195,6 +203,19 @@ class CloudSyncEngine(
         }
     }
 
+    /**
+     * Training edits come in bursts (every set of a workout): they are uploaded after a pause, and at
+     * most once a minute while the user keeps logging, to stay within the shared Firestore quota.
+     * The data is safe on the phone meanwhile; the sync on app start or "Sync now" sends the rest.
+     */
+    private suspend fun watchTrainingChanges(training: TrainingSync) {
+        // conflate first: this subscriber never makes the repository's change flow wait.
+        training.localChanges.conflate().debounce(TRAINING_CHANGE_DEBOUNCE_MS).collect {
+            if (account.user.value != null && _status.value.conflict == null) requests.trySend(Unit)
+            delay(TRAINING_SYNC_MIN_INTERVAL_MS)
+        }
+    }
+
     private suspend fun runWhileSignedIn() {
         account.user.map { it?.uid }.distinctUntilChanged().collectLatest { uid ->
             pendingChoice = null
@@ -286,6 +307,8 @@ class CloudSyncEngine(
         } else {
             local.datasetId
         }
+        // Before anything changes: if this sync fails, the retry finishes the same training transition.
+        TrainingMerge.transitionFor(mode, choice)?.let { trainingSync?.prepareTransition(uid, it, datasetId) }
 
         var after = local
         if (!plan.localChanges.isEmpty) {
@@ -308,7 +331,8 @@ class CloudSyncEngine(
         store.saveBase(uid, next)
         pendingChoice = null
         _status.update { it.copy(conflict = null) }
-        !confirmed
+        val trainingQueued = trainingSync?.sync(uid, datasetId) ?: false
+        !confirmed || trainingQueued
     }
 
     /** The cloud copy this phone synced is gone (account deleted elsewhere): stop and sign out, keep local data. */
@@ -367,6 +391,8 @@ class CloudSyncEngine(
     private companion object {
         const val TAG = "CloudSync"
         const val LOCAL_CHANGE_DEBOUNCE_MS = 3_000L
+        const val TRAINING_CHANGE_DEBOUNCE_MS = 10_000L
+        const val TRAINING_SYNC_MIN_INTERVAL_MS = 60_000L
         const val FOREGROUND_SYNC_MIN_INTERVAL_MS = 60_000L
     }
 }

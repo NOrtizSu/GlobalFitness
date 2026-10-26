@@ -1,0 +1,15 @@
+# Built-in routine names: routine_<id> (training/catalog/RoutineCatalog.kt). Short: they label cards and list rows.
+routine_full_body_machines = Toàn thân với máy
+routine_full_body_free_weights = Toàn thân với tạ tự do
+routine_push = Đẩy (ngực, vai, tay sau)
+routine_pull = Kéo (lưng, tay trước)
+routine_legs = Chân
+routine_upper_body = Thân trên
+routine_lower_body = Thân dưới
+routine_chest_triceps = Ngực và tay sau
+routine_back_biceps = Lưng và tay trước
+routine_shoulders = Vai
+routine_arms = Tay
+routine_glutes = Mông
+routine_core = Core và cơ bụng
+routine_cardio_mix = Máy cardio

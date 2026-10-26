@@ -11,9 +11,9 @@ import com.enjoyyourtime.globalfitness.wearable.hex
 import com.enjoyyourtime.globalfitness.wearable.huami.HuamiUuids
 import com.enjoyyourtime.globalfitness.wearable.standard.StandardUuids
 import com.enjoyyourtime.globalfitness.wearable.testEnv
-import java.util.Collections
 import java.util.Random
 import java.util.TimeZone
+import java.util.concurrent.CopyOnWriteArrayList
 import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
 import kotlinx.coroutines.CoroutineScope
@@ -61,7 +61,7 @@ class ZeppOsSessionTest {
         )
 
         /** (endpoint, payload) the phone sent after authentication. */
-        val received: MutableList<Pair<Int, String>> = Collections.synchronizedList(mutableListOf())
+        val received: MutableList<Pair<Int, String>> = CopyOnWriteArrayList()
 
         @Volatile
         var authenticated = false
@@ -129,18 +129,18 @@ class ZeppOsSessionTest {
     fun authenticatesAndTalksToEncryptedEndpoints() = runTest {
         val watch = Watch(hex(keyHex))
         val session = ZeppOsSession(testEnv(scope, FakeLinks(watch.device), keyHex), model("amazfit_band_7"))
-        val events = Collections.synchronizedList(mutableListOf<WearableEvent>())
+        val events = CopyOnWriteArrayList<WearableEvent>()
         scope.launch { session.events.collect { events += it } }
         session.open()
         assertTrue(watch.authenticated)
         assertEquals("Zepp OS", session.label)
         // Services list then notification capabilities and the find capabilities.
-        assertEquals(listOf(0x0000 to "03", 0x001e to "01"), watch.received.take(2))
+        assertEquals(listOf(0x0000 to "03", 0x001e to "01"), watch.received.toList().take(2))
 
         session.refreshStatus(includeInfo = true)
-        waitFor { events.any { it is WearableEvent.Battery } }
-        assertEquals(WearableEvent.Battery(76, false), events.first { it is WearableEvent.Battery })
-        assertEquals("3.18.2", (events.first { it is WearableEvent.Info } as WearableEvent.Info).info.firmware)
+        waitFor { events.toList().any { it is WearableEvent.Battery } }
+        assertEquals(WearableEvent.Battery(76, false), events.toList().first { it is WearableEvent.Battery })
+        assertEquals("3.18.2", (events.toList().first { it is WearableEvent.Info } as WearableEvent.Info).info.firmware)
 
         session.setTime(0, TimeZone.getTimeZone("UTC"), true)
         session.findDevice(true)
@@ -149,7 +149,7 @@ class ZeppOsSessionTest {
         val alarms = session.loadAlarms()
         assertEquals(listOf(1), alarms.alarms.map { it.id })
         session.saveAlarm(null, AlarmSpec(6, 0))
-        waitFor { watch.received.any { it.first == ZeppOsProtocol.ALARMS && it.second.startsWith("0301") } }
+        waitFor { watch.received.toList().any { it.first == ZeppOsProtocol.ALARMS && it.second.startsWith("0301") } }
 
         val got = watch.received.toList()
         assertTrue(got.contains(ZeppOsProtocol.TIME to ("05" + ZeppOsProtocol.currentTimeBytes(0, TimeZone.getTimeZone("UTC")).hex())))
@@ -165,9 +165,9 @@ class ZeppOsSessionTest {
         watch.device.notify(StandardUuids.HEART_RATE_MEASUREMENT, hex("0050"))
         watch.send(ZeppOsProtocol.STEPS, hex("07 00 1027") + ByteArray(11))
         watch.send(ZeppOsProtocol.CONNECTION, hex("03"))
-        waitFor { events.any { it is WearableEvent.HeartRate } && events.any { it is WearableEvent.Activity } }
-        assertEquals(WearableEvent.HeartRate(80), events.first { it is WearableEvent.HeartRate })
-        assertEquals(10000, (events.first { it is WearableEvent.Activity } as WearableEvent.Activity).steps)
+        waitFor { events.toList().any { it is WearableEvent.HeartRate } && events.toList().any { it is WearableEvent.Activity } }
+        assertEquals(WearableEvent.HeartRate(80), events.toList().first { it is WearableEvent.HeartRate })
+        assertEquals(10000, (events.toList().first { it is WearableEvent.Activity } as WearableEvent.Activity).steps)
         waitFor { watch.received.contains(ZeppOsProtocol.CONNECTION to "04") && watch.received.contains(ZeppOsProtocol.HEART_RATE to "0402") }
 
         // The watch asks to find the phone.

@@ -1,0 +1,3 @@
+# Achievements review fixes
+# How "Towards your target" is counted: from the week the current target weight was set in the profile
+ach_goal_progress_rule_target = 自你设定当前目标以来，你的 7 天平均体重朝目标方向的变化。不设超出目标的里程碑。

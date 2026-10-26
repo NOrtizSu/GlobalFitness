@@ -1,0 +1,19 @@
+# Exercise info sheet: how an exercise is done (animation, steps, tips), opened from the ⓘ button next to an exercise in the lists, the workout and the routines
+# The ⓘ button, read by TalkBack; %1$s: exercise
+training_info_open = कैसे करें: %1$s
+# Headings of the sheet: the numbered steps, then the key cues and common mistakes
+training_info_steps = कैसे करें
+training_info_tips = टिप्स
+# Read by TalkBack before each step; %1$s: step number
+training_info_step = स्टेप %1$s
+# The animation, read by TalkBack; %1$s: exercise
+training_info_animation = %1$s का एनिमेशन
+# Button over the animation, read by TalkBack
+training_info_play = एनिमेशन चलाएं
+training_info_pause = एनिमेशन रोकें
+# Instead of the steps, for an exercise or machine the user created
+training_info_no_guide = यह एक्सरसाइज़ आपने बनाई है, इसलिए इसकी स्टेप-बाय-स्टेप गाइड नहीं है।
+# Added when that exercise has no photo and no machine settings yet
+training_info_no_guide_add = इसे कैसे इस्तेमाल करते हैं, यह याद रखने के लिए इसके पेज पर एक फ़ोटो और अपनी मशीन की सेटिंग जोड़ें।
+# Button: opens the exercise's page (progress chart, records, history)
+training_info_progress = प्रगति देखें

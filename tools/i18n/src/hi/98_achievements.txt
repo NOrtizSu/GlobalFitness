@@ -1,0 +1,145 @@
+# Achievements: medals derived from the workouts and the weighings, the celebration shown when a level is reached, and the achievements page (Entreno tab card, Perfil row)
+achievements_title = उपलब्धियां
+# Medals earned out of all the levels on offer: "12 of 69 medals"
+achievements_earned{one} = %2$s में से %1$s मेडल
+achievements_earned{other} = %2$s में से %1$s मेडल
+achievements_category_training = निरंतरता
+achievements_category_strength = ताकत
+achievements_category_body = शरीर
+# Highest level reached of an achievement: "Level 3 of 8"
+achievements_level = %2$s में से लेवल %1$s
+achievements_not_started = अभी हासिल नहीं हुआ
+achievements_all_levels = सभी लेवल हासिल
+# When a level was earned: "Earned on 15 Oct 2026"
+achievements_earned_on = %1$s को हासिल किया
+# The next level of an achievement: "Next: Finish 25 workouts"
+achievements_next = अगला: %1$s
+# Progress towards the next level: "23 / 25", "12.5 t / 50 t"
+achievements_progress = %1$s / %2$s
+achievements_levels = लेवल
+achievements_how = यह कैसे गिना जाता है
+achievements_open = उपलब्धियां खोलें
+achievements_needs_bodyweight = अपनी लिफ़्ट की तुलना अपने शरीर के वज़न से करने के लिए अपना वज़न मापें।
+achievements_needs_target = अपनी प्रोफ़ाइल में लक्ष्य वज़न सेट करें।
+achievements_needs_weighings = शुरू करने के लिए अपना वज़न मापें।
+achievements_target_is_start = आपका लक्ष्य आपका शुरुआती वज़न ही है: तय करने के लिए कोई दूरी नहीं है।
+achievements_needs_composition = शारीरिक संरचना वाले माप चाहिए, ऐसे स्केल से जो इसे मापता हो।
+achievements_lift_note = लेवल ताकत के आम मानकों के हिसाब से तय हैं और महिलाओं के लिए कम हैं। सिर्फ़ बारबेल गिना जाता है: स्मिथ मशीन या दूसरी मशीनें नहीं।
+# Total volume in metric tonnes: "10 t"
+achievements_value_tonnes = %1$s t
+# A lift as a multiple of the body weight: "1.25×"
+achievements_value_ratio = %1$s×
+
+# The celebration shown over any screen when a new level is reached
+celebration_title = बधाई हो!
+celebration_view = उपलब्धियां देखें
+# Spoken by TalkBack when the celebration appears
+celebration_announce = नई उपलब्धि
+# An achievement and the level just reached: "Workouts · Level 3"
+celebration_level = %1$s · लेवल %2$s
+# More levels were reached at once than the card lists: "+2 more"
+celebration_more{one} = +%1$s और
+celebration_more{other} = +%1$s और
+
+# One block per achievement: title, what a level asks for (goal), the congratulation (done) and how it is counted (rule)
+ach_workouts_title = वर्कआउट
+ach_workouts_goal{one} = अपना पहला वर्कआउट पूरा करें
+ach_workouts_goal{other} = %1$s वर्कआउट पूरे करें
+ach_workouts_done{one} = आपने अपना पहला वर्कआउट पूरा कर लिया है
+ach_workouts_done{other} = आपने %1$s वर्कआउट पूरे कर लिए हैं
+ach_workouts_rule = पूरे किए गए वर्कआउट, जिनमें कम से कम एक सेट पूरा हुआ हो।
+
+ach_week_streak_title = साप्ताहिक स्ट्रीक
+ach_week_streak_goal{one} = %1$s हफ़्ते में कम से कम 2 बार ट्रेनिंग करें
+ach_week_streak_goal{other} = लगातार %1$s हफ़्ते, हर हफ़्ते कम से कम 2 बार ट्रेनिंग करें
+ach_week_streak_done{one} = आपने %1$s हफ़्ते में कम से कम 2 बार ट्रेनिंग की है
+ach_week_streak_done{other} = आपने लगातार %1$s हफ़्ते, हर हफ़्ते कम से कम 2 बार ट्रेनिंग की है
+ach_week_streak_rule = लगातार कैलेंडर हफ़्ते, जिनमें कम से कम 2 वर्कआउट पूरे हुए हों। मौजूदा हफ़्ता खत्म होने तक स्ट्रीक नहीं तोड़ता।
+
+ach_balanced_weeks_title = संतुलित हफ़्ते
+ach_balanced_weeks_goal{one} = एक संतुलित हफ़्ता पूरा करें
+ach_balanced_weeks_goal{other} = %1$s संतुलित हफ़्ते पूरे करें
+ach_balanced_weeks_done{one} = आपका पहला संतुलित हफ़्ता
+ach_balanced_weeks_done{other} = आपके %1$s संतुलित हफ़्ते पूरे हो गए हैं
+# %1$s: list of muscles ("Chest, Shoulders and Lats")
+ach_balanced_weeks_rule = ऐसे कैलेंडर हफ़्ते जिनमें इनमें से हर मांसपेशी को उसकी साप्ताहिक सीमा के भीतर हार्ड सेट मिलें, न कम न ज़्यादा: %1$s।
+
+ach_variety_title = विविधता
+ach_variety_goal{one} = %1$s अलग एक्सरसाइज़ करें
+ach_variety_goal{other} = %1$s अलग-अलग एक्सरसाइज़ करें
+ach_variety_done{one} = आपने %1$s अलग एक्सरसाइज़ की है
+ach_variety_done{other} = आपने %1$s अलग-अलग एक्सरसाइज़ की हैं
+ach_variety_rule = अलग-अलग एक्सरसाइज़ और मशीनें, जिनमें कम से कम एक सेट पूरा हुआ हो।
+
+ach_cardio_km_title = कार्डियो दूरी
+# %1$s: a distance ("50 km")
+ach_cardio_km_goal = कार्डियो में %1$s की दूरी तय करें
+ach_cardio_km_done = आपने कार्डियो में %1$s की दूरी तय कर ली है
+ach_cardio_km_rule = कार्डियो के हर पूरे किए गए सेट की दूरी।
+
+ach_volume_title = कुल वॉल्यूम
+# %1$s: a weight ("10 t", "22046 lb")
+ach_volume_goal = कुल %1$s उठाएं
+ach_volume_done = आपने कुल %1$s उठा लिया है
+ach_volume_rule = हर पूरे किए गए सेट का वज़न × रेप्स; शरीर के वज़न वाली और असिस्टेड एक्सरसाइज़ में आपके शरीर का वज़न लिया जाता है।
+
+ach_records_title = पर्सनल रिकॉर्ड
+ach_records_goal{one} = अपना पहला पर्सनल रिकॉर्ड बनाएं
+ach_records_goal{other} = %1$s पर्सनल रिकॉर्ड बनाएं
+ach_records_done{one} = आपका पहला पर्सनल रिकॉर्ड
+ach_records_done{other} = आपने %1$s पर्सनल रिकॉर्ड बनाए हैं
+ach_records_rule = ऐसे सेट जो एक्सरसाइज़ का कोई रिकॉर्ड तोड़ें: अनुमानित 1RM, वज़न, रेप्स, समय या सबसे कम असिस्टेंस।
+
+ach_bench_bw_title = बेंच प्रेस
+# %1$s: a multiple of the body weight ("1.25×")
+ach_bench_bw_goal = अपने शरीर के वज़न का %1$s बेंच प्रेस करें
+ach_bench_bw_done = आपका बेंच प्रेस आपके शरीर के वज़न के %1$s तक पहुंच गया है
+ach_bench_bw_rule = बारबेल बेंच प्रेस में सबसे अच्छा अनुमानित 1RM, उस दिन के आपके शरीर के वज़न से भाग देकर।
+
+ach_squat_bw_title = स्क्वाट
+ach_squat_bw_goal = अपने शरीर के वज़न का %1$s स्क्वाट करें
+ach_squat_bw_done = आपका स्क्वाट आपके शरीर के वज़न के %1$s तक पहुंच गया है
+ach_squat_bw_rule = बारबेल बैक स्क्वाट या फ़्रंट स्क्वाट में सबसे अच्छा अनुमानित 1RM, उस दिन के आपके शरीर के वज़न से भाग देकर।
+
+ach_deadlift_bw_title = डेडलिफ़्ट
+ach_deadlift_bw_goal = अपने शरीर के वज़न का %1$s डेडलिफ़्ट करें
+ach_deadlift_bw_done = आपकी डेडलिफ़्ट आपके शरीर के वज़न के %1$s तक पहुंच गई है
+ach_deadlift_bw_rule = बारबेल से कन्वेंशनल या सूमो डेडलिफ़्ट में सबसे अच्छा अनुमानित 1RM, उस दिन के आपके शरीर के वज़न से भाग देकर।
+
+ach_ohp_bw_title = ओवरहेड प्रेस
+ach_ohp_bw_goal = अपने शरीर के वज़न का %1$s ओवरहेड प्रेस करें
+ach_ohp_bw_done = आपका ओवरहेड प्रेस आपके शरीर के वज़न के %1$s तक पहुंच गया है
+ach_ohp_bw_rule = खड़े होकर किए गए बारबेल ओवरहेड प्रेस में सबसे अच्छा अनुमानित 1RM, उस दिन के आपके शरीर के वज़न से भाग देकर।
+
+ach_pull_ups_title = पुल-अप
+ach_pull_ups_goal{one} = बिना असिस्टेंस के अपना पहला पुल-अप करें
+ach_pull_ups_goal{other} = एक सेट में बिना असिस्टेंस के %1$s पुल-अप करें
+ach_pull_ups_done{one} = बिना असिस्टेंस के आपका पहला पुल-अप
+ach_pull_ups_done{other} = एक सेट में बिना असिस्टेंस के %1$s पुल-अप
+ach_pull_ups_rule = पुल-अप या चिन-अप के एक सेट में सबसे ज़्यादा रेप्स, अतिरिक्त वज़न के साथ या उसके बिना, या असिस्टेड मशीन पर 0 असिस्टेंस के साथ।
+
+ach_goal_title = लक्ष्य वज़न
+# %1$s: the target weight ("75 kg")
+ach_goal_goal = अपना %1$s का लक्ष्य वज़न हासिल करें
+ach_goal_done = आपने अपना %1$s का लक्ष्य वज़न हासिल कर लिया है
+ach_goal_rule = आपका 7 दिन का औसत वज़न आपकी प्रोफ़ाइल में सेट किए गए लक्ष्य तक पहुंच जाए।
+
+ach_goal_progress_title = लक्ष्य की ओर
+# %1$s: a weight ("3 kg")
+ach_goal_progress_goal_loss = अपने लक्ष्य की ओर %1$s घटाएं
+ach_goal_progress_goal_gain = अपने लक्ष्य की ओर %1$s बढ़ाएं
+ach_goal_progress_done_loss = आपने %1$s घटा लिया है
+ach_goal_progress_done_gain = आपने %1$s बढ़ा लिया है
+
+ach_fat_down_title = शरीर में वसा
+ach_fat_down_goal{one} = अपने शरीर में वसा %1$s पॉइंट कम करें
+ach_fat_down_goal{other} = अपने शरीर में वसा %1$s पॉइंट कम करें
+ach_fat_down_done{one} = आपके शरीर में वसा %1$s पॉइंट कम हो गई है
+ach_fat_down_done{other} = आपके शरीर में वसा %1$s पॉइंट कम हो गई है
+ach_fat_down_rule = मापों के आपके पहले हफ़्ते से, 7 दिन के औसत के आधार पर शरीर में वसा में आई गिरावट। स्वस्थ न्यूनतम स्तर से नीचे जाना नहीं गिना जाता।
+
+ach_muscle_up_title = मांसपेशी द्रव्यमान
+# %1$s: a weight ("2 kg")
+ach_muscle_up_goal = %1$s मांसपेशी द्रव्यमान बढ़ाएं
+ach_muscle_up_done = आपने %1$s मांसपेशी द्रव्यमान बढ़ा लिया है
+ach_muscle_up_rule = मापों के आपके पहले हफ़्ते से, 7 दिन के औसत के आधार पर मांसपेशी द्रव्यमान में बढ़ोतरी।

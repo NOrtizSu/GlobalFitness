@@ -1,0 +1,11 @@
+# Body shape of the muscle map figure (Progreso → Músculos): a segmented control compares the figure
+# now with the figure some time ago; the caption says what shapes it and that it is only an illustration.
+body_shape_now = Adesso
+body_shape_months_ago{one} = %1$s mese fa
+body_shape_months_ago{many} = %1$s mesi fa
+body_shape_months_ago{other} = %1$s mesi fa
+body_shape_weeks_ago{one} = %1$s settimana fa
+body_shape_weeks_ago{many} = %1$s settimane fa
+body_shape_weeks_ago{other} = %1$s settimane fa
+body_shape_caption_scale = La forma della figura segue il tuo grasso corporeo, la tua massa muscolare e il tuo allenamento. È un'illustrazione, non una misurazione.
+body_shape_caption_training = La forma della figura segue il tuo allenamento (pesati su una bilancia con composizione corporea per includere il grasso). È un'illustrazione, non una misurazione.

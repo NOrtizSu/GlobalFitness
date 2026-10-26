@@ -1,0 +1,2 @@
+# Fixes after the review of routines and icons: archiving an exercise that only routines use
+training_archive_routines_text = Zostanie ukryte w katalogu; Twoje plany je zachowają i możesz je z nich przywrócić.

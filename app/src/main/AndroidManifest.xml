@@ -24,7 +24,7 @@
         tools:targetApi="s" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 
-    <!-- Health Connect: read wearable data (e.g. Mi Fitness), write scale measurements -->
+    <!-- Health Connect: read wearable data (e.g. Mi Fitness), write scale measurements and workouts -->
     <uses-permission android:name="android.permission.health.READ_STEPS" />
     <uses-permission android:name="android.permission.health.READ_DISTANCE" />
     <uses-permission android:name="android.permission.health.READ_ACTIVE_CALORIES_BURNED" />
@@ -45,6 +45,7 @@
     <uses-permission android:name="android.permission.health.WRITE_LEAN_BODY_MASS" />
     <uses-permission android:name="android.permission.health.WRITE_BASAL_METABOLIC_RATE" />
     <uses-permission android:name="android.permission.health.WRITE_BODY_WATER_MASS" />
+    <uses-permission android:name="android.permission.health.WRITE_EXERCISE" />
 
     <!-- Health Connect app (Android 13 and lower) and installed Mi Fitness variant (band settings shortcut) -->
     <queries>
@@ -115,6 +116,17 @@
                 <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
             </intent-filter>
         </activity>
+
+        <!-- Machine photos: the camera app writes into the cache folder shared here (no storage or camera permission) -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
         <!-- Same screen for Android 14+ ("view permission usage" from Health Connect) -->
         <activity-alias

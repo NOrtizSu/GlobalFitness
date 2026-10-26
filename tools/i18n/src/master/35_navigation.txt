@@ -1,0 +1,88 @@
+# Bottom bar: Hoy · Entreno · Progreso · Perfil (very little room: one short word)
+nav_training = Training ||| Entreno
+nav_progress = Progress ||| Progreso
+
+# Progreso: tabs Músculos | Cuerpo | Actividad (Cuerpo and Actividad use nav_body and nav_activity)
+progress_tab_muscles = Muscles ||| Músculos
+
+# Progreso → Músculos: how the body map is colored (three segmented buttons: keep them short)
+progress_mode_sets = Sets ||| Series
+progress_mode_strength = Strength ||| Fuerza
+progress_mode_recovery = Recovery ||| Recuperación
+progress_caption_sets = Hard sets of the last 7 days (secondary muscles count half) compared with the usual range for muscle growth. ||| Series efectivas de los últimos 7 días (los músculos secundarios cuentan la mitad) frente al rango habitual para ganar músculo.
+progress_caption_strength = Change of the estimated one-rep max of the exercises that train each muscle in the selected period. ||| Cambio del 1RM estimado de los ejercicios que trabajan cada músculo en el periodo elegido.
+progress_caption_recovery = Estimated from the hard sets of each workout: from 1 to 4 days depending on the volume. ||| Estimada a partir de las series de cada entreno: de 1 a 4 días según el volumen.
+
+# Weekly sets compared with the muscle's range
+progress_level_none = No sets ||| Sin series
+progress_level_low = Below range ||| Por debajo
+progress_level_optimal = In range ||| En rango
+progress_level_high = Above range ||| Por encima
+progress_sets{one} = %1$s set ||| %1$s serie
+progress_sets{other} = %1$s sets ||| %1$s series
+progress_target = target %1$s–%2$s ||| objetivo %1$s–%2$s
+
+# Strength trend (%1$s: a percentage such as −5 % or +5 %)
+progress_strength_down_more = Below %1$s ||| Menos de %1$s
+progress_strength_down = Down ||| Baja
+progress_strength_stable = Stable ||| Estable
+progress_strength_up = Up ||| Sube
+progress_strength_up_more = Above %1$s ||| Más de %1$s
+progress_strength_title = Strength (%1$s) ||| Fuerza (%1$s)
+progress_exercises{one} = %1$d exercise ||| %1$d ejercicio
+progress_exercises{other} = %1$d exercises ||| %1$d ejercicios
+
+# Recovery (Spanish avoids gendered adjectives: the muscles' names mix genders)
+progress_recovery_fatigued = Fatigued ||| Con fatiga
+progress_recovery_recovering = Recovering ||| En recuperación
+progress_recovery_recovered = Recovered ||| Recuperación completa
+progress_recovery_not_trained = Not trained yet ||| Sin entrenar
+progress_recovery_percent = %1$s recovered ||| %1$s de recuperación
+progress_recovery_full_at = full recovery ~%1$s ||| recuperación completa ~%1$s
+progress_time_tomorrow_at = Tomorrow, %1$s ||| Mañana, %1$s
+progress_last_trained = Last trained: %1$s ||| Último entreno: %1$s
+
+# Selected muscle and the list of all muscles
+progress_detail_week = This week ||| Esta semana
+progress_tap_hint = Tap a muscle on the figure or in the list to see its details. ||| Toca un músculo en la figura o en la lista para ver su detalle.
+progress_all_muscles = All muscles ||| Todos los músculos
+progress_recent_exercises = Recent exercises ||| Ejercicios recientes
+progress_recent_hint = Best set of the last session and the change of its estimated 1RM against the session before. ||| Mejor serie de la última sesión y cambio de su 1RM estimado respecto a la anterior.
+progress_open_exercise = Open exercise ||| Abrir ejercicio
+# %1$s: number, %2$s: unit (kg or lb)
+progress_load_value = %1$s %2$s ||| %1$s %2$s
+# What TalkBack reads for a muscle: %1$s its value, %2$s its state (the list separator of the language)
+progress_state_description = %1$s, %2$s ||| %1$s, %2$s
+# %1$s: load, %2$s: repetitions
+progress_set_load_reps = %1$s × %2$s ||| %1$s × %2$s
+progress_set_reps{one} = %1$d rep ||| %1$d repetición
+progress_set_reps{other} = %1$d reps ||| %1$d repeticiones
+progress_set_seconds = %1$s s ||| %1$s s
+progress_empty_title = Your muscles' progress shows here ||| Aquí verás el progreso de tus músculos
+progress_empty_text = Log your workouts in Training: every set counts for the muscles it works, and the figure shows your weekly sets, your strength gains and your recovery. ||| Registra tus entrenos en Entreno: cada serie cuenta para los músculos que trabaja y la figura muestra tus series semanales, cuánta fuerza ganas y tu recuperación.
+progress_empty_action = Go to Training ||| Ir a Entreno
+
+# Hoy: muscles this week (%1$s: a list of the muscle groups below)
+today_muscles_title = Muscles this week ||| Músculos esta semana
+today_muscles_on_track = On track: %1$s ||| Al día: %1$s
+today_muscles_below = Below target: %1$s ||| Por debajo: %1$s
+today_muscles_all_on_track = Every muscle group on track ||| Todos los grupos musculares al día
+today_muscles_none = No sets yet this week ||| Aún no hay series esta semana
+today_muscles_open = View muscles ||| Ver músculos
+# Muscle groups used inside those lists: lowercase where the language allows it
+progress_region_chest = chest ||| pecho
+progress_region_back = back ||| espalda
+progress_region_shoulders = shoulders ||| hombros
+progress_region_arms = arms ||| brazos
+progress_region_core = core ||| abdomen
+progress_region_legs = legs ||| piernas
+
+# Perfil: Devices and training settings
+profile_section_devices = Devices and training ||| Dispositivos y entreno
+profile_devices_scales{one} = %1$d scale ||| %1$d báscula
+profile_devices_scales{other} = %1$d scales ||| %1$d básculas
+profile_devices_wearables{one} = %1$d band or watch ||| %1$d pulsera o reloj
+profile_devices_wearables{other} = %1$d bands or watches ||| %1$d pulseras o relojes
+profile_devices_none = Scales, bands and Health Connect ||| Básculas, pulseras y Health Connect
+profile_training_title = Training settings ||| Ajustes de entreno
+profile_training_text = Weight unit, rest timer and Health Connect ||| Unidad de peso, descanso y Health Connect

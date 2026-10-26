@@ -1,0 +1,11 @@
+# Exercise info sheet: how an exercise is done (animation, steps, tips)
+training_info_open = Comment faire : %1$s
+training_info_steps = Comment faire
+training_info_tips = Conseils
+training_info_step = Étape %1$s
+training_info_animation = Animation de %1$s
+training_info_play = Lire l'animation
+training_info_pause = Mettre l'animation en pause
+training_info_no_guide = Vous avez créé cet exercice : il n'a donc pas de guide étape par étape.
+training_info_no_guide_add = Ajoutez une photo et les réglages de la machine sur sa page pour vous souvenir de la façon dont vous l'utilisez.
+training_info_progress = Voir la progression

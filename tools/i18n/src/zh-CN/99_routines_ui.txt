@@ -1,0 +1,47 @@
+# Routines: the Entreno tab's section, the routine page and editor, adding a routine to a workout, saving a workout as a routine
+training_routines_title = 训练计划
+training_routine_new = 新建训练计划
+training_routine_open = 查看训练计划
+# Title bar of a routine's page
+training_routine_title = 训练计划
+training_routine_missing = 此训练计划已不存在。
+# Label on a routine's page: one of the app's routines / one the user made
+training_routine_builtin = 推荐的训练计划
+training_routine_own = 你的训练计划
+training_routine_start = 开始训练
+training_routine_add_to_active = 添加到进行中的训练
+training_routine_active_hint = 有一次训练正在进行：其中还没有的动作会被添加进去。
+training_routine_duplicate = 复制并编辑
+training_routine_delete = 删除训练计划
+# %1$s: routine name
+training_routine_delete_title = 要删除 %1$s 吗？
+training_routine_delete_text = 你的训练记录将保持不变。
+training_routine_exercises = 动作
+training_routine_muscles = 锻炼的肌肉
+training_routine_loads_hint = 重量会根据你每个动作的上次训练自动填入。
+training_routine_edit_title = 编辑训练计划
+training_routine_name_hint = 例如：周一练腿
+training_routine_note = 备注（可选）
+training_routine_add_exercises = 添加动作
+training_routine_editor_empty = 添加训练计划中的动作：每个动作都会以你上次训练的组数和次数开始。
+training_routine_exercises_error = 请至少添加一个动作。
+# Set stepper of an exercise in the routine editor, read by TalkBack; %1$s: exercise
+training_routine_fewer_sets = 减少 %1$s 的组数
+training_routine_more_sets = 增加 %1$s 的组数
+training_routine_save_failed = 无法保存训练计划
+training_routine_add = 添加训练计划
+# Groups of the "Add routine" sheet
+training_routines_own = 你的训练计划
+training_routines_builtin = 推荐
+training_routine_already_in = 已在本次训练中
+training_routine_added{other} = 已添加 %1$s 个动作
+training_routine_nothing_added = 本次训练已包含该训练计划中的所有动作。
+training_routine_save_from_workout = 保存为训练计划
+training_routine_save_text = 会保存其中的动作和组数；重量始终取自你上次的训练。
+training_routine_saved = 训练计划已保存
+# Snackbar action: open the routine just saved
+training_routine_view = 查看
+# Hoy card: start a workout with the routine used last; %1$s: routine name
+training_start_routine = 开始“%1$s”
+# Hoy card, next to the routine: start a workout without exercises
+training_start_blank = 空白训练

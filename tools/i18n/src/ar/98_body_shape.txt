@@ -1,0 +1,16 @@
+# Body shape of the muscle map figure (التقدم ← العضلات): now versus some time ago, and the caption
+body_shape_now = الآن
+body_shape_months_ago{zero} = منذ %1$s شهر
+body_shape_months_ago{one} = منذ شهر
+body_shape_months_ago{two} = منذ شهرين
+body_shape_months_ago{few} = منذ %1$s أشهر
+body_shape_months_ago{many} = منذ %1$s شهرًا
+body_shape_months_ago{other} = منذ %1$s شهر
+body_shape_weeks_ago{zero} = منذ %1$s أسبوع
+body_shape_weeks_ago{one} = منذ أسبوع
+body_shape_weeks_ago{two} = منذ أسبوعين
+body_shape_weeks_ago{few} = منذ %1$s أسابيع
+body_shape_weeks_ago{many} = منذ %1$s أسبوعًا
+body_shape_weeks_ago{other} = منذ %1$s أسبوع
+body_shape_caption_scale = يتغير شكل الجسم في الرسم حسب دهون جسمك وكتلتك العضلية وتدريبك. هذا رسم توضيحي وليس قياسًا.
+body_shape_caption_training = يتغير شكل الجسم في الرسم حسب تدريبك (اصعد على ميزان يقيس تكوين الجسم لتُحتسب الدهون أيضًا). هذا رسم توضيحي وليس قياسًا.

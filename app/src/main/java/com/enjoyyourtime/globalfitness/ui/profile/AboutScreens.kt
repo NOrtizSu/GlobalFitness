@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.ui.Fmt
 import com.enjoyyourtime.globalfitness.ui.components.AppCard
+import com.enjoyyourtime.globalfitness.ui.components.TopBarTitle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -113,6 +114,12 @@ private val PORTED = listOf(
         text = R.string.notice_gadgetbridge,
         url = "https://codeberg.org/Freeyourgadget/Gadgetbridge",
     ),
+    Notice(
+        name = "react-native-body-highlighter",
+        license = "MIT",
+        text = R.string.notice_body_highlighter,
+        url = "https://github.com/HichamELBSI/react-native-body-highlighter",
+    ),
 )
 
 private val LIBRARIES = listOf(
@@ -132,6 +139,13 @@ private val LIBRARIES = listOf(
         R.string.notice_google,
         "https://developers.google.com/terms",
         nameRes = R.string.notice_google_name,
+        licenseRes = R.string.notice_google_terms,
+    ),
+    Notice(
+        "Google Play In-App Review",
+        "",
+        R.string.notice_play_review,
+        "https://developer.android.com/guide/playcore/in-app-review",
         licenseRes = R.string.notice_google_terms,
     ),
 )
@@ -201,7 +215,7 @@ fun SubPage(title: String, onBack: () -> Unit, content: @Composable (PaddingValu
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(title) },
+                title = { TopBarTitle(title) },
                 navigationIcon = {
                     IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.action_back)) }
                 },

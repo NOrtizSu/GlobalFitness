@@ -1,0 +1,213 @@
+# Training screens: Entreno tab, Hoy card, workout, exercise picker and catalog, exercise detail, editor, history, settings
+training_title = Latihan
+training_catalog_title = Gerakan dan mesin
+training_history_title = Riwayat
+training_settings_title = Setelan latihan
+training_in_progress = Latihan berlangsung
+training_start_title = Siap berlatih?
+training_start_empty = Mulai latihan
+training_log_past = Catat hari lain
+training_intro_title = Catat latihan Anda
+training_intro_text = Mulai latihan, tambahkan gerakan dari katalog atau mesin Anda sendiri, lalu centang setiap set setelah selesai. Aplikasi mengingat apa yang Anda lakukan terakhir kali dan memantau progres Anda per gerakan dan per otot.
+training_open_catalog = Jelajahi gerakan
+training_repeat_title = Ulangi latihan
+training_repeat_action = Ulangi
+training_this_week = Minggu ini
+training_stat_workouts = Latihan
+training_stat_sets = Set
+training_stat_volume = Volume
+# Spoken summary of the week card: workouts, sets, volume ("3 workouts", "42 sets", "12450 kg")
+training_week_desc = Minggu ini: %1$s, %2$s, %3$s
+training_recent_title = Latihan terbaru
+training_see_all = Lihat semua
+training_today_done = Latihan hari ini
+training_open_workout = Lihat latihan
+training_open_tab = Buka Latihan
+# "Last workout: 2 days ago · Legs"
+training_last_workout = Latihan terakhir: %1$s · %2$s
+training_no_workouts_yet = Belum ada latihan yang dicatat.
+# Title of a workout without a name, muscles or exercises
+training_workout_default = Latihan
+# Title bar of a finished or past workout
+training_workout_title = Latihan
+training_workout_missing = Latihan ini sudah tidak ada.
+training_workout_name = Nama latihan
+training_workout_note = Catatan latihan
+training_workout_empty = Tambahkan gerakan pertama: set dari terakhir kali akan terisi otomatis.
+training_add_exercise = Tambah gerakan
+training_add_set = Tambah set
+training_finish = Selesai
+training_finish_workout = Selesaikan latihan
+training_more_options = Opsi lainnya
+training_change_start = Ubah tanggal dan waktu
+training_discard_workout = Buang latihan
+training_delete_workout = Hapus latihan
+training_discard = Buang
+training_discard_title = Buang latihan ini?
+# %1$s: start date and time
+training_discard_text = Latihan yang dimulai pada %1$s beserta set-setnya akan dihapus.
+training_discard_empty_text = Tidak ada set yang dicentang selesai, jadi tidak ada yang perlu disimpan.
+training_delete_title = Hapus latihan ini?
+# %1$s: date and time of the workout
+training_delete_text = Latihan pada %1$s akan dihapus beserta semua set-nya.
+training_exercise_options = Opsi untuk %1$s
+training_open_exercise = Lihat gerakan
+training_add_warmup = Tambah set pemanasan
+training_entry_note = Catatan
+training_move_up = Pindah ke atas
+training_move_down = Pindah ke bawah
+training_remove_exercise = Keluarkan gerakan
+training_remove = Keluarkan
+training_remove_exercise_title = Keluarkan %1$s?
+training_remove_exercise_text = Set-nya dalam latihan ini akan dihapus.
+# Set table column headers (narrow: keep them short)
+training_col_set = Set
+training_col_previous = Terakhir
+# Extra weight on a bodyweight exercise, %1$s: unit ("+kg")
+training_col_extra_load = +%1$s
+# Counterweight of an assisted machine, %1$s: unit; may wrap to two lines
+training_col_assistance = Bantuan (%1$s)
+training_col_reps = Rep
+training_col_time = Waktu
+training_col_km = km
+training_col_level = Level
+# Set cells as TalkBack reads them ("Repetitions, set 2")
+training_field_extra_load = Beban tambahan
+training_field_assistance = Bantuan
+training_field_reps = Repetisi
+training_field_distance = Jarak
+training_field_kcal = Kalori
+training_set_number = Set %1$s
+training_warmup_set = Set pemanasan
+# Shown instead of the set number for a warm-up set (one letter)
+training_warmup_short = W
+training_set_done = %1$s selesai
+training_set_options = %1$s: opsi
+training_make_warmup = Tandai sebagai pemanasan
+training_make_working = Tandai sebagai set utama
+training_delete_set = Hapus set
+training_copy_previous = Gunakan nilai terakhir kali
+training_record = Rekor pribadi
+# %1$s: exercise, %2$s: the set ("85 kg × 8")
+training_record_message = Rekor pribadi baru! %1$s, %2$s
+training_assist_hint = Pada mesin bantu, Anda mencatat beban penyeimbang yang membantu Anda: makin sedikit bantuan = makin kuat.
+training_rest = Istirahat
+training_rest_value = Istirahat %1$s
+# Seconds ("30 s", "−15 s")
+training_seconds_value = %1$s dtk
+training_skip_rest = Lewati istirahat
+training_rest_off = Nonaktif
+training_elapsed_desc = Waktu berlalu: %1$s
+training_duration = Durasi
+training_duration_minutes = Menit
+training_unfinished_title = Set belum dicentang
+training_unfinished_text{other} = %1$s set memiliki nilai tetapi belum dicentang selesai.
+training_unfinished_complete = Tandai selesai
+training_unfinished_discard = Buang
+training_finished_title = Latihan selesai
+training_records = Rekor
+training_done = Selesai
+# A muscle with its sets in the workout summary ("Chest: 4 sets")
+training_muscle_sets = %1$s: %2$s
+training_picker_title = Tambah gerakan
+training_add_selected{other} = Tambah %1$s gerakan
+training_create_exercise = Buat mesin atau gerakan
+training_search = Cari gerakan
+training_search_clear = Hapus pencarian
+training_no_results = Tidak ada gerakan yang cocok. Coba kata atau filter lain, atau buat gerakan Anda sendiri.
+training_recent_exercises = Terbaru
+training_all_exercises = Semua gerakan
+training_scope_all = Semua
+training_scope_mine = Mesin saya
+training_scope_favorites = Favorit
+training_mine_empty = Mesin dan gerakan buatan Anda muncul di sini, juga gerakan apa pun yang Anda beri foto atau setelan.
+training_favorites_empty = Ketuk bintang pada gerakan agar selalu mudah dijangkau.
+training_new_machine = Mesin baru
+training_favorite = Favorit
+training_make_favorite = Tambahkan ke favorit
+training_unfavorite = Hapus dari favorit
+training_exercise_title = Gerakan
+training_exercise_missing = Gerakan ini sudah tidak ada.
+training_edit = Edit
+training_archive = Arsipkan
+training_restore = Pulihkan
+training_archive_title = Arsipkan %1$s?
+training_archive_text = Gerakan disembunyikan dari katalog; latihan Anda tetap menyimpannya dan Anda dapat memulihkannya dari sana.
+training_delete_exercise_title = Hapus %1$s?
+training_delete_exercise_text = Gerakan dihapus beserta foto dan setelannya.
+training_archived_note = Diarsipkan: disembunyikan dari katalog.
+# An exercise the user created
+training_own_exercise = Kustom
+training_photo_add = Tambahkan foto mesin Anda
+training_photo_add_text = Agar Anda mudah mengenalinya di gym.
+training_photo_change = Ganti foto
+training_photo_of = Foto %1$s
+training_photo_take = Ambil foto
+training_photo_pick = Pilih dari galeri
+training_photo_remove = Hapus foto
+training_photo_failed = Foto tidak dapat dibaca.
+training_photo_unavailable = Tidak ada aplikasi yang dapat mengambil foto di ponsel ini.
+training_muscle_primary = Otot utama
+training_muscle_secondary = Otot sekunder
+training_machine_settings = Setelan mesin
+training_machine_settings_hint = Mis. kursi 4, sandaran 2
+training_progress = Progres
+training_progress_empty = Centang set gerakan ini dalam latihan untuk melihat progres Anda di sini.
+training_progress_none_in_period = Tidak ada sesi dalam periode ini.
+training_needs_bodyweight = Catat berat badan Anda (timbangan atau berat manual) untuk melihat kekuatan.
+training_personal_records = Rekor pribadi
+training_no_records = Belum ada rekor.
+training_record_volume = Volume sesi terbaik
+training_metric_e1rm = Perkiraan 1RM
+training_metric_e1rm_short = Perk. 1RM
+training_metric_heaviest = Beban terberat
+training_metric_extra_load = Beban tambahan terberat
+training_metric_max_reps = Repetisi terbanyak
+training_metric_total_reps = Total repetisi
+training_metric_longest = Terlama
+training_metric_total_time = Total waktu
+training_metric_distance = Jarak
+training_metric_least_assistance = Bantuan paling sedikit
+training_value_reps = %1$s repetisi
+training_value_lb = %1$s lb
+# Progress chart for TalkBack: %1$s metric, %2$s number of sessions, %3$s first value, %4$s last value, %5$s highest value
+training_chart_desc{other} = Grafik %1$s, %2$s sesi: dari %3$s hingga %4$s, tertinggi %5$s.
+# How sets of each kind are logged (exercise editor)
+training_kind_weight_reps_text = Beban × repetisi: press, row, leg press…
+training_kind_bodyweight_reps_text = Repetisi dengan berat tubuh Anda, beban tambahan opsional: pull-up, dip, push-up.
+training_kind_assisted_reps_text = Anda mencatat beban penyeimbang yang membantu Anda: makin sedikit bantuan = makin kuat.
+training_kind_duration_text = Detik bertahan, beban opsional: plank, farmer's carry.
+training_kind_cardio_text = Waktu, jarak, level, dan kalori: treadmill, sepeda, mesin dayung.
+training_editor_new = Mesin atau gerakan baru
+training_editor_edit = Edit gerakan
+training_editor_not_editable = Gerakan bawaan tidak dapat diedit: tambahkan setelan, foto, dan bintang Anda di halamannya.
+training_editor_name = Nama
+training_editor_name_hint = Mis. Chest press (Technogym)
+training_editor_name_error = Masukkan nama.
+training_editor_equipment = Peralatan
+training_editor_kind = Cara pencatatan
+training_editor_kind_changed = Set yang sudah dicatat tetap menyimpan nilainya; hanya cara membacanya yang berubah.
+training_editor_muscle_error = Pilih setidaknya satu otot utama.
+training_editor_photo = Foto
+training_history_empty_title = Belum ada latihan
+training_history_empty_text = Latihan yang selesai muncul di sini, dikelompokkan per bulan.
+training_workout_actions = Tindakan latihan
+training_settings_unit = Satuan berat
+training_settings_unit_text = Berat disimpan dalam kilogram; ubah satuannya kapan saja.
+training_unit_kg_long = Kilogram (kg)
+training_unit_lb_long = Pon (lb)
+training_settings_rest = Timer istirahat
+training_settings_rest_text = Dimulai saat Anda mencentang set dan bergetar saat selesai, selama aplikasi terbuka.
+training_settings_health = Penyimpanan latihan ke Health Connect diatur di Profil → Health Connect.
+training_days_ago{other} = %1$s hari lalu
+training_exercises_count{other} = %1$s gerakan
+training_sets_count{other} = %1$s set
+# Half sets of a secondary muscle ("2.5 sets"): decimals take no plural form
+training_sets_fraction = %1$s set
+training_workouts_count{other} = %1$s latihan
+training_undo = Urungkan
+training_exercise_removed = Gerakan dikeluarkan
+training_set_deleted = Set dihapus
+training_discard_changes = Buang perubahan?
+training_save_failed = Gerakan tidak dapat disimpan
+training_spoken_pair = %1$s, %2$s

@@ -1,0 +1,82 @@
+# Bottom bar: Hoy · Entreno · Progreso · Perfil (very little room: one short word)
+nav_training = Latihan
+nav_progress = Progres
+
+# Progreso: tabs Músculos | Cuerpo | Actividad (Cuerpo and Actividad use nav_body and nav_activity)
+progress_tab_muscles = Otot
+
+# Progreso → Músculos: how the body map is colored (three segmented buttons: keep them short)
+progress_mode_sets = Set
+progress_mode_strength = Kekuatan
+progress_mode_recovery = Pemulihan
+progress_caption_sets = Set efektif dalam 7 hari terakhir (otot sekunder dihitung setengah) dibandingkan dengan rentang umum untuk pertumbuhan otot.
+progress_caption_strength = Perubahan perkiraan 1RM dari gerakan yang melatih setiap otot dalam periode yang dipilih.
+progress_caption_recovery = Diperkirakan dari set efektif setiap latihan: 1 hingga 4 hari, tergantung volumenya.
+
+# Weekly sets compared with the muscle's range
+progress_level_none = Tanpa set
+progress_level_low = Di bawah rentang
+progress_level_optimal = Dalam rentang
+progress_level_high = Di atas rentang
+progress_sets{other} = %1$s set
+progress_target = target %1$s–%2$s
+
+# Strength trend (%1$s: a percentage such as −5 % or +5 %)
+progress_strength_down_more = Di bawah %1$s
+progress_strength_down = Turun
+progress_strength_stable = Stabil
+progress_strength_up = Naik
+progress_strength_up_more = Di atas %1$s
+progress_strength_title = Kekuatan (%1$s)
+progress_exercises{other} = %1$d gerakan
+
+# Recovery (Spanish avoids gendered adjectives: the muscles' names mix genders)
+progress_recovery_fatigued = Lelah
+progress_recovery_recovering = Dalam pemulihan
+progress_recovery_recovered = Pulih sepenuhnya
+progress_recovery_not_trained = Belum dilatih
+progress_recovery_percent = %1$s pulih
+progress_recovery_full_at = pulih penuh ~%1$s
+progress_time_tomorrow_at = Besok, %1$s
+progress_last_trained = Terakhir dilatih: %1$s
+
+# Selected muscle and the list of all muscles
+progress_detail_week = Minggu ini
+progress_tap_hint = Ketuk otot pada gambar atau di daftar untuk melihat detailnya.
+progress_all_muscles = Semua otot
+progress_recent_exercises = Gerakan terbaru
+progress_recent_hint = Set terbaik dari sesi terakhir dan perubahan perkiraan 1RM-nya dibandingkan sesi sebelumnya.
+progress_open_exercise = Buka gerakan
+# %1$s: number, %2$s: unit (kg or lb)
+progress_load_value = %1$s %2$s
+progress_state_description = %1$s, %2$s
+# %1$s: load, %2$s: repetitions
+progress_set_load_reps = %1$s × %2$s
+progress_set_reps{other} = %1$d repetisi
+progress_set_seconds = %1$s dtk
+progress_empty_title = Progres otot Anda tampil di sini
+progress_empty_text = Catat latihan Anda di Latihan: setiap set dihitung untuk otot yang dilatihnya, dan gambar menampilkan set mingguan, peningkatan kekuatan, serta pemulihan Anda.
+progress_empty_action = Buka Latihan
+
+# Hoy: muscles this week (%1$s: a list of the muscle groups below)
+today_muscles_title = Otot minggu ini
+today_muscles_on_track = Sesuai target: %1$s
+today_muscles_below = Di bawah target: %1$s
+today_muscles_all_on_track = Semua kelompok otot sesuai target
+today_muscles_none = Belum ada set minggu ini
+today_muscles_open = Lihat otot
+# Muscle groups used inside those lists: lowercase where the language allows it
+progress_region_chest = dada
+progress_region_back = punggung
+progress_region_shoulders = bahu
+progress_region_arms = lengan
+progress_region_core = perut
+progress_region_legs = kaki
+
+# Perfil: Devices and training settings
+profile_section_devices = Perangkat dan latihan
+profile_devices_scales{other} = %1$d timbangan
+profile_devices_wearables{other} = %1$d gelang atau jam tangan
+profile_devices_none = Timbangan, gelang, dan Health Connect
+profile_training_title = Setelan latihan
+profile_training_text = Satuan berat, timer istirahat, dan Health Connect

@@ -1,0 +1,165 @@
+# Built-in exercise and machine names: ex_<catalog id> (training/catalog/ExerciseCatalog.kt)
+
+# Machines
+ex_machine_chest_press = Supino na máquina
+ex_machine_incline_chest_press = Supino inclinado na máquina
+ex_pec_deck = Borboleta (pec deck)
+ex_machine_shoulder_press = Press de ombros na máquina
+ex_machine_lateral_raise = Elevação lateral na máquina
+ex_reverse_pec_deck = Borboleta invertida
+ex_machine_row = Remada sentada na máquina
+ex_pullover_machine = Pullover na máquina
+ex_leg_press_machine = Prensa de pernas
+ex_horizontal_leg_press = Prensa horizontal
+ex_hack_squat_machine = Agachamento hack
+ex_pendulum_squat_machine = Agachamento pêndulo
+ex_leg_extension_machine = Extensão de pernas
+ex_lying_leg_curl_machine = Curl femoral deitado
+ex_seated_leg_curl_machine = Curl femoral sentado
+ex_standing_calf_raise_machine = Gémeos em pé na máquina
+ex_seated_calf_raise_machine = Gémeos sentado
+ex_leg_press_calf_raise = Gémeos na prensa
+ex_hip_abductor_machine = Abdutores na máquina
+ex_hip_adductor_machine = Adutores na máquina
+ex_glute_kickback_machine = Kickback de glúteo na máquina
+ex_hip_thrust_machine = Hip thrust na máquina
+ex_back_extension_machine = Extensão lombar na máquina
+ex_ab_crunch_machine = Crunch abdominal na máquina
+ex_rotary_torso_machine = Rotação de tronco na máquina
+ex_machine_biceps_curl = Curl de bíceps na máquina
+ex_machine_triceps_extension = Extensão de tríceps na máquina
+ex_seated_dip_machine = Mergulhos na máquina
+ex_assisted_pull_up_machine = Elevações assistidas (máquina)
+ex_assisted_chin_up_machine = Elevações supinadas assistidas
+ex_assisted_dip_machine = Mergulhos assistidos (máquina)
+ex_neck_machine = Máquina de pescoço
+
+# Cable
+ex_lat_pulldown_machine = Puxada à frente
+ex_close_grip_lat_pulldown = Puxada à frente pega fechada
+ex_seated_cable_row = Remada sentada na polia
+ex_single_arm_cable_row = Remada unilateral na polia
+ex_straight_arm_pulldown = Puxada de braços estendidos
+ex_cable_crossover = Crossover na polia
+ex_low_cable_crossover = Crossover na polia baixa
+ex_cable_fly = Crucifixo na polia
+ex_face_pull = Face pull
+ex_cable_lateral_raise = Elevação lateral na polia
+ex_cable_triceps_pushdown = Extensão de tríceps na polia
+ex_rope_triceps_pushdown = Extensão de tríceps com corda
+ex_cable_overhead_triceps_extension = Tríceps atrás da nuca na polia
+ex_cable_curl = Curl de bíceps na polia
+ex_cable_crunch = Crunch na polia
+ex_cable_woodchop = Lenhador na polia
+ex_cable_pull_through = Pull-through na polia
+ex_cable_glute_kickback = Kickback de glúteo na polia
+
+# Smith machine
+ex_smith_squat = Agachamento na Smith
+ex_smith_bench_press = Supino na Smith
+ex_smith_incline_bench_press = Supino inclinado na Smith
+ex_smith_shoulder_press = Press de ombros na Smith
+ex_smith_split_squat = Afundo na Smith
+ex_smith_hip_thrust = Hip thrust na Smith
+ex_smith_calf_raise = Gémeos na Smith
+
+# Barbell and EZ bar
+ex_barbell_bench_press = Supino plano com barra
+ex_barbell_incline_bench_press = Supino inclinado com barra
+ex_barbell_decline_bench_press = Supino declinado com barra
+ex_close_grip_bench_press = Supino pega fechada
+ex_barbell_overhead_press = Press militar com barra
+ex_barbell_back_squat = Agachamento com barra
+ex_barbell_front_squat = Agachamento frontal
+ex_barbell_deadlift = Peso morto
+ex_sumo_deadlift = Peso morto sumo
+ex_barbell_romanian_deadlift = Peso morto romeno
+ex_good_morning = Good morning
+ex_barbell_lunge = Afundos com barra
+ex_barbell_hip_thrust = Hip thrust com barra
+ex_barbell_glute_bridge = Ponte de glúteos com barra
+ex_barbell_row = Remada curvada com barra
+ex_pendlay_row = Remada Pendlay
+ex_t_bar_row = Remada em barra T
+ex_barbell_upright_row = Remada alta
+ex_barbell_shrug = Encolhimentos com barra
+ex_barbell_curl = Curl com barra
+ex_ez_bar_curl = Curl com barra EZ
+ex_ez_bar_preacher_curl = Curl Scott com barra EZ
+ex_skull_crusher = Extensão de tríceps deitado
+ex_barbell_wrist_curl = Curl de pulso
+ex_barbell_reverse_wrist_curl = Curl de pulso invertido
+
+# Dumbbells
+ex_dumbbell_bench_press = Supino com halteres
+ex_dumbbell_incline_bench_press = Supino inclinado com halteres
+ex_dumbbell_fly = Crucifixo com halteres
+ex_dumbbell_pullover = Pullover com halter
+ex_dumbbell_shoulder_press = Press de ombros com halteres
+ex_arnold_press = Press Arnold
+ex_dumbbell_lateral_raise = Elevação lateral com halteres
+ex_dumbbell_front_raise = Elevação frontal com halteres
+ex_dumbbell_rear_delt_fly = Crucifixo invertido com halteres
+ex_dumbbell_row = Remada unilateral com halter
+ex_dumbbell_shrug = Encolhimentos com halteres
+ex_dumbbell_curl = Curl com halteres
+ex_hammer_curl = Curl martelo
+ex_incline_dumbbell_curl = Curl inclinado com halteres
+ex_concentration_curl = Curl concentrado
+ex_dumbbell_overhead_extension = Tríceps atrás da nuca com halter
+ex_dumbbell_triceps_kickback = Kickback de tríceps
+ex_dumbbell_goblet_squat = Agachamento goblet (halter)
+ex_bulgarian_split_squat = Agachamento búlgaro
+ex_dumbbell_lunge = Afundos com halteres
+ex_dumbbell_step_up = Subida ao banco com halteres
+ex_dumbbell_romanian_deadlift = Peso morto romeno (halteres)
+ex_dumbbell_side_bend = Flexão lateral com halter
+
+# Kettlebells
+ex_kettlebell_swing = Swing com kettlebell
+ex_kettlebell_goblet_squat = Agachamento goblet (kettlebell)
+ex_kettlebell_clean_and_press = Clean and press com kettlebell
+ex_turkish_get_up = Levantamento turco
+
+# Bodyweight
+ex_push_up = Flexões
+ex_parallel_bar_dip = Mergulhos nas paralelas
+ex_bench_dip = Mergulhos no banco
+ex_pull_up = Elevações
+ex_chin_up = Elevações supinadas
+ex_inverted_row = Remada invertida
+ex_bodyweight_squat = Agachamento sem peso
+ex_bodyweight_lunge = Afundos
+ex_glute_bridge = Ponte de glúteos
+ex_back_extension = Hiperextensões
+ex_nordic_curl = Curl nórdico
+ex_crunch = Crunch abdominal
+ex_sit_up = Abdominais (sit-up)
+ex_hanging_leg_raise = Elevação de pernas suspenso
+ex_lying_leg_raise = Elevação de pernas deitado
+ex_russian_twist = Russian twist
+ex_mountain_climber = Escaladores
+ex_burpee = Burpees
+
+# Timed holds and carries
+ex_plank = Prancha
+ex_side_plank = Prancha lateral
+ex_copenhagen_plank = Prancha de Copenhaga
+ex_wall_sit = Agachamento isométrico na parede
+ex_dead_hang = Suspensão na barra
+ex_farmers_carry = Caminhada do agricultor
+
+# Resistance bands
+ex_band_pull_apart = Pull-apart com banda
+ex_banded_lateral_walk = Passos laterais com banda
+
+# Cardio machines
+ex_treadmill = Passadeira
+ex_stationary_bike = Bicicleta estática
+ex_spin_bike = Bicicleta de spinning
+ex_recumbent_bike = Bicicleta reclinada
+ex_air_bike = Air bike
+ex_elliptical = Elíptica
+ex_rowing_machine = Máquina de remo
+ex_stair_climber = Máquina de escadas
+ex_ski_erg = Ski erg

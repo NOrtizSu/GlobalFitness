@@ -1,0 +1,3 @@
+# Achievements review fixes
+# How "Towards your target" is counted: from the week the current target weight was set in the profile
+ach_goal_progress_rule_target = Изменение вашего среднего веса за 7 дней с момента, когда вы задали текущую цель, в сторону цели. Этапов дальше цели нет.

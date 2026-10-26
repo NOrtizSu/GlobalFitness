@@ -1,0 +1,165 @@
+# Built-in exercise and machine names: ex_<catalog id> (training/catalog/ExerciseCatalog.kt)
+
+# Machines
+ex_machine_chest_press = Жим от груди в тренажёре
+ex_machine_incline_chest_press = Жим под углом в тренажёре
+ex_pec_deck = Бабочка (пек-дек)
+ex_machine_shoulder_press = Жим на плечи в тренажёре
+ex_machine_lateral_raise = Махи в стороны в тренажёре
+ex_reverse_pec_deck = Обратная бабочка
+ex_machine_row = Тяга сидя в тренажёре
+ex_pullover_machine = Пуловер в тренажёре
+ex_leg_press_machine = Жим ногами
+ex_horizontal_leg_press = Горизонтальный жим ногами
+ex_hack_squat_machine = Гакк-приседания
+ex_pendulum_squat_machine = Приседания в маятнике
+ex_leg_extension_machine = Разгибание ног сидя
+ex_lying_leg_curl_machine = Сгибание ног лёжа
+ex_seated_leg_curl_machine = Сгибание ног сидя
+ex_standing_calf_raise_machine = Подъём на носки стоя в тренажёре
+ex_seated_calf_raise_machine = Подъём на носки сидя
+ex_leg_press_calf_raise = Подъём на носки в жиме ногами
+ex_hip_abductor_machine = Отведение ног в тренажёре
+ex_hip_adductor_machine = Сведение ног в тренажёре
+ex_glute_kickback_machine = Отведение ноги назад в тренажёре
+ex_hip_thrust_machine = Хип-траст в тренажёре
+ex_back_extension_machine = Разгибание спины в тренажёре
+ex_ab_crunch_machine = Скручивания в тренажёре
+ex_rotary_torso_machine = Повороты корпуса в тренажёре
+ex_machine_biceps_curl = Сгибание рук в тренажёре
+ex_machine_triceps_extension = Разгибание рук в тренажёре
+ex_seated_dip_machine = Отжимания сидя в тренажёре
+ex_assisted_pull_up_machine = Гравитрон: подтягивания
+ex_assisted_chin_up_machine = Гравитрон: обратный хват
+ex_assisted_dip_machine = Гравитрон: отжимания на брусьях
+ex_neck_machine = Тренажёр для шеи
+
+# Cable
+ex_lat_pulldown_machine = Тяга верхнего блока
+ex_close_grip_lat_pulldown = Тяга верхнего блока узким хватом
+ex_seated_cable_row = Тяга нижнего блока
+ex_single_arm_cable_row = Тяга блока одной рукой
+ex_straight_arm_pulldown = Тяга прямыми руками на блоке
+ex_cable_crossover = Сведение рук в кроссовере
+ex_low_cable_crossover = Сведение рук от нижних блоков
+ex_cable_fly = Разводка на блоках
+ex_face_pull = Тяга к лицу (face pull)
+ex_cable_lateral_raise = Махи в сторону на блоке
+ex_cable_triceps_pushdown = Разгибание рук на блоке
+ex_rope_triceps_pushdown = Разгибание рук с канатом
+ex_cable_overhead_triceps_extension = Разгибание из-за головы на блоке
+ex_cable_curl = Сгибание рук на блоке
+ex_cable_crunch = Скручивания на блоке
+ex_cable_woodchop = Дровосек на блоке
+ex_cable_pull_through = Тяга каната между ног
+ex_cable_glute_kickback = Отведение ноги назад на блоке
+
+# Smith machine
+ex_smith_squat = Приседания в Смите
+ex_smith_bench_press = Жим лёжа в Смите
+ex_smith_incline_bench_press = Жим под углом в Смите
+ex_smith_shoulder_press = Жим на плечи в Смите
+ex_smith_split_squat = Статические выпады в Смите
+ex_smith_hip_thrust = Хип-траст в Смите
+ex_smith_calf_raise = Подъём на носки в Смите
+
+# Barbell and EZ bar
+ex_barbell_bench_press = Жим лёжа со штангой
+ex_barbell_incline_bench_press = Жим штанги под углом
+ex_barbell_decline_bench_press = Жим штанги головой вниз
+ex_close_grip_bench_press = Жим лёжа узким хватом
+ex_barbell_overhead_press = Армейский жим
+ex_barbell_back_squat = Приседания со штангой
+ex_barbell_front_squat = Фронтальные приседания
+ex_barbell_deadlift = Становая тяга
+ex_sumo_deadlift = Становая тяга сумо
+ex_barbell_romanian_deadlift = Румынская тяга
+ex_good_morning = Наклоны со штангой (гуд морнинг)
+ex_barbell_lunge = Выпады со штангой
+ex_barbell_hip_thrust = Хип-траст со штангой
+ex_barbell_glute_bridge = Ягодичный мостик со штангой
+ex_barbell_row = Тяга штанги в наклоне
+ex_pendlay_row = Тяга Пендлея
+ex_t_bar_row = Тяга Т-грифа
+ex_barbell_upright_row = Тяга штанги к подбородку
+ex_barbell_shrug = Шраги со штангой
+ex_barbell_curl = Подъём штанги на бицепс
+ex_ez_bar_curl = Подъём EZ-грифа на бицепс
+ex_ez_bar_preacher_curl = Подъём EZ-грифа на скамье Скотта
+ex_skull_crusher = Французский жим
+ex_barbell_wrist_curl = Сгибание запястий со штангой
+ex_barbell_reverse_wrist_curl = Разгибание запястий со штангой
+
+# Dumbbells
+ex_dumbbell_bench_press = Жим гантелей лёжа
+ex_dumbbell_incline_bench_press = Жим гантелей под углом
+ex_dumbbell_fly = Разводка гантелей
+ex_dumbbell_pullover = Пуловер с гантелью
+ex_dumbbell_shoulder_press = Жим гантелей на плечи
+ex_arnold_press = Жим Арнольда
+ex_dumbbell_lateral_raise = Махи гантелями в стороны
+ex_dumbbell_front_raise = Подъём гантелей перед собой
+ex_dumbbell_rear_delt_fly = Разводка гантелей в наклоне
+ex_dumbbell_row = Тяга гантели одной рукой
+ex_dumbbell_shrug = Шраги с гантелями
+ex_dumbbell_curl = Сгибание рук с гантелями
+ex_hammer_curl = Сгибание рук «молот»
+ex_incline_dumbbell_curl = Сгибание рук на наклонной скамье
+ex_concentration_curl = Концентрированные сгибания
+ex_dumbbell_overhead_extension = Французский жим с гантелью
+ex_dumbbell_triceps_kickback = Разгибание руки в наклоне
+ex_dumbbell_goblet_squat = Гоблет-приседания с гантелью
+ex_bulgarian_split_squat = Болгарские выпады
+ex_dumbbell_lunge = Выпады с гантелями
+ex_dumbbell_step_up = Зашагивания с гантелями
+ex_dumbbell_romanian_deadlift = Румынская тяга с гантелями
+ex_dumbbell_side_bend = Наклоны в сторону с гантелью
+
+# Kettlebells
+ex_kettlebell_swing = Махи гирей
+ex_kettlebell_goblet_squat = Гоблет-приседания с гирей
+ex_kettlebell_clean_and_press = Взятие на грудь и жим гири
+ex_turkish_get_up = Турецкий подъём
+
+# Bodyweight
+ex_push_up = Отжимания
+ex_parallel_bar_dip = Отжимания на брусьях
+ex_bench_dip = Обратные отжимания от скамьи
+ex_pull_up = Подтягивания
+ex_chin_up = Подтягивания обратным хватом
+ex_inverted_row = Австралийские подтягивания
+ex_bodyweight_squat = Приседания без веса
+ex_bodyweight_lunge = Выпады
+ex_glute_bridge = Ягодичный мостик
+ex_back_extension = Гиперэкстензия
+ex_nordic_curl = Нордические сгибания
+ex_crunch = Скручивания
+ex_sit_up = Подъёмы корпуса
+ex_hanging_leg_raise = Подъём ног в висе
+ex_lying_leg_raise = Подъём ног лёжа
+ex_russian_twist = Русские скручивания
+ex_mountain_climber = Скалолаз
+ex_burpee = Бёрпи
+
+# Timed holds and carries
+ex_plank = Планка
+ex_side_plank = Боковая планка
+ex_copenhagen_plank = Копенгагенская планка
+ex_wall_sit = Стульчик у стены
+ex_dead_hang = Вис на турнике
+ex_farmers_carry = Прогулка фермера
+
+# Resistance bands
+ex_band_pull_apart = Разведение рук с резинкой
+ex_banded_lateral_walk = Боковые шаги с резинкой
+
+# Cardio machines
+ex_treadmill = Беговая дорожка
+ex_stationary_bike = Велотренажёр
+ex_spin_bike = Спин-байк
+ex_recumbent_bike = Горизонтальный велотренажёр
+ex_air_bike = Аэробайк
+ex_elliptical = Эллиптический тренажёр
+ex_rowing_machine = Гребной тренажёр
+ex_stair_climber = Степпер
+ex_ski_erg = Лыжный тренажёр

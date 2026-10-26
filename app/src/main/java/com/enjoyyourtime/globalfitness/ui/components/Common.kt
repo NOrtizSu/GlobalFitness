@@ -151,7 +151,7 @@ fun TabPage(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     Column(modifier.fillMaxSize().nestedScroll(scrollBehavior.nestedScrollConnection)) {
         TopAppBar(
-            title = { Text(title, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+            title = { TopBarTitle(title) },
             actions = actions,
             scrollBehavior = scrollBehavior,
             colors = TopAppBarDefaults.topAppBarColors(

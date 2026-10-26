@@ -24,7 +24,7 @@ data class PointRow(val recordId: String, val time: Long, val value: Double, val
 
 /**
  * Local cache of Health Connect data (`health.db`, separate from the app database) plus the
- * sync tokens and the scale-export ledger. All methods are blocking: call them on IO.
+ * sync tokens and the scale and workout export ledgers. All methods are blocking: call them on IO.
  */
 class HealthCache(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
 
@@ -123,12 +123,34 @@ class HealthCache(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, D
             )
             """.trimIndent(),
         )
+        createWorkoutLedger(db)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         // v2: natural Health Connect client ids. Rows written before keep record_key = NULL
         // (legacy `gf-<id>` ids) and are migrated by the exporter on its next run.
         if (oldVersion < 2) db.execSQL("ALTER TABLE export_ledger ADD COLUMN record_key TEXT")
+        // v4: workouts saved as exercise sessions. (v3 had a simpler ledger and never shipped: it is
+        // rebuilt, the exporter writes what is missing again.)
+        if (oldVersion < 4) {
+            db.execSQL("DROP TABLE IF EXISTS workout_export_ledger")
+            createWorkoutLedger(db)
+        }
+    }
+
+    private fun createWorkoutLedger(db: SQLiteDatabase) {
+        db.execSQL(
+            """
+            CREATE TABLE workout_export_ledger (
+                workout_id TEXT PRIMARY KEY,
+                version INTEGER NOT NULL,
+                source_updated_at INTEGER NOT NULL,
+                format INTEGER NOT NULL,
+                pending_delete INTEGER NOT NULL DEFAULT 0,
+                exported_at INTEGER NOT NULL
+            )
+            """.trimIndent(),
+        )
     }
 
     // ---- Daily activity -------------------------------------------------------------------
@@ -503,6 +525,87 @@ class HealthCache(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, D
     fun ledgerCount(): Int =
         readableDatabase.rawQuery("SELECT COUNT(*) FROM export_ledger", null).use { c -> if (c.moveToFirst()) c.getInt(0) else 0 }
 
+    // ---- Workout export ledger ------------------------------------------------------------
+
+    /** What this installation wrote (and the deletions still to do), by workout id. */
+    fun loadWorkoutLedger(): Map<String, WorkoutLedgerEntry> =
+        readableDatabase.rawQuery(
+            "SELECT workout_id, version, source_updated_at, format, pending_delete FROM workout_export_ledger",
+            null,
+        ).use { c ->
+            buildMap {
+                while (c.moveToNext()) {
+                    val e = WorkoutLedgerEntry(c.getString(0), c.getLong(1), c.getLong(2), c.getInt(3), c.getInt(4) != 0)
+                    put(e.workoutId, e)
+                }
+            }
+        }
+
+    fun putWorkoutLedger(entries: Collection<WorkoutLedgerEntry>, now: Long) {
+        if (entries.isEmpty()) return
+        writableDatabase.transaction {
+            for (e in entries) {
+                insertWithOnConflict(
+                    "workout_export_ledger",
+                    null,
+                    ContentValues().apply {
+                        put("workout_id", e.workoutId)
+                        put("version", e.version)
+                        put("source_updated_at", e.sourceUpdatedAt)
+                        put("format", e.format)
+                        put("pending_delete", if (e.pendingDelete) 1 else 0)
+                        put("exported_at", now)
+                    },
+                    SQLiteDatabase.CONFLICT_REPLACE,
+                )
+            }
+        }
+    }
+
+    /**
+     * Notes workouts seen disappearing as deletions to do. [finished] ones get an entry even
+     * without one (their session may come from an earlier installation); for [others] only an
+     * existing entry is marked. The version written so far is kept.
+     */
+    fun markWorkoutsDeleted(finished: Collection<String>, others: Collection<String>, now: Long) {
+        if (finished.isEmpty() && others.isEmpty()) return
+        writableDatabase.transaction {
+            for (id in finished + others) {
+                val updated = update("workout_export_ledger", ContentValues().apply { put("pending_delete", 1) }, "workout_id = ?", arrayOf(id))
+                if (updated == 0 && id in finished) {
+                    insert(
+                        "workout_export_ledger",
+                        null,
+                        ContentValues().apply {
+                            put("workout_id", id)
+                            put("version", 0L)
+                            put("source_updated_at", 0L)
+                            put("format", 0)
+                            put("pending_delete", 1)
+                            put("exported_at", now)
+                        },
+                    )
+                }
+            }
+        }
+    }
+
+    /** Cancels noted deletions of workouts that exist again. */
+    fun undeleteWorkouts(workoutIds: Collection<String>) {
+        if (workoutIds.isEmpty()) return
+        writableDatabase.transaction {
+            for (id in workoutIds) update("workout_export_ledger", ContentValues().apply { put("pending_delete", 0) }, "workout_id = ?", arrayOf(id))
+        }
+    }
+
+    fun removeWorkoutLedger(workoutIds: Collection<String>) = deleteIds("workout_export_ledger", "workout_id", workoutIds)
+
+    /** Workouts this installation wrote and has not deleted. */
+    fun workoutLedgerCount(): Int =
+        readableDatabase.rawQuery("SELECT COUNT(*) FROM workout_export_ledger WHERE version > 0 AND pending_delete = 0", null).use { c ->
+            if (c.moveToFirst()) c.getInt(0) else 0
+        }
+
     private fun deleteIds(table: String, column: String, ids: Collection<String>) {
         if (ids.isEmpty()) return
         writableDatabase.transaction {
@@ -516,6 +619,6 @@ class HealthCache(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, D
 
     companion object {
         const val DB_NAME = "health.db"
-        const val DB_VERSION = 2
+        const val DB_VERSION = 4
     }
 }

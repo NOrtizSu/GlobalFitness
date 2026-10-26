@@ -1,0 +1,15 @@
+# Health Connect: workouts of the training log saved as exercise sessions
+hc_workouts_export_title = वर्कआउट Health Connect में सेव करें
+hc_workouts_export_text = हर पूरा किया गया वर्कआउट अपने सेट और रेप्स के साथ एक व्यायाम सेशन के रूप में सेव होता है, ताकि दूसरे फ़िटनेस ऐप उसे गिन सकें। अगर आप कोई वर्कआउट मिटाते हैं, तो वह Health Connect से भी मिट जाता है।
+hc_workouts_export_missing_permission = अपने वर्कआउट Health Connect में सेव करने के लिए Fortia को वहां व्यायाम लिखने की अनुमति दें।
+hc_workouts_export_denied = अगर अनुमति वाली विंडो नहीं खुलती, तो Health Connect में Fortia के लिए “व्यायाम” की अनुमति दें।
+hc_workouts_export_allow = अनुमति दें
+hc_workouts_export_off = नए वर्कआउट सेव नहीं होते। जो पहले से Health Connect में हैं, वे वहीं रहते हैं।
+hc_workouts_export_count_none = अभी तक Health Connect में कोई वर्कआउट नहीं है।
+hc_workouts_export_count{one} = Health Connect में %1$d वर्कआउट है।
+hc_workouts_export_count{other} = Health Connect में %1$d वर्कआउट हैं।
+hc_missing_write_exercise = व्यायाम लिखने की अनुमति नहीं है: वर्कआउट सेव नहीं होते।
+# Title in Health Connect of a workout without a name that mixes different kinds of cardio
+hc_workout_title = वर्कआउट
+# Permissions rationale: continues the "Writing your scale measurements" item
+health_rationale_write_workouts = यह ऐप में पूरे किए गए आपके वर्कआउट भी व्यायाम सेशन के रूप में लिखता है: शुरू और खत्म होने का समय, प्रकार, नाम, नोट और हर पूरा किया गया सेट उसके रेप्स के साथ। अगर आप ऐप में कोई वर्कआउट मिटाते हैं, तो वह Health Connect से भी मिट जाता है।

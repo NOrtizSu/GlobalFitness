@@ -52,7 +52,6 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -70,6 +69,7 @@ import com.enjoyyourtime.globalfitness.ui.band.LiveHeartRateChart
 import com.enjoyyourtime.globalfitness.ui.components.ExperimentalBadge
 import com.enjoyyourtime.globalfitness.ui.components.InfoRow
 import com.enjoyyourtime.globalfitness.ui.components.SectionTitle
+import com.enjoyyourtime.globalfitness.ui.components.TopBarTitle
 import com.enjoyyourtime.globalfitness.ui.theme.TabularNumbers
 import com.enjoyyourtime.globalfitness.wearable.AuthKeyKind
 import com.enjoyyourtime.globalfitness.wearable.ConfiguredWearable
@@ -143,7 +143,7 @@ fun WearableScreen(viewModel: WearableViewModel, onBack: () -> Unit) {
             TopAppBar(
                 title = {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(name, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f, fill = false))
+                        TopBarTitle(name, Modifier.weight(1f, fill = false))
                         Spacer(Modifier.width(8.dp))
                         if (driver?.verified != true) ExperimentalBadge()
                     }

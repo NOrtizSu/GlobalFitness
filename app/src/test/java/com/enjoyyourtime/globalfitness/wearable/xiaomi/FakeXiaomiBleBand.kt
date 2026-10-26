@@ -14,8 +14,8 @@ import com.enjoyyourtime.globalfitness.wearable.FakeGattDevice
 import com.google.protobuf.ByteString
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
-import java.util.Collections
 import java.util.UUID
+import java.util.concurrent.CopyOnWriteArrayList
 
 /**
  * The device side of Xiaomi's BLE protocols, written from Gadgetbridge's description (independently
@@ -41,7 +41,7 @@ class FakeXiaomiBleBand(
         },
     )
 
-    val received: MutableList<XiaomiProto.Command> = Collections.synchronizedList(mutableListOf())
+    val received: MutableList<XiaomiProto.Command> = CopyOnWriteArrayList()
 
     @Volatile
     var authenticated = false
@@ -50,7 +50,7 @@ class FakeXiaomiBleBand(
     var onCommand: (XiaomiProto.Command) -> List<XiaomiProto.Command> = { emptyList() }
 
     /** Counters the phone used for its encrypted V1 messages. */
-    val phoneCounters: MutableList<Int> = Collections.synchronizedList(mutableListOf())
+    val phoneCounters: MutableList<Int> = CopyOnWriteArrayList()
 
     private var phoneNonce = ByteArray(16)
     private var material = ByteArray(64)

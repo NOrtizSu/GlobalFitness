@@ -1,0 +1,14 @@
+# Health Connect: workouts of the training log saved as exercise sessions
+hc_workouts_export_title = Lưu buổi tập vào Health Connect
+hc_workouts_export_text = Mỗi buổi tập đã hoàn thành được lưu dưới dạng một phiên tập thể dục kèm các hiệp và số lần, để các ứng dụng thể dục khác có thể tính đến. Nếu bạn xóa một buổi tập, buổi tập đó cũng bị xóa khỏi Health Connect.
+hc_workouts_export_missing_permission = Hãy cho phép Fortia ghi bài tập vào Health Connect để lưu các buổi tập của bạn ở đó.
+hc_workouts_export_denied = Nếu cửa sổ cấp quyền không mở ra, hãy cho phép “Bài tập” cho Fortia trong Health Connect.
+hc_workouts_export_allow = Cho phép
+hc_workouts_export_off = Các buổi tập mới sẽ không được lưu. Những buổi tập đã có trong Health Connect vẫn được giữ lại.
+hc_workouts_export_count_none = Chưa có buổi tập nào trong Health Connect.
+hc_workouts_export_count{other} = %1$d buổi tập trong Health Connect.
+hc_missing_write_exercise = Không có quyền ghi bài tập: các buổi tập sẽ không được lưu.
+# Title in Health Connect of a workout without a name that mixes different kinds of cardio
+hc_workout_title = Buổi tập
+# Permissions rationale: continues the "Writing your scale measurements" item
+health_rationale_write_workouts = Ứng dụng cũng ghi các buổi tập bạn hoàn thành trong ứng dụng dưới dạng phiên tập thể dục: thời gian bắt đầu và kết thúc, loại, tên, ghi chú và từng hiệp đã hoàn thành cùng số lần. Nếu bạn xóa một buổi tập trong ứng dụng, buổi tập đó cũng bị xóa khỏi Health Connect.

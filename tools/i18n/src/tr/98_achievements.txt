@@ -1,0 +1,135 @@
+# Achievements: medals derived from the workouts and the weighings, the celebration shown when a level is reached, and the achievements page (Antrenman tab card, Profil row)
+achievements_title = Başarılar
+# Medals earned out of all the levels on offer: "12 / 69 madalya"
+achievements_earned{one} = %1$s / %2$s madalya
+achievements_earned{other} = %1$s / %2$s madalya
+achievements_category_training = İstikrar
+achievements_category_strength = Güç
+achievements_category_body = Vücut
+# Highest level reached of an achievement: "Seviye 3 / 8"
+achievements_level = Seviye %1$s / %2$s
+achievements_not_started = Henüz kazanılmadı
+achievements_all_levels = Tüm seviyeler kazanıldı
+# When a level was earned (no suffix on the date): "Kazanıldı: 15 Eki 2026"
+achievements_earned_on = Kazanıldı: %1$s
+achievements_next = Sonraki: %1$s
+achievements_progress = %1$s / %2$s
+achievements_levels = Seviyeler
+achievements_how = Nasıl sayılır
+achievements_open = Başarıları aç
+achievements_needs_bodyweight = Kaldırdığınız ağırlıkları vücut ağırlığınızla karşılaştırmak için tartılın.
+achievements_needs_target = Profilinizde bir hedef kilo belirleyin.
+achievements_needs_weighings = Başlamak için tartılın.
+achievements_target_is_start = Hedefiniz başlangıç kilonuz: kat edilecek bir mesafe yok.
+achievements_needs_composition = Vücut kompozisyonunu ölçen bir tartıyla yapılmış tartımlar gerekir.
+achievements_lift_note = Seviyeler yaygın güç standartlarını izler ve kadınlar için daha düşüktür. Yalnızca halter sayılır: Smith makinesi ve diğer makineler sayılmaz.
+achievements_value_tonnes = %1$s t
+achievements_value_ratio = %1$s×
+
+# The celebration shown over any screen when a new level is reached
+celebration_title = Tebrikler!
+celebration_view = Başarıları gör
+celebration_announce = Yeni başarı
+celebration_level = %1$s · Seviye %2$s
+celebration_more{one} = +%1$s daha
+celebration_more{other} = +%1$s daha
+
+# One block per achievement: title, goal, done, rule (suffixes never go on placeholders)
+ach_workouts_title = Antrenmanlar
+ach_workouts_goal{one} = İlk antrenmanınızı tamamlayın
+ach_workouts_goal{other} = %1$s antrenman tamamlayın
+ach_workouts_done{one} = İlk antrenmanınızı tamamladınız
+ach_workouts_done{other} = %1$s antrenman tamamladınız
+ach_workouts_rule = En az bir tamamlanmış set içeren bitmiş antrenmanlar.
+
+ach_week_streak_title = Haftalık seri
+ach_week_streak_goal{one} = %1$s hafta boyunca en az 2 kez antrenman yapın
+ach_week_streak_goal{other} = Üst üste %1$s hafta boyunca haftada en az 2 kez antrenman yapın
+ach_week_streak_done{one} = %1$s hafta boyunca en az 2 kez antrenman yaptınız
+ach_week_streak_done{other} = Üst üste %1$s hafta boyunca haftada en az 2 kez antrenman yaptınız
+ach_week_streak_rule = En az 2 bitmiş antrenman içeren art arda takvim haftaları. İçinde bulunduğunuz hafta, bitene kadar seriyi bozmaz.
+
+ach_balanced_weeks_title = Dengeli haftalar
+ach_balanced_weeks_goal{one} = Dengeli bir hafta geçirin
+ach_balanced_weeks_goal{other} = %1$s dengeli hafta geçirin
+ach_balanced_weeks_done{one} = İlk dengeli haftanız
+ach_balanced_weeks_done{other} = %1$s dengeli hafta geçirdiniz
+# %1$s: list of muscles ("Göğüs, Omuzlar ve Kanat")
+ach_balanced_weeks_rule = Şu kasların her birinin efektif set sayısının haftalık aralığı içinde kaldığı (ne altında ne üstünde) takvim haftaları: %1$s.
+
+ach_variety_title = Çeşitlilik
+ach_variety_goal{one} = %1$s farklı egzersiz yapın
+ach_variety_goal{other} = %1$s farklı egzersiz yapın
+ach_variety_done{one} = %1$s farklı egzersiz yaptınız
+ach_variety_done{other} = %1$s farklı egzersiz yaptınız
+ach_variety_rule = En az bir tamamlanmış set içeren farklı egzersizler ve makineler.
+
+ach_cardio_km_title = Kardiyo mesafesi
+ach_cardio_km_goal = Kardiyoda %1$s yol kat edin
+ach_cardio_km_done = Kardiyoda %1$s yol kat ettiniz
+ach_cardio_km_rule = Tamamlanan tüm kardiyo setlerinin mesafesi.
+
+ach_volume_title = Toplam hacim
+ach_volume_goal = Toplamda %1$s kaldırın
+ach_volume_done = Toplamda %1$s kaldırdınız
+ach_volume_rule = Tamamlanan tüm setlerin ağırlık × tekrar değeri; vücut ağırlığıyla yapılan ve destekli egzersizlerde vücut ağırlığınız kullanılır.
+
+ach_records_title = Kişisel rekorlar
+ach_records_goal{one} = İlk kişisel rekorunuzu kırın
+ach_records_goal{other} = %1$s kişisel rekor kırın
+ach_records_done{one} = İlk kişisel rekorunuz
+ach_records_done{other} = %1$s kişisel rekor kırdınız
+ach_records_rule = Egzersizin rekorlarından birini kıran setler: tahmini 1RM, ağırlık, tekrar, süre veya en az destek.
+
+ach_bench_bw_title = Bench press
+# %1$s: a multiple of the body weight ("1,25×")
+ach_bench_bw_goal = Bench press'te %1$s vücut ağırlığı kaldırın
+ach_bench_bw_done = Bench press'iniz %1$s vücut ağırlığına ulaştı
+ach_bench_bw_rule = Halter bench press'teki en iyi tahmini 1RM'nin o günkü vücut ağırlığınıza bölümü.
+
+ach_squat_bw_title = Squat
+ach_squat_bw_goal = Squat'ta %1$s vücut ağırlığı kaldırın
+ach_squat_bw_done = Squat'ınız %1$s vücut ağırlığına ulaştı
+ach_squat_bw_rule = Halter squat veya front squat'taki en iyi tahmini 1RM'nin o günkü vücut ağırlığınıza bölümü.
+
+ach_deadlift_bw_title = Deadlift
+ach_deadlift_bw_goal = Deadlift'te %1$s vücut ağırlığı kaldırın
+ach_deadlift_bw_done = Deadlift'iniz %1$s vücut ağırlığına ulaştı
+ach_deadlift_bw_rule = Halterle klasik veya sumo deadlift'teki en iyi tahmini 1RM'nin o günkü vücut ağırlığınıza bölümü.
+
+ach_ohp_bw_title = Overhead press
+ach_ohp_bw_goal = Overhead press'te %1$s vücut ağırlığı kaldırın
+ach_ohp_bw_done = Overhead press'iniz %1$s vücut ağırlığına ulaştı
+ach_ohp_bw_rule = Ayakta halterle yapılan overhead press'teki en iyi tahmini 1RM'nin o günkü vücut ağırlığınıza bölümü.
+
+ach_pull_ups_title = Barfiks
+ach_pull_ups_goal{one} = Destek olmadan ilk barfiksinizi çekin
+ach_pull_ups_goal{other} = Tek sette destek olmadan %1$s barfiks çekin
+ach_pull_ups_done{one} = Destek olmadan ilk barfiksiniz
+ach_pull_ups_done{other} = Tek sette destek olmadan %1$s barfiks
+ach_pull_ups_rule = Barfiks veya ters tutuş barfikste tek sette yapılan en çok tekrar; ek ağırlıkla ya da ek ağırlık olmadan veya destekli makinede 0 destekle.
+
+ach_goal_title = Hedef kilo
+# %1$s: the target weight ("75 kg")
+ach_goal_goal = %1$s hedef kilonuza ulaşın
+ach_goal_done = %1$s hedef kilonuza ulaştınız
+ach_goal_rule = 7 günlük ortalama kilonuz profilinizdeki hedefe ulaşır.
+
+ach_goal_progress_title = Hedefinize doğru
+ach_goal_progress_goal_loss = Hedefinize doğru %1$s verin
+ach_goal_progress_goal_gain = Hedefinize doğru %1$s alın
+ach_goal_progress_done_loss = %1$s verdiniz
+ach_goal_progress_done_gain = %1$s aldınız
+
+ach_fat_down_title = Vücut yağı
+ach_fat_down_goal{one} = Vücut yağınızı %1$s puan düşürün
+ach_fat_down_goal{other} = Vücut yağınızı %1$s puan düşürün
+ach_fat_down_done{one} = Vücut yağınız %1$s puan düştü
+ach_fat_down_done{other} = Vücut yağınız %1$s puan düştü
+ach_fat_down_rule = İlk ölçüm haftanızdan bu yana 7 günlük ortalama vücut yağınızdaki düşüş. Sağlıklı minimumun altına inmek sayılmaz.
+
+ach_muscle_up_title = Kas kütlesi
+# %1$s: a weight ("2 kg")
+ach_muscle_up_goal = %1$s kas kütlesi kazanın
+ach_muscle_up_done = %1$s kas kütlesi kazandınız
+ach_muscle_up_rule = İlk ölçüm haftanızdan bu yana 7 günlük ortalama kas kütlenizdeki artış.

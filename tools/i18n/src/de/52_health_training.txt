@@ -1,0 +1,15 @@
+# Health Connect: workouts of the training log saved as exercise sessions
+hc_workouts_export_title = Trainings in Health Connect speichern
+hc_workouts_export_text = Jedes abgeschlossene Training wird als Trainingseinheit mit seinen Sätzen und Wiederholungen gespeichert, damit andere Fitness-Apps es berücksichtigen können. Wenn du ein Training löschst, wird es auch in Health Connect gelöscht.
+hc_workouts_export_missing_permission = Erlaube Fortia, Training in Health Connect zu schreiben, damit deine Trainings dort gespeichert werden.
+hc_workouts_export_denied = Wenn sich kein Berechtigungsfenster öffnet, erlaube „Training“ für Fortia in Health Connect.
+hc_workouts_export_allow = Erlauben
+hc_workouts_export_off = Neue Trainings werden nicht gespeichert. Die bereits in Health Connect gespeicherten bleiben dort.
+hc_workouts_export_count_none = Noch keine Trainings in Health Connect.
+hc_workouts_export_count{one} = %1$d Training in Health Connect.
+hc_workouts_export_count{other} = %1$d Trainings in Health Connect.
+hc_missing_write_exercise = Keine Berechtigung zum Schreiben von Training: Deine Trainings werden nicht gespeichert.
+# Title in Health Connect of a workout without a name that mixes different kinds of cardio
+hc_workout_title = Training
+# Permissions rationale: continues the "Writing your scale measurements" item
+health_rationale_write_workouts = Außerdem schreibt die App die Trainings, die du in der App abschließt, als Trainingseinheiten: Start- und Endzeit, Art, Name, Notiz und jeden abgeschlossenen Satz mit seinen Wiederholungen. Wenn du ein Training in der App löschst, wird es auch in Health Connect gelöscht.

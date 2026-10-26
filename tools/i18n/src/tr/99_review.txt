@@ -1,0 +1,4 @@
+# Rating the app on Google Play (Profil → Hakkında) and the In-App Review library notice
+about_rate_app = Fortia'yı değerlendirin
+about_rate_app_text = Google Play'de görüşünüzü bize bildirin
+notice_play_review = Uygun bir anda, Google'ın kendi kartıyla Google Play'de değerlendirme ister.

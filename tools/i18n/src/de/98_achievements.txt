@@ -1,0 +1,145 @@
+# Achievements: medals derived from the workouts and the weighings, the celebration shown when a level is reached, and the achievements page (Entreno tab card, Perfil row)
+achievements_title = Erfolge
+# Medals earned out of all the levels on offer: "12 of 69 medals"
+achievements_earned{one} = %1$s von %2$s Medaille
+achievements_earned{other} = %1$s von %2$s Medaillen
+achievements_category_training = Regelmäßigkeit
+achievements_category_strength = Kraft
+achievements_category_body = Körper
+# Highest level reached of an achievement: "Level 3 of 8"
+achievements_level = Stufe %1$s von %2$s
+achievements_not_started = Noch nicht erreicht
+achievements_all_levels = Alle Stufen erreicht
+# When a level was earned: "Earned on 15 Oct 2026"
+achievements_earned_on = Erreicht am %1$s
+# The next level of an achievement: "Next: Finish 25 workouts"
+achievements_next = Nächste Stufe: %1$s
+# Progress towards the next level: "23 / 25", "12.5 t / 50 t"
+achievements_progress = %1$s / %2$s
+achievements_levels = Stufen
+achievements_how = So wird gezählt
+achievements_open = Erfolge öffnen
+achievements_needs_bodyweight = Wiege dich, um deine Gewichte mit deinem Körpergewicht zu vergleichen.
+achievements_needs_target = Lege in deinem Profil ein Zielgewicht fest.
+achievements_needs_weighings = Wiege dich, um zu beginnen.
+achievements_target_is_start = Dein Ziel ist dein Startgewicht: Es gibt keinen Abstand zu überwinden.
+achievements_needs_composition = Erfordert Messungen mit Körperzusammensetzung von einer Waage, die sie misst.
+achievements_lift_note = Die Stufen folgen gängigen Kraftstandards und sind für Frauen niedriger. Nur die Langhantel zählt: weder die Multipresse noch andere Maschinen.
+# Total volume in metric tonnes: "10 t"
+achievements_value_tonnes = %1$s t
+# A lift as a multiple of the body weight: "1.25×"
+achievements_value_ratio = %1$s×
+
+# The celebration shown over any screen when a new level is reached
+celebration_title = Herzlichen Glückwunsch!
+celebration_view = Erfolge ansehen
+# Spoken by TalkBack when the celebration appears
+celebration_announce = Neuer Erfolg
+# An achievement and the level just reached: "Workouts · Level 3"
+celebration_level = %1$s · Stufe %2$s
+# More levels were reached at once than the card lists: "+2 more"
+celebration_more{one} = +%1$s weitere
+celebration_more{other} = +%1$s weitere
+
+# One block per achievement: title, what a level asks for (goal), the congratulation (done) and how it is counted (rule)
+ach_workouts_title = Trainings
+ach_workouts_goal{one} = Beende dein erstes Training
+ach_workouts_goal{other} = Beende %1$s Trainings
+ach_workouts_done{one} = Du hast dein erstes Training beendet
+ach_workouts_done{other} = Du hast %1$s Trainings beendet
+ach_workouts_rule = Beendete Trainings mit mindestens einem erledigten Satz.
+
+ach_week_streak_title = Wochenserie
+ach_week_streak_goal{one} = Trainiere mindestens 2-mal in %1$s Woche
+ach_week_streak_goal{other} = Trainiere %1$s Wochen in Folge mindestens 2-mal pro Woche
+ach_week_streak_done{one} = Du hast mindestens 2-mal in %1$s Woche trainiert
+ach_week_streak_done{other} = Du hast %1$s Wochen in Folge mindestens 2-mal pro Woche trainiert
+ach_week_streak_rule = Kalenderwochen in Folge mit mindestens 2 beendeten Trainings. Die laufende Woche unterbricht die Serie erst, wenn sie vorbei ist.
+
+ach_balanced_weeks_title = Ausgewogene Wochen
+ach_balanced_weeks_goal{one} = Schaffe eine ausgewogene Woche
+ach_balanced_weeks_goal{other} = Schaffe %1$s ausgewogene Wochen
+ach_balanced_weeks_done{one} = Deine erste ausgewogene Woche
+ach_balanced_weeks_done{other} = Du hattest %1$s ausgewogene Wochen
+# %1$s: list of muscles ("Chest, Shoulders and Lats")
+ach_balanced_weeks_rule = Kalenderwochen, in denen jeder dieser Muskeln eine Anzahl effektiver Sätze innerhalb seines Wochenbereichs bekommt, weder darunter noch darüber: %1$s.
+
+ach_variety_title = Abwechslung
+ach_variety_goal{one} = Mache %1$s verschiedene Übung
+ach_variety_goal{other} = Mache %1$s verschiedene Übungen
+ach_variety_done{one} = Du hast %1$s verschiedene Übung gemacht
+ach_variety_done{other} = Du hast %1$s verschiedene Übungen gemacht
+ach_variety_rule = Verschiedene Übungen und Maschinen mit mindestens einem erledigten Satz.
+
+ach_cardio_km_title = Cardio-Distanz
+# %1$s: a distance ("50 km")
+ach_cardio_km_goal = Lege beim Cardio %1$s zurück
+ach_cardio_km_done = Du hast beim Cardio %1$s zurückgelegt
+ach_cardio_km_rule = Distanz aller erledigten Cardio-Sätze.
+
+ach_volume_title = Gesamtvolumen
+# %1$s: a weight ("10 t", "22046 lb")
+ach_volume_goal = Bewege insgesamt %1$s
+ach_volume_done = Du hast insgesamt %1$s bewegt
+ach_volume_rule = Gewicht × Wiederholungen aller erledigten Sätze, mit deinem Körpergewicht bei Körpergewichts- und assistierten Übungen.
+
+ach_records_title = Persönliche Rekorde
+ach_records_goal{one} = Stelle deinen ersten persönlichen Rekord auf
+ach_records_goal{other} = Stelle %1$s persönliche Rekorde auf
+ach_records_done{one} = Dein erster persönlicher Rekord
+ach_records_done{other} = Du hast %1$s persönliche Rekorde aufgestellt
+ach_records_rule = Sätze, die einen Rekord der Übung brechen: geschätztes 1RM, Gewicht, Wiederholungen, Zeit oder geringste Unterstützung.
+
+ach_bench_bw_title = Bankdrücken
+# %1$s: a multiple of the body weight ("1.25×")
+ach_bench_bw_goal = Bankdrücken mit %1$s Körpergewicht
+ach_bench_bw_done = Dein Bankdrücken erreicht %1$s Körpergewicht
+ach_bench_bw_rule = Bestes geschätztes 1RM beim Langhantel-Bankdrücken, geteilt durch dein Körpergewicht an diesem Tag.
+
+ach_squat_bw_title = Kniebeuge
+ach_squat_bw_goal = Kniebeuge mit %1$s Körpergewicht
+ach_squat_bw_done = Deine Kniebeuge erreicht %1$s Körpergewicht
+ach_squat_bw_rule = Bestes geschätztes 1RM bei der Langhantel-Kniebeuge oder der Frontkniebeuge, geteilt durch dein Körpergewicht an diesem Tag.
+
+ach_deadlift_bw_title = Kreuzheben
+ach_deadlift_bw_goal = Kreuzheben mit %1$s Körpergewicht
+ach_deadlift_bw_done = Dein Kreuzheben erreicht %1$s Körpergewicht
+ach_deadlift_bw_rule = Bestes geschätztes 1RM beim klassischen Kreuzheben oder Sumo-Kreuzheben mit der Langhantel, geteilt durch dein Körpergewicht an diesem Tag.
+
+ach_ohp_bw_title = Überkopfdrücken
+ach_ohp_bw_goal = Überkopfdrücken mit %1$s Körpergewicht
+ach_ohp_bw_done = Dein Überkopfdrücken erreicht %1$s Körpergewicht
+ach_ohp_bw_rule = Bestes geschätztes 1RM beim stehenden Überkopfdrücken mit der Langhantel, geteilt durch dein Körpergewicht an diesem Tag.
+
+ach_pull_ups_title = Klimmzüge
+ach_pull_ups_goal{one} = Schaffe deinen ersten Klimmzug ohne Unterstützung
+ach_pull_ups_goal{other} = Schaffe %1$s Klimmzüge ohne Unterstützung in einem Satz
+ach_pull_ups_done{one} = Dein erster Klimmzug ohne Unterstützung
+ach_pull_ups_done{other} = %1$s Klimmzüge ohne Unterstützung in einem Satz
+ach_pull_ups_rule = Meiste Wiederholungen in einem Satz Klimmzüge im Ober- oder Untergriff, mit oder ohne Zusatzgewicht, oder an der assistierten Maschine mit 0 Unterstützung.
+
+ach_goal_title = Zielgewicht
+# %1$s: the target weight ("75 kg")
+ach_goal_goal = Erreiche dein Zielgewicht von %1$s
+ach_goal_done = Du hast dein Zielgewicht von %1$s erreicht
+ach_goal_rule = Dein 7-Tage-Durchschnittsgewicht erreicht das Zielgewicht aus deinem Profil.
+
+ach_goal_progress_title = Auf dem Weg zum Ziel
+# %1$s: a weight ("3 kg")
+ach_goal_progress_goal_loss = Nimm auf dem Weg zu deinem Ziel %1$s ab
+ach_goal_progress_goal_gain = Nimm auf dem Weg zu deinem Ziel %1$s zu
+ach_goal_progress_done_loss = Du hast %1$s abgenommen
+ach_goal_progress_done_gain = Du hast %1$s zugenommen
+
+ach_fat_down_title = Körperfett
+ach_fat_down_goal{one} = Senke dein Körperfett um %1$s Prozentpunkt
+ach_fat_down_goal{other} = Senke dein Körperfett um %1$s Prozentpunkte
+ach_fat_down_done{one} = Dein Körperfett ist um %1$s Prozentpunkt gesunken
+ach_fat_down_done{other} = Dein Körperfett ist um %1$s Prozentpunkte gesunken
+ach_fat_down_rule = Rückgang deines Körperfetts im 7-Tage-Durchschnitt seit deiner ersten Woche mit Messungen. Unter das gesunde Minimum zu fallen, zählt nicht.
+
+ach_muscle_up_title = Muskelmasse
+# %1$s: a weight ("2 kg")
+ach_muscle_up_goal = Baue %1$s Muskelmasse auf
+ach_muscle_up_done = Du hast %1$s Muskelmasse aufgebaut
+ach_muscle_up_rule = Zunahme deiner Muskelmasse im 7-Tage-Durchschnitt seit deiner ersten Woche mit Messungen.

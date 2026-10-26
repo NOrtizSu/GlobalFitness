@@ -1,0 +1,2 @@
+# Fixes after the review of routines and icons: archiving an exercise that only routines use
+training_archive_routines_text = Viene nascosto dal catalogo; le tue schede lo conservano e puoi ripristinarlo da lì.

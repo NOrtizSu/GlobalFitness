@@ -1,0 +1,52 @@
+# Routines: the Entreno tab's section, the routine page and editor, adding a routine to a workout, saving a workout as a routine
+training_routines_title = الروتينات
+training_routine_new = روتين جديد
+training_routine_open = فتح الروتين
+# Title bar of a routine's page
+training_routine_title = الروتين
+training_routine_missing = لم يعد هذا الروتين موجودًا.
+# Label on a routine's page: one of the app's routines / one the user made
+training_routine_builtin = روتين مقترح
+training_routine_own = روتينك
+training_routine_start = بدء حصة تدريبية
+training_routine_add_to_active = إضافة إلى الحصة الجارية
+training_routine_active_hint = هناك حصة تدريبية جارية: تُضاف إليها التمارين غير الموجودة فيها بعد.
+training_routine_duplicate = نسخ وتعديل
+training_routine_delete = حذف الروتين
+# %1$s: routine name
+training_routine_delete_title = هل تريد حذف %1$s؟
+training_routine_delete_text = تبقى حصصك التدريبية كما هي.
+training_routine_exercises = التمارين
+training_routine_muscles = العضلات المستهدفة
+training_routine_loads_hint = تُملأ الأوزان من آخر حصة لك في كل تمرين.
+training_routine_edit_title = تعديل الروتين
+training_routine_name_hint = مثال: أرجل يوم الاثنين
+training_routine_note = ملاحظة (اختيارية)
+training_routine_add_exercises = إضافة تمارين
+training_routine_editor_empty = أضف تمارين الروتين: يبدأ كل تمرين بمجموعات وتكرارات آخر حصة لك.
+training_routine_exercises_error = أضف تمرينًا واحدًا على الأقل.
+# Set stepper of an exercise in the routine editor, read by TalkBack; %1$s: exercise
+training_routine_fewer_sets = تقليل مجموعات %1$s
+training_routine_more_sets = زيادة مجموعات %1$s
+training_routine_save_failed = تعذّر حفظ الروتين
+training_routine_add = إضافة روتين
+# Groups of the "Add routine" sheet
+training_routines_own = روتيناتك
+training_routines_builtin = مقترحة
+training_routine_already_in = موجودة بالفعل في هذه الحصة
+training_routine_added{zero} = أُضيف %1$s تمرين
+training_routine_added{one} = أُضيف تمرين واحد
+training_routine_added{two} = أُضيف تمرينان
+training_routine_added{few} = أُضيفت %1$s تمارين
+training_routine_added{many} = أُضيف %1$s تمرينًا
+training_routine_added{other} = أُضيف %1$s تمرين
+training_routine_nothing_added = تحتوي هذه الحصة بالفعل على كل تمارين الروتين.
+training_routine_save_from_workout = حفظ كروتين
+training_routine_save_text = تُحفظ تمارينها ومجموعاتها؛ وتأتي الأوزان دائمًا من آخر حصة لك.
+training_routine_saved = تم حفظ الروتين
+# Snackbar action: open the routine just saved
+training_routine_view = عرض
+# Hoy card: start a workout with the routine used last; %1$s: routine name
+training_start_routine = بدء %1$s
+# Hoy card, next to the routine: start a workout without exercises
+training_start_blank = حصة فارغة

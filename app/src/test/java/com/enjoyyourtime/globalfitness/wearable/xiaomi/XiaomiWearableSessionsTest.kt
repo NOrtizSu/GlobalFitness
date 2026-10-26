@@ -12,8 +12,8 @@ import com.enjoyyourtime.globalfitness.wearable.WearableException
 import com.enjoyyourtime.globalfitness.wearable.WearableFailure
 import com.enjoyyourtime.globalfitness.wearable.WearableSession
 import com.enjoyyourtime.globalfitness.wearable.testEnv
-import java.util.Collections
 import java.util.TimeZone
+import java.util.concurrent.CopyOnWriteArrayList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -105,7 +105,7 @@ class XiaomiWearableSessionsTest {
     }
 
     private suspend fun coroutineScopeEvents(session: WearableSession, block: suspend (MutableList<WearableEvent>) -> Unit) {
-        val list = Collections.synchronizedList(mutableListOf<WearableEvent>())
+        val list = CopyOnWriteArrayList<WearableEvent>()
         val job = scope.launch { session.events.collect { list += it } }
         try {
             block(list)

@@ -1,6 +1,6 @@
 # App
-!app_name = GlobalFitness
-band_notification_listener_label = GlobalFitness: forwarding to your band ||| GlobalFitness: reenvío a la pulsera
+!app_name = Fortia
+band_notification_listener_label = Fortia: forwarding to your band ||| Fortia: reenvío a la pulsera
 
 # Common actions
 action_cancel = Cancel ||| Cancelar
@@ -96,7 +96,7 @@ body_type_skinny_muscular = Skinny muscular ||| Delgado musculoso
 
 # Health Connect rationale (shown by Health Connect)
 health_rationale_title = Health data privacy ||| Privacidad de los datos de salud
-health_rationale_intro = GlobalFitness uses Health Connect for two things: ||| GlobalFitness usa Health Connect para dos cosas:
+health_rationale_intro = Fortia uses Health Connect for two things: ||| Fortia usa Health Connect para dos cosas:
 health_rationale_read = • Reading the data from your band or watch (for example the Xiaomi Smart Band through Mi Fitness): steps, distance, calories, heart rate, resting heart rate, heart rate variability, sleep, blood oxygen, respiratory rate and workouts. It also reads the weight and body fat recorded by other apps. With the past-data permission it imports up to one year. ||| • Leer los datos de tu pulsera o reloj (por ejemplo, la Xiaomi Smart Band a través de Mi Fitness): pasos, distancia, calorías, pulso, pulso en reposo, variabilidad del pulso, sueño, oxígeno en sangre, frecuencia respiratoria y entrenamientos. También lee el peso y la grasa corporal que registren otras apps. Con el permiso de datos anteriores importa hasta un año.
 health_rationale_write = • Writing your scale measurements: weight, body fat, bone mass, lean mass, basal metabolic rate and body water. If you delete a measurement in the app, it is also deleted from Health Connect. ||| • Escribir las mediciones de tu báscula: peso, grasa corporal, masa ósea, masa magra, metabolismo basal y agua corporal. Si borras una medición en la app, también se borra de Health Connect.
 health_rationale_storage = Data read from Health Connect is stored only on this phone: it is not uploaded to the optional cloud backup, not used for advertising and not shared with anyone. The app uses it only to show you summaries and charts. ||| Los datos leídos de Health Connect se guardan solo en este teléfono: no se suben a la copia en la nube opcional, no se usan para publicidad y no se comparten con nadie. La app los usa únicamente para mostrarte resúmenes y gráficos.

@@ -1,0 +1,165 @@
+# Built-in exercise and machine names: ex_<catalog id> (training/catalog/ExerciseCatalog.kt)
+
+# Machines
+ex_machine_chest_press = 器械推胸
+ex_machine_incline_chest_press = 器械上斜推胸
+ex_pec_deck = 蝴蝶机夹胸
+ex_machine_shoulder_press = 器械推肩
+ex_machine_lateral_raise = 器械侧平举
+ex_reverse_pec_deck = 反向蝴蝶机
+ex_machine_row = 器械坐姿划船
+ex_pullover_machine = 器械仰卧上拉
+ex_leg_press_machine = 腿举
+ex_horizontal_leg_press = 坐姿蹬腿
+ex_hack_squat_machine = 哈克深蹲
+ex_pendulum_squat_machine = 钟摆深蹲
+ex_leg_extension_machine = 坐姿腿屈伸
+ex_lying_leg_curl_machine = 俯卧腿弯举
+ex_seated_leg_curl_machine = 坐姿腿弯举
+ex_standing_calf_raise_machine = 器械站姿提踵
+ex_seated_calf_raise_machine = 坐姿提踵
+ex_leg_press_calf_raise = 腿举机提踵
+ex_hip_abductor_machine = 器械髋外展
+ex_hip_adductor_machine = 器械髋内收
+ex_glute_kickback_machine = 器械后踢腿
+ex_hip_thrust_machine = 器械臀推
+ex_back_extension_machine = 器械背部伸展
+ex_ab_crunch_machine = 器械卷腹
+ex_rotary_torso_machine = 器械转体
+ex_machine_biceps_curl = 器械二头弯举
+ex_machine_triceps_extension = 器械三头臂屈伸
+ex_seated_dip_machine = 器械坐姿臂屈伸
+ex_assisted_pull_up_machine = 辅助引体向上机
+ex_assisted_chin_up_machine = 辅助反手引体向上机
+ex_assisted_dip_machine = 辅助双杠臂屈伸机
+ex_neck_machine = 器械颈部训练
+
+# Cable
+ex_lat_pulldown_machine = 高位下拉
+ex_close_grip_lat_pulldown = 窄握高位下拉
+ex_seated_cable_row = 坐姿绳索划船
+ex_single_arm_cable_row = 单臂绳索划船
+ex_straight_arm_pulldown = 直臂下拉
+ex_cable_crossover = 绳索夹胸
+ex_low_cable_crossover = 低位绳索夹胸
+ex_cable_fly = 绳索飞鸟
+ex_face_pull = 面拉
+ex_cable_lateral_raise = 绳索侧平举
+ex_cable_triceps_pushdown = 三头肌下压
+ex_rope_triceps_pushdown = 三头绳下压
+ex_cable_overhead_triceps_extension = 绳索过顶臂屈伸
+ex_cable_curl = 绳索弯举
+ex_cable_crunch = 绳索卷腹
+ex_cable_woodchop = 绳索伐木
+ex_cable_pull_through = 绳索后拉
+ex_cable_glute_kickback = 绳索后踢腿
+
+# Smith machine
+ex_smith_squat = 史密斯深蹲
+ex_smith_bench_press = 史密斯卧推
+ex_smith_incline_bench_press = 史密斯上斜卧推
+ex_smith_shoulder_press = 史密斯推肩
+ex_smith_split_squat = 史密斯分腿蹲
+ex_smith_hip_thrust = 史密斯臀推
+ex_smith_calf_raise = 史密斯提踵
+
+# Barbell and EZ bar
+ex_barbell_bench_press = 杠铃卧推
+ex_barbell_incline_bench_press = 杠铃上斜卧推
+ex_barbell_decline_bench_press = 杠铃下斜卧推
+ex_close_grip_bench_press = 窄握卧推
+ex_barbell_overhead_press = 杠铃推举
+ex_barbell_back_squat = 杠铃深蹲
+ex_barbell_front_squat = 杠铃前蹲
+ex_barbell_deadlift = 硬拉
+ex_sumo_deadlift = 相扑硬拉
+ex_barbell_romanian_deadlift = 罗马尼亚硬拉
+ex_good_morning = 杠铃早安式
+ex_barbell_lunge = 杠铃箭步蹲
+ex_barbell_hip_thrust = 杠铃臀推
+ex_barbell_glute_bridge = 杠铃臀桥
+ex_barbell_row = 杠铃划船
+ex_pendlay_row = Pendlay 划船
+ex_t_bar_row = T 杠划船
+ex_barbell_upright_row = 直立划船
+ex_barbell_shrug = 杠铃耸肩
+ex_barbell_curl = 杠铃弯举
+ex_ez_bar_curl = 曲杆弯举
+ex_ez_bar_preacher_curl = 曲杆牧师凳弯举
+ex_skull_crusher = 仰卧臂屈伸
+ex_barbell_wrist_curl = 腕弯举
+ex_barbell_reverse_wrist_curl = 反向腕弯举
+
+# Dumbbells
+ex_dumbbell_bench_press = 哑铃卧推
+ex_dumbbell_incline_bench_press = 哑铃上斜卧推
+ex_dumbbell_fly = 哑铃飞鸟
+ex_dumbbell_pullover = 哑铃仰卧上拉
+ex_dumbbell_shoulder_press = 哑铃推肩
+ex_arnold_press = 阿诺德推举
+ex_dumbbell_lateral_raise = 哑铃侧平举
+ex_dumbbell_front_raise = 哑铃前平举
+ex_dumbbell_rear_delt_fly = 哑铃俯身飞鸟
+ex_dumbbell_row = 单臂哑铃划船
+ex_dumbbell_shrug = 哑铃耸肩
+ex_dumbbell_curl = 哑铃弯举
+ex_hammer_curl = 锤式弯举
+ex_incline_dumbbell_curl = 上斜哑铃弯举
+ex_concentration_curl = 集中弯举
+ex_dumbbell_overhead_extension = 哑铃过顶臂屈伸
+ex_dumbbell_triceps_kickback = 哑铃俯身臂屈伸
+ex_dumbbell_goblet_squat = 哑铃高脚杯深蹲
+ex_bulgarian_split_squat = 保加利亚分腿蹲
+ex_dumbbell_lunge = 哑铃箭步蹲
+ex_dumbbell_step_up = 哑铃登阶
+ex_dumbbell_romanian_deadlift = 哑铃罗马尼亚硬拉
+ex_dumbbell_side_bend = 哑铃体侧屈
+
+# Kettlebells
+ex_kettlebell_swing = 壶铃摆荡
+ex_kettlebell_goblet_squat = 壶铃高脚杯深蹲
+ex_kettlebell_clean_and_press = 壶铃高翻推举
+ex_turkish_get_up = 土耳其起立
+
+# Bodyweight
+ex_push_up = 俯卧撑
+ex_parallel_bar_dip = 双杠臂屈伸
+ex_bench_dip = 凳上臂屈伸
+ex_pull_up = 引体向上
+ex_chin_up = 反手引体向上
+ex_inverted_row = 反向划船
+ex_bodyweight_squat = 自重深蹲
+ex_bodyweight_lunge = 箭步蹲
+ex_glute_bridge = 臀桥
+ex_back_extension = 山羊挺身
+ex_nordic_curl = 北欧腿弯举
+ex_crunch = 卷腹
+ex_sit_up = 仰卧起坐
+ex_hanging_leg_raise = 悬垂举腿
+ex_lying_leg_raise = 仰卧举腿
+ex_russian_twist = 俄罗斯转体
+ex_mountain_climber = 登山跑
+ex_burpee = 波比跳
+
+# Timed holds and carries
+ex_plank = 平板支撑
+ex_side_plank = 侧平板支撑
+ex_copenhagen_plank = 哥本哈根平板支撑
+ex_wall_sit = 靠墙静蹲
+ex_dead_hang = 静态悬垂
+ex_farmers_carry = 农夫行走
+
+# Resistance bands
+ex_band_pull_apart = 弹力带水平外拉
+ex_banded_lateral_walk = 弹力带侧向行走
+
+# Cardio machines
+ex_treadmill = 跑步机
+ex_stationary_bike = 室内单车
+ex_spin_bike = 动感单车
+ex_recumbent_bike = 卧式单车
+ex_air_bike = 风阻单车
+ex_elliptical = 椭圆机
+ex_rowing_machine = 划船机
+ex_stair_climber = 爬楼机
+ex_ski_erg = 滑雪机

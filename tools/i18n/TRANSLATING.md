@@ -1,4 +1,4 @@
-# Translating GlobalFitness
+# Translating Fortia
 
 The app's texts live in `app/src/main/res/values*/strings.xml`, generated from the sources in this
 folder by `gen.py`. Edit the sources, not the XML, then run:
@@ -49,7 +49,7 @@ A new language also needs an entry in `gen.py` (`LOCALES`, `PLURALS`) and in
   en/de/hi/tr `one other`; es/fr/it/pt `one many other` (`many` is used for millions: copy `other`);
   ru/pl `one few many other`; ar `zero one two few many other`; ja/ko/zh/id/vi `other`.
   A `one` text may drop the number ("One measurement") when the language allows it.
-- Do not translate names: GlobalFitness, Health Connect, Mi Fitness, Google, Google Play, Xiaomi,
+- Do not translate names: Fortia, Health Connect, Mi Fitness, Google, Google Play, Xiaomi,
   Gadgetbridge, openScale, Bluetooth, Firebase, scale and band model names, "bind key"
   (the Xiaomi term, kept as is), file and folder names, package names.
 - Keep it short: navigation labels, chips and buttons have little room. Prefer the words Android and

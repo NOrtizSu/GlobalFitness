@@ -45,7 +45,7 @@ class InfiniTimeTest {
 
     @Test
     fun callAndFindDevice() {
-        assertArrayEquals(hex("03 01 31") + "GlobalFitness".toByteArray(), InfiniTime.call("GlobalFitness"))
+        assertArrayEquals(hex("03 01 31") + "Fortia".toByteArray(), InfiniTime.call("Fortia"))
         assertArrayEquals(hex("03 01 31") + "Phone\u0000Ana".toByteArray(), InfiniTime.call("Ana", source = "Phone"))
         assertArrayEquals(hex("03 01 31") + "Ana".toByteArray(), InfiniTime.call("Ana", source = "Phone", firmware015 = false))
     }

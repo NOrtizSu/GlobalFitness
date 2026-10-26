@@ -1,0 +1,111 @@
+# Achievements: medals derived from the workouts and the weighings, the celebration shown when a level is reached, and the achievements page (Training tab card, Profile row)
+achievements_title = 実績
+achievements_earned{other} = メダル %1$s/%2$s 個を獲得
+achievements_category_training = 継続
+achievements_category_strength = 筋力
+achievements_category_body = からだ
+achievements_level = レベル %1$s/%2$s
+achievements_not_started = 未獲得
+achievements_all_levels = 全レベル達成
+achievements_earned_on = %1$s に獲得
+achievements_next = 次：%1$s
+achievements_progress = %1$s / %2$s
+achievements_levels = レベル
+achievements_how = カウント方法
+achievements_open = 実績を開く
+achievements_needs_bodyweight = 体重を測ると、挙上重量を体重と比較できます。
+achievements_needs_target = プロフィールで目標体重を設定してください。
+achievements_needs_weighings = 体重を測って始めましょう。
+achievements_target_is_start = 目標が開始時の体重と同じため、縮める差がありません。
+achievements_needs_composition = 体組成を測定できる体重計で測った、体組成付きの測定データが必要です。
+achievements_lift_note = レベルは一般的な筋力基準に基づいており、女性は低めに設定されています。対象はバーベルのみで、スミスマシンやその他のマシンはカウントされません。
+achievements_value_tonnes = %1$s t
+achievements_value_ratio = %1$s×
+
+# The celebration shown over any screen when a new level is reached
+celebration_title = おめでとうございます！
+celebration_view = 実績を見る
+celebration_announce = 新しい実績
+celebration_level = %1$s · レベル %2$s
+celebration_more{other} = ほか %1$s 件
+
+ach_workouts_title = ワークアウト
+ach_workouts_goal{other} = ワークアウトを %1$s 回完了する
+ach_workouts_done{other} = ワークアウトを %1$s 回完了しました
+ach_workouts_rule = 完了したセットが 1 つ以上ある、終了済みのワークアウト。
+
+ach_week_streak_title = 週の連続記録
+ach_week_streak_goal{other} = %1$s 週連続で週 2 回以上トレーニングする
+ach_week_streak_done{other} = %1$s 週連続で週 2 回以上トレーニングしました
+ach_week_streak_rule = 終了済みのワークアウトが 2 回以上ある暦週が連続した数。進行中の週は、終わるまで連続記録を途切れさせません。
+
+ach_balanced_weeks_title = バランスの良い週
+ach_balanced_weeks_goal{other} = バランスの良い週を %1$s 回達成する
+ach_balanced_weeks_done{other} = バランスの良い週を %1$s 回達成しました
+ach_balanced_weeks_rule = 次の各筋肉の有効セット数が、週間の目安範囲内（少なすぎず多すぎず）に収まった暦週：%1$s。
+
+ach_variety_title = 種目の多様さ
+ach_variety_goal{other} = %1$s 種類の種目を行う
+ach_variety_done{other} = %1$s 種類の種目を行いました
+ach_variety_rule = 完了したセットが 1 つ以上ある、異なる種目とマシン。
+
+ach_cardio_km_title = 有酸素運動の距離
+ach_cardio_km_goal = 有酸素運動で合計 %1$s に到達する
+ach_cardio_km_done = 有酸素運動で合計 %1$s に到達しました
+ach_cardio_km_rule = 完了したすべての有酸素運動セットの距離。
+
+ach_volume_title = 総ボリューム
+ach_volume_goal = 合計 %1$s を挙上する
+ach_volume_done = 合計 %1$s を挙上しました
+ach_volume_rule = 完了したすべてのセットの重量 × 回数。自重種目とアシスト種目では体重を含めます。
+
+ach_records_title = 自己ベスト
+ach_records_goal{other} = 自己ベストを %1$s 回更新する
+ach_records_done{other} = 自己ベストを %1$s 回更新しました
+ach_records_rule = その種目の記録（推定 1RM、重量、回数、時間、最小アシスト）のいずれかを更新したセット。
+
+ach_bench_bw_title = ベンチプレス
+ach_bench_bw_goal = ベンチプレスで体重の %1$s を挙げる
+ach_bench_bw_done = ベンチプレスが体重の %1$s に到達しました
+ach_bench_bw_rule = バーベルベンチプレスの最高推定 1RM を、その日の体重で割った値。
+
+ach_squat_bw_title = スクワット
+ach_squat_bw_goal = スクワットで体重の %1$s を挙げる
+ach_squat_bw_done = スクワットが体重の %1$s に到達しました
+ach_squat_bw_rule = バーベルスクワットまたはフロントスクワットの最高推定 1RM を、その日の体重で割った値。
+
+ach_deadlift_bw_title = デッドリフト
+ach_deadlift_bw_goal = デッドリフトで体重の %1$s を挙げる
+ach_deadlift_bw_done = デッドリフトが体重の %1$s に到達しました
+ach_deadlift_bw_rule = バーベルのデッドリフトまたはスモウデッドリフトの最高推定 1RM を、その日の体重で割った値。
+
+ach_ohp_bw_title = オーバーヘッドプレス
+ach_ohp_bw_goal = オーバーヘッドプレスで体重の %1$s を挙げる
+ach_ohp_bw_done = オーバーヘッドプレスが体重の %1$s に到達しました
+ach_ohp_bw_rule = 立って行うバーベルのオーバーヘッドプレスの最高推定 1RM を、その日の体重で割った値。
+
+ach_pull_ups_title = 懸垂
+ach_pull_ups_goal{other} = 1 セットでアシストなしの懸垂を %1$s 回行う
+ach_pull_ups_done{other} = 1 セットでアシストなしの懸垂を %1$s 回達成
+ach_pull_ups_rule = 懸垂または逆手懸垂の 1 セットでの最多回数。追加重量の有無は問わず、アシストマシンでアシスト 0 の場合も含みます。
+
+ach_goal_title = 目標体重
+ach_goal_goal = 目標体重 %1$s に到達する
+ach_goal_done = 目標体重 %1$s に到達しました
+ach_goal_rule = 7 日間の平均体重が、プロフィールで設定した目標に到達すること。
+
+ach_goal_progress_title = 目標に向けて
+ach_goal_progress_goal_loss = 目標に向けて %1$s 減らす
+ach_goal_progress_goal_gain = 目標に向けて %1$s 増やす
+ach_goal_progress_done_loss = %1$s 減量しました
+ach_goal_progress_done_gain = %1$s 増量しました
+
+ach_fat_down_title = 体脂肪率
+ach_fat_down_goal{other} = 体脂肪率を %1$s ポイント下げる
+ach_fat_down_done{other} = 体脂肪率が %1$s ポイント下がりました
+ach_fat_down_rule = 測定を始めた最初の週から、7 日間の平均体脂肪率がどれだけ下がったか。健康的な下限を下回った分はカウントされません。
+
+ach_muscle_up_title = 筋肉量
+ach_muscle_up_goal = 筋肉量を %1$s 増やす
+ach_muscle_up_done = 筋肉量が %1$s 増えました
+ach_muscle_up_rule = 測定を始めた最初の週から、7 日間の平均筋肉量がどれだけ増えたか。

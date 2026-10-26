@@ -1,0 +1,5 @@
+# Cloud backup: what it includes now that the training data is backed up too
+account_benefit_where_training = O seu perfil, as definições, as medições e os treinos (com as suas máquinas, as respetivas notas e fotos) são guardados na sua conta, em servidores da Google na UE (Madrid).
+account_delete_text_training = A sua cópia na nuvem (perfil, medições, balanças, treinos, máquinas e as respetivas fotos) e a sua conta Fortia serão eliminadas definitivamente. Os dados deste telemóvel não são eliminados.\n\nPor motivos de segurança, a Google vai pedir-lhe que escolha e confirme a conta.
+conflict_restore_cloud_confirm_training = Os dados deste telemóvel serão substituídos pelos da nuvem. As medições, os treinos e as máquinas que só existam neste telemóvel serão eliminados.
+conflict_replace_cloud_confirm_training = A sua cópia na nuvem será substituída pelos dados deste telemóvel. As medições, os treinos e as máquinas que só existam na nuvem serão eliminados.

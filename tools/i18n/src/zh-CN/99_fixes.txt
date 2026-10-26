@@ -1,0 +1,2 @@
+# Fixes after the review of routines and icons: archiving an exercise that only routines use
+training_archive_routines_text = 它将从动作库中隐藏；你的训练计划会保留它，你也可以从中恢复它。

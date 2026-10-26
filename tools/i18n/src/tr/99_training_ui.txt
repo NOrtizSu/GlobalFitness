@@ -1,0 +1,220 @@
+# Training screens: Entreno tab, Hoy card, workout, exercise picker and catalog, exercise detail, editor, history, settings
+training_title = Antrenman
+training_catalog_title = Egzersizler ve makineler
+training_history_title = Geçmiş
+training_settings_title = Antrenman ayarları
+training_in_progress = Devam eden antrenman
+training_start_title = Antrenmana hazır mısınız?
+training_start_empty = Antrenmana başla
+training_log_past = Başka bir günü kaydet
+training_intro_title = Antrenmanlarınızı kaydedin
+training_intro_text = Bir antrenman başlatın, katalogdan egzersizler veya kendi makinelerinizi ekleyin ve her seti bitirdiğinizde işaretleyin. Uygulama geçen sefer ne yaptığınızı hatırlar ve ilerlemenizi egzersiz ve kas bazında takip eder.
+training_open_catalog = Egzersizlere göz at
+training_repeat_title = Bir antrenmanı tekrarla
+training_repeat_action = Tekrarla
+training_this_week = Bu hafta
+training_stat_workouts = Antrenman
+training_stat_sets = Set
+training_stat_volume = Hacim
+# Spoken summary of the week card: workouts, sets, volume ("3 workouts", "42 sets", "12450 kg")
+training_week_desc = Bu hafta: %1$s, %2$s, %3$s
+training_recent_title = Son antrenmanlar
+training_see_all = Tümünü gör
+training_today_done = Bugünkü antrenman
+training_open_workout = Antrenmanı aç
+training_open_tab = Antrenman sekmesini aç
+# "Last workout: 2 days ago · Legs"
+training_last_workout = Son antrenman: %1$s · %2$s
+training_no_workouts_yet = Henüz kaydedilmiş antrenman yok.
+# Title of a workout without a name, muscles or exercises
+training_workout_default = Antrenman
+# Title bar of a finished or past workout
+training_workout_title = Antrenman
+training_workout_missing = Bu antrenman artık yok.
+training_workout_name = Antrenman adı
+training_workout_note = Antrenman notları
+training_workout_empty = İlk egzersizi ekleyin: geçen seferki setler sizin için doldurulur.
+training_add_exercise = Egzersiz ekle
+training_add_set = Set ekle
+training_finish = Bitir
+training_finish_workout = Antrenmanı bitir
+training_more_options = Diğer seçenekler
+training_change_start = Tarihi ve saati değiştir
+training_discard_workout = Antrenmanı at
+training_delete_workout = Antrenmanı sil
+training_discard = At
+training_discard_title = Bu antrenman atılsın mı?
+# %1$s: start date and time
+training_discard_text = %1$s tarihinde başlatılan antrenman ve setleri silinecek.
+training_discard_empty_text = Hiçbir set tamamlandı olarak işaretlenmedi, bu yüzden kaydedilecek bir şey yok.
+training_delete_title = Bu antrenman silinsin mi?
+# %1$s: date and time of the workout
+training_delete_text = %1$s tarihli antrenman tüm setleriyle birlikte silinecek.
+training_exercise_options = Seçenekler: %1$s
+training_open_exercise = Egzersizi aç
+training_add_warmup = Isınma seti ekle
+training_entry_note = Not
+training_move_up = Yukarı taşı
+training_move_down = Aşağı taşı
+training_remove_exercise = Egzersizi kaldır
+training_remove = Kaldır
+training_remove_exercise_title = %1$s kaldırılsın mı?
+training_remove_exercise_text = Bu antrenmandaki setleri silinecek.
+# Set table column headers (narrow: keep them short)
+training_col_set = Set
+training_col_previous = Önceki
+# Extra weight on a bodyweight exercise, %1$s: unit ("+kg")
+training_col_extra_load = +%1$s
+# Counterweight of an assisted machine, %1$s: unit; may wrap to two lines
+training_col_assistance = Destek (%1$s)
+training_col_reps = Tekrar
+training_col_time = Süre
+training_col_km = km
+training_col_level = Seviye
+# Set cells as TalkBack reads them ("Repetitions, set 2")
+training_field_extra_load = Ek ağırlık
+training_field_assistance = Destek
+training_field_reps = Tekrar
+training_field_distance = Mesafe
+training_field_kcal = Kalori
+training_set_number = Set %1$s
+training_warmup_set = Isınma seti
+# Shown instead of the set number for a warm-up set (one letter)
+training_warmup_short = W
+training_set_done = %1$s tamamlandı
+training_set_options = %1$s: seçenekler
+training_make_warmup = Isınma seti yap
+training_make_working = Çalışma seti yap
+training_delete_set = Seti sil
+training_copy_previous = Geçen seferki değerleri kullan
+training_record = Kişisel rekor
+# %1$s: exercise, %2$s: the set ("85 kg × 8")
+training_record_message = Yeni kişisel rekor! %1$s, %2$s
+training_assist_hint = Destekli makinede size yardım eden karşı ağırlığı kaydedersiniz: daha az destek = daha güçlü.
+training_rest = Dinlenme
+training_rest_value = Dinlenme %1$s
+# Seconds ("30 s", "−15 s")
+training_seconds_value = %1$s sn
+training_skip_rest = Dinlenmeyi atla
+training_rest_off = Kapalı
+training_elapsed_desc = Geçen süre: %1$s
+training_duration = Süre
+training_duration_minutes = Dakika
+training_unfinished_title = İşaretlenmemiş setler
+training_unfinished_text{one} = Bir setin değerleri var ama tamamlandı olarak işaretlenmemiş.
+training_unfinished_text{other} = %1$s setin değerleri var ama tamamlandı olarak işaretlenmemiş.
+training_unfinished_complete = Tamamlandı olarak işaretle
+training_unfinished_discard = Onları at
+training_finished_title = Antrenman tamamlandı
+training_records = Rekorlar
+training_done = Tamam
+# A muscle with its sets in the workout summary ("Chest: 4 sets")
+training_muscle_sets = %1$s: %2$s
+training_picker_title = Egzersiz ekle
+training_add_selected{one} = %1$s egzersiz ekle
+training_add_selected{other} = %1$s egzersiz ekle
+training_create_exercise = Makine veya egzersiz oluştur
+training_search = Egzersiz ara
+training_search_clear = Aramayı temizle
+training_no_results = Eşleşen egzersiz yok. Başka kelimeler veya filtreler deneyin ya da kendinizinkini oluşturun.
+training_recent_exercises = Son kullanılanlar
+training_all_exercises = Tüm egzersizler
+training_scope_all = Tümü
+training_scope_mine = Makinelerim
+training_scope_favorites = Favoriler
+training_mine_empty = Kendi makineleriniz ve egzersizleriniz ile fotoğraf veya ayar eklediğiniz her egzersiz burada görünür.
+training_favorites_empty = Bir egzersizi el altında tutmak için yıldızına dokunun.
+training_new_machine = Yeni makine
+training_favorite = Favori
+training_make_favorite = Favorilere ekle
+training_unfavorite = Favorilerden kaldır
+training_exercise_title = Egzersiz
+training_exercise_missing = Bu egzersiz artık yok.
+training_edit = Düzenle
+training_archive = Arşivle
+training_restore = Geri yükle
+training_archive_title = %1$s arşivlensin mi?
+training_archive_text = Katalogdan gizlenir; antrenmanlarınız onu korur ve oradan geri yükleyebilirsiniz.
+training_delete_exercise_title = %1$s silinsin mi?
+training_delete_exercise_text = Fotoğrafı ve ayarlarıyla birlikte silinir.
+training_archived_note = Arşivlendi: katalogda gizli.
+# An exercise the user created
+training_own_exercise = Özel
+training_photo_add = Makinenizin fotoğrafını ekleyin
+training_photo_add_text = Spor salonunuzda tanıyabilmeniz için.
+training_photo_change = Fotoğrafı değiştir
+training_photo_of = Fotoğraf: %1$s
+training_photo_take = Fotoğraf çek
+training_photo_pick = Galeriden seç
+training_photo_remove = Fotoğrafı kaldır
+training_photo_failed = Fotoğraf okunamadı.
+training_photo_unavailable = Bu telefonda fotoğraf çekebilecek bir uygulama yok.
+training_muscle_primary = Ana kaslar
+training_muscle_secondary = Yardımcı kaslar
+training_machine_settings = Makine ayarları
+training_machine_settings_hint = Örn. koltuk 4, sırtlık 2
+training_progress = İlerleme
+training_progress_empty = İlerlemenizi burada görmek için bir antrenmanda bu egzersizin setlerini işaretleyin.
+training_progress_none_in_period = Bu dönemde seans yok.
+training_needs_bodyweight = Gücü görmek için vücut ağırlığınızı kaydedin (tartı veya elle kilo).
+training_personal_records = Kişisel rekorlar
+training_no_records = Henüz rekor yok.
+training_record_volume = En iyi seans hacmi
+training_metric_e1rm = Tahmini 1RM
+training_metric_e1rm_short = Tah. 1RM
+training_metric_heaviest = En yüksek ağırlık
+training_metric_extra_load = En yüksek ek ağırlık
+training_metric_max_reps = En çok tekrar
+training_metric_total_reps = Toplam tekrar
+training_metric_longest = En uzun süre
+training_metric_total_time = Toplam süre
+training_metric_distance = Mesafe
+training_metric_least_assistance = En az destek
+training_value_reps = %1$s tekrar
+training_value_lb = %1$s lb
+# Progress chart for TalkBack: %1$s metric, %2$s number of sessions, %3$s first value, %4$s last value, %5$s highest value
+training_chart_desc{one} = Grafik (%1$s), %2$s seans: %3$s.
+training_chart_desc{other} = Grafik (%1$s), %2$s seans: %3$s ile %4$s arası, en yüksek %5$s.
+# How sets of each kind are logged (exercise editor)
+training_kind_weight_reps_text = Ağırlık × tekrar: press, kürek, leg press…
+training_kind_bodyweight_reps_text = Vücut ağırlığıyla tekrar, ek ağırlık isteğe bağlı: barfiks, dips, şınav.
+training_kind_assisted_reps_text = Size yardım eden karşı ağırlığı kaydedersiniz: daha az destek = daha güçlü.
+training_kind_duration_text = Tutulan saniye, ağırlık isteğe bağlı: plank, çiftçi yürüyüşü.
+training_kind_cardio_text = Süre, mesafe, seviye ve kalori: koşu bandı, bisiklet, kürek makinesi.
+training_editor_new = Yeni makine veya egzersiz
+training_editor_edit = Egzersizi düzenle
+training_editor_not_editable = Katalogdaki egzersizler düzenlenemez: ayarlarınızı, fotoğrafınızı ve yıldızınızı egzersizin sayfasından ekleyin.
+training_editor_name = Ad
+training_editor_name_hint = Örn. Chest press (Technogym)
+training_editor_name_error = Bir ad girin.
+training_editor_equipment = Ekipman
+training_editor_kind = Nasıl kaydedilir
+training_editor_kind_changed = Daha önce kaydedilen setler değerlerini korur; yalnızca nasıl yorumlandıkları değişir.
+training_editor_muscle_error = En az bir ana kas seçin.
+training_editor_photo = Fotoğraf
+training_history_empty_title = Henüz antrenman yok
+training_history_empty_text = Tamamlanan antrenmanlar aylara göre gruplanmış olarak burada görünür.
+training_workout_actions = Antrenman işlemleri
+training_settings_unit = Ağırlık birimi
+training_settings_unit_text = Ağırlıklar kilogram olarak saklanır; birimi istediğiniz zaman değiştirebilirsiniz.
+training_unit_kg_long = Kilogram (kg)
+training_unit_lb_long = Libre (lb)
+training_settings_rest = Dinlenme zamanlayıcısı
+training_settings_rest_text = Uygulama açıkken, bir seti işaretlediğinizde başlar ve bitince titrer.
+training_settings_health = Antrenmanlarınızı Health Connect'e kaydetme ayarı Profil → Health Connect bölümündedir.
+training_days_ago{one} = %1$s gün önce
+training_days_ago{other} = %1$s gün önce
+training_exercises_count{one} = %1$s egzersiz
+training_exercises_count{other} = %1$s egzersiz
+training_sets_count{one} = %1$s set
+training_sets_count{other} = %1$s set
+# Half sets of a secondary muscle ("2.5 sets"): decimals take no plural form
+training_sets_fraction = %1$s set
+training_workouts_count{one} = %1$s antrenman
+training_workouts_count{other} = %1$s antrenman
+training_undo = Geri al
+training_exercise_removed = Egzersiz kaldırıldı
+training_set_deleted = Set silindi
+training_discard_changes = Değişiklikler atılsın mı?
+training_save_failed = Egzersiz kaydedilemedi
+training_spoken_pair = %1$s, %2$s

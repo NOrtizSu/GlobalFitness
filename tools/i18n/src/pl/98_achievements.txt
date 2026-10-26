@@ -1,0 +1,177 @@
+# Achievements: medals derived from the workouts and the weighings, the celebration shown when a level is reached, and the achievements page (Entreno tab card, Perfil row)
+achievements_title = Osiągnięcia
+# Medals earned out of all the levels on offer: "12 of 69 medals" (the plural follows the total)
+achievements_earned{one} = %1$s z %2$s medalu
+achievements_earned{few} = %1$s z %2$s medali
+achievements_earned{many} = %1$s z %2$s medali
+achievements_earned{other} = %1$s z %2$s medali
+achievements_category_training = Regularność
+achievements_category_strength = Siła
+achievements_category_body = Ciało
+# Highest level reached of an achievement: "Level 3 of 8"
+achievements_level = Poziom %1$s z %2$s
+achievements_not_started = Jeszcze nie zdobyto
+achievements_all_levels = Wszystkie poziomy zdobyte
+# When a level was earned: "Earned on 15 Oct 2026"
+achievements_earned_on = Zdobyto %1$s
+# The next level of an achievement: "Next: Finish 25 workouts"
+achievements_next = Następny: %1$s
+# Progress towards the next level: "23 / 25", "12.5 t / 50 t"
+achievements_progress = %1$s / %2$s
+achievements_levels = Poziomy
+achievements_how = Sposób liczenia
+achievements_open = Otwórz osiągnięcia
+achievements_needs_bodyweight = Zważ się, aby porównać swoje wyniki z masą ciała.
+achievements_needs_target = Ustaw wagę docelową w profilu.
+achievements_needs_weighings = Zważ się, aby zacząć.
+achievements_target_is_start = Twoja waga docelowa jest równa początkowej: nie ma różnicy do pokonania.
+achievements_needs_composition = Wymaga ważeń ze składem ciała, z wagi, która go mierzy.
+achievements_lift_note = Poziomy opierają się na popularnych standardach siłowych i są niższe dla kobiet. Liczy się tylko sztanga: nie maszyna Smitha ani inne maszyny.
+# Total volume in metric tonnes: "10 t"
+achievements_value_tonnes = %1$s t
+# A lift as a multiple of the body weight: "1.25×"
+achievements_value_ratio = %1$s×
+
+# The celebration shown over any screen when a new level is reached
+celebration_title = Gratulacje!
+celebration_view = Zobacz osiągnięcia
+# Spoken by TalkBack when the celebration appears
+celebration_announce = Nowe osiągnięcie
+# An achievement and the level just reached: "Workouts · Level 3"
+celebration_level = %1$s · Poziom %2$s
+# More levels were reached at once than the card lists: "+2 more"
+celebration_more{one} = i jeszcze %1$s
+celebration_more{few} = i jeszcze %1$s
+celebration_more{many} = i jeszcze %1$s
+celebration_more{other} = i jeszcze %1$s
+
+# One block per achievement: title, what a level asks for (goal), the congratulation (done) and how it is counted (rule)
+ach_workouts_title = Treningi
+ach_workouts_goal{one} = Ukończ pierwszy trening
+ach_workouts_goal{few} = Ukończ %1$s treningi
+ach_workouts_goal{many} = Ukończ %1$s treningów
+ach_workouts_goal{other} = Ukończ %1$s treningu
+ach_workouts_done{one} = Masz za sobą pierwszy trening
+ach_workouts_done{few} = Masz za sobą %1$s treningi
+ach_workouts_done{many} = Masz za sobą %1$s treningów
+ach_workouts_done{other} = Masz za sobą %1$s treningu
+ach_workouts_rule = Ukończone treningi z co najmniej jedną wykonaną serią.
+
+ach_week_streak_title = Passa tygodniowa
+ach_week_streak_goal{one} = Trenuj co najmniej 2 razy w tygodniu
+ach_week_streak_goal{few} = Trenuj co najmniej 2 razy w tygodniu przez %1$s tygodnie z rzędu
+ach_week_streak_goal{many} = Trenuj co najmniej 2 razy w tygodniu przez %1$s tygodni z rzędu
+ach_week_streak_goal{other} = Trenuj co najmniej 2 razy w tygodniu przez %1$s tygodnia z rzędu
+ach_week_streak_done{one} = Masz za sobą tydzień z co najmniej 2 treningami
+ach_week_streak_done{few} = Już %1$s tygodnie z rzędu trenujesz co najmniej 2 razy w tygodniu
+ach_week_streak_done{many} = Już %1$s tygodni z rzędu trenujesz co najmniej 2 razy w tygodniu
+ach_week_streak_done{other} = Już %1$s tygodnia z rzędu trenujesz co najmniej 2 razy w tygodniu
+ach_week_streak_rule = Kolejne tygodnie kalendarzowe z co najmniej 2 ukończonymi treningami. Bieżący tydzień nie przerywa passy, dopóki się nie skończy.
+
+ach_balanced_weeks_title = Zrównoważone tygodnie
+ach_balanced_weeks_goal{one} = Zalicz zrównoważony tydzień
+ach_balanced_weeks_goal{few} = Zalicz %1$s zrównoważone tygodnie
+ach_balanced_weeks_goal{many} = Zalicz %1$s zrównoważonych tygodni
+ach_balanced_weeks_goal{other} = Zalicz %1$s zrównoważonego tygodnia
+ach_balanced_weeks_done{one} = Twój pierwszy zrównoważony tydzień
+ach_balanced_weeks_done{few} = Masz za sobą %1$s zrównoważone tygodnie
+ach_balanced_weeks_done{many} = Masz za sobą %1$s zrównoważonych tygodni
+ach_balanced_weeks_done{other} = Masz za sobą %1$s zrównoważonego tygodnia
+# %1$s: list of muscles ("Chest, Shoulders and Lats")
+ach_balanced_weeks_rule = Tygodnie kalendarzowe, w których każdy z tych mięśni dostaje liczbę serii roboczych w swoim zakresie tygodniowym, ani poniżej, ani powyżej: %1$s.
+
+ach_variety_title = Różnorodność
+ach_variety_goal{one} = Wykonaj %1$s ćwiczenie
+ach_variety_goal{few} = Wykonaj %1$s różne ćwiczenia
+ach_variety_goal{many} = Wykonaj %1$s różnych ćwiczeń
+ach_variety_goal{other} = Wykonaj %1$s różnego ćwiczenia
+ach_variety_done{one} = Masz za sobą %1$s ćwiczenie
+ach_variety_done{few} = Masz za sobą %1$s różne ćwiczenia
+ach_variety_done{many} = Masz za sobą %1$s różnych ćwiczeń
+ach_variety_done{other} = Masz za sobą %1$s różnego ćwiczenia
+ach_variety_rule = Różne ćwiczenia i maszyny z co najmniej jedną wykonaną serią.
+
+ach_cardio_km_title = Dystans cardio
+# %1$s: a distance ("50 km")
+ach_cardio_km_goal = Pokonaj %1$s w cardio
+ach_cardio_km_done = Masz za sobą %1$s w cardio
+ach_cardio_km_rule = Dystans wszystkich wykonanych serii cardio.
+
+ach_volume_title = Łączna objętość
+# %1$s: a weight ("10 t", "22046 lb")
+ach_volume_goal = Podnieś łącznie %1$s
+ach_volume_done = Podniesiono już łącznie %1$s
+ach_volume_rule = Ciężar × powtórzenia wszystkich wykonanych serii, z Twoją masą ciała w ćwiczeniach z ciężarem ciała i z asystą.
+
+ach_records_title = Rekordy życiowe
+ach_records_goal{one} = Pobij pierwszy rekord życiowy
+ach_records_goal{few} = Pobij %1$s rekordy życiowe
+ach_records_goal{many} = Pobij %1$s rekordów życiowych
+ach_records_goal{other} = Pobij %1$s rekordu życiowego
+ach_records_done{one} = Twój pierwszy rekord życiowy
+ach_records_done{few} = Masz już %1$s pobite rekordy życiowe
+ach_records_done{many} = Masz już %1$s pobitych rekordów życiowych
+ach_records_done{other} = Masz już %1$s pobitego rekordu życiowego
+ach_records_rule = Serie, które biją jeden z rekordów ćwiczenia: szacowany 1RM, ciężar, powtórzenia, czas lub najmniejsza asysta.
+
+ach_bench_bw_title = Wyciskanie leżąc
+# %1$s: a multiple of the body weight ("1.25×")
+ach_bench_bw_goal = Wyciskanie leżąc: %1$s masy ciała
+ach_bench_bw_done = Twoje wyciskanie leżąc sięga %1$s masy ciała
+ach_bench_bw_rule = Najlepszy szacowany 1RM w wyciskaniu sztangi leżąc podzielony przez Twoją masę ciała z tego dnia.
+
+ach_squat_bw_title = Przysiad
+ach_squat_bw_goal = Przysiad: %1$s masy ciała
+ach_squat_bw_done = Twój przysiad sięga %1$s masy ciała
+ach_squat_bw_rule = Najlepszy szacowany 1RM w przysiadzie ze sztangą lub przysiadzie przednim podzielony przez Twoją masę ciała z tego dnia.
+
+ach_deadlift_bw_title = Martwy ciąg
+ach_deadlift_bw_goal = Martwy ciąg: %1$s masy ciała
+ach_deadlift_bw_done = Twój martwy ciąg sięga %1$s masy ciała
+ach_deadlift_bw_rule = Najlepszy szacowany 1RM w martwym ciągu klasycznym lub sumo ze sztangą podzielony przez Twoją masę ciała z tego dnia.
+
+ach_ohp_bw_title = Wyciskanie żołnierskie
+ach_ohp_bw_goal = Wyciskanie żołnierskie: %1$s masy ciała
+ach_ohp_bw_done = Twoje wyciskanie żołnierskie sięga %1$s masy ciała
+ach_ohp_bw_rule = Najlepszy szacowany 1RM w wyciskaniu żołnierskim sztangi na stojąco podzielony przez Twoją masę ciała z tego dnia.
+
+ach_pull_ups_title = Podciąganie
+ach_pull_ups_goal{one} = Podciągnij się pierwszy raz bez asysty
+ach_pull_ups_goal{few} = Zrób %1$s podciągnięcia bez asysty w jednej serii
+ach_pull_ups_goal{many} = Zrób %1$s podciągnięć bez asysty w jednej serii
+ach_pull_ups_goal{other} = Zrób %1$s podciągnięcia bez asysty w jednej serii
+ach_pull_ups_done{one} = Twoje pierwsze podciągnięcie bez asysty
+ach_pull_ups_done{few} = %1$s podciągnięcia bez asysty w jednej serii
+ach_pull_ups_done{many} = %1$s podciągnięć bez asysty w jednej serii
+ach_pull_ups_done{other} = %1$s podciągnięcia bez asysty w jednej serii
+ach_pull_ups_rule = Najwięcej powtórzeń w jednej serii podciągania nachwytem lub podchwytem, z dodatkowym ciężarem lub bez, albo na maszynie z asystą ustawioną na 0.
+
+ach_goal_title = Waga docelowa
+# %1$s: the target weight ("75 kg")
+ach_goal_goal = Osiągnij wagę docelową %1$s
+ach_goal_done = Waga docelowa %1$s osiągnięta
+ach_goal_rule = Twoja średnia waga z 7 dni osiąga cel ustawiony w profilu.
+
+ach_goal_progress_title = W drodze do celu
+# %1$s: a weight ("3 kg")
+ach_goal_progress_goal_loss = Zrzuć %1$s w drodze do celu
+ach_goal_progress_goal_gain = Przybierz %1$s w drodze do celu
+ach_goal_progress_done_loss = Masz już %1$s mniej
+ach_goal_progress_done_gain = Masz już %1$s więcej
+
+ach_fat_down_title = Tkanka tłuszczowa
+ach_fat_down_goal{one} = Obniż tkankę tłuszczową o %1$s punkt procentowy
+ach_fat_down_goal{few} = Obniż tkankę tłuszczową o %1$s punkty procentowe
+ach_fat_down_goal{many} = Obniż tkankę tłuszczową o %1$s punktów procentowych
+ach_fat_down_goal{other} = Obniż tkankę tłuszczową o %1$s punktu procentowego
+ach_fat_down_done{one} = Twoja tkanka tłuszczowa spadła o %1$s punkt procentowy
+ach_fat_down_done{few} = Twoja tkanka tłuszczowa spadła o %1$s punkty procentowe
+ach_fat_down_done{many} = Twoja tkanka tłuszczowa spadła o %1$s punktów procentowych
+ach_fat_down_done{other} = Twoja tkanka tłuszczowa spadła o %1$s punktu procentowego
+ach_fat_down_rule = Spadek Twojej średniej tkanki tłuszczowej z 7 dni od pierwszego tygodnia pomiarów. Zejście poniżej zdrowego minimum się nie liczy.
+
+ach_muscle_up_title = Masa mięśniowa
+# %1$s: a weight ("2 kg")
+ach_muscle_up_goal = Zyskaj %1$s masy mięśniowej
+ach_muscle_up_done = Przybyło Ci %1$s masy mięśniowej
+ach_muscle_up_rule = Wzrost Twojej średniej masy mięśniowej z 7 dni od pierwszego tygodnia pomiarów.

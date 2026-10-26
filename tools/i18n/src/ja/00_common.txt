@@ -1,5 +1,5 @@
 # App
-band_notification_listener_label = GlobalFitness：バンドへの通知転送
+band_notification_listener_label = Fortia：バンドへの通知転送
 
 # Common actions
 action_cancel = キャンセル
@@ -94,7 +94,7 @@ body_type_skinny_muscular = やせ筋肉型
 
 # Health Connect rationale (shown by Health Connect)
 health_rationale_title = 健康データのプライバシー
-health_rationale_intro = GlobalFitness は Health Connect を次の 2 つの目的で使用します。
+health_rationale_intro = Fortia は Health Connect を次の 2 つの目的で使用します。
 health_rationale_read = • バンドやウォッチ（Mi Fitness 経由の Xiaomi Smart Band など）のデータの読み取り：歩数、距離、消費カロリー、心拍数、安静時心拍数、心拍変動、睡眠、血中酸素、呼吸数、ワークアウト。他のアプリが記録した体重と体脂肪率も読み取ります。過去のデータへのアクセス権限がある場合は、最大 1 年分をインポートします。
 health_rationale_write = • 体重計の測定データの書き込み：体重、体脂肪率、骨量、除脂肪体重、基礎代謝、体水分量。アプリで測定データを削除すると、Health Connect からも削除されます。
 health_rationale_storage = Health Connect から読み取ったデータは、このスマートフォンにのみ保存されます。任意のクラウドバックアップにはアップロードされず、広告に使用されることも、誰かと共有されることもありません。アプリはこのデータを概要とグラフの表示にのみ使用します。

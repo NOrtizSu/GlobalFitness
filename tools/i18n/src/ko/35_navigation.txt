@@ -1,0 +1,82 @@
+# Bottom bar: Hoy · Entreno · Progreso · Perfil (very little room: one short word)
+nav_training = 운동
+nav_progress = 진행 상황
+
+# Progreso: tabs Músculos | Cuerpo | Actividad (Cuerpo and Actividad use nav_body and nav_activity)
+progress_tab_muscles = 근육
+
+# Progreso → Músculos: how the body map is colored (three segmented buttons: keep them short)
+progress_mode_sets = 세트
+progress_mode_strength = 근력
+progress_mode_recovery = 회복
+progress_caption_sets = 최근 7일간의 유효 세트 수(보조 근육은 절반으로 계산)를 근육 성장에 일반적인 범위와 비교합니다.
+progress_caption_strength = 선택한 기간 동안 각 근육을 단련하는 종목의 추정 1RM 변화입니다.
+progress_caption_recovery = 각 운동의 유효 세트 수로 추정하며, 볼륨에 따라 1~4일이 걸립니다.
+
+# Weekly sets compared with the muscle's range
+progress_level_none = 세트 없음
+progress_level_low = 범위 미만
+progress_level_optimal = 범위 내
+progress_level_high = 범위 초과
+progress_sets{other} = %1$s세트
+progress_target = 목표 %1$s–%2$s
+
+# Strength trend (%1$s: a percentage such as −5 % or +5 %)
+progress_strength_down_more = %1$s 미만
+progress_strength_down = 하락
+progress_strength_stable = 유지
+progress_strength_up = 상승
+progress_strength_up_more = %1$s 초과
+progress_strength_title = 근력(%1$s)
+progress_exercises{other} = 종목 %1$d개
+
+# Recovery (Spanish avoids gendered adjectives: the muscles' names mix genders)
+progress_recovery_fatigued = 피로
+progress_recovery_recovering = 회복 중
+progress_recovery_recovered = 회복 완료
+progress_recovery_not_trained = 아직 운동 기록 없음
+progress_recovery_percent = %1$s 회복
+progress_recovery_full_at = %1$s경 완전 회복
+progress_time_tomorrow_at = 내일 %1$s
+progress_last_trained = 마지막 운동: %1$s
+
+# Selected muscle and the list of all muscles
+progress_detail_week = 이번 주
+progress_tap_hint = 인체 그림이나 목록에서 근육을 탭하면 세부 정보를 볼 수 있습니다.
+progress_all_muscles = 모든 근육
+progress_recent_exercises = 최근 종목
+progress_recent_hint = 마지막 세션의 최고 세트와, 이전 세션 대비 추정 1RM의 변화입니다.
+progress_open_exercise = 종목 열기
+# %1$s: number, %2$s: unit (kg or lb)
+progress_load_value = %1$s %2$s
+progress_state_description = %1$s, %2$s
+# %1$s: load, %2$s: repetitions
+progress_set_load_reps = %1$s × %2$s
+progress_set_reps{other} = %1$d회
+progress_set_seconds = %1$s초
+progress_empty_title = 근육의 진행 상황이 여기에 표시됩니다
+progress_empty_text = ‘운동’에서 운동을 기록하세요. 각 세트는 해당 세트가 단련하는 근육에 반영되며, 인체 그림에 주간 세트 수, 근력 향상, 회복 상태가 표시됩니다.
+progress_empty_action = 운동으로 이동
+
+# Hoy: muscles this week (%1$s: a list of the muscle groups below)
+today_muscles_title = 이번 주 근육
+today_muscles_on_track = 목표 달성: %1$s
+today_muscles_below = 목표 미달: %1$s
+today_muscles_all_on_track = 모든 근육군이 목표를 달성했습니다
+today_muscles_none = 이번 주에는 아직 세트가 없습니다
+today_muscles_open = 근육 보기
+# Muscle groups used inside those lists: lowercase where the language allows it
+progress_region_chest = 가슴
+progress_region_back = 등
+progress_region_shoulders = 어깨
+progress_region_arms = 팔
+progress_region_core = 코어
+progress_region_legs = 다리
+
+# Perfil: Devices and training settings
+profile_section_devices = 기기 및 운동
+profile_devices_scales{other} = 체중계 %1$d대
+profile_devices_wearables{other} = 밴드 또는 워치 %1$d대
+profile_devices_none = 체중계, 밴드 및 Health Connect
+profile_training_title = 운동 설정
+profile_training_text = 무게 단위, 휴식 타이머 및 Health Connect

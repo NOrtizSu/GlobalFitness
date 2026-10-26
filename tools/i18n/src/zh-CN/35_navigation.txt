@@ -1,0 +1,82 @@
+# Bottom bar: Hoy · Entreno · Progreso · Perfil (very little room: one short word)
+nav_training = 训练
+nav_progress = 进度
+
+# Progreso: tabs Músculos | Cuerpo | Actividad (Cuerpo and Actividad use nav_body and nav_activity)
+progress_tab_muscles = 肌肉
+
+# Progreso → Músculos: how the body map is colored (three segmented buttons: keep them short)
+progress_mode_sets = 组数
+progress_mode_strength = 力量
+progress_mode_recovery = 恢复
+progress_caption_sets = 最近 7 天的有效组数（次要肌群按一半计算），与增肌的常见范围进行比较。
+progress_caption_strength = 所选时段内，锻炼各肌肉的动作的估算 1RM 变化。
+progress_caption_recovery = 根据每次训练的有效组数估算：视训练量而定，需要 1 到 4 天。
+
+# Weekly sets compared with the muscle's range
+progress_level_none = 无训练组
+progress_level_low = 低于范围
+progress_level_optimal = 在范围内
+progress_level_high = 高于范围
+progress_sets{other} = %1$s 组
+progress_target = 目标 %1$s–%2$s
+
+# Strength trend (%1$s: a percentage such as −5 % or +5 %)
+progress_strength_down_more = 低于 %1$s
+progress_strength_down = 下降
+progress_strength_stable = 稳定
+progress_strength_up = 上升
+progress_strength_up_more = 高于 %1$s
+progress_strength_title = 力量（%1$s）
+progress_exercises{other} = %1$d 个动作
+
+# Recovery (Spanish avoids gendered adjectives: the muscles' names mix genders)
+progress_recovery_fatigued = 疲劳
+progress_recovery_recovering = 恢复中
+progress_recovery_recovered = 已恢复
+progress_recovery_not_trained = 尚未训练
+progress_recovery_percent = 已恢复 %1$s
+progress_recovery_full_at = 预计 %1$s 完全恢复
+progress_time_tomorrow_at = 明天 %1$s
+progress_last_trained = 上次训练：%1$s
+
+# Selected muscle and the list of all muscles
+progress_detail_week = 本周
+progress_tap_hint = 点按人体图或列表中的肌肉即可查看详情。
+progress_all_muscles = 所有肌肉
+progress_recent_exercises = 最近的动作
+progress_recent_hint = 上次训练中的最佳组，以及其估算 1RM 相比前一次训练的变化。
+progress_open_exercise = 打开动作
+# %1$s: number, %2$s: unit (kg or lb)
+progress_load_value = %1$s %2$s
+progress_state_description = %1$s，%2$s
+# %1$s: load, %2$s: repetitions
+progress_set_load_reps = %1$s × %2$s
+progress_set_reps{other} = %1$d 次
+progress_set_seconds = %1$s 秒
+progress_empty_title = 你的肌肉进度会显示在这里
+progress_empty_text = 在“训练”中记录你的训练：每一组都会计入它所锻炼的肌肉，人体图会显示你的每周组数、力量增长和恢复情况。
+progress_empty_action = 前往训练
+
+# Hoy: muscles this week (%1$s: a list of the muscle groups below)
+today_muscles_title = 本周肌肉训练
+today_muscles_on_track = 已达标：%1$s
+today_muscles_below = 未达标：%1$s
+today_muscles_all_on_track = 所有肌群均已达标
+today_muscles_none = 本周还没有训练组
+today_muscles_open = 查看肌肉
+# Muscle groups used inside those lists: lowercase where the language allows it
+progress_region_chest = 胸部
+progress_region_back = 背部
+progress_region_shoulders = 肩部
+progress_region_arms = 手臂
+progress_region_core = 核心
+progress_region_legs = 腿部
+
+# Perfil: Devices and training settings
+profile_section_devices = 设备和训练
+profile_devices_scales{other} = %1$d 台体重秤
+profile_devices_wearables{other} = %1$d 个手环或手表
+profile_devices_none = 体重秤、手环和 Health Connect
+profile_training_title = 训练设置
+profile_training_text = 重量单位、休息计时器和 Health Connect

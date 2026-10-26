@@ -1,0 +1,165 @@
+# Built-in exercise and machine names: ex_<catalog id> (training/catalog/ExerciseCatalog.kt)
+
+# Machines
+ex_machine_chest_press = ضغط الصدر على الجهاز
+ex_machine_incline_chest_press = ضغط الصدر المائل على الجهاز
+ex_pec_deck = جهاز الفراشة (بيك ديك)
+ex_machine_shoulder_press = ضغط الكتف على الجهاز
+ex_machine_lateral_raise = رفرفة جانبية على الجهاز
+ex_reverse_pec_deck = الفراشة العكسية
+ex_machine_row = تجديف جالس على الجهاز
+ex_pullover_machine = بول أوفر على الجهاز
+ex_leg_press_machine = ضغط الأرجل
+ex_horizontal_leg_press = ضغط الأرجل الأفقي
+ex_hack_squat_machine = هاك سكوات
+ex_pendulum_squat_machine = سكوات البندول
+ex_leg_extension_machine = تمديد الأرجل
+ex_lying_leg_curl_machine = ثني الأرجل مستلقيًا
+ex_seated_leg_curl_machine = ثني الأرجل جالسًا
+ex_standing_calf_raise_machine = رفع السمانة واقفًا على الجهاز
+ex_seated_calf_raise_machine = رفع السمانة جالسًا
+ex_leg_press_calf_raise = رفع السمانة على جهاز ضغط الأرجل
+ex_hip_abductor_machine = جهاز تبعيد الفخذين
+ex_hip_adductor_machine = جهاز تقريب الفخذين
+ex_glute_kickback_machine = ركلة الأرداف على الجهاز
+ex_hip_thrust_machine = دفع الورك على الجهاز
+ex_back_extension_machine = تمديد الظهر على الجهاز
+ex_ab_crunch_machine = كرنش البطن على الجهاز
+ex_rotary_torso_machine = تدوير الجذع على الجهاز
+ex_machine_biceps_curl = ثني البايسبس على الجهاز
+ex_machine_triceps_extension = تمديد الترايسبس على الجهاز
+ex_seated_dip_machine = غطس جالس على الجهاز
+ex_assisted_pull_up_machine = العقلة بجهاز مساعد
+ex_assisted_chin_up_machine = العقلة المعكوسة بجهاز مساعد
+ex_assisted_dip_machine = الغطس بجهاز مساعد
+ex_neck_machine = جهاز الرقبة
+
+# Cable
+ex_lat_pulldown_machine = السحب العلوي
+ex_close_grip_lat_pulldown = السحب العلوي بقبضة ضيقة
+ex_seated_cable_row = تجديف بالكابل جالسًا
+ex_single_arm_cable_row = تجديف بالكابل بذراع واحدة
+ex_straight_arm_pulldown = سحب بالكابل بذراعين مستقيمتين
+ex_cable_crossover = كروس أوفر بالكابل
+ex_low_cable_crossover = كروس أوفر من الأسفل
+ex_cable_fly = تفتيح بالكابل
+ex_face_pull = سحب الحبل للوجه
+ex_cable_lateral_raise = رفرفة جانبية بالكابل
+ex_cable_triceps_pushdown = دفع الترايسبس للأسفل
+ex_rope_triceps_pushdown = دفع الترايسبس بالحبل
+ex_cable_overhead_triceps_extension = تمديد فوق الرأس بالكابل
+ex_cable_curl = ثني البايسبس بالكابل
+ex_cable_crunch = كرنش بالكابل
+ex_cable_woodchop = حركة الحطاب بالكابل
+ex_cable_pull_through = سحب بين الساقين بالكابل
+ex_cable_glute_kickback = ركلة الأرداف بالكابل
+
+# Smith machine
+ex_smith_squat = سكوات على جهاز سميث
+ex_smith_bench_press = ضغط الصدر على جهاز سميث
+ex_smith_incline_bench_press = ضغط مائل على جهاز سميث
+ex_smith_shoulder_press = ضغط الكتف على جهاز سميث
+ex_smith_split_squat = طعن ثابت على جهاز سميث
+ex_smith_hip_thrust = دفع الورك على جهاز سميث
+ex_smith_calf_raise = رفع السمانة على جهاز سميث
+
+# Barbell and EZ bar
+ex_barbell_bench_press = ضغط الصدر بالبار
+ex_barbell_incline_bench_press = ضغط الصدر المائل بالبار
+ex_barbell_decline_bench_press = ضغط الصدر المنحدر بالبار
+ex_close_grip_bench_press = ضغط الصدر بقبضة ضيقة
+ex_barbell_overhead_press = الضغط العسكري
+ex_barbell_back_squat = سكوات بالبار
+ex_barbell_front_squat = سكوات أمامي
+ex_barbell_deadlift = الرفعة الميتة
+ex_sumo_deadlift = الرفعة الميتة سومو
+ex_barbell_romanian_deadlift = الرفعة الميتة الرومانية
+ex_good_morning = تمرين صباح الخير
+ex_barbell_lunge = طعن بالبار
+ex_barbell_hip_thrust = دفع الورك بالبار
+ex_barbell_glute_bridge = جسر الأرداف بالبار
+ex_barbell_row = تجديف بالبار
+ex_pendlay_row = تجديف بندلاي
+ex_t_bar_row = تجديف تي بار
+ex_barbell_upright_row = سحب البار للذقن
+ex_barbell_shrug = رفع الكتفين بالبار
+ex_barbell_curl = ثني البايسبس بالبار
+ex_ez_bar_curl = ثني البايسبس ببار EZ
+ex_ez_bar_preacher_curl = بريتشر كيرل ببار EZ
+ex_skull_crusher = الضغط الفرنسي
+ex_barbell_wrist_curl = ثني الرسغ
+ex_barbell_reverse_wrist_curl = ثني الرسغ العكسي
+
+# Dumbbells
+ex_dumbbell_bench_press = ضغط الصدر بالدمبل
+ex_dumbbell_incline_bench_press = ضغط مائل بالدمبل
+ex_dumbbell_fly = تفتيح بالدمبل
+ex_dumbbell_pullover = بول أوفر بالدمبل
+ex_dumbbell_shoulder_press = ضغط الكتف بالدمبل
+ex_arnold_press = ضغط أرنولد
+ex_dumbbell_lateral_raise = رفرفة جانبية بالدمبل
+ex_dumbbell_front_raise = رفرفة أمامية بالدمبل
+ex_dumbbell_rear_delt_fly = رفرفة خلفية للكتف
+ex_dumbbell_row = تجديف بالدمبل بذراع واحدة
+ex_dumbbell_shrug = رفع الكتفين بالدمبل
+ex_dumbbell_curl = ثني البايسبس بالدمبل
+ex_hammer_curl = ثني المطرقة
+ex_incline_dumbbell_curl = ثني بالدمبل على مقعد مائل
+ex_concentration_curl = ثني التركيز
+ex_dumbbell_overhead_extension = تمديد فوق الرأس بالدمبل
+ex_dumbbell_triceps_kickback = ركلة الترايسبس
+ex_dumbbell_goblet_squat = سكوات غوبلت بالدمبل
+ex_bulgarian_split_squat = سكوات بلغاري
+ex_dumbbell_lunge = طعن بالدمبل
+ex_dumbbell_step_up = صعود الصندوق بالدمبل
+ex_dumbbell_romanian_deadlift = الرفعة الميتة الرومانية بالدمبل
+ex_dumbbell_side_bend = ميل جانبي بالدمبل
+
+# Kettlebells
+ex_kettlebell_swing = أرجحة الكيتل بيل
+ex_kettlebell_goblet_squat = سكوات غوبلت بالكيتل بيل
+ex_kettlebell_clean_and_press = كلين وضغط بالكيتل بيل
+ex_turkish_get_up = النهوض التركي
+
+# Bodyweight
+ex_push_up = تمرين الضغط
+ex_parallel_bar_dip = الغطس على المتوازي
+ex_bench_dip = الغطس على المقعد
+ex_pull_up = العقلة
+ex_chin_up = العقلة المعكوسة
+ex_inverted_row = التجديف المقلوب
+ex_bodyweight_squat = سكوات بدون وزن
+ex_bodyweight_lunge = الطعن
+ex_glute_bridge = جسر الأرداف
+ex_back_extension = تمديد الظهر
+ex_nordic_curl = الثني النوردي
+ex_crunch = كرنش البطن
+ex_sit_up = الجلوس من الاستلقاء
+ex_hanging_leg_raise = رفع الساقين معلقًا
+ex_lying_leg_raise = رفع الساقين مستلقيًا
+ex_russian_twist = اللف الروسي
+ex_mountain_climber = متسلق الجبل
+ex_burpee = بيربي
+
+# Timed holds and carries
+ex_plank = البلانك
+ex_side_plank = البلانك الجانبي
+ex_copenhagen_plank = بلانك كوبنهاغن
+ex_wall_sit = الجلوس على الحائط
+ex_dead_hang = التعلق الحر
+ex_farmers_carry = مشية المزارع
+
+# Resistance bands
+ex_band_pull_apart = فتح شريط المقاومة
+ex_banded_lateral_walk = مشي جانبي بشريط مقاومة
+
+# Cardio machines
+ex_treadmill = جهاز المشي
+ex_stationary_bike = دراجة ثابتة
+ex_spin_bike = دراجة سبينينغ
+ex_recumbent_bike = دراجة مستلقية
+ex_air_bike = دراجة المروحة
+ex_elliptical = الجهاز الإهليلجي
+ex_rowing_machine = جهاز التجديف
+ex_stair_climber = جهاز صعود الدرج
+ex_ski_erg = جهاز التزلج

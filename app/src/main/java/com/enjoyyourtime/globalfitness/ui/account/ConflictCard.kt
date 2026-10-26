@@ -46,13 +46,13 @@ internal fun ConflictCard(conflict: SyncConflict, enabled: Boolean, onResolve: (
             listOf(
                 Option(
                     stringResource(R.string.conflict_restore_cloud),
-                    stringResource(R.string.conflict_restore_cloud_confirm),
+                    stringResource(R.string.conflict_restore_cloud_confirm_training),
                     ConflictChoice.RESTORE_CLOUD,
                     destructive = true,
                 ),
                 Option(
                     stringResource(R.string.conflict_replace_cloud),
-                    stringResource(R.string.conflict_replace_cloud_confirm),
+                    stringResource(R.string.conflict_replace_cloud_confirm_training),
                     ConflictChoice.REPLACE_CLOUD,
                     destructive = true,
                 ),

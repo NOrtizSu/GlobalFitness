@@ -1,0 +1,15 @@
+# Built-in routine names: routine_<id> (training/catalog/RoutineCatalog.kt). Short: they label cards and list rows.
+routine_full_body_machines = Всё тело в тренажёрах
+routine_full_body_free_weights = Всё тело, свободные веса
+routine_push = Жим (грудь, плечи, трицепс)
+routine_pull = Тяга (спина, бицепс)
+routine_legs = Ноги
+routine_upper_body = Верх тела
+routine_lower_body = Низ тела
+routine_chest_triceps = Грудь и трицепс
+routine_back_biceps = Спина и бицепс
+routine_shoulders = Плечи
+routine_arms = Руки
+routine_glutes = Ягодицы
+routine_core = Кор и пресс
+routine_cardio_mix = Кардиотренажёры

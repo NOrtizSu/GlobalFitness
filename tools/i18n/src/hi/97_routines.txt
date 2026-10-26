@@ -1,0 +1,15 @@
+# Built-in routine names: routine_<id> (training/catalog/RoutineCatalog.kt). Short: they label cards and list rows.
+routine_full_body_machines = मशीनों पर फ़ुल बॉडी
+routine_full_body_free_weights = फ़ुल बॉडी, फ़्री वेट
+routine_push = पुश (छाती, कंधे, ट्राइसेप्स)
+routine_pull = पुल (पीठ, बाइसेप्स)
+routine_legs = पैर
+routine_upper_body = अपर बॉडी
+routine_lower_body = लोअर बॉडी
+routine_chest_triceps = छाती और ट्राइसेप्स
+routine_back_biceps = पीठ और बाइसेप्स
+routine_shoulders = कंधे
+routine_arms = बाहें
+routine_glutes = ग्लूट्स
+routine_core = कोर और एब्स
+routine_cardio_mix = कार्डियो मशीनें

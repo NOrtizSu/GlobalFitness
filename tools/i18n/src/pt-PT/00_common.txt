@@ -1,5 +1,5 @@
 # App
-band_notification_listener_label = GlobalFitness: reencaminhamento para a pulseira
+band_notification_listener_label = Fortia: reencaminhamento para a pulseira
 
 # Common actions
 action_cancel = Cancelar
@@ -96,7 +96,7 @@ body_type_skinny_muscular = Magro musculado
 
 # Health Connect rationale (shown by Health Connect)
 health_rationale_title = Privacidade dos dados de saúde
-health_rationale_intro = O GlobalFitness utiliza o Health Connect para duas coisas:
+health_rationale_intro = O Fortia utiliza o Health Connect para duas coisas:
 health_rationale_read = • Ler os dados da sua pulseira ou relógio (por exemplo, a Xiaomi Smart Band através do Mi Fitness): passos, distância, calorias, frequência cardíaca, frequência cardíaca em repouso, variabilidade da frequência cardíaca, sono, oxigénio no sangue, frequência respiratória e treinos. Também lê o peso e a gordura corporal registados por outras apps. Com a autorização de dados anteriores, importa até um ano.
 health_rationale_write = • Escrever as medições da sua balança: peso, gordura corporal, massa óssea, massa magra, metabolismo basal e água corporal. Se eliminar uma medição na app, esta também é eliminada do Health Connect.
 health_rationale_storage = Os dados lidos do Health Connect são guardados apenas neste telemóvel: não são carregados para a cópia de segurança na nuvem opcional, não são utilizados para publicidade e não são partilhados com ninguém. A app utiliza-os apenas para lhe mostrar resumos e gráficos.

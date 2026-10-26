@@ -1,0 +1,49 @@
+# Routines: the Training tab's section, the routine page and editor, adding a routine to a workout, saving a workout as a routine
+training_routines_title = Schede
+training_routine_new = Nuova scheda
+training_routine_open = Vedi scheda
+# Title bar of a routine's page
+training_routine_title = Scheda
+training_routine_missing = Questa scheda non esiste più.
+# Label on a routine's page: one of the app's routines / one the user made
+training_routine_builtin = Scheda consigliata
+training_routine_own = La tua scheda
+training_routine_start = Inizia allenamento
+training_routine_add_to_active = Aggiungi all'allenamento in corso
+training_routine_active_hint = C'è un allenamento in corso: gli vengono aggiunti gli esercizi che non ha ancora.
+training_routine_duplicate = Duplica e modifica
+training_routine_delete = Elimina scheda
+# %1$s: routine name
+training_routine_delete_title = Eliminare %1$s?
+training_routine_delete_text = I tuoi allenamenti restano invariati.
+training_routine_exercises = Esercizi
+training_routine_muscles = Muscoli allenati
+training_routine_loads_hint = I pesi vengono compilati con la tua ultima sessione di ogni esercizio.
+training_routine_edit_title = Modifica scheda
+training_routine_name_hint = Es.: Gambe del lunedì
+training_routine_note = Nota (facoltativa)
+training_routine_add_exercises = Aggiungi esercizi
+training_routine_editor_empty = Aggiungi gli esercizi della scheda: ognuno parte con le serie e le ripetizioni della tua ultima sessione.
+training_routine_exercises_error = Aggiungi almeno un esercizio.
+# Set stepper of an exercise in the routine editor, read by TalkBack; %1$s: exercise
+training_routine_fewer_sets = Meno serie di %1$s
+training_routine_more_sets = Più serie di %1$s
+training_routine_save_failed = Impossibile salvare la scheda
+training_routine_add = Aggiungi scheda
+# Groups of the "Add routine" sheet
+training_routines_own = Le tue schede
+training_routines_builtin = Consigliate
+training_routine_already_in = Già nell'allenamento
+training_routine_added{one} = %1$s esercizio aggiunto
+training_routine_added{many} = %1$s esercizi aggiunti
+training_routine_added{other} = %1$s esercizi aggiunti
+training_routine_nothing_added = Questo allenamento ha già tutti gli esercizi della scheda.
+training_routine_save_from_workout = Salva come scheda
+training_routine_save_text = Vengono salvati i suoi esercizi e le sue serie; i pesi arrivano sempre dalla tua ultima sessione.
+training_routine_saved = Scheda salvata
+# Snackbar action: open the routine just saved
+training_routine_view = Vedi
+# Today card: start a workout with the routine used last; %1$s: routine name
+training_start_routine = Inizia %1$s
+# Today card, next to the routine: start a workout without exercises
+training_start_blank = Allenamento vuoto

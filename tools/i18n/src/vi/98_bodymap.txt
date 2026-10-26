@@ -1,0 +1,8 @@
+# Body map: captions, TalkBack descriptions of the muscle figure, open-source credit of its drawings
+bodymap_front = Mặt trước
+bodymap_back = Mặt sau
+bodymap_figure_front = Cơ thể, nhìn từ phía trước
+bodymap_figure_back = Cơ thể, nhìn từ phía sau
+bodymap_figure_highlighted = %1$s: %2$s
+bodymap_muscle_state = %1$s, %2$s
+notice_body_highlighter = Hình vẽ của bản đồ cơ được chuyển thể từ react-native-body-highlighter.

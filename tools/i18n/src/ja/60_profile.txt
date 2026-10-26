@@ -51,11 +51,11 @@ about_licenses_text = AGPL-3.0 ライセンス、openScale（GPL-3.0）と Gadge
 
 # Open source notices
 open_source_title = オープンソース
-open_source_free_software = GlobalFitness はフリーソフトウェアです
+open_source_free_software = Fortia はフリーソフトウェアです
 open_source_license_text = © 2026 Enjoy Your Time およびコントリビューター。GNU Affero General Public License バージョン 3 以降（AGPL-3.0）の条件に従って再配布および改変できます。本ソフトウェアはいかなる保証もなく配布されます。すべてのバージョンの完全なソースコードを GitHub で無料で入手できます。
 open_source_view_code = ソースコードを見る
 open_source_read_license = AGPL-3.0 ライセンスを読む
-open_source_ported_intro = GlobalFitness には、フリーソフトウェアのプロジェクトから移植したコードが含まれています。作者の皆さまに感謝します。
+open_source_ported_intro = Fortia には、フリーソフトウェアのプロジェクトから移植したコードが含まれています。作者の皆さまに感謝します。
 open_source_libraries = ライブラリ
 open_source_license_label = ライセンス：%1$s
 open_source_open_website = プロジェクトのウェブサイトを開く

@@ -1,0 +1,14 @@
+# Health Connect: workouts of the training log saved as exercise sessions
+hc_workouts_export_title = Simpan latihan ke Health Connect
+hc_workouts_export_text = Setiap latihan yang selesai disimpan sebagai sesi olahraga beserta set dan repetisinya, sehingga aplikasi kebugaran lain dapat menghitungnya. Jika Anda menghapus latihan, latihan tersebut juga dihapus dari Health Connect.
+hc_workouts_export_missing_permission = Izinkan Fortia menulis olahraga di Health Connect untuk menyimpan latihan Anda di sana.
+hc_workouts_export_denied = Jika jendela izin tidak terbuka, izinkan “Olahraga” untuk Fortia di Health Connect.
+hc_workouts_export_allow = Izinkan
+hc_workouts_export_off = Latihan baru tidak disimpan. Latihan yang sudah ada di Health Connect tetap tersimpan di sana.
+hc_workouts_export_count_none = Belum ada latihan di Health Connect.
+hc_workouts_export_count{other} = %1$d latihan di Health Connect.
+hc_missing_write_exercise = Tidak ada izin untuk menulis olahraga: latihan tidak disimpan.
+# Title in Health Connect of a workout without a name that mixes different kinds of cardio
+hc_workout_title = Latihan
+# Permissions rationale: continues the "Writing your scale measurements" item
+health_rationale_write_workouts = Aplikasi juga menulis latihan yang Anda selesaikan di aplikasi sebagai sesi olahraga: waktu mulai dan selesai, jenis, nama, catatan, serta setiap set yang selesai beserta repetisinya. Jika Anda menghapus latihan di aplikasi, latihan tersebut juga dihapus dari Health Connect.

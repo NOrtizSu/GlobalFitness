@@ -1,0 +1,220 @@
+# Training screens: Entreno tab, Hoy card, workout, exercise picker and catalog, exercise detail, editor, history, settings
+training_title = ट्रेनिंग
+training_catalog_title = एक्सरसाइज़ और मशीनें
+training_history_title = इतिहास
+training_settings_title = ट्रेनिंग सेटिंग
+training_in_progress = वर्कआउट जारी है
+training_start_title = ट्रेनिंग के लिए तैयार हैं?
+training_start_empty = वर्कआउट शुरू करें
+training_log_past = किसी और दिन का दर्ज करें
+training_intro_title = अपने वर्कआउट दर्ज करें
+training_intro_text = वर्कआउट शुरू करें, कैटलॉग से एक्सरसाइज़ या अपनी मशीनें जोड़ें और हर सेट पूरा होने पर उसे टिक करें। ऐप याद रखता है कि आपने पिछली बार क्या किया था और हर एक्सरसाइज़ और हर मांसपेशी के हिसाब से आपकी प्रगति ट्रैक करता है।
+training_open_catalog = एक्सरसाइज़ देखें
+training_repeat_title = कोई वर्कआउट दोहराएं
+training_repeat_action = दोहराएं
+training_this_week = इस हफ़्ते
+training_stat_workouts = वर्कआउट
+training_stat_sets = सेट
+training_stat_volume = वॉल्यूम
+# Spoken summary of the week card: workouts, sets, volume ("3 workouts", "42 sets", "12450 kg")
+training_week_desc = इस हफ़्ते: %1$s, %2$s, %3$s
+training_recent_title = हाल के वर्कआउट
+training_see_all = सभी देखें
+training_today_done = आज का वर्कआउट
+training_open_workout = वर्कआउट खोलें
+training_open_tab = ट्रेनिंग खोलें
+# "Last workout: 2 days ago · Legs"
+training_last_workout = आखिरी वर्कआउट: %1$s · %2$s
+training_no_workouts_yet = अभी तक कोई वर्कआउट दर्ज नहीं किया गया।
+# Title of a workout without a name, muscles or exercises
+training_workout_default = वर्कआउट
+# Title bar of a finished or past workout
+training_workout_title = वर्कआउट
+training_workout_missing = यह वर्कआउट अब मौजूद नहीं है।
+training_workout_name = वर्कआउट का नाम
+training_workout_note = वर्कआउट के नोट
+training_workout_empty = पहली एक्सरसाइज़ जोड़ें: पिछली बार के सेट अपने आप भर दिए जाते हैं।
+training_add_exercise = एक्सरसाइज़ जोड़ें
+training_add_set = सेट जोड़ें
+training_finish = खत्म करें
+training_finish_workout = वर्कआउट खत्म करें
+training_more_options = और विकल्प
+training_change_start = तारीख और समय बदलें
+training_discard_workout = वर्कआउट छोड़ें
+training_delete_workout = वर्कआउट मिटाएं
+training_discard = छोड़ें
+training_discard_title = यह वर्कआउट छोड़ें?
+# %1$s: start date and time
+training_discard_text = %1$s को शुरू किया गया वर्कआउट और उसके सेट मिटा दिए जाएंगे।
+training_discard_empty_text = कोई भी सेट पूरा हुआ टिक नहीं किया गया है, इसलिए सेव करने के लिए कुछ नहीं है।
+training_delete_title = यह वर्कआउट मिटाएं?
+# %1$s: date and time of the workout
+training_delete_text = %1$s का वर्कआउट उसके सभी सेट के साथ मिटा दिया जाएगा।
+training_exercise_options = %1$s के विकल्प
+training_open_exercise = एक्सरसाइज़ खोलें
+training_add_warmup = वार्म-अप सेट जोड़ें
+training_entry_note = नोट
+training_move_up = ऊपर ले जाएं
+training_move_down = नीचे ले जाएं
+training_remove_exercise = एक्सरसाइज़ हटाएं
+training_remove = हटाएं
+training_remove_exercise_title = %1$s हटाएं?
+training_remove_exercise_text = इस वर्कआउट में इसके सेट मिटा दिए जाएंगे।
+# Set table column headers (narrow: keep them short)
+training_col_set = सेट
+training_col_previous = पिछला
+# Extra weight on a bodyweight exercise, %1$s: unit ("+kg")
+training_col_extra_load = +%1$s
+# Counterweight of an assisted machine, %1$s: unit; may wrap to two lines
+training_col_assistance = असिस्टेंस (%1$s)
+training_col_reps = रेप्स
+training_col_time = समय
+training_col_km = km
+training_col_level = लेवल
+# Set cells as TalkBack reads them ("Repetitions, set 2")
+training_field_extra_load = अतिरिक्त वज़न
+training_field_assistance = असिस्टेंस
+training_field_reps = रेप्स
+training_field_distance = दूरी
+training_field_kcal = कैलोरी
+training_set_number = सेट %1$s
+training_warmup_set = वार्म-अप सेट
+# Shown instead of the set number for a warm-up set (one letter)
+training_warmup_short = W
+training_set_done = %1$s पूरा हुआ
+training_set_options = %1$s: विकल्प
+training_make_warmup = वार्म-अप के रूप में मार्क करें
+training_make_working = वर्किंग सेट के रूप में मार्क करें
+training_delete_set = सेट मिटाएं
+training_copy_previous = पिछली बार की वैल्यू इस्तेमाल करें
+training_record = पर्सनल रिकॉर्ड
+# %1$s: exercise, %2$s: the set ("85 kg × 8")
+training_record_message = नया पर्सनल रिकॉर्ड! %1$s, %2$s
+training_assist_hint = असिस्टेड मशीन पर आप वह काउंटरवेट दर्ज करते हैं जो आपकी मदद करता है: कम असिस्टेंस = ज़्यादा ताकत।
+training_rest = आराम
+training_rest_value = आराम %1$s
+# Seconds ("30 s", "−15 s")
+training_seconds_value = %1$s सेकंड
+training_skip_rest = आराम छोड़ें
+training_rest_off = बंद
+training_elapsed_desc = बीता समय: %1$s
+training_duration = अवधि
+training_duration_minutes = मिनट
+training_unfinished_title = बिना टिक किए सेट
+training_unfinished_text{one} = %1$s सेट में वैल्यू हैं, लेकिन उसे पूरा हुआ टिक नहीं किया गया है।
+training_unfinished_text{other} = %1$s सेट में वैल्यू हैं, लेकिन उन्हें पूरा हुआ टिक नहीं किया गया है।
+training_unfinished_complete = पूरा हुआ मार्क करें
+training_unfinished_discard = उन्हें छोड़ें
+training_finished_title = वर्कआउट पूरा हुआ
+training_records = रिकॉर्ड
+training_done = हो गया
+# A muscle with its sets in the workout summary ("Chest: 4 sets")
+training_muscle_sets = %1$s: %2$s
+training_picker_title = एक्सरसाइज़ जोड़ें
+training_add_selected{one} = %1$s एक्सरसाइज़ जोड़ें
+training_add_selected{other} = %1$s एक्सरसाइज़ जोड़ें
+training_create_exercise = मशीन या एक्सरसाइज़ बनाएं
+training_search = एक्सरसाइज़ खोजें
+training_search_clear = खोज साफ़ करें
+training_no_results = कोई एक्सरसाइज़ मेल नहीं खाती। दूसरे शब्द या फ़िल्टर आज़माएं, या अपनी खुद की बनाएं।
+training_recent_exercises = हाल की
+training_all_exercises = सभी एक्सरसाइज़
+training_scope_all = सभी
+training_scope_mine = मेरी मशीनें
+training_scope_favorites = पसंदीदा
+training_mine_empty = आपकी अपनी मशीनें और एक्सरसाइज़ यहां दिखती हैं, और हर वह एक्सरसाइज़ भी जिसमें आपने फ़ोटो या सेटिंग जोड़ी है।
+training_favorites_empty = किसी एक्सरसाइज़ को हाथ के पास रखने के लिए उसके स्टार पर टैप करें।
+training_new_machine = नई मशीन
+training_favorite = पसंदीदा
+training_make_favorite = पसंदीदा में जोड़ें
+training_unfavorite = पसंदीदा से हटाएं
+training_exercise_title = एक्सरसाइज़
+training_exercise_missing = यह एक्सरसाइज़ अब मौजूद नहीं है।
+training_edit = बदलाव करें
+training_archive = संग्रहित करें
+training_restore = वापस लाएं
+training_archive_title = %1$s को संग्रहित करें?
+training_archive_text = यह कैटलॉग से छिप जाती है; आपके वर्कआउट में यह बनी रहती है और आप उनसे इसे वापस ला सकते हैं।
+training_delete_exercise_title = %1$s मिटाएं?
+training_delete_exercise_text = यह अपनी फ़ोटो और सेटिंग के साथ मिट जाती है।
+training_archived_note = संग्रहित: कैटलॉग में छिपी हुई।
+# An exercise the user created
+training_own_exercise = कस्टम
+training_photo_add = अपनी मशीन की फ़ोटो जोड़ें
+training_photo_add_text = ताकि आप उसे अपने जिम में पहचान सकें।
+training_photo_change = फ़ोटो बदलें
+training_photo_of = %1$s की फ़ोटो
+training_photo_take = फ़ोटो लें
+training_photo_pick = गैलरी से चुनें
+training_photo_remove = फ़ोटो हटाएं
+training_photo_failed = फ़ोटो पढ़ी नहीं जा सकी।
+training_photo_unavailable = इस फ़ोन पर कोई भी ऐप फ़ोटो नहीं ले सकता।
+training_muscle_primary = मुख्य मांसपेशियां
+training_muscle_secondary = सहायक मांसपेशियां
+training_machine_settings = मशीन की सेटिंग
+training_machine_settings_hint = जैसे: सीट 4, बैक रेस्ट 2
+training_progress = प्रगति
+training_progress_empty = यहां अपनी प्रगति देखने के लिए किसी वर्कआउट में इस एक्सरसाइज़ के सेट टिक करें।
+training_progress_none_in_period = इस अवधि में कोई सेशन नहीं।
+training_needs_bodyweight = ताकत देखने के लिए अपना वज़न दर्ज करें (स्केल या मैन्युअल वज़न)।
+training_personal_records = पर्सनल रिकॉर्ड
+training_no_records = अभी तक कोई रिकॉर्ड नहीं।
+training_record_volume = एक सेशन का सबसे अच्छा वॉल्यूम
+training_metric_e1rm = अनुमानित 1RM
+training_metric_e1rm_short = अनु. 1RM
+training_metric_heaviest = सबसे भारी वज़न
+training_metric_extra_load = सबसे भारी अतिरिक्त वज़न
+training_metric_max_reps = सबसे ज़्यादा रेप्स
+training_metric_total_reps = कुल रेप्स
+training_metric_longest = सबसे लंबा समय
+training_metric_total_time = कुल समय
+training_metric_distance = दूरी
+training_metric_least_assistance = सबसे कम असिस्टेंस
+training_value_reps = %1$s रेप्स
+training_value_lb = %1$s lb
+# Progress chart for TalkBack: %1$s metric, %2$s number of sessions, %3$s first value, %4$s last value, %5$s highest value
+training_chart_desc{one} = %1$s चार्ट, %2$s सेशन: %3$s।
+training_chart_desc{other} = %1$s चार्ट, %2$s सेशन: %3$s से %4$s तक, सबसे ज़्यादा %5$s।
+# How sets of each kind are logged (exercise editor)
+training_kind_weight_reps_text = वज़न × रेप्स: प्रेस, रो, लेग प्रेस…
+training_kind_bodyweight_reps_text = अपने शरीर के वज़न से रेप्स, अतिरिक्त वज़न वैकल्पिक: पुल-अप, डिप, पुश-अप।
+training_kind_assisted_reps_text = आप वह काउंटरवेट दर्ज करते हैं जो आपकी मदद करता है: कम असिस्टेंस = ज़्यादा ताकत।
+training_kind_duration_text = कितने सेकंड रुके, वज़न वैकल्पिक: प्लैंक, फ़ार्मर्स कैरी।
+training_kind_cardio_text = समय, दूरी, लेवल और कैलोरी: ट्रेडमिल, बाइक, रोइंग मशीन।
+training_editor_new = नई मशीन या एक्सरसाइज़
+training_editor_edit = एक्सरसाइज़ में बदलाव करें
+training_editor_not_editable = कैटलॉग की एक्सरसाइज़ में बदलाव नहीं किया जा सकता: उनके पेज पर अपनी सेटिंग, फ़ोटो और स्टार जोड़ें।
+training_editor_name = नाम
+training_editor_name_hint = जैसे: चेस्ट प्रेस (Technogym)
+training_editor_name_error = नाम डालें।
+training_editor_equipment = उपकरण
+training_editor_kind = कैसे दर्ज होता है
+training_editor_kind_changed = पहले से दर्ज सेट की वैल्यू वही रहती है; सिर्फ़ उन्हें पढ़ने का तरीका बदलता है।
+training_editor_muscle_error = कम से कम एक मुख्य मांसपेशी चुनें।
+training_editor_photo = फ़ोटो
+training_history_empty_title = अभी तक कोई वर्कआउट नहीं
+training_history_empty_text = पूरे हुए वर्कआउट यहां महीने के हिसाब से दिखते हैं।
+training_workout_actions = वर्कआउट की कार्रवाइयां
+training_settings_unit = वज़न की इकाई
+training_settings_unit_text = वज़न किलोग्राम में सेव होते हैं; आप जब चाहें इकाई बदल सकते हैं।
+training_unit_kg_long = किलोग्राम (kg)
+training_unit_lb_long = पाउंड (lb)
+training_settings_rest = आराम टाइमर
+training_settings_rest_text = ऐप खुला होने पर, सेट टिक करते ही शुरू होता है और खत्म होने पर वाइब्रेट करता है।
+training_settings_health = अपने वर्कआउट Health Connect में सेव करने की सेटिंग “प्रोफ़ाइल → Health Connect” में होती है।
+training_days_ago{one} = %1$s दिन पहले
+training_days_ago{other} = %1$s दिन पहले
+training_exercises_count{one} = %1$s एक्सरसाइज़
+training_exercises_count{other} = %1$s एक्सरसाइज़
+training_sets_count{one} = %1$s सेट
+training_sets_count{other} = %1$s सेट
+# Half sets of a secondary muscle ("2.5 sets"): decimals take no plural form
+training_sets_fraction = %1$s सेट
+training_workouts_count{one} = %1$s वर्कआउट
+training_workouts_count{other} = %1$s वर्कआउट
+training_undo = पहले जैसा करें
+training_exercise_removed = एक्सरसाइज़ हटाई गई
+training_set_deleted = सेट मिटाया गया
+training_discard_changes = बदलाव छोड़ें?
+training_save_failed = एक्सरसाइज़ सेव नहीं की जा सकी
+training_spoken_pair = %1$s, %2$s

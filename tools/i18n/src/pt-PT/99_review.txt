@@ -1,0 +1,6 @@
+# Rating the app on Google Play. Profile → About: a row that opens the app's Google Play page.
+# "Fortia" is the app's name: keep it as is.
+about_rate_app = Avaliar o Fortia
+about_rate_app_text = Diga-nos o que pensa no Google Play
+# Profile → Open source and licenses: what the Google Play In-App Review library is used for.
+notice_play_review = Pede uma avaliação no Google Play num bom momento, com o próprio cartão da Google.

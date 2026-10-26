@@ -1,0 +1,165 @@
+# Built-in exercise and machine names: ex_<catalog id> (training/catalog/ExerciseCatalog.kt)
+
+# Machines
+ex_machine_chest_press = Wyciskanie na klatkę na maszynie
+ex_machine_incline_chest_press = Wyciskanie skośne na maszynie
+ex_pec_deck = Butterfly (pec deck)
+ex_machine_shoulder_press = Wyciskanie nad głowę na maszynie
+ex_machine_lateral_raise = Wznosy bokiem na maszynie
+ex_reverse_pec_deck = Odwrotny butterfly
+ex_machine_row = Wiosłowanie siedząc na maszynie
+ex_pullover_machine = Pullover na maszynie
+ex_leg_press_machine = Wypychanie nóg na suwnicy
+ex_horizontal_leg_press = Wypychanie na suwnicy poziomej
+ex_hack_squat_machine = Hack przysiad
+ex_pendulum_squat_machine = Przysiad wahadłowy
+ex_leg_extension_machine = Prostowanie nóg na maszynie
+ex_lying_leg_curl_machine = Uginanie nóg leżąc
+ex_seated_leg_curl_machine = Uginanie nóg siedząc
+ex_standing_calf_raise_machine = Wspięcia stojąc na maszynie
+ex_seated_calf_raise_machine = Wspięcia na palce siedząc
+ex_leg_press_calf_raise = Wspięcia na palce na suwnicy
+ex_hip_abductor_machine = Odwodzenie nóg na maszynie
+ex_hip_adductor_machine = Przywodzenie nóg na maszynie
+ex_glute_kickback_machine = Wykopy w tył na maszynie
+ex_hip_thrust_machine = Hip thrust na maszynie
+ex_back_extension_machine = Prostowanie pleców na maszynie
+ex_ab_crunch_machine = Spięcia brzucha na maszynie
+ex_rotary_torso_machine = Skręty tułowia na maszynie
+ex_machine_biceps_curl = Uginanie ramion na maszynie
+ex_machine_triceps_extension = Prostowanie ramion na maszynie
+ex_seated_dip_machine = Dipy siedząc na maszynie
+ex_assisted_pull_up_machine = Podciąganie nachwytem z asystą
+ex_assisted_chin_up_machine = Podciąganie podchwytem z asystą
+ex_assisted_dip_machine = Pompki na poręczach z asystą
+ex_neck_machine = Maszyna do szyi
+
+# Cable
+ex_lat_pulldown_machine = Ściąganie drążka do klatki
+ex_close_grip_lat_pulldown = Ściąganie drążka wąskim chwytem
+ex_seated_cable_row = Wiosłowanie na wyciągu dolnym
+ex_single_arm_cable_row = Wiosłowanie jednorącz na wyciągu
+ex_straight_arm_pulldown = Ściąganie prostymi ramionami
+ex_cable_crossover = Krzyżowanie linek wyciągu
+ex_low_cable_crossover = Krzyżowanie linek z dołu
+ex_cable_fly = Rozpiętki na wyciągu
+ex_face_pull = Face pull
+ex_cable_lateral_raise = Wznosy bokiem na wyciągu
+ex_cable_triceps_pushdown = Prostowanie ramion na wyciągu
+ex_rope_triceps_pushdown = Prostowanie ramion z liną
+ex_cable_overhead_triceps_extension = Prostowanie zza głowy na wyciągu
+ex_cable_curl = Uginanie ramion na wyciągu
+ex_cable_crunch = Spięcia brzucha na wyciągu
+ex_cable_woodchop = Rąbanie drewna na wyciągu
+ex_cable_pull_through = Pull-through na wyciągu
+ex_cable_glute_kickback = Wykopy w tył na wyciągu
+
+# Smith machine
+ex_smith_squat = Przysiad na Smithie
+ex_smith_bench_press = Wyciskanie leżąc na Smithie
+ex_smith_incline_bench_press = Wyciskanie skośne na Smithie
+ex_smith_shoulder_press = Wyciskanie nad głowę na Smithie
+ex_smith_split_squat = Przysiad wykroczny na Smithie
+ex_smith_hip_thrust = Hip thrust na Smithie
+ex_smith_calf_raise = Wspięcia na palce na Smithie
+
+# Barbell and EZ bar
+ex_barbell_bench_press = Wyciskanie sztangi leżąc
+ex_barbell_incline_bench_press = Wyciskanie sztangi na skosie
+ex_barbell_decline_bench_press = Wyciskanie sztangi głową w dół
+ex_close_grip_bench_press = Wyciskanie wąskim chwytem
+ex_barbell_overhead_press = Wyciskanie żołnierskie
+ex_barbell_back_squat = Przysiad ze sztangą
+ex_barbell_front_squat = Przysiad przedni
+ex_barbell_deadlift = Martwy ciąg
+ex_sumo_deadlift = Martwy ciąg sumo
+ex_barbell_romanian_deadlift = Rumuński martwy ciąg
+ex_good_morning = Skłony ze sztangą (good morning)
+ex_barbell_lunge = Wykroki ze sztangą
+ex_barbell_hip_thrust = Hip thrust ze sztangą
+ex_barbell_glute_bridge = Mostek biodrowy ze sztangą
+ex_barbell_row = Wiosłowanie sztangą
+ex_pendlay_row = Wiosłowanie Pendlaya
+ex_t_bar_row = Wiosłowanie T-sztangą
+ex_barbell_upright_row = Podciąganie sztangi pod brodę
+ex_barbell_shrug = Szrugsy ze sztangą
+ex_barbell_curl = Uginanie ramion ze sztangą
+ex_ez_bar_curl = Uginanie ze sztangą łamaną
+ex_ez_bar_preacher_curl = Modlitewnik ze sztangą łamaną
+ex_skull_crusher = Wyciskanie francuskie
+ex_barbell_wrist_curl = Uginanie nadgarstków
+ex_barbell_reverse_wrist_curl = Prostowanie nadgarstków
+
+# Dumbbells
+ex_dumbbell_bench_press = Wyciskanie hantli leżąc
+ex_dumbbell_incline_bench_press = Wyciskanie hantli na skosie
+ex_dumbbell_fly = Rozpiętki z hantlami
+ex_dumbbell_pullover = Pullover z hantlem
+ex_dumbbell_shoulder_press = Wyciskanie hantli nad głowę
+ex_arnold_press = Wyciskanie Arnolda
+ex_dumbbell_lateral_raise = Wznosy bokiem z hantlami
+ex_dumbbell_front_raise = Wznosy przodem z hantlami
+ex_dumbbell_rear_delt_fly = Rozpiętki w opadzie tułowia
+ex_dumbbell_row = Wiosłowanie hantlem jednorącz
+ex_dumbbell_shrug = Szrugsy z hantlami
+ex_dumbbell_curl = Uginanie ramion z hantlami
+ex_hammer_curl = Uginanie młotkowe
+ex_incline_dumbbell_curl = Uginanie z hantlami na skosie
+ex_concentration_curl = Uginanie koncentryczne
+ex_dumbbell_overhead_extension = Wyciskanie francuskie hantlem
+ex_dumbbell_triceps_kickback = Prostowanie ramienia w opadzie
+ex_dumbbell_goblet_squat = Przysiad goblet z hantlem
+ex_bulgarian_split_squat = Przysiad bułgarski
+ex_dumbbell_lunge = Wykroki z hantlami
+ex_dumbbell_step_up = Wejścia na skrzynię z hantlami
+ex_dumbbell_romanian_deadlift = Rumuński martwy ciąg z hantlami
+ex_dumbbell_side_bend = Skłony boczne z hantlem
+
+# Kettlebells
+ex_kettlebell_swing = Swing kettlebell
+ex_kettlebell_goblet_squat = Przysiad goblet z kettlebell
+ex_kettlebell_clean_and_press = Zarzut i wyciskanie kettlebell
+ex_turkish_get_up = Tureckie wstawanie
+
+# Bodyweight
+ex_push_up = Pompki
+ex_parallel_bar_dip = Pompki na poręczach
+ex_bench_dip = Pompki w podporze tyłem
+ex_pull_up = Podciąganie nachwytem
+ex_chin_up = Podciąganie podchwytem
+ex_inverted_row = Australijskie podciąganie
+ex_bodyweight_squat = Przysiad bez obciążenia
+ex_bodyweight_lunge = Wykroki
+ex_glute_bridge = Mostek biodrowy
+ex_back_extension = Wyprosty na ławce rzymskiej
+ex_nordic_curl = Nordyckie uginanie nóg
+ex_crunch = Brzuszki
+ex_sit_up = Siady z leżenia
+ex_hanging_leg_raise = Unoszenie nóg w zwisie
+ex_lying_leg_raise = Unoszenie nóg leżąc
+ex_russian_twist = Rosyjskie skręty
+ex_mountain_climber = Wspinaczka górska
+ex_burpee = Burpees
+
+# Timed holds and carries
+ex_plank = Deska
+ex_side_plank = Deska bokiem
+ex_copenhagen_plank = Deska kopenhaska
+ex_wall_sit = Krzesełko przy ścianie
+ex_dead_hang = Zwis na drążku
+ex_farmers_carry = Spacer farmera
+
+# Resistance bands
+ex_band_pull_apart = Rozciąganie gumy przed sobą
+ex_banded_lateral_walk = Chód boczny z gumą
+
+# Cardio machines
+ex_treadmill = Bieżnia
+ex_stationary_bike = Rower stacjonarny
+ex_spin_bike = Rower spinningowy
+ex_recumbent_bike = Rower poziomy
+ex_air_bike = Air bike
+ex_elliptical = Orbitrek
+ex_rowing_machine = Ergometr wioślarski
+ex_stair_climber = Stepper
+ex_ski_erg = Ergometr narciarski

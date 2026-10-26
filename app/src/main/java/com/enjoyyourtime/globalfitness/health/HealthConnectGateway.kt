@@ -10,6 +10,7 @@ import androidx.core.net.toUri
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.HealthConnectFeatures
 import androidx.health.connect.client.PermissionController
+import com.enjoyyourtime.globalfitness.R
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -137,7 +138,7 @@ class HealthConnectGateway(private val context: Context) {
 
     /** Friendly name of a source app; uses the installed label when the package is visible. */
     fun originName(packageName: String): String? =
-        HealthMappings.originName(packageName, context.packageName) { pkg ->
+        HealthMappings.originName(packageName, context.packageName, context.getString(R.string.app_name)) { pkg ->
             try {
                 val pm = context.packageManager
                 val info = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

@@ -1,0 +1,6 @@
+# Body shape of the muscle map figure (Progress → Muscles): "Now" vs some time ago; the caption says it is only an illustration
+body_shape_now = 現在
+body_shape_months_ago{other} = %1$s か月前
+body_shape_weeks_ago{other} = %1$s 週間前
+body_shape_caption_scale = 人体図の形は、体脂肪率、筋肉量、トレーニングに応じて変わります。これはイメージ図であり、測定結果ではありません。
+body_shape_caption_training = 人体図の形は、トレーニングに応じて変わります（体組成を測れる体重計で測定すると、体脂肪率も反映されます）。これはイメージ図であり、測定結果ではありません。

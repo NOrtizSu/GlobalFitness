@@ -1,0 +1,8 @@
+# Body map: captions, TalkBack descriptions of the muscle figure, open-source credit of its drawings
+bodymap_front = 앞
+bodymap_back = 뒤
+bodymap_figure_front = 신체 앞면
+bodymap_figure_back = 신체 뒷면
+bodymap_figure_highlighted = %1$s: %2$s
+bodymap_muscle_state = %1$s, %2$s
+notice_body_highlighter = 근육 맵 그림은 react-native-body-highlighter에서 이식했습니다.

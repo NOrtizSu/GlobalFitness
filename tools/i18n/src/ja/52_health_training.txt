@@ -1,0 +1,14 @@
+# Health Connect: workouts of the training log saved as exercise sessions
+hc_workouts_export_title = ワークアウトを Health Connect に保存
+hc_workouts_export_text = 完了した各ワークアウトは、セット数と回数を含むエクササイズセッションとして保存されるため、他のフィットネスアプリでもカウントされます。ワークアウトを削除すると、Health Connect からも削除されます。
+hc_workouts_export_missing_permission = ワークアウトを Health Connect に保存するには、Fortia に Health Connect へのエクササイズの書き込みを許可してください。
+hc_workouts_export_denied = 権限の画面が開かない場合は、Health Connect で Fortia に「エクササイズ」を許可してください。
+hc_workouts_export_allow = 許可
+hc_workouts_export_off = 新しいワークアウトは保存されません。Health Connect にすでにあるワークアウトはそのまま残ります。
+hc_workouts_export_count_none = Health Connect にはまだワークアウトがありません。
+hc_workouts_export_count{other} = Health Connect に %1$d 件のワークアウトがあります。
+hc_missing_write_exercise = エクササイズの書き込み権限がありません：ワークアウトは保存されません。
+# Title in Health Connect of a workout without a name that mixes different kinds of cardio
+hc_workout_title = ワークアウト
+# Permissions rationale: continues the "Writing your scale measurements" item
+health_rationale_write_workouts = アプリで完了したワークアウトも、エクササイズセッションとして書き込みます：開始・終了時刻、種類、名前、メモ、完了した各セットとその回数。アプリでワークアウトを削除すると、Health Connect からも削除されます。

@@ -1,0 +1,8 @@
+# Body map: captions, TalkBack descriptions of the muscle figure, open-source credit of its drawings
+bodymap_front = आगे
+bodymap_back = पीछे
+bodymap_figure_front = शरीर, सामने से
+bodymap_figure_back = शरीर, पीछे से
+bodymap_figure_highlighted = %1$s: %2$s
+bodymap_muscle_state = %1$s, %2$s
+notice_body_highlighter = मसल मैप के चित्र react-native-body-highlighter से पोर्ट किए गए हैं।
