@@ -45,6 +45,9 @@ object TrainingIcons {
             "c0,1.3 -0.84,2.4 -2,2.82V7h2V8z",
         "Replay" to "M12,5V1L7,6l5,5V7c3.31,0 6,2.69 6,6s-2.69,6 -6,6 -6,-2.69 -6,-6H4c0,4.42 3.58,8 8,8s8,-3.58 8,-8 -3.58,-8 -8,-8z",
         "SkipNext" to "M6,18l8.5,-6L6,6v12zM16,6v12h2V6h-2z",
+        "SkipPrevious" to "M6,6h2v12H6zM9.5,12l8.5,6V6z",
+        "Pause" to "M6,19h4V5H6v14zM14,5v14h4V5h-4z",
+        "PlayPause" to "M3,6v12l8,-6zM13,6h3v12h-3zM18,6h3v12h-3z",
         "Notes" to "M3,18h12v-2H3v2zM3,6v2h18V6H3zM3,13h18v-2H3v2z",
         "Tune" to "M3,17v2h6v-2H3zM3,5v2h10V5H3zM13,21v-2h8v-2h-8v-2h-2v6h2zM7,9v2H3v2h4v2h2V9H7zM21,13v-2H11v2h10zM15,9h2V7h4V5h-4V3h-2v6z",
         "MusicNote" to "M12,3v10.55c-0.59,-0.34 -1.27,-0.55 -2,-0.55 -2.21,0 -4,1.79 -4,4s1.79,4 4,4 4,-1.79 4,-4V7h4V3h-6z",
@@ -95,6 +98,18 @@ object TrainingIcons {
 
     /** Skip the rest. */
     val SkipNext: ImageVector by lazy { icon("SkipNext", autoMirror = true) }
+
+    // The music controls. Media controls keep their direction in right-to-left layouts (they follow
+    // the music's time, not the reading order), so these are never mirrored.
+
+    val TrackPrevious: ImageVector by lazy { icon("SkipPrevious") }
+
+    val TrackNext: ImageVector by lazy { icon("SkipNext") }
+
+    val Pause: ImageVector by lazy { icon("Pause") }
+
+    /** Play and pause in one ("play_pause"): the button when it is not known whether music plays. */
+    val PlayPause: ImageVector by lazy { icon("PlayPause") }
 
     val Notes: ImageVector by lazy { icon("Notes", autoMirror = true) }
 

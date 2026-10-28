@@ -31,6 +31,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -132,16 +133,32 @@ fun TrainingMusicCard(suggestions: MusicSuggestions, modifier: Modifier = Modifi
 }
 
 /**
- * The workout's sheet (from the music button of its top bar): the five, one per row. When no app
- * can open a playlist, [onOpenFailed] is called (the sheet's host closes it and says so).
+ * The workout's sheet (from the music button of its top bar): the music [player] on top when the
+ * controls are on, then the five playlists, one per row, when the suggestions are ([suggestions]
+ * not null). When no app can open a playlist, [onOpenFailed] is called (the sheet's host closes it
+ * and says so).
  */
 @Composable
-fun MusicSheet(suggestions: MusicSuggestions, onDismiss: () -> Unit, onOpenFailed: () -> Unit) {
+fun MusicSheet(
+    suggestions: MusicSuggestions?,
+    onDismiss: () -> Unit,
+    onOpenFailed: () -> Unit,
+    player: (@Composable () -> Unit)? = null,
+) {
     val context = LocalContext.current
-    val art = playlistArt(suggestions)
+    val art = suggestions?.let { playlistArt(it) }.orEmpty()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     ModalBottomSheet(onDismissRequest = onDismiss, sheetState = sheetState) {
         LazyColumn(Modifier.navigationBarsPadding(), contentPadding = PaddingValues(bottom = 16.dp)) {
+            if (player != null) {
+                item(key = "player") {
+                    Column {
+                        player()
+                        if (suggestions != null) HorizontalDivider(Modifier.padding(horizontal = 24.dp, vertical = 12.dp))
+                    }
+                }
+            }
+            if (suggestions == null) return@LazyColumn
             item(key = "header") {
                 MusicHeader(
                     suggestions.day,

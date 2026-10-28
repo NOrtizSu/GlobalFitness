@@ -121,8 +121,14 @@ import com.enjoyyourtime.globalfitness.ui.components.TimeInputDialog
 import com.enjoyyourtime.globalfitness.ui.components.WholeWordsAutoSize
 import com.enjoyyourtime.globalfitness.ui.theme.ChartTheme
 import com.enjoyyourtime.globalfitness.ui.theme.TabularNumbers
+import com.enjoyyourtime.globalfitness.training.player.PlayerState
 import com.enjoyyourtime.globalfitness.ui.training.music.MusicSheet
+import com.enjoyyourtime.globalfitness.ui.training.music.PlayerAccessDialog
+import com.enjoyyourtime.globalfitness.ui.training.music.PlayerStrip
+import com.enjoyyourtime.globalfitness.ui.training.music.SheetPlayer
 import com.enjoyyourtime.globalfitness.ui.training.music.musicSuggestions
+import com.enjoyyourtime.globalfitness.ui.training.music.playerState
+import com.enjoyyourtime.globalfitness.ui.training.music.stripTrack
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.LocalDate
@@ -227,6 +233,9 @@ fun WorkoutScreen(workoutId: String, onBack: () -> Unit, onOpen: (route: String)
 
     val w = ui.workout
     val live = w.inProgress
+    // The music that plays is only followed during a workout in progress.
+    val player = if (live) playerState() else PlayerState.Off
+    val hasMusic = live && (music != null || player != PlayerState.Off)
 
     // During the page's enter animation a back press would not leave (the back action waits for
     // RESUMED): closing or deleting then would leave the page showing a workout that is gone.
@@ -261,6 +270,7 @@ fun WorkoutScreen(workoutId: String, onBack: () -> Unit, onOpen: (route: String)
     var editDuration by rememberSaveable { mutableStateOf(false) }
     var showRoutines by rememberSaveable { mutableStateOf(false) }
     var showMusic by rememberSaveable { mutableStateOf(false) }
+    var explainPlayer by rememberSaveable { mutableStateOf(false) }
     var askRoutineName by rememberSaveable { mutableStateOf(false) }
     // Saved from the finish summary, which then says so instead of offering it again.
     var routineSavedInSummary by rememberSaveable { mutableStateOf(false) }
@@ -302,10 +312,11 @@ fun WorkoutScreen(workoutId: String, onBack: () -> Unit, onOpen: (route: String)
         onBack = back,
         snackbar = snackbar,
         actions = {
-            // The day's playlists, one tap away while training.
-            if (live && music != null) {
+            // The day's playlists and the music controls, one tap away while training.
+            if (hasMusic) {
                 IconButton(onClick = { showMusic = true }) {
-                    Icon(TrainingIcons.MusicNote, contentDescription = stringResource(R.string.music_title))
+                    // Named after what the sheet holds: the day's playlists, else only the player.
+                    Icon(TrainingIcons.MusicNote, contentDescription = stringResource(if (music != null) R.string.music_title else R.string.player_title))
                 }
             }
             TextButton(onClick = ::requestFinish) {
@@ -347,7 +358,18 @@ fun WorkoutScreen(workoutId: String, onBack: () -> Unit, onOpen: (route: String)
         },
         bottomBar = {
             val rest by vm.rest.collectAsStateWithLifecycle()
-            rest?.takeIf { live && it.workoutId == w.id }?.let { RestBar(vm, it) }
+            val timer = rest?.takeIf { live && it.workoutId == w.id }
+            // The song that plays sits above the rest timer; the lower of the two keeps clear of the navigation bar.
+            val restShown = timer != null && run {
+                val now by vm.clock.collectAsStateWithLifecycle()
+                restRemainingSec(timer, now) > 0
+            }
+            Column {
+                stripTrack(player)?.let { track ->
+                    PlayerStrip(track, onOpen = { showMusic = true }, insetBottom = !restShown)
+                }
+                timer?.let { RestBar(vm, it) }
+            }
         },
     ) { padding ->
         LazyColumn(
@@ -525,17 +547,26 @@ fun WorkoutScreen(workoutId: String, onBack: () -> Unit, onOpen: (route: String)
             onDismiss = { showRoutines = false },
         )
     }
-    if (showMusic) {
-        music?.takeIf { live }?.let {
-            MusicSheet(
-                it,
-                onDismiss = { showMusic = false },
-                onOpenFailed = {
-                    showMusic = false
-                    scope.launch { snackbar.showSnackbar(context.getString(R.string.music_open_failed), withDismissAction = true) }
-                },
-            )
-        }
+    if (showMusic && hasMusic) {
+        MusicSheet(
+            music,
+            onDismiss = { showMusic = false },
+            onOpenFailed = {
+                showMusic = false
+                scope.launch { snackbar.showSnackbar(context.getString(R.string.music_open_failed), withDismissAction = true) }
+            },
+            player = if (player == PlayerState.Off) {
+                null
+            } else {
+                { SheetPlayer(player, suggestionsShown = music != null, onExplain = { explainPlayer = true }) }
+            },
+        )
+    }
+    if (explainPlayer) {
+        PlayerAccessDialog(
+            onDismiss = { explainPlayer = false },
+            onFailed = { showMessage(context.getString(R.string.player_access_failed)) },
+        )
     }
     if (askRoutineName) {
         SaveRoutineDialog(

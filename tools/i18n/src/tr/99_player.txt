@@ -1,0 +1,43 @@
+# Music controls: a mini player for whatever music app is playing (Spotify, YouTube Music…), in the Entreno tab and the workout in progress. Android's own media controls: no Spotify account or API
+# Title of the Entreno card and of the player at the top of the workout's music sheet
+player_title = Şimdi çalıyor
+# Without notification access the buttons send Android's media keys to the app that plays; one line under the title
+player_keys_text = Bu düğmeler, çalan müzik uygulamasını kontrol eder.
+# Text button under the buttons (and title of the settings row): opens the explanation of notification access below
+player_show = Neyin çaldığını gör
+# With access, no music app is playing
+player_idle = Şu anda hiçbir şey çalmıyor.
+# Same, when the "Music for today" playlists are on screen (quote music_title exactly)
+player_idle_music = Şu anda hiçbir şey çalmıyor. Bugün için müzik bölümünden bir çalma listesi seçin.
+# The music app gives no title for the song
+player_untitled = Başlıksız
+# TalkBack: the row with the song (song title, artist)
+player_now_playing = Şimdi çalıyor: %1$s, %2$s
+# TalkBack: the same row when the artist is unknown
+player_now_playing_title = Şimdi çalıyor: %1$s
+# The buttons, read by TalkBack
+player_previous = Önceki parça
+player_next = Sonraki parça
+player_play = Oynat
+player_pause = Duraklat
+# The play/pause button when it is unknown whether music plays (no notification access)
+player_play_pause = Oynat veya duraklat
+# TalkBack: state of the play/pause button
+player_state_playing = Çalıyor
+player_state_paused = Duraklatıldı
+# Workout: tapping the strip with the song opens the music sheet (TalkBack click action)
+player_open = Müzik kontrollerini göster
+# Shown before Android's notification access page (Google Play's prominent disclosure): title, text and buttons ("Continue" is action_continue). Quote Android's "notification access" and "Do Not Disturb" as Android says them in your language, and the tab (training_title) and the path Profile → Training settings (nav_profile → profile_training_title) exactly as the app shows them
+player_access_title = Neyin çaldığını gör
+player_access_text = Fortia, çalan şarkıyı (başlık, sanatçı, kapak, onu çalan uygulama, çalıp çalmadığı ve nerede olduğu) gösterebilir ve Antrenman sekmesinden ve devam eden antrenmandan kontrol edebilir.\n\nAndroid buna “bildirim erişimi” der ve Fortia'nın bildirimlerinizi okuyup kapatabileceği ve Rahatsız Etmeyin modunu değiştirebileceği konusunda sizi uyarır. Fortia bunların hiçbirini yapmaz: Yalnızca müzik çaları kullanır, hiçbir şey kaydetmez ve telefonunuzdan hiçbir şey çıkmaz.\n\nBunu istediğiniz zaman Profil → Antrenman ayarları bölümünden veya Android ayarlarından kapatabilirsiniz.
+player_access_not_now = Şimdi değil
+# Android's notification access page could not be opened (snackbar)
+player_access_failed = Android'in bildirim erişimi ayarları açılamadı.
+# Training settings: the switch and its explanation
+player_setting = Müzik kontrolleri
+player_setting_text = Çalan müzik uygulaması için önceki, oynat/duraklat ve sonraki düğmeleri; Antrenman sekmesinde ve antrenman sırasında.
+# Training settings: under "See what's playing", whether notification access is on
+player_access_on = Açık: şarkı, sanatçı ve kapak gösterilir. Android ayarlarından kapatmak için dokunun.
+player_access_off = Kapalı: yalnızca düğmeler. Neyin gerektiğini görmek için dokunun.
+# Fortia's entry in Android's notification access list (like band_notification_listener_label)
+player_listener_label = Fortia: müzik kontrolleri

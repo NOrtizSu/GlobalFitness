@@ -1,0 +1,43 @@
+# Music controls: a mini player for whatever music app is playing (Spotify, YouTube Music…), in the Entreno tab and the workout in progress. Android's own media controls: no Spotify account or API
+# Title of the Entreno card and of the player at the top of the workout's music sheet
+player_title = Đang phát
+# Without notification access the buttons send Android's media keys to the app that plays; one line under the title
+player_keys_text = Các nút này điều khiển ứng dụng nhạc đang phát.
+# Text button under the buttons (and title of the settings row): opens the explanation of notification access below
+player_show = Xem bài đang phát
+# With access, no music app is playing
+player_idle = Không có gì đang phát.
+# Same, when the "Music for today" playlists are on screen (quote music_title exactly)
+player_idle_music = Không có gì đang phát. Hãy chọn một danh sách phát trong Nhạc hôm nay.
+# The music app gives no title for the song
+player_untitled = Không có tiêu đề
+# TalkBack: the row with the song (song title, artist)
+player_now_playing = Đang phát: %1$s, %2$s
+# TalkBack: the same row when the artist is unknown
+player_now_playing_title = Đang phát: %1$s
+# The buttons, read by TalkBack
+player_previous = Bài trước
+player_next = Bài tiếp theo
+player_play = Phát
+player_pause = Tạm dừng
+# The play/pause button when it is unknown whether music plays (no notification access)
+player_play_pause = Phát hoặc tạm dừng
+# TalkBack: state of the play/pause button
+player_state_playing = Đang phát
+player_state_paused = Đã tạm dừng
+# Workout: tapping the strip with the song opens the music sheet (TalkBack click action)
+player_open = Hiện điều khiển nhạc
+# Shown before Android's notification access page (Google Play's prominent disclosure): title, text and buttons ("Continue" is action_continue). Quote Android's "notification access" and "Do Not Disturb" as Android says them in your language, and the tab (training_title) and the path Profile → Training settings (nav_profile → profile_training_title) exactly as the app shows them
+player_access_title = Xem bài đang phát
+player_access_text = Fortia có thể hiển thị bài hát đang phát (tên bài, nghệ sĩ, ảnh bìa, ứng dụng đang phát, bài hát có đang phát không và đã phát đến đâu) và điều khiển bài hát từ Tập luyện và buổi tập đang diễn ra.\n\nAndroid gọi đây là “quyền truy cập thông báo” và sẽ cảnh báo rằng Fortia có thể đọc và đóng thông báo của bạn, cũng như thay đổi chế độ Không làm phiền. Fortia không làm điều nào trong số đó: ứng dụng chỉ dùng trình phát nhạc, không lưu gì và không có gì rời khỏi điện thoại của bạn.\n\nBạn có thể tắt bất cứ lúc nào trong Hồ sơ → Cài đặt tập luyện hoặc trong cài đặt Android.
+player_access_not_now = Để sau
+# Android's notification access page could not be opened (snackbar)
+player_access_failed = Không mở được cài đặt quyền truy cập thông báo của Android.
+# Training settings: the switch and its explanation
+player_setting = Điều khiển nhạc
+player_setting_text = Bài trước, phát/tạm dừng và bài tiếp theo cho ứng dụng nhạc đang phát, trong Tập luyện và khi đang tập.
+# Training settings: under "See what's playing", whether notification access is on
+player_access_on = Bật: hiển thị bài hát, nghệ sĩ và ảnh bìa. Nhấn để tắt trong cài đặt Android.
+player_access_off = Tắt: chỉ có các nút. Nhấn để xem cần những gì.
+# Fortia's entry in Android's notification access list (like band_notification_listener_label)
+player_listener_label = Fortia: điều khiển nhạc

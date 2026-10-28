@@ -1,0 +1,43 @@
+# Music controls: a mini player for whatever music app is playing (Spotify, YouTube Music…), in the Entreno tab and the workout in progress. Android's own media controls: no Spotify account or API
+# Title of the Entreno card and of the player at the top of the workout's music sheet
+player_title = 再生中
+# Without notification access the buttons send Android's media keys to the app that plays; one line under the title
+player_keys_text = これらのボタンで、再生中の音楽アプリを操作できます。
+# Text button under the buttons (and title of the settings row): opens the explanation of notification access below
+player_show = 再生中の曲を表示
+# With access, no music app is playing
+player_idle = 何も再生されていません。
+# Same, when the "Music for today" playlists are on screen (quote music_title exactly)
+player_idle_music = 何も再生されていません。「今日の音楽」からプレイリストを選びましょう。
+# The music app gives no title for the song
+player_untitled = タイトルなし
+# TalkBack: the row with the song (song title, artist)
+player_now_playing = 再生中：%1$s、%2$s
+# TalkBack: the same row when the artist is unknown
+player_now_playing_title = 再生中：%1$s
+# The buttons, read by TalkBack
+player_previous = 前の曲
+player_next = 次の曲
+player_play = 再生
+player_pause = 一時停止
+# The play/pause button when it is unknown whether music plays (no notification access)
+player_play_pause = 再生または一時停止
+# TalkBack: state of the play/pause button
+player_state_playing = 再生中
+player_state_paused = 一時停止中
+# Workout: tapping the strip with the song opens the music sheet (TalkBack click action)
+player_open = 音楽コントロールを表示
+# Shown before Android's notification access page (Google Play's prominent disclosure): title, text and buttons ("Continue" is action_continue). Quote Android's "notification access" and "Do Not Disturb" as Android says them in your language, and the tab (training_title) and the path Profile → Training settings (nav_profile → profile_training_title) exactly as the app shows them
+player_access_title = 再生中の曲を表示
+player_access_text = Fortia では、再生中の曲（タイトル、アーティスト、カバー画像、再生しているアプリ、再生中かどうか、再生位置）を表示し、「トレーニング」とワークアウト中の画面から操作できます。\n\nAndroid ではこれを「通知へのアクセス」と呼び、Fortia が通知を読み取ったり非表示にしたり、サイレント モードを変更したりできるようになるという警告が表示されます。Fortia はそのいずれも行いません。使うのは音楽プレーヤーだけで、何も保存せず、スマートフォンの外には何も送信しません。\n\nこの機能は「プロフィール → トレーニング設定」または Android の設定でいつでもオフにできます。
+player_access_not_now = 今はしない
+# Android's notification access page could not be opened (snackbar)
+player_access_failed = Android の通知へのアクセスの設定を開けませんでした。
+# Training settings: the switch and its explanation
+player_setting = 音楽コントロール
+player_setting_text = 再生中の音楽アプリの「前へ」「再生/一時停止」「次へ」を、「トレーニング」とワークアウト中の画面に表示します。
+# Training settings: under "See what's playing", whether notification access is on
+player_access_on = オン：曲、アーティスト、カバー画像を表示します。タップすると Android の設定でオフにできます。
+player_access_off = オフ：ボタンのみ。タップすると必要な設定を確認できます。
+# Fortia's entry in Android's notification access list (like band_notification_listener_label)
+player_listener_label = Fortia：音楽コントロール

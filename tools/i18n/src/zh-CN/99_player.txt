@@ -1,0 +1,43 @@
+# Music controls: a mini player for whatever music app is playing (Spotify, YouTube Music…), in the Entreno tab and the workout in progress. Android's own media controls: no Spotify account or API
+# Title of the Entreno card and of the player at the top of the workout's music sheet
+player_title = 正在播放
+# Without notification access the buttons send Android's media keys to the app that plays; one line under the title
+player_keys_text = 这些按钮可以控制正在播放的音乐应用。
+# Text button under the buttons (and title of the settings row): opens the explanation of notification access below
+player_show = 查看正在播放的内容
+# With access, no music app is playing
+player_idle = 当前没有播放任何内容。
+# Same, when the "Music for today" playlists are on screen (quote music_title exactly)
+player_idle_music = 当前没有播放任何内容。从“今日音乐”中选一个歌单吧。
+# The music app gives no title for the song
+player_untitled = 无标题
+# TalkBack: the row with the song (song title, artist)
+player_now_playing = 正在播放：%1$s，%2$s
+# TalkBack: the same row when the artist is unknown
+player_now_playing_title = 正在播放：%1$s
+# The buttons, read by TalkBack
+player_previous = 上一首
+player_next = 下一首
+player_play = 播放
+player_pause = 暂停
+# The play/pause button when it is unknown whether music plays (no notification access)
+player_play_pause = 播放或暂停
+# TalkBack: state of the play/pause button
+player_state_playing = 正在播放
+player_state_paused = 已暂停
+# Workout: tapping the strip with the song opens the music sheet (TalkBack click action)
+player_open = 显示音乐控制
+# Shown before Android's notification access page (Google Play's prominent disclosure): title, text and buttons ("Continue" is action_continue). Quote Android's "notification access" and "Do Not Disturb" as Android says them in your language, and the tab (training_title) and the path Profile → Training settings (nav_profile → profile_training_title) exactly as the app shows them
+player_access_title = 查看正在播放的内容
+player_access_text = Fortia 可以显示正在播放的歌曲（标题、艺人、封面、播放它的应用、是否在播放以及播放进度），并让你在“训练”和进行中的训练里控制播放。\n\nAndroid 把这称为“通知使用权”，并会提示 Fortia 可以读取和关闭你的通知、更改勿扰模式。Fortia 不会做其中任何一件事：它只使用音乐播放器，不保存任何内容，也不会有任何数据离开你的手机。\n\n你可以随时在“我的 → 训练设置”或 Android 设置中关闭。
+player_access_not_now = 以后再说
+# Android's notification access page could not be opened (snackbar)
+player_access_failed = 无法打开 Android 的通知使用权设置。
+# Training settings: the switch and its explanation
+player_setting = 音乐控制
+player_setting_text = 在“训练”和训练过程中，为正在播放的音乐应用提供上一首、播放/暂停和下一首。
+# Training settings: under "See what's playing", whether notification access is on
+player_access_on = 已开启：显示歌曲、艺人和封面。点按即可在 Android 设置中关闭。
+player_access_off = 已关闭：只有按钮。点按查看需要什么。
+# Fortia's entry in Android's notification access list (like band_notification_listener_label)
+player_listener_label = Fortia：音乐控制

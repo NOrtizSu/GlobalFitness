@@ -40,6 +40,11 @@
             android:name=".debug.DebugMusicCoversReceiver"
             android:exported="true"
             android:permission="android.permission.DUMP" />
+        <!-- A fake music player (media session + silence), to check the music controls (same DUMP-only protection). -->
+        <receiver
+            android:name=".debug.DebugMediaSessionReceiver"
+            android:exported="true"
+            android:permission="android.permission.DUMP" />
         <!-- The body figure in a matrix of shapes, to check the shape warp (same DUMP-only protection). -->
         <activity
             android:name=".debug.DebugBodyShapeActivity"

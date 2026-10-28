@@ -1,6 +1,7 @@
 package com.enjoyyourtime.globalfitness.training.data
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.enjoyyourtime.globalfitness.training.model.LoadUnit
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,8 +38,8 @@ enum class SpotifyCovers(val code: String) {
 }
 
 /** Training preferences (SharedPreferences, mirrored in StateFlows; backed up with the app's other settings). */
-class TrainingSettings(context: Context) {
-    private val prefs = context.getSharedPreferences("training", Context.MODE_PRIVATE)
+class TrainingSettings(private val prefs: SharedPreferences) {
+    constructor(context: Context) : this(context.getSharedPreferences("training", Context.MODE_PRIVATE))
 
     private val _loadUnit = MutableStateFlow(LoadUnit.fromCode(prefs.getString(KEY_UNIT, null)) ?: defaultUnit(Locale.getDefault()))
 
@@ -74,6 +75,20 @@ class TrainingSettings(context: Context) {
 
     /** The user's answer about loading the playlists' covers from Spotify. */
     val spotifyCovers: StateFlow<SpotifyCovers> = _spotifyCovers.asStateFlow()
+
+    // Never set: someone who turned the day's music off (before the controls existed) gets them off
+    // too. Kept from then on, so turning the music back on later does not turn the controls on.
+    private val _musicControls = MutableStateFlow(
+        prefs.getBoolean(KEY_MUSIC_CONTROLS, prefs.getBoolean(KEY_MUSIC, true)).also { initial ->
+            if (!prefs.contains(KEY_MUSIC_CONTROLS)) prefs.edit { putBoolean(KEY_MUSIC_CONTROLS, initial) }
+        },
+    )
+
+    /**
+     * Whether Entreno and the workout show the controls of the music that plays: on until turned
+     * off, unless the music suggestions were turned off before this setting was ever set.
+     */
+    val musicControls: StateFlow<Boolean> = _musicControls.asStateFlow()
 
     fun setLoadUnit(unit: LoadUnit) {
         _loadUnit.value = unit
@@ -113,6 +128,11 @@ class TrainingSettings(context: Context) {
         prefs.edit { putString(KEY_SPOTIFY_COVERS, value.code) }
     }
 
+    fun setMusicControls(enabled: Boolean) {
+        _musicControls.value = enabled
+        prefs.edit { putBoolean(KEY_MUSIC_CONTROLS, enabled) }
+    }
+
     companion object {
         const val DEFAULT_REST_SECONDS = 90
         const val MAX_REST_SECONDS = 600
@@ -123,6 +143,7 @@ class TrainingSettings(context: Context) {
         private const val KEY_LAST_ROUTINE = "last_routine"
         private const val KEY_MUSIC = "music_suggestions"
         private const val KEY_SPOTIFY_COVERS = "spotify_covers"
+        private const val KEY_MUSIC_CONTROLS = "music_controls"
 
         /** Countries whose gyms load plates in pounds. */
         private val POUND_COUNTRIES = setOf("US", "LR", "MM")

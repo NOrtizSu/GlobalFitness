@@ -54,6 +54,14 @@
         <package android:name="com.mi.health" />
         <package android:name="com.xiaomi.hm.health" />
         <package android:name="com.huami.watch.hmwatchmanager" />
+        <!-- Music controls: the name of the app that plays ("Spotify") under the song. Music apps
+             declare one of these (media browser for Android Auto, media button receiver). -->
+        <intent>
+            <action android:name="android.media.browse.MediaBrowserService" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.MEDIA_BUTTON" />
+        </intent>
     </queries>
     <!-- Optional cloud backup (Firebase), ads (AdMob) and Google Play Billing. -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -105,6 +113,26 @@
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
+        </service>
+
+        <!-- Optional music controls: with notification access Android shows the app the media session
+             that plays (song, artist, cover) and lets it control it. It wants no notifications: no
+             type is allowed by default (0) and every type is disabled, so Android 12+ sends it none
+             and shows them off on its settings page. Only the system can bind it (the permission). -->
+        <service
+            android:name=".training.player.MediaAccessListener"
+            android:exported="false"
+            android:label="@string/player_listener_label"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.notification.default_filter_types"
+                android:value="0" />
+            <meta-data
+                android:name="android.service.notification.disabled_filter_types"
+                android:value="conversations|alerting|ongoing|silent" />
         </service>
 
         <!-- Health Connect privacy policy / permissions rationale (Android 13 and lower) -->

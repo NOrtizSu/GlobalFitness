@@ -1,0 +1,43 @@
+# Music controls: a mini player for whatever music app is playing (Spotify, YouTube Music…), in the Entreno tab and the workout in progress. Android's own media controls: no Spotify account or API
+# Title of the Entreno card and of the player at the top of the workout's music sheet
+player_title = قيد التشغيل الآن
+# Without notification access the buttons send Android's media keys to the app that plays; one line under the title
+player_keys_text = تتحكم هذه الأزرار في تطبيق الموسيقى الذي يعمل الآن.
+# Text button under the buttons (and title of the settings row): opens the explanation of notification access below
+player_show = عرض ما يتم تشغيله
+# With access, no music app is playing
+player_idle = لا يتم تشغيل أي شيء.
+# Same, when the "Music for today" playlists are on screen (quote music_title exactly)
+player_idle_music = لا يتم تشغيل أي شيء. اختر قائمة تشغيل من «موسيقى اليوم».
+# The music app gives no title for the song
+player_untitled = بلا عنوان
+# TalkBack: the row with the song (song title, artist)
+player_now_playing = قيد التشغيل الآن: %1$s، %2$s
+# TalkBack: the same row when the artist is unknown
+player_now_playing_title = قيد التشغيل الآن: %1$s
+# The buttons, read by TalkBack
+player_previous = المقطع السابق
+player_next = المقطع التالي
+player_play = تشغيل
+player_pause = إيقاف مؤقت
+# The play/pause button when it is unknown whether music plays (no notification access)
+player_play_pause = تشغيل أو إيقاف مؤقت
+# TalkBack: state of the play/pause button
+player_state_playing = قيد التشغيل
+player_state_paused = متوقف مؤقتًا
+# Workout: tapping the strip with the song opens the music sheet (TalkBack click action)
+player_open = عرض عناصر التحكم في الموسيقى
+# Shown before Android's notification access page (Google Play's prominent disclosure): title, text and buttons ("Continue" is action_continue). Quote Android's "notification access" and "Do Not Disturb" as Android says them in your language, and the tab (training_title) and the path Profile → Training settings (nav_profile → profile_training_title) exactly as the app shows them
+player_access_title = عرض ما يتم تشغيله
+player_access_text = يمكن لـ Fortia أن يعرض لك الأغنية التي يتم تشغيلها (العنوان والفنان والغلاف والتطبيق الذي يشغّلها، وهل هي قيد التشغيل وإلى أين وصلت) وأن يتحكم فيها من «التدريب» ومن الحصة التدريبية الجارية.\n\nيسمّي Android ذلك «الوصول إلى الإشعارات» وسينبّهك إلى أن Fortia قد يقرأ إشعاراتك ويغلقها ويغيّر وضع «عدم الإزعاج». لا يفعل Fortia شيئًا من ذلك: فهو لا يستخدم إلا مشغّل الموسيقى ولا يحفظ أي شيء ولا يغادر أي شيء هاتفك.\n\nيمكنك إيقاف ذلك في أي وقت من «الملف الشخصي ← إعدادات التدريب» أو من إعدادات Android.
+player_access_not_now = ليس الآن
+# Android's notification access page could not be opened (snackbar)
+player_access_failed = تعذّر فتح إعدادات الوصول إلى الإشعارات في Android.
+# Training settings: the switch and its explanation
+player_setting = عناصر التحكم في الموسيقى
+player_setting_text = السابق والتشغيل/الإيقاف المؤقت والتالي لتطبيق الموسيقى الذي يعمل الآن، في «التدريب» وأثناء الحصة التدريبية.
+# Training settings: under "See what's playing", whether notification access is on
+player_access_on = مفعّل: تظهر الأغنية والفنان والغلاف. انقر لإيقافه من إعدادات Android.
+player_access_off = غير مفعّل: الأزرار فقط. انقر لمعرفة ما يلزم.
+# Fortia's entry in Android's notification access list (like band_notification_listener_label)
+player_listener_label = Fortia: التحكم في الموسيقى

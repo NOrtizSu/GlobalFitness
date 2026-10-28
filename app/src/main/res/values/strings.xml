@@ -1997,6 +1997,49 @@
     <!-- Training settings: the switch under the music one, and its explanation -->
     <string name="music_covers_setting">Show Spotify covers</string>
     <string name="music_covers_setting_text">The covers are loaded from Spotify, which receives your IP address. Off, the playlists show without covers.</string>
+    <!-- Music controls: a mini player for whatever music app is playing (Spotify, YouTube Music…), in the Entreno tab and the workout in progress. Android's own media controls: no Spotify account or API -->
+    <!-- Title of the Entreno card and of the player at the top of the workout's music sheet -->
+    <string name="player_title">Now playing</string>
+    <!-- Without notification access the buttons send Android's media keys to the app that plays; one line under the title -->
+    <string name="player_keys_text">These buttons control the music app that is playing.</string>
+    <!-- Text button under the buttons (and title of the settings row): opens the explanation of notification access below -->
+    <string name="player_show">See what\'s playing</string>
+    <!-- With access, no music app is playing -->
+    <string name="player_idle">Nothing is playing.</string>
+    <!-- Same, when the "Music for today" playlists are on screen (quote music_title exactly) -->
+    <string name="player_idle_music">Nothing is playing. Pick a playlist from Music for today.</string>
+    <!-- The music app gives no title for the song -->
+    <string name="player_untitled">Untitled</string>
+    <!-- TalkBack: the row with the song (song title, artist) -->
+    <string name="player_now_playing">Now playing: %1$s, %2$s</string>
+    <!-- TalkBack: the same row when the artist is unknown -->
+    <string name="player_now_playing_title">Now playing: %1$s</string>
+    <!-- The buttons, read by TalkBack -->
+    <string name="player_previous">Previous track</string>
+    <string name="player_next">Next track</string>
+    <string name="player_play">Play</string>
+    <string name="player_pause">Pause</string>
+    <!-- The play/pause button when it is unknown whether music plays (no notification access) -->
+    <string name="player_play_pause">Play or pause</string>
+    <!-- TalkBack: state of the play/pause button -->
+    <string name="player_state_playing">Playing</string>
+    <string name="player_state_paused">Paused</string>
+    <!-- Workout: tapping the strip with the song opens the music sheet (TalkBack click action) -->
+    <string name="player_open">Show music controls</string>
+    <!-- Shown before Android's notification access page (Google Play's prominent disclosure): title, text and buttons ("Continue" is action_continue). Quote Android's "notification access" and "Do Not Disturb" as Android says them in your language, and the tab (training_title) and the path Profile → Training settings (nav_profile → profile_training_title) exactly as the app shows them -->
+    <string name="player_access_title">See what\'s playing</string>
+    <string name="player_access_text">Fortia can show the song that\'s playing (title, artist, cover, the app playing it, whether it\'s playing and how far along it is) and control it from Training and your workout.\n\nAndroid calls this \"notification access\" and will warn that Fortia could read and dismiss your notifications and change Do Not Disturb. Fortia does none of that: it only uses the music player, stores nothing and nothing leaves your phone.\n\nYou can turn it off at any time in Profile → Training settings or in Android\'s settings.</string>
+    <string name="player_access_not_now">Not now</string>
+    <!-- Android's notification access page could not be opened (snackbar) -->
+    <string name="player_access_failed">Couldn\'t open Android\'s notification access settings.</string>
+    <!-- Training settings: the switch and its explanation -->
+    <string name="player_setting">Music controls</string>
+    <string name="player_setting_text">Previous, play/pause and next for the music app that is playing, in Training and in the workout.</string>
+    <!-- Training settings: under "See what's playing", whether notification access is on -->
+    <string name="player_access_on">On: the song, artist and cover are shown. Tap to turn it off in Android\'s settings.</string>
+    <string name="player_access_off">Off: only the buttons. Tap to see what it needs.</string>
+    <!-- Fortia's entry in Android's notification access list (like band_notification_listener_label) -->
+    <string name="player_listener_label">Fortia: music controls</string>
     <!-- Rating the app on Google Play. Profile → About: a row that opens the app's Google Play page. -->
     <!-- "Fortia" is the app's name: keep it as is. -->
     <string name="about_rate_app">Rate Fortia</string>

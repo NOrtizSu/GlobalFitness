@@ -10,6 +10,8 @@ import com.enjoyyourtime.globalfitness.training.data.TrainingRepository
 import com.enjoyyourtime.globalfitness.training.data.TrainingSettings
 import com.enjoyyourtime.globalfitness.training.music.HttpPlaylistFetcher
 import com.enjoyyourtime.globalfitness.training.music.PlaylistCovers
+import com.enjoyyourtime.globalfitness.training.player.AndroidMediaSessions
+import com.enjoyyourtime.globalfitness.training.player.MusicPlayer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -17,7 +19,7 @@ import kotlinx.coroutines.flow.stateIn
 import java.io.File
 import kotlin.math.roundToInt
 
-/** Training feature: exercise catalog, the user's machines, workouts, their settings and the day's music. */
+/** Training feature: exercise catalog, the user's machines, workouts, their settings, the day's music and its controls. */
 class TrainingModule(context: Context, scope: CoroutineScope) {
     val settings = TrainingSettings(context)
     val database = TrainingDatabase(context)
@@ -38,6 +40,16 @@ class TrainingModule(context: Context, scope: CoroutineScope) {
             .stateIn(scope, SharingStarted.Eagerly, coversAllowed(settings.musicSuggestions.value, settings.spotifyCovers.value)),
         fetcher = HttpPlaylistFetcher("Fortia/" + BuildConfig.VERSION_NAME),
         maxCoverPx = (PlaylistCovers.LARGEST_COVER_DP * context.resources.displayMetrics.density).roundToInt(),
+    )
+
+    /**
+     * The music controls for whatever app plays (Android's media session and media keys, no
+     * Spotify account or API); the screens collect its states only while they show them.
+     */
+    val player = MusicPlayer(
+        sessions = AndroidMediaSessions(context, (MusicPlayer.LARGEST_COVER_DP * context.resources.displayMetrics.density).roundToInt()),
+        keys = AndroidMediaSessions.mediaKeys(context),
+        scope = scope,
     )
 
     private fun coversAllowed(music: Boolean, covers: SpotifyCovers): Boolean = music && covers == SpotifyCovers.ALLOWED

@@ -6,8 +6,8 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
-import androidx.core.app.NotificationManagerCompat
 import com.enjoyyourtime.globalfitness.GlobalFitnessApp
+import com.enjoyyourtime.globalfitness.NotificationAccess
 import com.enjoyyourtime.globalfitness.wearable.WearableManager
 
 /**
@@ -46,8 +46,8 @@ class BandNotificationListener : NotificationListenerService() {
     }
 
     companion object {
-        fun isAccessGranted(context: Context): Boolean =
-            NotificationManagerCompat.getEnabledListenerPackages(context).contains(context.packageName)
+        /** Access for this listener itself: the music controls' listener is granted separately. */
+        fun isAccessGranted(context: Context): Boolean = NotificationAccess.isGranted(context, component(context))
 
         fun component(context: Context) = ComponentName(context, BandNotificationListener::class.java)
     }

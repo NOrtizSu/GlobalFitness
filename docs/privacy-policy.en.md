@@ -1,6 +1,6 @@
 # Fortia Privacy Policy
 
-Last updated: 26 October 2026 · Contact: **enjoyyourtime.online@gmail.com** ·
+Last updated: 28 October 2026 · Contact: **enjoyyourtime.online@gmail.com** ·
 Web version (Spanish, with an English summary): [globalfitness-app.web.app/privacy.html#en](https://globalfitness-app.web.app/privacy.html#en)
 
 This is the English version of the privacy policy. If it differs from the Spanish version, the
@@ -145,6 +145,16 @@ covers or the suggestions (Android may also clear the cache when it needs space)
 your choice and does not depend on this permission: it takes you to Spotify's app or website, which are
 governed by Spotify's own terms and privacy policy. You can hide all the suggestions in **Profile →
 Training settings**.
+
+**Music controls (optional).** In Training and during a workout, the previous, play/pause and next buttons
+send the music app that is playing the same media keys a headset sends, with no permission. Only if you turn
+on "See what's playing" and grant **notification access** in Android does the app check the state of the
+active media players (playing or paused) to pick the one to show, and read only that one's song title,
+artist, cover and position and its app's name, to show them to you and control it. That access is **not used
+to read or dismiss your notifications or to change Do Not Disturb**: the app ignores your notifications. What
+it reads is only shown on screen: it is **not stored, not logged and does not leave the phone**, and no
+Spotify (or other) account or service is involved. You can turn it off in **Profile → Training settings** or
+in Android's settings.
 
 ## 11. Children
 

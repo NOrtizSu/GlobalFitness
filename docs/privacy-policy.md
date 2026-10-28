@@ -1,6 +1,6 @@
 # Política de privacidad de Fortia
 
-Última actualización: 26 de octubre de 2026 · Contacto: **enjoyyourtime.online@gmail.com** ·
+Última actualización: 28 de octubre de 2026 · Contacto: **enjoyyourtime.online@gmail.com** ·
 Versión web: [globalfitness-app.web.app/privacy.html](https://globalfitness-app.web.app/privacy.html)
 
 ## 1. Quién es el responsable
@@ -150,6 +150,16 @@ tuya y no depende de este permiso: te lleva a la app o la web de Spotify, que se
 condiciones y política de privacidad. Puedes ocultar todas las sugerencias en **Perfil → Ajustes de
 entreno**.
 
+**Controles de música (opcional).** En Entreno y durante el entreno, los botones anterior, reproducir/pausar y
+siguiente envían a la app de música que esté sonando las mismas teclas multimedia que unos auriculares, sin ningún
+permiso. Solo si lo activas en «Ver qué suena» y concedes en Android el **acceso a las notificaciones**, la app
+consulta el estado de los reproductores multimedia activos (si suenan o están en pausa) para saber cuál mostrar, y
+solo de ese lee el título, el artista, la portada y la posición de la canción y el nombre de la app, para
+mostrártelos y controlarla. Ese acceso **no se usa para leer ni descartar tus notificaciones ni para cambiar el
+modo No molestar**: la app ignora tus notificaciones. Lo que lee solo se muestra en pantalla: **no se guarda, no se
+registra y no sale del teléfono**, y no interviene ninguna cuenta ni servicio de Spotify ni de otras apps. Puedes
+desactivarlo en **Perfil → Ajustes de entreno** o en los ajustes de Android.
+
 ## 11. Menores
 
 La app no está dirigida a menores de 16 años.
@@ -170,7 +180,7 @@ importante, te avisaremos en la app.
 
 # Fortia Privacy Policy (English)
 
-Last updated: 26 October 2026 · Contact: **enjoyyourtime.online@gmail.com**
+Last updated: 28 October 2026 · Contact: **enjoyyourtime.online@gmail.com**
 
 **Controller.** Fortia (formerly GlobalFitness) is published by **Enjoy Your Time**, the data controller. Contact:
 **enjoyyourtime.online@gmail.com**.
@@ -239,6 +249,14 @@ If allowed, the phone requests them from open.spotify.com (oEmbed) and Spotify's
 They are cached on the phone and deleted after 30 days without being suggested, or when you turn the
 covers or the suggestions off. Opening a playlist (your choice, no permission needed) takes you to
 Spotify's app or website, under Spotify's own terms and privacy policy.
+
+**Music controls (optional):** the previous, play/pause and next buttons send the playing music app the
+same media keys a headset sends, with no permission. Only if you turn on "See what's playing" and grant
+notification access does the app check the state of the active media players (playing or paused) to pick
+the one to show, and read only that one's song title, artist, cover and position and its app's name, to
+show them and control it. Notifications are ignored (never read or dismissed) and Do Not Disturb is never
+changed; nothing is stored, logged or sent off the phone. Turn it off under Profile → Training settings
+or in Android's settings.
 
 **Your rights:** access, rectification, erasure, restriction, objection, portability (CSV export in
 the app) and withdrawal of consent: email enjoyyourtime.online@gmail.com. You may complain to the

@@ -74,15 +74,18 @@ import com.enjoyyourtime.globalfitness.ui.navigation.openSubPage
 import com.enjoyyourtime.globalfitness.ui.navigation.subPage
 import com.enjoyyourtime.globalfitness.ui.navigation.subPageWithArgs
 import com.enjoyyourtime.globalfitness.ui.theme.TabularNumbers
+import com.enjoyyourtime.globalfitness.training.player.PlayerState
+import com.enjoyyourtime.globalfitness.ui.training.music.PlayerCard
 import com.enjoyyourtime.globalfitness.ui.training.music.TrainingMusicCard
 import com.enjoyyourtime.globalfitness.ui.training.music.musicSuggestions
+import com.enjoyyourtime.globalfitness.ui.training.music.playerState
 import java.time.LocalDate
 import java.time.format.TextStyle
 
 /**
  * The "Entreno" tab: today's / the active workout, start a workout, routines, repeat a workout, the
- * day's music, recent workouts and entry points to the catalog and history. [onOpen] opens a
- * training sub-page route.
+ * day's music and the controls of what plays, recent workouts and entry points to the catalog and
+ * history. [onOpen] opens a training sub-page route.
  */
 @Composable
 fun TrainingScreen(onOpen: (route: String) -> Unit, modifier: Modifier = Modifier) {
@@ -92,6 +95,7 @@ fun TrainingScreen(onOpen: (route: String) -> Unit, modifier: Modifier = Modifie
     val unit by vm.loadUnit.collectAsStateWithLifecycle()
     val routines by vm.routines.collectAsStateWithLifecycle()
     val music = musicSuggestions()
+    val player = playerState()
     var pickDate by rememberSaveable { mutableStateOf(false) }
     val openWorkout = rememberWorkoutOpener(onOpen)
     RestTimerEffect(vm)
@@ -172,6 +176,9 @@ fun TrainingScreen(onOpen: (route: String) -> Unit, modifier: Modifier = Modifie
             }
         }
         music?.let { suggestions -> item(key = "music") { TrainingMusicCard(suggestions) } }
+        if (player != PlayerState.Off) {
+            item(key = "player") { PlayerCard(player, suggestionsShown = music != null) }
+        }
         val week = overview.week
         if (week != null && overview.hasWorkouts) {
             item(key = "week") { WeekCard(week, unit) }

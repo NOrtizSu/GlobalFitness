@@ -1,5 +1,6 @@
 package com.enjoyyourtime.globalfitness.ui.training
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
@@ -21,25 +22,37 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.training.data.SpotifyCovers
 import com.enjoyyourtime.globalfitness.training.model.LoadUnit
+import com.enjoyyourtime.globalfitness.training.player.MediaAccessListener
 import com.enjoyyourtime.globalfitness.ui.Fmt
+import com.enjoyyourtime.globalfitness.ui.components.LocalAppSnackbar
 import com.enjoyyourtime.globalfitness.ui.components.SectionTitle
+import com.enjoyyourtime.globalfitness.ui.training.music.PlayerAccessDialog
 import com.enjoyyourtime.globalfitness.ui.training.music.musicViewModel
+import com.enjoyyourtime.globalfitness.ui.training.music.playerViewModel
+import kotlinx.coroutines.launch
 
 /** Rest timer choices (seconds; 0 = off). */
 private val REST_CHOICES = listOf(0, 30, 60, 90, 120, 180)
 
 /**
- * Load unit, rest timer, the day's music suggestions (and whether their covers come from Spotify)
- * and where saving workouts to Health Connect is configured.
+ * Load unit, rest timer, the day's music suggestions (and whether their covers come from Spotify),
+ * the music controls (and the notification access that shows the song) and where saving workouts
+ * to Health Connect is configured.
  */
 @Composable
 fun TrainingSettingsScreen(onBack: () -> Unit) {
@@ -49,6 +62,19 @@ fun TrainingSettingsScreen(onBack: () -> Unit) {
     val musicVm = musicViewModel()
     val music by musicVm.enabled.collectAsStateWithLifecycle()
     val covers by musicVm.spotifyCovers.collectAsStateWithLifecycle()
+    val playerVm = playerViewModel()
+    val controls by playerVm.controlsEnabled.collectAsStateWithLifecycle()
+    val access by playerVm.accessGranted.collectAsStateWithLifecycle()
+    // Back from Android's settings, where the access may have changed.
+    LifecycleResumeEffect(playerVm) {
+        playerVm.recheckAccess()
+        onPauseOrDispose { }
+    }
+    var explainAccess by rememberSaveable { mutableStateOf(false) }
+    val context = LocalContext.current
+    val snackbar = LocalAppSnackbar.current
+    val scope = rememberCoroutineScope()
+    val accessFailed = stringResource(R.string.player_access_failed)
     // A value set elsewhere (not one of the choices) still shows as selected.
     val choices = (REST_CHOICES + rest).distinct().sorted()
 
@@ -95,14 +121,62 @@ fun TrainingSettingsScreen(onBack: () -> Unit) {
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = if (music) 1f else DISABLED_ALPHA),
             )
+            SwitchRow(
+                stringResource(R.string.player_setting),
+                checked = controls,
+                onChange = playerVm::setControls,
+                modifier = Modifier.padding(top = 8.dp),
+            )
+            Text(stringResource(R.string.player_setting_text), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            // Turning access on is offered with the controls on; turning it off, always.
+            AccessRow(
+                granted = access,
+                enabled = controls || access,
+                onClick = {
+                    if (!access) {
+                        explainAccess = true
+                    } else if (!MediaAccessListener.openSettings(context)) {
+                        scope.launch { snackbar.showSnackbar(accessFailed, withDismissAction = true) }
+                    }
+                },
+            )
             SectionTitle(stringResource(R.string.training_health_connect), Modifier.padding(top = 8.dp))
             Text(stringResource(R.string.training_settings_health), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
+    }
+    if (explainAccess) {
+        PlayerAccessDialog(
+            onDismiss = { explainAccess = false },
+            onFailed = { scope.launch { snackbar.showSnackbar(accessFailed, withDismissAction = true) } },
+        )
     }
 }
 
 /** Text disabled as Material 3 does it. */
 private const val DISABLED_ALPHA = 0.38f
+
+/**
+ * "See what's playing" and whether notification access is on: off, it explains the access first;
+ * on, it opens Android's page to turn it off.
+ */
+@Composable
+private fun AccessRow(granted: Boolean, enabled: Boolean, onClick: () -> Unit) {
+    val alpha = if (enabled) 1f else DISABLED_ALPHA
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .heightIn(min = 48.dp)
+            .clickable(enabled = enabled, role = Role.Button, onClick = onClick)
+            .padding(vertical = 8.dp),
+    ) {
+        Text(stringResource(R.string.player_show), style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurface.copy(alpha = alpha))
+        Text(
+            stringResource(if (granted) R.string.player_access_on else R.string.player_access_off),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = alpha),
+        )
+    }
+}
 
 /** A setting that is a switch: the whole row toggles it, so TalkBack reads the title with the state. */
 @Composable

@@ -1,0 +1,43 @@
+# Music controls: a mini player for whatever music app is playing (Spotify, YouTube Music…), in the Entreno tab and the workout in progress. Android's own media controls: no Spotify account or API
+# Title of the Entreno card and of the player at the top of the workout's music sheet
+player_title = Tocando agora
+# Without notification access the buttons send Android's media keys to the app that plays; one line under the title
+player_keys_text = Estes botões controlam o app de música que estiver tocando.
+# Text button under the buttons (and title of the settings row): opens the explanation of notification access below
+player_show = Ver o que está tocando
+# With access, no music app is playing
+player_idle = Nada está tocando.
+# Same, when the "Music for today" playlists are on screen (quote music_title exactly)
+player_idle_music = Nada está tocando. Escolha uma playlist em Música para hoje.
+# The music app gives no title for the song
+player_untitled = Sem título
+# TalkBack: the row with the song (song title, artist)
+player_now_playing = Tocando agora: %1$s, %2$s
+# TalkBack: the same row when the artist is unknown
+player_now_playing_title = Tocando agora: %1$s
+# The buttons, read by TalkBack
+player_previous = Faixa anterior
+player_next = Próxima faixa
+player_play = Reproduzir
+player_pause = Pausar
+# The play/pause button when it is unknown whether music plays (no notification access)
+player_play_pause = Reproduzir ou pausar
+# TalkBack: state of the play/pause button
+player_state_playing = Tocando
+player_state_paused = Pausado
+# Workout: tapping the strip with the song opens the music sheet (TalkBack click action)
+player_open = Mostrar os controles de música
+# Shown before Android's notification access page (Google Play's prominent disclosure): title, text and buttons ("Continue" is action_continue). Quote Android's "notification access" and "Do Not Disturb" as Android says them in your language, and the tab (training_title) and the path Profile → Training settings (nav_profile → profile_training_title) exactly as the app shows them
+player_access_title = Ver o que está tocando
+player_access_text = O Fortia pode mostrar a música que está tocando (título, artista, capa, o app que a reproduz, se está tocando e em que ponto está) e controlá-la em Treino e no treino em andamento.\n\nO Android chama isso de “acesso a notificações” e vai avisar que o Fortia poderia ler e dispensar suas notificações e mudar o modo Não perturbe. O Fortia não faz nada disso: só usa o player de música, não guarda nada e nada sai do seu celular.\n\nVocê pode desativar quando quiser em Perfil → Configurações de treino ou nas configurações do Android.
+player_access_not_now = Agora não
+# Android's notification access page could not be opened (snackbar)
+player_access_failed = Não foi possível abrir as configurações de acesso a notificações do Android.
+# Training settings: the switch and its explanation
+player_setting = Controles de música
+player_setting_text = Anterior, reproduzir/pausar e próxima para o app de música que estiver tocando, em Treino e no treino em andamento.
+# Training settings: under "See what's playing", whether notification access is on
+player_access_on = Ativado: a música, o artista e a capa são mostrados. Toque para desativar nas configurações do Android.
+player_access_off = Desativado: só os botões. Toque para ver o que é preciso.
+# Fortia's entry in Android's notification access list (like band_notification_listener_label)
+player_listener_label = Fortia: controles de música

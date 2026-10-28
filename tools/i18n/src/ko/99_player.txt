@@ -1,0 +1,43 @@
+# Music controls: a mini player for whatever music app is playing (Spotify, YouTube Music…), in the Entreno tab and the workout in progress. Android's own media controls: no Spotify account or API
+# Title of the Entreno card and of the player at the top of the workout's music sheet
+player_title = 지금 재생 중
+# Without notification access the buttons send Android's media keys to the app that plays; one line under the title
+player_keys_text = 이 버튼으로 지금 재생 중인 음악 앱을 제어합니다.
+# Text button under the buttons (and title of the settings row): opens the explanation of notification access below
+player_show = 재생 중인 곡 보기
+# With access, no music app is playing
+player_idle = 재생 중인 항목이 없습니다.
+# Same, when the "Music for today" playlists are on screen (quote music_title exactly)
+player_idle_music = 재생 중인 항목이 없습니다. ‘오늘의 음악’에서 플레이리스트를 골라 보세요.
+# The music app gives no title for the song
+player_untitled = 제목 없음
+# TalkBack: the row with the song (song title, artist)
+player_now_playing = 지금 재생 중: %1$s, %2$s
+# TalkBack: the same row when the artist is unknown
+player_now_playing_title = 지금 재생 중: %1$s
+# The buttons, read by TalkBack
+player_previous = 이전 곡
+player_next = 다음 곡
+player_play = 재생
+player_pause = 일시중지
+# The play/pause button when it is unknown whether music plays (no notification access)
+player_play_pause = 재생 또는 일시중지
+# TalkBack: state of the play/pause button
+player_state_playing = 재생 중
+player_state_paused = 일시중지됨
+# Workout: tapping the strip with the song opens the music sheet (TalkBack click action)
+player_open = 음악 컨트롤 표시
+# Shown before Android's notification access page (Google Play's prominent disclosure): title, text and buttons ("Continue" is action_continue). Quote Android's "notification access" and "Do Not Disturb" as Android says them in your language, and the tab (training_title) and the path Profile → Training settings (nav_profile → profile_training_title) exactly as the app shows them
+player_access_title = 재생 중인 곡 보기
+player_access_text = Fortia는 지금 재생 중인 곡(제목, 아티스트, 커버 이미지, 재생 중인 앱, 재생 여부와 재생 위치)을 보여 주고 ‘운동’ 탭과 진행 중인 운동 화면에서 제어할 수 있습니다.\n\nAndroid에서는 이를 ‘알림 접근’이라고 부르며, Fortia가 알림을 읽고 닫고 방해 금지 모드를 변경할 수 있다는 경고를 표시합니다. Fortia는 그중 어떤 것도 하지 않습니다. 음악 플레이어만 사용하고, 아무것도 저장하지 않으며, 휴대전화 밖으로 아무것도 전송하지 않습니다.\n\n‘프로필 → 운동 설정’ 또는 Android 설정에서 언제든지 끌 수 있습니다.
+player_access_not_now = 나중에
+# Android's notification access page could not be opened (snackbar)
+player_access_failed = Android 알림 접근 설정을 열 수 없습니다.
+# Training settings: the switch and its explanation
+player_setting = 음악 컨트롤
+player_setting_text = 재생 중인 음악 앱의 이전, 재생/일시중지, 다음 버튼을 ‘운동’ 탭과 운동 중에 표시합니다.
+# Training settings: under "See what's playing", whether notification access is on
+player_access_on = 사용: 곡, 아티스트, 커버 이미지가 표시됩니다. 탭하면 Android 설정에서 끌 수 있습니다.
+player_access_off = 사용 안함: 버튼만 표시됩니다. 탭하여 필요한 항목을 확인하세요.
+# Fortia's entry in Android's notification access list (like band_notification_listener_label)
+player_listener_label = Fortia: 음악 컨트롤
