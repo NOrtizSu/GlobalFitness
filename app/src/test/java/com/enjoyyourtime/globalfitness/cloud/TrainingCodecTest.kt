@@ -141,7 +141,7 @@ class TrainingCodecTest {
         val mine = TrainingCodec.customExerciseToMap(
             CustomExercise("u:1", "Mine", ExerciseKind.WEIGHT_REPS, Equipment.MACHINE, emptySet(), emptySet(), false, 1L, 2L),
         )
-        val newer = mine + (FirestoreCodec.F_SCHEMA to (TrainingCodec.TRAINING_SCHEMA_VERSION + 1).toLong())
+        val newer = mine + (FirestoreCodec.F_SCHEMA to (TrainingCodec.READABLE_SCHEMA_VERSION + 1).toLong())
         val docs = listOf(
             TrainingCodec.RawDoc(TrainingCodec.docId("u:1"), mine, 30L),
             TrainingCodec.RawDoc(TrainingCodec.docId("u:2"), newer, 50L),
@@ -198,6 +198,38 @@ class TrainingCodecTest {
     }
 
     @Test
+    fun anOwnSportRoundTripsAndAnOlderAppKeepsItReadOnlyWithoutHidingIt() {
+        val sport = CustomExercise(
+            id = "u:squash", name = "Squash", kind = ExerciseKind.CARDIO, equipment = Equipment.SPORT,
+            primary = setOf(Muscle.QUADS), secondary = setOf(Muscle.CALVES), archived = false, createdAt = 100L, updatedAt = 200L,
+        )
+        val map = TrainingCodec.customExerciseToMap(sport)
+        assertEquals("sport", map["equipment"])
+        assertEquals(TrainingCodec.SPORT_SCHEMA_VERSION, map[FirestoreCodec.F_SCHEMA])
+        assertEquals(Decoded.Live(sport), TrainingCodec.customExerciseFromMap(sport.id, firestoreLike(map), 1L))
+        // Every other own exercise stays at version 1, which 1.3.0 keeps writing.
+        for (e in Equipment.entries - Equipment.SPORT) {
+            val other = TrainingCodec.customExerciseToMap(sport.copy(equipment = e))
+            assertEquals(e.code, TrainingCodec.TRAINING_SCHEMA_VERSION, other[FirestoreCodec.F_SCHEMA])
+        }
+        // This version reads and writes it in full; the database stores the same code.
+        val docs = listOf(TrainingCodec.RawDoc(TrainingCodec.docId(sport.id), firestoreLike(map), 10L))
+        val read = TrainingCodec.collect(docs, complete = true, decode = TrainingCodec::customExerciseFromMap)
+        assertEquals(listOf(sport), read.live)
+        assertTrue(read.readOnly.isEmpty())
+        assertEquals(Equipment.SPORT, Equipment.fromCode(Equipment.SPORT.code))
+        for (e in Equipment.entries) assertEquals(e, Equipment.fromCode(e.code))
+        // 1.3.0 (it knew version 1 only and no "sport" code) lists it as "other" but never writes it back.
+        assertTrue(TrainingCodec.isNewerSchema(map, readerVersion = 1))
+        assertFalse(TrainingCodec.isNewerSchema(TrainingCodec.customExerciseToMap(sport.copy(equipment = Equipment.MACHINE)), readerVersion = 1))
+        val asOlderApp = (TrainingCodec.customExerciseFromMap(sport.id, map + ("equipment" to "not-known-yet"), 1L) as Decoded.Live).record
+        assertEquals(Equipment.OTHER, asOlderApp.equipment)
+        assertEquals(ExerciseKind.CARDIO, asOlderApp.kind)
+        // A deletion is a plain tombstone: it still syncs to every version.
+        assertEquals(TrainingCodec.TRAINING_SCHEMA_VERSION, TrainingCodec.tombstoneToMap(5L)[FirestoreCodec.F_SCHEMA])
+    }
+
+    @Test
     fun noteRoundTripsWithAndWithoutPhoto() {
         val note = NoteRecord("u:abc", "seat 4, back 2", favorite = true, photoHash = hash, updatedAt = 300L)
         val map = TrainingCodec.noteToMap(note)
@@ -242,7 +274,7 @@ class TrainingCodecTest {
         assertEquals(Decoded.Live(withNote), TrainingCodec.routineFromMap(routineId, firestoreLike(TrainingCodec.routineToMap(withNote)), 5L))
 
         // Written by a newer app version: read, but never overwritten.
-        val newer = map + (FirestoreCodec.F_SCHEMA to (TrainingCodec.TRAINING_SCHEMA_VERSION + 1).toLong())
+        val newer = map + (FirestoreCodec.F_SCHEMA to (TrainingCodec.READABLE_SCHEMA_VERSION + 1).toLong())
         val read = TrainingCodec.collect(listOf(TrainingCodec.RawDoc(TrainingCodec.docId(routineId), newer, 10L)), complete = true, decode = TrainingCodec::routineFromMap)
         assertEquals(listOf(routine), read.live)
         assertEquals(setOf(routineId), read.readOnly)

@@ -12,4 +12,5 @@ routine_shoulders = 肩部
 routine_arms = 手臂
 routine_glutes = 臀部
 routine_core = 核心与腹肌
+routine_mobility = 活动度与拉伸
 routine_cardio_mix = 有氧器械

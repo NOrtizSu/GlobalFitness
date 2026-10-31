@@ -9,3 +9,7 @@ training_info_pause = Animation pausieren
 training_info_no_guide = Du hast diese Übung selbst erstellt, deshalb gibt es keine Schritt-für-Schritt-Anleitung.
 training_info_no_guide_add = Füge auf ihrer Seite ein Foto und die Einstellungen der Maschine hinzu, damit du weißt, wie du sie benutzt.
 training_info_progress = Fortschritt ansehen
+
+# Stretches and mobility drills: a label after the equipment and the kind, and a note on the sheet and on the exercise's page
+training_mobility = Dehnübung
+training_mobility_note = Das ist eine Dehn- oder Mobilitätsübung: Trag sie über die Zeit ein. Sie zählt nicht für Sätze pro Woche, Erholung oder Rekorde.

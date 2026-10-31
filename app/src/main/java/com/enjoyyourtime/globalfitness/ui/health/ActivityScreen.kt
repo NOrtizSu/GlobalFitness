@@ -631,7 +631,7 @@ private fun ExerciseRow(item: ExerciseItem, onClick: () -> Unit) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(item.displayName(), style = MaterialTheme.typography.titleSmall, modifier = Modifier.weight(1f))
                 Text(
-                    HealthFormat.minutes(((e.end - e.start) / 60_000L).toInt()),
+                    HealthFormat.minutes((e.activeMs / 60_000L).toInt()),
                     style = MaterialTheme.typography.titleSmall.merge(TabularNumbers),
                 )
             }
@@ -667,7 +667,7 @@ private fun ExerciseDetailDialog(item: ExerciseItem, age: Int?, onDismiss: () ->
             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 DetailRow(stringResource(R.string.health_start), Fmt.dateTime(e.start))
                 DetailRow(stringResource(R.string.health_end), Fmt.dateTime(e.end))
-                DetailRow(stringResource(R.string.health_duration), HealthFormat.minutes(((e.end - e.start) / 60_000L).toInt()))
+                DetailRow(stringResource(R.string.health_duration), HealthFormat.minutes((e.activeMs / 60_000L).toInt()))
                 val typeName = stringResource(item.typeName)
                 item.title?.takeIf { it != typeName }?.let { DetailRow(stringResource(R.string.health_title), it) }
                 DetailRow(stringResource(R.string.health_type), typeName)

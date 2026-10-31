@@ -1,0 +1,11 @@
+# Fixes after the review of the 1.4 work (pause, notification, sports, gym catalog)
+training_view_workout = 查看训练
+workout_notification_allow = 允许通知
+training_duration_adjusted = 时长已调整为 %1$s
+training_kind_sport_text = 时间、距离（如适用）和卡路里：比赛、徒步、课程。
+training_sport_notes = 备注
+training_sport_notes_hint = 例如：3 号场，周二联赛
+training_photo_add_text_sport = 方便你一眼认出它。
+training_info_no_guide_add_sport = 在其页面上添加照片和备注，方便记住。
+training_new_activity = 新活动
+training_photo_add_sport = 添加照片

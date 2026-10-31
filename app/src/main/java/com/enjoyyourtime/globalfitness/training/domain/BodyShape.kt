@@ -233,7 +233,7 @@ object BodyShapeModel {
         for (w in past) {
             for (e in w.entries) {
                 val ex = exercises(e.exerciseId)
-                if (!TrainingMath.countsForMuscles(ex.kind)) continue
+                if (!TrainingMath.countsForMuscles(ex)) continue
                 val secondary = ex.secondary - ex.primary
                 for (s in e.sets) {
                     if (!s.isWorking) continue

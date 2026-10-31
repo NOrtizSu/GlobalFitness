@@ -7,6 +7,8 @@
       pairings; the auth keys themselves live in noBackupFilesDir and are never backed up.
     - band.db: live heart rate recorded in direct mode, with the devices' Bluetooth addresses.
     - onboarding: decided again on the new device from the restored profile.
+    - workout_notification: whether Android's notification permission was asked; the new device asks
+      again when a workout starts.
     - health.db: Health Connect cache, re-read from Health Connect on the new device.
     - Firestore's local cache: it belongs to the signed-in session and would replay stale writes.
     - exercise_photos: photos of the user's machines. They could exceed the 25 MB Auto Backup quota
@@ -19,6 +21,7 @@
     <exclude domain="sharedpref" path="band_prefs.xml" />
     <exclude domain="sharedpref" path="wearable_prefs.xml" />
     <exclude domain="sharedpref" path="onboarding.xml" />
+    <exclude domain="sharedpref" path="workout_notification.xml" />
     <exclude domain="database" path="band.db" />
     <exclude domain="database" path="band.db-journal" />
     <exclude domain="database" path="band.db-wal" />

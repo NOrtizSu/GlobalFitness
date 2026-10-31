@@ -10,6 +10,7 @@ import androidx.health.connect.client.changes.UpsertionChange
 import androidx.health.connect.client.records.ActiveCaloriesBurnedRecord
 import androidx.health.connect.client.records.BodyFatRecord
 import androidx.health.connect.client.records.DistanceRecord
+import androidx.health.connect.client.records.ExerciseSegment
 import androidx.health.connect.client.records.ExerciseSessionRecord
 import androidx.health.connect.client.records.HeartRateRecord
 import androidx.health.connect.client.records.HeartRateVariabilityRmssdRecord
@@ -361,6 +362,12 @@ class HealthSync(
                             activeKcal = totals?.first,
                             distanceM = totals?.second,
                             origin = origin(r),
+                            pausedMs = ExerciseSession.pausedMs(
+                                r.segments.filter { it.segmentType == ExerciseSegment.EXERCISE_SEGMENT_TYPE_PAUSE }
+                                    .map { it.startTime.toEpochMilli() to it.endTime.toEpochMilli() },
+                                start,
+                                end,
+                            ),
                         )
                     },
                 )

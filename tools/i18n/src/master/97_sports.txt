@@ -1,0 +1,36 @@
+# Sports and outdoor activities of the catalog (training/catalog/SportsCatalog.kt): the category and ex_<catalog id> names.
+
+# Category (Equipment.SPORT): filter chip, section header, info sheet
+equipment_sport = Sports & activities ||| Deportes y actividades
+
+# Ball games
+ex_football = Football (soccer) ||| Fútbol
+ex_futsal = Futsal ||| Fútbol sala
+ex_basketball = Basketball ||| Baloncesto
+ex_volleyball = Volleyball ||| Voleibol
+ex_handball = Handball ||| Balonmano
+
+# Racket sports
+ex_tennis = Tennis ||| Tenis
+ex_padel = Padel ||| Pádel
+ex_badminton = Badminton ||| Bádminton
+
+# On foot, on wheels, in the water
+ex_outdoor_walk = Walking ||| Caminata
+ex_hiking = Hiking ||| Senderismo
+ex_outdoor_run = Outdoor running ||| Correr al aire libre
+ex_outdoor_cycling = Outdoor cycling ||| Ciclismo al aire libre
+ex_swimming = Swimming ||| Natación
+
+# Mind and body, dance
+ex_yoga = Yoga ||| Yoga
+ex_pilates = Pilates ||| Pilates
+ex_dance = Dance ||| Baile
+
+# Combat sports
+ex_boxing = Boxing ||| Boxeo
+ex_martial_arts = Martial arts ||| Artes marciales
+
+# Others
+ex_climbing = Climbing ||| Escalada
+ex_golf = Golf ||| Golf

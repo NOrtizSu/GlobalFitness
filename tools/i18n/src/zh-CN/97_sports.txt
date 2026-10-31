@@ -1,0 +1,36 @@
+# Sports and outdoor activities of the catalog (training/catalog/SportsCatalog.kt): the category and ex_<catalog id> names.
+
+# Category (Equipment.SPORT): filter chip, section header, info sheet
+equipment_sport = 运动与活动
+
+# Ball games
+ex_football = 足球
+ex_futsal = 五人制足球
+ex_basketball = 篮球
+ex_volleyball = 排球
+ex_handball = 手球
+
+# Racket sports
+ex_tennis = 网球
+ex_padel = 板式网球（Padel）
+ex_badminton = 羽毛球
+
+# On foot, on wheels, in the water
+ex_outdoor_walk = 步行
+ex_hiking = 徒步
+ex_outdoor_run = 户外跑步
+ex_outdoor_cycling = 户外骑行
+ex_swimming = 游泳
+
+# Mind and body, dance
+ex_yoga = 瑜伽
+ex_pilates = 普拉提
+ex_dance = 舞蹈
+
+# Combat sports
+ex_boxing = 拳击
+ex_martial_arts = 武术
+
+# Others
+ex_climbing = 攀岩
+ex_golf = 高尔夫

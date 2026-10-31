@@ -1,0 +1,36 @@
+# Sports and outdoor activities of the catalog (training/catalog/SportsCatalog.kt): the category and ex_<catalog id> names.
+
+# Category (Equipment.SPORT): filter chip, section header, info sheet
+equipment_sport = खेल और गतिविधियां
+
+# Ball games
+ex_football = फ़ुटबॉल
+ex_futsal = फ़ुटसल
+ex_basketball = बास्केटबॉल
+ex_volleyball = वॉलीबॉल
+ex_handball = हैंडबॉल
+
+# Racket sports
+ex_tennis = टेनिस
+ex_padel = पैडल
+ex_badminton = बैडमिंटन
+
+# On foot, on wheels, in the water
+ex_outdoor_walk = पैदल चलना
+ex_hiking = हाइकिंग
+ex_outdoor_run = बाहर दौड़ना
+ex_outdoor_cycling = बाहर साइकिलिंग
+ex_swimming = तैराकी
+
+# Mind and body, dance
+ex_yoga = योग
+ex_pilates = पिलाटीज़
+ex_dance = नृत्य
+
+# Combat sports
+ex_boxing = बॉक्सिंग
+ex_martial_arts = मार्शल आर्ट्स
+
+# Others
+ex_climbing = क्लाइंबिंग
+ex_golf = गोल्फ़

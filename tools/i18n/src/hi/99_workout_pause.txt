@@ -1,0 +1,13 @@
+# Pausing the workout in progress (the clock and the rest timer stand still) and its ongoing notification
+workout_pause = रोकें
+workout_resume = फिर शुरू करें
+workout_paused = रुका हुआ
+workout_rest_paused = आराम रुका हुआ
+workout_paused_time = रुका हुआ · %1$s
+workout_notification_channel = वर्कआउट जारी है
+workout_notification_channel_text = ट्रेनिंग के दौरान समय, आराम टाइमर और रोकने का बटन।
+workout_notification_title = सूचनाएं
+workout_notification_setting = वर्कआउट सूचना
+workout_notification_setting_text = ट्रेनिंग के दौरान सूचनाओं में वर्कआउट का समय और आराम टाइमर दिखता है, साथ में उसे रोकने का बटन भी। वर्कआउट पर लौटने के लिए सूचना पर टैप करें।
+workout_notification_blocked = Fortia के लिए सूचनाएं बंद हैं। अनुमति देने के लिए टैप करें।
+workout_notification_settings_failed = Android की सूचना सेटिंग नहीं खुल सकी।

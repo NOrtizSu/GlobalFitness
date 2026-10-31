@@ -105,7 +105,8 @@ class HealthCache(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, D
                 title TEXT,
                 active_kcal REAL,
                 distance_m REAL,
-                origin TEXT NOT NULL
+                origin TEXT NOT NULL,
+                paused_ms INTEGER NOT NULL DEFAULT 0
             )
             """.trimIndent(),
         )
@@ -136,7 +137,31 @@ class HealthCache(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, D
             db.execSQL("DROP TABLE IF EXISTS workout_export_ledger")
             createWorkoutLedger(db)
         }
+        // v5: the paused time of each workout (its PAUSE segments). The sessions cached before are
+        // read again: without their changes token (HealthSync's "token.<type>"), the next sync reads
+        // the whole window.
+        if (oldVersion < 5) {
+            // The column may already be there: a v5 file opened by an older version (onDowngrade below)
+            // keeps it, and the upgrade then runs again.
+            if (!hasColumn(db, "exercises", "paused_ms")) {
+                db.execSQL("ALTER TABLE exercises ADD COLUMN paused_ms INTEGER NOT NULL DEFAULT 0")
+            }
+            db.execSQL("DELETE FROM sync_meta WHERE key = 'token.EXERCISE'")
+        }
     }
+
+    /**
+     * Opening a file from a newer version (a reinstall of an older build): schema changes are additive, so
+     * the cache is used as it is instead of failing. Android then marks it with this version, and the next
+     * upgrade runs again (every step is safe to repeat).
+     */
+    override fun onDowngrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) = Unit
+
+    private fun hasColumn(db: SQLiteDatabase, table: String, column: String): Boolean =
+        db.rawQuery("PRAGMA table_info($table)", null).use { c ->
+            val name = c.getColumnIndexOrThrow("name")
+            generateSequence { if (c.moveToNext()) c.getString(name) else null }.any { it == column }
+        }
 
     private fun createWorkoutLedger(db: SQLiteDatabase) {
         db.execSQL(
@@ -399,6 +424,7 @@ class HealthCache(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, D
                         if (e.activeKcal == null) putNull("active_kcal") else put("active_kcal", e.activeKcal)
                         if (e.distanceM == null) putNull("distance_m") else put("distance_m", e.distanceM)
                         put("origin", e.origin)
+                        put("paused_ms", e.pausedMs)
                     },
                     SQLiteDatabase.CONFLICT_REPLACE,
                 )
@@ -417,7 +443,7 @@ class HealthCache(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, D
     fun loadExercises(from: Long, toExclusive: Long): List<ExerciseSession> =
         readableDatabase.rawQuery(
             """
-            SELECT record_id, start, end_time, type, title, active_kcal, distance_m, origin FROM exercises
+            SELECT record_id, start, end_time, type, title, active_kcal, distance_m, origin, paused_ms FROM exercises
             WHERE start >= ? AND start < ? ORDER BY start DESC
             """.trimIndent(),
             arrayOf(from.toString(), toExclusive.toString()),
@@ -434,6 +460,7 @@ class HealthCache(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, D
                             activeKcal = c.doubleOrNull(5),
                             distanceM = c.doubleOrNull(6),
                             origin = c.getString(7),
+                            pausedMs = c.getLong(8),
                         ),
                     )
                 }
@@ -619,6 +646,6 @@ class HealthCache(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, D
 
     companion object {
         const val DB_NAME = "health.db"
-        const val DB_VERSION = 4
+        const val DB_VERSION = 5
     }
 }

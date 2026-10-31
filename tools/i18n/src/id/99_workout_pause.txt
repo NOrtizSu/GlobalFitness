@@ -1,0 +1,13 @@
+# Pausing the workout in progress (the clock and the rest timer stand still) and its ongoing notification
+workout_pause = Jeda
+workout_resume = Teruskan
+workout_paused = Dijeda
+workout_rest_paused = Istirahat dijeda
+workout_paused_time = Dijeda · %1$s
+workout_notification_channel = Latihan berlangsung
+workout_notification_channel_text = Waktu, timer istirahat, dan tombol jeda saat Anda berlatih.
+workout_notification_title = Notifikasi
+workout_notification_setting = Notifikasi latihan
+workout_notification_setting_text = Saat Anda berlatih, notifikasi menampilkan waktu dan timer istirahat latihan, dengan tombol untuk menjedanya. Ketuk notifikasi untuk kembali ke latihan.
+workout_notification_blocked = Notifikasi untuk Fortia nonaktif. Ketuk untuk mengizinkannya.
+workout_notification_settings_failed = Tidak dapat membuka setelan notifikasi Android.

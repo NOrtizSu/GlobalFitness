@@ -1,0 +1,13 @@
+# Pausing the workout in progress (the clock and the rest timer stand still) and its ongoing notification
+workout_pause = Pausieren
+workout_resume = Fortsetzen
+workout_paused = Pausiert
+workout_rest_paused = Pause angehalten
+workout_paused_time = Pausiert · %1$s
+workout_notification_channel = Training läuft
+workout_notification_channel_text = Die Zeit, der Pausentimer und eine Taste zum Pausieren während des Trainings.
+workout_notification_title = Benachrichtigungen
+workout_notification_setting = Trainingsbenachrichtigung
+workout_notification_setting_text = Während du trainierst, zeigen die Benachrichtigungen die Zeit und den Pausentimer des Trainings, mit einer Taste zum Pausieren. Tippe auf die Benachrichtigung, um zum Training zurückzukehren.
+workout_notification_blocked = Benachrichtigungen sind für Fortia deaktiviert. Tippe, um sie zu erlauben.
+workout_notification_settings_failed = Die Android-Einstellungen für Benachrichtigungen konnten nicht geöffnet werden.

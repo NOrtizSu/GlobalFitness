@@ -13,10 +13,10 @@ import com.enjoyyourtime.globalfitness.training.model.Exercise
  * Glyphs of the equipment and of the cardio machines, one per kind so chips, badges and thumbnails
  * tell them apart (the dumbbell of the Entreno tab is not reused). Material Symbols (Apache-2.0)
  * where one fits: "exercise" (dumbbell), "weight" (kettlebell), "accessibility_new", "ecg_heart",
- * "category", "directions_run", "directions_bike", "nordic_walking" and "rowing", filled, scaled to
- * the 24-unit grid. Barbell, machine, cable, Smith machine, band and stairs are drawn for the app in
- * the same style: filled shapes, 2-unit bars, slightly rounded corners. The icons-extended artifact
- * is not used.
+ * "category", "directions_run", "directions_bike", "nordic_walking", "rowing" and "sports_soccer",
+ * filled, scaled to the 24-unit grid. Barbell, machine, cable, Smith machine, band and stairs are
+ * drawn for the app in the same style: filled shapes, 2-unit bars, slightly rounded corners. The
+ * icons-extended artifact is not used.
  */
 object ExerciseIcons {
     /** Path data of every glyph, by name (also checked by a unit test). */
@@ -98,6 +98,13 @@ object ExerciseIcons {
             "M5.5,20.5l-1.5,-1.5 4.5,-4.5 2.5,2.5h-2L5.5,20.5Zm9.5,-15.5q-0.825,0 -1.413,-0.588T13,3q0,-0.825 " +
             "0.588,-1.413T15,1q0.825,0 1.413,0.588T17,3q0,0.825 -0.588,1.413T15,5Z",
         "Stairs" to "M3,21H21V3.5h-4.5v4.375h-4.5v4.375h-4.5v4.375H3Z",
+        "Sport" to "M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2ZM13,5.3l1.35,-0.95c1.82,0.56 " +
+            "3.37,1.76 4.38,3.34l-0.39,1.34 -1.35,0.46L13,6.7V5.3ZM9.65,4.35L11,5.3v1.4L7.01,9.49l-1.35,-0.46 -0.39,-1.34" +
+            "c1.01,-1.57 2.56,-2.77 4.38,-3.34ZM7.08,17.11l-1.14,0.1C4.73,15.81 4,13.99 4,12c0,-0.12 0.01,-0.23 0.02,-0.35" +
+            "l1,-0.73 1.38,0.48 1.46,4.34 -0.78,1.37ZM14.5,19.59c-0.79,0.26 -1.63,0.41 -2.5,0.41s-1.71,-0.15 -2.5,-0.41" +
+            "l-0.69,-1.49 0.64,-1.1h5.11l0.64,1.11 -0.7,1.48ZM14.27,15H9.73l-1.35,-4.02L12,8.44l3.63,2.54L14.27,15Z" +
+            "M18.06,17.21l-1.14,-0.1 -0.79,-1.37 1.46,-4.34 1.39,-0.47 1,0.73c0.01,0.11 0.02,0.22 0.02,0.34 0,1.99 " +
+            "-0.73,3.81 -1.94,5.21Z",
     )
 
     /** [autoMirror]: figures moving forward face the reading direction in right-to-left layouts. */
@@ -133,6 +140,9 @@ object ExerciseIcons {
 
     /** Heart with a pulse line: cardio machines in general. */
     val Cardio: ImageVector by lazy { icon("Cardio") }
+
+    /** A football: sports and outdoor activities. */
+    val Sport: ImageVector by lazy { icon("Sport") }
     val Other: ImageVector by lazy { icon("Other") }
 
     // One machine each (see cardioIcon).
@@ -155,6 +165,7 @@ val Equipment.icon: ImageVector
         Equipment.BODYWEIGHT -> ExerciseIcons.Bodyweight
         Equipment.BAND -> ExerciseIcons.Band
         Equipment.CARDIO_MACHINE -> ExerciseIcons.Cardio
+        Equipment.SPORT -> ExerciseIcons.Sport
         Equipment.OTHER -> ExerciseIcons.Other
     }
 

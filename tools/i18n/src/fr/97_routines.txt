@@ -13,3 +13,5 @@ routine_arms = Bras
 routine_glutes = Fessiers
 routine_core = Gainage et abdos
 routine_cardio_mix = Machines cardio
+
+routine_mobility = Mobilité et étirements

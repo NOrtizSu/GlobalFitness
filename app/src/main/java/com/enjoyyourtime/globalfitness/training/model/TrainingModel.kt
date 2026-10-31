@@ -43,7 +43,13 @@ enum class Muscle(val code: String, val weeklySets: IntRange) {
     }
 }
 
-/** What the exercise is done with. Codes are stored: never rename them. */
+/**
+ * What the exercise is done with. Codes are stored: never rename them. [SPORT] is a sport or an
+ * outdoor activity (football, a walk, yoga): logged as [ExerciseKind.CARDIO], it is "Sports and
+ * activities" in the catalog. An app older than it reads its code as [OTHER]; so that 1.3.0 never
+ * writes an own sport back as "other", its cloud document has a higher schema version
+ * ([com.enjoyyourtime.globalfitness.cloud.TrainingCodec.SPORT_SCHEMA_VERSION]).
+ */
 enum class Equipment(val code: String) {
     BARBELL("barbell"),
     DUMBBELL("dumbbell"),
@@ -54,6 +60,7 @@ enum class Equipment(val code: String) {
     BODYWEIGHT("bodyweight"),
     BAND("band"),
     CARDIO_MACHINE("cardio"),
+    SPORT("sport"),
     OTHER("other"),
     ;
 
@@ -71,7 +78,8 @@ enum class Equipment(val code: String) {
  *   (counterweight), so less weight means a harder set. The weight actually lifted is the user's
  *   body weight minus the assistance (see the training load model).
  * - [DURATION]: seconds, optionally with load (plank, farmer's carry).
- * - [CARDIO]: time, and optionally distance, machine level and calories (treadmill, bike...).
+ * - [CARDIO]: time, and optionally distance, machine level and calories (treadmill, bike...); also
+ *   sports and activities ([Equipment.SPORT]), which have no machine level.
  */
 enum class ExerciseKind(val code: String) {
     WEIGHT_REPS("weight_reps"),
@@ -130,9 +138,20 @@ data class CatalogExercise(
      * does not define the load (core work, jumps, bands): only extra load counts then.
      */
     val bodyweightFactor: Double? = null,
+    /**
+     * A stretch or mobility drill, logged by time ([ExerciseKind.DURATION]). It is logged, shown
+     * and exported (as a stretching segment) like any exercise, but it is not training load: no
+     * hard sets for its muscles, no recovery, no strength trend and no personal records. Its
+     * [primary] muscles are the ones it stretches. Only built-in exercises are (see [CustomExercise]).
+     */
+    val mobility: Boolean = false,
 )
 
-/** An exercise or machine the user created. Ids start with [PREFIX]. */
+/**
+ * An exercise or machine the user created. Ids start with [PREFIX]. Known limit: an own exercise
+ * cannot be a stretch or mobility drill ([CatalogExercise.mobility]); one logged by time counts as
+ * training load like a plank.
+ */
 data class CustomExercise(
     val id: String,
     val name: String,
@@ -184,6 +203,8 @@ data class Exercise(
     val hcSession: Int? = null,
     /** See [CatalogExercise.bodyweightFactor]. */
     val bodyweightFactor: Double? = null,
+    /** A stretch or mobility drill: not training load (see [CatalogExercise.mobility]). */
+    val mobility: Boolean = false,
 ) {
     val muscles: Set<Muscle> get() = primary + secondary
 }
@@ -215,8 +236,17 @@ data class WorkoutEntry(
 )
 
 /**
+ * A pause of a workout, from [start] to [end] (epoch ms). [end] is null while it lasts: only the
+ * last pause of a workout in progress can be open. Paused time is not training time (see
+ * [com.enjoyyourtime.globalfitness.training.domain.WorkoutTime]).
+ */
+data class WorkoutPause(val start: Long, val end: Long?)
+
+/**
  * A training session. [endedAt] is null while it is in progress. [updatedAt] (client clock) is
- * bumped on every change; the cloud backup keeps the most recent copy of each workout.
+ * bumped on every change; the cloud backup keeps the most recent copy of each workout. [pauses]:
+ * sorted, inside the workout and not overlapping; start and end stay the real ones, so the time
+ * trained is the span minus the pauses.
  */
 data class Workout(
     val id: String,
@@ -226,8 +256,12 @@ data class Workout(
     val note: String?,
     val updatedAt: Long,
     val entries: List<WorkoutEntry> = emptyList(),
+    val pauses: List<WorkoutPause> = emptyList(),
 ) {
     val inProgress: Boolean get() = endedAt == null
+
+    /** In progress and paused right now (its last pause has not ended). */
+    val paused: Boolean get() = inProgress && pauses.isNotEmpty() && pauses.last().end == null
 
     fun date(zone: ZoneId = ZoneId.systemDefault()): LocalDate = Instant.ofEpochMilli(startedAt).atZone(zone).toLocalDate()
 

@@ -135,8 +135,9 @@ internal class Rig {
     /**
      * Places the pelvis (centre of the hip joints) at [at] with the lower spine oriented as [basis];
      * the upper spine [bend]s forward (negative: arches back), [twist]s towards the near side and
-     * bends [sideways] relative to it; the head [nod]s forward. [shrug] lifts and [protract] moves
-     * the shoulder joints forward (shrugs, scapular retraction in rows), in metres.
+     * bends [sideways] relative to it; the head [nod]s forward and [tilt]s towards the near shoulder.
+     * [shrug] lifts and [protract] moves the shoulder joints forward (shrugs, scapular retraction in
+     * rows), in metres.
      */
     fun torso(
         at: V3,
@@ -147,11 +148,12 @@ internal class Rig {
         nod: Float = 0f,
         shrug: Float = 0f,
         protract: Float = 0f,
+        tilt: Float = 0f,
     ) {
         pelvis = at
         lower = basis
         upper = basis.pitch(bend).roll(sideways).turn(twist)
-        headBasis = upper.pitch(nod)
+        headBasis = upper.pitch(nod).roll(tilt)
         this.shrug = shrug
         reach = protract
     }

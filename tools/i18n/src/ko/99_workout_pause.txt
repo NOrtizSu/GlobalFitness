@@ -1,0 +1,13 @@
+# Pausing the workout in progress (the clock and the rest timer stand still) and its ongoing notification
+workout_pause = 일시중지
+workout_resume = 다시 시작
+workout_paused = 일시중지됨
+workout_rest_paused = 휴식 일시중지됨
+workout_paused_time = 일시중지됨 · %1$s
+workout_notification_channel = 운동 진행 중
+workout_notification_channel_text = 운동하는 동안 시간, 휴식 타이머, 일시중지 버튼을 표시합니다.
+workout_notification_title = 알림
+workout_notification_setting = 운동 알림
+workout_notification_setting_text = 운동하는 동안 알림에 운동 시간과 휴식 타이머, 일시중지 버튼이 표시됩니다. 알림을 탭하면 운동으로 돌아갑니다.
+workout_notification_blocked = Fortia 알림이 꺼져 있습니다. 탭하여 허용하세요.
+workout_notification_settings_failed = Android 알림 설정을 열 수 없습니다.

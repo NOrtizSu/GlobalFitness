@@ -1,0 +1,36 @@
+# Sports and outdoor activities of the catalog (training/catalog/SportsCatalog.kt): the category and ex_<catalog id> names.
+
+# Category (Equipment.SPORT): filter chip, section header, info sheet
+equipment_sport = Thể thao & hoạt động
+
+# Ball games
+ex_football = Bóng đá
+ex_futsal = Futsal
+ex_basketball = Bóng rổ
+ex_volleyball = Bóng chuyền
+ex_handball = Bóng ném
+
+# Racket sports
+ex_tennis = Tennis
+ex_padel = Padel
+ex_badminton = Cầu lông
+
+# On foot, on wheels, in the water
+ex_outdoor_walk = Đi bộ
+ex_hiking = Đi bộ đường dài
+ex_outdoor_run = Chạy bộ ngoài trời
+ex_outdoor_cycling = Đạp xe ngoài trời
+ex_swimming = Bơi lội
+
+# Mind and body, dance
+ex_yoga = Yoga
+ex_pilates = Pilates
+ex_dance = Nhảy múa
+
+# Combat sports
+ex_boxing = Quyền anh
+ex_martial_arts = Võ thuật
+
+# Others
+ex_climbing = Leo núi đá
+ex_golf = Golf

@@ -232,19 +232,17 @@ private fun rememberWorkoutOpener(onOpen: (route: String) -> Unit): (String) -> 
 private fun ActiveWorkoutCard(vm: TrainingViewModel, active: WorkoutSummary, exercises: Map<String, Exercise>, onContinue: () -> Unit) {
     val onContainer = MaterialTheme.colorScheme.onPrimaryContainer
     val rest by vm.rest.collectAsStateWithLifecycle()
-    AppCard(containerColor = MaterialTheme.colorScheme.primaryContainer, onClick = onContinue, onClickLabel = stringResource(R.string.action_continue)) {
+    val openLabel = stringResource(if (active.paused) R.string.training_view_workout else R.string.action_continue)
+    AppCard(containerColor = MaterialTheme.colorScheme.primaryContainer, onClick = onContinue, onClickLabel = openLabel) {
         Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             CardLabel(stringResource(R.string.training_in_progress), onContainer)
             Text(workoutTitle(active, exercises), style = MaterialTheme.typography.titleLarge, color = onContainer, maxLines = 2, overflow = TextOverflow.Ellipsis)
-            ElapsedText(vm, active.startedAt, style = MaterialTheme.typography.displaySmall, color = onContainer)
+            ElapsedText(vm, active.startedAt, active.pauses, style = MaterialTheme.typography.displaySmall, color = onContainer)
+            if (active.paused) PausedLabel(onContainer)
             Text(exercisesAndSets(active.exercises, active.workingSets), style = MaterialTheme.typography.bodyMedium, color = onContainer)
             rest?.takeIf { it.workoutId == active.id }?.let { RestLine(vm, it, onContainer) }
             Spacer(Modifier.size(8.dp))
-            Button(onClick = onContinue, modifier = Modifier.heightIn(min = 48.dp)) {
-                Icon(Icons.Filled.PlayArrow, contentDescription = null)
-                Spacer(Modifier.width(8.dp))
-                Text(stringResource(R.string.action_continue))
-            }
+            ActiveWorkoutButtons(active.paused, onOpen = onContinue, onPause = { vm.pauseWorkout(active.id) }, onResume = { vm.resumeWorkout(active.id) })
         }
     }
 }
@@ -402,12 +400,13 @@ fun TrainingTodayCard(onOpenTraining: () -> Unit, onOpen: (route: String) -> Uni
         active != null -> {
             val onContainer = MaterialTheme.colorScheme.onPrimaryContainer
             val open = { onOpen(TrainingRoutes.workout(active.id)) }
-            AppCard(modifier, containerColor = MaterialTheme.colorScheme.primaryContainer, onClick = open, onClickLabel = stringResource(R.string.action_continue)) {
+            val openLabel = stringResource(if (active.paused) R.string.training_view_workout else R.string.action_continue)
+            AppCard(modifier, containerColor = MaterialTheme.colorScheme.primaryContainer, onClick = open, onClickLabel = openLabel) {
                 Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     CardLabel(stringResource(R.string.training_in_progress), onContainer)
                     Text(workoutTitle(active, exercises), style = MaterialTheme.typography.titleMedium, color = onContainer, maxLines = 1, overflow = TextOverflow.Ellipsis)
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        ElapsedText(vm, active.startedAt, style = MaterialTheme.typography.headlineSmall, color = onContainer)
+                        ElapsedText(vm, active.startedAt, active.pauses, style = MaterialTheme.typography.headlineSmall, color = onContainer)
                         Spacer(Modifier.width(12.dp))
                         Text(
                             Fmt.plural(R.plurals.training_sets_count, active.workingSets, Fmt.count(active.workingSets.toLong())),
@@ -415,7 +414,14 @@ fun TrainingTodayCard(onOpenTraining: () -> Unit, onOpen: (route: String) -> Uni
                             color = onContainer,
                         )
                     }
-                    Button(onClick = open, modifier = Modifier.padding(top = 8.dp).heightIn(min = 48.dp)) { Text(stringResource(R.string.action_continue)) }
+                    if (active.paused) PausedLabel(onContainer)
+                    ActiveWorkoutButtons(
+                        active.paused,
+                        onOpen = open,
+                        onPause = { vm.pauseWorkout(active.id) },
+                        onResume = { vm.resumeWorkout(active.id) },
+                        modifier = Modifier.padding(top = 8.dp),
+                    )
                 }
             }
         }
@@ -592,7 +598,7 @@ fun NavGraphBuilder.trainingGraph(navController: NavHostController) {
         )
     }
     subPage(TrainingRoutes.CATALOG, navController) { back ->
-        CatalogScreen(onBack = back, onOpenExercise = { open(TrainingRoutes.exercise(it)) }, onCreate = { open(TrainingRoutes.editor()) })
+        CatalogScreen(onBack = back, onOpenExercise = { open(TrainingRoutes.exercise(it)) }, onCreate = { sport -> open(TrainingRoutes.editor(sport = sport)) })
     }
     subPageWithArgs(
         TrainingRoutes.EDITOR,
@@ -607,12 +613,17 @@ fun NavGraphBuilder.trainingGraph(navController: NavHostController) {
                 type = NavType.BoolType
                 defaultValue = false
             },
+            navArgument(TrainingRoutes.ARG_SPORT) {
+                type = NavType.BoolType
+                defaultValue = false
+            },
         ),
     ) { back, entry ->
         val editId = entry.stringArg(TrainingRoutes.ARG_EXERCISE_ID)
         val forPicker = entry.arguments?.getBoolean(TrainingRoutes.ARG_PICKER) == true
         ExerciseEditorScreen(
             exerciseId = editId,
+            sport = entry.arguments?.getBoolean(TrainingRoutes.ARG_SPORT) == true,
             onBack = back,
             onSaved = { savedId ->
                 // The editor calls this with the page in front; the check keeps a stale call from navigating.

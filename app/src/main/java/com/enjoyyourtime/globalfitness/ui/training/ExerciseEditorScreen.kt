@@ -76,20 +76,20 @@ import java.util.UUID
 private const val MAX_EXERCISE_NAME = 60
 private const val MAX_SETTINGS = 300
 
-@get:StringRes
-private val ExerciseKind.explanationRes: Int
-    get() = when (this) {
-        ExerciseKind.WEIGHT_REPS -> R.string.training_kind_weight_reps_text
-        ExerciseKind.BODYWEIGHT_REPS -> R.string.training_kind_bodyweight_reps_text
-        ExerciseKind.ASSISTED_REPS -> R.string.training_kind_assisted_reps_text
-        ExerciseKind.DURATION -> R.string.training_kind_duration_text
-        ExerciseKind.CARDIO -> R.string.training_kind_cardio_text
-    }
+/** What logging by [kind] means; for a sport or activity, timed logging has no machine level. */
+@StringRes
+private fun explanationRes(kind: ExerciseKind, equipment: Equipment): Int = when (kind) {
+    ExerciseKind.WEIGHT_REPS -> R.string.training_kind_weight_reps_text
+    ExerciseKind.BODYWEIGHT_REPS -> R.string.training_kind_bodyweight_reps_text
+    ExerciseKind.ASSISTED_REPS -> R.string.training_kind_assisted_reps_text
+    ExerciseKind.DURATION -> R.string.training_kind_duration_text
+    ExerciseKind.CARDIO -> if (equipment == Equipment.SPORT) R.string.training_kind_sport_text else R.string.training_kind_cardio_text
+}
 
 /** How sets are usually logged with [equipment], until the user picks a kind themselves. */
 private fun defaultKind(equipment: Equipment): ExerciseKind = when (equipment) {
     Equipment.BODYWEIGHT -> ExerciseKind.BODYWEIGHT_REPS
-    Equipment.CARDIO_MACHINE -> ExerciseKind.CARDIO
+    Equipment.CARDIO_MACHINE, Equipment.SPORT -> ExerciseKind.CARDIO
     else -> ExerciseKind.WEIGHT_REPS
 }
 
@@ -98,12 +98,19 @@ private fun defaultKind(equipment: Equipment): ExerciseKind = when (equipment) {
  * how it is logged, primary and secondary muscles, machine settings and a photo. Built-in exercises
  * are not edited here (their notes, photo and star are on the detail page). [onSaved] gets the saved
  * id once the save has finished and the page is in front (also after a rotation or Home meanwhile).
+ * [sport]: a new one starts as a sport or activity.
  */
 @Composable
-fun ExerciseEditorScreen(exerciseId: String?, onBack: () -> Unit, onSaved: (String) -> Unit) {
+fun ExerciseEditorScreen(exerciseId: String?, onBack: () -> Unit, onSaved: (String) -> Unit, sport: Boolean = false) {
     val vm = trainingViewModel()
     val loaded by vm.loaded.collectAsStateWithLifecycle()
-    val title = stringResource(if (exerciseId == null) R.string.training_editor_new else R.string.training_editor_edit)
+    val title = stringResource(
+        when {
+            exerciseId != null -> R.string.training_editor_edit
+            sport -> R.string.training_new_activity
+            else -> R.string.training_editor_new
+        },
+    )
     if (!loaded) {
         TrainingSubPage(title = title, onBack = onBack) { padding ->
             Box(Modifier.subPageContent(padding), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
@@ -119,7 +126,7 @@ fun ExerciseEditorScreen(exerciseId: String?, onBack: () -> Unit, onSaved: (Stri
         }
         return
     }
-    EditorForm(vm, existing, title, onBack, onSaved)
+    EditorForm(vm, existing, title, onBack, onSaved, newEquipment = if (sport) Equipment.SPORT else Equipment.MACHINE)
 }
 
 @Composable
@@ -129,6 +136,7 @@ private fun EditorForm(
     title: String,
     onBack: () -> Unit,
     onSaved: (String) -> Unit,
+    newEquipment: Equipment,
 ) {
     // The form as it opened (survives recreation): leaving with changes asks first, and only machine
     // settings changed here are written over the stored ones. The note is read from the store itself,
@@ -137,8 +145,8 @@ private fun EditorForm(
         val note = existing?.let { vm.storedNote(it.id) }
         ExerciseForm(
             name = existing?.name.orEmpty(),
-            equipment = existing?.equipment ?: Equipment.MACHINE,
-            kind = existing?.kind ?: ExerciseKind.WEIGHT_REPS,
+            equipment = existing?.equipment ?: newEquipment,
+            kind = existing?.kind ?: defaultKind(newEquipment),
             primary = existing?.primary.orEmpty(),
             secondary = existing?.secondary.orEmpty(),
             settings = note?.notes.orEmpty(),
@@ -276,7 +284,7 @@ private fun EditorForm(
                             Spacer(Modifier.width(12.dp))
                             Column(Modifier.weight(1f)) {
                                 Text(k.label(), style = MaterialTheme.typography.bodyLarge)
-                                Text(stringResource(k.explanationRes), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                Text(stringResource(explanationRes(k, form.equipment)), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                             }
                         }
                     }
@@ -305,11 +313,11 @@ private fun EditorForm(
                 )
             }
 
-            EditorSection(stringResource(R.string.training_machine_settings)) {
+            EditorSection(stringResource(notesTitleRes(form.equipment))) {
                 OutlinedTextField(
                     value = form.settings,
                     onValueChange = { form = form.copy(settings = it.take(MAX_SETTINGS)) },
-                    placeholder = { Text(stringResource(R.string.training_machine_settings_hint)) },
+                    placeholder = { Text(stringResource(notesHintRes(form.equipment))) },
                     leadingIcon = { Icon(TrainingIcons.Tune, contentDescription = null) },
                     keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
                     maxLines = 4,

@@ -41,15 +41,18 @@ object RoutineStats {
     const val DEFAULT_HOLD_SEC = 30
     const val DEFAULT_CARDIO_SEC = 600
 
+    /** A match, a walk, a class: an hour. */
+    const val DEFAULT_SPORT_SEC = 3_600
+
     /**
-     * Planned hard sets per muscle (primary 1, secondary ½; cardio counts for none), the same
+     * Planned hard sets per muscle (primary 1, secondary ½; cardio and stretches count for none), the same
      * weighting as the workout summary, so a routine and the workout it starts read alike.
      */
     fun muscles(exercises: List<RoutineExercise>, exercise: (String) -> Exercise): Map<Muscle, Double> {
         val result = LinkedHashMap<Muscle, Double>()
         for (e in exercises) {
             val ex = exercise(e.exerciseId)
-            if (!TrainingMath.countsForMuscles(ex.kind)) continue
+            if (!TrainingMath.countsForMuscles(ex)) continue
             for (m in ex.primary) result[m] = (result[m] ?: 0.0) + e.sets * TrainingMath.PRIMARY_SHARE
             for (m in ex.secondary - ex.primary) result[m] = (result[m] ?: 0.0) + e.sets * TrainingMath.SECONDARY_SHARE
         }
@@ -84,9 +87,9 @@ object RoutineStats {
     /**
      * The target of an exercise added to a routine: as many sets as its last session's working sets
      * and the reps (or time) done most often then; never done, 3 × 10 (timed 3 × 0:30, cardio
-     * 1 × 10:00). [previous] are the sets of its last session.
+     * 1 × 10:00, a [sport] or activity 1 × 60:00). [previous] are the sets of its last session.
      */
-    fun defaultTarget(exerciseId: String, kind: ExerciseKind, previous: List<WorkoutSet>): RoutineExercise {
+    fun defaultTarget(exerciseId: String, kind: ExerciseKind, previous: List<WorkoutSet>, sport: Boolean = false): RoutineExercise {
         val working = previous.filter { !it.warmup }
         val sets = if (working.isEmpty()) {
             if (kind == ExerciseKind.CARDIO) 1 else DEFAULT_SETS
@@ -94,7 +97,11 @@ object RoutineStats {
             working.size.coerceAtMost(WorkoutEdits.MAX_ROUTINE_SETS)
         }
         return if (kind.usesDuration) {
-            val fallback = if (kind == ExerciseKind.CARDIO) DEFAULT_CARDIO_SEC else DEFAULT_HOLD_SEC
+            val fallback = when {
+                kind != ExerciseKind.CARDIO -> DEFAULT_HOLD_SEC
+                sport -> DEFAULT_SPORT_SEC
+                else -> DEFAULT_CARDIO_SEC
+            }
             RoutineExercise(exerciseId, sets, durationSec = working.mapNotNull { s -> s.durationSec?.takeIf { it > 0 } }.mostCommon() ?: fallback)
         } else {
             RoutineExercise(exerciseId, sets, reps = working.mapNotNull { s -> s.reps?.takeIf { it > 0 } }.mostCommon() ?: DEFAULT_REPS)

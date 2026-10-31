@@ -12,4 +12,5 @@ routine_shoulders = 어깨
 routine_arms = 팔
 routine_glutes = 둔근
 routine_core = 코어와 복근
+routine_mobility = 모빌리티와 스트레칭
 routine_cardio_mix = 유산소 머신

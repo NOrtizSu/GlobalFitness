@@ -1,0 +1,13 @@
+# Pausing the workout in progress (the clock and the rest timer stand still) and its ongoing notification
+workout_pause = 一時停止
+workout_resume = 再開
+workout_paused = 一時停止中
+workout_rest_paused = 休憩（一時停止中）
+workout_paused_time = 一時停止中 · %1$s
+workout_notification_channel = ワークアウト中
+workout_notification_channel_text = トレーニング中の時間、休憩タイマー、一時停止ボタンを表示します。
+workout_notification_title = 通知
+workout_notification_setting = ワークアウトの通知
+workout_notification_setting_text = トレーニング中、通知にワークアウトの時間と休憩タイマー、一時停止ボタンが表示されます。通知をタップするとワークアウトに戻ります。
+workout_notification_blocked = Fortia の通知がオフになっています。タップして許可してください。
+workout_notification_settings_failed = Android の通知設定を開けませんでした。

@@ -17,3 +17,5 @@ training_info_no_guide = Bạn đã tự tạo bài tập này nên bài tập k
 training_info_no_guide_add = Hãy thêm ảnh và cài đặt máy trên trang của bài tập để nhớ cách bạn sử dụng.
 # Button: opens the exercise's page (progress chart, records, history)
 training_info_progress = Xem tiến độ
+training_mobility = Giãn cơ
+training_mobility_note = Đây là bài giãn cơ hoặc bài tập linh hoạt: hãy ghi theo thời gian. Không tính vào số hiệp mỗi tuần, phục hồi hay kỷ lục.

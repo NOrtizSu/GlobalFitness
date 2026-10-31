@@ -63,6 +63,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.training.catalog.ExerciseGuide
 import com.enjoyyourtime.globalfitness.training.catalog.ExerciseGuides
+import com.enjoyyourtime.globalfitness.training.domain.TrainingMath
+import com.enjoyyourtime.globalfitness.training.model.Equipment
 import com.enjoyyourtime.globalfitness.training.model.Exercise
 import com.enjoyyourtime.globalfitness.ui.Fmt
 import com.enjoyyourtime.globalfitness.ui.training.motion.ExerciseAnimation
@@ -94,7 +96,8 @@ fun ExerciseInfoButton(exercise: Exercise, modifier: Modifier = Modifier, onOpen
 
 /**
  * How [exercise] is done: its animation (with play / pause), equipment and kind, the muscles it
- * works, the numbered steps and the tips of its guide, then the user's photo and machine settings.
+ * works (a stretch: the ones it stretches, and a note that it is not training load), the numbered
+ * steps and the tips of its guide, then the user's photo and machine settings.
  * The user's own exercises have no guide: the sheet says so and shows their photo and settings.
  * [onOpenProgress] adds "See progress", which opens the exercise's page once the sheet has hidden;
  * pages where leaving would interrupt something (a picker, an editor) and the exercise's own page
@@ -123,13 +126,16 @@ fun ExerciseInfoSheet(exercise: Exercise, onDismiss: () -> Unit, onOpenProgress:
         ) {
             if (hasAnimation(exercise)) AnimationPanel(exercise, viewport)
             InfoTitle(exercise)
+            if (exercise.mobility) {
+                Text(stringResource(R.string.training_mobility_note), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
             if (exercise.muscles.isNotEmpty()) ExerciseMuscles(exercise, female)
             when {
                 guide != null -> GuideSections(guide)
-                !exercise.builtIn -> NoGuide(addHint = exercise.photo == null && notes == null)
+                !exercise.builtIn -> NoGuide(addHint = exercise.photo == null && notes == null, sport = exercise.equipment == Equipment.SPORT)
             }
             exercise.photo?.let { InfoPhoto(vm, it, exercise.displayName()) }
-            notes?.let { SettingsSection(it) }
+            notes?.let { SettingsSection(it, exercise.equipment) }
             if (onOpenProgress != null) {
                 OutlinedButton(
                     onClick = {
@@ -188,7 +194,9 @@ private fun InfoTitle(exercise: Exercise) {
         Text(
             listOfNotNull(
                 exercise.equipment.label(),
-                exercise.kind.label(),
+                // "Sports & activities" says it: they are not "Cardio" in the gym's sense.
+                if (TrainingMath.isSport(exercise)) null else exercise.kind.label(),
+                if (exercise.mobility) stringResource(R.string.training_mobility) else null,
                 if (exercise.builtIn) null else stringResource(R.string.training_own_exercise),
             ).joinToString(" · "),
             style = MaterialTheme.typography.bodyMedium,
@@ -254,16 +262,23 @@ private fun TipRow(text: String) {
     }
 }
 
-/** In place of the guide for the user's own exercise; [addHint] when it has no photo or settings to show instead. */
+/**
+ * In place of the guide for the user's own exercise; [addHint] when it has no photo or settings to
+ * show instead (for a [sport]: notes, not machine settings).
+ */
 @Composable
-private fun NoGuide(addHint: Boolean) {
+private fun NoGuide(addHint: Boolean, sport: Boolean) {
     Row(verticalAlignment = Alignment.Top) {
         Icon(Icons.Filled.Info, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(top = 2.dp).size(18.dp))
         Spacer(Modifier.width(12.dp))
         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Text(stringResource(R.string.training_info_no_guide), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             if (addHint) {
-                Text(stringResource(R.string.training_info_no_guide_add), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(
+                    stringResource(if (sport) R.string.training_info_no_guide_add_sport else R.string.training_info_no_guide_add),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
             }
         }
     }
@@ -283,9 +298,9 @@ private fun InfoPhoto(vm: TrainingViewModel, name: String, exerciseName: String)
 }
 
 @Composable
-private fun SettingsSection(notes: String) {
+private fun SettingsSection(notes: String, equipment: Equipment) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        SheetHeading(stringResource(R.string.training_machine_settings))
+        SheetHeading(stringResource(notesTitleRes(equipment)))
         Row(verticalAlignment = Alignment.Top) {
             Icon(TrainingIcons.Tune, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 2.dp).size(20.dp))
             Spacer(Modifier.width(12.dp))

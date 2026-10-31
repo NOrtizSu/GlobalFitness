@@ -164,6 +164,20 @@ object RoutineCatalog {
                 e("back_extension", 3, 12),
             ),
         ),
+        // Stretching and mobility: a cool-down or a recovery day; held for time (sets per side).
+        CatalogRoutine(
+            "mobility", R.string.routine_mobility,
+            listOf(
+                timed("cat_cow", 1, 60),
+                timed("worlds_greatest_stretch", 2, 45),
+                timed("hip_flexor_stretch", 2, 45),
+                timed("hamstring_stretch", 2, 45),
+                timed("pigeon_stretch", 2, 45),
+                timed("thoracic_rotation", 2, 30),
+                timed("doorway_chest_stretch", 2, 30),
+                timed("childs_pose", 1, 60),
+            ),
+        ),
         CatalogRoutine(
             "cardio_mix", R.string.routine_cardio_mix,
             listOf(

@@ -1,0 +1,11 @@
+# Fixes after the review of the 1.4 work (pause, notification, sports, gym catalog)
+training_view_workout = Lihat latihan
+workout_notification_allow = Izinkan notifikasi
+training_duration_adjusted = Durasi disesuaikan menjadi %1$s
+training_kind_sport_text = Waktu, jarak bila ada, dan kalori: pertandingan, pendakian, kelas.
+training_sport_notes = Catatan
+training_sport_notes_hint = Mis. lapangan 3, liga Selasa
+training_photo_add_text_sport = Agar Anda mudah mengenalinya sekilas.
+training_info_no_guide_add_sport = Tambahkan foto dan catatan Anda di halamannya agar mudah diingat.
+training_new_activity = Aktivitas baru
+training_photo_add_sport = Tambahkan foto

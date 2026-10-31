@@ -5,6 +5,7 @@ import com.enjoyyourtime.globalfitness.training.domain.ExerciseSession
 import com.enjoyyourtime.globalfitness.training.domain.MuscleRecovery
 import com.enjoyyourtime.globalfitness.training.domain.MuscleStrength
 import com.enjoyyourtime.globalfitness.training.domain.MuscleVolume
+import com.enjoyyourtime.globalfitness.training.domain.TrainingMath
 import com.enjoyyourtime.globalfitness.training.domain.VolumeLevel
 import com.enjoyyourtime.globalfitness.training.model.Exercise
 import com.enjoyyourtime.globalfitness.training.model.Muscle
@@ -160,7 +161,8 @@ object MuscleMapLogic {
 
     /**
      * Exercises that trained [muscle] (primary or secondary), most recent session first, with the
-     * change of their best estimated 1RM against the session before.
+     * change of their best estimated 1RM against the session before. Like the sets and the recovery
+     * of this page, sports, cardio and stretches count for no muscle (a football match is not a quads session).
      */
     fun recentExercises(
         muscle: Muscle,
@@ -171,7 +173,11 @@ object MuscleMapLogic {
         sessions.mapNotNull { (id, list) ->
             val exercise = exercises(id)
             val last = list.lastOrNull()
-            if (muscle !in exercise.muscles || last == null) null else MuscleExercise(exercise, last, lastChangePercent(list))
+            if (muscle !in exercise.muscles || last == null || !TrainingMath.countsForMuscles(exercise)) {
+                null
+            } else {
+                MuscleExercise(exercise, last, lastChangePercent(list))
+            }
         }
             .sortedByDescending { it.last.at }
             .take(limit)

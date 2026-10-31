@@ -1,0 +1,13 @@
+# Pausing the workout in progress (the clock and the rest timer stand still) and its ongoing notification
+workout_pause = Duraklat
+workout_resume = Sürdür
+workout_paused = Duraklatıldı
+workout_rest_paused = Dinlenme duraklatıldı
+workout_paused_time = Duraklatıldı · %1$s
+workout_notification_channel = Devam eden antrenman
+workout_notification_channel_text = Antrenman sırasında süre, dinlenme zamanlayıcısı ve duraklatma düğmesi.
+workout_notification_title = Bildirimler
+workout_notification_setting = Antrenman bildirimi
+workout_notification_setting_text = Antrenman yaparken bildirimler antrenmanın süresini ve dinlenme zamanlayıcısını, duraklatma düğmesiyle birlikte gösterir. Antrenmana dönmek için bildirime dokunun.
+workout_notification_blocked = Fortia için bildirimler kapalı. İzin vermek için dokunun.
+workout_notification_settings_failed = Android'in bildirim ayarları açılamadı.

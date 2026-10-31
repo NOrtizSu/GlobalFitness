@@ -54,7 +54,7 @@ const val PRIVACY_POLICY_URL = "https://globalfitness-app.web.app/privacy.html"
 const val PRIVACY_POLICY_WEB_LANGUAGE = "es"
 
 /** Corresponding Source of the app (AGPL-3.0 sections 6 and 13). */
-const val SOURCE_CODE_URL = "https://github.com/NOrtizSu/GlobalFitness"
+const val SOURCE_CODE_URL = "https://github.com/NOrtizSu/Fortia-source"
 private const val LICENSE_URL = "https://www.gnu.org/licenses/agpl-3.0.html"
 
 private sealed interface PolicyState {

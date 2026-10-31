@@ -12,6 +12,7 @@ object TrainingRoutes {
     const val ARG_ROUTINE_ID = "routineId"
     internal const val ARG_FROM = "from"
     internal const val ARG_PICKER = "picker"
+    internal const val ARG_SPORT = "sport"
 
     /** One exercise or machine: progress chart, records, history, notes and photo. */
     const val EXERCISE = "entreno/ejercicio/{$ARG_EXERCISE_ID}"
@@ -65,14 +66,16 @@ object TrainingRoutes {
     /**
      * Internal: create (no exercise id) or edit a custom exercise or machine. [ARG_PICKER]: it was
      * opened from an exercise picker (of a workout or of the routine editor), which gets the created
-     * one back ticked ([RESULT_CREATED_EXERCISE] in the picker's saved state).
+     * one back ticked ([RESULT_CREATED_EXERCISE] in the picker's saved state). [ARG_SPORT]: a new
+     * one starts as a sport or activity (the catalog showed the sports).
      */
-    internal const val EDITOR = "entreno/editor?$ARG_EXERCISE_ID={$ARG_EXERCISE_ID}&$ARG_PICKER={$ARG_PICKER}"
+    internal const val EDITOR = "entreno/editor?$ARG_EXERCISE_ID={$ARG_EXERCISE_ID}&$ARG_PICKER={$ARG_PICKER}&$ARG_SPORT={$ARG_SPORT}"
 
-    internal fun editor(exerciseId: String? = null, forPicker: Boolean = false): String {
+    internal fun editor(exerciseId: String? = null, forPicker: Boolean = false, sport: Boolean = false): String {
         val query = listOfNotNull(
             exerciseId?.let { "$ARG_EXERCISE_ID=${Uri.encode(it)}" },
             "$ARG_PICKER=true".takeIf { forPicker },
+            "$ARG_SPORT=true".takeIf { sport },
         )
         return if (query.isEmpty()) "entreno/editor" else "entreno/editor?" + query.joinToString("&")
     }

@@ -16,6 +16,7 @@ import com.enjoyyourtime.globalfitness.training.model.RoutineExercise
 import com.enjoyyourtime.globalfitness.training.model.Tombstone
 import com.enjoyyourtime.globalfitness.training.model.Workout
 import com.enjoyyourtime.globalfitness.training.model.WorkoutEntry
+import com.enjoyyourtime.globalfitness.training.model.WorkoutPause
 import com.enjoyyourtime.globalfitness.training.model.WorkoutSet
 
 /**
@@ -37,7 +38,8 @@ class TrainingDatabase(context: Context) : SQLiteOpenHelper(context, DB_NAME, nu
                 ended_at INTEGER,
                 name TEXT,
                 note TEXT,
-                updated_at INTEGER NOT NULL
+                updated_at INTEGER NOT NULL,
+                pauses TEXT
             )
             """.trimIndent(),
         )
@@ -114,7 +116,24 @@ class TrainingDatabase(context: Context) : SQLiteOpenHelper(context, DB_NAME, nu
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         if (oldVersion < 2) createRoutineTables(db)
+        // v3: the pauses of each workout (see [PauseColumn]); null for every workout logged before.
+        if (oldVersion < 3 && !hasColumn(db, "workouts", "pauses")) db.execSQL("ALTER TABLE workouts ADD COLUMN pauses TEXT")
     }
+
+    /**
+     * A file from a newer app version (the app was downgraded) opens as it is: every schema change
+     * so far only adds tables and columns, which this version leaves alone, and its upgrade steps
+     * are safe to run again ([hasColumn], `IF NOT EXISTS`) when a newer version opens it later.
+     * Without this, Android refuses to open it and the training data would not load.
+     */
+    override fun onDowngrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) = Unit
+
+    /** So a file that already has the column (its version set back by hand, e.g. on a test phone) still upgrades. */
+    private fun hasColumn(db: SQLiteDatabase, table: String, column: String): Boolean =
+        db.rawQuery("PRAGMA table_info($table)", null).use { c ->
+            val name = c.getColumnIndexOrThrow("name")
+            generateSequence { if (c.moveToNext()) c.getString(name) else null }.any { it == column }
+        }
 
     /** v2: the user's routines (reusable sets of exercises with their target sets and reps). */
     private fun createRoutineTables(db: SQLiteDatabase) {
@@ -181,7 +200,7 @@ class TrainingDatabase(context: Context) : SQLiteOpenHelper(context, DB_NAME, nu
                 )
             }
         }
-        return db.rawQuery("SELECT id, started_at, ended_at, name, note, updated_at FROM workouts ORDER BY started_at, id", null).use { c ->
+        return db.rawQuery("SELECT id, started_at, ended_at, name, note, updated_at, pauses FROM workouts ORDER BY started_at, id", null).use { c ->
             buildList {
                 while (c.moveToNext()) {
                     val id = c.getString(0)
@@ -194,6 +213,7 @@ class TrainingDatabase(context: Context) : SQLiteOpenHelper(context, DB_NAME, nu
                             note = c.stringOrNull(4),
                             updatedAt = c.getLong(5),
                             entries = entries[id].orEmpty(),
+                            pauses = PauseColumn.decode(c.stringOrNull(6)),
                         ),
                     )
                 }
@@ -338,6 +358,7 @@ class TrainingDatabase(context: Context) : SQLiteOpenHelper(context, DB_NAME, nu
                 putText("name", w.name)
                 putText("note", w.note)
                 put("updated_at", w.updatedAt)
+                putText("pauses", PauseColumn.encode(w.pauses))
             },
         )
         w.entries.forEachIndexed { entryIndex, entry ->
@@ -475,6 +496,22 @@ class TrainingDatabase(context: Context) : SQLiteOpenHelper(context, DB_NAME, nu
 
     companion object {
         const val DB_NAME = "training.db"
-        const val DB_VERSION = 2
+        const val DB_VERSION = 3
     }
+}
+
+/**
+ * The `pauses` column of a workout: "start:end;start:end;start:" in epoch ms (the last end is empty
+ * while that pause lasts), null when there is none. Malformed parts are skipped on reading.
+ */
+internal object PauseColumn {
+    fun encode(pauses: List<WorkoutPause>): String? =
+        pauses.takeIf { it.isNotEmpty() }?.joinToString(";") { p -> "${p.start}:${p.end?.toString().orEmpty()}" }
+
+    fun decode(text: String?): List<WorkoutPause> =
+        text.orEmpty().split(';').mapNotNull { part ->
+            val start = part.substringBefore(':', "").toLongOrNull() ?: return@mapNotNull null
+            val end = part.substringAfter(':', "")
+            if (end.isEmpty()) WorkoutPause(start, null) else end.toLongOrNull()?.let { WorkoutPause(start, it) }
+        }
 }

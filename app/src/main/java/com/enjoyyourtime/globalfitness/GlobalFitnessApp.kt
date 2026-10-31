@@ -28,6 +28,7 @@ import com.enjoyyourtime.globalfitness.scale.ScaleContext
 import com.enjoyyourtime.globalfitness.scale.drivers.AllDrivers
 import com.enjoyyourtime.globalfitness.training.TrainingModule
 import com.enjoyyourtime.globalfitness.ui.Fmt
+import com.enjoyyourtime.globalfitness.ui.training.notification.WorkoutNotifications
 import com.enjoyyourtime.globalfitness.wearable.WearableManager
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -89,6 +90,9 @@ class AppContainer(context: Context) {
 
     /** Exercise and machine catalog, workouts and the muscle statistics' data. */
     val training = TrainingModule(context, appScope)
+
+    /** The ongoing notification of the workout in progress (posted again at every start of the process). */
+    val workoutNotifications = WorkoutNotifications(context, training.repository, training.rest, training.settings, appScope).also { it.start() }
     val health = HealthModule(context, repository, scaleRegistry, appScope, training)
     // ---- Optional Google account + cloud backup, ads and the "Quitar anuncios" purchase --------
     val adSuppression = AdSuppression().also { suppression ->

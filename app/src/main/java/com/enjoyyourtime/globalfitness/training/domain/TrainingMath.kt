@@ -1,5 +1,6 @@
 package com.enjoyyourtime.globalfitness.training.domain
 
+import com.enjoyyourtime.globalfitness.training.model.Equipment
 import com.enjoyyourtime.globalfitness.training.model.Exercise
 import com.enjoyyourtime.globalfitness.training.model.ExerciseKind
 import com.enjoyyourtime.globalfitness.training.model.Muscle
@@ -34,9 +35,26 @@ object TrainingMath {
 
     /**
      * Whether a completed set counts as a hard set for a muscle: strength kinds always, cardio
-     * never (it trains the heart, not a muscle group).
+     * never (it trains the heart, not a muscle group). Callers use the [Exercise] overload.
      */
-    fun countsForMuscles(kind: ExerciseKind): Boolean = kind != ExerciseKind.CARDIO
+    private fun countsForMuscles(kind: ExerciseKind): Boolean = kind != ExerciseKind.CARDIO
+
+    /**
+     * Whether [exercise]'s completed sets are training load for its muscles (hard sets, recovery,
+     * body shape, balanced weeks): as [countsForMuscles] by kind, and never for a stretch or
+     * mobility drill ([Exercise.mobility]), which is logged but trains nothing to recover from.
+     */
+    fun countsForMuscles(exercise: Exercise): Boolean = countsForMuscles(exercise.kind) && !exercise.mobility
+
+    /** Whether [exercise] has personal records and strength trends: every exercise but stretches and mobility drills. */
+    fun hasRecords(exercise: Exercise): Boolean = !exercise.mobility
+
+    /**
+     * A sport or activity ([Equipment.SPORT]) logged by time: no machine level, no rest timer after
+     * its sets, titled with its own name in Health Connect. An own exercise with that equipment but
+     * logged another way (reps) is treated like any exercise of its kind.
+     */
+    fun isSport(exercise: Exercise): Boolean = exercise.equipment == Equipment.SPORT && exercise.kind == ExerciseKind.CARDIO
 
     /** Contribution of a set to its exercise's muscles: 1 for primary, ½ for secondary. */
     const val PRIMARY_SHARE = 1.0

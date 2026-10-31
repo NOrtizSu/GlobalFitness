@@ -4,7 +4,8 @@
     back up the app databases and normal preferences, but never the bands and watches set up on this
     phone (band_prefs, wearable_prefs: Bluetooth addresses, settings, names of notifying apps; their
     auth keys live in noBackupFilesDir), their recorded live heart rate (band.db), the onboarding
-    flag, the Health Connect cache (health.db) or Firestore's local cache. Machine photos
+    flag, whether the notification permission was asked (workout_notification), the Health Connect
+    cache (health.db) or Firestore's local cache. Machine photos
     (files/exercise_photos) are left out of the Drive backup only (25 MB quota; the app's cloud backup
     keeps them) and are copied in a device-to-device transfer.
 -->
@@ -13,6 +14,7 @@
         <exclude domain="sharedpref" path="band_prefs.xml" />
         <exclude domain="sharedpref" path="wearable_prefs.xml" />
         <exclude domain="sharedpref" path="onboarding.xml" />
+        <exclude domain="sharedpref" path="workout_notification.xml" />
         <exclude domain="database" path="band.db" />
         <exclude domain="database" path="band.db-journal" />
         <exclude domain="database" path="band.db-wal" />
@@ -31,6 +33,7 @@
         <exclude domain="sharedpref" path="band_prefs.xml" />
         <exclude domain="sharedpref" path="wearable_prefs.xml" />
         <exclude domain="sharedpref" path="onboarding.xml" />
+        <exclude domain="sharedpref" path="workout_notification.xml" />
         <exclude domain="database" path="band.db" />
         <exclude domain="database" path="band.db-journal" />
         <exclude domain="database" path="band.db-wal" />

@@ -29,6 +29,9 @@ import com.enjoyyourtime.globalfitness.training.domain.GoalAnchor
 import com.enjoyyourtime.globalfitness.training.domain.LoadModel
 import com.enjoyyourtime.globalfitness.training.domain.PersonalRecords
 import com.enjoyyourtime.globalfitness.training.domain.RecordKind
+import com.enjoyyourtime.globalfitness.training.domain.TrainingMath
+import com.enjoyyourtime.globalfitness.training.domain.WorkoutTime
+import com.enjoyyourtime.globalfitness.training.live.RestTimer
 import com.enjoyyourtime.globalfitness.training.model.CustomExercise
 import com.enjoyyourtime.globalfitness.training.model.Equipment
 import com.enjoyyourtime.globalfitness.training.model.Exercise
@@ -56,7 +59,6 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -160,16 +162,22 @@ data class RemovedEntry(val workoutId: String, val index: Int, val entry: Workou
 /** A set deleted from an exercise, with where it was, for "Undo". */
 data class RemovedSet(val workoutId: String, val entryId: String, val index: Int, val set: WorkoutSet)
 
-/** The rest countdown after a completed set. Times are wall-clock epoch ms. */
-data class RestTimer(val id: Long, val workoutId: String, val endsAt: Long, val totalSec: Int)
-
 sealed interface TrainingEvent {
     /** A set just beat a personal record. */
     data class Record(val exerciseId: String, val set: WorkoutSet, val kinds: Set<RecordKind>) : TrainingEvent
 
     /** A picked or captured photo could not be read. */
     data object PhotoFailed : TrainingEvent
+
+    /**
+     * Ticking a timed set made the workout last the time its timed sets log ([activeMs] now, see
+     * [WorkoutTime.fitToLogged]); [undo] puts its times back ([TrainingViewModel.undoDurationFit]).
+     */
+    data class DurationAdjusted(val workoutId: String, val activeMs: Long, val undo: DurationFit) : TrainingEvent
 }
+
+/** A workout's times before and after [WorkoutTime.fitToLogged], for "Undo". */
+class DurationFit(val before: Workout, val after: Workout)
 
 /** What to do with filled-in sets that were not ticked when a workout is finished or left. */
 enum class UnfinishedSets { COMPLETE, DISCARD }
@@ -205,11 +213,16 @@ class TrainingViewModel(container: AppContainer) : ViewModel() {
     private val repo = container.training.repository
     private val settings = container.training.settings
     private val photos = container.training.photos
+    private val restTimers = container.training.rest
+    private val pausing = container.training.pausing
     private val appScope = container.appScope
 
     val loaded: StateFlow<Boolean> = repo.loaded
     val loadUnit: StateFlow<LoadUnit> = settings.loadUnit
     val restSeconds: StateFlow<Int> = settings.restSeconds
+
+    /** The "Workout notification" setting (the notification itself follows it, see WorkoutNotifications). */
+    val workoutNotification: StateFlow<Boolean> = settings.workoutNotification
     val exercises: StateFlow<Map<String, Exercise>> = repo.exercises
 
     /** The body map draws the profile's figure. */
@@ -283,9 +296,8 @@ class TrainingViewModel(container: AppContainer) : ViewModel() {
 
     private val starting = Mutex()
 
-    private val _rest = MutableStateFlow<RestTimer?>(null)
-    val rest: StateFlow<RestTimer?> = _rest.asStateFlow()
-    private var restSeq = 0L
+    /** The rest timer of the workout in progress (app-wide: its notification shows it too). */
+    val rest: StateFlow<RestTimer?> = restTimers.state
 
     private val _events = MutableSharedFlow<TrainingEvent>(extraBufferCapacity = 8)
     val events: SharedFlow<TrainingEvent> = _events.asSharedFlow()
@@ -456,7 +468,7 @@ class TrainingViewModel(container: AppContainer) : ViewModel() {
                 ExerciseDetail(
                     exercise = exercise,
                     sessions = sessions,
-                    records = ExerciseHistory.records(sessions),
+                    records = if (TrainingMath.hasRecords(exercise)) ExerciseHistory.records(sessions) else PersonalRecords(),
                     used = inWorkouts || inRoutines,
                     usedByRoutinesOnly = inRoutines && !inWorkouts,
                     needsBodyweight = load.needsBodyweight(exercise),
@@ -546,30 +558,65 @@ class TrainingViewModel(container: AppContainer) : ViewModel() {
 
     /**
      * Ticks or unticks a set. A set ticked without its defining value (reps, time) takes last
-     * time's values for the fields still empty; in a live workout the rest timer starts; a set
-     * beating a personal record sends [TrainingEvent.Record].
+     * time's values for the fields still empty; in a live workout the rest timer starts (not after a
+     * sport or a stretch, see [SetTable.startsRest]), and a paused one resumes (a set means the user
+     * is training again; see [WorkoutUiEdits.tick]); a set beating a personal record sends
+     * [TrainingEvent.Record]. A timed set makes the workout last at least the time its timed sets
+     * log ([fitDuration]), which sends [TrainingEvent.DurationAdjusted].
      */
     fun setDone(workoutId: String, entryId: String, setId: String, done: Boolean) = launch {
+        val at = now()
+        var resumedAt: Long? = null
+        var fit: DurationFit? = null
         val updated = repo.updateWorkout(workoutId) { w ->
             val entry = w.entries.firstOrNull { it.id == entryId } ?: return@updateWorkout w
             val set = entry.sets.firstOrNull { it.id == setId } ?: return@updateWorkout w
-            val filled = if (done && !SetTable.hasValues(set, kindOf(entry.exerciseId))) {
+            val kind = kindOf(entry.exerciseId)
+            val filled = if (done && !SetTable.hasValues(set, kind)) {
                 val previous = ExerciseHistory.previousSets(repo.workouts.value, entry.exerciseId, w.id)
                 SetTable.previousFor(entry.sets, previous)[setId]?.let { SetTable.fillMissing(set, it) } ?: set
             } else {
                 set
             }
-            WorkoutEdits.updateSet(w, entryId, setId) { filled.copy(done = done, doneAt = if (done) WorkoutUiEdits.doneAtFor(w, now()) else null) }
+            val ticked = WorkoutUiEdits.tick(w, entryId, setId, filled, done, at)
+            if (w.paused && !ticked.paused) resumedAt = WorkoutUiEdits.resumeAtForTick(w, filled, at)
+            if (!done || !kind.usesDuration) return@updateWorkout ticked
+            fitDuration(ticked, at).also { if (it != ticked) fit = DurationFit(ticked, it) }
         } ?: return@launch
+        resumedAt?.let { restTimers.resume(workoutId, it) }
         if (!done) return@launch
-        if (updated.inProgress) startRest(workoutId)
         val entry = updated.entries.firstOrNull { it.id == entryId } ?: return@launch
         val set = entry.sets.firstOrNull { it.id == setId } ?: return@launch
+        if (updated.inProgress && SetTable.startsRest(repo.exercise(entry.exerciseId))) startRest(workoutId)
         val workouts = repo.workouts.value
         val lookup = lookup(repo.exercises.value)
         val load = loadModel.value
         val records = withContext(Dispatchers.Default) { WorkoutRecords.forWorkout(workouts, updated, lookup, load)[setId] }
         if (!records.isNullOrEmpty()) _events.tryEmit(TrainingEvent.Record(entry.exerciseId, set, records))
+        // After the record: its message has an "Undo" and replaces the record's.
+        fit?.let { _events.tryEmit(TrainingEvent.DurationAdjusted(workoutId, WorkoutTime.activeMs(updated, now()), it)) }
+    }
+
+    /**
+     * Workouts whose duration the user set or put back ("Undo"): [fitDuration] leaves them alone
+     * from then on (kept while the app runs).
+     */
+    private val fitDeclined = mutableSetOf<String>()
+
+    /**
+     * [w] lasting at least the time its completed timed sets log ([WorkoutTime.fitToLogged]: a
+     * sport or cardio session logged after it was done), unless the user declined that for it.
+     */
+    private fun fitDuration(w: Workout, now: Long): Workout {
+        if (w.id in fitDeclined) return w
+        val logged = WorkoutTime.loggedMs(w) { kindOf(it).usesDuration }
+        return WorkoutTime.fitToLogged(w, logged, now, WorkoutTime.previousEnd(repo.workouts.value, w))
+    }
+
+    /** "Undo" of [TrainingEvent.DurationAdjusted]: the workout gets its times back and is not fitted again. */
+    fun undoDurationFit(fit: DurationFit) {
+        fitDeclined += fit.after.id
+        edit(fit.after.id) { WorkoutTime.unfit(it, fit.before, fit.after) }
     }
 
     fun addSet(workoutId: String, entryId: String) = edit(workoutId) { WorkoutEdits.addSet(it, entryId, ::newId) }
@@ -624,10 +671,24 @@ class TrainingViewModel(container: AppContainer) : ViewModel() {
         WorkoutUiEdits.retime(w, clamped, w.endedAt?.let { (clamped + (it - w.startedAt)).coerceAtMost(now) })
     }
 
-    /** Duration of a finished workout (it never ends in the future). */
+    /**
+     * Active duration of a finished workout, as its chip shows it: its pauses stay where they were
+     * and lengthen it (it never ends in the future). The user's choice: never fitted to its timed
+     * sets afterwards ([fitDuration]).
+     */
     fun setDuration(workoutId: String, minutes: Int) = edit(workoutId) { w ->
-        if (w.inProgress) w else WorkoutUiEdits.retime(w, w.startedAt, (w.startedAt + minutes.coerceAtLeast(1) * 60_000L).coerceAtMost(now()))
+        if (w.inProgress) {
+            w
+        } else {
+            fitDeclined += w.id
+            WorkoutUiEdits.retime(w, w.startedAt, WorkoutTime.endFor(w.startedAt, minutes.coerceAtLeast(1) * 60_000L, w.pauses).coerceAtMost(now()))
+        }
     }
+
+    /** Pauses the workout in progress and its rest timer (see [com.enjoyyourtime.globalfitness.training.live.WorkoutPausing]). */
+    fun pauseWorkout(workoutId: String) = launch { pausing.pause(workoutId) }
+
+    fun resumeWorkout(workoutId: String) = launch { pausing.resume(workoutId) }
 
     /**
      * Finishes a workout in progress: filled-in sets that were not ticked are completed or dropped
@@ -655,15 +716,21 @@ class TrainingViewModel(container: AppContainer) : ViewModel() {
     /** Leaves a finished workout (see [finish]); nothing is shown afterwards. */
     fun closeFinished(workoutId: String, unfinished: UnfinishedSets?) = launch { close(workoutId, unfinished) }
 
+    /**
+     * Finishing (or leaving a past workout) also makes it last at least the time its timed sets log
+     * ([fitDuration]): their times may have been typed after they were ticked.
+     */
     private suspend fun close(workoutId: String, unfinished: UnfinishedSets?): Workout? {
         val current = repo.workout(workoutId) ?: return null
-        if (_rest.value?.workoutId == workoutId) _rest.value = null
+        restTimers.clear(workoutId)
         repo.updateWorkout(workoutId) { w ->
-            val completed = if (unfinished == UnfinishedSets.COMPLETE) WorkoutUiEdits.completeFilled(w, ::kindOf, now()) else w
-            WorkoutUiEdits.dropUnfinished(completed).copy(
+            val now = now()
+            val completed = if (unfinished == UnfinishedSets.COMPLETE) WorkoutUiEdits.completeFilled(w, ::kindOf, now) else w
+            val cleaned = WorkoutUiEdits.dropUnfinished(completed).copy(
                 name = completed.name?.trim()?.ifEmpty { null },
                 note = completed.note?.trim()?.ifEmpty { null },
             )
+            if (cleaned.doneSets > 0) fitDuration(cleaned, now) else cleaned
         }
         if (current.inProgress) return repo.finishWorkout(workoutId)
         val saved = repo.workout(workoutId) ?: return null
@@ -673,36 +740,21 @@ class TrainingViewModel(container: AppContainer) : ViewModel() {
     }
 
     fun deleteWorkout(workoutId: String) = launch {
-        if (_rest.value?.workoutId == workoutId) _rest.value = null
+        restTimers.clear(workoutId)
         repo.deleteWorkout(workoutId)
     }
 
     // ---- rest timer ------------------------------------------------------------------------
 
-    private fun startRest(workoutId: String) {
-        val seconds = settings.restSeconds.value
-        if (seconds <= 0) return
-        _rest.value = RestTimer(++restSeq, workoutId, now() + seconds * 1000L, seconds)
-    }
+    private fun startRest(workoutId: String) = restTimers.start(workoutId, settings.restSeconds.value)
 
     /** Adds (or with a negative [deltaSec] removes) rest time; the timer ends when none is left. */
-    fun adjustRest(deltaSec: Int) {
-        _rest.update { r ->
-            r ?: return@update null
-            val end = r.endsAt + deltaSec * 1000L
-            if (end <= now()) null else r.copy(endsAt = end, totalSec = (r.totalSec + deltaSec).coerceAtLeast(1))
-        }
-    }
+    fun adjustRest(deltaSec: Int) = restTimers.adjust(deltaSec)
 
-    fun skipRest() {
-        _rest.value = null
-    }
+    fun skipRest() = restTimers.skip()
 
     /** Clears the ended timer [id]; true only for the first caller, which signals the end. */
-    fun consumeRestEnd(id: Long): Boolean {
-        val r = _rest.value ?: return false
-        return r.id == id && _rest.compareAndSet(r, null)
-    }
+    fun consumeRestEnd(id: Long): Boolean = restTimers.consumeEnd(id)
 
     // ---- routines --------------------------------------------------------------------------
 
@@ -748,8 +800,12 @@ class TrainingViewModel(container: AppContainer) : ViewModel() {
     fun deleteRoutine(routineId: String) = launch { repo.deleteRoutine(routineId) }
 
     /** The target an exercise gets when the editor adds it to a routine ([RoutineStats.defaultTarget]). */
-    fun routineTarget(exerciseId: String): RoutineExercise =
-        RoutineStats.defaultTarget(exerciseId, kindOf(exerciseId), ExerciseHistory.previousWorkingSets(repo.workouts.value, exerciseId, null))
+    fun routineTarget(exerciseId: String): RoutineExercise = RoutineStats.defaultTarget(
+        exerciseId,
+        kindOf(exerciseId),
+        ExerciseHistory.previousWorkingSets(repo.workouts.value, exerciseId, null),
+        sport = TrainingMath.isSport(repo.exercise(exerciseId)),
+    )
 
     /** The save started by the routine editor session [requestId], if any. */
     fun routineSave(requestId: String): Flow<EditorSave?> = routineSaves.state.map { it[requestId] }.distinctUntilChanged()
@@ -940,6 +996,8 @@ class TrainingViewModel(container: AppContainer) : ViewModel() {
     fun setLoadUnit(unit: LoadUnit) = settings.setLoadUnit(unit)
 
     fun setRestSeconds(seconds: Int) = settings.setRestSeconds(seconds)
+
+    fun setWorkoutNotification(enabled: Boolean) = settings.setWorkoutNotification(enabled)
 
     // ---- helpers ---------------------------------------------------------------------------
 

@@ -36,6 +36,7 @@ class HealthModule(
         scope = scope,
         ownPackage = context.packageName,
         genericTitle = { type -> context.getString(WorkoutExporter.genericTitleRes(type)) },
+        exerciseName = { it.resolve(context) },
     )
 
     init {

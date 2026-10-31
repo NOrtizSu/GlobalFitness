@@ -1,0 +1,21 @@
+# Pausing the workout in progress (the clock and the rest timer stand still) and its ongoing notification. Use the workout words of 96_training.txt ("Entreno", "Descanso")
+# Button next to the clock of the workout in progress and on its Hoy / Entreno cards
+workout_pause = Pause ||| Pausar
+# The same button while the workout is paused
+workout_resume = Resume ||| Reanudar
+# Next to the stopped clock of a paused workout and on its cards
+workout_paused = Paused ||| En pausa
+# Label of the rest countdown under a paused workout (it stands still)
+workout_rest_paused = Rest paused ||| Descanso en pausa
+# The notification of a paused workout, with the time trained so far ("25:13", "1:02:03")
+workout_paused_time = Paused · %1$s ||| En pausa · %1$s
+# Android's name and description of the notification channel (Settings → Apps → Fortia → Notifications)
+workout_notification_channel = Workout in progress ||| Entreno en curso
+workout_notification_channel_text = The time, the rest timer and a pause button while you train. ||| El tiempo, el descanso y un botón de pausa mientras entrenas.
+# Profile → Training settings: section title, the switch (on by default) and its explanation
+workout_notification_title = Notifications ||| Notificaciones
+workout_notification_setting = Workout notification ||| Notificación del entreno
+workout_notification_setting_text = While you train, the notifications show the workout's time and rest timer, with a button to pause it. Tap the notification to go back to the workout. ||| Mientras entrenas, las notificaciones muestran el tiempo y el descanso del entreno, con un botón para pausarlo. Toca la notificación para volver al entreno.
+# Under the switch when Android doesn't let Fortia post notifications; tapping asks for them or opens Android's settings
+workout_notification_blocked = Notifications are off for Fortia. Tap to allow them. ||| Las notificaciones de Fortia están desactivadas. Toca para permitirlas.
+workout_notification_settings_failed = Couldn't open Android's notification settings. ||| No se han podido abrir los ajustes de notificaciones de Android.

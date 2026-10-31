@@ -17,3 +17,6 @@ training_info_no_guide = You created this exercise, so it has no step-by-step gu
 training_info_no_guide_add = Add a photo and your machine settings on its page to remember how you use it. ||| Añade una foto y los ajustes de la máquina en su página para recordar cómo la usas.
 # Button: opens the exercise's page (progress chart, records, history)
 training_info_progress = See progress ||| Ver progreso
+# Stretches and mobility drills: a label after the equipment and the kind, and a note on the sheet and on the exercise's page
+training_mobility = Stretching ||| Estiramiento
+training_mobility_note = A stretch or mobility drill: log it by time. It doesn't count toward weekly sets, recovery or records. ||| Es un estiramiento o ejercicio de movilidad: anótalo por tiempo. No cuenta en las series semanales, la recuperación ni los récords.

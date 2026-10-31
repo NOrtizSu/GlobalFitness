@@ -17,3 +17,5 @@ training_info_no_guide = Anda membuat gerakan ini sendiri, jadi tidak ada pandua
 training_info_no_guide_add = Tambahkan foto dan setelan mesin di halamannya agar Anda ingat cara menggunakannya.
 # Button: opens the exercise's page (progress chart, records, history)
 training_info_progress = Lihat progres
+training_mobility = Peregangan
+training_mobility_note = Ini peregangan atau latihan mobilitas: catat berdasarkan waktu. Tidak dihitung dalam set mingguan, pemulihan, atau rekor.

@@ -1,0 +1,13 @@
+# Pausing the workout in progress (the clock and the rest timer stand still) and its ongoing notification
+workout_pause = Tạm dừng
+workout_resume = Tập tiếp
+workout_paused = Đã tạm dừng
+workout_rest_paused = Đã tạm dừng nghỉ
+workout_paused_time = Đã tạm dừng · %1$s
+workout_notification_channel = Đang tập
+workout_notification_channel_text = Thời gian, hẹn giờ nghỉ và nút tạm dừng khi bạn tập.
+workout_notification_title = Thông báo
+workout_notification_setting = Thông báo buổi tập
+workout_notification_setting_text = Khi bạn tập, thông báo hiển thị thời gian và hẹn giờ nghỉ của buổi tập, kèm nút để tạm dừng. Nhấn vào thông báo để quay lại buổi tập.
+workout_notification_blocked = Thông báo của Fortia đang tắt. Nhấn để cho phép.
+workout_notification_settings_failed = Không mở được cài đặt thông báo của Android.

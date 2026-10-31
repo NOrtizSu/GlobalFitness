@@ -1,5 +1,10 @@
 package com.enjoyyourtime.globalfitness.ui.training
 
+import android.Manifest
+import android.os.Build
+import androidx.activity.compose.LocalActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,9 +25,11 @@ import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -32,8 +39,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.enjoyyourtime.globalfitness.GlobalFitnessApp
 import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.training.data.SpotifyCovers
 import com.enjoyyourtime.globalfitness.training.model.LoadUnit
@@ -44,15 +53,17 @@ import com.enjoyyourtime.globalfitness.ui.components.SectionTitle
 import com.enjoyyourtime.globalfitness.ui.training.music.PlayerAccessDialog
 import com.enjoyyourtime.globalfitness.ui.training.music.musicViewModel
 import com.enjoyyourtime.globalfitness.ui.training.music.playerViewModel
+import com.enjoyyourtime.globalfitness.ui.training.notification.WorkoutNotifications
 import kotlinx.coroutines.launch
 
 /** Rest timer choices (seconds; 0 = off). */
 private val REST_CHOICES = listOf(0, 30, 60, 90, 120, 180)
 
 /**
- * Load unit, rest timer, the day's music suggestions (and whether their covers come from Spotify),
- * the music controls (and the notification access that shows the song) and where saving workouts
- * to Health Connect is configured.
+ * Load unit, rest timer, the workout's notification (and whether Android allows it), the day's music
+ * suggestions (and whether their covers come from Spotify), the music controls (and the
+ * notification access that shows the song) and where saving workouts to Health Connect is
+ * configured.
  */
 @Composable
 fun TrainingSettingsScreen(onBack: () -> Unit) {
@@ -105,6 +116,8 @@ fun TrainingSettingsScreen(onBack: () -> Unit) {
                     FilterChip(selected = s == rest, onClick = { vm.setRestSeconds(s) }, label = { Text(restLabel(s)) })
                 }
             }
+            SectionTitle(stringResource(R.string.workout_notification_title), Modifier.padding(top = 8.dp))
+            WorkoutNotificationSetting(vm)
             SectionTitle(stringResource(R.string.music_title), Modifier.padding(top = 8.dp))
             SwitchRow(stringResource(R.string.music_setting), checked = music, onChange = musicVm::setEnabled)
             Text(stringResource(R.string.music_setting_text), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -154,6 +167,71 @@ fun TrainingSettingsScreen(onBack: () -> Unit) {
 
 /** Text disabled as Material 3 does it. */
 private const val DISABLED_ALPHA = 0.38f
+
+/**
+ * "Workout notification" (on by default) and, while Android does not let the app post it, a row
+ * to allow it: Android's own dialog while it may still be shown (Android 13+: before it was
+ * refused twice), else the app's notification settings. Turning the switch on offers the same.
+ */
+@Composable
+private fun WorkoutNotificationSetting(vm: TrainingViewModel) {
+    val context = LocalContext.current
+    val activity = LocalActivity.current
+    val notifications = (context.applicationContext as GlobalFitnessApp).container.workoutNotifications
+    val enabled by vm.workoutNotification.collectAsStateWithLifecycle()
+    var allowed by remember { mutableStateOf(notifications.allowed()) }
+    // Back from Android's settings (or its dialog), where it may have changed.
+    LifecycleResumeEffect(notifications) {
+        allowed = notifications.allowed()
+        onPauseOrDispose { }
+    }
+    val request = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {
+        allowed = notifications.allowed()
+        notifications.refresh()
+    }
+    val snackbar = LocalAppSnackbar.current
+    val scope = rememberCoroutineScope()
+    val failed = stringResource(R.string.workout_notification_settings_failed)
+    val allow = {
+        val dialog = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !notifications.permissionGranted() &&
+            (!notifications.permissionAsked || activity?.let { ActivityCompat.shouldShowRequestPermissionRationale(it, Manifest.permission.POST_NOTIFICATIONS) } == true)
+        if (dialog) {
+            notifications.markPermissionAsked()
+            request.launch(Manifest.permission.POST_NOTIFICATIONS)
+        } else if (!WorkoutNotifications.openSettings(context)) {
+            scope.launch { snackbar.showSnackbar(failed, withDismissAction = true) }
+        }
+    }
+    SwitchRow(
+        stringResource(R.string.workout_notification_setting),
+        checked = enabled,
+        onChange = { on ->
+            vm.setWorkoutNotification(on)
+            if (on && !allowed) allow()
+        },
+    )
+    Text(stringResource(R.string.workout_notification_setting_text), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    if (enabled && !allowed) {
+        // Never asked yet (Android 13+): nothing was refused, so a plain offer instead of the warning.
+        val neverAsked = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !notifications.permissionGranted() && !notifications.permissionAsked
+        if (neverAsked) {
+            TextButton(onClick = allow, modifier = Modifier.heightIn(min = 48.dp)) {
+                Text(stringResource(R.string.workout_notification_allow))
+            }
+        } else {
+            Text(
+                stringResource(R.string.workout_notification_blocked),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 48.dp)
+                    .clickable(role = Role.Button, onClick = allow)
+                    .padding(vertical = 12.dp),
+            )
+        }
+    }
+}
 
 /**
  * "See what's playing" and whether notification access is on: off, it explains the access first;

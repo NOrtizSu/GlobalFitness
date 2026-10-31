@@ -1,0 +1,13 @@
+# Pausing the workout in progress (the clock and the rest timer stand still) and its ongoing notification
+workout_pause = Пауза
+workout_resume = Возобновить
+workout_paused = На паузе
+workout_rest_paused = Отдых на паузе
+workout_paused_time = На паузе · %1$s
+workout_notification_channel = Тренировка идёт
+workout_notification_channel_text = Время, отдых и кнопка паузы во время тренировки.
+workout_notification_title = Уведомления
+workout_notification_setting = Уведомление о тренировке
+workout_notification_setting_text = Во время тренировки уведомления показывают время и отдых, а также кнопку, чтобы поставить тренировку на паузу. Нажмите на уведомление, чтобы вернуться к тренировке.
+workout_notification_blocked = Уведомления Fortia отключены. Нажмите, чтобы разрешить их.
+workout_notification_settings_failed = Не удалось открыть настройки уведомлений Android.

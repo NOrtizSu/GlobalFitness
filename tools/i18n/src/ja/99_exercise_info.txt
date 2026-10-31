@@ -17,3 +17,5 @@ training_info_no_guide = この種目はご自身で作成したため、手順�
 training_info_no_guide_add = 種目のページで写真とマシンの設定を追加して、使い方を覚えておきましょう。
 # Button: opens the exercise's page (progress chart, records, history)
 training_info_progress = 進捗を見る
+training_mobility = ストレッチ
+training_mobility_note = ストレッチまたはモビリティ種目です。時間で記録してください。週間セット数、回復、自己ベストには含まれません。

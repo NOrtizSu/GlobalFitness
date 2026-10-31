@@ -1,0 +1,11 @@
+# Fixes after the review of the 1.4 work (pause, notification, sports, gym catalog)
+training_view_workout = 운동 보기
+workout_notification_allow = 알림 허용
+training_duration_adjusted = 소요 시간을 %1$s(으)로 조정했습니다
+training_kind_sport_text = 시간, 거리(해당 시), 칼로리: 경기, 하이킹, 수업.
+training_sport_notes = 메모
+training_sport_notes_hint = 예: 3번 코트, 화요일 리그
+training_photo_add_text_sport = 한눈에 알아볼 수 있습니다.
+training_info_no_guide_add_sport = 페이지에서 사진과 메모를 추가하면 기억하기 쉽습니다.
+training_new_activity = 새 활동
+training_photo_add_sport = 사진 추가

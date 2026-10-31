@@ -42,11 +42,12 @@ class CatalogTest {
     }
 
     @Test
-    fun cardioIsExactlyTheCardioMachines() {
+    fun cardioIsExactlyTheCardioMachinesAndTheSports() {
         for (e in all) {
-            assertEquals(e.id, e.kind == ExerciseKind.CARDIO, e.equipment == Equipment.CARDIO_MACHINE)
+            assertEquals(e.id, e.kind == ExerciseKind.CARDIO, e.equipment == Equipment.CARDIO_MACHINE || e.equipment == Equipment.SPORT)
             if (e.kind == ExerciseKind.CARDIO) {
-                assertTrue("${e.id} trains no muscle group", e.primary.isEmpty() && e.secondary.isEmpty())
+                // Sports show the muscles they load (SportsCatalogTest); a machine trains the heart only.
+                if (e.equipment == Equipment.CARDIO_MACHINE) assertTrue("${e.id} trains no muscle group", e.primary.isEmpty() && e.secondary.isEmpty())
                 assertNotNull("${e.id} needs a Health Connect session type", e.hcSession)
             }
         }

@@ -1,0 +1,11 @@
+# Fixes after the review of the 1.4 work (pause, notification, sports, gym catalog)
+training_view_workout = ワークアウトを見る
+workout_notification_allow = 通知を許可
+training_duration_adjusted = 所要時間を %1$s に調整しました
+training_kind_sport_text = 時間、距離（該当する場合）、カロリー：試合、ハイキング、レッスン。
+training_sport_notes = メモ
+training_sport_notes_hint = 例：3番コート、火曜リーグ
+training_photo_add_text_sport = ひと目で見分けやすくなります。
+training_info_no_guide_add_sport = ページで写真とメモを追加して、覚えておきましょう。
+training_new_activity = 新しいアクティビティ
+training_photo_add_sport = 写真を追加

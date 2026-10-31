@@ -44,7 +44,7 @@ object MuscleStats {
         for (w in workouts) {
             for (e in w.entries) {
                 val ex = exercises(e.exerciseId)
-                if (!TrainingMath.countsForMuscles(ex.kind)) continue
+                if (!TrainingMath.countsForMuscles(ex)) continue
                 val n = e.sets.count { s -> s.isWorking && (s.doneAt ?: w.startedAt).let { it in from until to } }
                 if (n == 0) continue
                 for (m in ex.primary) result[m] = (result[m] ?: 0.0) + n * TrainingMath.PRIMARY_SHARE
@@ -112,7 +112,7 @@ object MuscleStats {
         val result = ArrayList<ExerciseTrend>()
         for ((id, all) in ExerciseHistory.allSessions(workouts, exercises = exercises, load = load)) {
             val ex = exercises(id)
-            if (!ex.kind.usesReps) continue
+            if (!ex.kind.usesReps || !TrainingMath.hasRecords(ex)) continue
             val scored = all.filter { it.bestE1rm != null }
             val inPeriod = scored.filter { it.at in from until to }
             if (inPeriod.isEmpty()) continue

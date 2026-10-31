@@ -12,4 +12,5 @@ routine_shoulders = Barki
 routine_arms = Ramiona
 routine_glutes = Pośladki
 routine_core = Core i brzuch
+routine_mobility = Mobilność i rozciąganie
 routine_cardio_mix = Maszyny cardio

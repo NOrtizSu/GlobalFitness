@@ -87,8 +87,9 @@ private val Exercise.isMine: Boolean get() = !builtIn || photo != null || !notes
 
 /**
  * Every visible (not archived) exercise with its localized name, primary muscles and search text
- * (name, equipment and every muscle, without accents), sorted with the language's collation. Built
- * off the main thread; null until ready.
+ * (name, equipment and every muscle, without accents), sorted with the language's collation. A
+ * stretch says so first ("Stretching · Hamstrings") and is found by that word. Built off the main
+ * thread; null until ready.
  */
 @Composable
 private fun rememberBrowseItems(exercises: Map<String, Exercise>): List<BrowseItem>? {
@@ -97,16 +98,18 @@ private fun rememberBrowseItems(exercises: Map<String, Exercise>): List<BrowseIt
     val state = produceState<List<BrowseItem>?>(null, exercises, configuration) {
         value = withContext(Dispatchers.Default) {
             val collator = Collator.getInstance(Fmt.locale).apply { strength = Collator.PRIMARY }
+            val stretching = context.getString(R.string.training_mobility)
             exercises.values.filter { !it.archived }.map { ex ->
                 val name = ex.name.resolve(context)
                 val equipment = context.getString(ex.equipment.labelRes)
                 val primary = ex.primary.sortedBy { it.ordinal }.map { context.getString(it.labelRes) }
                 val secondary = ex.secondary.sortedBy { it.ordinal }.map { context.getString(it.labelRes) }
+                val kind = listOfNotNull(stretching.takeIf { ex.mobility })
                 BrowseItem(
                     exercise = ex,
                     name = name,
-                    subtitle = (primary.ifEmpty { listOf(equipment) }).joinToString(" · "),
-                    haystack = TrainingFormat.normalize((listOf(name, equipment) + primary + secondary).joinToString(" ")),
+                    subtitle = (kind + primary.ifEmpty { listOf(equipment) }).joinToString(" · "),
+                    haystack = TrainingFormat.normalize((listOf(name, equipment) + kind + primary + secondary).joinToString(" ")),
                 )
             }.sortedWith { a, b -> collator.compare(a.name, b.name) }
         }
@@ -114,14 +117,17 @@ private fun rememberBrowseItems(exercises: Map<String, Exercise>): List<BrowseIt
     return state.value
 }
 
-/** Search text and muscle / equipment filters shared by the picker and the catalog. */
+/**
+ * Search text and muscle / equipment filters shared by the picker and the catalog. A muscle lists
+ * the exercises that train it, not the sports that move it (they have their own section).
+ */
 private class BrowseFilter(val query: String, val muscle: Muscle?, val equipment: Equipment?) {
     val active: Boolean get() = query.isNotBlank() || muscle != null || equipment != null
 
     private val tokens = TrainingFormat.searchTokens(query)
 
     fun accepts(item: BrowseItem): Boolean =
-        (muscle == null || muscle in item.exercise.primary) &&
+        (muscle == null || (muscle in item.exercise.primary && item.exercise.equipment != Equipment.SPORT)) &&
             (equipment == null || item.exercise.equipment == equipment) &&
             TrainingFormat.matches(tokens, item.haystack)
 }
@@ -240,7 +246,8 @@ private fun CreateRow(onCreate: () -> Unit) {
 
 /**
  * Chooses exercises to add to a workout or a routine ([onAdd] gets them, then the page leaves):
- * search, muscle and equipment filters, favourites and recent ones first, then every exercise A–Z.
+ * search, muscle and equipment filters, favourites and recent ones first, then every exercise A–Z
+ * and the sports and activities in their own section.
  * Several can be ticked and added at once. An exercise created from here comes back as
  * [createdExerciseId] and is ticked with the others ([onCreatedTicked] clears it).
  */
@@ -311,7 +318,7 @@ fun ExercisePickerScreen(
             if (filter.active) {
                 val found = items.filter(filter::accepts)
                 if (found.isEmpty()) item(key = "none") { EmptyText(stringResource(R.string.training_no_results)) }
-                pickerRows("found", found, vm, selected, toggle)
+                sportsLast("found", found) { section, list -> pickerRows(section, list, vm, selected, toggle) }
             } else {
                 val byId = items.associateBy { it.exercise.id }
                 val favorites = items.filter { it.exercise.favorite }
@@ -325,10 +332,22 @@ fun ExercisePickerScreen(
                     pickerRows("recent", recentItems, vm, selected, toggle)
                 }
                 item(key = "h-all") { SectionHeader(stringResource(R.string.training_all_exercises)) }
-                pickerRows("all", items, vm, selected, toggle)
+                sportsLast("all", items) { section, list -> pickerRows(section, list, vm, selected, toggle) }
             }
         }
     }
+}
+
+/**
+ * [list] as rows ([rows] gets a key prefix and a part of it): the sports and activities last, under
+ * their own header when other exercises come before them, so they do not mix with the gym A–Z.
+ */
+private fun LazyListScope.sportsLast(section: String, list: List<BrowseItem>, rows: LazyListScope.(String, List<BrowseItem>) -> Unit) {
+    val (others, sports) = list.partition { it.exercise.equipment != Equipment.SPORT }
+    rows(section, others)
+    if (sports.isEmpty()) return
+    if (others.isNotEmpty()) item(key = "$section-h-sports") { SectionHeader(stringResource(R.string.equipment_sport)) }
+    rows("$section-sports", sports)
 }
 
 /** Rows that tick an exercise; keys are prefixed because favourites and recent ones repeat in "all". */
@@ -357,10 +376,11 @@ private fun LazyListScope.pickerRows(
 
 /**
  * The exercise and machine catalog: every exercise, the user's machines or the favourites, with
- * the same search and filters as the picker. A row opens the exercise; the button creates a machine.
+ * the same search and filters as the picker. A row opens the exercise; the button creates a machine,
+ * or an activity while the sports filter is on ([onCreate] gets whether it is a sport).
  */
 @Composable
-fun CatalogScreen(onBack: () -> Unit, onOpenExercise: (String) -> Unit, onCreate: () -> Unit) {
+fun CatalogScreen(onBack: () -> Unit, onOpenExercise: (String) -> Unit, onCreate: (sport: Boolean) -> Unit) {
     val vm = trainingViewModel()
     val exercises by vm.exercises.collectAsStateWithLifecycle()
     val items = rememberBrowseItems(exercises)
@@ -384,10 +404,11 @@ fun CatalogScreen(onBack: () -> Unit, onOpenExercise: (String) -> Unit, onCreate
         title = stringResource(R.string.training_catalog_title),
         onBack = onBack,
         floatingActionButton = {
+            val sport = equipment == Equipment.SPORT
             ExtendedFloatingActionButton(
-                onClick = onCreate,
+                onClick = { onCreate(sport) },
                 icon = { Icon(Icons.Filled.Add, contentDescription = null) },
-                text = { Text(stringResource(R.string.training_new_machine)) },
+                text = { Text(stringResource(if (sport) R.string.training_new_activity else R.string.training_new_machine)) },
             )
         },
     ) { padding ->
@@ -428,13 +449,15 @@ fun CatalogScreen(onBack: () -> Unit, onOpenExercise: (String) -> Unit, onCreate
                             modifier = Modifier.padding(start = 16.dp, top = 12.dp, bottom = 4.dp),
                         )
                     }
-                    items(list, key = { it.exercise.id }) { item ->
-                        ExerciseRow(
-                            item = item,
-                            vm = vm,
-                            modifier = Modifier.clickable(onClickLabel = stringResource(R.string.training_open_exercise)) { onOpenExercise(item.exercise.id) },
-                            trailing = { ExerciseInfoButton(item.exercise, onOpenProgress = { onOpenExercise(item.exercise.id) }) },
-                        )
+                    sportsLast("catalog", list) { _, part ->
+                        items(part, key = { it.exercise.id }) { item ->
+                            ExerciseRow(
+                                item = item,
+                                vm = vm,
+                                modifier = Modifier.clickable(onClickLabel = stringResource(R.string.training_open_exercise)) { onOpenExercise(item.exercise.id) },
+                                trailing = { ExerciseInfoButton(item.exercise, onOpenProgress = { onOpenExercise(item.exercise.id) }) },
+                            )
+                        }
                     }
                 }
             }

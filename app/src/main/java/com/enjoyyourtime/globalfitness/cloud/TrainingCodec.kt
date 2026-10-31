@@ -7,6 +7,7 @@ import com.enjoyyourtime.globalfitness.cloud.FirestoreCodec.F_EDITED_AT
 import com.enjoyyourtime.globalfitness.cloud.FirestoreCodec.F_SCHEMA
 import com.enjoyyourtime.globalfitness.training.catalog.RoutineCatalog
 import com.enjoyyourtime.globalfitness.training.data.TrainingRepository
+import com.enjoyyourtime.globalfitness.training.domain.WorkoutTime
 import com.enjoyyourtime.globalfitness.training.model.CustomExercise
 import com.enjoyyourtime.globalfitness.training.model.Equipment
 import com.enjoyyourtime.globalfitness.training.model.ExerciseKind
@@ -15,6 +16,7 @@ import com.enjoyyourtime.globalfitness.training.model.Routine
 import com.enjoyyourtime.globalfitness.training.model.RoutineExercise
 import com.enjoyyourtime.globalfitness.training.model.Workout
 import com.enjoyyourtime.globalfitness.training.model.WorkoutEntry
+import com.enjoyyourtime.globalfitness.training.model.WorkoutPause
 import com.enjoyyourtime.globalfitness.training.model.WorkoutSet
 import java.io.ByteArrayOutputStream
 import java.security.MessageDigest
@@ -26,7 +28,7 @@ import java.security.MessageDigest
  * `editedAt`, as in `meta/profile`.
  *
  * Layout under `users/{uid}/` (document ids encoded with [docId]):
- * - `workouts/{workoutId}`: one document per workout with its entries and sets embedded
+ * - `workouts/{workoutId}`: one document per workout with its entries, sets and pauses embedded
  *   (a few KB; far below the 1 MiB document limit).
  * - `customExercises/{exerciseId}`: the user's own exercises and machines.
  * - `exerciseNotes/{exerciseId}`: machine settings, favorite star and `photoHash` (or null).
@@ -37,18 +39,40 @@ import java.security.MessageDigest
  * - Tombstones (every document collection): `{schemaVersion, deleted: true, deletedAt}`.
  *
  * Forward compatibility: a future version that adds fields or codes an older app cannot keep (a new
- * exercise kind, a per-set or per-routine-exercise field...) must raise [TRAINING_SCHEMA_VERSION].
+ * exercise kind, a per-set or per-routine-exercise field...) must raise the version of the documents
+ * that use them (per document: [SPORT_SCHEMA_VERSION] is only on custom sports) and
+ * [READABLE_SCHEMA_VERSION].
  * Older apps then read such documents but never overwrite them ([RemoteDocs.readOnly]), so nothing is
  * downgraded; their own edits of those documents stay on the phone until the app is updated.
  * Deletions still sync. A new collection needs no raise: older apps never read it, so they cannot
  * downgrade it (that is how `routines` was added, at schema version 1), and raising the version would
- * make every document of the existing collections read-only for them.
+ * make every document of the existing collections read-only for them. Neither does a new top-level
+ * field that an older app can leave as it is: live documents are written merged (see
+ * FirestoreTrainingRemote), so an older app's edit of a workout keeps its `pauses` (that is how they
+ * were added, at schema version 1). That app restores the workout without them (its duration then
+ * includes the pauses) but never removes them; a pause left open by a workout it finished ends with
+ * the workout here ([WorkoutTime.normalize]).
  */
 object TrainingCodec {
     const val PHOTOS = "exercisePhotos"
 
     /** Training documents have their own schema version (independent of [CLOUD_SCHEMA_VERSION]). */
     const val TRAINING_SCHEMA_VERSION = 1
+
+    /**
+     * Version of a custom exercise whose equipment is [Equipment.SPORT] (1.4.0): an app older than
+     * that code would store it as [Equipment.OTHER] and write it back so. With this version 1.3.0
+     * keeps the document read-only ([RemoteDocs.readOnly]): it still lists the exercise (as "Other",
+     * its workouts and routines keep it), but never overwrites the cloud copy; its own edits of that
+     * exercise stay on that phone, a deletion still syncs. Every other document stays at
+     * [TRAINING_SCHEMA_VERSION], so 1.3.0 keeps writing them. Accepted gap: a 1.3.0 phone keeps its
+     * local "Other" copy after updating, until the exercise changes again on any phone (incremental
+     * pulls do not read an unchanged document again).
+     */
+    const val SPORT_SCHEMA_VERSION = 2
+
+    /** The highest version this app reads and writes in full: documents above it are newer ([isNewerSchema]). */
+    const val READABLE_SCHEMA_VERSION = SPORT_SCHEMA_VERSION
 
     const val F_BYTES = "bytes"
     const val F_SIZE = "size"
@@ -135,8 +159,12 @@ object TrainingCodec {
         return RemoteDocs(live, dead, complete, maxUpdatedAt, readOnly)
     }
 
-    /** Written by a newer app version that may store what this one cannot (see the class comment). */
-    fun isNewerSchema(data: Map<String, Any?>): Boolean = ((data[F_SCHEMA] as? Number)?.toInt() ?: 1) > TRAINING_SCHEMA_VERSION
+    /**
+     * Written by a newer app version that may store what this one cannot (see the class comment).
+     * [readerVersion]: the highest version the reading app knows (1.3.0 knew only 1).
+     */
+    fun isNewerSchema(data: Map<String, Any?>, readerVersion: Int = READABLE_SCHEMA_VERSION): Boolean =
+        ((data[F_SCHEMA] as? Number)?.toInt() ?: 1) > readerVersion
 
     // ---- Photos ------------------------------------------------------------------------------
 
@@ -158,6 +186,8 @@ object TrainingCodec {
         "name" to w.name,
         "note" to w.note,
         F_EDITED_AT to w.updatedAt,
+        // Always written, even empty: the merged write must replace the pauses of an earlier version.
+        "pauses" to w.pauses.map { p -> buildMap { put("start", p.start); p.end?.let { put("end", it) } } },
         "entries" to w.entries.map { e ->
             // Null fields are left out inside the arrays: they are always rewritten whole.
             buildMap {
@@ -183,8 +213,9 @@ object TrainingCodec {
     }
 
     /**
-     * Malformed entries and sets are skipped; a workout without a start time is ignored. Entry and set
-     * ids repeated inside the document get a [derivedId] (the database needs them unique).
+     * Malformed entries, sets and pauses are skipped; a workout without a start time is ignored. Entry
+     * and set ids repeated inside the document get a [derivedId] (the database needs them unique), and
+     * the pauses are [WorkoutTime.normalize]d (sorted, inside the workout, not overlapping).
      */
     fun workoutFromMap(id: String, data: Map<String, Any?>, updatedAtMillis: Long?): Decoded<Workout>? {
         tombstoneOf(id, data, updatedAtMillis)?.let { return it }
@@ -215,15 +246,21 @@ object TrainingCodec {
                 note = e["note"] as? String,
             )
         }
+        val endedAt = long(data["endedAt"])
+        val pauses = (data["pauses"] as? List<*>).orEmpty().mapNotNull { raw ->
+            val p = raw as? Map<*, *> ?: return@mapNotNull null
+            WorkoutPause(long(p["start"]) ?: return@mapNotNull null, long(p["end"]))
+        }
         return Decoded.Live(
             Workout(
                 id = id,
                 startedAt = startedAt,
-                endedAt = long(data["endedAt"]),
+                endedAt = endedAt,
                 name = data["name"] as? String,
                 note = data["note"] as? String,
                 updatedAt = long(data[F_EDITED_AT]) ?: updatedAtMillis ?: startedAt,
                 entries = entries,
+                pauses = WorkoutTime.normalize(pauses, startedAt, endedAt),
             ),
         )
     }
@@ -247,8 +284,9 @@ object TrainingCodec {
 
     // ---- Custom exercises --------------------------------------------------------------------
 
+    /** A sport's document is written at [SPORT_SCHEMA_VERSION], every other one at [TRAINING_SCHEMA_VERSION]. */
     fun customExerciseToMap(c: CustomExercise): Map<String, Any?> = mapOf(
-        F_SCHEMA to TRAINING_SCHEMA_VERSION,
+        F_SCHEMA to if (c.equipment == Equipment.SPORT) SPORT_SCHEMA_VERSION else TRAINING_SCHEMA_VERSION,
         F_DELETED to false,
         "name" to c.name,
         "kind" to c.kind.code,

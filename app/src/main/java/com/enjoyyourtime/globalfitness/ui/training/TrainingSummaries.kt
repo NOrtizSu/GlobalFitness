@@ -1,16 +1,21 @@
 package com.enjoyyourtime.globalfitness.ui.training
 
+import com.enjoyyourtime.globalfitness.health.WorkoutExportPlanner
+import com.enjoyyourtime.globalfitness.training.catalog.SportsCatalog
 import com.enjoyyourtime.globalfitness.training.data.WorkoutEdits
 import com.enjoyyourtime.globalfitness.training.domain.ExerciseHistory
 import com.enjoyyourtime.globalfitness.training.domain.ExerciseSession
 import com.enjoyyourtime.globalfitness.training.domain.LoadModel
 import com.enjoyyourtime.globalfitness.training.domain.RecordKind
+import com.enjoyyourtime.globalfitness.training.domain.TrainingMath
+import com.enjoyyourtime.globalfitness.training.domain.WorkoutTime
 import com.enjoyyourtime.globalfitness.training.model.Equipment
 import com.enjoyyourtime.globalfitness.training.model.Exercise
 import com.enjoyyourtime.globalfitness.training.model.ExerciseKind
 import com.enjoyyourtime.globalfitness.training.model.Muscle
 import com.enjoyyourtime.globalfitness.training.model.Workout
 import com.enjoyyourtime.globalfitness.training.model.WorkoutEntry
+import com.enjoyyourtime.globalfitness.training.model.WorkoutPause
 import com.enjoyyourtime.globalfitness.training.model.WorkoutSet
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -41,6 +46,26 @@ object SetTable {
         // Cardio has four values: the last session shows as the cells' placeholders instead.
         ExerciseKind.CARDIO -> SetColumns(previous = false, fields = listOf(SetField.TIME, SetField.DISTANCE, SetField.LEVEL, SetField.KCAL))
     }
+
+    /**
+     * The columns of [exercise]: those of its kind, except that a sport or activity has no machine
+     * level, and a distance only where it covers one ([SportsCatalog.coversDistance]), and a stretch
+     * or mobility drill only its time (nothing to load).
+     */
+    fun columns(exercise: Exercise): SetColumns {
+        val columns = columns(exercise.kind)
+        if (exercise.mobility && exercise.kind == ExerciseKind.DURATION) return columns.copy(fields = listOf(SetField.TIME))
+        if (!TrainingMath.isSport(exercise)) return columns
+        val distance = SportsCatalog.coversDistance(exercise)
+        return columns.copy(fields = columns.fields.filter { it != SetField.LEVEL && (distance || it != SetField.DISTANCE) })
+    }
+
+    /**
+     * Whether ticking a set of [exercise] in a live workout starts the rest timer: not after a sport
+     * or activity (the match was the session) nor a stretch (held one after another); cardio machines
+     * and strength sets keep it.
+     */
+    fun startsRest(exercise: Exercise): Boolean = !TrainingMath.isSport(exercise) && !exercise.mobility
 
     /** Whether the set has the value that defines it (reps, time or distance). */
     fun hasValues(set: WorkoutSet, kind: ExerciseKind): Boolean = when (kind) {
@@ -273,6 +298,26 @@ object WorkoutUiEdits {
     /** When a set ticked in a past workout happened: its end (sets of live workouts use the clock). */
     fun doneAtFor(w: Workout, now: Long): Long = if (w.inProgress) now else (w.endedAt ?: now).coerceAtLeast(w.startedAt)
 
+    /**
+     * The set [setId] of [entryId] as [filled], ticked ([done]) or unticked at [now] (see
+     * [doneAtFor]). Ticking one in a paused workout resumes it: a set means the user trains again
+     * (from [resumeAtForTick]).
+     */
+    fun tick(w: Workout, entryId: String, setId: String, filled: WorkoutSet, done: Boolean, now: Long): Workout {
+        val changed = WorkoutEdits.updateSet(w, entryId, setId) { filled.copy(done = done, doneAt = if (done) doneAtFor(w, now) else null) }
+        return if (done && changed.paused) WorkoutTime.resume(changed, resumeAtForTick(changed, filled, now)) else changed
+    }
+
+    /**
+     * When a set ticked at [now] in the paused [w] resumed it: when the set began (its expected
+     * length before [now]), never before the pause did. The user trained without resuming first, and
+     * the set then lies after the pause, not inside it (a whole pause shorter than the set is dropped).
+     */
+    fun resumeAtForTick(w: Workout, set: WorkoutSet, now: Long): Long {
+        val pause = w.pauses.lastOrNull()?.takeIf { it.end == null } ?: return now
+        return maxOf(pause.start, now - WorkoutExportPlanner.nominalMs(set)).coerceAtMost(now)
+    }
+
     /** Ticks every filled-in set that is not done yet ("finish: complete the remaining sets"). */
     fun completeFilled(w: Workout, kindOf: (String) -> ExerciseKind, now: Long): Workout {
         val at = doneAtFor(w, now)
@@ -294,12 +339,14 @@ object WorkoutUiEdits {
         w.entries.sumOf { e -> e.sets.count { !it.done && SetTable.hasValues(it, kindOf(e.exerciseId)) } }
 
     /**
-     * Moves the workout to [start] (and, for a finished one, makes it last until [end]). Sets of a
-     * finished workout move along and stay inside it, so their statistics keep the right day.
+     * Moves the workout to [start] (and, for a finished one, makes it last until [end]). Sets and
+     * pauses of a finished workout move along and stay inside it, so their statistics keep the right
+     * day; those of a workout in progress keep their real times (only pauses before the new start
+     * are cut).
      */
     fun retime(w: Workout, start: Long, end: Long?): Workout {
         val delta = start - w.startedAt
-        if (w.inProgress) return w.copy(startedAt = start)
+        if (w.inProgress) return w.copy(startedAt = start, pauses = WorkoutTime.normalize(w.pauses, start, null))
         val newEnd = (end ?: w.endedAt?.plus(delta) ?: start).coerceAtLeast(start)
         return w.copy(
             startedAt = start,
@@ -307,6 +354,7 @@ object WorkoutUiEdits {
             entries = w.entries.map { e ->
                 e.copy(sets = e.sets.map { s -> s.doneAt?.let { s.copy(doneAt = (it + delta).coerceIn(start, newEnd)) } ?: s })
             },
+            pauses = WorkoutTime.normalize(WorkoutTime.shifted(w.pauses, delta), start, newEnd),
         )
     }
 }
@@ -323,10 +371,15 @@ data class WorkoutSummary(
     val volumeKg: Double,
     val muscles: List<Muscle>,
     val exerciseIds: List<String>,
+    val pauses: List<WorkoutPause> = emptyList(),
 ) {
     val inProgress: Boolean get() = endedAt == null
 
-    val durationMs: Long? get() = endedAt?.let { (it - startedAt).coerceAtLeast(0) }
+    /** In progress and paused right now. */
+    val paused: Boolean get() = inProgress && pauses.isNotEmpty() && pauses.last().end == null
+
+    /** Time trained (pauses left out); null while in progress. */
+    val durationMs: Long? get() = endedAt?.let { WorkoutTime.activeMs(startedAt, it.coerceAtLeast(startedAt), pauses) }
 }
 
 /** Workouts, working sets and volume of the current calendar week, and the days trained. */
@@ -359,6 +412,7 @@ object TrainingSummaries {
             .take(maxMuscles)
             .map { it.key },
         exerciseIds = w.entries.map { it.exerciseId },
+        pauses = w.pauses,
     )
 
     /** First day of the week containing [today], for a locale whose weeks start on [firstDay]. */
@@ -435,6 +489,8 @@ object WorkoutRecords {
         for (e in w.entries) {
             val before = seen.getOrPut(e.exerciseId) { ArrayList() }
             val ex = exercise(e.exerciseId)
+            // Stretches are logged by time but a longer hold is no personal record.
+            if (!TrainingMath.hasRecords(ex)) continue
             val loadOf = { s: WorkoutSet -> load.loadKg(ex, s, times[s.id] ?: s.doneAt ?: w.startedAt) }
             for (s in e.sets) {
                 if (!s.isWorking) continue
@@ -496,6 +552,12 @@ enum class ProgressMetric {
             ExerciseKind.ASSISTED_REPS -> listOf(E1RM, LEAST_ASSISTANCE, MAX_REPS)
             ExerciseKind.DURATION -> listOf(LONGEST, TOTAL_TIME, HEAVIEST)
             ExerciseKind.CARDIO -> listOf(TOTAL_TIME, DISTANCE)
+        }
+
+        /** [forKind], without a distance chart for a sport that logs none (football, yoga...). */
+        fun forExercise(exercise: Exercise): List<ProgressMetric> {
+            val metrics = forKind(exercise.kind, exercise.bodyweightFactor != null)
+            return if (TrainingMath.isSport(exercise) && !SportsCatalog.coversDistance(exercise)) metrics - DISTANCE else metrics
         }
     }
 }

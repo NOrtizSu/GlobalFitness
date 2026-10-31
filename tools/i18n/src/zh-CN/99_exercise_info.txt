@@ -17,3 +17,5 @@ training_info_no_guide = 此动作由你创建，因此没有分步指南。
 training_info_no_guide_add = 在其页面上添加照片和器械设置，方便记住你的使用方式。
 # Button: opens the exercise's page (progress chart, records, history)
 training_info_progress = 查看进度
+training_mobility = 拉伸
+training_mobility_note = 这是拉伸或活动度练习：按时间记录。不计入每周组数、恢复或纪录。

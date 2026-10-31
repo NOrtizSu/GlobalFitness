@@ -81,7 +81,8 @@ internal fun concentrationCurl() = Motion.rep(Tempo.liftFirst(), Camera(40f)) { 
     val knee = body.legOf(Side.NEAR).knee
     val brace = lerp(body.hip(Side.NEAR), knee, 0.72f) + V3.Z * (-0.07f) + V3.Y * 0.06f
     val upperDir = (brace - body.shoulder(Side.NEAR)).unit()
-    body.armAngles(Side.NEAR, upperDir, lerp(8f, 135f, p), fold = v(-0.3f, 1f, -0.1f))
+    // The forearm folds forward and in, so the dumbbell rises in front of the chest (never back into the trunk).
+    body.armAngles(Side.NEAR, upperDir, lerp(8f, 135f, p), fold = v(1f, 0f, -0.6f))
     body.arm(Side.FAR, body.legOf(Side.FAR).knee + V3.Y * 0.07f, v(-0.2f, -0.3f, -1f))
     dumbbell(body.handOf(Side.NEAR))
 }

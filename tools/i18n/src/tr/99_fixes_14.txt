@@ -1,0 +1,11 @@
+# Fixes after the review of the 1.4 work (pause, notification, sports, gym catalog)
+training_view_workout = Antrenmanı gör
+workout_notification_allow = Bildirimlere izin ver
+training_duration_adjusted = Süre %1$s olarak ayarlandı
+training_kind_sport_text = Süre, varsa mesafe ve kalori: maç, yürüyüş, ders.
+training_sport_notes = Notlar
+training_sport_notes_hint = Örn. kort 3, salı ligi
+training_photo_add_text_sport = Bir bakışta tanıyabilmeniz için.
+training_info_no_guide_add_sport = Hatırlamak için sayfasına bir fotoğraf ve notlarınızı ekleyin.
+training_new_activity = Yeni aktivite
+training_photo_add_sport = Fotoğraf ekleyin

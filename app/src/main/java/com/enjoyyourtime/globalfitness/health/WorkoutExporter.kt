@@ -14,7 +14,6 @@ import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.UiText
 import com.enjoyyourtime.globalfitness.training.data.TrainingRepository
 import com.enjoyyourtime.globalfitness.training.data.TrainingSettings
-import com.enjoyyourtime.globalfitness.training.model.ExerciseKind
 import com.enjoyyourtime.globalfitness.training.model.Workout
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
@@ -62,7 +61,9 @@ data class WorkoutExportState(
  *
  * Turning the switch off stops writing but deletes nothing: what is already in Health Connect is
  * the user's training history there (they can remove it in Health Connect), as with the scale
- * switch. A mixed workout stays one strength session; see [WorkoutExportPlanner.segmentType].
+ * switch. A mixed workout stays one strength session; see [WorkoutExportPlanner.segmentType]. A
+ * workout that is one sport is saved as that sport, titled with its name unless it has its own (a
+ * workout of several sports: their names, "Football + Walking"; see [WorkoutExerciseInfo.of]).
  */
 class WorkoutExporter(
     private val gateway: HealthConnectGateway,
@@ -73,6 +74,8 @@ class WorkoutExporter(
     private val ownPackage: String,
     /** Localized title for a workout without a name, by exercise type (resolved at export time). */
     private val genericTitle: (exerciseType: Int) -> String,
+    /** An exercise's name in the current language: the title of a workout that is one sport (see [WorkoutExerciseInfo.title]). */
+    private val exerciseName: (UiText) -> String? = { null },
     private val io: CoroutineDispatcher = Dispatchers.IO,
     private val clock: () -> Long = System::currentTimeMillis,
     private val zone: () -> ZoneId = ZoneId::systemDefault,
@@ -244,10 +247,7 @@ class WorkoutExporter(
         }
     }
 
-    private fun exerciseInfo(id: String): WorkoutExerciseInfo {
-        val e = repository.exercise(id)
-        return WorkoutExerciseInfo(cardio = e.kind == ExerciseKind.CARDIO, hcSegment = e.hcSegment, hcSession = e.hcSession)
-    }
+    private fun exerciseInfo(id: String): WorkoutExerciseInfo = WorkoutExerciseInfo.of(repository.exercise(id), exerciseName)
 
     /** This app's exercise sessions in Health Connect (all pages); null when they cannot be read now. */
     private suspend fun readOwnSessions(client: HealthConnectClient): List<StoredSession>? = try {

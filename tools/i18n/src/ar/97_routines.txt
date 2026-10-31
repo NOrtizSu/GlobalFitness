@@ -12,4 +12,5 @@ routine_shoulders = الأكتاف
 routine_arms = الذراعان
 routine_glutes = الأرداف
 routine_core = الجذع والبطن
+routine_mobility = الحركية والإطالة
 routine_cardio_mix = أجهزة الكارديو

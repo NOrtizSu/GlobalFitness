@@ -3,6 +3,7 @@
 package com.enjoyyourtime.globalfitness.ui.training
 
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.net.Uri
 import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -27,10 +28,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -39,6 +44,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -70,9 +76,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.enjoyyourtime.globalfitness.R
+import com.enjoyyourtime.globalfitness.training.domain.WorkoutTime
+import com.enjoyyourtime.globalfitness.training.live.RestTimer
 import com.enjoyyourtime.globalfitness.training.model.Exercise
 import com.enjoyyourtime.globalfitness.training.model.LoadUnit
 import com.enjoyyourtime.globalfitness.training.model.Muscle
+import com.enjoyyourtime.globalfitness.training.model.WorkoutPause
 import com.enjoyyourtime.globalfitness.ui.Fmt
 import com.enjoyyourtime.globalfitness.ui.components.TopBarTitle
 import com.enjoyyourtime.globalfitness.ui.navigation.ReserveAppSnackbarSpace
@@ -143,8 +152,9 @@ fun Modifier.subPageContent(padding: PaddingValues): Modifier =
 
 /**
  * Signals the end of the rest timer with two short haptic pulses, only on the screen in front and
- * while the app is open (no notification, no sound). A timer that ended in the background, or long
- * ago, is cleared silently. Several screens may host this effect: the view model hands each end out
+ * while the app is open (no sound; the workout's notification only shows the countdown). A timer
+ * that ended in the background, or long ago, is cleared silently; one standing still while the
+ * workout is paused waits. Several screens may host this effect: the view model hands each end out
  * once.
  */
 @Composable
@@ -152,7 +162,7 @@ fun RestTimerEffect(vm: TrainingViewModel) {
     val rest by vm.rest.collectAsStateWithLifecycle()
     val haptic = LocalHapticFeedback.current
     val lifecycle = LocalLifecycleOwner.current.lifecycle
-    val timer = rest ?: return
+    val timer = rest?.takeIf { !it.paused } ?: return
     LaunchedEffect(timer) {
         delay((timer.endsAt - System.currentTimeMillis()).coerceAtLeast(0))
         val late = System.currentTimeMillis() - timer.endsAt > LATE_REST_END_MS
@@ -317,34 +327,101 @@ private fun MuscleLabel(text: String, container: Color, content: Color, border: 
     }
 }
 
-/** Live time since [startedAt] ("32:15", "1:02:03"), ticking every second. */
+/**
+ * Live time trained since [startedAt] ("32:15", "1:02:03"), ticking every second; [pauses] do not
+ * count, so it stands still while the workout is paused.
+ */
 @Composable
-fun ElapsedText(vm: TrainingViewModel, startedAt: Long, style: TextStyle, color: Color, modifier: Modifier = Modifier) {
+fun ElapsedText(
+    vm: TrainingViewModel,
+    startedAt: Long,
+    pauses: List<WorkoutPause>,
+    style: TextStyle,
+    color: Color,
+    modifier: Modifier = Modifier,
+    maxLines: Int = Int.MAX_VALUE,
+) {
     val now by vm.clock.collectAsStateWithLifecycle()
-    val ms = (now - startedAt).coerceAtLeast(0)
+    val ms = WorkoutTime.activeMs(startedAt, maxOf(now, startedAt), pauses)
     val description = stringResource(R.string.training_elapsed_desc, durationText(ms))
     Text(
         TrainingFormat.duration((ms / 1000).toInt(), Fmt.locale),
         style = style.merge(TabularNumbers),
         color = color,
+        maxLines = maxLines,
         modifier = modifier.clearAndSetSemantics { contentDescription = description },
     )
 }
 
-/** Seconds of rest left, rounded up (0 once it ended). */
-fun restRemainingSec(rest: RestTimer, now: Long): Int = ((rest.endsAt - now).coerceAtLeast(0) + 999).div(1000).toInt()
+/** Seconds of rest left, rounded up (0 once it ended); it stands still while the workout is paused. */
+fun restRemainingSec(rest: RestTimer, now: Long): Int = (rest.leftMs(now) + 999).div(1000).toInt()
 
-/** "Rest 1:12" for cards. */
+/** "Paused", next to the clock of a paused workout. */
+@Composable
+fun PausedLabel(color: Color, modifier: Modifier = Modifier) {
+    Row(modifier, verticalAlignment = Alignment.CenterVertically) {
+        Icon(TrainingIcons.Pause, contentDescription = null, tint = color, modifier = Modifier.size(18.dp))
+        Spacer(Modifier.width(4.dp))
+        Text(stringResource(R.string.workout_paused), style = MaterialTheme.typography.labelLarge, color = color)
+    }
+}
+
+/** Pause or resume the workout in progress (its rest timer too): one tonal button, at least 48 dp high. */
+@Composable
+fun PauseResumeButton(paused: Boolean, onPause: () -> Unit, onResume: () -> Unit, modifier: Modifier = Modifier) {
+    FilledTonalButton(onClick = if (paused) onResume else onPause, modifier = modifier.heightIn(min = 48.dp)) {
+        Icon(if (paused) Icons.Filled.PlayArrow else TrainingIcons.Pause, contentDescription = null, modifier = Modifier.size(18.dp))
+        Spacer(Modifier.width(8.dp))
+        Text(stringResource(if (paused) R.string.workout_resume else R.string.workout_pause))
+    }
+}
+
+/**
+ * The buttons of the in-progress cards (Hoy, Entreno). Running: "Continue" opens the workout and
+ * "Pause" pauses it. Paused: "Resume" (the filled one) and "View workout", which only opens it.
+ * Each with its own icon, so the two that both look like "go on" are never side by side.
+ */
+@Composable
+fun ActiveWorkoutButtons(paused: Boolean, onOpen: () -> Unit, onPause: () -> Unit, onResume: () -> Unit, modifier: Modifier = Modifier) {
+    FlowRow(modifier, horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        if (paused) {
+            Button(onClick = onResume, modifier = Modifier.heightIn(min = 48.dp)) {
+                Icon(Icons.Filled.PlayArrow, contentDescription = null, modifier = Modifier.size(18.dp))
+                Spacer(Modifier.width(8.dp))
+                Text(stringResource(R.string.workout_resume))
+            }
+            TextButton(onClick = onOpen, modifier = Modifier.heightIn(min = 48.dp)) {
+                Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null, modifier = Modifier.size(18.dp))
+                Spacer(Modifier.width(8.dp))
+                Text(stringResource(R.string.training_view_workout))
+            }
+        } else {
+            Button(onClick = onOpen, modifier = Modifier.heightIn(min = 48.dp)) {
+                Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null, modifier = Modifier.size(18.dp))
+                Spacer(Modifier.width(8.dp))
+                Text(stringResource(R.string.action_continue))
+            }
+            FilledTonalButton(onClick = onPause, modifier = Modifier.heightIn(min = 48.dp)) {
+                Icon(TrainingIcons.Pause, contentDescription = null, modifier = Modifier.size(18.dp))
+                Spacer(Modifier.width(8.dp))
+                Text(stringResource(R.string.workout_pause))
+            }
+        }
+    }
+}
+
+/** "Rest 1:12" for cards; "Rest paused · 1:12" while the workout is paused (the countdown stands still). */
 @Composable
 fun RestLine(vm: TrainingViewModel, rest: RestTimer, color: Color) {
     val now by vm.clock.collectAsStateWithLifecycle()
     val left = restRemainingSec(rest, now)
     if (left <= 0) return
+    val time = TrainingFormat.duration(left, Fmt.locale)
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Icon(TrainingIcons.Timer, contentDescription = null, tint = color, modifier = Modifier.size(18.dp))
+        Icon(if (rest.paused) TrainingIcons.Pause else TrainingIcons.Timer, contentDescription = null, tint = color, modifier = Modifier.size(18.dp))
         Spacer(Modifier.width(6.dp))
         Text(
-            stringResource(R.string.training_rest_value, TrainingFormat.duration(left, Fmt.locale)),
+            if (rest.paused) stringResource(R.string.workout_rest_paused) + " · " + time else stringResource(R.string.training_rest_value, time),
             style = MaterialTheme.typography.bodyMedium.merge(TabularNumbers),
             color = color,
         )
@@ -393,11 +470,14 @@ fun GroupedRow(
 
 /** The workout's name, else its main muscles, else its first exercise, else "Workout". */
 @Composable
-fun workoutTitle(summary: WorkoutSummary, exercises: Map<String, Exercise>): String {
+fun workoutTitle(summary: WorkoutSummary, exercises: Map<String, Exercise>): String = workoutTitle(LocalContext.current, summary, exercises)
+
+/** [workoutTitle] outside a composition (the workout's notification). */
+fun workoutTitle(context: Context, summary: WorkoutSummary, exercises: Map<String, Exercise>): String {
     summary.name?.let { return it }
-    if (summary.muscles.isNotEmpty()) return summary.muscles.take(2).map { it.label() }.joinToString(" · ")
+    if (summary.muscles.isNotEmpty()) return summary.muscles.take(2).joinToString(" · ") { context.getString(it.labelRes) }
     val first = summary.exerciseIds.firstOrNull()?.let { exercises[it] }
-    return first?.displayName() ?: stringResource(R.string.training_workout_default)
+    return first?.name?.resolve(context) ?: context.getString(R.string.training_workout_default)
 }
 
 /** "45 min", "1 h 05 min". */

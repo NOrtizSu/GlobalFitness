@@ -12,4 +12,5 @@ routine_shoulders = कंधे
 routine_arms = बाहें
 routine_glutes = ग्लूट्स
 routine_core = कोर और एब्स
+routine_mobility = मोबिलिटी और स्ट्रेचिंग
 routine_cardio_mix = कार्डियो मशीनें

@@ -1315,6 +1315,8 @@
     <string name="exg_hack_squat_machine_tips">• Keep your heels down and your knees tracking over your toes.\n• Feet higher on the platform work the glutes more; lower, the quads.\n• Don\'t let your hips come off the pad at the bottom.</string>
     <string name="exg_pendulum_squat_machine_steps">1. Step in with your back on the pad, shoulders under the pads and feet about hip-width apart.\n2. Stand up to take the weight and release the safety lever.\n3. Squat down as the pad swings along its arc, letting your knees travel forward, as deep as you can control.\n4. Drive back up through your whole foot without locking your knees; engage the safety when you finish.</string>
     <string name="exg_pendulum_squat_machine_tips">• Keep your heels down and your back pressed into the pad throughout.\n• Lower slowly and don\'t bounce at the bottom.</string>
+    <string name="exg_belt_squat_machine_steps">1. Stand on the platform and fasten the belt round your hips, with the chain hooked to it.\n2. Hold the handles, feet shoulder-width apart, and stand up to release the safety lever.\n3. Sit down between your feet with your chest up until your thighs are about parallel.\n4. Drive up through your whole foot to standing.</string>
+    <string name="exg_belt_squat_machine_tips">• The load hangs from your hips, so your back is spared: keep your trunk tall.\n• Use the handles for balance, not to pull yourself up.</string>
     <string name="exg_leg_extension_machine_steps">1. Set the backrest so your knees line up with the machine\'s pivot point.\n2. Set the roller on your lower shins, just above your ankles, and hold the side handles.\n3. Straighten your legs fully and squeeze your quads.\n4. Lower slowly without letting the plates touch.</string>
     <string name="exg_leg_extension_machine_tips">• Keep your hips and back against the seat; don\'t swing the weight up.\n• Move smoothly, without kicking.</string>
     <string name="exg_lying_leg_curl_machine_steps">1. Lie face down with your knees just off the edge of the bench, in line with the pivot point.\n2. Set the roller on the back of your lower legs, just above your heels, and hold the handles.\n3. Curl your heels toward your glutes as far as you can.\n4. Lower slowly until your legs are almost straight.</string>
@@ -1327,6 +1329,8 @@
     <string name="exg_seated_calf_raise_machine_tips">• Only your ankles move; don\'t push with your hands or lean back.\n• Pause at the bottom and at the top instead of bouncing.</string>
     <string name="exg_leg_press_calf_raise_steps">1. Sit in the leg press with the balls of your feet on the bottom edge of the platform, heels off.\n2. Straighten your legs, without locking your knees, and release the safety handles.\n3. Let the platform bring your toes back toward you as far as is comfortable.\n4. Push the platform away with your toes as far as you can, pause, and repeat.</string>
     <string name="exg_leg_press_calf_raise_tips">• Place your feet firmly so they can\'t slip off the platform.\n• Keep your knees still; only your ankles move.\n• Engage the safety handles before you bend your knees.</string>
+    <string name="exg_donkey_calf_raise_steps">1. Stand with the balls of your feet on the edge of the step, bend forward at the hips and set your hips under the pad.\n2. Hold the handles with your back flat and your knees almost straight.\n3. Lower your heels slowly as far as is comfortable.\n4. Rise onto your toes as high as you can and hold for a moment.</string>
+    <string name="exg_donkey_calf_raise_tips">• Only your ankles move; keep your hips and knees still.\n• Pause at the bottom instead of bouncing.</string>
     <string name="exg_hip_abductor_machine_steps">1. Sit with your back against the pad and the outside of your knees against the pads, legs together.\n2. Hold the handles and keep your back straight.\n3. Push your knees out to the sides as far as you can control.\n4. Return slowly without letting the plates touch.</string>
     <string name="exg_hip_abductor_machine_tips">• Leaning slightly forward works the glutes more; stay steady either way.\n• Move smoothly; don\'t let the pads snap your legs back together.</string>
     <string name="exg_hip_adductor_machine_steps">1. Set the starting width so you feel a light stretch in your inner thighs, then sit with your back on the pad.\n2. Place the inside of your knees against the pads and hold the handles.\n3. Squeeze your legs together until the pads meet.\n4. Open slowly back to the starting position.</string>
@@ -1337,6 +1341,8 @@
     <string name="exg_hip_thrust_machine_tips">• Keep your chin tucked and ribs down; don\'t arch your lower back at the top.\n• If you feel it mostly in your hamstrings, bring your feet a little closer.</string>
     <string name="exg_back_extension_machine_steps">1. Sit with your feet on the footrest and the pad on your upper back; fasten the belt if there is one.\n2. Cross your arms on your chest or hold the handles.\n3. Push back against the pad by extending your back until your torso is upright or slightly reclined.\n4. Return slowly to the start.</string>
     <string name="exg_back_extension_machine_tips">• Move smoothly and stop at a slight lean back; don\'t force the extension.\n• Use a moderate weight: this is a control exercise, not a max lift.</string>
+    <string name="exg_reverse_hyperextension_steps">1. Lie face down on the pad with your hips at its edge and your legs hanging down.\n2. Hook your ankles under the roller (or strap) and hold the handles.\n3. Squeeze your glutes to swing your legs up until they\'re in line with your body.\n4. Lower them slowly under control.</string>
+    <string name="exg_reverse_hyperextension_tips">• Lift with your glutes and keep the swing controlled; don\'t kick.\n• Stop at body level: going higher only loads your lower back.</string>
     <string name="exg_ab_crunch_machine_steps">1. Set the seat so the handles are at chest height and hook your feet under the rollers if there are any.\n2. Hold the handles and sit with your back against the pad.\n3. Crunch forward by curling your ribs toward your hips as you breathe out.\n4. Return slowly until your abs are stretched, without letting the weight rest.</string>
     <string name="exg_ab_crunch_machine_tips">• Curl your spine; don\'t just pull with your arms or bend at the hips.\n• Keep the movement slow and controlled.</string>
     <string name="exg_rotary_torso_machine_steps">1. Set the starting angle to one side and sit with your knees or legs against the pads, depending on the model.\n2. Place your chest or arms against the pads, hold the handles and keep your back straight.\n3. Turn your torso in a controlled arc from your waist, using your obliques, not your arms.\n4. Return slowly; finish your reps, then set the machine to the other side.</string>
@@ -1384,14 +1390,24 @@
     <string name="exg_cable_overhead_triceps_extension_tips">• Keep your elbows close to your head and still; only your forearms move.\n• Brace your core so your lower back doesn\'t arch.</string>
     <string name="exg_cable_curl_steps">1. Attach a straight or EZ bar to the low pulley and stand facing it, feet hip-width apart.\n2. Grip the bar palms up, shoulder-width apart, with your arms straight and elbows at your sides.\n3. Curl the bar toward your shoulders, squeezing your biceps.\n4. Lower slowly until your arms are straight.</string>
     <string name="exg_cable_curl_tips">• Keep your elbows at your sides; don\'t let them drift forward.\n• Don\'t lean back or swing to lift the weight.</string>
+    <string name="exg_cable_rope_hammer_curl_steps">1. Attach a rope to a low pulley and hold one end in each hand, palms facing each other.\n2. Stand tall facing the machine with your elbows by your sides.\n3. Curl the rope up toward your shoulders, palms still facing in.\n4. Lower slowly until your arms are straight.</string>
+    <string name="exg_cable_rope_hammer_curl_tips">• Keep your elbows pinned to your sides; don\'t swing your body.\n• The neutral grip works the forearms and the brachialis more than a regular curl.</string>
     <string name="exg_cable_crunch_steps">1. Attach a rope to the high pulley and kneel facing the machine, about an arm\'s length away.\n2. Hold the rope ends beside your head and hinge forward slightly at the hips.\n3. Crunch down by curling your ribs toward your hips until your elbows approach your thighs.\n4. Return slowly until your abs are stretched, keeping your hips still.</string>
     <string name="exg_cable_crunch_tips">• Curl your spine; don\'t sit back on your heels or pull with your arms.\n• Keep your hips high and in the same place throughout.</string>
     <string name="exg_cable_woodchop_steps">1. Set a pulley at the highest position with a handle and stand side-on to it, feet wider than your shoulders.\n2. Grip the handle with both hands, arms almost straight, above the shoulder nearest the machine.\n3. Pull it diagonally down and across your body to outside your opposite knee, rotating your torso.\n4. Return slowly along the same path; finish your reps and switch sides.</string>
     <string name="exg_cable_woodchop_tips">• Pivot on your back foot and turn from your torso and hips, keeping your arms long.\n• Control the return; don\'t let the cable pull you back.</string>
+    <string name="exg_cable_reverse_woodchop_steps">1. Set a handle on a low pulley and stand side-on to it, feet wider than your shoulders.\n2. Bend your knees a little and hold the handle with both hands beside the knee nearest the machine.\n3. Pull it up diagonally across your body to above the opposite shoulder, turning your trunk and pivoting your back foot.\n4. Return slowly along the same line; switch sides after the set.</string>
+    <string name="exg_cable_reverse_woodchop_tips">• Keep your arms long and move with your trunk and hips, not just your arms.\n• Brace your abs so the turn stays controlled.</string>
+    <string name="exg_pallof_press_steps">1. Set a handle at chest height and stand side-on to the machine, a step away so the cable is tight.\n2. Hold the handle with both hands at your chest, feet hip-width apart, knees soft.\n3. Press it straight out in front of you and hold for a moment without letting your body turn.\n4. Bring it back to your chest under control; switch sides after the set.</string>
+    <string name="exg_pallof_press_tips">• Your trunk resists the pull: hips and shoulders stay square to the front.\n• Brace your abs and breathe out as you press.</string>
     <string name="exg_cable_pull_through_steps">1. Attach a rope to the low pulley, face away from the machine and grip the rope between your legs.\n2. Walk forward a couple of steps and stand with your feet a little wider than hip-width.\n3. Hinge at the hips, pushing them back with a flat back, until you feel a stretch in your hamstrings.\n4. Drive your hips forward to stand up tall, squeezing your glutes at the top.</string>
     <string name="exg_cable_pull_through_tips">• It\'s a hip hinge, not a squat: keep your knees soft and push your hips back.\n• Don\'t lean back at the top; just stand tall.</string>
     <string name="exg_cable_glute_kickback_steps">1. Attach an ankle strap to the low pulley and fasten it around one ankle.\n2. Face the machine, hold the frame for support and hinge slightly forward.\n3. Kick the strapped leg back by extending your hip, knee slightly bent.\n4. Squeeze your glute, return slowly, and switch legs after your reps.</string>
     <string name="exg_cable_glute_kickback_tips">• Don\'t arch your lower back to lift the leg higher.\n• Keep your hips square; don\'t rotate your leg outward.</string>
+    <string name="exg_cable_hip_adduction_steps">1. Fasten an ankle strap to a low pulley and to the ankle nearest the machine, and stand side-on to it.\n2. Hold the machine for balance and let the cable draw your working leg out to the side.\n3. Bring the leg in across the front of your standing leg, keeping it straight.\n4. Return slowly out to the side; switch legs after the set.</string>
+    <string name="exg_cable_hip_adduction_tips">• Stand tall and keep your hips level; only the leg moves.\n• Use a light weight and a slow, controlled pace.</string>
+    <string name="exg_cable_hip_abduction_steps">1. Fasten an ankle strap to a low pulley and to the ankle farthest from the machine, and stand side-on to it.\n2. Hold the machine for balance; the cable crosses in front of your standing leg.\n3. Lift the working leg out to the side, straight, with your toes pointing forward.\n4. Lower it slowly back; switch legs after the set.</string>
+    <string name="exg_cable_hip_abduction_tips">• Don\'t lean away from the machine to lift higher: keep your trunk upright.\n• Lead with the heel, not the toes, to keep the work in your glutes.</string>
     <!-- Smith machine -->
     <string name="exg_smith_squat_steps">1. Set the bar at about shoulder height and the safety stops just below your lowest squat depth.\n2. Step under the bar, rest it on your upper back and place your feet slightly forward, shoulder-width apart.\n3. Rotate the bar to unhook it, then squat down until your thighs are about parallel to the floor.\n4. Drive up through your whole foot to standing; rotate the bar to hook it back on at the end.</string>
     <string name="exg_smith_squat_tips">• The bar moves on a fixed path: find a foot position that feels comfortable for your knees and back.\n• Keep your chest up and your knees in line with your toes.</string>
@@ -1403,8 +1419,16 @@
     <string name="exg_smith_shoulder_press_tips">• Keep your lower back against the pad; don\'t arch to push.\n• Set the safety stops so the bar can\'t come down onto your head.</string>
     <string name="exg_smith_split_squat_steps">1. Set the bar at about shoulder height, step under it and rest it on your upper back.\n2. Unhook the bar and take a long stance: one foot forward, the other back on its toes.\n3. Lower your back knee toward the floor until your front thigh is about parallel to it.\n4. Push through your front foot to rise; finish your reps, then switch legs.</string>
     <string name="exg_smith_split_squat_tips">• Keep your torso upright and your front knee in line with your toes.\n• Keep your feet in place for the whole set; the bar\'s fixed path keeps you balanced.</string>
+    <string name="exg_smith_bulgarian_split_squat_steps">1. Set a bench behind the Smith machine and the bar at shoulder height; get under it with the bar on your upper back.\n2. Step one foot forward and rest the top of the other foot on the bench behind you.\n3. Unrack the bar and lower straight down until your front thigh is about parallel.\n4. Push up through your front foot; finish the set and switch legs.</string>
+    <string name="exg_smith_bulgarian_split_squat_tips">• Place your front foot far enough forward that your knee stays over your foot.\n• Keep your trunk upright and most of your weight on the front leg.</string>
     <string name="exg_smith_hip_thrust_steps">1. Set the bar low, sit on the floor with your upper back against a bench and the padded bar over your hips.\n2. Place your feet flat, hip-width apart, and rotate the bar to unhook it.\n3. Drive through your heels to raise your hips until your knees, hips and shoulders are in line.\n4. Squeeze your glutes at the top, lower under control and hook the bar back on at the end.</string>
     <string name="exg_smith_hip_thrust_tips">• Use a pad on the bar and keep your chin tucked.\n• Don\'t arch your lower back at the top; finish the movement with your glutes.</string>
+    <string name="exg_smith_romanian_deadlift_steps">1. Set the bar at mid-thigh height and grip it just outside your thighs, feet hip-width apart.\n2. Unrack it and stand tall with your knees soft.\n3. Push your hips back and slide the bar down your thighs until you feel a stretch in your hamstrings, back flat.\n4. Drive your hips forward to stand back up.</string>
+    <string name="exg_smith_romanian_deadlift_tips">• The bar runs straight down the rails: stand so it stays close to your legs.\n• Stop when your back would start to round, usually around mid-shin.</string>
+    <string name="exg_smith_bent_over_row_steps">1. Set the bar low on the rails and grip it a little wider than your shoulders.\n2. Unrack it and hinge forward at the hips with your back flat and your knees soft.\n3. Pull the bar straight up to your lower ribs, squeezing your shoulder blades together.\n4. Lower it slowly until your arms are straight.</string>
+    <string name="exg_smith_bent_over_row_tips">• Keep your torso still: the bar moves, not your back.\n• Lead with your elbows and don\'t shrug.</string>
+    <string name="exg_smith_shrug_steps">1. Set the bar at mid-thigh height and grip it shoulder-width apart.\n2. Unrack it and stand tall with your arms straight.\n3. Lift your shoulders straight up toward your ears and squeeze for a moment.\n4. Lower them slowly all the way down.</string>
+    <string name="exg_smith_shrug_tips">• Move straight up and down; don\'t roll your shoulders.\n• Keep your arms straight: the elbows don\'t bend.</string>
     <string name="exg_smith_calf_raise_steps">1. Place a step or plate under the bar, set the bar at shoulder height and rest it on your upper back.\n2. Stand with the balls of your feet on the edge of the step, heels hanging off, and unhook the bar.\n3. Lower your heels slowly as far as is comfortable.\n4. Rise onto your toes as high as you can, pause, and repeat; hook the bar back on at the end.</string>
     <string name="exg_smith_calf_raise_tips">• Keep your knees straight but not locked; only your ankles move.\n• Pause at the bottom instead of bouncing.</string>
     <!-- Barbell and EZ bar -->
@@ -1416,20 +1440,30 @@
     <string name="exg_barbell_decline_bench_press_tips">• Have a spotter hand you the bar and help you rack it: the decline makes this awkward.\n• Lower slowly; don\'t bounce the bar off your chest.</string>
     <string name="exg_close_grip_bench_press_steps">1. Lie on a flat bench with your eyes under the bar and your feet flat.\n2. Grip the bar about shoulder-width apart (no narrower) and set your shoulder blades.\n3. Unrack the bar and lower it to your lower chest, keeping your elbows close to your body.\n4. Press it back up until your arms are straight, then rack it.</string>
     <string name="exg_close_grip_bench_press_tips">• A shoulder-width grip is enough; a very narrow grip strains the wrists.\n• Keep your elbows tucked and your wrists straight above your elbows.</string>
+    <string name="exg_jm_press_steps">1. Lie on a flat bench and grip the bar about shoulder-width apart, arms straight over your shoulders.\n2. Lower the bar toward your chin by bending your elbows, letting them point toward your feet.\n3. Stop a few centimetres above your chin or upper chest.\n4. Press back up to straight arms.</string>
+    <string name="exg_jm_press_tips">• It\'s a cross between a close-grip press and a skull crusher: keep the elbows in, not flared.\n• Use less weight than for a bench press, and a spotter or safety pins.</string>
     <string name="exg_barbell_overhead_press_steps">1. Set the bar in a rack at upper-chest height and grip it just outside your shoulders.\n2. Unrack it onto the front of your shoulders, step back and brace your glutes and core.\n3. Press the bar straight up, moving your head back slightly to let it pass, until your arms are straight.\n4. Lower it under control to the front of your shoulders.</string>
     <string name="exg_barbell_overhead_press_tips">• Squeeze your glutes and abs so your lower back doesn\'t arch.\n• Finish with the bar over your mid-foot and your head between your arms.</string>
+    <string name="exg_landmine_press_steps">1. Wedge one end of a bar in a landmine (or a corner) and load the other end.\n2. Stand facing it in a split stance, holding the loaded end at your shoulder with one hand.\n3. Press the bar up and forward until your arm is straight.\n4. Lower it back to your shoulder under control; switch sides after the set.</string>
+    <string name="exg_landmine_press_tips">• Brace your abs and don\'t lean back; the bar\'s arc does the work.\n• Easy on the shoulders: a good option if overhead presses bother you.</string>
     <string name="exg_barbell_back_squat_steps">1. Set the bar in a rack at about armpit height and the safety arms just below your lowest squat depth.\n2. Step under the bar, rest it on your upper back (not your neck), grip it firmly and stand up to unrack it.\n3. Step back, feet shoulder-width apart and toes slightly out, and squat down to parallel or below.\n4. Drive up through your whole foot to standing, then walk the bar back into the rack.</string>
     <string name="exg_barbell_back_squat_tips">• Brace your core before each rep and keep your chest up.\n• Keep your knees in line with your toes and your heels on the floor.\n• Use safety arms or a spotter when you go heavy.</string>
     <string name="exg_barbell_front_squat_steps">1. Set the bar in a rack at shoulder height and step under it so it rests on the front of your shoulders.\n2. Hold it with your fingertips under the bar (or arms crossed), elbows high, and stand up to unrack it.\n3. Step back, feet shoulder-width apart, and squat down keeping your torso upright and elbows up.\n4. Drive up through your whole foot to standing, then rack the bar.</string>
     <string name="exg_barbell_front_squat_tips">• Keep your elbows high so the bar doesn\'t roll forward.\n• Stay upright and let your knees travel forward over your toes.</string>
+    <string name="exg_zercher_squat_steps">1. Set the bar in a rack at about waist height.\n2. Hold it in the crook of your elbows, hands clasped in front of your chest, and step back.\n3. Squat down with your chest up until your thighs are at least parallel.\n4. Drive back up, keeping your elbows high.</string>
+    <string name="exg_zercher_squat_tips">• A pad or towel round the bar makes it easier on your arms.\n• The bar in front keeps you upright: brace your abs and upper back.</string>
     <string name="exg_barbell_deadlift_steps">1. Stand with your mid-foot under the bar, feet hip-width apart.\n2. Hinge down and grip the bar just outside your legs; bend your knees until your shins touch the bar.\n3. Flatten your back, lift your chest and pull the slack out of the bar.\n4. Push the floor away and stand up with the bar close to your legs, hips and shoulders rising together.\n5. Lower the bar to the floor by pushing your hips back, bending your knees once it passes them.</string>
     <string name="exg_barbell_deadlift_tips">• Keep your back neutral; never round it to reach the bar.\n• Keep the bar in contact with your legs the whole way.\n• Finish standing tall; don\'t lean back at the top.</string>
     <string name="exg_sumo_deadlift_steps">1. Take a wide stance, toes pointed out, with the bar over your mid-foot and close to your shins.\n2. Squat down with a straight back and grip the bar shoulder-width apart, arms inside your knees.\n3. Push your knees out over your toes, lift your chest and pull the slack out of the bar.\n4. Push the floor apart and stand up with the bar close, bringing your hips forward to finish.\n5. Lower the bar to the floor under control along the same path.</string>
     <string name="exg_sumo_deadlift_tips">• Keep your knees tracking over your toes; don\'t let them collapse inward.\n• Your torso stays more upright than in a conventional deadlift; keep your back neutral.</string>
+    <string name="exg_rack_pull_steps">1. Set the safety pins in a rack so the bar rests just above or below your knees.\n2. Stand close with your feet hip-width apart and grip the bar just outside your legs.\n3. With your back flat and chest up, drive your hips forward and stand tall with the bar.\n4. Lower it back to the pins under control.</string>
+    <string name="exg_rack_pull_tips">• Pull your shoulders back at the top without leaning back.\n• You can lift more than in a deadlift: build up the weight gradually.</string>
     <string name="exg_barbell_romanian_deadlift_steps">1. Start standing with the bar at your hips, hands shoulder-width apart and feet hip-width apart.\n2. With your knees slightly bent and fixed, push your hips back and lower the bar along your thighs.\n3. Go down until you feel a strong stretch in your hamstrings, usually just below the knees, back flat.\n4. Drive your hips forward to stand back up, squeezing your glutes.</string>
     <string name="exg_barbell_romanian_deadlift_tips">• Unlike a deadlift, the bar doesn\'t touch the floor between reps and your knees barely bend.\n• Keep the bar close to your legs and your back neutral; stop when your hips can\'t go further back.</string>
     <string name="exg_good_morning_steps">1. Rest the bar on your upper back as for a back squat, unrack it and step back, feet hip-width apart.\n2. Unlock your knees slightly and brace your core.\n3. Push your hips back and lower your torso with a flat back until you feel a strong stretch in your hamstrings.\n4. Drive your hips forward to return to standing.</string>
     <string name="exg_good_morning_tips">• Start light: the load sits far from your hips, so it feels heavier than it looks.\n• Keep your back neutral; stop before it starts to round.</string>
+    <string name="exg_seated_good_morning_steps">1. Sit on the end of a bench with the bar on your upper back and your feet wide and flat.\n2. Brace your abs and keep your back flat.\n3. Hinge forward from the hips as far as you can without rounding your back.\n4. Come back up to sitting tall.</string>
+    <string name="exg_seated_good_morning_tips">• Start light: your lower back does most of the work.\n• Move only at the hips, with your head in line with your spine.</string>
     <string name="exg_barbell_lunge_steps">1. Rest the bar on your upper back, unrack it and step back to a spot with room to step forward.\n2. Stand tall with your feet hip-width apart and brace your core.\n3. Step forward with one leg and lower your back knee toward the floor until both knees are bent about 90 degrees.\n4. Push through your front foot to return to the start, then alternate legs.</string>
     <string name="exg_barbell_lunge_tips">• Keep your torso upright and your front knee in line with your toes.\n• Take a long enough step that your front heel stays down; find your balance before each step.</string>
     <string name="exg_barbell_hip_thrust_steps">1. Sit on the floor with your upper back against a bench and roll a padded barbell over your hips.\n2. Place your feet flat, hip-width apart, so your shins are vertical at the top.\n3. Drive through your heels to lift your hips until your knees, hips and shoulders are in line.\n4. Squeeze your glutes at the top, then lower under control.</string>
@@ -1452,12 +1486,16 @@
     <string name="exg_ez_bar_curl_tips">• The angled grip is easier on the wrists than a straight bar.\n• Don\'t swing or lean back; keep your elbows still.</string>
     <string name="exg_ez_bar_preacher_curl_steps">1. Set the preacher bench seat so your armpits rest snugly over the top of the pad.\n2. Rest the back of your upper arms on the pad and hold the EZ bar on its angled grips, palms up.\n3. Curl the bar up until your forearms are about vertical.\n4. Lower slowly until your arms are almost straight.</string>
     <string name="exg_ez_bar_preacher_curl_tips">• Control the bottom: don\'t let the weight drop into a locked elbow.\n• Keep your upper arms on the pad; don\'t lift your shoulders to help.</string>
+    <string name="exg_barbell_reverse_curl_steps">1. Hold a barbell or EZ bar with an overhand grip (palms down), hands shoulder-width apart.\n2. Stand tall with your elbows by your sides.\n3. Curl the bar up toward your shoulders, keeping your wrists straight.\n4. Lower slowly until your arms are straight.</string>
+    <string name="exg_barbell_reverse_curl_tips">• Use less weight than for a normal curl.\n• Keep your elbows still and don\'t swing your body.</string>
     <string name="exg_skull_crusher_steps">1. Lie on a flat bench holding an EZ bar or barbell above your chest, arms straight, hands about shoulder-width.\n2. Tilt your arms slightly back toward your head and keep your upper arms still.\n3. Bend your elbows to lower the bar toward your forehead or just behind your head.\n4. Straighten your arms to press it back up.</string>
     <string name="exg_skull_crusher_tips">• Keep your elbows pointing up, not flaring out.\n• Lower slowly and with control: the bar travels toward your head.</string>
     <string name="exg_barbell_wrist_curl_steps">1. Sit on a bench holding a barbell palms up, forearms on your thighs and wrists just past your knees.\n2. Let the bar roll down toward your fingertips as you lower your wrists.\n3. Curl your wrists up as far as you can, squeezing your forearms.\n4. Lower slowly and repeat.</string>
     <string name="exg_barbell_wrist_curl_tips">• Only your wrists move; keep your forearms flat on your thighs.\n• Use a light weight and a full, controlled range.</string>
     <string name="exg_barbell_reverse_wrist_curl_steps">1. Sit on a bench holding a barbell palms down, forearms on your thighs and wrists just past your knees.\n2. Lower the back of your hands slowly toward the floor.\n3. Raise your knuckles as far as you can by extending your wrists.\n4. Lower slowly and repeat.</string>
     <string name="exg_barbell_reverse_wrist_curl_tips">• Use less weight than for wrist curls: these muscles are weaker.\n• Keep your forearms still on your thighs.</string>
+    <string name="exg_landmine_rotation_steps">1. Wedge one end of a bar in a landmine and hold the other end with both hands at chest height, arms long.\n2. Stand facing it with your feet wider than your shoulders.\n3. Turn your trunk to bring the bar down to one hip in an arc, pivoting on your back foot.\n4. Bring it back up through the middle and down to the other hip.</string>
+    <string name="exg_landmine_rotation_tips">• Keep your arms nearly straight and turn from your trunk and hips.\n• Control the bar all the way; don\'t let it pull you.</string>
     <!-- Dumbbells -->
     <string name="exg_dumbbell_bench_press_steps">1. Sit on the end of a flat bench with the dumbbells on your thighs, then lie back bringing them to your chest.\n2. Plant your feet, set your shoulder blades back and down, and hold the dumbbells beside your chest.\n3. Press them up until your arms are straight over your chest.\n4. Lower them slowly until your elbows are slightly below the bench or you feel a good stretch.</string>
     <string name="exg_dumbbell_bench_press_tips">• Keep your elbows at about 45 degrees from your body.\n• To finish, bring the dumbbells to your chest and sit up with them on your thighs instead of dropping them.</string>
@@ -1479,6 +1517,8 @@
     <string name="exg_dumbbell_rear_delt_fly_tips">• Lead with your elbows and keep your shoulders down; don\'t squeeze your shoulder blades hard.\n• Use a light weight and keep your back flat; don\'t swing.</string>
     <string name="exg_dumbbell_row_steps">1. Place one knee and the same-side hand on a flat bench, back flat and roughly parallel to the floor.\n2. Hold a dumbbell in the other hand, arm straight below your shoulder.\n3. Pull the dumbbell toward your hip, driving your elbow back close to your body.\n4. Lower it slowly until your arm is straight; finish your reps and switch sides.</string>
     <string name="exg_dumbbell_row_tips">• Keep your back flat and your shoulders level; don\'t twist to lift the weight.\n• Pull toward your hip rather than straight up to your chest.</string>
+    <string name="exg_chest_supported_dumbbell_row_steps">1. Set a bench to a low incline and lie face down on it with your chest on the pad, feet on the floor.\n2. Let the dumbbells hang straight down, palms facing each other.\n3. Row them up beside your ribs, squeezing your shoulder blades together.\n4. Lower slowly until your arms are straight.</string>
+    <string name="exg_chest_supported_dumbbell_row_tips">• The bench supports your back, so you can focus on the pull.\n• Keep your chest on the pad; don\'t lift off to swing the weight.</string>
     <string name="exg_dumbbell_shrug_steps">1. Stand tall with a dumbbell in each hand at your sides, palms facing in.\n2. Shrug your shoulders straight up toward your ears as high as you can.\n3. Hold for a moment at the top.\n4. Lower your shoulders slowly to the start.</string>
     <string name="exg_dumbbell_shrug_tips">• Move straight up and down; don\'t roll your shoulders.\n• Keep your arms straight and your head neutral.</string>
     <string name="exg_dumbbell_curl_steps">1. Stand tall with a dumbbell in each hand, arms straight at your sides, palms facing forward.\n2. Keep your elbows at your sides and curl the dumbbells toward your shoulders, together or alternating.\n3. Squeeze your biceps at the top.\n4. Lower slowly until your arms are straight.</string>
@@ -1489,20 +1529,38 @@
     <string name="exg_incline_dumbbell_curl_tips">• Keep your head and back against the bench.\n• The stretched start is the point of this curl: use less weight than standing.</string>
     <string name="exg_concentration_curl_steps">1. Sit on a bench with your feet wide apart and a dumbbell in one hand.\n2. Rest the back of that upper arm against your inner thigh, arm straight, palm up.\n3. Curl the dumbbell toward your shoulder, keeping your upper arm still.\n4. Lower slowly until your arm is straight; finish your reps and switch arms.</string>
     <string name="exg_concentration_curl_tips">• Don\'t lean back or use your thigh to push your arm up.\n• Squeeze your biceps for a moment at the top.</string>
+    <string name="exg_zottman_curl_steps">1. Stand with a dumbbell in each hand, palms facing forward.\n2. Curl the dumbbells up to your shoulders.\n3. At the top, turn your wrists so your palms face down.\n4. Lower slowly with your palms down, then turn them back up at the bottom.</string>
+    <string name="exg_zottman_curl_tips">• Use a weight you can lower slowly with the palms-down grip.\n• Keep your elbows by your sides throughout.</string>
+    <string name="exg_dumbbell_wrist_curl_steps">1. Sit on a bench with your forearms along your thighs, palms up, a dumbbell in each hand just past your knees.\n2. Let the dumbbells roll down toward your fingertips.\n3. Curl your wrists up as high as you can.\n4. Lower slowly and repeat.</string>
+    <string name="exg_dumbbell_wrist_curl_tips">• Only your hands move; keep your forearms on your thighs.\n• Use a light weight and high reps.</string>
+    <string name="exg_dumbbell_reverse_wrist_curl_steps">1. Sit on a bench with your forearms along your thighs, palms down, a dumbbell in each hand just past your knees.\n2. Let your hands drop as far as is comfortable.\n3. Lift the backs of your hands up as high as you can.\n4. Lower slowly and repeat.</string>
+    <string name="exg_dumbbell_reverse_wrist_curl_tips">• Use less weight than for the palms-up version.\n• Keep your forearms still on your thighs.</string>
     <string name="exg_dumbbell_overhead_extension_steps">1. Sit on a bench with back support (or stand) and hold one dumbbell overhead with both hands, arms straight.\n2. Keep your upper arms close to your head and pointing up.\n3. Bend your elbows to lower the dumbbell behind your head until you feel a stretch in your triceps.\n4. Straighten your arms to raise it back overhead.</string>
     <string name="exg_dumbbell_overhead_extension_tips">• Don\'t let your elbows flare out; keep your upper arms still.\n• Brace your core so your lower back doesn\'t arch.</string>
     <string name="exg_dumbbell_triceps_kickback_steps">1. Place one knee and hand on a bench (or hinge forward), back flat, with a dumbbell in the other hand.\n2. Raise that upper arm until it\'s parallel to the floor and close to your body, elbow bent at 90 degrees.\n3. Straighten your arm back until it\'s fully extended.\n4. Bend your elbow slowly to return; finish your reps and switch arms.</string>
     <string name="exg_dumbbell_triceps_kickback_tips">• Keep your upper arm fixed; only your forearm moves.\n• Use a light weight: swinging defeats the purpose.</string>
     <string name="exg_dumbbell_goblet_squat_steps">1. Hold one dumbbell vertically against your chest, cupping the top end with both hands.\n2. Stand with your feet shoulder-width apart or slightly wider, toes turned out a little.\n3. Squat down between your knees, chest up, until your thighs are at least parallel.\n4. Drive up through your whole foot to standing.</string>
     <string name="exg_dumbbell_goblet_squat_tips">• Keep the dumbbell close to your chest and your elbows inside your knees.\n• Keep your heels down and your knees in line with your toes.</string>
+    <string name="exg_dumbbell_sumo_squat_steps">1. Stand with your feet wide and your toes turned out, holding one dumbbell upright by its top end between your legs.\n2. Keep your chest up and your arms long.\n3. Sit down between your feet, knees out over your toes, until your thighs are about parallel.\n4. Drive up through your heels to standing.</string>
+    <string name="exg_dumbbell_sumo_squat_tips">• Push your knees out in line with your toes all the way down.\n• Keep your back upright; the dumbbell hangs straight down.</string>
     <string name="exg_bulgarian_split_squat_steps">1. Stand about a stride in front of a bench, a dumbbell in each hand, and rest the top of your back foot on it.\n2. Find a front-foot position where your knee bends comfortably and your heel stays down.\n3. Lower your back knee toward the floor until your front thigh is about parallel to it.\n4. Push through your front foot to rise; finish your reps, then switch legs.</string>
     <string name="exg_bulgarian_split_squat_tips">• Keep your torso fairly upright and your front knee in line with your toes.\n• A longer stance works the glutes more; a shorter one, the quads.</string>
     <string name="exg_dumbbell_lunge_steps">1. Stand tall with a dumbbell in each hand at your sides, feet hip-width apart.\n2. Step forward with one leg and lower your back knee toward the floor until both knees are bent about 90 degrees.\n3. Push through your front foot to return to standing.\n4. Alternate legs, or do all your reps on one side before switching.</string>
     <string name="exg_dumbbell_lunge_tips">• Keep your torso upright and your front knee in line with your toes.\n• Take a long enough step that your front heel stays on the floor.</string>
+    <string name="exg_dumbbell_reverse_lunge_steps">1. Stand tall with a dumbbell in each hand at your sides.\n2. Take a long step back and lower your back knee toward the floor.\n3. Stop when your front thigh is about parallel, front knee over your foot.\n4. Push through your front foot to bring your back leg forward to standing.</string>
+    <string name="exg_dumbbell_reverse_lunge_tips">• Stepping back is easier on the knees than a forward lunge.\n• Keep your trunk upright and your front heel on the floor.</string>
+    <string name="exg_dumbbell_lateral_lunge_steps">1. Stand with your feet wide, holding a dumbbell upright against your chest.\n2. Shift your hips back and to one side, bending that knee while the other leg stays straight.\n3. Go down until the bent thigh is about parallel, foot flat.\n4. Push back to the middle and repeat to the other side.</string>
+    <string name="exg_dumbbell_lateral_lunge_tips">• Keep both feet flat, pointing forward or slightly out.\n• You should feel a stretch on the inside of the straight leg.</string>
     <string name="exg_dumbbell_step_up_steps">1. Stand facing a sturdy box or bench about knee height, with a dumbbell in each hand.\n2. Place one whole foot on the box.\n3. Push through that foot to step up until your leg is straight, bringing the other foot up beside it.\n4. Step down slowly, other foot first; finish your reps and switch legs.</string>
     <string name="exg_dumbbell_step_up_tips">• Drive with the leg on the box; don\'t push off with the back foot.\n• Use a stable box and keep your knee in line with your toes.</string>
     <string name="exg_dumbbell_romanian_deadlift_steps">1. Stand tall with a dumbbell in each hand in front of your thighs, feet hip-width apart.\n2. With your knees slightly bent and fixed, push your hips back and lower the dumbbells along your legs.\n3. Go down until you feel a strong stretch in your hamstrings, back flat.\n4. Drive your hips forward to stand up, squeezing your glutes.</string>
     <string name="exg_dumbbell_romanian_deadlift_tips">• Keep the dumbbells close to your legs; your knees barely bend.\n• Keep your back neutral; stop when your hips can\'t go further back.</string>
+    <string name="exg_single_leg_romanian_deadlift_steps">1. Stand on one leg with the knee soft, holding a dumbbell in the opposite hand.\n2. Hinge forward at the hip, letting your free leg rise behind you in line with your body.\n3. Lower the dumbbell toward the floor until your body is nearly horizontal, back flat.\n4. Squeeze the glute of your standing leg to come back up; switch legs after the set.</string>
+    <string name="exg_single_leg_romanian_deadlift_tips">• Keep your hips square to the floor: don\'t let the free hip open up.\n• Touch a wall or a bench with your free hand if you need balance.</string>
+    <string name="exg_dumbbell_calf_raise_steps">1. Stand with the balls of your feet on a step, a dumbbell in each hand at your sides.\n2. Lower your heels below the step as far as is comfortable.\n3. Rise onto your toes as high as you can and hold for a moment.\n4. Lower slowly and repeat.</string>
+    <string name="exg_dumbbell_calf_raise_tips">• Keep your knees straight but not locked: only your ankles move.\n• Pause at the bottom instead of bouncing.</string>
+    <string name="exg_seated_dumbbell_calf_raise_steps">1. Sit on a bench with the balls of your feet on a step or plate and your knees bent at about 90 degrees.\n2. Rest a dumbbell upright on each thigh, just above the knee, and hold it there.\n3. Raise your heels as high as you can.\n4. Lower them slowly below the step and repeat.</string>
+    <string name="exg_seated_dumbbell_calf_raise_tips">• With the knees bent it works the deeper calf muscle (soleus).\n• Use a full, slow range rather than heavy, bouncing reps.</string>
     <string name="exg_dumbbell_side_bend_steps">1. Stand tall holding a dumbbell in one hand at your side, feet hip-width apart, the other hand on your waist.\n2. Bend sideways toward the dumbbell, sliding it down your leg.\n3. Return to upright by contracting the obliques on the opposite side.\n4. Finish your reps and switch sides.</string>
     <string name="exg_dumbbell_side_bend_tips">• Bend purely to the side; don\'t lean forward or twist.\n• Move slowly and use one dumbbell only: with two, one cancels out the other.</string>
     <!-- Kettlebells -->
@@ -1514,9 +1572,31 @@
     <string name="exg_kettlebell_clean_and_press_tips">• Guide the bell close to your body so it doesn\'t flip over and hit your forearm.\n• Keep your wrist straight and squeeze your glutes as you press; don\'t lean back.</string>
     <string name="exg_turkish_get_up_steps">1. Lie on your back holding the kettlebell straight up in one hand; bend that knee, other arm and leg out wide.\n2. Keeping your eyes on the bell, roll onto your opposite forearm, then push up onto that hand.\n3. Lift your hips, sweep your straight leg back under you onto one knee and bring your torso upright.\n4. Stand up from the kneeling position as if finishing a lunge, arm still straight overhead.\n5. Reverse each step slowly to lie back down; finish your reps and switch sides.</string>
     <string name="exg_turkish_get_up_tips">• Keep the arm holding the bell straight and vertical the whole time, wrist straight.\n• Learn it with no weight or a very light one first; move slowly, one step at a time.</string>
+    <string name="exg_kettlebell_deadlift_steps">1. Stand with your feet a bit wider than hip-width and the kettlebell on the floor between your feet.\n2. Push your hips back and bend your knees to grip the handle with both hands, back flat.\n3. Stand up by driving your hips forward, the kettlebell close to your body.\n4. Hinge back down and set it on the floor under control.</string>
+    <string name="exg_kettlebell_deadlift_tips">• Keep your chest up and your shoulders over the bell at the start.\n• The best way to learn the hip hinge before swings.</string>
+    <string name="exg_kettlebell_clean_steps">1. Stand with the kettlebell on the floor between your feet and grip it with one hand.\n2. Hike it back between your legs, then drive your hips forward.\n3. Keep the bell close and let it roll round your hand onto the back of your forearm at your shoulder (the rack).\n4. Let it drop back between your legs and repeat; switch hands after the set.</string>
+    <string name="exg_kettlebell_clean_tips">• Guide the bell close to your body instead of swinging it out, so it doesn\'t bang your wrist.\n• In the rack, your elbow is tucked in and your wrist straight.</string>
+    <string name="exg_kettlebell_press_steps">1. Clean the kettlebell to the rack position at your shoulder, elbow tucked in.\n2. Brace your abs and glutes and stand tall.\n3. Press the bell straight up until your arm is locked out beside your head.\n4. Lower it back to the rack under control; switch arms after the set.</string>
+    <string name="exg_kettlebell_press_tips">• Don\'t lean back or to the side; keep your ribs down.\n• Your forearm stays vertical under the bell all the way.</string>
+    <string name="exg_kettlebell_snatch_steps">1. Hike the kettlebell back between your legs with one hand, back flat.\n2. Snap your hips forward and pull the bell up close to your body.\n3. As it passes your chest, punch your hand up so the bell rolls onto your forearm and your arm locks out overhead.\n4. Let it drop back between your legs in one smooth arc; switch hands after the set.</string>
+    <string name="exg_kettlebell_snatch_tips">• Learn the swing and the clean first, and start with a light bell.\n• Punch through at the top so the bell doesn\'t flip over and hit your forearm.</string>
+    <string name="exg_kettlebell_row_steps">1. Put one knee and the same-side hand on a bench, back flat and parallel to the floor.\n2. Hold the kettlebell in the other hand, arm hanging straight down.\n3. Row it up to your hip, leading with your elbow.\n4. Lower it slowly until your arm is straight; switch sides after the set.</string>
+    <string name="exg_kettlebell_row_tips">• Keep your torso still; don\'t twist to lift it.\n• Pull toward your hip, not your shoulder.</string>
+    <string name="exg_kettlebell_windmill_steps">1. Press a kettlebell overhead with one arm and turn your feet slightly away from it.\n2. Keep your eyes on the bell and your arm vertical.\n3. Push your hips out to the side of the bell and fold down, sliding your free hand down the inside of the other leg.\n4. Go as low as you can with a straight back, then stand back up; switch sides after the set.</string>
+    <string name="exg_kettlebell_windmill_tips">• Practise without weight, or with the bell held low, before going overhead.\n• The overhead arm stays locked and vertical the whole time.</string>
     <!-- Bodyweight -->
     <string name="exg_push_up_steps">1. Place your hands on the floor slightly wider than your shoulders, legs straight behind you, on your toes.\n2. Brace your abs and glutes so your body forms a straight line from head to heels.\n3. Lower your chest toward the floor by bending your elbows, keeping them at about 45 degrees.\n4. Push back up until your arms are straight.</string>
     <string name="exg_push_up_tips">• Don\'t let your hips sag or pike up.\n• Too hard? Put your hands on a bench or do them from your knees.</string>
+    <string name="exg_knee_push_up_steps">1. Kneel on a mat with your hands on the floor, slightly wider than your shoulders.\n2. Walk your hands forward until your body is straight from knees to head.\n3. Lower your chest toward the floor, elbows at about 45 degrees from your body.\n4. Push back up to straight arms.</string>
+    <string name="exg_knee_push_up_tips">• Keep your hips in line with your back; don\'t bend at the waist.\n• A good step toward full push-ups: move on when you can do 15 to 20.</string>
+    <string name="exg_incline_push_up_steps">1. Place your hands on the edge of a bench or box, slightly wider than your shoulders.\n2. Step back until your body is straight from head to heels.\n3. Lower your chest to the edge, elbows at about 45 degrees.\n4. Push back up to straight arms.</string>
+    <string name="exg_incline_push_up_tips">• The higher the support, the easier: lower it as you get stronger.\n• Keep your body in one straight line.</string>
+    <string name="exg_decline_push_up_steps">1. Put your feet on a bench behind you and your hands on the floor, slightly wider than your shoulders.\n2. Brace so your body is straight from head to heels.\n3. Lower your chest toward the floor, elbows at about 45 degrees.\n4. Push back up to straight arms.</string>
+    <string name="exg_decline_push_up_tips">• Raising the feet shifts more work to the upper chest and shoulders.\n• Don\'t let your hips sag or your head drop.</string>
+    <string name="exg_diamond_push_up_steps">1. Get into a push-up position with your hands together under your chest, thumbs and index fingers forming a diamond.\n2. Keep your body straight from head to heels.\n3. Lower your chest to your hands, elbows close to your sides.\n4. Push back up to straight arms.</string>
+    <string name="exg_diamond_push_up_tips">• Your elbows go back along your body, not out to the sides.\n• Harder than a regular push-up: do them on your knees if needed.</string>
+    <string name="exg_pike_push_up_steps">1. Start in a push-up position and walk your feet in, lifting your hips high so your body forms an upside-down V.\n2. Hands shoulder-width apart, arms and back in a straight line.\n3. Bend your elbows to lower the top of your head toward the floor between your hands.\n4. Press back up to straight arms.</string>
+    <string name="exg_pike_push_up_tips">• The higher your hips, the more your shoulders work.\n• Feet on a box make it harder: a step toward handstand push-ups.</string>
     <string name="exg_parallel_bar_dip_steps">1. Grip the parallel bars and jump or step up until your arms are straight, shoulders over your hands.\n2. Bend your knees or keep your legs straight below you, and brace your core.\n3. Lower yourself by bending your elbows until your upper arms are about parallel to the floor.\n4. Push back up until your arms are straight.</string>
     <string name="exg_parallel_bar_dip_tips">• Keep your shoulders down, away from your ears, and don\'t go deeper than is comfortable.\n• Lean slightly forward for more chest; stay upright for more triceps.</string>
     <string name="exg_bench_dip_steps">1. Sit on the edge of a bench, hands beside your hips gripping the edge, fingers forward.\n2. Slide your hips off the bench, legs bent (easier) or straight (harder).\n3. Bend your elbows to lower your hips until your upper arms are about parallel to the floor.\n4. Push through your hands to straighten your arms.</string>
@@ -1531,10 +1611,26 @@
     <string name="exg_bodyweight_squat_tips">• Keep your knees in line with your toes; don\'t let them cave in.\n• Keep your weight over your mid-foot, heels on the floor.</string>
     <string name="exg_bodyweight_lunge_steps">1. Stand tall with your feet hip-width apart and your hands on your hips.\n2. Step forward with one leg and lower your back knee toward the floor until both knees are bent about 90 degrees.\n3. Push through your front foot to return to standing.\n4. Alternate legs, or do all your reps on one side before switching.</string>
     <string name="exg_bodyweight_lunge_tips">• Keep your torso upright and your front knee in line with your toes.\n• Take a long enough step that your front heel stays down.</string>
+    <string name="exg_pistol_squat_steps">1. Stand on one leg with the other leg straight out in front and your arms forward for balance.\n2. Sit down slowly on the standing leg, keeping the heel on the floor.\n3. Go as low as you can control, the free leg off the floor.\n4. Drive back up to standing; switch legs after the set.</string>
+    <string name="exg_pistol_squat_tips">• Start by sitting down onto a bench or holding a post until you have the strength.\n• Keep your knee in line with your toes.</string>
+    <string name="exg_jump_squat_steps">1. Stand with your feet shoulder-width apart.\n2. Squat down quickly, swinging your arms back.\n3. Jump up as high as you can, swinging your arms up.\n4. Land softly on the balls of your feet, bend your knees to absorb it and go into the next rep.</string>
+    <string name="exg_jump_squat_tips">• Land quietly with your knees in line with your toes.\n• Quality over quantity: stop when your jumps get lower.</string>
+    <string name="exg_cossack_squat_steps">1. Stand with your feet very wide, toes slightly out.\n2. Shift your weight to one side and sit down deep over that foot, keeping the heel down.\n3. Let the other leg straighten with its toes turning up.\n4. Push back to the middle and go to the other side.</string>
+    <string name="exg_cossack_squat_tips">• Go only as deep as your hips allow; hold onto something at first.\n• Keep your chest up and your bent knee over your toes.</string>
+    <string name="exg_single_leg_calf_raise_steps">1. Stand on one foot on the edge of a step, heel hanging off, holding a wall or post for balance.\n2. Hook the other foot behind your ankle.\n3. Rise onto your toes as high as you can, then lower your heel slowly below the step.\n4. Finish the set and switch feet.</string>
+    <string name="exg_single_leg_calf_raise_tips">• Keep your knee straight but not locked.\n• Hold a dumbbell in your free hand when it gets easy.</string>
     <string name="exg_glute_bridge_steps">1. Lie on your back with your knees bent, feet flat on the floor hip-width apart, arms at your sides.\n2. Brace your core and press your lower back gently toward the floor.\n3. Drive through your heels to lift your hips until your knees, hips and shoulders are in line.\n4. Squeeze your glutes at the top, then lower slowly.</string>
     <string name="exg_glute_bridge_tips">• Don\'t arch your lower back at the top; the lift comes from your glutes.\n• Make it harder on one leg or with a pause at the top.</string>
+    <string name="exg_single_leg_glute_bridge_steps">1. Lie on your back with one knee bent and that foot flat, the other leg straight in the air.\n2. Arms by your sides, palms down.\n3. Push through your heel to lift your hips until your body is straight from shoulders to knee.\n4. Lower slowly; switch legs after the set.</string>
+    <string name="exg_single_leg_glute_bridge_tips">• Keep your hips level: don\'t let the free side drop.\n• Squeeze your glute at the top for a second.</string>
+    <string name="exg_donkey_kick_steps">1. Get on all fours with your hands under your shoulders and your knees under your hips.\n2. Keeping one knee bent at 90 degrees, push that foot up toward the ceiling.\n3. Stop when your thigh is in line with your back.\n4. Lower the knee without touching the floor; switch legs after the set.</string>
+    <string name="exg_donkey_kick_tips">• Don\'t arch your lower back: the movement comes from the hip.\n• Add an ankle weight or a band when it gets easy.</string>
     <string name="exg_back_extension_steps">1. Set the pad just below your hip bones and hook your heels under the foot rollers.\n2. Cross your arms on your chest (or hold a plate), body in a straight line.\n3. Bend forward at the hips with a flat back until you feel a stretch in your hamstrings.\n4. Raise your torso until your body is in line with your legs again.</string>
     <string name="exg_back_extension_tips">• Stop when your body is straight; don\'t swing up into an arch.\n• Move slowly and keep your neck neutral.</string>
+    <string name="exg_superman_steps">1. Lie face down with your arms stretched out in front and your legs straight.\n2. Squeeze your glutes and lift your arms, chest and legs off the floor together.\n3. Hold for a moment, looking at the floor.\n4. Lower slowly and repeat.</string>
+    <string name="exg_superman_tips">• Lift only a few centimetres: control matters, not height.\n• Keep your neck in line; don\'t look up.</string>
+    <string name="exg_bird_dog_steps">1. Get on all fours with your hands under your shoulders and your knees under your hips.\n2. Brace your abs to keep your back flat.\n3. Reach one arm forward and the opposite leg back until both are level with your body.\n4. Hold for a moment, return slowly and switch sides.</string>
+    <string name="exg_bird_dog_tips">• Keep your hips level, as if balancing a glass on your lower back.\n• Move slowly; reach long rather than high.</string>
     <string name="exg_nordic_curl_steps">1. Kneel on a pad with your ankles anchored under a bench or roller, or held by a partner.\n2. Keep your body straight from knees to shoulders, hands ready in front of your chest.\n3. Lower yourself forward as slowly as you can, resisting with your hamstrings.\n4. Catch yourself with your hands at the bottom and push lightly back up to the start.</string>
     <string name="exg_nordic_curl_tips">• Keep your hips straight; don\'t bend at the waist to make it easier.\n• Focus on the slow lowering; use your hands as much as you need on the way up.</string>
     <string name="exg_crunch_steps">1. Lie on your back with your knees bent and feet flat, hands lightly behind your head or crossed on your chest.\n2. Brace your abs and press your lower back toward the floor.\n3. Breathing out, curl your head, shoulders and upper back off the floor, bringing your ribs toward your hips.\n4. Lower slowly back down.</string>
@@ -1543,14 +1639,30 @@
     <string name="exg_sit_up_tips">• Don\'t yank yourself up with your arms or neck.\n• Lower under control rather than dropping back.</string>
     <string name="exg_hanging_leg_raise_steps">1. Hang from a pull-up bar with your arms straight and hands shoulder-width apart.\n2. Pull your shoulders down slightly and keep your legs together and still.\n3. Raise your legs, straight or with knees bent, until your thighs pass parallel, tilting your pelvis up.\n4. Lower them slowly without swinging.</string>
     <string name="exg_hanging_leg_raise_tips">• Avoid swinging: pause at the bottom between reps.\n• Tilt your pelvis up at the top so your abs, not just your hip flexors, do the work.</string>
+    <string name="exg_hanging_knee_raise_steps">1. Hang from a pull-up bar with your arms straight and your legs together.\n2. Brace your abs and stop any swinging.\n3. Bring your knees up toward your chest, curling your hips up at the top.\n4. Lower your legs slowly to the start.</string>
+    <string name="exg_hanging_knee_raise_tips">• Avoid swinging: pause at the bottom if you start to sway.\n• An easier step toward the straight-leg hanging leg raise.</string>
     <string name="exg_lying_leg_raise_steps">1. Lie on your back with your legs straight and your hands under your hips or at your sides.\n2. Press your lower back into the floor and brace your abs.\n3. Raise your legs together until they\'re vertical.\n4. Lower them slowly, stopping before your lower back lifts off the floor.</string>
     <string name="exg_lying_leg_raise_tips">• Your lower back must stay on the floor; bend your knees if it lifts.\n• Move slowly; don\'t let your legs drop.</string>
+    <string name="exg_reverse_crunch_steps">1. Lie on your back with your hands by your sides and your knees bent at 90 degrees, thighs vertical.\n2. Brace your abs and press your lower back into the floor.\n3. Curl your hips off the floor, bringing your knees toward your chest.\n4. Lower your hips slowly back to the floor.</string>
+    <string name="exg_reverse_crunch_tips">• Lift with your abs, not by swinging your legs.\n• Keep the movement small and slow.</string>
+    <string name="exg_bicycle_crunch_steps">1. Lie on your back with your hands behind your head and your shoulders lifted off the floor.\n2. Lift your legs with your knees bent.\n3. Bring one knee in while you turn the opposite elbow toward it, straightening the other leg.\n4. Switch sides in a steady pedalling motion.</string>
+    <string name="exg_bicycle_crunch_tips">• Turn your shoulders, not just your elbows; don\'t pull on your neck.\n• Slow and controlled works better than fast.</string>
+    <string name="exg_dead_bug_steps">1. Lie on your back with your arms pointing at the ceiling and your knees bent at 90 degrees over your hips.\n2. Press your lower back into the floor.\n3. Lower one arm overhead and straighten the opposite leg toward the floor, without touching it.\n4. Return and switch sides.</string>
+    <string name="exg_dead_bug_tips">• Your lower back stays on the floor: move only as far as you can keep it there.\n• Breathe out as you extend.</string>
+    <string name="exg_dragon_flag_steps">1. Lie on a bench and grip it behind your head.\n2. Lift your hips and legs until your body is straight and almost vertical, resting on your upper back.\n3. Lower your body as one straight line, as slowly as you can, until it\'s just above the bench.\n4. Raise it back up and repeat.</string>
+    <string name="exg_dragon_flag_tips">• An advanced exercise: start with your knees bent or with the lowering only.\n• Don\'t bend at the hips; your body stays straight from shoulders to toes.</string>
     <string name="exg_russian_twist_steps">1. Sit on the floor with your knees bent and heels down (or lifted to make it harder).\n2. Lean back with a straight back until you feel your abs working, hands together or holding a weight.\n3. Rotate your torso to one side, bringing your hands toward the floor beside your hip.\n4. Rotate to the other side and keep alternating with control.</string>
     <string name="exg_russian_twist_tips">• Turn from your ribs and shoulders, not just your arms.\n• Keep your back straight; don\'t slump.</string>
     <string name="exg_mountain_climber_steps">1. Start in a high plank: hands under your shoulders, body straight from head to heels.\n2. Drive one knee toward your chest.\n3. Switch legs quickly, bringing the other knee in as the first foot goes back.\n4. Keep alternating at a steady pace.</string>
     <string name="exg_mountain_climber_tips">• Keep your hips level and low; your shoulders stay over your hands.\n• Brace your abs and breathe steadily.</string>
     <string name="exg_burpee_steps">1. Stand with your feet shoulder-width apart, then squat down and place your hands on the floor.\n2. Jump or step your feet back into a plank.\n3. Do a push-up (optional), then jump or step your feet back toward your hands.\n4. Stand up and jump, reaching your arms overhead; land softly and go into the next rep.</string>
     <string name="exg_burpee_tips">• Keep your body straight in the plank; don\'t let your hips sag.\n• Step instead of jumping to make it easier; land with soft knees.</string>
+    <string name="exg_lying_neck_flexion_steps">1. Lie on your back on a bench with your head and neck past its end.\n2. Hold a light plate on your forehead, or use no weight at first.\n3. Let your head go back slowly, then bring your chin toward your chest.\n4. Return to neutral and repeat.</string>
+    <string name="exg_lying_neck_flexion_tips">• Use very light weight and slow, smooth reps; never jerk your neck.\n• Stay within a comfortable range.</string>
+    <string name="exg_lying_neck_extension_steps">1. Lie face down on a bench with your head and neck past its end, holding the bench.\n2. Let your head drop slowly toward the floor.\n3. Raise your head until you look forward, without arching your back.\n4. Lower slowly and repeat.</string>
+    <string name="exg_lying_neck_extension_tips">• Start with no weight; later you can hold a light plate on the back of your head.\n• Slow, smooth reps in a comfortable range.</string>
+    <string name="exg_side_lying_neck_flexion_steps">1. Lie on your side on a bench with your head past its end.\n2. Let your head drop slowly toward the floor.\n3. Raise your ear toward your top shoulder, keeping your face forward.\n4. Lower slowly; switch sides after the set.</string>
+    <string name="exg_side_lying_neck_flexion_tips">• No weight to start; later, a light plate held on the side of your head.\n• Move slowly and never force the end of the range.</string>
     <!-- Timed holds and carries -->
     <string name="exg_plank_steps">1. Place your forearms on the floor with your elbows under your shoulders.\n2. Step your feet back onto your toes so your body is straight from head to heels.\n3. Brace your abs and squeeze your glutes.\n4. Hold the position for your target time, then lower your knees to rest.</string>
     <string name="exg_plank_tips">• Breathe steadily; don\'t hold your breath.\n• Keep your hips in line, neither sagging nor piked; look at the floor to keep your neck neutral.</string>
@@ -1562,13 +1674,68 @@
     <string name="exg_wall_sit_tips">• Keep your knees over your ankles, not past your toes.\n• Breathe steadily; stay higher on the wall if 90 degrees is too hard.</string>
     <string name="exg_dead_hang_steps">1. Grip a pull-up bar with your palms facing away, hands shoulder-width apart.\n2. Lift your feet and hang with your arms straight.\n3. Keep your shoulders slightly engaged (not shrugged up to your ears) and your body still.\n4. Hold for your target time, then step down carefully.</string>
     <string name="exg_dead_hang_tips">• Breathe steadily and relax your legs.\n• Use a box or step to reach the bar and to get down; don\'t drop from a height.</string>
+    <string name="exg_hollow_hold_steps">1. Lie on your back with your arms overhead and your legs straight.\n2. Press your lower back into the floor.\n3. Lift your shoulders and legs a little off the floor, your body in a shallow banana shape.\n4. Hold for your target time, breathing steadily.</string>
+    <string name="exg_hollow_hold_tips">• If your lower back lifts, bend your knees or bring your arms to your sides.\n• Keep your chin slightly tucked.</string>
+    <string name="exg_l_sit_steps">1. Place your hands on parallettes, dip bars or two benches beside your hips.\n2. Press down to straighten your arms and lift your body.\n3. Raise your legs straight out in front until they\'re level with your hips.\n4. Hold for your target time, then lower your feet.</string>
+    <string name="exg_l_sit_tips">• Push your shoulders down, away from your ears.\n• Start with your knees bent (tuck) and straighten them as you get stronger.</string>
+    <string name="exg_neck_isometric_hold_steps">1. Sit or stand tall and place your palms on your forehead.\n2. Press your head into your hands while your hands resist, so nothing moves.\n3. Hold for your target time, breathing steadily.\n4. Repeat with a hand on the side of your head, then on the back of your head.</string>
+    <string name="exg_neck_isometric_hold_tips">• Build up the pressure gradually and never push into pain.\n• Keep your head neutral, chin level.</string>
     <string name="exg_farmers_carry_steps">1. Stand between two heavy dumbbells, squat down with a flat back and grip one in each hand.\n2. Stand up tall, shoulders back and down, arms straight at your sides.\n3. Walk with short, controlled steps for your target time or distance.\n4. Stop, then squat down with a flat back to set the dumbbells on the floor.</string>
     <string name="exg_farmers_carry_tips">• Keep your torso upright; don\'t lean to either side.\n• Breathe steadily and squeeze the handles hard.</string>
+    <string name="exg_suitcase_carry_steps">1. Hold a heavy dumbbell or kettlebell in one hand at your side.\n2. Stand tall with your shoulders level.\n3. Walk with short, steady steps for your target time without leaning toward the weight.\n4. Set it down carefully and repeat with the other hand.</string>
+    <string name="exg_suitcase_carry_tips">• Your trunk works to keep you straight: don\'t tilt.\n• Keep your free arm relaxed and your grip tight.</string>
     <!-- Resistance bands -->
     <string name="exg_band_pull_apart_steps">1. Stand tall holding a light band in front of you at shoulder height, hands shoulder-width apart, palms down.\n2. Keep your arms straight with a slight bend in your elbows.\n3. Pull the band apart by moving your hands out to the sides until it touches your chest.\n4. Return slowly, keeping tension on the band.</string>
     <string name="exg_band_pull_apart_tips">• Keep your shoulders down and your ribs in; don\'t arch your back.\n• Choose a band that lets you complete the full range; hands closer together make it harder.</string>
     <string name="exg_banded_lateral_walk_steps">1. Place a mini band around your legs, just above your knees or around your ankles.\n2. Stand with your feet hip-width apart and sink into a quarter squat, chest up.\n3. Step sideways with one foot, keeping tension on the band, then follow with the other without your feet touching.\n4. Take your planned number of steps, then walk back the other way.</string>
     <string name="exg_banded_lateral_walk_tips">• Keep your knees pushed out and your toes pointing forward.\n• Stay low at the same height; don\'t bob up and down or sway your torso.</string>
+    <string name="exg_band_chest_press_steps">1. Anchor a band behind you at chest height and hold one handle in each hand.\n2. Step forward into a split stance until the band is tight, hands beside your chest.\n3. Press your hands forward until your arms are straight.\n4. Return slowly to your chest.</string>
+    <string name="exg_band_chest_press_tips">• Keep your elbows slightly below shoulder height.\n• Step farther from the anchor to make it harder.</string>
+    <string name="exg_band_row_steps">1. Anchor a band in front of you at chest height and hold the ends.\n2. Step back until it\'s tight, knees soft and back straight.\n3. Pull your hands to your lower ribs, squeezing your shoulder blades together.\n4. Return slowly until your arms are straight.</string>
+    <string name="exg_band_row_tips">• Lead with your elbows and keep your shoulders down.\n• Pause for a second at your ribs.</string>
+    <string name="exg_band_face_pull_steps">1. Anchor a band at head height and hold the ends with your palms facing down.\n2. Step back until it\'s tight, arms straight in front of you.\n3. Pull the band toward your face with your elbows high and wide, hands ending beside your ears.\n4. Return slowly to straight arms.</string>
+    <string name="exg_band_face_pull_tips">• Squeeze your shoulder blades and rotate your hands back at the end.\n• Keep your ribs down; don\'t lean back.</string>
+    <string name="exg_band_lateral_raise_steps">1. Stand on the middle of a band and hold one end in each hand at your sides.\n2. Keep a slight bend in your elbows.\n3. Raise your arms out to the sides up to shoulder height.\n4. Lower slowly, keeping tension on the band.</string>
+    <string name="exg_band_lateral_raise_tips">• Lead with your elbows and don\'t shrug.\n• Stand with your feet wider apart on the band for more tension.</string>
+    <string name="exg_band_external_rotation_steps">1. Anchor a band at elbow height and stand side-on to it, holding it with the hand farthest from the anchor.\n2. Keep that elbow against your side, bent at 90 degrees, forearm across your belly.\n3. Rotate your forearm outward, away from your body, keeping the elbow in place.\n4. Return slowly; switch sides after the set.</string>
+    <string name="exg_band_external_rotation_tips">• A rolled towel between your elbow and your side helps keep it in.\n• Use a light band: this works the small rotator cuff muscles.</string>
+    <string name="exg_band_curl_steps">1. Stand on the middle of a band and hold one end in each hand, palms forward.\n2. Keep your elbows by your sides.\n3. Curl your hands up to your shoulders.\n4. Lower slowly until your arms are straight.</string>
+    <string name="exg_band_curl_tips">• The band is hardest near the top: squeeze there for a moment.\n• Keep your elbows still and don\'t lean back.</string>
+    <string name="exg_band_triceps_pushdown_steps">1. Anchor a band high, above head height, and hold the ends.\n2. Stand facing it with your elbows by your sides, bent.\n3. Push your hands down until your arms are straight.\n4. Let them come back up slowly to about chest height.</string>
+    <string name="exg_band_triceps_pushdown_tips">• Only your forearms move; keep your elbows pinned.\n• Step back from the anchor for more tension.</string>
+    <string name="exg_band_good_morning_steps">1. Stand on a band with your feet hip-width apart, loop the other end behind your neck and hold it at your shoulders.\n2. Stand tall with your knees soft.\n3. Hinge forward at the hips with a flat back until you feel a stretch in your hamstrings.\n4. Drive your hips forward to stand back up.</string>
+    <string name="exg_band_good_morning_tips">• Push your hips back rather than bending down.\n• Keep the band on your upper back, not on the bones of your neck.</string>
+    <!-- Stretching and mobility (held for time; not training volume) -->
+    <string name="exg_hamstring_stretch_steps">1. Lie on your back and loop a strap or towel round one foot.\n2. Raise that leg straight up, the other leg flat on the floor.\n3. Draw the leg gently toward you until you feel a stretch behind the thigh.\n4. Hold, breathing slowly, then switch legs.</string>
+    <string name="exg_hamstring_stretch_tips">• Keep the raised knee almost straight and your hips on the floor.\n• A gentle stretch, never pain; ease a little further each time you breathe out.</string>
+    <string name="exg_hip_flexor_stretch_steps">1. Kneel on one knee on a mat, the other foot flat in front with the knee bent.\n2. Tuck your pelvis under and squeeze the glute of the kneeling leg.\n3. Shift your hips forward until you feel a stretch at the front of the back hip.\n4. Hold, breathing slowly, then switch sides.</string>
+    <string name="exg_hip_flexor_stretch_tips">• Keep your trunk upright; don\'t arch your lower back.\n• Raise the arm on the kneeling side for a deeper stretch.</string>
+    <string name="exg_couch_stretch_steps">1. Kneel with your back to a bench or sofa, one knee on the floor against it and that shin up its front.\n2. Step the other foot forward, knee bent at 90 degrees.\n3. Tuck your pelvis under and bring your trunk upright until you feel a stretch at the front of the back thigh.\n4. Hold, breathing slowly, then switch sides.</string>
+    <string name="exg_couch_stretch_tips">• It\'s intense: start with the knee farther from the bench and your trunk leaning forward.\n• Pad the knee with a cushion or a folded mat.</string>
+    <string name="exg_pigeon_stretch_steps">1. From all fours, bring one knee forward behind your wrist with the shin across the front of your body.\n2. Slide the other leg straight back.\n3. Lower your hips and fold forward onto your forearms until you feel a stretch in the front leg\'s glute.\n4. Hold, breathing slowly, then switch sides.</string>
+    <string name="exg_pigeon_stretch_tips">• Keep your hips square; put a cushion under the front hip if it doesn\'t reach the floor.\n• Bring the front foot closer to your hips if your knee feels any strain.</string>
+    <string name="exg_butterfly_stretch_steps">1. Sit on the floor with the soles of your feet together and your knees out to the sides.\n2. Hold your feet and sit tall.\n3. Lean forward from the hips with a long back until you feel a stretch in your inner thighs.\n4. Hold, breathing slowly.</string>
+    <string name="exg_butterfly_stretch_tips">• Bring your feet closer to you for a deeper stretch.\n• Let your knees drop on their own; don\'t push them down.</string>
+    <string name="exg_worlds_greatest_stretch_steps">1. Step into a long lunge and lower your back knee to the floor.\n2. Put the hand on the back leg\'s side on the floor inside your front foot.\n3. Reach the other arm up to the ceiling, opening your chest, and follow your hand with your eyes.\n4. Bring the arm back down, repeat a few times and switch sides.</string>
+    <string name="exg_worlds_greatest_stretch_tips">• Keep your hips low and your front knee over your foot.\n• Breathe out as you rotate; move slowly.</string>
+    <string name="exg_calf_stretch_steps">1. Stand facing a wall with your hands on it at shoulder height.\n2. Step one foot back, keeping that leg straight and the heel on the floor.\n3. Bend your front knee and lean toward the wall until you feel a stretch in the back calf.\n4. Hold, breathing slowly, then switch legs.</string>
+    <string name="exg_calf_stretch_tips">• Keep the back foot pointing straight ahead.\n• Bend the back knee slightly to stretch the lower calf (soleus).</string>
+    <string name="exg_cat_cow_steps">1. Get on all fours with your hands under your shoulders and your knees under your hips.\n2. Breathe out and round your back up toward the ceiling, tucking your chin and pelvis (cat).\n3. Breathe in and let your belly drop, lifting your chest and tailbone (cow).\n4. Keep moving slowly between the two for your target time.</string>
+    <string name="exg_cat_cow_tips">• Move one vertebra at a time, in time with your breathing.\n• Keep your arms straight; the movement is in your spine.</string>
+    <string name="exg_childs_pose_steps">1. Kneel on a mat with your big toes together and your knees about hip-width apart.\n2. Sit your hips back toward your heels.\n3. Fold forward and rest your forehead on the floor, arms stretched out in front.\n4. Hold, breathing slowly into your back.</string>
+    <string name="exg_childs_pose_tips">• Put a cushion between your hips and heels if they don\'t reach.\n• Walk your hands to one side to stretch the opposite side of your back.</string>
+    <string name="exg_thoracic_rotation_steps">1. Get on all fours and put one hand behind your head.\n2. Turn that elbow down toward the opposite wrist.\n3. Then turn it up toward the ceiling as far as you can, following it with your eyes.\n4. Repeat slowly for your target time, then switch sides.</string>
+    <string name="exg_thoracic_rotation_tips">• Keep your hips still: the turn comes from your upper back.\n• Breathe out as you open up.</string>
+    <string name="exg_doorway_chest_stretch_steps">1. Stand in a doorway and place one forearm on the frame, elbow at shoulder height and bent at 90 degrees.\n2. Step forward with the foot on the same side.\n3. Lean gently through the doorway until you feel a stretch across your chest.\n4. Hold, breathing slowly, then switch sides.</string>
+    <string name="exg_doorway_chest_stretch_tips">• Keep your shoulder down and back; don\'t let it roll forward.\n• Raise or lower the elbow to stretch different parts of the chest.</string>
+    <string name="exg_cross_body_shoulder_stretch_steps">1. Stand or sit tall and bring one arm straight across your chest.\n2. Hook your other forearm over it, just above the elbow.\n3. Gently draw the arm closer to your chest until you feel a stretch at the back of the shoulder.\n4. Hold, breathing slowly, then switch sides.</string>
+    <string name="exg_cross_body_shoulder_stretch_tips">• Keep the shoulder of the stretched arm down, away from your ear.\n• Pull on the upper arm, not on the elbow joint.</string>
+    <string name="exg_triceps_stretch_steps">1. Stand or sit tall and raise one arm overhead.\n2. Bend that elbow so your hand drops behind your head toward your upper back.\n3. With your other hand, gently ease the elbow back until you feel a stretch along the back of the arm.\n4. Hold, breathing slowly, then switch sides.</string>
+    <string name="exg_triceps_stretch_tips">• Keep your head up; don\'t let the arm push it forward.\n• Keep your ribs down rather than arching your back.</string>
+    <string name="exg_shoulder_dislocate_steps">1. Hold a light band (or a stick) in front of your hips with a wide grip, arms straight.\n2. Raise it over your head, keeping your arms straight.\n3. Carry on down behind your back as far as is comfortable.\n4. Bring it back the same way, slowly, for your target time.</string>
+    <string name="exg_shoulder_dislocate_tips">• Use a grip wide enough to pass without bending your elbows; narrow it as you gain mobility.\n• Move slowly and stop if you feel any pinching.</string>
+    <string name="exg_neck_stretch_steps">1. Sit tall and hold the side of your seat with one hand.\n2. Bring the other hand over your head to the opposite side.\n3. Gently tilt your ear toward your shoulder until you feel a stretch along the side of your neck.\n4. Hold, breathing slowly, then switch sides.</string>
+    <string name="exg_neck_stretch_tips">• The hand only adds a little weight; don\'t pull hard.\n• Keep both shoulders down and your face looking forward.</string>
     <!-- Cardio machines -->
     <string name="exg_treadmill_steps">1. Stand on the side rails, clip the safety key to your clothes and start the belt at a slow speed.\n2. Step onto the belt and walk for a few minutes to warm up.\n3. Raise the speed or incline gradually to your target effort.\n4. To finish, slow down for a few minutes before stopping the belt and stepping off.</string>
     <string name="exg_treadmill_tips">• Don\'t hold the handrails while you walk or run: it changes your posture and the effort.\n• Stay near the front of the belt, look ahead and keep your strides natural.\n• For a harder walk, add incline instead of very high speeds.</string>
@@ -1602,17 +1769,20 @@
     <string name="ex_horizontal_leg_press">Horizontal leg press</string>
     <string name="ex_hack_squat_machine">Hack squat</string>
     <string name="ex_pendulum_squat_machine">Pendulum squat</string>
+    <string name="ex_belt_squat_machine">Belt squat</string>
     <string name="ex_leg_extension_machine">Leg extension</string>
     <string name="ex_lying_leg_curl_machine">Lying leg curl</string>
     <string name="ex_seated_leg_curl_machine">Seated leg curl</string>
     <string name="ex_standing_calf_raise_machine">Standing calf raise machine</string>
     <string name="ex_seated_calf_raise_machine">Seated calf raise</string>
     <string name="ex_leg_press_calf_raise">Leg press calf raise</string>
+    <string name="ex_donkey_calf_raise">Donkey calf raise</string>
     <string name="ex_hip_abductor_machine">Hip abductor machine</string>
     <string name="ex_hip_adductor_machine">Hip adductor machine</string>
     <string name="ex_glute_kickback_machine">Glute kickback machine</string>
     <string name="ex_hip_thrust_machine">Hip thrust machine</string>
     <string name="ex_back_extension_machine">Back extension machine</string>
+    <string name="ex_reverse_hyperextension">Reverse hyperextension</string>
     <string name="ex_ab_crunch_machine">Ab crunch machine</string>
     <string name="ex_rotary_torso_machine">Rotary torso machine</string>
     <string name="ex_machine_biceps_curl">Biceps curl machine</string>
@@ -1637,30 +1807,44 @@
     <string name="ex_rope_triceps_pushdown">Rope triceps pushdown</string>
     <string name="ex_cable_overhead_triceps_extension">Overhead cable triceps extension</string>
     <string name="ex_cable_curl">Cable curl</string>
+    <string name="ex_cable_rope_hammer_curl">Rope hammer curl</string>
     <string name="ex_cable_crunch">Cable crunch</string>
     <string name="ex_cable_woodchop">Cable woodchop</string>
+    <string name="ex_cable_reverse_woodchop">Low-to-high cable woodchop</string>
+    <string name="ex_pallof_press">Pallof press</string>
     <string name="ex_cable_pull_through">Cable pull-through</string>
     <string name="ex_cable_glute_kickback">Cable glute kickback</string>
+    <string name="ex_cable_hip_adduction">Cable hip adduction</string>
+    <string name="ex_cable_hip_abduction">Cable hip abduction</string>
     <!-- Smith machine -->
     <string name="ex_smith_squat">Smith machine squat</string>
     <string name="ex_smith_bench_press">Smith machine bench press</string>
     <string name="ex_smith_incline_bench_press">Smith machine incline press</string>
     <string name="ex_smith_shoulder_press">Smith machine shoulder press</string>
     <string name="ex_smith_split_squat">Smith machine split squat</string>
+    <string name="ex_smith_bulgarian_split_squat">Smith machine Bulgarian split squat</string>
     <string name="ex_smith_hip_thrust">Smith machine hip thrust</string>
+    <string name="ex_smith_romanian_deadlift">Smith machine Romanian deadlift</string>
+    <string name="ex_smith_bent_over_row">Smith machine row</string>
+    <string name="ex_smith_shrug">Smith machine shrug</string>
     <string name="ex_smith_calf_raise">Smith machine calf raise</string>
     <!-- Barbell and EZ bar -->
     <string name="ex_barbell_bench_press">Barbell bench press</string>
     <string name="ex_barbell_incline_bench_press">Incline barbell bench press</string>
     <string name="ex_barbell_decline_bench_press">Decline barbell bench press</string>
     <string name="ex_close_grip_bench_press">Close-grip bench press</string>
+    <string name="ex_jm_press">JM press</string>
     <string name="ex_barbell_overhead_press">Overhead press</string>
+    <string name="ex_landmine_press">Landmine press</string>
     <string name="ex_barbell_back_squat">Barbell back squat</string>
     <string name="ex_barbell_front_squat">Front squat</string>
+    <string name="ex_zercher_squat">Zercher squat</string>
     <string name="ex_barbell_deadlift">Deadlift</string>
     <string name="ex_sumo_deadlift">Sumo deadlift</string>
+    <string name="ex_rack_pull">Rack pull</string>
     <string name="ex_barbell_romanian_deadlift">Romanian deadlift</string>
     <string name="ex_good_morning">Good morning</string>
+    <string name="ex_seated_good_morning">Seated good morning</string>
     <string name="ex_barbell_lunge">Barbell lunge</string>
     <string name="ex_barbell_hip_thrust">Barbell hip thrust</string>
     <string name="ex_barbell_glute_bridge">Barbell glute bridge</string>
@@ -1672,9 +1856,11 @@
     <string name="ex_barbell_curl">Barbell curl</string>
     <string name="ex_ez_bar_curl">EZ-bar curl</string>
     <string name="ex_ez_bar_preacher_curl">EZ-bar preacher curl</string>
+    <string name="ex_barbell_reverse_curl">Reverse barbell curl</string>
     <string name="ex_skull_crusher">Skull crusher</string>
     <string name="ex_barbell_wrist_curl">Wrist curl</string>
     <string name="ex_barbell_reverse_wrist_curl">Reverse wrist curl</string>
+    <string name="ex_landmine_rotation">Landmine rotation</string>
     <!-- Dumbbells -->
     <string name="ex_dumbbell_bench_press">Dumbbell bench press</string>
     <string name="ex_dumbbell_incline_bench_press">Incline dumbbell press</string>
@@ -1686,26 +1872,47 @@
     <string name="ex_dumbbell_front_raise">Dumbbell front raise</string>
     <string name="ex_dumbbell_rear_delt_fly">Rear delt fly</string>
     <string name="ex_dumbbell_row">One-arm dumbbell row</string>
+    <string name="ex_chest_supported_dumbbell_row">Chest-supported dumbbell row</string>
     <string name="ex_dumbbell_shrug">Dumbbell shrug</string>
     <string name="ex_dumbbell_curl">Dumbbell curl</string>
     <string name="ex_hammer_curl">Hammer curl</string>
     <string name="ex_incline_dumbbell_curl">Incline dumbbell curl</string>
     <string name="ex_concentration_curl">Concentration curl</string>
+    <string name="ex_zottman_curl">Zottman curl</string>
+    <string name="ex_dumbbell_wrist_curl">Dumbbell wrist curl</string>
+    <string name="ex_dumbbell_reverse_wrist_curl">Dumbbell reverse wrist curl</string>
     <string name="ex_dumbbell_overhead_extension">Dumbbell overhead extension</string>
     <string name="ex_dumbbell_triceps_kickback">Triceps kickback</string>
     <string name="ex_dumbbell_goblet_squat">Dumbbell goblet squat</string>
+    <string name="ex_dumbbell_sumo_squat">Dumbbell sumo squat</string>
     <string name="ex_bulgarian_split_squat">Bulgarian split squat</string>
     <string name="ex_dumbbell_lunge">Dumbbell lunge</string>
+    <string name="ex_dumbbell_reverse_lunge">Dumbbell reverse lunge</string>
+    <string name="ex_dumbbell_lateral_lunge">Dumbbell lateral lunge</string>
     <string name="ex_dumbbell_step_up">Dumbbell step-up</string>
     <string name="ex_dumbbell_romanian_deadlift">Dumbbell Romanian deadlift</string>
+    <string name="ex_single_leg_romanian_deadlift">Single-leg Romanian deadlift</string>
+    <string name="ex_dumbbell_calf_raise">Dumbbell calf raise</string>
+    <string name="ex_seated_dumbbell_calf_raise">Seated dumbbell calf raise</string>
     <string name="ex_dumbbell_side_bend">Dumbbell side bend</string>
     <!-- Kettlebells -->
     <string name="ex_kettlebell_swing">Kettlebell swing</string>
     <string name="ex_kettlebell_goblet_squat">Kettlebell goblet squat</string>
     <string name="ex_kettlebell_clean_and_press">Kettlebell clean and press</string>
     <string name="ex_turkish_get_up">Turkish get-up</string>
+    <string name="ex_kettlebell_deadlift">Kettlebell deadlift</string>
+    <string name="ex_kettlebell_clean">Kettlebell clean</string>
+    <string name="ex_kettlebell_press">Kettlebell press</string>
+    <string name="ex_kettlebell_snatch">Kettlebell snatch</string>
+    <string name="ex_kettlebell_row">Kettlebell row</string>
+    <string name="ex_kettlebell_windmill">Kettlebell windmill</string>
     <!-- Bodyweight -->
     <string name="ex_push_up">Push-up</string>
+    <string name="ex_knee_push_up">Knee push-up</string>
+    <string name="ex_incline_push_up">Incline push-up</string>
+    <string name="ex_decline_push_up">Decline push-up</string>
+    <string name="ex_diamond_push_up">Diamond push-up</string>
+    <string name="ex_pike_push_up">Pike push-up</string>
     <string name="ex_parallel_bar_dip">Parallel bar dip</string>
     <string name="ex_bench_dip">Bench dip</string>
     <string name="ex_pull_up">Pull-up</string>
@@ -1713,26 +1920,70 @@
     <string name="ex_inverted_row">Inverted row</string>
     <string name="ex_bodyweight_squat">Bodyweight squat</string>
     <string name="ex_bodyweight_lunge">Lunge</string>
+    <string name="ex_pistol_squat">Pistol squat</string>
+    <string name="ex_jump_squat">Jump squat</string>
+    <string name="ex_cossack_squat">Cossack squat</string>
+    <string name="ex_single_leg_calf_raise">Single-leg calf raise</string>
     <string name="ex_glute_bridge">Glute bridge</string>
+    <string name="ex_single_leg_glute_bridge">Single-leg glute bridge</string>
+    <string name="ex_donkey_kick">Donkey kick</string>
     <string name="ex_back_extension">Back extension</string>
+    <string name="ex_superman">Superman</string>
+    <string name="ex_bird_dog">Bird dog</string>
     <string name="ex_nordic_curl">Nordic hamstring curl</string>
     <string name="ex_crunch">Crunch</string>
     <string name="ex_sit_up">Sit-up</string>
     <string name="ex_hanging_leg_raise">Hanging leg raise</string>
+    <string name="ex_hanging_knee_raise">Hanging knee raise</string>
     <string name="ex_lying_leg_raise">Lying leg raise</string>
+    <string name="ex_reverse_crunch">Reverse crunch</string>
+    <string name="ex_bicycle_crunch">Bicycle crunch</string>
+    <string name="ex_dead_bug">Dead bug</string>
+    <string name="ex_dragon_flag">Dragon flag</string>
     <string name="ex_russian_twist">Russian twist</string>
     <string name="ex_mountain_climber">Mountain climber</string>
     <string name="ex_burpee">Burpee</string>
+    <string name="ex_lying_neck_flexion">Lying neck flexion</string>
+    <string name="ex_lying_neck_extension">Lying neck extension</string>
+    <string name="ex_side_lying_neck_flexion">Side-lying neck raise</string>
     <!-- Timed holds and carries -->
     <string name="ex_plank">Plank</string>
     <string name="ex_side_plank">Side plank</string>
     <string name="ex_copenhagen_plank">Copenhagen plank</string>
     <string name="ex_wall_sit">Wall sit</string>
     <string name="ex_dead_hang">Dead hang</string>
+    <string name="ex_hollow_hold">Hollow body hold</string>
+    <string name="ex_l_sit">L-sit</string>
+    <string name="ex_neck_isometric_hold">Isometric neck hold</string>
     <string name="ex_farmers_carry">Farmer\'s carry</string>
+    <string name="ex_suitcase_carry">Suitcase carry</string>
     <!-- Resistance bands -->
     <string name="ex_band_pull_apart">Band pull-apart</string>
     <string name="ex_banded_lateral_walk">Banded lateral walk</string>
+    <string name="ex_band_chest_press">Band chest press</string>
+    <string name="ex_band_row">Band row</string>
+    <string name="ex_band_face_pull">Band face pull</string>
+    <string name="ex_band_lateral_raise">Band lateral raise</string>
+    <string name="ex_band_external_rotation">Band external rotation</string>
+    <string name="ex_band_curl">Band biceps curl</string>
+    <string name="ex_band_triceps_pushdown">Band triceps pushdown</string>
+    <string name="ex_band_good_morning">Band good morning</string>
+    <!-- Stretching and mobility: logged by time, not training volume (no hard sets, recovery or records) -->
+    <string name="ex_hamstring_stretch">Lying hamstring stretch</string>
+    <string name="ex_hip_flexor_stretch">Kneeling hip flexor stretch</string>
+    <string name="ex_couch_stretch">Couch stretch</string>
+    <string name="ex_pigeon_stretch">Pigeon stretch</string>
+    <string name="ex_butterfly_stretch">Butterfly stretch</string>
+    <string name="ex_worlds_greatest_stretch">World\'s greatest stretch</string>
+    <string name="ex_calf_stretch">Wall calf stretch</string>
+    <string name="ex_cat_cow">Cat-cow</string>
+    <string name="ex_childs_pose">Child\'s pose</string>
+    <string name="ex_thoracic_rotation">Quadruped thoracic rotation</string>
+    <string name="ex_doorway_chest_stretch">Doorway chest stretch</string>
+    <string name="ex_cross_body_shoulder_stretch">Cross-body shoulder stretch</string>
+    <string name="ex_triceps_stretch">Overhead triceps stretch</string>
+    <string name="ex_shoulder_dislocate">Band shoulder dislocates</string>
+    <string name="ex_neck_stretch">Side neck stretch</string>
     <!-- Cardio machines -->
     <string name="ex_treadmill">Treadmill</string>
     <string name="ex_stationary_bike">Stationary bike</string>
@@ -1757,7 +2008,86 @@
     <string name="routine_arms">Arms</string>
     <string name="routine_glutes">Glutes</string>
     <string name="routine_core">Core</string>
+    <string name="routine_mobility">Mobility and stretching</string>
     <string name="routine_cardio_mix">Cardio machines</string>
+    <!-- How to do each sport and activity: exg_<catalog id>_steps / exg_<catalog id>_tips (training/catalog/SportsCatalog.kt). -->
+    <!-- steps: 3-5 numbered lines ("1. ", "2. "...), tips: 2-3 lines starting with "• ". Keep the numbering, the bullets and the \n line breaks. -->
+    <!-- The last step says how the activity is logged: the time typed as on the set's time field (1:30:00), the distance in km. -->
+    <!-- Ball games -->
+    <string name="exg_football_steps">1. Warm up for 10 minutes: easy jogging, leg swings, side steps and a few short sprints.\n2. Stay on the balls of your feet with your knees soft, so you can turn and stop quickly.\n3. Pass with the inside of your foot for accuracy and strike with your laces for power, your standing foot beside the ball.\n4. In Fortia, log the time you played, for example 1:30:00, and the calories if your watch shows them.</string>
+    <string name="exg_football_tips">• Cool down by walking for a few minutes, then stretch your calves, hamstrings and hip flexors.\n• Drink at every break, more on hot days.\n• Wear boots with studs that suit the pitch: natural grass, artificial turf or indoor.</string>
+    <string name="exg_futsal_steps">1. Warm up for 10 minutes: jogging, side shuffles, leg swings and quick changes of direction.\n2. Control the ball with the sole of your foot: the smaller, heavier ball stays close and barely bounces.\n3. Keep moving to offer passes in the small space, and shoot early with your toe or laces.\n4. In Fortia, log the time you played, for example 1:00:00, and the calories if your watch shows them.</string>
+    <string name="exg_futsal_tips">• Use flat indoor shoes with non-marking soles, never studs.\n• The court is hard: land softly and warm up your ankles and knees well.</string>
+    <string name="exg_basketball_steps">1. Warm up for 10 minutes: jogging, side shuffles, a few jumps and easy shots close to the basket.\n2. Dribble with your fingertips, not your palm, keeping the ball at hip height and your eyes up.\n3. Shoot with your elbow under the ball, push up with your legs and flick your wrist at the end.\n4. In Fortia, log the time you played, for example 1:00:00, and the calories if your watch shows them.</string>
+    <string name="exg_basketball_tips">• Land from jumps on both feet with your knees bent, not stiff.\n• Wear basketball shoes with good grip and ankle support.</string>
+    <string name="exg_volleyball_steps">1. Warm up for 10 minutes: jogging, arm circles, squats and some easy passing in pairs.\n2. To pass, bend your knees and join your forearms into a flat platform; move your feet, not your arms.\n3. To spike, take a two- or three-step approach, jump off both feet and hit the ball at its highest point.\n4. In Fortia, log the time you played, for example 1:30:00, and the calories if your watch shows them.</string>
+    <string name="exg_volleyball_tips">• Land from every jump on both feet, knees bent and in line with your toes.\n• On sand, play barefoot or in sand socks and warm up your calves and ankles well.</string>
+    <string name="exg_handball_steps">1. Warm up for 10 minutes: jogging, arm circles, side shuffles and easy passes.\n2. Throw with your elbow at shoulder height or above, stepping forward with the foot opposite your throwing arm.\n3. Take at most three steps with the ball, then pass, shoot or bounce it.\n4. In Fortia, log the time you played, for example 1:00:00, and the calories if your watch shows them.</string>
+    <string name="exg_handball_tips">• Warm up your shoulder with light throws before shooting hard.\n• Land from jump shots on both feet when you can, with your knees bent.</string>
+    <!-- Racket sports -->
+    <string name="exg_tennis_steps">1. Warm up for 10 minutes: jogging, arm circles, side steps and a few gentle rallies from the service line.\n2. Wait in the ready position: feet apart, knees bent, racket in front, weight on the balls of your feet.\n3. Turn your shoulders early and swing from low to high, letting your hips and trunk drive the stroke.\n4. In Fortia, log the time you played, for example 1:30:00, and the calories if your watch shows them.</string>
+    <string name="exg_tennis_tips">• Hit with a relaxed grip: squeezing the racket tires your forearm and can lead to tennis elbow.\n• After every shot, step back to your position near the middle of the baseline.</string>
+    <string name="exg_padel_steps">1. Warm up for 10 minutes: jogging, arm circles, side steps and a few volleys at the net.\n2. Hold the racket in front of you with your elbow slightly bent, and keep your strokes short and controlled.\n3. Let the ball come off the back glass before you hit it, and use lobs to win the net.\n4. In Fortia, log the time you played, for example 1:30:00, and the calories if your watch shows them.</string>
+    <string name="exg_padel_tips">• Move as a pair: go up to the net and back together with your partner.\n• Wear padel or tennis shoes with a herringbone sole for the sand on the court.</string>
+    <string name="exg_badminton_steps">1. Warm up for 10 minutes: skipping, side shuffles, lunges and arm circles.\n2. Hold the racket loosely, as if shaking hands, and wait in the middle of the court with your knees bent.\n3. Hit overhead shots high and in front of you, turning your forearm and snapping your wrist at contact.\n4. In Fortia, log the time you played, for example 1:00:00, and the calories if your watch shows them.</string>
+    <string name="exg_badminton_tips">• When you lunge for the shuttle, keep your knee over your foot, not past it, and push back to the middle.\n• Wear indoor court shoes: running shoes grip poorly and make it easier to roll an ankle.</string>
+    <!-- On foot, on wheels, in the water -->
+    <string name="exg_outdoor_walk_steps">1. Start at an easy pace for 5 minutes to warm up.\n2. Walk tall, looking ahead, with your arms swinging naturally and your heel landing first.\n3. Pick up the pace until you breathe faster but can still talk.\n4. In Fortia, log the time and the distance in km (your phone or watch shows it), for example 45:00 and 4.5 km.</string>
+    <string name="exg_outdoor_walk_tips">• Short, quick steps are faster and easier on your joints than long strides.\n• Wear comfortable, cushioned shoes, and add hills or stairs for a harder walk.</string>
+    <string name="exg_hiking_steps">1. Start slowly on the first, easier stretch so your legs and breathing warm up.\n2. Uphill, take shorter steps and lean slightly forward from the ankles; push with the poles if you use them.\n3. Downhill, bend your knees, keep your steps short and look a few metres ahead.\n4. In Fortia, log the time and the distance in km, for example 3:00:00 and 12 km.</string>
+    <string name="exg_hiking_tips">• Carry water, a snack and an extra layer, and tell someone your route.\n• Boots with a grippy sole and ankle support help on rough or wet ground.</string>
+    <string name="exg_outdoor_run_steps">1. Warm up with 5 to 10 minutes of brisk walking or very easy jogging.\n2. Run tall with a slight forward lean, landing softly under your body, not far in front of it.\n3. Keep your arms bent at about 90° and relaxed, swinging forward and back, not across your body.\n4. In Fortia, log the time and the distance in km, for example 30:00 and 5 km.</string>
+    <string name="exg_outdoor_run_tips">• Most runs should be easy enough to hold a conversation; increase your weekly distance gradually.\n• Finish with a few minutes of walking and stretch your calves, hamstrings and quads.</string>
+    <string name="exg_outdoor_cycling_steps">1. Check the tyres, the brakes and your helmet, and set the saddle so your knee is only slightly bent at the bottom of the pedal stroke.\n2. Ride easily in a light gear for the first 10 minutes.\n3. Pedal smoothly in circles at a brisk cadence, and change down before climbs.\n4. In Fortia, log the time and the distance in km, for example 1:30:00 and 40 km.</string>
+    <string name="exg_outdoor_cycling_tips">• Ride predictably: signal your turns and use lights when the light is poor.\n• Hold the bars with a relaxed grip and your elbows slightly bent to absorb bumps.</string>
+    <string name="exg_swimming_steps">1. Warm up with a few easy lengths in any stroke.\n2. In front crawl, keep your body long and flat with your face in the water, and kick from the hips with nearly straight legs.\n3. Reach forward with each arm, pull back under your body and turn your head to the side to breathe.\n4. In Fortia, log the time and the distance in km, for example 40:00 and 1.5 km (60 lengths of 25 m).</string>
+    <string name="exg_swimming_tips">• Breathe out slowly underwater, so you only need to breathe in when you turn your head.\n• Swim easy lengths between the hard ones instead of stopping for long.</string>
+    <!-- Mind and body, dance -->
+    <string name="exg_yoga_steps">1. Start with a few minutes of slow breathing and gentle movements, like cat-cow.\n2. Move into each pose slowly with your breath: inhale to lengthen, exhale to fold or twist.\n3. Hold each pose for a few breaths without pain; use blocks or bend your knees when you need to.\n4. In Fortia, log the time of the session, for example 1:00:00.</string>
+    <string name="exg_yoga_tips">• Keep breathing through your nose: if you hold your breath, the pose is too hard for now.\n• Stretch to a mild pull, never to sharp pain.</string>
+    <string name="exg_pilates_steps">1. Lie on your back on a mat, find a neutral spine and breathe into your ribs.\n2. Before every movement, gently draw your navel in and keep your core engaged.\n3. Move slowly and with control, one vertebra at a time in rolling exercises such as the roll-up.\n4. In Fortia, log the time of the session, for example 50:00.</string>
+    <string name="exg_pilates_tips">• Quality beats quantity: a few precise repetitions are better than many sloppy ones.\n• Keep your neck long and relaxed; if it strains, rest your head on the mat.</string>
+    <string name="exg_dance_steps">1. Warm up for 5 to 10 minutes with easy steps and shoulder and hip circles.\n2. Learn each step slowly first, then bring it up to the speed of the music.\n3. Stay light on the balls of your feet with your knees soft, and let your arms follow the rhythm.\n4. In Fortia, log the time you danced, for example 1:00:00, and the calories if your watch shows them.</string>
+    <string name="exg_dance_tips">• Drink water between songs and rest when you need to.\n• Wear shoes that suit the floor and the style: they should let you turn without sticking.</string>
+    <!-- Combat sports -->
+    <string name="exg_boxing_steps">1. Warm up for 10 minutes: skipping rope, shadow boxing and shoulder circles.\n2. Stand side-on with your lead foot forward, knees soft, hands up by your chin and elbows in.\n3. Jab by shooting the lead arm straight out and back; throw the cross by turning your rear hip and foot.\n4. In Fortia, log the time of the session, for example 1:00:00, and the calories if your watch shows them.</string>
+    <string name="exg_boxing_tips">• Breathe out with every punch and bring your hand straight back to your guard.\n• Wrap your hands and use gloves of the right weight for bag work.</string>
+    <string name="exg_martial_arts_steps">1. Warm up for 10 minutes: joint circles, jumping jacks and gentle leg swings.\n2. Keep a stable stance with your knees bent, your guard up and your weight on both feet.\n3. Kick by lifting your knee first, then extend the leg and bring it back the same way before you put it down.\n4. In Fortia, log the time of the session, for example 1:30:00, and the calories if your watch shows them.</string>
+    <string name="exg_martial_arts_tips">• Stretch your hips and hamstrings after training, while you are warm, not cold before high kicks.\n• Control your techniques with partners: speed comes after precision.</string>
+    <!-- Others -->
+    <string name="exg_climbing_steps">1. Warm up for 10 minutes: arm and shoulder circles, then a few easy routes or traverses.\n2. Climb with straight arms when you can, so your legs push you up and your arms just hold on.\n3. Place your feet carefully on the holds with the tip of the shoe, and keep your hips close to the wall.\n4. In Fortia, log the time you climbed, for example 1:30:00.</string>
+    <string name="exg_climbing_tips">• Rest between hard routes: your forearms and fingers need a few minutes to recover.\n• Check knots, harness and belay device with your partner before every route; when bouldering, fall onto the mats.</string>
+    <string name="exg_golf_steps">1. Warm up with a few minutes of trunk rotations and arm swings, then some half swings with a short iron.\n2. Set up with your feet shoulder-width apart, knees soft, bending forward from the hips with your back straight.\n3. Turn your shoulders on the backswing, start the downswing with your hips and swing through to a balanced finish.\n4. In Fortia, log the time of your round or practice, for example 4:00:00.</string>
+    <string name="exg_golf_tips">• Grip the club lightly: tension in your hands and arms costs speed and control.\n• Walking the course is part of the workout: pull a trolley instead of carrying a heavy bag on one shoulder.</string>
+    <!-- Sports and outdoor activities of the catalog (training/catalog/SportsCatalog.kt): the category and ex_<catalog id> names. -->
+    <!-- Category (Equipment.SPORT): filter chip, section header, info sheet -->
+    <string name="equipment_sport">Sports &amp; activities</string>
+    <!-- Ball games -->
+    <string name="ex_football">Football (soccer)</string>
+    <string name="ex_futsal">Futsal</string>
+    <string name="ex_basketball">Basketball</string>
+    <string name="ex_volleyball">Volleyball</string>
+    <string name="ex_handball">Handball</string>
+    <!-- Racket sports -->
+    <string name="ex_tennis">Tennis</string>
+    <string name="ex_padel">Padel</string>
+    <string name="ex_badminton">Badminton</string>
+    <!-- On foot, on wheels, in the water -->
+    <string name="ex_outdoor_walk">Walking</string>
+    <string name="ex_hiking">Hiking</string>
+    <string name="ex_outdoor_run">Outdoor running</string>
+    <string name="ex_outdoor_cycling">Outdoor cycling</string>
+    <string name="ex_swimming">Swimming</string>
+    <!-- Mind and body, dance -->
+    <string name="ex_yoga">Yoga</string>
+    <string name="ex_pilates">Pilates</string>
+    <string name="ex_dance">Dance</string>
+    <!-- Combat sports -->
+    <string name="ex_boxing">Boxing</string>
+    <string name="ex_martial_arts">Martial arts</string>
+    <!-- Others -->
+    <string name="ex_climbing">Climbing</string>
+    <string name="ex_golf">Golf</string>
     <!-- Achievements: medals derived from the workouts and the weighings, the celebration shown when a level is reached, and the achievements page (Entreno tab card, Perfil row) -->
     <string name="achievements_title">Achievements</string>
     <!-- Medals earned out of all the levels on offer: "12 of 70 medals" -->
@@ -1958,8 +2288,31 @@
     <string name="training_info_no_guide_add">Add a photo and your machine settings on its page to remember how you use it.</string>
     <!-- Button: opens the exercise's page (progress chart, records, history) -->
     <string name="training_info_progress">See progress</string>
+    <!-- Stretches and mobility drills: a label after the equipment and the kind, and a note on the sheet and on the exercise's page -->
+    <string name="training_mobility">Stretching</string>
+    <string name="training_mobility_note">A stretch or mobility drill: log it by time. It doesn\'t count toward weekly sets, recovery or records.</string>
     <!-- Fixes after the review of routines and icons: archiving an exercise that only routines use -->
     <string name="training_archive_routines_text">It is hidden from the catalog; your routines keep it and you can restore it from them.</string>
+    <!-- Fixes after the review of the 1.4 work (pause, notification, sports, gym catalog). Use the workout words of 96_training.txt and 99_workout_pause.txt, and "Sports & activities" (equipment_sport) as in 97_sports.txt -->
+    <!-- Second button of the in-progress card (Hoy, Entreno) while the workout is paused, next to "Resume" (workout_resume): it only opens the workout. Must differ from "Continue" (action_continue) and "Resume" -->
+    <string name="training_view_workout">View workout</string>
+    <!-- Profile → Training settings, under the "Workout notification" switch, before Android ever asked for the permission (nothing was refused yet): tapping it shows Android's dialog -->
+    <string name="workout_notification_allow">Allow notifications</string>
+    <!-- Message after ticking a sport or cardio set longer than the workout so far ("Football 1:30:00" in a workout started a minute ago): the workout now lasts that long. %1$s = the time trained ("1:30:00"); next to an "Undo" button -->
+    <string name="training_duration_adjusted">Duration adjusted to %1$s</string>
+    <!-- Exercise editor, how a sport or activity is logged (it has no machine level; compare training_kind_cardio_text) -->
+    <string name="training_kind_sport_text">Time, distance where it applies and calories: a match, a hike, a class.</string>
+    <!-- A sport's page, info sheet and editor: heading of the user's own notes (machines say "Machine settings", training_machine_settings), and its example -->
+    <string name="training_sport_notes">Notes</string>
+    <string name="training_sport_notes_hint">E.g. court 3, Tuesday league</string>
+    <!-- A sport's page without a photo, under "Add photo" (machines say "So you recognise it in your gym", training_photo_add_text) -->
+    <string name="training_photo_add_text_sport">So you recognise it at a glance.</string>
+    <!-- Info sheet of the user's own sport without guide, photo or notes (machines: training_info_no_guide_add) -->
+    <string name="training_info_no_guide_add_sport">Add a photo and your notes on its page to remember it.</string>
+    <!-- Catalog button while the "Sports & activities" filter is on (otherwise "New machine", training_new_machine), and the title of the editor it opens -->
+    <string name="training_new_activity">New activity</string>
+    <!-- A sport's page without a photo: the card's title (machines say "Add a photo of your machine", training_photo_add) -->
+    <string name="training_photo_add_sport">Add a photo</string>
     <!-- Achievements review fixes -->
     <!-- How "Towards your target" is counted: from the week the current target weight was set in the profile -->
     <string name="ach_goal_progress_rule_target">Change of your 7-day average weight since you set your current target, in its direction. Milestones beyond your target are not on offer.</string>
@@ -2333,4 +2686,25 @@
     <string name="training_save_failed">Could not save the exercise</string>
     <!-- TalkBack: two parts of one description ("Repetitions, set 2"); use the language's list comma -->
     <string name="training_spoken_pair">%1$s, %2$s</string>
+    <!-- Pausing the workout in progress (the clock and the rest timer stand still) and its ongoing notification. Use the workout words of 96_training.txt ("Entreno", "Descanso") -->
+    <!-- Button next to the clock of the workout in progress and on its Hoy / Entreno cards -->
+    <string name="workout_pause">Pause</string>
+    <!-- The same button while the workout is paused -->
+    <string name="workout_resume">Resume</string>
+    <!-- Next to the stopped clock of a paused workout and on its cards -->
+    <string name="workout_paused">Paused</string>
+    <!-- Label of the rest countdown under a paused workout (it stands still) -->
+    <string name="workout_rest_paused">Rest paused</string>
+    <!-- The notification of a paused workout, with the time trained so far ("25:13", "1:02:03") -->
+    <string name="workout_paused_time">Paused · %1$s</string>
+    <!-- Android's name and description of the notification channel (Settings → Apps → Fortia → Notifications) -->
+    <string name="workout_notification_channel">Workout in progress</string>
+    <string name="workout_notification_channel_text">The time, the rest timer and a pause button while you train.</string>
+    <!-- Profile → Training settings: section title, the switch (on by default) and its explanation -->
+    <string name="workout_notification_title">Notifications</string>
+    <string name="workout_notification_setting">Workout notification</string>
+    <string name="workout_notification_setting_text">While you train, the notifications show the workout\'s time and rest timer, with a button to pause it. Tap the notification to go back to the workout.</string>
+    <!-- Under the switch when Android doesn't let Fortia post notifications; tapping asks for them or opens Android's settings -->
+    <string name="workout_notification_blocked">Notifications are off for Fortia. Tap to allow them.</string>
+    <string name="workout_notification_settings_failed">Couldn\'t open Android\'s notification settings.</string>
 </resources>

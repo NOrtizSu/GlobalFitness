@@ -17,3 +17,5 @@ training_info_no_guide = 직접 만든 종목이므로 단계별 안내가 없�
 training_info_no_guide_add = 종목 페이지에서 사진과 머신 설정을 추가하면 사용 방법을 기억하기 쉽습니다.
 # Button: opens the exercise's page (progress chart, records, history)
 training_info_progress = 진행 상황 보기
+training_mobility = 스트레칭
+training_mobility_note = 스트레칭 또는 모빌리티 동작입니다. 시간으로 기록하세요. 주간 세트 수, 회복, 기록에는 포함되지 않습니다.

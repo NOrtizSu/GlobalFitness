@@ -1,0 +1,13 @@
+# Pausing the workout in progress (the clock and the rest timer stand still) and its ongoing notification
+workout_pause = إيقاف مؤقت
+workout_resume = استئناف
+workout_paused = متوقفة مؤقتًا
+workout_rest_paused = الراحة متوقفة مؤقتًا
+workout_paused_time = متوقفة مؤقتًا · %1$s
+workout_notification_channel = حصة تدريبية جارية
+workout_notification_channel_text = الوقت ومؤقت الراحة وزر الإيقاف المؤقت أثناء التدريب.
+workout_notification_title = الإشعارات
+workout_notification_setting = إشعار الحصة التدريبية
+workout_notification_setting_text = أثناء التدريب، تعرض الإشعارات وقت الحصة ومؤقت الراحة، مع زر لإيقافها مؤقتًا. انقر على الإشعار للعودة إلى الحصة التدريبية.
+workout_notification_blocked = الإشعارات متوقفة لتطبيق Fortia. انقر للسماح بها.
+workout_notification_settings_failed = تعذّر فتح إعدادات الإشعارات في Android.

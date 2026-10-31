@@ -9,3 +9,7 @@ training_info_pause = Pausar animação
 training_info_no_guide = Criou este exercício, por isso não tem guia passo a passo.
 training_info_no_guide_add = Adicione uma foto e os ajustes da máquina na respetiva página para se lembrar de como a utiliza.
 training_info_progress = Ver progresso
+
+# Stretches and mobility drills: a label after the equipment and the kind, and a note on the sheet and on the exercise's page
+training_mobility = Alongamento
+training_mobility_note = É um alongamento ou exercício de mobilidade: registe-o por tempo. Não conta para as séries semanais, a recuperação nem os recordes.

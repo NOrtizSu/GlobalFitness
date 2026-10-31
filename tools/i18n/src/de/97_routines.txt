@@ -13,3 +13,5 @@ routine_arms = Arme
 routine_glutes = Gesäß
 routine_core = Rumpf und Bauch
 routine_cardio_mix = Cardiogeräte
+
+routine_mobility = Mobilität und Dehnen

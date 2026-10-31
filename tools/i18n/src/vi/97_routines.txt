@@ -12,4 +12,5 @@ routine_shoulders = Vai
 routine_arms = Tay
 routine_glutes = Mông
 routine_core = Core và cơ bụng
+routine_mobility = Linh hoạt và giãn cơ
 routine_cardio_mix = Máy cardio

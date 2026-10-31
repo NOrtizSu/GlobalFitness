@@ -1,0 +1,36 @@
+# Sports and outdoor activities of the catalog (training/catalog/SportsCatalog.kt): the category and ex_<catalog id> names.
+
+# Category (Equipment.SPORT): filter chip, section header, info sheet
+equipment_sport = 스포츠 및 활동
+
+# Ball games
+ex_football = 축구
+ex_futsal = 풋살
+ex_basketball = 농구
+ex_volleyball = 배구
+ex_handball = 핸드볼
+
+# Racket sports
+ex_tennis = 테니스
+ex_padel = 파델
+ex_badminton = 배드민턴
+
+# On foot, on wheels, in the water
+ex_outdoor_walk = 걷기
+ex_hiking = 하이킹
+ex_outdoor_run = 야외 러닝
+ex_outdoor_cycling = 야외 사이클링
+ex_swimming = 수영
+
+# Mind and body, dance
+ex_yoga = 요가
+ex_pilates = 필라테스
+ex_dance = 댄스
+
+# Combat sports
+ex_boxing = 복싱
+ex_martial_arts = 무술
+
+# Others
+ex_climbing = 클라이밍
+ex_golf = 골프

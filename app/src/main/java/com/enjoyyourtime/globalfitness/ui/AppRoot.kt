@@ -94,10 +94,14 @@ import com.enjoyyourtime.globalfitness.ui.training.TrainingRoutes
 import com.enjoyyourtime.globalfitness.ui.training.TrainingScreen
 import com.enjoyyourtime.globalfitness.ui.training.music.SpotifyCoversQuestion
 import com.enjoyyourtime.globalfitness.ui.training.trainingGraph
+import kotlinx.coroutines.flow.StateFlow
 
-/** Single-activity root: loading → onboarding (first launch) → the four sections. */
+/**
+ * Single-activity root: loading → onboarding (first launch) → the four sections. [workoutToOpen]: a
+ * workout the notification asked to open, opened once the sections show ([onWorkoutOpened]).
+ */
 @Composable
-fun AppRoot() {
+fun AppRoot(workoutToOpen: StateFlow<String?>, onWorkoutOpened: () -> Unit) {
     // Activity-scoped: shared by every section.
     val vm: MainViewModel = viewModel(factory = MainViewModel.Factory)
     val healthVm: HealthViewModel = viewModel(factory = HealthViewModel.Factory)
@@ -165,7 +169,7 @@ fun AppRoot() {
     // Sub-pages report their own bottom bar here so app-wide messages appear above it.
     val snackbarClearance = remember { SnackbarClearance() }
     CompositionLocalProvider(LocalAppSnackbar provides snackbar, LocalSnackbarClearance provides snackbarClearance) {
-        MainScaffold(vm, healthVm, access, snackbar, connectHealth)
+        MainScaffold(vm, healthVm, access, snackbar, connectHealth, workoutToOpen, onWorkoutOpened)
     }
 }
 
@@ -176,6 +180,8 @@ private fun MainScaffold(
     access: BleAccess,
     snackbar: SnackbarHostState,
     connectHealth: () -> Unit,
+    workoutToOpen: StateFlow<String?>,
+    onWorkoutOpened: () -> Unit,
 ) {
     val navController = rememberNavController()
     val backStack by navController.currentBackStackEntryAsState()
@@ -207,6 +213,14 @@ private fun MainScaffold(
         val previous = lastSection
         lastSection = current
         if (previous != null && previous != current) activity?.let(vm::onSectionChanged)
+    }
+
+    // The workout notification's tap: over Hoy at a cold start, over whatever page shows otherwise.
+    val workoutRequest by workoutToOpen.collectAsStateWithLifecycle()
+    LaunchedEffect(workoutRequest) {
+        val id = workoutRequest ?: return@LaunchedEffect
+        onWorkoutOpened()
+        navController.openWorkout(id)
     }
 
     val openWearable: (String) -> Unit = { id -> context.startActivity(WearableActivity.intent(context, id)) }
@@ -375,6 +389,12 @@ private fun MainScaffold(
             onDismiss = { showManual = false },
         )
     }
+}
+
+/** The workout's page: back to it when it is already open under other pages, else opened on top (never twice). */
+private fun NavHostController.openWorkout(id: String) {
+    val route = TrainingRoutes.workout(id)
+    if (!popBackStack(route, inclusive = false)) openSubPage(route)
 }
 
 /** Bottom-bar navigation: one copy of each section, state saved and restored when switching. */

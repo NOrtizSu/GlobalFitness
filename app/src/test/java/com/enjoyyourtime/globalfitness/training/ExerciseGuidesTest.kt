@@ -38,7 +38,7 @@ class ExerciseGuidesTest {
     fun masterTextsHaveNumberedStepsAndBulletedTips() {
         val texts = masterTexts()
         val expected = ids.flatMap { listOf("exg_${it}_steps", "exg_${it}_tips") }.toSet()
-        assertEquals("keys of 97_exercise_guides.txt", expected, texts.keys)
+        assertEquals("keys of ${MASTERS.joinToString()}", expected, texts.keys)
         for ((key, pair) in texts) {
             for ((lang, text) in listOf("en" to pair.first, "es" to pair.second)) {
                 val lines = text.split("\\n")
@@ -59,15 +59,24 @@ class ExerciseGuidesTest {
         }
     }
 
-    /** key -> (English, Spanish) of the master file, found from the working directory (the module) upwards. */
-    private fun masterTexts(): Map<String, Pair<String, String>> {
+    @Test
+    fun noGuideKeyIsWrittenTwiceInOrAcrossTheMasterFiles() {
+        // A repeated key would silently keep one of the texts (the map below keeps the last one).
+        val keys = masterEntries().map { it.first }
+        assertEquals("repeated: ${keys.groupingBy { it }.eachCount().filterValues { it > 1 }.keys}", keys.size, keys.toSet().size)
+    }
+
+    /** key -> (English, Spanish) of the master files, found from the working directory (the module) upwards. */
+    private fun masterTexts(): Map<String, Pair<String, String>> = masterEntries().toMap()
+
+    private fun masterEntries(): List<Pair<String, Pair<String, String>>> = MASTERS.flatMap { master ->
         val file = generateSequence(File(System.getProperty("user.dir")).absoluteFile) { it.parentFile }
-            .map { File(it, MASTER) }
+            .map { File(it, master) }
             .firstOrNull { it.isFile }
-        assertNotNull("$MASTER not found above ${System.getProperty("user.dir")}", file)
-        return file!!.readLines(Charsets.UTF_8)
+        assertNotNull("$master not found above ${System.getProperty("user.dir")}", file)
+        file!!.readLines(Charsets.UTF_8)
             .filter { it.isNotBlank() && !it.startsWith("#") }
-            .associate { line ->
+            .map { line ->
                 val (key, value) = line.split(" = ", limit = 2)
                 val parts = value.split(" ||| ")
                 assertEquals("$key needs exactly one English and one Spanish text", 2, parts.size)
@@ -76,7 +85,8 @@ class ExerciseGuidesTest {
     }
 
     private companion object {
-        const val MASTER = "tools/i18n/src/master/97_exercise_guides.txt"
+        /** The gym exercises' guides and the sports' ones (SportsCatalog). */
+        val MASTERS = listOf("tools/i18n/src/master/97_exercise_guides.txt", "tools/i18n/src/master/97_sport_guides.txt")
         const val BULLET = "• "
     }
 }

@@ -48,11 +48,20 @@ val Equipment.labelRes: Int
         Equipment.BODYWEIGHT -> R.string.equipment_bodyweight
         Equipment.BAND -> R.string.equipment_band
         Equipment.CARDIO_MACHINE -> R.string.equipment_cardio
+        Equipment.SPORT -> R.string.equipment_sport
         Equipment.OTHER -> R.string.equipment_other
     }
 
 @Composable
 fun Equipment.label(): String = stringResource(labelRes)
+
+/** Heading of the user's own text about an exercise: machine settings, plain notes for a sport or activity. */
+@StringRes
+fun notesTitleRes(equipment: Equipment): Int = if (equipment == Equipment.SPORT) R.string.training_sport_notes else R.string.training_machine_settings
+
+/** The example in that field ("Seat 4, back rest 2"; for a sport "Court 3, Tuesday league"). */
+@StringRes
+fun notesHintRes(equipment: Equipment): Int = if (equipment == Equipment.SPORT) R.string.training_sport_notes_hint else R.string.training_machine_settings_hint
 
 @get:StringRes
 val ExerciseKind.labelRes: Int

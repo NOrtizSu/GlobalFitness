@@ -13,7 +13,8 @@ import com.enjoyyourtime.globalfitness.training.model.Muscle
  * "other" equipment) get none. Motions are built on first use and kept.
  */
 internal object MotionCatalog {
-    private val builtIn: Map<String, () -> Motion> = mapOf(
+    /** The original catalog's exercises; the sports and the larger gym catalog have their own maps. */
+    private val base: Map<String, () -> Motion> = mapOf(
         // Selectorized and plate-loaded machines
         "machine_chest_press" to { machineChestPress(incline = false) },
         "machine_incline_chest_press" to { machineChestPress(incline = true) },
@@ -170,6 +171,8 @@ internal object MotionCatalog {
         "ski_erg" to { skiErg() },
     )
 
+    private val builtIn: Map<String, () -> Motion> = base + sportsMotions + gymMotions
+
     /**
      * The built-in exercise whose animation a custom one borrows, by main muscle and equipment; a
      * muscle missing from the table (or equipment without a typical movement) has none.
@@ -182,6 +185,7 @@ internal object MotionCatalog {
             Equipment.SMITH_MACHINE to "smith_bench_press",
             Equipment.CABLE to "cable_fly",
             Equipment.BODYWEIGHT to "push_up",
+            Equipment.BAND to "band_chest_press",
         ),
         Muscle.SHOULDERS to mapOf(
             Equipment.BARBELL to "barbell_overhead_press",
@@ -191,12 +195,14 @@ internal object MotionCatalog {
             Equipment.CABLE to "cable_lateral_raise",
             Equipment.BAND to "band_pull_apart",
             Equipment.KETTLEBELL to "kettlebell_clean_and_press",
+            Equipment.BODYWEIGHT to "pike_push_up",
         ),
         Muscle.BICEPS to mapOf(
             Equipment.BARBELL to "barbell_curl",
             Equipment.DUMBBELL to "dumbbell_curl",
             Equipment.MACHINE to "machine_biceps_curl",
             Equipment.CABLE to "cable_curl",
+            Equipment.BAND to "band_curl",
         ),
         Muscle.TRICEPS to mapOf(
             Equipment.BARBELL to "skull_crusher",
@@ -204,8 +210,9 @@ internal object MotionCatalog {
             Equipment.MACHINE to "machine_triceps_extension",
             Equipment.CABLE to "cable_triceps_pushdown",
             Equipment.BODYWEIGHT to "bench_dip",
+            Equipment.BAND to "band_triceps_pushdown",
         ),
-        Muscle.FOREARMS to mapOf(Equipment.BARBELL to "barbell_wrist_curl"),
+        Muscle.FOREARMS to mapOf(Equipment.BARBELL to "barbell_wrist_curl", Equipment.DUMBBELL to "dumbbell_wrist_curl"),
         Muscle.ABS to mapOf(
             Equipment.BODYWEIGHT to "crunch",
             Equipment.CABLE to "cable_crunch",
@@ -216,16 +223,26 @@ internal object MotionCatalog {
             Equipment.CABLE to "cable_woodchop",
             Equipment.MACHINE to "rotary_torso_machine",
             Equipment.DUMBBELL to "dumbbell_side_bend",
+            Equipment.KETTLEBELL to "kettlebell_windmill",
+            Equipment.BARBELL to "landmine_rotation",
         ),
-        Muscle.TRAPS to mapOf(Equipment.BARBELL to "barbell_shrug", Equipment.DUMBBELL to "dumbbell_shrug"),
+        Muscle.TRAPS to mapOf(Equipment.BARBELL to "barbell_shrug", Equipment.DUMBBELL to "dumbbell_shrug", Equipment.SMITH_MACHINE to "smith_shrug"),
         Muscle.LATS to mapOf(
             Equipment.BARBELL to "barbell_row",
             Equipment.DUMBBELL to "dumbbell_row",
             Equipment.MACHINE to "machine_row",
             Equipment.CABLE to "lat_pulldown_machine",
             Equipment.BODYWEIGHT to "pull_up",
+            Equipment.KETTLEBELL to "kettlebell_row",
+            Equipment.SMITH_MACHINE to "smith_bent_over_row",
+            Equipment.BAND to "band_row",
         ),
-        Muscle.LOWER_BACK to mapOf(Equipment.BODYWEIGHT to "back_extension", Equipment.MACHINE to "back_extension_machine", Equipment.BARBELL to "good_morning"),
+        Muscle.LOWER_BACK to mapOf(
+            Equipment.BODYWEIGHT to "back_extension",
+            Equipment.MACHINE to "back_extension_machine",
+            Equipment.BARBELL to "good_morning",
+            Equipment.BAND to "band_good_morning",
+        ),
         Muscle.GLUTES to mapOf(
             Equipment.BARBELL to "barbell_hip_thrust",
             Equipment.MACHINE to "hip_thrust_machine",
@@ -249,16 +266,31 @@ internal object MotionCatalog {
             Equipment.MACHINE to "lying_leg_curl_machine",
             Equipment.BODYWEIGHT to "nordic_curl",
             Equipment.KETTLEBELL to "kettlebell_swing",
+            Equipment.SMITH_MACHINE to "smith_romanian_deadlift",
+            Equipment.BAND to "band_good_morning",
         ),
-        Muscle.ADDUCTORS to mapOf(Equipment.MACHINE to "hip_adductor_machine"),
-        Muscle.CALVES to mapOf(Equipment.MACHINE to "standing_calf_raise_machine", Equipment.SMITH_MACHINE to "smith_calf_raise"),
-        Muscle.NECK to mapOf(Equipment.MACHINE to "neck_machine"),
+        Muscle.ADDUCTORS to mapOf(
+            Equipment.MACHINE to "hip_adductor_machine",
+            Equipment.CABLE to "cable_hip_adduction",
+            Equipment.DUMBBELL to "dumbbell_sumo_squat",
+            Equipment.BODYWEIGHT to "cossack_squat",
+        ),
+        Muscle.CALVES to mapOf(
+            Equipment.MACHINE to "standing_calf_raise_machine",
+            Equipment.SMITH_MACHINE to "smith_calf_raise",
+            Equipment.DUMBBELL to "dumbbell_calf_raise",
+            Equipment.BODYWEIGHT to "single_leg_calf_raise",
+        ),
+        Muscle.NECK to mapOf(Equipment.MACHINE to "neck_machine", Equipment.BODYWEIGHT to "lying_neck_flexion"),
     )
 
     private val cache = HashMap<String, Motion>()
 
     /** Ids of the built-in exercises with their own animation. */
     val mappedIds: Set<String> get() = builtIn.keys
+
+    /** Ids of [base] (the maps joined to it must not repeat one: the later one would silently win). */
+    val baseIds: Set<String> get() = base.keys
 
     /** The animation of the built-in exercise [id], or null when it has none. */
     fun forId(id: String): Motion? = synchronized(cache) {

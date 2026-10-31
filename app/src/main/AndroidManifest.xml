@@ -63,6 +63,9 @@
             <action android:name="android.intent.action.MEDIA_BUTTON" />
         </intent>
     </queries>
+    <!-- The ongoing notification of the workout in progress (Android 13+ asks for it when a workout starts) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <!-- Optional cloud backup (Firebase), ads (AdMob) and Google Play Billing. -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -134,6 +137,12 @@
                 android:name="android.service.notification.disabled_filter_types"
                 android:value="conversations|alerting|ongoing|silent" />
         </service>
+
+        <!-- The workout notification's Pause / Resume button and the end of a rest (only this app's
+             immutable PendingIntents reach it) -->
+        <receiver
+            android:name=".ui.training.notification.WorkoutNotificationReceiver"
+            android:exported="false" />
 
         <!-- Health Connect privacy policy / permissions rationale (Android 13 and lower) -->
         <activity

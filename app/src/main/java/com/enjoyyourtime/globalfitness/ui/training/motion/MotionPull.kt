@@ -262,7 +262,11 @@ internal fun pullover(kind: Pullover) = Motion.rep(if (kind == Pullover.DUMBBELL
             flatBench(-0.62f, 0.55f)
             body.standOn(0.5f, width = 0.5f, out = 10f, pole = v(0.35f, 1f, 0.35f))
             val sweep = lerp(92f, 182f, p)
-            for (side in Side.entries) body.armAngles(side, limbDir(basis, side, sweep, -13f), 16f, fold = basis.f)
+            // The soft elbows bend the way the arm swings (towards the head over the chest, towards the floor overhead).
+            for (side in Side.entries) {
+                val upper = limbDir(basis, side, sweep, -13f)
+                body.armAngles(side, upper, 16f, fold = basis.l cross upper)
+            }
             val hands = (body.handOf(Side.NEAR) + body.handOf(Side.FAR)) * 0.5f
             val armDir = limbDir(basis, Side.NEAR, sweep).withZ(0f).unit()
             dumbbell(hands + armDir * 0.08f, axis = armDir, headRadius = 0.08f)

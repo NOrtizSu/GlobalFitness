@@ -1,0 +1,11 @@
+# Fixes after the review of the 1.4 work (pause, notification, sports, gym catalog)
+training_view_workout = Ver treino
+workout_notification_allow = Permitir notificações
+training_duration_adjusted = Duração ajustada para %1$s
+training_kind_sport_text = Tempo, distância quando se aplica e calorias: jogo, caminhada, aula.
+training_sport_notes = Notas
+training_sport_notes_hint = Ex.: campo 3, liga de terça
+training_photo_add_text_sport = Para o reconhecer de relance.
+training_info_no_guide_add_sport = Adicione uma foto e as suas notas na respetiva página para se lembrar.
+training_new_activity = Nova atividade
+training_photo_add_sport = Adicione uma foto

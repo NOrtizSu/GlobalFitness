@@ -120,6 +120,11 @@ object TrainingMerge {
                     .l(s.level?.toLong()).l(s.kcal?.toLong()).b(s.warmup).b(s.done).l(s.doneAt)
             }
         }
+        // Only when there are any: the versions of workouts without pauses stay what they were.
+        if (w.pauses.isNotEmpty()) {
+            c.s("pauses").l(w.pauses.size.toLong())
+            for (p in w.pauses) c.l(p.start).l(p.end)
+        }
         return "${w.updatedAt}.${c.digest()}"
     }
 

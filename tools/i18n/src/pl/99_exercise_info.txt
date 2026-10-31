@@ -17,3 +17,6 @@ training_info_no_guide = To ćwiczenie zostało utworzone przez Ciebie, więc ni
 training_info_no_guide_add = Dodaj zdjęcie i ustawienia maszyny na jego stronie, aby pamiętać, jak z niej korzystasz.
 # Button: opens the exercise's page (progress chart, records, history)
 training_info_progress = Zobacz postępy
+# Stretches and mobility drills: a label after the equipment and the kind, and a note on the sheet and on the exercise's page
+training_mobility = Rozciąganie
+training_mobility_note = To rozciąganie lub ćwiczenie mobilności: zapisuj je na czas. Nie liczy się do serii tygodniowych, regeneracji ani rekordów.

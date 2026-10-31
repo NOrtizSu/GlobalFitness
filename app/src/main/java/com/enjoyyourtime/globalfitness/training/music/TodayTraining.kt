@@ -1,5 +1,6 @@
 package com.enjoyyourtime.globalfitness.training.music
 
+import com.enjoyyourtime.globalfitness.training.domain.WorkoutTime
 import com.enjoyyourtime.globalfitness.training.model.Exercise
 import com.enjoyyourtime.globalfitness.training.model.ExerciseKind
 import com.enjoyyourtime.globalfitness.training.model.Muscle
@@ -62,9 +63,11 @@ object TodayTraining {
      *   than half of their exercises are cardio, else LEGS when more than half of the strength
      *   exercises work the legs, else STRENGTH (a workout just started, still empty: TRAINING_DAY).
      *   The exercises of a workout in progress count before their sets are ticked, so starting a
-     *   routine sets the day at once.
-     * - No workout today: RECOVERY after a hard day yesterday ([HARD_DAY_SETS] working sets, or
-     *   [HARD_DAY_MINUTES] minutes from the start to the last ticked set); REST for a regular
+     *   routine sets the day at once. Stretches do not count, unless there is nothing else: a
+     *   stretching session is a RECOVERY day.
+     * - No workout today: RECOVERY after a hard day yesterday ([HARD_DAY_SETS] working sets, not
+     *   counting stretches, or [HARD_DAY_MINUTES] minutes trained from the start to the last ticked set, pauses left out,
+     *   in workouts with something other than stretches); REST for a regular
      *   ([REGULAR_DAYS] days trained in the last four weeks) who trained on none of the last four
      *   of today's weekday; otherwise TRAINING_DAY.
      */
@@ -75,7 +78,9 @@ object TodayTraining {
         if (active != null || todays.isNotEmpty()) {
             val entries = active?.entries.orEmpty() + todays.flatMap { w -> w.entries.filter { e -> e.sets.any { it.done } } }
             if (entries.isEmpty()) return TrainingDay.TRAINING_DAY
-            val (cardio, strength) = entries.map { exercise(it.exerciseId) }.partition { it.kind == ExerciseKind.CARDIO }
+            val training = entries.map { exercise(it.exerciseId) }.filterNot { it.mobility }
+            if (training.isEmpty()) return TrainingDay.RECOVERY
+            val (cardio, strength) = training.partition { it.kind == ExerciseKind.CARDIO }
             return when {
                 cardio.size > strength.size -> TrainingDay.CARDIO
                 strength.count { ex -> ex.primary.any { it in LEGS } } * 2 > strength.size -> TrainingDay.LEGS
@@ -83,9 +88,11 @@ object TodayTraining {
             }
         }
         val yesterday = finished.filter { it.date(zone) == today.minusDays(1) }
-        val sets = yesterday.sumOf { w -> w.entries.sumOf { e -> e.sets.count { it.isWorking } } }
-        // Up to the last ticked set: a workout closed hours later (left open) was not that long.
-        val minutes = yesterday.sumOf { w -> (w.lastActivityAt - w.startedAt).coerceAtLeast(0L) / 60_000L }
+        val sets = yesterday.sumOf { w -> w.entries.filterNot { exercise(it.exerciseId).mobility }.sumOf { e -> e.sets.count { it.isWorking } } }
+        // Up to the last ticked set: a workout closed hours later (left open) was not that long. A
+        // stretching session does not make a hard day, however long.
+        val minutes = yesterday.filter { w -> w.entries.any { e -> !exercise(e.exerciseId).mobility && e.sets.any { it.done } } }
+            .sumOf { w -> WorkoutTime.activeMs(w.startedAt, maxOf(w.lastActivityAt, w.startedAt), w.pauses) / 60_000L }
         if (sets >= HARD_DAY_SETS || minutes >= HARD_DAY_MINUTES) return TrainingDay.RECOVERY
         val from = today.minusDays(PATTERN_DAYS)
         val days = finished.map { it.date(zone) }.filterTo(HashSet()) { it >= from && it < today }

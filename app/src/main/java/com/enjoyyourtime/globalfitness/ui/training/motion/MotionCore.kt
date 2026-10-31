@@ -96,7 +96,8 @@ internal fun legRaise(hanging: Boolean) = Motion.rep(Tempo.liftFirst(), Camera(i
         body.torso(v(0f, 0.115f), Basis.SUPINE, nod = 6f)
         val raise = lerp(4f, 84f, p)
         for (side in Side.entries) body.legAngles(side, v(cos(rad(raise)), sin(rad(raise)), side.sign * 0.02f), 4f, fold = dirXY(raise - 90f))
-        for (side in Side.entries) body.arm(side, v(-0.08f, BodySize.FIST_RADIUS, side.sign * 0.27f), v(0f, 1f, side.sign * 0.3f))
+        // Arms flat on the floor beside the hips, nearly straight.
+        for (side in Side.entries) body.arm(side, v(0.08f, BodySize.FIST_RADIUS, side.sign * 0.27f), v(0f, -0.2f, side.sign * 1f))
         mat()
     }
 }
@@ -148,8 +149,11 @@ private fun FrameBuilder.sidePlank(copenhagen: Boolean, breath: Float) {
     body.torso(pelvis, basis, sideways = 4f, nod = -6f)
     if (copenhagen) {
         body.leg(Side.NEAR, feet, basis.f, Foot(basis.f, basis.u))
-        body.leg(Side.FAR, feet - basis.l * 0.13f, basis.f, Foot(basis.f, basis.u))
-        box(v(-0.25f, 0f, 0.42f), v(0.25f, Kit.BENCH_TOP, 0.95f), Ink.PAD, bias = -0.4f)
+        // The bottom leg lifted towards the underside of the bench, which stands on legs so it shows.
+        body.leg(Side.FAR, feet - basis.l * 0.2f, basis.f, Foot(basis.f, basis.u))
+        val padY = Kit.BENCH_TOP - Kit.PAD_HALF_THICK
+        pad(v(0f, padY, 0.42f), v(0f, padY, 0.95f), width = 0.5f, bias = -0.4f)
+        for (z in listOf(0.5f, 0.87f)) add(Rod(v(0f, 0.03f, z), v(0f, Kit.BENCH_TOP - 0.08f, z), 0.028f, Ink.FRAME, bias = -0.45f))
     } else {
         for (side in Side.entries) body.leg(side, feet + basis.l * (side.sign * 0.06f + 0.03f), basis.f, Foot(basis.f, basis.u))
     }
@@ -350,7 +354,8 @@ internal fun turkishGetUp() = Motion.rep(Track.rep(go = 2.2f, hold = 0.4f, back 
     val toes = dirXY(angleXY(legLine) + 90f)
     body.leg(Side.FAR, farAnkle, v(0.2f, 1f, 0f), Foot(toes, rotate(toes, V3.Z, rad(90f))))
     val support = body.shoulder(Side.FAR)
-    body.arm(Side.FAR, v(support.x - 0.06f, BodySize.FIST_RADIUS, support.z - lerp(0.36f, 0.12f, sit)), v(0.3f, 0.6f, -1f))
+    // The support elbow stays low and points back, away from the hand (raised, it would bend backwards).
+    body.arm(Side.FAR, v(support.x - 0.06f, BodySize.FIST_RADIUS, support.z - lerp(0.36f, 0.2f, sit)), v(-1f, -0.3f, -0.5f))
     val top = body.shoulder(Side.NEAR) + V3.Y * 0.565f
     body.arm(Side.NEAR, top, v(0f, -0.2f, 1f))
     kettlebell(top, down = v(-0.3f, -0.4f, 0.1f), radius = 0.1f)

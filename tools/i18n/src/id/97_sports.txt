@@ -1,0 +1,36 @@
+# Sports and outdoor activities of the catalog (training/catalog/SportsCatalog.kt): the category and ex_<catalog id> names.
+
+# Category (Equipment.SPORT): filter chip, section header, info sheet
+equipment_sport = Olahraga & aktivitas
+
+# Ball games
+ex_football = Sepak bola
+ex_futsal = Futsal
+ex_basketball = Bola basket
+ex_volleyball = Bola voli
+ex_handball = Bola tangan
+
+# Racket sports
+ex_tennis = Tenis
+ex_padel = Padel
+ex_badminton = Bulu tangkis
+
+# On foot, on wheels, in the water
+ex_outdoor_walk = Jalan kaki
+ex_hiking = Mendaki
+ex_outdoor_run = Lari di luar ruangan
+ex_outdoor_cycling = Bersepeda di luar ruangan
+ex_swimming = Berenang
+
+# Mind and body, dance
+ex_yoga = Yoga
+ex_pilates = Pilates
+ex_dance = Menari
+
+# Combat sports
+ex_boxing = Tinju
+ex_martial_arts = Seni bela diri
+
+# Others
+ex_climbing = Panjat tebing
+ex_golf = Golf

@@ -12,4 +12,5 @@ routine_shoulders = Omuz
 routine_arms = Kol
 routine_glutes = Kalça
 routine_core = Core ve karın
+routine_mobility = Mobilite ve germe
 routine_cardio_mix = Kardiyo makineleri

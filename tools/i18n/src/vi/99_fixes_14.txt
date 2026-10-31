@@ -1,0 +1,11 @@
+# Fixes after the review of the 1.4 work (pause, notification, sports, gym catalog)
+training_view_workout = Xem buổi tập
+workout_notification_allow = Cho phép thông báo
+training_duration_adjusted = Đã chỉnh thời lượng thành %1$s
+training_kind_sport_text = Thời gian, quãng đường nếu có và calo: trận đấu, đi bộ đường dài, lớp học.
+training_sport_notes = Ghi chú
+training_sport_notes_hint = VD: sân 3, giải thứ Ba
+training_photo_add_text_sport = Để bạn nhận ra ngay.
+training_info_no_guide_add_sport = Hãy thêm ảnh và ghi chú trên trang của nó để dễ nhớ.
+training_new_activity = Hoạt động mới
+training_photo_add_sport = Thêm ảnh

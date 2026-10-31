@@ -1,5 +1,7 @@
 package com.enjoyyourtime.globalfitness.health
 
+import com.enjoyyourtime.globalfitness.training.domain.WorkoutTime
+import com.enjoyyourtime.globalfitness.training.model.WorkoutPause
 import java.time.LocalDate
 
 /** Daily totals from the Health Connect aggregate API (de-duplicated across sources). */
@@ -50,4 +52,15 @@ data class ExerciseSession(
     val activeKcal: Double?,
     val distanceM: Double?,
     val origin: String,
-)
+    /** Time inside the session marked as PAUSE segments (paused, not exercising). */
+    val pausedMs: Long = 0,
+) {
+    /** How long it was exercised: the session's span minus its pauses. */
+    val activeMs: Long get() = (end - start - pausedMs).coerceAtLeast(0)
+
+    companion object {
+        /** Time [pauses] (start to end, epoch ms) cover inside [start, end], each moment once. */
+        fun pausedMs(pauses: List<Pair<Long, Long>>, start: Long, end: Long): Long =
+            WorkoutTime.pausedMs(start, end, WorkoutTime.normalize(pauses.map { (from, to) -> WorkoutPause(from, to) }, start, end))
+    }
+}

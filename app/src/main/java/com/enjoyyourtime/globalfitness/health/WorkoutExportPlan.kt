@@ -2,7 +2,13 @@ package com.enjoyyourtime.globalfitness.health
 
 import androidx.health.connect.client.records.ExerciseSegment
 import androidx.health.connect.client.records.ExerciseSessionRecord
+import com.enjoyyourtime.globalfitness.UiText
+import com.enjoyyourtime.globalfitness.training.domain.TrainingMath
+import com.enjoyyourtime.globalfitness.training.domain.WorkoutTime
+import com.enjoyyourtime.globalfitness.training.model.Exercise
+import com.enjoyyourtime.globalfitness.training.model.ExerciseKind
 import com.enjoyyourtime.globalfitness.training.model.Workout
+import com.enjoyyourtime.globalfitness.training.model.WorkoutPause
 import com.enjoyyourtime.globalfitness.training.model.WorkoutSet
 
 /** What the export needs to know about one exercise of the training log. */
@@ -13,9 +19,31 @@ data class WorkoutExerciseInfo(
     val hcSegment: Int? = null,
     /** `ExerciseSessionRecord.EXERCISE_TYPE_*` of a cardio exercise; null otherwise. */
     val hcSession: Int? = null,
-)
+    /**
+     * The name of a sport or activity, in the current language: the title of an unnamed workout
+     * that is only this activity (padel is saved as tennis, futsal as soccer, an own sport as
+     * "other workout", but each keeps its own name). Null for the other exercises.
+     */
+    val title: String? = null,
+    /** A stretch or mobility drill: it does not decide the session type unless the workout is only stretching. */
+    val mobility: Boolean = false,
+) {
+    companion object {
+        /**
+         * What the planner needs of [e] (the exporter and the tests use this one mapping); a sport or
+         * activity ([TrainingMath.isSport]) also brings its [name] for the title.
+         */
+        fun of(e: Exercise, name: (UiText) -> String?): WorkoutExerciseInfo = WorkoutExerciseInfo(
+            cardio = e.kind == ExerciseKind.CARDIO,
+            hcSegment = e.hcSegment,
+            hcSession = e.hcSession,
+            title = if (TrainingMath.isSport(e)) name(e.name) else null,
+            mobility = e.mobility,
+        )
+    }
+}
 
-/** One completed set as a Health Connect exercise segment (epoch millis). */
+/** One completed set (or a pause) as a Health Connect exercise segment (epoch millis). */
 data class PlannedSegment(val start: Long, val end: Long, val type: Int, val repetitions: Int)
 
 /** The exercise session written for one finished workout. */
@@ -245,7 +273,10 @@ object WorkoutExportPlanner {
         )
     }
 
-    /** The record content of a finished workout (version: its `updatedAt`, replaced by [plan]). */
+    /**
+     * The record content of a finished workout (version: its `updatedAt`, replaced by [plan]): the
+     * session from its start to its end, pauses included, with them as PAUSE segments.
+     */
     fun session(workout: Workout, exercise: (String) -> WorkoutExerciseInfo): PlannedSession {
         val start = workout.startedAt
         val end = workout.endedAt?.takeIf { it > start } ?: (start + MIN_SESSION_MS)
@@ -264,20 +295,40 @@ object WorkoutExportPlanner {
             start = start,
             end = end,
             exerciseType = type,
-            title = workout.name?.trim()?.takeIf { it.isNotEmpty() },
+            title = workout.name?.trim()?.takeIf { it.isNotEmpty() } ?: activityTitle(infos),
             notes = workout.note?.trim()?.takeIf { it.isNotEmpty() },
-            segments = segments(sets, start, end),
+            segments = segments(sets, start, end, WorkoutTime.normalize(workout.pauses, start, end)),
         )
     }
+
+    /**
+     * The title of an unnamed workout whose logged entries are all sports or activities: their
+     * names ([WorkoutExerciseInfo.title]) in the order logged, each once ("Fútbol + Caminata").
+     * Stretches are left out, as in [sessionType]: padel with a cool-down is still "Pádel".
+     */
+    private fun activityTitle(infos: List<WorkoutExerciseInfo>): String? {
+        val training = infos.filterNot { it.mobility }
+        if (training.isEmpty()) return null
+        val titles = training.map { it.title ?: return null }
+        return titles.distinct().joinToString(TITLE_SEPARATOR)
+    }
+
+    /** Between the names of the sports of one workout ("Fútbol + Caminata"). */
+    const val TITLE_SEPARATOR = " + "
 
     /**
      * Strength training, unless every logged exercise is cardio: then their common Health Connect
      * type (a treadmill-only workout is "Running (treadmill)"), or "Other workout" when they differ
      * or one has no type (a custom cardio machine), since none of them is strength training.
+     * Stretches are left out of that choice (their segments are accepted by every session type), so
+     * a cool-down does not turn a run into strength training; a workout of stretches only is
+     * "Stretching".
      */
     fun sessionType(logged: List<WorkoutExerciseInfo>): Int {
-        if (logged.isEmpty() || !logged.all { it.cardio }) return ExerciseSessionRecord.EXERCISE_TYPE_STRENGTH_TRAINING
-        return logged.mapTo(HashSet()) { it.hcSession }.singleOrNull() ?: ExerciseSessionRecord.EXERCISE_TYPE_OTHER_WORKOUT
+        val training = logged.filterNot { it.mobility }
+        if (training.isEmpty() && logged.isNotEmpty()) return ExerciseSessionRecord.EXERCISE_TYPE_STRETCHING
+        if (training.isEmpty() || !training.all { it.cardio }) return ExerciseSessionRecord.EXERCISE_TYPE_STRENGTH_TRAINING
+        return training.mapTo(HashSet()) { it.hcSession }.singleOrNull() ?: ExerciseSessionRecord.EXERCISE_TYPE_OTHER_WORKOUT
     }
 
     /**
@@ -328,9 +379,18 @@ object WorkoutExportPlanner {
      * laid out from the last one backwards: one that would overlap the next is moved earlier, as
      * sets ticked together were really done one after the other, and one that no longer fits after
      * the session start is dropped.
+     *
+     * [pauses] (sorted, apart and inside the session: [WorkoutTime.normalize]) become PAUSE segments
+     * (the short ones are only left out), and no set overlaps one: a set ending inside a pause (ticked
+     * while paused, which resumes the workout) was done before it and ends where the pause began, and
+     * a set never starts before the end of the pause that precedes it (it is shortened instead).
      */
-    fun segments(sets: List<LoggedSet>, start: Long, end: Long): List<PlannedSegment> {
-        if (sets.isEmpty() || end <= start) return emptyList()
+    fun segments(sets: List<LoggedSet>, start: Long, end: Long, pauses: List<WorkoutPause> = emptyList()): List<PlannedSegment> {
+        if (end <= start) return emptyList()
+        val gaps = pauses.map { it.start to minOf(it.end ?: end, end) }
+        val pauseSegments = gaps.filter { (from, to) -> to - from >= MIN_SEGMENT_MS }
+            .map { (from, to) -> PlannedSegment(from, to, ExerciseSegment.EXERCISE_SEGMENT_TYPE_PAUSE, 0) }
+        if (sets.isEmpty()) return pauseSegments
         val n = sets.size
         val ends = LongArray(n)
         var i = 0
@@ -356,13 +416,15 @@ object WorkoutExportPlanner {
         var limit = end
         for (index in (0 until n).sortedWith(compareBy({ ends[it] }, { it })).asReversed()) {
             val set = sets[index]
-            val segmentEnd = minOf(ends[index], limit)
-            val segmentStart = maxOf(segmentEnd - set.durationMs, start)
+            var segmentEnd = minOf(ends[index], limit)
+            gaps.firstOrNull { (from, to) -> from < segmentEnd && segmentEnd <= to }?.let { (from, _) -> segmentEnd = from }
+            val resumedAt = gaps.lastOrNull { (_, to) -> to <= segmentEnd }?.second ?: start
+            val segmentStart = maxOf(segmentEnd - set.durationMs, start, resumedAt)
             if (segmentEnd - segmentStart < MIN_SEGMENT_MS) continue
             placed += PlannedSegment(segmentStart, segmentEnd, set.type, set.repetitions)
             limit = segmentStart
         }
-        return placed.reversed()
+        return if (pauseSegments.isEmpty()) placed.reversed() else (placed + pauseSegments).sortedBy { it.start }
     }
 
     // ---- Segment / session compatibility (connect-client 1.1.0) ---------------------------

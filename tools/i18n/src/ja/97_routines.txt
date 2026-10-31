@@ -12,4 +12,5 @@ routine_shoulders = 肩
 routine_arms = 腕
 routine_glutes = 臀部
 routine_core = 体幹・腹筋
+routine_mobility = モビリティとストレッチ
 routine_cardio_mix = 有酸素マシン

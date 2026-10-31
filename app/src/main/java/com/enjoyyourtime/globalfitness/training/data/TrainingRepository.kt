@@ -5,6 +5,7 @@ import com.enjoyyourtime.globalfitness.UiText
 import com.enjoyyourtime.globalfitness.training.catalog.ExerciseCatalog
 import com.enjoyyourtime.globalfitness.training.catalog.RoutineCatalog
 import com.enjoyyourtime.globalfitness.training.domain.ExerciseHistory
+import com.enjoyyourtime.globalfitness.training.domain.WorkoutTime
 import com.enjoyyourtime.globalfitness.training.model.CatalogExercise
 import com.enjoyyourtime.globalfitness.training.model.CatalogRoutine
 import com.enjoyyourtime.globalfitness.training.model.CustomExercise
@@ -240,23 +241,34 @@ class TrainingRepository(
         storeWorkoutLocked(current, transform(current))
     }
 
-    /** Ends the workout (empty workouts are deleted instead). Decided under the write lock. */
+    /**
+     * Ends the workout (empty workouts are deleted instead). Decided under the write lock. Finished
+     * while paused, the pause ends with it: the paused stretch does not count.
+     */
     suspend fun finishWorkout(id: String, at: Long = clock()): Workout? = write {
         val current = _workouts.value.firstOrNull { it.id == id } ?: return@write null
         if (current.entries.none { e -> e.sets.any { it.done } }) {
             deleteWorkoutLocked(id)
             null
         } else {
-            storeWorkoutLocked(current, current.copy(endedAt = maxOf(at, current.startedAt)))
+            val end = maxOf(at, current.startedAt)
+            storeWorkoutLocked(current, current.copy(endedAt = end, pauses = WorkoutTime.closed(current.pauses, end)))
         }
     }
 
+    /** Pauses the workout in progress at [at]; a finished or already paused one is left as it is. */
+    suspend fun pauseWorkout(id: String, at: Long = clock()): Workout? = updateWorkout(id) { WorkoutTime.pause(it, at) }
+
+    /** Resumes a paused workout at [at]; one that is not paused is left as it is. */
+    suspend fun resumeWorkout(id: String, at: Long = clock()): Workout? = updateWorkout(id) { WorkoutTime.resume(it, at) }
+
     suspend fun deleteWorkout(id: String) = write { deleteWorkoutLocked(id) }
 
-    /** Call inside [write]. */
+    /** Call inside [write]. The pauses are stored [WorkoutTime.normalize]d, whatever edit made them. */
     private suspend fun storeWorkoutLocked(current: Workout, changed: Workout): Workout {
-        if (changed == current) return current
-        val updated = changed.copy(id = current.id, updatedAt = maxOf(clock(), current.updatedAt + 1))
+        val normalized = changed.copy(pauses = WorkoutTime.normalize(changed.pauses, changed.startedAt, changed.endedAt))
+        if (normalized == current) return current
+        val updated = normalized.copy(id = current.id, updatedAt = maxOf(clock(), current.updatedAt + 1))
         withContext(io) { store.upsertWorkout(updated) }
         _workouts.value = sorted(_workouts.value.map { if (it.id == current.id) updated else it })
         return updated
@@ -530,6 +542,7 @@ class TrainingRepository(
                     hcSegment = c.hcSegment,
                     hcSession = c.hcSession,
                     bodyweightFactor = c.bodyweightFactor,
+                    mobility = c.mobility,
                 )
             }
             for (c in custom) {

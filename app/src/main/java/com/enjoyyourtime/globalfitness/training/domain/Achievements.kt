@@ -413,12 +413,13 @@ object Achievements {
                 volumeKg += kg * reps
                 volume.offer(volumeKg, at, touched)
             }
-            if (exerciseBests.beats(s, ex.kind, kg)) {
+            if (TrainingMath.hasRecords(ex) && exerciseBests.beats(s, ex.kind, kg)) {
                 recordSets++
                 records.offer(recordSets.toDouble(), at, touched)
             }
             exerciseBests.add(s, kg)
-            if (seen.add(id)) variety.offer(seen.size.toDouble(), at, touched)
+            // Different exercises trained: a stretch is not one (a cool-down must not fill the medal).
+            if (!ex.mobility && seen.add(id)) variety.offer(seen.size.toDouble(), at, touched)
             if (ex.kind == ExerciseKind.CARDIO) {
                 val m = s.distanceM ?: 0.0
                 if (m > 0.0) {
@@ -440,7 +441,7 @@ object Achievements {
                 mostPullUps = max(mostPullUps, reps)
                 pullUps.offer(mostPullUps.toDouble(), at, own)
             }
-            if (TrainingMath.countsForMuscles(ex.kind) && (ex.primary.isNotEmpty() || ex.secondary.isNotEmpty())) {
+            if (TrainingMath.countsForMuscles(ex) && (ex.primary.isNotEmpty() || ex.secondary.isNotEmpty())) {
                 val week = weekOf(at)
                 val sets = musclesByWeek.getOrPut(week) { HashMap() }
                 for (m in ex.primary) sets[m] = (sets[m] ?: 0.0) + TrainingMath.PRIMARY_SHARE

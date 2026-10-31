@@ -70,6 +70,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.training.domain.ExerciseSession
 import com.enjoyyourtime.globalfitness.training.domain.PersonalRecords
+import com.enjoyyourtime.globalfitness.training.domain.TrainingMath
+import com.enjoyyourtime.globalfitness.training.model.Equipment
 import com.enjoyyourtime.globalfitness.training.model.Exercise
 import com.enjoyyourtime.globalfitness.training.model.ExerciseKind
 import com.enjoyyourtime.globalfitness.training.model.LoadUnit
@@ -204,14 +206,20 @@ fun ExerciseDetailScreen(exerciseId: String, onBack: () -> Unit, onOpenWorkout: 
             if (exercise.kind == ExerciseKind.ASSISTED_REPS) {
                 item(key = "assist") { InfoLine(stringResource(R.string.training_assist_hint)) }
             }
-            item(key = "settings-title") { SectionTitle(stringResource(R.string.training_machine_settings)) }
+            if (exercise.mobility) {
+                item(key = "mobility") { InfoLine(stringResource(R.string.training_mobility_note)) }
+            }
+            item(key = "settings-title") { SectionTitle(stringResource(notesTitleRes(exercise.equipment))) }
             item(key = "settings") {
-                SettingsNotesField(notesText, onText = { notesText = it }, stored = exercise.notes, onSave = { vm.setExerciseNotes(exercise.id, it) })
+                SettingsNotesField(notesText, onText = { notesText = it }, stored = exercise.notes, onSave = { vm.setExerciseNotes(exercise.id, it) }, hint = notesHintRes(exercise.equipment))
             }
             item(key = "progress-title") { SectionTitle(stringResource(R.string.training_progress)) }
             item(key = "progress") { ProgressSection(detail, unit) }
-            item(key = "records-title") { SectionTitle(stringResource(R.string.training_personal_records)) }
-            item(key = "records") { RecordsCard(exercise, detail.records, unit) }
+            // A stretch has no records (see TrainingMath.hasRecords): the note above says so.
+            if (!exercise.mobility) {
+                item(key = "records-title") { SectionTitle(stringResource(R.string.training_personal_records)) }
+                item(key = "records") { RecordsCard(exercise, detail.records, unit) }
+            }
             if (detail.sessions.isNotEmpty()) {
                 item(key = "history-title") { SectionTitle(stringResource(R.string.training_history_title)) }
                 val sessions = detail.sessions.asReversed()
@@ -280,7 +288,9 @@ private fun PhotoHeader(vm: TrainingViewModel, exercise: Exercise, launcher: Pho
                     .clickable(onClickLabel = stringResource(R.string.training_photo_change)) { menu = true },
             )
         } else {
-            AppCard(onClick = { menu = true }, onClickLabel = stringResource(R.string.training_photo_add)) {
+            val sport = exercise.equipment == Equipment.SPORT
+            val addPhoto = stringResource(if (sport) R.string.training_photo_add_sport else R.string.training_photo_add)
+            AppCard(onClick = { menu = true }, onClickLabel = addPhoto) {
                 Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
                     Box(
                         Modifier.size(56.dp).clip(MaterialTheme.shapes.medium),
@@ -290,9 +300,9 @@ private fun PhotoHeader(vm: TrainingViewModel, exercise: Exercise, launcher: Pho
                     }
                     Spacer(Modifier.width(12.dp))
                     Column(Modifier.weight(1f)) {
-                        Text(stringResource(R.string.training_photo_add), style = MaterialTheme.typography.titleSmall)
+                        Text(addPhoto, style = MaterialTheme.typography.titleSmall)
                         Text(
-                            stringResource(R.string.training_photo_add_text),
+                            stringResource(if (sport) R.string.training_photo_add_text_sport else R.string.training_photo_add_text),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -312,7 +322,9 @@ private fun TitleBlock(exercise: Exercise) {
         Text(
             listOfNotNull(
                 exercise.equipment.label(),
-                exercise.kind.label(),
+                // "Sports & activities" says it: they are not "Cardio" in the gym's sense (as the info sheet).
+                if (TrainingMath.isSport(exercise)) null else exercise.kind.label(),
+                if (exercise.mobility) stringResource(R.string.training_mobility) else null,
                 if (exercise.builtIn) null else stringResource(R.string.training_own_exercise),
             ).joinToString(" · "),
             style = MaterialTheme.typography.bodyMedium,
@@ -375,7 +387,7 @@ private fun InfoLine(text: String) {
  * text while the field is not being edited.
  */
 @Composable
-private fun SettingsNotesField(text: String, onText: (String) -> Unit, stored: String?, onSave: (String) -> Unit) {
+private fun SettingsNotesField(text: String, onText: (String) -> Unit, stored: String?, onSave: (String) -> Unit, @StringRes hint: Int) {
     var focused by remember { mutableStateOf(false) }
     LaunchedEffect(stored) { if (!focused) onText(stored.orEmpty()) }
     val save by rememberUpdatedState { if (text.trim() != stored.orEmpty()) onSave(text) }
@@ -384,7 +396,7 @@ private fun SettingsNotesField(text: String, onText: (String) -> Unit, stored: S
     OutlinedTextField(
         value = text,
         onValueChange = { onText(it.take(MAX_SETTINGS_LENGTH)) },
-        placeholder = { Text(stringResource(R.string.training_machine_settings_hint)) },
+        placeholder = { Text(stringResource(hint)) },
         leadingIcon = { Icon(TrainingIcons.Tune, contentDescription = null) },
         keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences, imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
@@ -433,7 +445,8 @@ private fun formatMetric(metric: ProgressMetric, v: Double, unit: LoadUnit): Str
 @Composable
 private fun ProgressSection(detail: ExerciseDetail, unit: LoadUnit) {
     val exercise = detail.exercise
-    val metrics = ProgressMetric.forKind(exercise.kind, exercise.bodyweightFactor != null)
+    // A stretch progresses in time held; a load on it is no measure of progress.
+    val metrics = ProgressMetric.forExercise(exercise).filterNot { exercise.mobility && it.usesMovedLoad }
     var chosen by rememberSaveable { mutableStateOf<ProgressMetric?>(null) }
     var range by rememberSaveable { mutableStateOf(ProgressRange.M3) }
     val metric = chosen?.takeIf { it in metrics } ?: metrics.first()

@@ -17,3 +17,6 @@ training_info_no_guide = Это упражнение создали вы, поэ
 training_info_no_guide_add = Добавьте на его странице фото и настройки тренажёра, чтобы помнить, как вы им пользуетесь.
 # Button: opens the exercise's page (progress chart, records, history)
 training_info_progress = Смотреть прогресс
+# Stretches and mobility drills: a label after the equipment and the kind, and a note on the sheet and on the exercise's page
+training_mobility = Растяжка
+training_mobility_note = Это растяжка или упражнение на мобильность: записывайте его по времени. Оно не учитывается в подходах за неделю, восстановлении и рекордах.

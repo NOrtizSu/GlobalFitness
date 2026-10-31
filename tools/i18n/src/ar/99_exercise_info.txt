@@ -17,3 +17,6 @@ training_info_no_guide = أنت من أنشأ هذا التمرين، لذا ل�
 training_info_no_guide_add = أضف صورة وإعدادات جهازك في صفحته لتتذكر طريقة استخدامه.
 # Button: opens the exercise's page (progress chart, records, history)
 training_info_progress = عرض التقدم
+# Stretches and mobility drills: a label after the equipment and the kind, and a note on the sheet and on the exercise's page
+training_mobility = إطالة
+training_mobility_note = هذه إطالة أو تمرين حركية: سجّله بالوقت. لا يُحتسب في المجموعات الأسبوعية ولا في التعافي ولا في الأرقام القياسية.

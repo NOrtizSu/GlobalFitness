@@ -103,7 +103,8 @@ internal fun legCurl(kind: LegCurl) = when (kind) {
     LegCurl.LYING -> Motion.rep(Tempo.liftFirst(), Camera(22f)) { p ->
         val top = 0.6f
         body.torso(v(0f, top + 0.1f), Basis.PRONE, nod = -12f)
-        pad(v(-0.2f, top - 0.04f), v(0.95f, top - 0.04f), width = 0.36f, bias = -0.2f)
+        // The pad supports the thighs up to just above the knees.
+        pad(v(-0.36f, top - 0.04f), v(0.95f, top - 0.04f), width = 0.36f, bias = -0.2f)
         for (x in listOf(0.0f, 0.8f)) add(Rod(v(x, 0.02f), v(x, top - 0.08f), 0.03f, Ink.FRAME, bias = -0.3f))
         for (side in Side.entries) body.legAngles(side, v(-1f, -0.12f, side.sign * 0.03f), lerp(6f, 112f, p), fold = V3.Y)
         val leg = body.legOf(Side.NEAR)
@@ -209,7 +210,8 @@ internal fun hipThrust(kind: Thrust) = Motion.rep(Tempo.liftFirst(), Camera(-24f
     if (!floor) box(v(-0.84f, 0f, -0.32f), v(-0.55f, 0.43f, 0.32f), Ink.PAD, bias = -0.3f)
     val bar = pelvis + basis.f * 0.15f + basis.u * 0.02f
     when (kind) {
-        Thrust.BRIDGE -> for (side in Side.entries) body.arm(side, v(-0.05f, BodySize.FIST_RADIUS, side.sign * 0.3f), v(0f, 1f, side.sign * 0.4f))
+        // Arms flat on the floor beside the body, nearly straight (a hand closer to the shoulder would lift the elbow and bend it backwards).
+        Thrust.BRIDGE -> for (side in Side.entries) body.arm(side, v(0.06f, BodySize.FIST_RADIUS, side.sign * 0.28f), v(0f, -0.2f, side.sign * 1f))
         Thrust.MACHINE -> {
             add(Rod(bar.withZ(-0.24f), bar.withZ(0.24f), 0.055f, Ink.PAD))
             add(Rod(bar.withZ(0.28f), v(-0.3f, 0.95f, 0.28f), 0.03f, Ink.FRAME, bias = -0.2f))

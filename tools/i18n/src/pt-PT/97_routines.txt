@@ -13,3 +13,5 @@ routine_arms = Braços
 routine_glutes = Glúteos
 routine_core = Core e abdominais
 routine_cardio_mix = Máquinas de cardio
+
+routine_mobility = Mobilidade e alongamentos

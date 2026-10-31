@@ -1,0 +1,20 @@
+# Fixes after the review of the 1.4 work (pause, notification, sports, gym catalog). Use the workout words of 96_training.txt and 99_workout_pause.txt, and "Sports & activities" (equipment_sport) as in 97_sports.txt
+# Second button of the in-progress card (Hoy, Entreno) while the workout is paused, next to "Resume" (workout_resume): it only opens the workout. Must differ from "Continue" (action_continue) and "Resume"
+training_view_workout = View workout ||| Ver entreno
+# Profile → Training settings, under the "Workout notification" switch, before Android ever asked for the permission (nothing was refused yet): tapping it shows Android's dialog
+workout_notification_allow = Allow notifications ||| Permitir notificaciones
+# Message after ticking a sport or cardio set longer than the workout so far ("Football 1:30:00" in a workout started a minute ago): the workout now lasts that long. %1$s = the time trained ("1:30:00"); next to an "Undo" button
+training_duration_adjusted = Duration adjusted to %1$s ||| Duración ajustada a %1$s
+# Exercise editor, how a sport or activity is logged (it has no machine level; compare training_kind_cardio_text)
+training_kind_sport_text = Time, distance where it applies and calories: a match, a hike, a class. ||| Tiempo, distancia si aplica y calorías: partido, ruta, clase.
+# A sport's page, info sheet and editor: heading of the user's own notes (machines say "Machine settings", training_machine_settings), and its example
+training_sport_notes = Notes ||| Notas
+training_sport_notes_hint = E.g. court 3, Tuesday league ||| Ej.: pista 3, liga del martes
+# A sport's page without a photo, under "Add photo" (machines say "So you recognise it in your gym", training_photo_add_text)
+training_photo_add_text_sport = So you recognise it at a glance. ||| Para reconocerlo de un vistazo.
+# Info sheet of the user's own sport without guide, photo or notes (machines: training_info_no_guide_add)
+training_info_no_guide_add_sport = Add a photo and your notes on its page to remember it. ||| Añade una foto y tus notas en su página para recordarlo.
+# Catalog button while the "Sports & activities" filter is on (otherwise "New machine", training_new_machine), and the title of the editor it opens
+training_new_activity = New activity ||| Nueva actividad
+# A sport's page without a photo: the card's title (machines say "Add a photo of your machine", training_photo_add)
+training_photo_add_sport = Add a photo ||| Añade una foto

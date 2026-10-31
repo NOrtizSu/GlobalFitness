@@ -1,0 +1,11 @@
+# Fixes after the review of the 1.4 work (pause, notification, sports, gym catalog)
+training_view_workout = عرض الحصة
+workout_notification_allow = السماح بالإشعارات
+training_duration_adjusted = تم ضبط المدة على %1$s
+training_kind_sport_text = الوقت والمسافة إن وُجدت والسعرات: مباراة، مسير، درس.
+training_sport_notes = ملاحظات
+training_sport_notes_hint = مثال: الملعب 3، دوري الثلاثاء
+training_photo_add_text_sport = لتتعرّف عليه بنظرة واحدة.
+training_info_no_guide_add_sport = أضف صورة وملاحظاتك في صفحته لتتذكره.
+training_new_activity = نشاط جديد
+training_photo_add_sport = أضف صورة

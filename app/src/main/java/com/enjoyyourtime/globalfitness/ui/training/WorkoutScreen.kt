@@ -2,8 +2,11 @@
 
 package com.enjoyyourtime.globalfitness.ui.training
 
+import android.Manifest
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
@@ -105,6 +108,8 @@ import com.enjoyyourtime.globalfitness.GlobalFitnessApp
 import com.enjoyyourtime.globalfitness.R
 import com.enjoyyourtime.globalfitness.training.data.TrainingRepository
 import com.enjoyyourtime.globalfitness.training.domain.LoadModel
+import com.enjoyyourtime.globalfitness.training.domain.WorkoutTime
+import com.enjoyyourtime.globalfitness.training.live.RestTimer
 import com.enjoyyourtime.globalfitness.training.model.Exercise
 import com.enjoyyourtime.globalfitness.training.model.ExerciseKind
 import com.enjoyyourtime.globalfitness.training.model.LoadUnit
@@ -164,6 +169,8 @@ fun WorkoutScreen(workoutId: String, onBack: () -> Unit, onOpen: (route: String)
 
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     val lifecycleState by lifecycle.currentStateAsState()
+    val notifications = (context.applicationContext as GlobalFitnessApp).container.workoutNotifications
+    val askNotifications = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { notifications.refresh() }
 
     var lastUi by remember { mutableStateOf<WorkoutUi?>(null) }
     var closing by rememberSaveable { mutableStateOf(false) }
@@ -207,13 +214,21 @@ fun WorkoutScreen(workoutId: String, onBack: () -> Unit, onOpen: (route: String)
     val currentUnit by rememberUpdatedState(unit)
     LaunchedEffect(vm) {
         vm.events.collect { event ->
-            if (event is TrainingEvent.Record) {
-                haptic.performHapticFeedback(HapticFeedbackType.Confirm)
-                val ex = currentExercises[event.exerciseId] ?: return@collect
-                val text = context.getString(R.string.training_record_message, ex.name.resolve(context), setSummaryText(event.set, ex.kind, currentUnit))
-                snackbar.currentSnackbarData?.dismiss()
-                // Not awaited: a new record replaces the message instead of queueing behind it.
-                launch { snackbar.showSnackbar(text, withDismissAction = true, duration = SnackbarDuration.Short) }
+            when (event) {
+                is TrainingEvent.Record -> {
+                    haptic.performHapticFeedback(HapticFeedbackType.Confirm)
+                    val ex = currentExercises[event.exerciseId] ?: return@collect
+                    val text = context.getString(R.string.training_record_message, ex.name.resolve(context), setSummaryText(event.set, ex.kind, currentUnit))
+                    snackbar.currentSnackbarData?.dismiss()
+                    // Not awaited: a new record replaces the message instead of queueing behind it.
+                    launch { snackbar.showSnackbar(text, withDismissAction = true, duration = SnackbarDuration.Short) }
+                }
+                // "Football 1:30:00" ticked in a workout started a minute ago: it now lasts that long.
+                is TrainingEvent.DurationAdjusted -> if (event.workoutId == workoutId) {
+                    val text = context.getString(R.string.training_duration_adjusted, TrainingFormat.duration((event.activeMs / 1000).toInt(), Fmt.locale))
+                    offerUndo(text) { vm.undoDurationFit(event.undo) }
+                }
+                else -> Unit
             }
         }
     }
@@ -233,6 +248,13 @@ fun WorkoutScreen(workoutId: String, onBack: () -> Unit, onOpen: (route: String)
 
     val w = ui.workout
     val live = w.inProgress
+    // A workout started for the first time asks Android (13+) for the notification that follows it; once.
+    LaunchedEffect(live) {
+        if (live && notifications.shouldAskPermission()) {
+            notifications.markPermissionAsked()
+            askNotifications.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+    }
     // The music that plays is only followed during a workout in progress.
     val player = if (live) playerState() else PlayerState.Off
     val hasMusic = live && (music != null || player != PlayerState.Off)
@@ -462,7 +484,7 @@ fun WorkoutScreen(workoutId: String, onBack: () -> Unit, onOpen: (route: String)
     }
     if (editDuration) {
         DurationDialog(
-            initialMinutes = ((w.endedAt ?: w.startedAt) - w.startedAt).div(60_000L).toInt(),
+            initialMinutes = (WorkoutTime.durationMs(w) ?: 0L).div(60_000L).toInt(),
             onSave = {
                 vm.setDuration(w.id, it)
                 editDuration = false
@@ -606,17 +628,42 @@ private fun WorkoutHeader(
                     label = { Text(Fmt.dateTime(w.startedAt)) },
                     leadingIcon = { Icon(Icons.Filled.DateRange, contentDescription = null, modifier = Modifier.size(18.dp)) },
                 )
-                val end = w.endedAt
-                if (end != null) {
+                val duration = WorkoutTime.durationMs(w)
+                if (duration != null) {
                     AssistChip(
                         onClick = onEditDuration,
-                        label = { Text(durationText(end - w.startedAt)) },
+                        label = { Text(durationText(duration)) },
                         leadingIcon = { Icon(TrainingIcons.Timer, contentDescription = null, modifier = Modifier.size(18.dp)) },
                     )
                 }
             }
             if (w.inProgress) {
-                ElapsedText(vm, w.startedAt, style = MaterialTheme.typography.displaySmall, color = MaterialTheme.colorScheme.onSurface)
+                // The clock and its Pause / Resume button: in the card, clear of the crowded top bar. Side
+                // by side when they fit, else the button goes under the clock (narrow phone, long label,
+                // large text).
+                FlowRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    Column(Modifier.align(Alignment.CenterVertically).padding(end = 12.dp)) {
+                        ElapsedText(
+                            vm,
+                            w.startedAt,
+                            w.pauses,
+                            style = MaterialTheme.typography.displaySmall,
+                            color = if (w.paused) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface,
+                            maxLines = 1,
+                        )
+                        if (w.paused) PausedLabel(MaterialTheme.colorScheme.primary)
+                    }
+                    PauseResumeButton(
+                        w.paused,
+                        onPause = { vm.pauseWorkout(w.id) },
+                        onResume = { vm.resumeWorkout(w.id) },
+                        modifier = Modifier.align(Alignment.CenterVertically),
+                    )
+                }
             }
             Text(
                 listOfNotNull(
@@ -702,7 +749,7 @@ private fun EntryCard(
 ) {
     val exercise = ui.exercise
     val entry = ui.entry
-    val columns = SetTable.columns(exercise.kind)
+    val columns = SetTable.columns(exercise)
     val numbers = SetTable.workingNumbers(entry.sets)
     var menu by remember { mutableStateOf(false) }
     var editNote by rememberSaveable { mutableStateOf(false) }
@@ -1229,7 +1276,7 @@ private fun CellField(
     )
 }
 
-/** The rest countdown under the workout: time left, −15 s / +15 s and skip. */
+/** The rest countdown under the workout: time left (standing still while paused), −15 s / +15 s and skip. */
 @Composable
 private fun RestBar(vm: TrainingViewModel, rest: RestTimer) {
     val now by vm.clock.collectAsStateWithLifecycle()
@@ -1246,7 +1293,7 @@ private fun RestBar(vm: TrainingViewModel, rest: RestTimer) {
                 Icon(TrainingIcons.Timer, contentDescription = null)
                 Spacer(Modifier.width(12.dp))
                 Column(Modifier.weight(1f)) {
-                    Text(stringResource(R.string.training_rest), style = MaterialTheme.typography.labelMedium)
+                    Text(stringResource(if (rest.paused) R.string.workout_rest_paused else R.string.training_rest), style = MaterialTheme.typography.labelMedium)
                     Text(TrainingFormat.duration(left, Fmt.locale), style = MaterialTheme.typography.titleLarge.merge(TabularNumbers))
                 }
                 TextButton(onClick = { vm.adjustRest(-step) }) {

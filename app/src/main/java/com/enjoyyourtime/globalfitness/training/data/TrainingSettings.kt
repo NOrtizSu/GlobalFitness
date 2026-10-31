@@ -90,6 +90,11 @@ class TrainingSettings(private val prefs: SharedPreferences) {
      */
     val musicControls: StateFlow<Boolean> = _musicControls.asStateFlow()
 
+    private val _workoutNotification = MutableStateFlow(prefs.getBoolean(KEY_WORKOUT_NOTIFICATION, true))
+
+    /** Whether a workout in progress shows its ongoing notification (on until turned off). */
+    val workoutNotification: StateFlow<Boolean> = _workoutNotification.asStateFlow()
+
     fun setLoadUnit(unit: LoadUnit) {
         _loadUnit.value = unit
         prefs.edit { putString(KEY_UNIT, unit.code) }
@@ -133,6 +138,11 @@ class TrainingSettings(private val prefs: SharedPreferences) {
         prefs.edit { putBoolean(KEY_MUSIC_CONTROLS, enabled) }
     }
 
+    fun setWorkoutNotification(enabled: Boolean) {
+        _workoutNotification.value = enabled
+        prefs.edit { putBoolean(KEY_WORKOUT_NOTIFICATION, enabled) }
+    }
+
     companion object {
         const val DEFAULT_REST_SECONDS = 90
         const val MAX_REST_SECONDS = 600
@@ -144,6 +154,7 @@ class TrainingSettings(private val prefs: SharedPreferences) {
         private const val KEY_MUSIC = "music_suggestions"
         private const val KEY_SPOTIFY_COVERS = "spotify_covers"
         private const val KEY_MUSIC_CONTROLS = "music_controls"
+        private const val KEY_WORKOUT_NOTIFICATION = "workout_notification"
 
         /** Countries whose gyms load plates in pounds. */
         private val POUND_COUNTRIES = setOf("US", "LR", "MM")
